@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.dao.mapper.ResourceMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.dao.entity.Resource">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="resource_id" jdbcType="VARCHAR" property="resourceId" />
+    <result column="resource_content" jdbcType="VARCHAR" property="resourceContent" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
+    <result column="come_from" jdbcType="VARCHAR" property="comeFrom" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, resource_id, resource_content, type, create_time, sys_update_time, come_from
+  </sql>
+</mapper>

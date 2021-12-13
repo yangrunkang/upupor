@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.dao.mapper.FansMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.dao.entity.Fans">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fan_id" jdbcType="VARCHAR" property="fanId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="fan_user_id" jdbcType="VARCHAR" property="fanUserId" />
+    <result column="fan_status" jdbcType="INTEGER" property="fanStatus" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, fan_id, user_id, fan_user_id, fan_status, create_time, sys_update_time
+  </sql>
+
+
+  <select id="getFans" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from fans
+    where user_id = #{userId,jdbcType=VARCHAR} and fan_status = 0
+    order by create_time desc
+  </select>
+
+  <select id="getFansNum" resultType="java.lang.Integer">
+    select
+    count(*)
+    from fans where fan_status = 0 and user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="table-responsive fixed-table-body">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <td class="fw-bold" style="width: 20%;">时间</td>
+                                <td class="fw-bold" style="width: 70%;">内容</td>
+                                <td class="fw-bold" style="width: 10%;">提交者</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <div th:replace="fragments/git_commit_log::git_log"></div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div>更新日志</div>
+                    <div class="border-bottom my-2"></div>
+                    <div class="small text-black-50">* 更新日志为Git提交记录,只包含Add,Ref,Feature记录</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

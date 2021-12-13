@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/tag/tag.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/tag/tag.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="d-block text-center my-2">
+                        <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" style="font-size: 30px"><a class="cv-link" th:href="@{'/tag/'+${tagIndexDto.tagName}}">[[${tagIndexDto.tagName}]]</a></span>
+                    </div>
+                    <div style="width: 100%;" class="text-center" th:if="${#lists.isEmpty(tagIndexDto.listContentDto.contentList)}">
+                        <h1 style="font-weight: lighter">
+                            该标签下,无内容
+                        </h1>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2" th:if="!${#lists.isEmpty(tagIndexDto.listContentDto.contentList)}">
+                    <div th:replace="fragments/index::content_list(${tagIndexDto.listContentDto.contentList},false)"></div>
+                    <div>
+                        <div class="mt-2 float-end"
+                             th:if="!${#strings.isEmpty(tagIndexDto.listContentDto.paginationHtml)}"
+                             th:utext="${tagIndexDto.listContentDto.paginationHtml}"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2 text-black-50 mb-2">
+                    标签云
+                </div>
+                <div th:replace="fragments/index::user_manage_fragment(true)"></div>
+            </div>
+        </div>
+
+        <div th:include="fragments/index::tag_cloud"></div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>upupor</artifactId>
+        <groupId>com.upupor.parent</groupId>
+        <version>4.2.0-1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.upupor.framework</groupId>
+    <artifactId>upupor-framework</artifactId>
+    <version>4.2.0-1</version>
+    <packaging>jar</packaging>
+
+
+    <dependencies>
+        <!-- google guava doc:https://github.com/google/guava/wiki -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>[24.1.1,)</version>
+        </dependency>
+        <!--压缩图片-->
+        <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+        <!--github 地址 https://github.com/coobird/thumbnailator-->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.14</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.tika/tika-core -->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.24.1</version>
+        </dependency>
+        <!-- 引入lucene -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>7.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-common</artifactId>
+            <version>7.4.0</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

@@ -1,0 +1,10 @@
+list: googleUrlList
+list中的DTO对象: GoogleSeoDto
+GoogleSeoDto属性:
+loc
+lastmod
+changefreq
+priority
+
+时间格式化遵守  W3C Datetime format  网址: https://www.w3.org/TR/NOTE-datetime
+YYYY-MM-DDThh:mm:ss.sTZD

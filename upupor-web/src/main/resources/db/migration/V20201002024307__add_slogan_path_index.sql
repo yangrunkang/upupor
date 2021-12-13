@@ -1,0 +1,1 @@
+CREATE INDEX slogan_path_index ON slogan_path(path);

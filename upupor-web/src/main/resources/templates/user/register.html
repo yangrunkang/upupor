@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/register.css}" />
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/register.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <h2 style="text-align: center" class="fw-lighter">创建账号</h2>
+                    <form class="form-horizontal" style="align-items: center">
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label for="userName" class="control-label"></label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control " id="userName" placeholder="用户名"/>
+                                </div>
+                                <div class="col-lg-3"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label for="email" class="control-label"></label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="form-control " id="email" placeholder="邮箱"/>
+                                </div>
+                                <div class="col-lg-3"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label for="password" class="control-label"></label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="password" class="form-control " id="password" placeholder="密码"/>
+                                </div>
+                                <div class="col-lg-3"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <label for="verifyCode" class="control-label"></label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control " id="verifyCode" placeholder="输入验证码" />
+                                        <button id="send-verify-code-btn" class="btn btn-primary" type="button" onclick="sendVerifyCode()">发送验证码</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-6">
+                                    <button type="submit" id="register" class="btn btn-primary">注册</button>
+                                    <button type="button" class="btn btn-secondary">取消</button>
+                                </div>
+                                <div class="col-lg-3"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="lead border-bottom mb-2">您好朋友!</div>
+                    <a href="/login" class="cv-link" title="已有账号,去登录">1. 已有账号,去登录</a>
+                    <a href="/forget-password" class="cv-link" title="忘记密码">2. 忘记密码</a>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <a class="cv-link" href="/integral-rules" title="积分规则" target="_blank">积分规则</a>
+                </div>
+                <div th:include="fragments/index::can_not_receive_email"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/todo/index.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/todo/index.js}"></script>
+<div th:fragment="content" >
+    <div class="container" id="todo-index">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <!--添加待办-->
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="todo">
+                            <label for="todo">待办</label>
+                        </div>
+                        <!--<div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="todoDetail">
+                            <label for="todoDetail">明细 <small class="text-black-50">选填</small></label>
+                        </div>-->
+                        <button type="submit" class="btn btn-primary">添加</button>
+                    </form>
+                </div>
+                <!--待办列表-->
+                <div class="card card-body shadow-sm border-0 p-2 mt-2">
+                    <div class="lead border-bottom mb-2">我的待办</div>
+                    <div th:if="${#lists.isEmpty(todoIndexDto.listTodoDto.todoList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li th:class="${todo.status == 0} ? 'list-group-item' : 'list-group-item text-decoration-line-through text-black-50'" th:inline="text"
+                               th:if="!${#lists.isEmpty(todoIndexDto.listTodoDto.todoList)}"
+                               th:each="todo,ite : ${todoIndexDto.listTodoDto.todoList}"
+                               th:id="${todo.todoId}"
+                        >
+                            <input class="form-check-input me-1" type="checkbox" th:if="${todo.status == 0}"  th:onclick="markTodo([[${todo.todoId}]])">
+                            <input class="form-check-input me-1" type="checkbox" th:if="${todo.status == 1}" checked th:onclick="markTodo([[${todo.todoId}]])">
+                            <span>
+                                <span class="fw-bold">
+                                    [[${todo.title}]]
+                                    <button th:id="${todo.todoId} + 'delete_forever'"
+                                    th:class="${todo.status == 0} ?'btn btn-danger btn-sm text-decoration-none float-end invisible': 'btn btn-danger btn-sm text-decoration-none float-end'"
+                                    th:onclick="deleteTodo([[${todo.todoId}]])">永久删除</button>
+                                </span>
+                                <span class="badge rounded-pill bg-secondary ms-2" th:inline="text">[[${todo.createDate}]]</span>
+                            </span>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="lead border-bottom mb-2">待办</div>
+                    <div><span class="badge bg-success">写下</span>待办,然后你需要做的就是<span class="badge bg-success">完成它</span>!</div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 mt-2">
+                    <div class="text-sm-left border-0"><img class="lazyload cv-icon-small" th:data-src="${ossStatic} + @{/icons/v.svg}" /> 当你开始行动的时候,你已经比90%的人优秀了</div>
+                </div>
+                <div th:replace="fragments/index::user_manage_fragment(true)"></div>
+                <div class="mt-2" th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

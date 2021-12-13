@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/search/search.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/search/search.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <!--全局搜索-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div id="content_more_alert" class="alert alert-danger alert-dismissible mb-2" role="alert" style="display: none">
+                    搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
+                    <br />
+                    根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${searchIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div style="width: 100%;" class="card card-body border-0 text-center">
+                    <h2 style="font-weight: lighter">关键字</h2>
+                    <div>
+                        <div style="font-size: 30px;color: #00a8c6" id="navbar_search_keyword"></div>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <div>
+                        <div style="width: 100%;" class="text-center" th:if="${#lists.isEmpty(searchIndexDto.listContentDto.contentList)}">
+                            <h1 style="font-weight: lighter">
+                                搜索结果为空
+                            </h1>
+                        </div>
+                        <div>
+                            <input type="hidden" id="content_more_alert_value" th:value="${searchIndexDto.listContentDto.total}"/>
+                        </div>
+                        <div th:replace="fragments/index::content_list(${searchIndexDto.listContentDto.contentList},false)"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="fw-normal">搜索结果</div>
+                    <div class="border-bottom my-2"></div>
+                    <div>一共搜到了<span style="color: #00a8c6" th:text="${searchIndexDto.listContentDto.total}"></span>条相关数据</div>
+                </div>
+                <div th:include="fragments/index::global_search"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

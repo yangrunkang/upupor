@@ -1,0 +1,1 @@
+alter table css_pattern add column `user_id` varchar(32) DEFAULT NULL COMMENT '用户id(有的话,就表示是自定义的)' after css_pattern_id;

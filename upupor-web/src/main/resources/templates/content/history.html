@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/content/history.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/content/history.js}"></script>
+<!--加载代码美化插件-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/prismjs/prism-min.css}"/>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/prismjs/prism-min.js}"></script>
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/ckeditor5/ckeditor.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="alert alert-warning">
+                        您上次还有未完成的内容,是否继续编辑?
+                    </div>
+                    <div>
+                        <a class="btn btn-primary" th:href="'/continue-editor?type='+${cacheContent.contentType}+'&edit='+${cacheContent.edit}">继续编辑</a>
+                        <a class="btn btn-secondary write-new" href="/before-editor?opt=new" data-bs-toggle="tooltip" data-bs-placement="right" title="提示:会清空下面未完成内容">丢弃,创建新的内容</a>
+                        <a class="btn btn-primary continue-edit-draft" style="display: none" th:href="'/editor?type='+${cacheContent.contentType}+'&opt=continue-edit-draft'" data-bs-toggle="tooltip" data-bs-placement="top" th:title="'提示:会擦除未完成的内容《'+${cacheContent.title}+'》'">继续编辑个人中心文章</a>
+                    </div>
+                    <p class="alert alert-secondary mt-3">上次未完成的内容:</p>
+                    <div class="card card-body shadow-sm border-0 p-2">
+                        <div class="card-title">
+                            <div class="text-black-50" th:if="!${#strings.isEmpty(cacheContent.title)}">标题:</div>
+                            <div class="text-wrap cv-font" style="font-size: 30px" th:if="!${#strings.isEmpty(cacheContent.title)}" th:text="${cacheContent.title}"></div>
+                        </div>
+                        <div class="card-title">
+                            <div class="text-black-50" th:if="!${#strings.isEmpty(cacheContent.content)}">正文:</div>
+                            <div class="ck ck-content ck-rounded-corners" style="overflow:hidden" th:if="!${#strings.isEmpty(cacheContent.content)}" th:utext="${cacheContent.content}"></div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    未完成的内容
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

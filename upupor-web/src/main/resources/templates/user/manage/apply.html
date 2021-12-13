@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/apply.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/apply.js}"></script>
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <!--提示-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="lead border-bottom mb-2">申请管理</div>
+                    <div>
+                        <div class="table-responsive fixed-table-body">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 26%;text-align: center">申请内容</td>
+                                    <td class="fw-bold" style="width: 10%;text-align: center">申请类型</td>
+                                    <td class="fw-bold" style="width: 6%;text-align: center">状态</td>
+                                    <td class="fw-bold" style="width: 6%;text-align: center">进度</td>
+                                    <td class="fw-bold hidden-xs" style="width: 20%;">创建时间</td>
+                                    <td class="fw-bold" style="width: 24%;text-align: center">操作</td>
+                                    </tr>
+                            	</thead>
+                            	<tbody>
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listApplyDto.applyList)}"
+                                    th:each="apply,ite : ${memberIndexDto.listApplyDto.applyList}"
+                                >
+                                    <td th:text="${ite.count}" style="text-align: center"></td>
+                                    <td>
+                                        <p th:utext="${apply.applyContent}"></p>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 0">咨询服务</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 1">新功能建议</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 2">广告</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 3">标签</span>
+                                    </td>
+                                    <!--状态-->
+                                    <td style="text-align: center">
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${apply.applyStatus} == 0 or ${apply.applyStatus} == 1 or ${apply.applyStatus} == 2 or ${apply.applyStatus} == 6">正常</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 3">拒绝</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 4">结束</span>
+                                    </td>
+                                    <!--进度-->
+                                    <td style="text-align: center">
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-primary" th:if="${apply.applyStatus} == 0">待审核</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applyStatus} == 1">审核中</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${apply.applyStatus} == 2">已通过</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 3">已拒绝</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 4">已终止</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-primary" th:if="${apply.applyStatus} == 6">材料已提交</span>
+                                    </td>
+                                    <td class="hidden-xs" th:text="${apply.createDate}">创建时间</td>
+                                    <td style="text-align: center;">
+                                        <div class="btn-group" role="group" aria-label="Second group">
+                                            <button id="operation-message" type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                操作
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
+                                                <a class="cv-link dropdown-item" th:onclick="applyOperate('stop',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::zhongzhi"></span>终止</a>
+                                                <a class="cv-link dropdown-item" th:onclick="applyOperate('delete',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-primary btn-sm"
+                                           th:if="${apply.applySource} == 2 and ${apply.applyStatus} == 2"
+                                           th:href="'/user/manage/apply/commit/'+${apply.applyId}">提交材料</a>
+                                    </td>
+                                </tr>
+                            	</tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listApplyDto.applyList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                    <div>
+                        <div class="mt-2 float-end"
+                         th:if="!${#strings.isEmpty(memberIndexDto.listApplyDto.paginationHtml)}"
+                         th:utext="${memberIndexDto.listApplyDto.paginationHtml}"> </div>
+                    </div>
+
+                    <hr />
+                    <strong>说明</strong>
+                    <ul>
+                        <li>申请类型为<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark">广告</span>时,需要等待审核通过后,才可以提交相应的材料,例如广告图片等</li>
+                        <li>图片等资源或者材料可以委托我们帮您制作及策划,以便提升转化效益</li>
+                        <li>如果中间有任何问题,可以通过以下方式进行沟通
+                            <ul class="list-unstyled">
+                                <li>电话: <code>13955196045</code></li>
+                                <li><a class="cv-link" href="mailto:yangrunkang53@gmail.com"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/email.png" class="lazyload cv-icon-item"/> 邮箱: <code>yangrunkang53@gmail.com</code></a></li>
+                            </ul>
+                        </li>
+                        <hr />
+                        <div>
+                            <a class="cv-link" href="/apply-ad" title="广告合作"> 广告合作</a> |
+                            <a class="cv-link" href="/apply-tag" title="标签申请"> 标签申请</a> |
+                            <a class="cv-link" href="/apply-consultant" title="咨询服务申请"> 咨询服务申请</a>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

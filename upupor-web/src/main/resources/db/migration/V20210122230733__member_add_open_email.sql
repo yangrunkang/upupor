@@ -1,0 +1,1 @@
+alter table member_config add column `open_email` int(2) DEFAULT 0 COMMENT '是否开启邮件: 0-开启 1-关闭';

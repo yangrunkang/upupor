@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!--内容-->
+    <div>
+        <div style="position: relative;display: -ms-flexbox;display: flex;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 1px solid rgba(0,0,0,.125);border-radius: .25rem;">
+            <div style="padding: .75rem 1.25rem;margin-bottom: 0;background-color: rgba(0,0,0,.03);border-bottom: 1px solid rgba(0,0,0,.125);">
+                <span th:text="${title}" style="font-size: 18px;">ffff</span>
+            </div>
+            <div style="-ms-flex: 1 1 auto;flex: 1 1 auto;min-height: 1px;padding: 1.25rem;">
+                <div th:utext="${content}" style="font-size: 18px;">asffff</div>
+            </div>
+            <div style="padding: .75rem 1.25rem;background-color: rgba(0,0,0,.03);border-top: 1px solid rgba(0,0,0,.125);color: #6c757d;">
+                <div><a style="color: rgba(0,0,0,.5);font-size: 14px;text-decoration: none" href="https://www.upupor.com" >* 邮件来自: https://www.upupor.com</a></div>
+                <div><a style="color: rgba(0,0,0,.5);font-size: 14px;text-decoration: none" href="https://www.upupor.com/unsubscribe-mail" >* 退订邮件(Unsubscribe Mail)</a></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

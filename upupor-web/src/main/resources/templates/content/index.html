@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/content/content.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/content/content.js}"></script>
+<!--加载代码美化插件-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/prismjs/prism-min.css}"/>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/prismjs/prism-min.js}"></script>
+<!--加载编辑器脚本-->
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/ckeditor5/ckeditor.js}"></script>
+<!--加载复制插件-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/clipboard/clipboard.min.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container" th:if="${contentIndexDto.content.statement} != null" th:include="fragments/index::statement"></div>
+    <div class="container">
+        <div class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-warning" th:if="${contentIndexDto.content.status} == 1 or ${contentIndexDto.content.status} == 6">
+            <div th:if="${contentIndexDto.content.status} == 1" class="fw-bold">预览·该页内容为草稿,仅您自己可见</div>
+            <div th:if="${contentIndexDto.content.status} == 6" class="fw-bold">预览·该页内容仅您自己可见</div>
+            <div th:include="fragments/index::content_not_public_tips"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div>
+                        <div class="d-flex">
+                            <div class="flex-grow-1">
+                                <h3 class="text-wrap m-0" th:text="${contentIndexDto.content.title}"></h3>
+                            </div>
+                        </div>
+                        <div th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
+                            <a th:each="tag : ${contentIndexDto.tagDtoList}"
+                               class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link"
+                               th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
+                        </div>
+
+                        <div class="my-1 d-inline-flex text-black-50" style="font-size: 14px">
+                            <div class="me-1">
+                                <a th:inline="text" th:href="'/profile/' + ${contentIndexDto.content.userId}" class="cv-link text-black-50">
+                                    <img th:data-src="${contentIndexDto.content.member.via}" class="lazyload cv-icon-small img rounded" /> [[${contentIndexDto.content.member.userName}]]
+                                </a>
+                                <span class="fw-bold">·</span>
+                            </div>
+                            <div class="me-1">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/liulan.png" class="lazyload cv-icon-small"/> <span th:text="${contentIndexDto.content.contentData.viewNum}">0</span>
+                                <span class="fw-bold">·</span>
+                            </div>
+                            <div class="me-1">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/comment-yellow.png" class="lazyload cv-icon-small"/> <span  th:text="${contentIndexDto.content.contentData.commentNum}">0</span>
+                                <span class="fw-bold">·</span>
+                            </div>
+                            <div class="me-1">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/content-time.png" class="lazyload cv-icon-small"/> <span  th:text="${contentIndexDto.content.createDate}">2020-01-01 00:00</span>
+                            </div>
+                            <div class="me-1 d-none d-xl-block">
+                                <div data-bs-toggle="collapse" href="#edit-reason"
+                                      aria-expanded="false" aria-controls="edit-reason"
+                                      style="cursor: pointer"
+                                      th:if="${contentIndexDto.content.editTimes > 0}">
+                                    <span class="fw-bold me-1">·</span>编辑次数:<span  th:text="${contentIndexDto.content.editTimes}">2020-01-01 00:00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse" id="edit-reason">
+                            <div class="card card-body shadow-sm border-0 p-2 my-2">
+                                <div class="text-black-50 small">最新一次编辑的原因:</div>
+                                <div class="cv-font-sm" th:if="!${#strings.isEmpty(contentIndexDto.content?.contentEditReason?.reason)}" th:text="${contentIndexDto.content?.contentEditReason?.reason}"></div>
+                                <div class="cv-font-sm" th:if="${#strings.isEmpty(contentIndexDto.content?.contentEditReason?.reason)}">无</div>
+                            </div>
+                        </div>
+                        <article class="ck ck-content ck-rounded-corners mt-1" style="font-size: 16px;overflow:hidden"
+                             th:utext="${contentIndexDto.content.contentExtend.detailContent}"></article>
+                        <hr class="border-bottom my-2"/>
+                        <div th:switch="${contentIndexDto.content?.originType}">
+                            <div class="text-black-50 small" th:case="2">
+                                <span class="text-black-50">本作品系原创,采用<a target="_blank" class="cv-link text-black-50" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0 国际》</a>许可协议.转载请说明出处</span>
+                            </div>
+                            <div class="text-black-50 small" th:case="1">本文为转载内容  <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}" class="text-black-50" th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span></div>
+                        </div>
+                        <div>
+                            <span class="text-black-50 small">
+                                本文链接:<span id="content_url" class="text-black-50 text-wrap user-select-all" th:text="'https://www.upupor.com/u/'+${contentIndexDto.content.contentId}"></span>
+                            </span>
+                            <code id="btn_copy_url_code" style="cursor: pointer" class="badge rounded-pill fw-normal lh-sm bg-warning text-dark copy-url fw-normal" data-clipboard-target="#content_url" onclick="copyContentUrl()">复制</code>
+                        </div>
+                    </div><!--card-->
+                </div>
+                <!--上一篇/下一篇-->
+                <div class="list-group list-group-horizontal border-0 shadow-sm" th:if="${contentIndexDto.content.lastAndNextContentDto} != null">
+                    <a class="list-group-item list-group-item-action flex-grow-1 text-start flex-fill cv-link text-truncate"
+                       th:if="${contentIndexDto.content.lastAndNextContentDto.nextContent} != null"
+                       th:href="'/u/'+${contentIndexDto.content.lastAndNextContentDto.nextContent.contentId}"
+                       th:title="${contentIndexDto.content.lastAndNextContentDto.nextContent.title}"
+                       th:inline="text">上一篇: 《[[${contentIndexDto.content.lastAndNextContentDto.nextContent.title}]]》</a>
+
+                    <a class="list-group-item list-group-item-action flex-grow-1 text-start flex-fill cv-link text-truncate"
+                       th:if="${contentIndexDto.content.lastAndNextContentDto.lastContent} != null"
+                       th:href="'/u/'+${contentIndexDto.content.lastAndNextContentDto.lastContent.contentId}"
+                       th:title="${contentIndexDto.content.lastAndNextContentDto.lastContent.title}"
+                       th:inline="text">下一篇: 《[[${contentIndexDto.content.lastAndNextContentDto.lastContent.title}]]》</a>
+                </div>
+                <!--未登录提示-->
+                <div th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(contentIndexDto.content.listCommentDto.commentList)}">
+                    <div class="border-bottom mb-2">
+                        <span class="lead">评论<span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark ms-2" th:text="${contentIndexDto.content.listCommentDto.total}"></span></span>
+                    </div>
+                    <div>
+                        <div class="mt-2 float-end"
+                             th:if="!${#strings.isEmpty(contentIndexDto.content.listCommentDto.paginationHtml)}"
+                             th:utext="${contentIndexDto.content.listCommentDto.paginationHtml}"> </div>
+                    </div>
+                    <div th:include="fragments/index::content_comment"></div>
+                    <div>
+                        <div class="mt-2 float-end"
+                         th:if="!${#strings.isEmpty(contentIndexDto.content.listCommentDto.paginationHtml)}"
+                         th:utext="${contentIndexDto.content.listCommentDto.paginationHtml}"> </div>
+                    </div>
+                </div>
+
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status == 0}">
+                    <div id="comment_area">
+                        <div th:include="fragments/index::comment_box"></div>
+                        <div id="comment_btn_group" style="display: none">
+                            <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${contentIndexDto.content.contentId}]],[[${contentIndexDto.content.contentType}]])">评论</button>
+                            <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(contentIndexDto.content.listCommentDto.commentList)} and ${contentIndexDto.content.status} == 0">
+                    <div th:include="fragments/index::without_comment"></div>
+                </div>
+                <!--推荐文章-->
+                <div class="card card-body shadow-sm border-0 p-2 mt-2" th:if="!${#lists.isEmpty(contentIndexDto.randomContentList)}">
+                    <div class="lead">推荐阅读</div>
+                    <div th:replace="fragments/index::content_list(${contentIndexDto.randomContentList},false)"></div>
+                </div>
+    </div>
+            <div class="col-lg-3">
+                <div th:if="${session?.is_admin}" class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">管理员专有权限</div>
+                    <div class="media-right media-middle ms-1">
+                        <a class="btn btn-sm btn-danger" th:href="'/user/admin/content/' + ${contentIndexDto.content.contentId}">管理文章</a>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
+                    <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">操作</div>
+                    <div class="media-right media-middle ms-1">
+                        <a class="btn btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType}+'&contentId='+${contentIndexDto.content.contentId}+'&edit=true'}">修改文章</a>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-0 mb-2" th:if="${contentIndexDto.createContentDesc != null}">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a  class="nav-link cv-link" style="font-size: 16px" th:href="${contentIndexDto.createContentDesc.href}">
+                            <img class="lazyload cv-icon" th:src="${contentIndexDto.createContentDesc.icon}" /> [[${contentIndexDto.createContentDesc.desc}]]
+                        </a>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status == 0}">
+                    <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id != contentIndexDto.content.userId}">点赞<span class="fw-bold mx-1">·</span>收藏</div>
+                    <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">本文收到的 点赞数 和 收藏数</div>
+                    <div class="btn-group w-100">
+                        <div th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
+                            <div>
+                                <span class="me-3">
+                                    <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.contentData.likeNum}"></span>
+                                    <span class="text-black-50 m-1">个</span>
+                                    <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/zan.png" class="lazyload cv-icon-item"/>
+                                </span>
+                                <span>
+                                    <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.collectNum}"></span>
+                                    <span class="text-black-50 m-1">个</span>
+                                    <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/collection.png" class="lazyload cv-icon-item"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div th:if="${session?.cv_user_id != contentIndexDto.content.userId}">
+                            <!--点赞按钮-->
+                            <a class="btn btn-sm btn-outline-warning text-dark" id="like_btn" th:onclick="like([[${contentIndexDto.content.contentId}]])">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/zan.png" class="lazyload cv-icon-item"/>
+                                <span id="like_text" th:text="${contentIndexDto.currUserIsClickLike} == false ? '点赞':'已点赞'" >点赞</span>  <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" id="like_badge" th:text="${contentIndexDto.content.contentData.likeNum}">集赞数</span>
+                            </a>
+                            <!--点赞按钮..end-->
+                            <!--收藏按钮-->
+                            <a class="btn btn-sm btn-outline-warning text-dark" th:onclick="collect([[${contentIndexDto.content.contentId}]])">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/collection.png" class="lazyload cv-icon-item"/>
+                                <span id="collect_span_text" th:text="${contentIndexDto.currUserIsCollect} == false ? '收藏':'已收藏'"></span>  <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" id="collect_badge" th:text="${contentIndexDto.content.collectNum}">收藏数</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="sync_like_area" th:if="!${#lists.isEmpty(contentIndexDto.content.likesMemberList)}" th:fragment="sync_like_area">
+                        <div class="border-0 mt-2 small text-black-50">以下用户觉得很赞:</div>
+                        <span th:each="member : ${contentIndexDto.content.likesMemberList}">
+                            <a class="cv-link" th:href="'/profile/'+${member.userId}">
+                                <span th:if="!${#strings.isEmpty(member.via)}"><img data-bs-toggle="popover" th:data-bs-content="${member.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${member.via}" th:alt="${member.userName}" /></span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <!--访问者-->
+                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="!${#lists.isEmpty(contentIndexDto.content.viewerList)}">
+                    <div class="small text-black-50">以下用户访问过:</div>
+                    <span>
+                        <a th:each="viewer : ${contentIndexDto.content.viewerList}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}">
+                            <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover" th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}" />
+                        </a>
+                    </span>
+                </div>
+                <!--如果作者有电台,跳转到作者电台列表-->
+                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.hasRadio}" th:inline="text">
+                    <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto?.content?.userId}+'/radio'"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/radio.svg">  [[${contentIndexDto.content.member.userName}]]的电台</a>
+                </div>
+                <!--跳转到作者的留言板-->
+                <div class="card card-body shadow-sm border-0 p-2 mb-2"  th:inline="text">
+                    <a class="cv-link text-black-50" th:href="'/profile-message/'+${contentIndexDto?.content?.userId}"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/goutong.png">  [[${contentIndexDto.content.member.userName}]]的留言板</a>
+                </div>
+                <div th:include="fragments/index::google_right_ad"></div>
+
+                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status == 0}">
+                    <div>
+                        <div class="text-black-50 border-bottom mb-1 pt-0">分享文章</div>
+                        <div class="mb-1">
+                            <!--分享到linkedin-->
+                            <a  class="cv-link"
+                                th:href="'https://www.linkedin.com/shareArticle?mini=true&url=https://www.upupor.com/u/'+${contentIndexDto.content.contentId}" target="_blank" rel="noopener">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/LinkedIn.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 领英
+                            </a>
+                        </div>
+                        <div class="mb-1">
+                            <!--分享到weibo-->
+                            <a class="cv-link"
+                               th:href="'http://service.weibo.com/share/share.php?url=https://www.upupor.com/u/'
+                                    +${contentIndexDto.content.contentId}+'&title='+${contentIndexDto.content.title}+'&appkey=2178125307&ralateUid=7389727164'"
+                               target="_blank" rel="noopener">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/weibo.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 微博
+                            </a>
+                        </div>
+                        <div class="mb-1">
+                            <!--分享到 QQ 空间-->
+                            <a class="cv-link"
+                               th:href="'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.upupor.com/u/'
+                                    +${contentIndexDto.content.contentId}+'&title='+${contentIndexDto.content.title}"
+                               target="_blank" rel="noopener">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/qq_zone.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 QQ空间
+                            </a>
+                        </div>
+                        <div class="mb-1">
+                            <!--分享到facebook-->
+                            <a class="cv-link" th:href="'https://www.facebook.com/sharer.php?title='
+                                    +${contentIndexDto.content.title}
+                                    +'&u='+${'https://www.upupor.com/u/'+contentIndexDto.content.contentId}" target="_blank">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/facebook.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Facebook
+                            </a>
+                        </div>
+                        <div class="mb-1">
+                            <!--分享到twitter-->
+                            <a class="cv-link" th:href="${'https://twitter.com/share?text=' + contentIndexDto.content.title + '&url=https://www.upupor.com/u/' + contentIndexDto.content.contentId}" target="_blank" rel="noopener">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/twitter.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Twitter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div>
+                        <p style="text-align: center" th:if="!${#strings.isEmpty(contentIndexDto.content.member.via)}">
+                            <a th:href="'/profile/'+${contentIndexDto.content.member.userId}">
+                                <img class="lazyload img rounded" th:data-src="${contentIndexDto.content.member.via}" style="width: 90px;height: 90px;"/>
+                            </a>
+                        </p>
+                        <p style="text-align: center">
+                            <a th:inline="text" th:href="'/profile/' + ${contentIndexDto.content.userId}" class="text-black-50 cv-link" style="font-size: 14px">
+                                [[${contentIndexDto.content.member.userName}]]
+                            </a>
+                        </p>
+                        <div>
+                            <p style="text-align: center" class="text-black-50 small" th:if="!${#strings.isEmpty(contentIndexDto.content.member.lastLoginDate)}" th:inline="text">最近活跃: [[${contentIndexDto.content.member.lastLoginDate}]]</p>
+                        </div>
+                        <!--关注按钮-->
+                        <button th:if="${session?.cv_user_id != contentIndexDto.content.userId} and !${contentIndexDto.currUserIsAttention}" class="btn btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${contentIndexDto.content.userId}]])" id="attention_btn">
+                            <span th:text="${contentIndexDto.currUserIsAttention} == false ? '关注作者':'已关注作者'" id="attention_tips"></span>
+                        </button>
+                        <!--关注按钮..end-->
+                    </div>
+                </div>
+                <!--作者其他文章-->
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div>
+                        <div class="text-black-50 mb-1 pt-0" th:inline="text">[[${contentIndexDto.content.member.userName}]]的其他文章</div>
+                        <div th:if="${#lists.isEmpty(contentIndexDto.authorOtherContentList)}">
+                            <div th:include="fragments/index::empty_content"></div>
+                        </div>
+                        <div th:if="!${#lists.isEmpty(contentIndexDto.authorOtherContentList)}">
+                            <div th:each="c,ite : ${contentIndexDto.authorOtherContentList}">
+                                <a class="cv-link text-secondary up-text-overflow"
+                                   th:text="${c.title}"
+                                   th:href="'/u/'+${c.contentId}"
+                                   th:title="${c.title}"></a>
+                            </div>
+                            <div>
+                                <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto.content.userId}"><span th:include="fragments/icon::more"></span>更多</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="text-black-50 border-bottom mb-2 pt-0">文章导航</div>
+                    <nav aria-label="breadcrumb mb-0">
+                        <ol class="breadcrumb mb-0">
+                            <li th:if="${contentIndexDto.content.contentType} == 1" class="breadcrumb-item"><a class="cv-link text-black-50" href="/tech">技术</a></li>
+                            <li th:if="${contentIndexDto.content.contentType} == 2" class="breadcrumb-item"><a class="cv-link text-black-50" href="/qa">问答</a></li>
+                            <li th:if="${contentIndexDto.content.contentType} == 3" class="breadcrumb-item"><a class="cv-link text-black-50" href="/share">分享</a></li>
+                            <li th:if="${contentIndexDto.content.contentType} == 4" class="breadcrumb-item"><a class="cv-link text-black-50" href="/workplace">职场</a></li>
+                            <li th:if="${contentIndexDto.content.contentType} == 5" class="breadcrumb-item"><a class="cv-link text-black-50" href="/record">记录</a></li>
+                            <li th:if="${contentIndexDto.content.contentType} == 6" class="breadcrumb-item"><a class="cv-link text-black-50" href="/topic">短内容</a></li>
+                            <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 1" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/tech/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 2" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/qa/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 3" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/share/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 4" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/workplace/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 5" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/record/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 6" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/topic/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div th:replace="fragments/index::user_manage_fragment(true)"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

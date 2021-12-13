@@ -1,0 +1,54 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="zh-cmn-Hans"
+>
+<body>
+    <!--head 头部-->
+    <head th:fragment="head">
+        <meta charset="UTF-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--先取系统SEO-->
+        <title th:if="!${#strings.isEmpty(seo_title)}" th:text="${seo_title}"></title>
+        <meta th:if="!${#strings.isEmpty(seo_description)}" name="description" th:content="${seo_description}" />
+        <meta th:if="!${#strings.isEmpty(seo_keywords)}" name="keywords" th:content="${seo_keywords}"/>
+        <!--取系统默认-->
+        <title th:if="${#strings.isEmpty(seo_title)}">Upupor 让每个人享受分享</title>
+        <meta th:if="${#strings.isEmpty(seo_description)}" name="description" content="在upupor,您可以浏览网站所有内容,发布内容,参与互动,对您喜欢的作者进行关注,对内容进行点赞和评价,创建短内容,发布广告等商务活动,个人内容管理等等" />
+        <meta th:if="${#strings.isEmpty(seo_keywords)}" name="keywords" content="upupor,upupor.com,分享,朋友,线下,技术,问答,分享,职场,记录" />
+        <!--网站图标-->
+        <link rel="shortcut icon" href="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/uricon.ico" />
+        <!--告知Google的网页的本地化版本-->
+        <link rel="alternate" hreflang="zh-Hans" href="https://www.upupor.com" />
+        <!--bootstrap css-->
+        <link th:href="${ossStatic} + @{/bootstrap/css/5/bootstrap.min.css}" type="text/css" rel="stylesheet">
+        <link th:href="${ossStatic} + @{/bootstrap/css/5/bootstrap-grid.min.css}" type="text/css" rel="stylesheet">
+        <link th:href="${ossStatic} + @{/bootstrap/css/5/bootstrap-reboot.min.css}" type="text/css" rel="stylesheet">
+        <link rel="canonical" th:href="${#request.getRequestURI() == '/'?'https://www.upupor.com':'https://www.upupor.com'+#request.getRequestURI()}">
+        <!--UPUPOR全局css-->
+        <link th:href="${ossStatic} + @{/css/cv.css}" type="text/css" rel="stylesheet">
+        <link th:href="${ossStatic} + @{/plugins/normalize/normalize.css}" type="text/css" rel="stylesheet">
+        <link th:href="${ossStatic} + @{/plugins/viewerjs/viewer.min.css}" type="text/css" rel="stylesheet">
+        <!--HTML5 Shim and Respond.js IE* support of HTML5 elements and media queries -->
+        <!--WARNING: Respond.js doesn't work if you view the page via file://-->
+        <!--[if lt IE 9]-->
+        <script async="async" th:src="${ossStatic} + @{/compatible/js/html5shiv.min.js}" type="text/javascript"></script>
+        <script async="async" th:src="${ossStatic} + @{/compatible/js/respond.min.js}" type="text/javascript"></script>
+        <script async="async" th:src="${ossStatic} + @{/compatible/js/lazysizes.min.js}" type="text/javascript"></script>
+        <!--[endif]-->
+        <!--自定义css-->
+        <link th:replace="::css" />
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'" defer src="https://www.googletagmanager.com/gtag/js?id=UA-163101807-1"></script>
+        <script async="async" th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'">
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-163101807-1');
+        </script>
+        <script th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0'" defer src="https://www.googletagmanager.com/gtag/js?id=UA-163101807-1"></script>
+    </head>
+</body>
+</html>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url th:each="googleSeoDto : ${googleSeoList}">
+        <loc th:text="${googleSeoDto.loc}">https://www.upupor.com/</loc>
+        <lastmod th:text="${googleSeoDto.lastmod}">2005-01-01</lastmod>
+        <changefreq th:text="${googleSeoDto.changeFreq}">hourly</changefreq>
+        <priority th:text="${googleSeoDto.priority}">0.5</priority>
+    </url>
+</urlset>

@@ -1,0 +1,43 @@
+# maven ignore
+target/
+disconf/
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+
+# eclipse ignore
+.settings/
+.project
+.classpath
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# temp ignore
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+.logs
+logs/
+
+/bin/
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.ear
+
+.gradle
+build
+codingvcr.iml
+out
+doc/*.adoc

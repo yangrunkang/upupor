@@ -1,0 +1,20 @@
+/*序号*/
+.integral-sort {
+    width: 8%;
+    text-align: center
+}
+
+/*操作*/
+.integral-operate {
+    width: 72%;
+}
+
+.integral-operate-head {
+    width: 72%;
+    text-align: center;
+}
+
+/*积分值*/
+.integral-value {
+    width: 20%;
+}

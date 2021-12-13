@@ -1,0 +1,20 @@
+/*设置Ckeditor5的高度*/
+.ck-editor__editable_inline {
+    min-height: 120px !important;
+}
+
+
+/*去除p标签下边距(注意其他地方也有)*/
+p {
+    /*margin: 0 0 1em;*/
+    margin: 0 0 0em;
+}
+
+
+
+blockquote {
+    padding: 1.5px 6px;
+    margin: 0 0 2px;
+    font-size: 14.25px;
+    border-left: 4px solid #eeeeee;
+}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/editor/editor.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/editor/editor.js}"></script>
+<!--加载编辑器脚本-->
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/ckeditor5/ckeditor.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body border-0 p-2 mb-2 d-block text-secondary" th:if="${editorIndexDto.createContentDesc.tips != null}">
+                    [[${editorIndexDto.createContentDesc.tips}]]
+                </div>
+
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group mb-3">
+                            <label for="title" class="col-lg-1 control-label text-black-50">标题</label>
+                            <div class="col-lg-11">
+                                <textarea type="text" class="form-control " id="title" placeholder="如果内容标题可以描述清楚,内容可以不用填写"
+                                       th:text="${editorIndexDto?.content?.title}"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3" th:if="!${#lists.isEmpty(editorIndexDto.tagList)}">
+                            <label for="title" class="col-lg-1 control-label text-black-50">标签</label>
+                            <div class="col-lg-4">
+                                <select class="form-select" id="cv_selectpicker">
+                                    <option value="">无</option>
+                                    <option th:each="tag : ${editorIndexDto.tagList}"
+                                            th:value="${tag.tagId}"
+                                            th:selected="${#strings.contains(editorIndexDto?.content?.tagIds,tag.tagId) or editorIndexDto?.createTag == tag.tagId}"
+                                    >
+                                        [[${tag.tagName}]]
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="col-lg-12">
+                                <div class="text-center" id="comment_loading">
+                                    <div class="spinner-grow text-primary" role="status"></div>
+                                    <p class="text-black-50">编辑器加载中...</p>
+                                </div>
+                                <!--编辑器-->
+                                <div id="vcr_editor" style="overflow:hidden"
+                                     th:utext="${editorIndexDto?.content?.contentExtend?.detailContent}"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="border-bottom mb-1">控制面板</div>
+                    <!--未登录提示-->
+                    <div th:include="fragments/index::user_not_login"></div>
+                    <!--全局异常提示-->
+                    <div class="card border-danger mb-3" th:if="${cvException != null}">
+                        <div class="card-header">
+                            <h3 class="card-title">出错了~</h3>
+                        </div>
+                        <div class="card-title" th:text="${cvException}"></div>
+                    </div>
+                    <!--保存按钮-->
+                    <div>
+                        <button type="button" class="btn btn-primary" th:if="!${edit}"
+                                onclick="saveContent(null)">发布
+                        </button>
+                        <button type="button" class="btn btn-secondary" th:if="!${edit}"
+                                onclick="saveContent('temp')">草稿
+                        </button>
+                    </div>
+                    <!--编辑按钮-->
+                    <div th:if="${edit}">
+                        <button type="button" class="btn btn-success" th:if="${editorIndexDto.content.status != 0}"
+                                th:onclick="updateContentPublic([[${editorIndexDto.contentType}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]])">
+                            发布
+                        </button>
+                        <button type="button" class="btn btn-primary"
+                                th:onclick="updateContent([[${editorIndexDto.contentType}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]])">
+                            编辑完成
+                        </button>
+                        <div class="border-bottom my-2"></div>
+                        <textarea type="text" id="edit_reason" class="form-control " placeholder="内容变更原因,选填" style="width: 100%;height: 60px;"></textarea>
+                    </div>
+                </div>
+                <!--<div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <p>
+                        <a href="/editor-md" title="切换到markdown编辑器" class="cv-link">切换到markdown编辑器</a>
+                    </p>
+                </div>-->
+                <div class="card card-body shadow-sm border-0 p-2 editor_word_count my-2">
+                    <div class="ck ck-word-count">
+                        <div class="ck-word-count__characters"></div>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <div class="btn-group" style="width: 100%">
+                        <input type="radio" name="original" class="align-self-center original_radio" value="original" th:checked="${editorIndexDto.content.originType != 1}?'checked'">&nbsp;原创
+                        <span class="me-2"></span>
+                        <input type="radio" name="original" class="align-self-center original_radio" value="none_original" th:checked="${editorIndexDto.content.originType == 1}?'checked'">&nbsp;转载
+                    </div>
+                    <div class="original" th:style="${editorIndexDto.content.originType} == 2 ? 'display: block':'display: none'">
+                        <div class="small border-top mt-1">
+                            原创作品将采用<a class="cv-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0 国际》</a>许可协议进行发布
+                        </div>
+                    </div>
+                    <div class="none_original" th:style="${editorIndexDto.content.originType} == 1 ? 'display: block':'display: none'">
+                        <div class="border-top my-1"></div>
+                        <div class="form-group mb-3">
+                                <textarea class="form-control  " id="none_original_link"
+                                          placeholder="转载地址" th:text="${editorIndexDto.content.noneOriginLink}"
+                                ></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 auto-save-card" style="display: none">
+                    <!--隐藏域-->
+                    <input type="hidden" class="hide-content-content-id"
+                           th:value="${editorIndexDto?.content?.contentId}"/>
+                    <input type="hidden" class="hide-content-user-id"
+                           th:value="${editorIndexDto?.content?.userId}"/>
+                    <!--提示自动保存-->
+                    <div class="fw-light text-black-50 border-bottom mb-2">文章自动保存提示</div>
+                    <div class="auto-save" style="background-color: #4285f4;padding: 6px;border-radius: 5px;color: #ffffff;font-size: 13px;display: none"></div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <div class="border-bottom mb-2">友请提示</div>
+                    <div class="small">1. 如果内容标题可以描述清楚,内容可以不用填写</div>
+                    <div class="mt-3"></div>
+                    <div class="border-bottom mb-2">编辑器使用技巧</div>
+                    <div class="small">1. 如果您使用微信等图片工具进行截图,截图可以直接粘贴进编辑器</div>
+                    <div class="small">2. 支持内容导出为word文件</div>
+                </div>
+                <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <div th:include="fragments/index::apply_tag"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

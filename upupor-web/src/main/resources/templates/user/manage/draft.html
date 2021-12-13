@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/content.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/content.js}"></script>
+<div th:fragment="content">
+    <!--内容管理-->
+    <div class="container">
+        <div class="row">
+            <!--右列-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <nav class="mb-2">
+                        <div class="nav nav-tabs">
+                            <a class="nav-item nav-link cv-link" href="/user/manage/content">文章管理</a>
+                            <a class="nav-item nav-link cv-link" href="/user/manage/radio">电台管理</a>
+                            <a class="nav-item nav-link cv-link text-danger active" href="/user/manage/draft">草稿箱 <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger ms-2" th:text="${memberIndexDto.listContentDto.total}"></span></a>
+                        </div>
+                    </nav>
+                    <div class="mb-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="根据标题搜索" id="searchTitle" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
+                            <button class="btn btn-outline-secondary btn-sm" id="button-addon4" type="button" onclick="manageContentSearch()">搜索</button>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="hidden" id="content_more_alert_value" th:value="${memberIndexDto.listContentDto.total}"/>
+                        <div id="content_more_alert" class="alert alert-danger alert-dismissible mb-2" role="alert" style="display: none">
+                            搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
+                            <br />
+                            根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${memberIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <div>
+                        <!--文章列表-->
+                        <div class="table-responsive fixed-table-body">
+                            <table class="table table-hover" id="manage_content_table">
+                                <thead>
+                                <tr>
+                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 38%;">内容标题</td>
+                                    <td class="fw-bold" style="width: 9%;text-align: center">类型</td>
+                                    <td class="fw-bold hidden-xs" style="width: 10%;text-align: center">标签</td>
+                                    <td class="fw-bold hidden-xs" style="width: 21%;">创建时间</td>
+                                    <td class="fw-bold" style="width: 14%;text-align: center">操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}"
+                                        th:each="content,ite : ${memberIndexDto.listContentDto.contentList}"
+                                    >
+                                        <td style="text-align: center">
+                                            <span th:text="${ite.count}"></span>
+                                        </td>
+                                        <td>
+                                            <div th:replace="fragments/index::content_manage(${content})"></div>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <span th:include="fragments/index::content_type"></span>
+                                        </td>
+                                        <td class="hidden-xs">
+                                            <div th:each="tagDto : ${content.tagDtoList}" style="float: left">
+                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark">[[${tagDto.tagName}]]</a>
+                                            </div>
+                                            <a th:if="${#lists.isEmpty(content.tagDtoList)}">
+                                                无
+                                            </a>
+                                        </td>
+                                        <td class="hidden-xs" style="text-align: center" th:text="${content.createDate}">创建时间</td>
+                                        <td style="text-align: center">
+                                            <div class="btn-group" role="group" aria-label="Second group">
+                                                <button id="operation-message" type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    操作
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
+                                                    <!--&from=m 代表从管理后台来-->
+                                                    <a class="cv-link dropdown-item" th:href="@{'/editor?type='+${content.contentType}+'&contentId='+${content.contentId}+'&edit=true'}"><span th:include="fragments/icon::edit"></span>编辑</a>
+                                                    <a class="cv-link dropdown-item" th:onclick="changeContentStatus('delete',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}">
+                            <div th:include="fragments/index::empty_content"></div>
+                        </div>
+                        <div>
+                        <div class="mt-2 float-end"
+                             th:if="!${#strings.isEmpty(memberIndexDto.listContentDto.paginationHtml)}"
+                             th:utext="${memberIndexDto.listContentDto.paginationHtml}"> </div>
+                    </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

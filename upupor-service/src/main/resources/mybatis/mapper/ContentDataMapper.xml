@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.dao.mapper.ContentDataMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.dao.entity.ContentData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="content_id" jdbcType="VARCHAR" property="contentId" />
+    <result column="view_num" jdbcType="INTEGER" property="viewNum" />
+    <result column="like_num" jdbcType="INTEGER" property="likeNum" />
+    <result column="comment_num" jdbcType="INTEGER" property="commentNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, view_num, like_num,content_id,comment_num
+  </sql>
+  <sql id="Base_Column_ALIAS_List">
+    id, view_num, like_num,content_id,comment_num
+  </sql>
+  <select id="selectByContentId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from content_data
+    where content_id = #{contentId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="listByContentIdList" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from content_data
+    where content_id in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+  </select>
+  <select id="getHottestContentIdList" parameterType="java.lang.Integer"  resultType="com.upupor.service.dto.dao.HottestContentDto">
+   select
+   cd.content_id as contentId,
+   sum(cd.view_num) + sum(cd.like_num) + sum(cd.comment_num) as total
+   from content_data cd
+   left join content ct on ct.content_id = cd.content_id
+   where ct.status = 0
+   <if test="contentType != null">
+     and ct.content_type = #{contentType,jdbcType=INTEGER}
+   </if>
+   GROUP BY contentId order by total desc
+  </select>
+  <select id="getLatestComments"  resultType="java.lang.String">
+    select distinct t.* from (
+        select
+        c.target_id
+        from comment c
+        left join content ct on ct.content_id = c.target_id
+        where ct.content_type = #{contentType,jdbcType=INTEGER} and ct.status = 0 and c.status = 0
+        order by c.create_time desc
+    ) as t
+  </select>
+  <select id="viewTotal"  resultType="java.lang.Integer">
+  select
+  sum(cd.view_num)
+  from content_data cd left join content ct on ct.content_id = cd.content_id where ct.status = 0
+  </select>
+</mapper>

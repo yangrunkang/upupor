@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.dao.mapper.TodoDetailMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.dao.entity.TodoDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id,detail, create_time, sys_update_time
+  </sql>
+
+</mapper>

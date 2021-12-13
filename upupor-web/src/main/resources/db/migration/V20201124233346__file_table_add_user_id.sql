@@ -1,0 +1,1 @@
+alter table file add column `user_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户id';

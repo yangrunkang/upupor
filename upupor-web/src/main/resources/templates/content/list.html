@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/content/list.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/content/list.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div th:include="fragments/index::page_banner"></div>
+                <div th:include="fragments/index::page_slogan"></div>
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div th:include="fragments/index::page_menu"></div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
+                    <div th:include="fragments/index::empty_content"></div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
+                    <div th:replace="fragments/index::content_list(${commonPageIndexDto.listContentDto.contentList},false)"></div>
+                    <div>
+                        <div class="mt-2 float-end"
+                             th:if="!${#strings.isEmpty(commonPageIndexDto.listContentDto.paginationHtml)}"
+                             th:utext="${commonPageIndexDto.listContentDto.paginationHtml}"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-0 mb-2" th:if="${commonPageIndexDto.createContentDesc != null}">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a  class="nav-link cv-link" style="font-size: 16px" th:href="${commonPageIndexDto.createContentDesc.href}">
+                            <img class="lazyload cv-icon" th:src="${commonPageIndexDto.createContentDesc.icon}" /> [[${commonPageIndexDto.createContentDesc.desc}]]
+                        </a>
+                    </div>
+                </div>
+
+                <!--全局个人信息卡片-->
+                <div th:include="fragments/index::global_member_info"></div>
+                <!--全局搜索-->
+                <div th:include="fragments/index::global_search"></div>
+                <!--活跃用户-->
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <div class="fw-normal border-bottom mb-2 text-black-50">活跃用户Top10</div>
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical" th:if="!${#lists.isEmpty(commonPageIndexDto.memberList)}">
+                        <a class="d-flex align-items-center my-1 mb-2 cv-link" th:each="member,ite : ${commonPageIndexDto.memberList}" th:href="@{'/profile/'+${member.userId}}" th:title="${member.userName}">
+                            <img class="align-self-center me-1 img rounded" style="width: 20px;height: 20px" th:src="${member.via}" th:alt="${member.userName}">
+                            <div class="flex-grow-1 ms-1">
+                                <div class="mt-0" th:text="${member.userName}" ></div>
+                            </div>
+                        </a>
+                        <a class="d-flex align-items-center my-1 mb-2 cv-link" href="/list-user">
+                            <span class="align-self-center me-1 text-black-50" th:include="fragments/icon::more"></span>
+                            <div class="flex-grow-1 ms-1">
+                                <div class="mt-0 text-black-50" >所有用户</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div th:if="${#lists.isEmpty(commonPageIndexDto.memberList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                </div>
+                <div th:include="fragments/index::google_right_ad"></div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <a class="text-secondary" href="https://github.com/yangrunkang/upupor/releases">发布记录</a>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+</html>

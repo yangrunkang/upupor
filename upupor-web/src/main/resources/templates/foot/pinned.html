@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/pinned/index.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/pinned/index.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="lead border-bottom mb-2">说明</div>
+                    <div>
+                        <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark">置顶</span>
+                        标识意味着让目标内容永远在目标版面的显著位置可见,<span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark">置顶</span>标识只能由您来设置,其他人无权设置<span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark">置顶</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a class="nav-link cv-link" href="/vision" title="愿景"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/vision.svg" class="lazyload cv-icon" />  愿景</a>
+                        <a class="nav-link cv-link" href="/brand-story" title="品牌故事"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/brand-story.svg" class="lazyload cv-icon" />  品牌故事</a>
+                        <a class="nav-link cv-link" href="/team" title="技术"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/teamwork.svg" class="lazyload cv-icon" />  技术</a>
+                        <a class="nav-link cv-link" href="/thanks" title="致谢"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/thanks.svg" class="lazyload cv-icon" />  致谢</a>
+                        <a class="nav-link cv-link" href="/logo-design" title="logo设计"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/design.svg" class="lazyload cv-icon" />  logo设计</a>
+                        <a class="nav-link cv-link" href="/business-cooperation" title="商务合作"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/business-co.svg" class="lazyload cv-icon" />  商务合作</a>
+                        <a class="nav-link cv-link" href="/check-info" title="关于广告"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/ad.svg" class="lazyload cv-icon" />  关于广告</a>
+                        <a class="nav-link cv-link active" href="/pinned" title="关于置顶"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/zhiding.svg" class="lazyload cv-icon" />  关于置顶</a>
+                    </div>
+                </div>
+                <div class="mt-2" th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

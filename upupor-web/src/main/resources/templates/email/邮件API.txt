@@ -1,0 +1,6 @@
+title: 标题
+content: 内容
+
+# 邮箱模板
+http://localhost:2020/email/email-template
+可以增加一个变量 例如系统推荐等等

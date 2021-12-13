@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/business/consultant-apply.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/business/consultant-apply.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <!--未登录提示-->
+        <div th:include="fragments/index::user_not_login"></div>
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="lead border-bottom mb-2">咨询申请</div>
+                    <form>
+                        <!--咨询服务申请信息填写-->
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control " id="topic" placeholder="咨询主题"
+                                           title="提示"
+                                           data-bs-container="body"
+                                           data-bs-toggle="popover"
+                                           data-bs-placement="right"
+                                           data-bs-content="填写的内容为空"
+                                    />
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <textarea type="text" class="form-control " id="desc" placeholder="描述" rows="4"></textarea>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <button type="submit" id="btn" class="btn btn-primary">发起咨询服务申请</button>
+                                    <div class="text-black-50 cv-font-sm mt-2">* 申请成功后,我们会尽快联系你</div>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="card-footer">
+                        <div class="lead" >提供咨询服务,包括但不仅限于以下服务:</div>
+                        <ul>
+                            <li>后端技术</li>
+                            <li>部署技术</li>
+                            <li>规范制定</li>
+                            <li>流程管理</li>
+                            <li>团队管理</li>
+                        </ul>
+                        <div class="text-black-50 cv-font-sm">* 我们希望有能力的人能够为需要的人或者团队服务,故在此可以登记咨询信息,待审核通过后,会公布于此</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a class="nav-link cv-link" href="/apply-ad" title="广告合作">广告合作</a>
+                        <a class="nav-link cv-link" href="/apply-tag" title="标签申请">标签申请</a>
+                        <a class="nav-link cv-link active" href="/apply-consultant" title="咨询申请">咨询申请</a>
+                    </div>
+                </div>
+                <div class="my-2" th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>

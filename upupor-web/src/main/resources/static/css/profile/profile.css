@@ -1,0 +1,12 @@
+.profile-user {
+    width: 100%;
+    height: 100px;
+    background-color: #1b6d85;
+}
+
+/*覆写page-header调窄margin*/
+.page-header {
+    padding-bottom: 10.5px;
+    margin: -20px 0 23px;
+    border-bottom: 1px solid #eeeeee;
+}

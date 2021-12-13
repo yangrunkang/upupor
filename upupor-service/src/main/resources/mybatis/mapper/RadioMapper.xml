@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.dao.mapper.RadioMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.dao.entity.Radio">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="radio_id" jdbcType="VARCHAR" property="radioId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="content_id" jdbcType="VARCHAR" property="contentId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="latest_comment_time" jdbcType="BIGINT" property="latestCommentTime"/>
+    <result column="latest_comment_user_id" jdbcType="VARCHAR" property="latestCommentUserId"/>
+    <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.upupor.service.dao.entity.Radio">
+    <result column="radio_intro" jdbcType="LONGVARCHAR" property="radioIntro" />
+    <result column="radio_url" jdbcType="LONGVARCHAR" property="radioUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, radio_id, user_id, content_id, status, create_time, sys_update_time,latest_comment_time,latest_comment_user_id
+  </sql>
+  <sql id="Blob_Column_List">
+    radio_intro, radio_url
+  </sql>
+  <select id="selectByRadioId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from radio
+    where radio_id = #{radioId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getByRadioIdAndUserId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from radio
+    where radio_id = #{radioId,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="listRadioByUserId" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from radio
+    where user_id = #{userId,jdbcType=VARCHAR} and `status` = 0
+    <if test="searchTitle != null">
+      and radio_intro like concat('%',#{searchTitle,jdbcType=VARCHAR},'%')
+    </if>
+    order by create_time desc
+  </select>
+
+
+  <select id="countRadioByUserId" resultType="java.lang.Integer">
+    select
+    count(*)
+    from radio
+    where user_id = #{userId,jdbcType=VARCHAR} and `status` = 0
+  </select>
+
+
+
+  <select id="list" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from radio
+    where `status` = 0 order by latest_comment_time desc
+  </select>
+
+
+  <select id="total" resultType="java.lang.Integer">
+    select count(*) from radio
+    where `status` = 0
+  </select>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.dao.mapper.BuriedPointDataMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.dao.entity.BuriedPointData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="point_id" jdbcType="VARCHAR" property="pointId" />
+    <result column="session_id" jdbcType="VARCHAR" property="sessionId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="point_type" jdbcType="INTEGER" property="pointType" />
+    <result column="request_method" jdbcType="VARCHAR" property="requestMethod" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="port" jdbcType="BIGINT" property="port" />
+    <result column="servlet_path" jdbcType="VARCHAR" property="servletPath" />
+    <result column="parameters" jdbcType="VARCHAR" property="parameters" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, point_id, session_id, user_id, point_type, request_method, ip, port, servlet_path, 
+    parameters, create_time, sys_update_time
+  </sql>
+  <select id="countPageVisitNum" parameterType="java.lang.String" resultType="com.upupor.service.dto.dao.PageVisitData">
+    select
+    count(*) total
+    from buried_point_data
+    where servlet_path = #{pagePath,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

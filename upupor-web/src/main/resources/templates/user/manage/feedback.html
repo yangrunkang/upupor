@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/feedback.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/feedback.js}"></script>
+<div th:fragment="content">
+    <!--内容管理-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 card card-body my-2">
+                反馈管理
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

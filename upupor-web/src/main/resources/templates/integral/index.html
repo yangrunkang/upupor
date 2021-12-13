@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/integral/integral.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/integral/integral.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <!--提示-->
+            <div class="col-lg-9 mb-2">
+                <div>
+                    <div class="card card-body shadow-sm border-0 p-2">
+                        <div class="table-responsive fixed-table-body">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <td class="fw-bold text-wrap integral-sort">序号</td>
+                                    <td class="fw-bold text-wrap">描述</td>
+                                    <td class="fw-bold text-wrap integral-value">积分值</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                        <td class="text-wrap integral-sort">1</td>
+                                        <td class="text-wrap integral-operate">
+                                            <a href="/daily-points" class="cv-link" title="签到领积分"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/jifen2.svg"  class="lazyload cv-icon-item" alt="签到领积分"/>  签到领积分</a>
+                                        </td>
+                                        <td class="text-wrap integral-value">+30</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">2</td>
+                                        <td class="text-wrap integral-operate">每日登录</td>
+                                        <td class="text-wrap integral-value">+10</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">3</td>
+                                        <td class="text-wrap integral-operate">新增文章</td>
+                                        <td class="text-wrap integral-value">+20</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">4</td>
+                                        <td class="text-wrap integral-operate">新增短内容</td>
+                                        <td class="text-wrap integral-value">+10</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">5</td>
+                                        <td class="text-wrap integral-operate">
+                                            关注内容作者
+                                        </td>
+                                        <td class="text-wrap integral-value">+5</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">6</td>
+                                        <td class="text-wrap integral-operate">
+                                            收藏内容
+                                        </td>
+                                        <td class="text-wrap integral-value">+5</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">7</td>
+                                        <td class="text-wrap integral-operate">
+                                            发表评论
+                                        </td>
+                                        <td class="text-wrap integral-value">+8</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">8</td>
+                                        <td class="text-wrap integral-operate">
+                                            在 <a href="/feedback" class="cv-link">反馈</a> 页面反馈问题或者给予建议,如果被网站采纳,将给予积分
+                                        </td>
+                                        <td class="text-wrap integral-value">+200</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">9</td>
+                                        <td class="text-wrap integral-operate">
+                                            留言送积分
+                                        </td>
+                                        <td class="text-wrap integral-value">+6</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-wrap integral-sort">10</td>
+                                        <td class="text-wrap integral-operate">
+                                            点赞送积分
+                                        </td>
+                                        <td class="text-wrap integral-value">+2</td>
+                                    </tr>
+                            	</tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="border-bottom mb-2">Upupor积分规则</div>
+                    <div class="text-black-50">积分规则修订时间为2020年4月12日</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

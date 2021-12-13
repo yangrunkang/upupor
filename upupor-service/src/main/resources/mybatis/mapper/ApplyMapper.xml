@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.dao.mapper.ApplyMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.dao.entity.Apply">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="apply_id" jdbcType="VARCHAR" property="applyId"/>
+    <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    <result column="apply_source" jdbcType="INTEGER" property="applySource"/>
+    <result column="apply_status" jdbcType="INTEGER" property="applyStatus"/>
+    <result column="apply_user_name" jdbcType="VARCHAR" property="applyUserName"/>
+    <result column="apply_content" jdbcType="VARCHAR" property="applyContent"/>
+    <result column="reply_content" jdbcType="VARCHAR" property="replyContent"/>
+    <result column="apply_user_phone" jdbcType="VARCHAR" property="applyUserPhone"/>
+    <result column="apply_user_email" jdbcType="VARCHAR" property="applyUserEmail"/>
+    <result column="apply_user_qq" jdbcType="VARCHAR" property="applyUserQq"/>
+    <result column="apply_user_wechat" jdbcType="VARCHAR" property="applyUserWechat"/>
+    <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+    <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime"/>
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, apply_id, user_id, apply_source, apply_status, apply_user_name, apply_user_phone, 
+    apply_user_email, apply_user_qq, apply_user_wechat, create_time, sys_update_time,apply_content,reply_content
+  </sql>
+  <select id="listApplyListByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from apply
+    where user_id = #{userId,jdbcType=VARCHAR} and apply_status != 5
+    order by create_time desc
+  </select>
+  
+  <select id="listApplyListByUserIdManage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from apply
+    where user_id = #{userId,jdbcType=VARCHAR} and apply_status != 5
+    order by create_time desc
+  </select>
+
+  <select id="total" resultType="java.lang.Integer">
+    select
+    count(*)
+    from apply where apply_status = 2
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    update apply set apply_status = 5
+    where apply_id = #{applyId,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

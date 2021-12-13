@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/attention.css}" />
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/attention.js}"></script>
+<div th:fragment="content">
+    <!--收藏夹-->
+    <div class="container">
+        <div class="row">
+            <!--右列-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="lead border-bottom mb-2">您的关注</div>
+                    <div>
+                        <div class="table-responsive fixed-table-body">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 30%;">用户名</td>
+                                    <td class="fw-bold hidden-xs" style="width: 20%;">您关注的时间</td>
+                                    <td class="fw-bold" style="width: 18%;text-align: center">操作</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listAttentionDto.attentionList)}"
+                                        th:each="attention,ite : ${memberIndexDto.listAttentionDto.attentionList}">
+                                        <td th:text="${ite.count}" style="text-align: center"></td>
+                                        <td>
+                                            <a class="cv-link" th:href="'/profile/'+${attention?.member?.userId}" th:title="${attention?.member?.userName}" th:inline="text">
+                                                <img class="lazyload cv-icon img rounded" th:data-src="${attention?.member?.via}" /> [[${attention?.member?.userName}]]
+                                            </a>
+                                        </td>
+                                        <td class="hidden-xs" th:text="${attention.createDate}">时间</td>
+                                        <td style="text-align: center;">
+                                            <button class="btn btn-danger btn-sm" th:onclick="deleteAttention([[${attention.attentionId}]])">取消关注</button>
+                                        </td>
+                                    </tr>
+                            	</tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listAttentionDto.attentionList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                    <div>
+                        <div class="mt-2 float-end"
+                         th:if="!${#strings.isEmpty(memberIndexDto.listAttentionDto.paginationHtml)}"
+                         th:utext="${memberIndexDto.listAttentionDto.paginationHtml}"> </div>
+                    </div>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/plugins/before-editor.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/plugins/before-editor.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <a class="cv-link text-secondary" href="/editor?type=6" title="创建短内容"><img class="lazyload" style="width:21px;height: 21px" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/topic.png" alt="创建短内容"> 创建短内容</a>
+                    <p class="fw-lighter border-top mt-1">如果简短的文字可以描述清楚的话,建议尝试创造短内容</p>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <ul class="list-unstyled mb-0">
+                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=1" title="技术"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-tech.png" alt="技术" /> 技术</a></li>
+                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=2" title="问答"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-qa.png" alt="提问"/> 提问</a></li>
+                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=3" title="分享"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-share.png" alt="分享"/> 分享</a></li>
+                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=4" title="职场"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-work.png" alt="职场"/> 职场</a></li>
+                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=5" title="记录"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-record.png" alt="记录"/> 记录</a></li>
+                    </ul>
+                    <p class="fw-lighter border-top mt-1">叙述或者阐述一件事情</p>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <a class="cv-link text-secondary" href="/radio-station/create" title="发布电台"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/radio.svg" alt="发布电台"> 发布电台</a>
+                    <p class="fw-lighter border-top mt-1">与世界分享您的声音</p>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="lead fw-light">创建文章</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</html>

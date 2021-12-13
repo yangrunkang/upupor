@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/business/ad-apply.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/business/ad-apply.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <!--未登录提示-->
+        <div th:include="fragments/index::user_not_login"></div>
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <!--广告位置展示-->
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="lead border-bottom mb-2">广告合作</div>
+                    <form>
+                        <div class="align-content-center">
+                            <div class="row">
+                                <div class="col p-2">
+                                    <div class="text-center">
+                                        <div class="ad-apply-div">
+                                            <img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/qa_share_workplace.png"  height="188px" width="130px"/>
+                                        </div>
+                                    </div>
+                                    <div class="text-center" style="text-align: center">
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" class="input" value="tech-right-class"/>
+                                            </label> Upupor常规广告
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col p-2">
+                                    <div class="text-center">
+                                        <div class="ad-apply-div">
+                                            <img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/top.png" height="188px" width="130px" />
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div>
+                                            <label>
+                                                <!--value是广告的唯一id-->
+                                                <input type="checkbox" class="input" value="all-top" />
+                                            </label>  顶栏广告位
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col p-2">
+                                    <div class="text-center">
+                                        <div class="ad-apply-div">
+                                            <img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/bottom.png"  height="188px" width="130px"/>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div>
+                                            <label>
+                                                <input type="checkbox" class="input" value="all-bottom" />
+                                            </label>  底栏广告位
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--表单-->
+                        <div class="container my-2">
+                            <!--广告合作信息填写-->
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div  class="col-lg-2">
+                                        <label for="applyUserName" class="control-label"></label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control " id="applyUserName" placeholder="申请人姓名"
+                                               title="申请人姓名提示"
+                                               data-bs-container="body"
+                                               data-bs-toggle="popover"
+                                               data-bs-placement="right"
+                                               data-bs-content="申请人姓名为空"
+                                        />
+                                    </div>
+                                    <div  class="col-lg-2"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div  class="col-lg-2">
+                                        <label for="applyUserPhone" class="control-label"></label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control " id="applyUserPhone" placeholder="申请人电话"
+                                               title="申请人电话提示"
+                                               data-bs-container="body"
+                                               data-bs-toggle="popover"
+                                               data-bs-placement="right"
+                                               data-bs-content="申请人电话输入不能为空,请检查"
+                                        />
+                                    </div>
+                                    <div  class="col-lg-2"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div  class="col-lg-2">
+                                        <label for="applyUserEmail" class="control-label"></label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="email" class="form-control " id="applyUserEmail" placeholder="申请人邮箱"
+                                               title="申请人邮箱提示"
+                                               data-bs-container="body"
+                                               data-bs-toggle="popover"
+                                               data-bs-placement="right"
+                                               data-bs-content="申请人邮箱输入不正确,请检查"
+                                        />
+                                    </div>
+                                    <div  class="col-lg-2"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div  class="col-lg-2">
+                                        <label for="applyUserQq" class="control-label"></label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control " id="applyUserQq" placeholder="申请人QQ号"
+                                               title="申请人QQ号提示"
+                                               data-bs-container="body"
+                                               data-bs-toggle="popover"
+                                               data-bs-placement="right"
+                                               data-bs-content="申请人QQ不正确,请检查"
+                                        />
+                                    </div>
+                                    <div  class="col-lg-2"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div  class="col-lg-2">
+                                        <label for="applyUserWechat" class="control-label"></label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control " id="applyUserWechat" placeholder="申请人微信"
+                                               title="申请人微信号提示"
+                                               data-bs-container="body"
+                                               data-bs-toggle="popover"
+                                               data-bs-placement="right"
+                                               data-bs-content="申请人微信不正确,请检查"
+                                        />
+                                    </div>
+                                    <div  class="col-lg-2"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <label for="adIntro" class="control-label"></label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <textarea class="form-control " id="adIntro" placeholder="广告介绍,非常重要,我们在审核您的广告时会参考此处您填写的信息" rows="4"></textarea>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                        <button type="submit" class="btn btn-primary">申请广告</button>
+                                        <div class="text-black-50 cv-font-sm mt-2">* 广告合作提交后,会进入审核流程,审核通过后才可提交广告材料</div>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border my-2"></div>
+                        <div class="alert alert-info">
+                            <a class="cv-link text-black-50" href="mailto:yangrunkang53@gmail.com">如有个性化需求可以邮件详细沟通 yangrunkang53@gmail.com</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a class="nav-link cv-link active" href="/apply-ad" title="广告合作">广告合作</a>
+                        <a class="nav-link cv-link" href="/apply-tag" title="标签申请">标签申请</a>
+                        <a class="nav-link cv-link" href="/apply-consultant" title="咨询申请">咨询申请</a>
+                    </div>
+                </div>
+                <div class="my-2" th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

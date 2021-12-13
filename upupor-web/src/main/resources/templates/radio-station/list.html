@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/radio-station/list.css}" />
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/radio-station/list.js}"></script>
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div th:if="${#lists.isEmpty(radioIndexDto.listRadioDto.radioList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                    <div th:replace="fragments/index::radio_list(${radioIndexDto.listRadioDto.radioList},false)"></div>
+                    <div>
+                        <div class="mt-2 float-end"
+                         th:if="!${#strings.isEmpty(radioIndexDto.listRadioDto.paginationHtml)}"
+                         th:utext="${radioIndexDto.listRadioDto.paginationHtml}"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div th:include="fragments/index::create_radio"></div>
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="lead border-bottom mb-2">电台</div>
+                    <div>
+                        上传您的声音,与这个世界分享
+                    </div>
+                </div>
+                <div th:replace="fragments/index::user_manage_fragment(true)"></div>
+                <div class="mt-2" th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

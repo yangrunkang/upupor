@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/foot/foot-item.css}" />
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/foot/foot-item.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div>
+                        <div class="lead border-bottom mb-2">感谢信</div>
+                        <div class="text-black-50">感谢以下用户为upupor提供的建议</div>
+                        <div class="row row-no-gutters">
+                            <div class="col-lg-3">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/qianjiajia.png" style="height: 200px;width: 150px; border-radius: 10px;margin-top: 10px" class="lazyload img-responsive img-rounded"  alt="qianjiajia"/>
+                            </div>
+                            <div class="col-lg-3">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/xiaoguanglin.png" style="height: 200px;width: 150px; border-radius: 10px;margin-top: 10px" class="lazyload img-responsive img-rounded"  alt="xiaoguanglin"/>
+                            </div>
+                            <div class="col-lg-3">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/wujinyi.png" style="height: 200px;width: 150px; border-radius: 10px;margin-top: 10px" class="lazyload img-responsive img-rounded"  alt="wujinyi"/>
+                            </div>
+                            <div class="col-lg-3">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/wuruifen.png" style="height: 200px;width: 150px; border-radius: 10px;margin-top: 10px" class="lazyload img-responsive img-rounded"  alt="wuruifen"/>
+                            </div>
+                        </div>
+                        <div class="row row-no-gutters">
+                            <div class="col-lg-3">
+                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/liyanggyang.png" style="height: 200px;width: 150px; border-radius: 10px;margin-top: 10px" class="lazyload img-responsive img-rounded"  alt="liyanggyang"/>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="empty-div">
+                                    <a class="cv-thanks-line-height" href="/feedback">虚位以待</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="empty-div">
+                                    <a class="cv-thanks-line-height" href="/feedback">虚位以待</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="empty-div">
+                                    <a class="cv-thanks-line-height" href="/feedback">虚位以待</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-top mt-2">
+                        <a class="text-secondary cv-link small" href="/feedback">* 期待更多的人能够提供功能建议及反馈</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a class="nav-link cv-link" href="/vision" title="愿景"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/vision.svg" class="lazyload cv-icon" />  愿景</a>
+                        <a class="nav-link cv-link" href="/brand-story" title="品牌故事"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/brand-story.svg" class="lazyload cv-icon" />  品牌故事</a>
+                        <a class="nav-link cv-link" href="/team" title="技术"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/teamwork.svg" class="lazyload cv-icon" />  技术</a>
+                        <a class="nav-link cv-link active" href="/thanks" title="致谢"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/thanks.svg" class="lazyload cv-icon" />  致谢</a>
+                        <a class="nav-link cv-link" href="/logo-design" title="logo设计"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/design.svg" class="lazyload cv-icon" />  logo设计</a>
+                        <a class="nav-link cv-link" href="/business-cooperation" title="商务合作"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/business-co.svg" class="lazyload cv-icon" />  商务合作</a>
+                        <a class="nav-link cv-link" href="/check-info" title="关于广告"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/ad.svg" class="lazyload cv-icon" />  关于广告</a>
+                        <a class="nav-link cv-link" href="/pinned" title="关于置顶"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/zhiding.svg" class="lazyload cv-icon" />  关于置顶</a>
+                    </div>
+                </div>
+                <div class="mt-2" th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/operate/daily-points.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/operate/daily-points.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <!--未登录提示-->
+                    <div th:include="fragments/index::user_not_login"></div>
+                    <!--签到-->
+                    <div class="checkin-wrapper pb-2" th:if="!${dailyPoints}">
+                        <a href="javascript:;" class="checkin-btn" style="text-decoration: none" onclick="dailyPoints()">
+                            立即签到
+                        </a>
+                    </div>
+                    <p th:if="${dailyPoints}" style="text-align: center;margin-bottom: 0;color: #7D8B99">已签到<span style="color: #399242;font-size:50px;" th:text="${listIntegralDto.total}"></span>天</p>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div>
+                        <div class="table-responsive fixed-table-body">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 68%;">积分描述</td>
+                                    <td class="fw-bold" style="width: 24%;">签到时间</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="!${#lists.isEmpty(listIntegralDto.memberIntegralList)}"
+                                    th:each="integral,ite : ${listIntegralDto.memberIntegralList}"
+                                >
+                                    <td th:text="${ite.count}" style="text-align: center"></td>
+                                    <td>
+                                        <p th:utext="${integral.integralText} +' +'+ ${integral.integralValue}"></p>
+                                    </td>
+                                    <td th:text="${integral.createDate}">创建时间</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div th:if="${#lists.isEmpty(listIntegralDto.memberIntegralList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                    <div>
+                        <div class="mt-2 float-end"
+                             th:if="!${#strings.isEmpty(listIntegralDto.paginationHtml)}"
+                             th:utext="${listIntegralDto.paginationHtml}"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="nav flex-column nav-pills">
+                        <a class="nav-link cv-link" href="/user/manage/integral-record">
+                            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/jifen2.svg"  class="lazyload cv-icon-item" alt="查看我的积分"/> 查看我的积分
+                            <span th:if="${dailyPoints}" class="badge rounded-pill fw-normal lh-sm bg-warning text-dark">[[${listIntegralDto.totalIntegral}]]</span>
+                        </a>
+                        <a class="nav-link cv-link" href="/integral-rules">
+                            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/rule.png"  class="lazyload cv-icon-item" alt="积分规则"/> 积分规则
+                        </a>
+                    </div>
+                </div>
+                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="!${#lists.isEmpty(listDailyPointsMemberDto.memberList)}">
+                    <div class="border-bottom mb-2">今天签到用户</div>
+                    <a class="cv-link"
+                        th:each="member,ite : ${listDailyPointsMemberDto.memberList}"
+                       th:inline="text"
+                       th:href="${'/profile/'+ member.userId}">
+                        [[${ite.count} +'. ']]<img th:data-src="${member.via}" class="lazyload cv-icon img rounded" th:alt="${member.userName}" /> [[${member.userName}]]
+                        <br />
+                    </a>
+                </div>
+                <div th:replace="fragments/index::user_manage_fragment(true)"></div>
+                <div th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,342 @@
+/*主要写JQuery一些基础封装插件&封装(方便后面统一替换)*/
+$(function () {
+    // 全局开启过渡效果
+    $.support.transition = true;
+    // 封装AjaxPost请求
+    jQuery.cvPost = packagingAjaxPost;
+    jQuery.cvGet = packagingAjaxGet;
+
+    // 封装提示插件
+    jQuery.cvSuccess = packagingToastSuccess;
+    jQuery.cvInfo = packagingToastInfo;
+    jQuery.cvError = packagingToastWarn; // 修改成警告的函数,Error太不友好
+    jQuery.cvWarn = packagingToastWarn;
+
+    // 加载富文本编辑器js
+    jQuery.cvLoadBootstrapRichText = loadBootstrapRichText;
+    jQuery.cvGetEditorData = getEditorData;
+
+    // 开启GoUp组件
+    $.goup({
+        trigger: 100,
+        bottomOffset: 50,
+        locationOffset: 100,
+        titleAsText: true,
+        containerColor: '#ffffff',
+        arrowColor: '#edad00',
+        containerClass: 'card border-0 shadow-lg'
+    });
+    // fix 点2次才会下拉的bug
+    $('.dropdown-toggle').dropdown();
+
+    // 鼠标放到用户头像,显示浮动内容
+    // $('[data-toggle="popover"]').popover({
+    //     html: true,
+    //     placement: 'top',
+    // }).on( 'mouseenter' , function () {
+    //     $('[data-toggle="popover"]').popover( 'hide' );
+    //     $(this).popover( 'show' );
+    // });
+    // $('body').click(function() {
+    //     $('[data-toggle="popover"]').popover( 'hide' );
+    // });
+});
+
+function packagingToastInfo(message) {
+    swal(message, {
+        icon: "info",
+        timer: 1500,
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+    });
+}
+
+function packagingToastError(message) {
+    swal(message, {
+        icon: "error",
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+    });
+}
+
+function packagingToastWarn(message) {
+    swal(message, {
+        icon: "warning",
+        // timer: 1500,
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+    });
+}
+
+function packagingToastSuccess(message) {
+    swal(message, {
+        icon: "success",
+        timer: 1500,
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+    });
+}
+
+/**
+ * 封装AjaxPost请求
+ * @param url
+ * @param data
+ * @param okFunc
+ */
+function packagingAjaxPost(url, data, okFunc) {
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        success: function (data) {
+            // console.log('///////');
+            // console.log(data);
+            // console.log('///////');
+            // 请求正常响应
+            if (data.code === 0) {
+                // 业务正常
+                okFunc(data.data);
+            } else {
+                // 处理特定状态码跳转
+                if(data.code === 115){ // 未登录直接调整到登录页
+                    window.location.href = '/login?back=' + window.location.pathname + window.location.search;
+                }else{
+                    $.cvError(data.data);
+                }
+            }
+        },
+        error: function (data) {
+            console.log(data.data);
+        }
+    });
+}
+
+/**
+ * 封装AjaxGet请求
+ * @param url
+ * @param data
+ * @param okFunc
+ */
+function packagingAjaxGet(url, okFunc) {
+    $.ajax({
+        url: url,
+        type: "GET",
+        success: function (data) {
+            // 请求正常响应
+            if (data.code === 0) {
+                // 业务正常
+                okFunc(data.data);
+            } else {
+                $.cvError(data.data);
+            }
+        },
+        error: function (data) {
+            console.log(data.data);
+        }
+    });
+}
+
+/*************************加载编写文章的富文本编辑器Start***********************************************/
+/**
+ * 富文本资源加载-写文章
+ * 在页面添加元素  <div id="vcr_editor"></div>
+ */
+function loadBootstrapRichText(isComment) {
+    initEditor(isComment);
+}
+
+/**
+ * 获取编辑器数据
+ */
+function getEditorData() {
+    return window.editor.getData();
+}
+
+/**
+ * 加载不同的编辑器js,初始化是同一个
+ */
+function initEditor(isComment){
+
+    let items = [
+        'heading',
+        '|',
+        'bold',
+        'alignment',
+        'bulletedList',
+        'numberedList',
+        '|',
+        'blockQuote',
+        'code',
+        'codeBlock',
+        'imageUpload',
+        'insertTable',
+        'link',
+        '|',
+        'fontColor',
+        'fontSize',
+        'fontBackgroundColor',
+        'highlight',
+        'italic',
+        'underline',
+        'horizontalLine',
+        'strikethrough',
+        'subscript',
+        'superscript',
+        'fontFamily',
+        '|',
+        'removeFormat',
+        'pageBreak',
+        'undo',
+        'redo',
+        'indent',
+        'outdent',
+        '|',
+        'exportWord'
+    ];
+
+    if(isComment){
+        items = [
+            'heading',
+            'bold',
+            'alignment',
+            'bulletedList',
+            'numberedList',
+            'blockQuote',
+            'code',
+            'imageUpload',
+            'insertTable',
+            'link',
+            'fontColor',
+            'removeFormat',
+            ];
+    }
+    ClassicEditor
+        .create( document.querySelector( '#vcr_editor' ), {
+            placeholder: '欢迎使用Upupor编辑器',
+            language: 'zh-cn',
+            image: {
+                upload: {
+                    types: ['jpeg', 'png', 'bmp', 'webp', 'tiff']
+                },
+                toolbar: [
+                    'imageTextAlternative',
+                    'imageStyle:full',
+                    // 'imageStyle:side'
+                ],
+            },
+            table: {
+                contentToolbar: [
+                    'tableColumn',
+                    'tableRow',
+                    'mergeTableCells',
+                    'tableCellProperties'
+                ]
+            },
+
+            // 图片上传(使用简单上传)
+            simpleUpload: {
+                // The URL that the images are uploaded to.
+                uploadUrl: '/uploadFile',
+            },
+            toolbar: {
+                items: items
+            },
+            wordCount: {
+                onUpdate: stats => {
+                    // 部分页面没有 editor_word_count 元素,所以捕获下异常
+                    try{
+                        let word_count = `${ stats.characters }`;
+                        if(word_count<=0){
+                            $(".editor_word_count").hide();
+                        }else{
+                            $(".editor_word_count").show();
+                            $(".ck-word-count__characters").html('已经输入' + `${ stats.characters }` + '个字')
+                        }
+                    }catch (e) {
+
+                    }
+
+                    // 如果是评论
+                    if(isComment){
+                        try{
+                            let word_count = `${ stats.characters }`;
+                            if(word_count<=0){
+                                // 如果清空了,就将回复人的id清空
+                                $("#reply_to_user").val('');
+                            }
+                        }catch (e) {
+
+                        }
+                    }
+
+                }
+            },
+            exportWord: {
+                fileName: 'upupor内容导出.docx',
+                converterOptions: {
+                    format: 'A4', // Default value, you don't need to specify it explicitly for A4.
+                    margin_top: '20mm',
+                    margin_bottom: '20mm',
+                    margin_right: '12mm',
+                    margin_left: '12mm'
+                }
+            },
+        } )
+        .then( editor => {
+            window.editor = editor;
+            $("#comment_btn_group").show();
+            $("#comment_loading").hide();
+        } )
+        .catch( error => {
+        } );
+
+}
+
+
+function getQueryVariable(variable)
+{
+    let query = window.location.search.substring(1);
+    let vars = query.split("&");
+    for (let i=0;i<vars.length;i++) {
+        let pair = vars[i].split("=");
+        if(pair[0] === variable){return pair[1];}
+    }
+    return false;
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for(let i=0; i<ca.length; i++)
+    {
+        let c = ca[i].trim();
+        if (c.indexOf(name)===0) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+
+function showImg(img) {
+    const viewer = new Viewer(img, {
+        inline: false,
+        viewed() {
+            viewer.zoomTo(1);
+        },
+        toolbar: {
+            zoomIn: 1,
+            zoomOut: 1,
+            oneToOne: 1,
+            reset: 0,
+            prev: 0,
+            play: {
+                show: 0,
+                size: 'large',
+            },
+            next: 0,
+            rotateLeft: 1,
+            rotateRight: 1,
+            flipHorizontal: 1,
+            flipVertical: 1,
+        },
+    });
+    viewer.show();
+}

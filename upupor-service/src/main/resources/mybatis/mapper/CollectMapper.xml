@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.dao.mapper.CollectMapper">
+    <resultMap id="BaseResultMap" type="com.upupor.service.dao.entity.Collect">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="collect_id" jdbcType="VARCHAR" property="collectId"/>
+        <result column="collect_value" jdbcType="VARCHAR" property="collectValue"/>
+        <result column="collect_type" jdbcType="INTEGER" property="collectType"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id,collect_id, user_id, collect_value, collect_type, status, create_time, sys_update_time
+  </sql>
+    <sql id="Base_Column_ALIAS_List">
+    ct.id,ct.collect_id, ct.user_id, ct.collect_value, ct.collect_type, ct.status, ct.create_time, ct.sys_update_time
+  </sql>
+    <select id="listByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from collect
+        where user_id = #{userId,jdbcType=VARCHAR}
+        order by create_time desc
+    </select>
+    <select id="listByUserIdManage" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_ALIAS_List"/>
+        from collect ct
+        left join content co on ct.collect_type = 0 and ct.collect_value = co.content_id
+        where ct.user_id = #{userId,jdbcType=VARCHAR} and ct.status != 2 and co.status = 0
+        order by ct.create_time desc
+    </select>
+
+    <select id="existsCollectContent" resultType="java.lang.Integer">
+    select count(*) from collect ct left join content co on ct.collect_value = co.content_id
+    where
+    ct.user_id = #{userId,jdbcType=VARCHAR} and ct.collect_type = 0
+    and ct.collect_value = #{contentId,jdbcType=VARCHAR}
+    and ct.status = 0 and co.status = 0
+  </select>
+
+    <select id="getByContentIdAndCollectStatus" resultType="java.lang.Integer">
+    select count(*) from collect ct left join content co on ct.collect_value = co.content_id
+    where
+    ct.user_id = #{userId,jdbcType=VARCHAR} and ct.collect_type = 0
+    and ct.collect_value = #{contentId,jdbcType=VARCHAR}
+    and ct.status = #{collectStatus,jdbcType=INTEGER} and co.status = 0
+  </select>
+
+    <select id="getCollect"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from collect
+        where user_id = #{userId,jdbcType=VARCHAR} and collect_type = 0
+        and collect_value = #{contentId,jdbcType=VARCHAR}
+        and status = #{collectStatus,jdbcType=INTEGER}
+    </select>
+
+    <select id="collectNum"  resultType="java.lang.Integer">
+        select
+        count(*)
+        from collect
+        where status = 0
+        and collect_type = #{collectType,jdbcType=INTEGER}
+        and collect_value = #{collectValue,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

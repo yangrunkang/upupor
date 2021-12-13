@@ -1,0 +1,12 @@
+<div th:inline="text">
+    <div class="border-bottom mb-2 fw-bold">[[${userName}]]</div>
+    <div>
+        <a class="cv-link" th:href="'/profile/'+${userId}">前往 [[${userName}]] 的主页</a>
+        <div class="border-bottom my-1"></div>
+        <div class="text-black-50">
+            <div class="float-start text-sm-left mb-2">粉丝:[[${fanNum}]]</div>
+            <div class="float-end text-sm-right mb-2">积分:[[${integralNum}]]</div>
+        </div>
+    </div>
+</div>
+

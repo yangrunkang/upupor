@@ -1,0 +1,115 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!--foot页脚-->
+    <!--适配了大屏和小屏,注意修改2处地方-->
+    <footer th:fragment="footer">
+        <div class="card card-body shadow-sm border-0 p-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <ul class="list-inline m-0">
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/business-cooperation" title="商务合作">商务合作</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-ad" title="广告合作">广告合作</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-tag" title="标签申请">标签申请</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-consultant" title="咨询服务">咨询服务</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/vision" title="愿景">愿景</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/brand-story" title="品牌故事">品牌故事</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/team" title="技术">技术</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/thanks" title="致谢">致谢</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/logo-design" title="logo设计">logo设计</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/feedback" title="反馈">反馈</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/integral-rules" title="积分规则">积分规则</a></li>
+                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="https://www.upupor.com/upupor-google-sitemap.xml" title="站点地图">站点地图</a></li>
+                            <li class="list-inline-item me-1">
+                                <a class="cv-link text-black-50" data-bs-toggle="modal" data-bs-target="#wechat" title="微信公众号: www-upupor-com">
+                                    <img class="operation-pic" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/wechat.svg" alt="微信公众号: www-upupor-com" style="height: 16px; width: 16px;"/> 微信
+                                </a>
+                            </li>
+                            <li class="list-inline-item me-1">
+                                <a class="cv-link text-black-50" data-bs-toggle="modal" data-bs-target="#weibo" title="微博: https://weibo.com/upupor">
+                                    <img class="operation-pic" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/sina.svg" alt="微博: https://weibo.com/upupor" style="height: 16px; width: 16px"/> 微博
+                                </a>
+                            </li>
+                            <li class="list-inline-item me-1">
+                                <a class="cv-link text-black-50" href="https://t.me/upupor_com"><img class="operation-pic" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/telegram.svg"  alt="电报: https://t.me/upupor_com" style="height: 16px; width: 16px;"/>Telegram</a>
+                            </li>
+                            <li class="list-inline-item me-1">
+                                <a class="cv-link text-black-50" href="http://www.beian.miit.gov.cn">备案号:&nbsp;皖ICP备17015935号-2</a>
+                            </li>
+                            <li class="list-inline-item me-1">
+                                <span class="text-black-50" th:text="'upupor.com©' + ${#dates.format(#dates.createNow(),'yyyy')}"></span>
+                            </li>
+                            <li class="list-inline-item me-1">
+                                <span class="text-black-50" th:if="${responseTime} != null and ${responseTime} > 0" th:text="'响应时间: ' + ${responseTime}+'ms'"></span>
+                            </li>
+                            <!--<li class="list-inline-item me-1">
+                                <a class="cv-link text-black-50" href="/report/access">访问数据分析</a>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col w-100 text-black-50 text-center border-top">
+                        Let's share · <a class="text-black-50" href="https://github.com/yangrunkang/upupor">开源</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--模态框Start-->
+        <!-- 微信公众号 -->
+        <div class="modal fade" id="wechat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title">官方微信 Upupor</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                        </button>
+                    </div>
+                    <div class="modal-body" style="overflow:hidden;"  >
+                        <h4 style="text-align: center;color: #5e5e5e"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/wechat.svg" style="height: 30px; width: 30px" class="lazyload"/> 扫码关注</h4>
+                        <img class="lazyload img img-thumbnail" data-src='https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/upupor-wechat.png' alt='公众号: www-upupor-com'/>
+                    </div>
+                    <div class="border-bottom"></div>
+                    <div class="modal-body" style="overflow:hidden;"  >
+                        <h4 style="text-align: center;color: #5e5e5e"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/wechat.png" style="height: 30px; width: 30px" class="lazyload"/> 站长微信</h4>
+                        <img class="lazyload img img-thumbnail" data-src='https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/3361607101759_.pic_hd.jpg' alt='公众号: www-upupor-com'/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 微信公众号 -->
+        <div class="modal fade" id="weibo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-header">
+                        <h5 class="modal-title">官方微博</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                        </button>
+                    </div>
+                    <div class="modal-body" style="overflow:hidden;"  >
+                        <div style="text-align: center;" class="my-2">
+                            <a class="cv-link" style="color: #db4340;font-size: 20px" href="https://weibo.com/upupor" target="_blank" >微博主页</a>
+                        </div>
+                        <a class="cv-link" href="https://weibo.com/upupor" target="_blank" >
+                            <img class="lazyload img img-thumbnail" data-src='https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/upupor-weibo.jpg' alt='微博: https://weibo.com/upupor'/>
+                        </a>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--模态框End-->
+    </footer>
+</body>
+</html>

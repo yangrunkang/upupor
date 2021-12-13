@@ -1,0 +1,4 @@
+/*设置编辑器高度*/
+.ck-editor__editable_inline {
+    min-height: 120px !important;
+}

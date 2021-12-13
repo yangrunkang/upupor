@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/admin/admin.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/admin/admin.js}"></script>
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <!--提示-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="lead border-bottom mb-2">管理员</div>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

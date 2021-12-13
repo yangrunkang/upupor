@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/apply-commit.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/apply-commit.js}"></script>
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <!--提示-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="lead border-bottom mb-2">申请管理-资料提交</div>
+                    <form class="form-horizontal">
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-4 text-end">
+                                    <label for="apply-commit-target" class="control-label">材料文件上传</label>
+                                    <input type="hidden" id="apply-commit-target" th:value="${memberIndexDto.applyDto.apply.applyId}"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="input-group">
+                                        <input type="file" class="form-control custom-file-input" id="customFile">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-4 text-end">
+                                    <!--使用adText就显示不出来..换个名字就好了-->
+                                    <label for="applyAdText" class="control-label">广告文案</label>
+                                </div>
+                                <div class="col-lg-6">
+                                        <input type="text" class="form-control"
+                                                  id="applyAdText"/>
+                                    <small class="form-text text-muted">* 广告图片可以直接填写链接,也可以选择文件进行上传,选择你一个喜欢的方式即可,当然,您也都可以填写</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4">
+                                    <button type="submit" class="btn btn-primary">提交材料</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

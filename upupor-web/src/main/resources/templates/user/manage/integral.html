@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/integral.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/integral.js}"></script>
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <!--提示-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="lead border-bottom mb-2">积分记录</div>
+                    <div>
+                        <div class="table-responsive fixed-table-body">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <td class="fw-bold" style="width: 4%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 30%;">积分描述</td>
+                                    <td class="fw-bold" style="width: 10%;text-align: center">积分值</td>
+                                    <td class="fw-bold" style="width: 20%;text-align: center">创建时间</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listIntegralDto.memberIntegralList)}"
+                                        th:each="integral,ite : ${memberIndexDto.listIntegralDto.memberIntegralList}"
+                                    >
+                                        <td th:text="${ite.count}" style="text-align: center"></td>
+                                        <td>
+                                            <p th:utext="${integral.integralText}"></p>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <p th:utext="${integral.integralValue}"></p>
+                                        </td>
+                                        <td style="text-align: center" th:text="${integral.createDate}">创建时间</td>
+                                    </tr>
+                            	</tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listIntegralDto.memberIntegralList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                    <div>
+                        <div class="mt-2 float-end"
+                         th:if="!${#strings.isEmpty(memberIndexDto.listIntegralDto.paginationHtml)}"
+                         th:utext="${memberIndexDto.listIntegralDto.paginationHtml}"> </div>
+                    </div>
+                    <div class="border-bottom my-2"></div>
+                    <div class="alert alert-primary">
+                        <a class="alert-link" href="/integral-rules">点击查看积分规则</a>
+                    </div>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

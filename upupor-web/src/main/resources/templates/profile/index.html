@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/profile.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/profile.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div th:include="fragments/index::profile_common"></div>
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <nav class="mb-2">
+                        <div class="nav nav-tabs">
+                            <a class="nav-item nav-link cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}">文章<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listContentDto.total}"></span></a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台</a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile-message/'+${memberIndexDto.member.userId}">留言板</a>
+                        </div>
+                    </nav>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                    <div th:replace="fragments/index::content_list(${memberIndexDto.listContentDto.contentList},true)"></div>
+                    <div>
+                        <div class="mt-2 float-end"
+                         th:if="!${#strings.isEmpty(memberIndexDto.listContentDto.paginationHtml)}"
+                         th:utext="${memberIndexDto.listContentDto.paginationHtml}"> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div th:include="fragments/index::profile_right"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

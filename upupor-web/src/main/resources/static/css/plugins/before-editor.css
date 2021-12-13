@@ -1,0 +1,10 @@
+.cv-write-img {
+    width: 30px;
+    height: 30px;
+}
+
+.write-new-ul-li {
+    display: inline;
+    list-style-type: none;
+    padding: 5px 5px;
+}

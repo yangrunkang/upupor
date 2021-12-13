@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/admin/content.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/admin/content.js}"></script>
+<div th:fragment="content">
+    <div class="container">
+        <div class="lead border-bottom mb-2">文章管理</div>
+        <div class="mb-1">标题:</div>
+        <h3> [[${contentIndexDto.content.title}]]</h3>
+        <div class="card card-body shadow-sm border-0 p-2 mb-2">
+            <h5 class="text-info">设置关键字</h5>
+            <input class="form-control" type="text" id="keywords" th:value="${contentIndexDto.content.keywords}"/>
+            <button class="btn btn-primary mt-2" th:onclick="setKeywords([[${contentIndexDto.content.contentId}]])">设置</button>
+        </div>
+    </div>
+</div>
+</html>

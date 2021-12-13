@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/report/goaccess.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/report/goaccess.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="card card-body shadow-sm border-0 p-2 my-2" style="height: 2000px">
+            <div>本站访问数据分析</div>
+            <div class="text-black-50 border-bottom mb-2">数据统计时间:<span th:text="${#dates.year(#dates.createNow()) - 1} + '年' +${#dates.month(#dates.createNow())}+ '月' + ${#dates.day(#dates.createNow())} + '日 ~ ' + ${#dates.year(#dates.createNow())} + '年' +${#dates.month(#dates.createNow())}+ '月' + ${#dates.day(#dates.createNow())} + '日'"></span></div>
+            <iframe class="embed-responsive-item" height="100%" src="https://www.upupor.com/report.html"></iframe>
+        </div>
+    </div>
+</div>
+</html>

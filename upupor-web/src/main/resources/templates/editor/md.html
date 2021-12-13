@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/editor/md.css}"/>
+<!-- Editor -->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/md/toastui-editor.css}" />
+<!-- Chart -->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/md/toastui-chart.css}" />
+<!-- Code Highlight -->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/md/prism.min.css}" />
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/md/toastui-editor-plugin-code-syntax-highlight.min.css}" />
+<!-- Color syntax -->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/md/tui-color-picker.css}" />
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/md/toastui-editor-plugin-color-syntax.min.css}" />
+<!-- Merged Table -->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/md/toastui-editor-plugin-table-merged-cell.min.css}" />
+
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/md/md-plugins.js}"></script>
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/md/toastui-editor-all.js}"></script>
+<!-- Chart -->
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/md/toastui-chart.js}"></script>
+<!-- Color Picker -->
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/md/tui-color-picker.min.js}"></script>
+<!-- Editor's Plugin -->
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/md/toastui-editor-plugin-chart.min.js}"></script>
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/md/toastui-editor-plugin-code-syntax-highlight-all.min.js}"></script>
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/md/toastui-editor-plugin-color-syntax.min.js}"></script>
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/md/toastui-editor-plugin-table-merged-cell.min.js}"></script>
+<!--脚本-->
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/editor/md.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <p>markdown编辑器</p>
+        <div id="editor"></div>
+    </div>
+</div>
+</html>

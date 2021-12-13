@@ -1,0 +1,1 @@
+alter table comment modify column `comment_source` int(2) DEFAULT NULL COMMENT '评论来源 1-技术 2-问答 3-分享 4-职场 5-记录 6-短内容 7-留言板 8-电台';

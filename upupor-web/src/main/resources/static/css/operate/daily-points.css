@@ -1,0 +1,25 @@
+.checkin-wrapper {
+    position: relative;
+    text-align: center;
+}
+
+.checkin-wrapper .checkin-btn {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: #39b8fe;
+    border: 6px solid #d4ebf8;
+    border-radius: 50%;
+    margin: 0 auto;
+    line-height: 90px;
+    font-size: 16px;
+    color: #fff;
+}
+
+.checkin-wrapper .checkin-btn.actived {
+    background-color: #279ee0;
+}
+
+.checkin-wrapper .checkin-btn:hover {
+    background-color: #279ee0;
+}

@@ -1,0 +1,1 @@
+alter table css_pattern add column `css_pattern_name` varchar(32) DEFAULT NULL COMMENT 'css模式名称' after css_pattern_id;

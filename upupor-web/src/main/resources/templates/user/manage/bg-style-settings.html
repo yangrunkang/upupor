@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/bg-style-settings.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/bg-style-settings.js}"></script>
+<div th:fragment="content">
+    <!--内容管理-->
+    <div class="container">
+        <div class="row">
+            <!--右列-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <nav class="mb-3">
+                        <div class="nav nav-tabs">
+                            <a class="nav-item nav-link cv-link" href="/user/manage/edit-user-info">完善用户信息</a>
+                            <a class="nav-item nav-link cv-link active" href="/user/manage/bg-style-settings">背景设置</a>
+                            <a class="nav-item nav-link cv-link" href="/user/manage/upload-profile-photo">用户头像</a>
+                        </div>
+                    </nav>
+                    <form>
+                        <div class="border rounded my-2 p-1">
+                            <div class="row container my-1" style="min-height: 60px">
+                                <div class="col float-start">
+                                    <div class="text-start">
+                                        <input type="radio" name="pattern_select" class="css_pattern_radio"
+                                               th:checked="${cv_slogan?.bgStyle == memberIndexDto.listCssPatternDto?.userDefinedCss?.patternContent}?'checked'"
+                                               th:value="self-define"
+                                        >
+                                        自定义
+                                    </div>
+                                </div>
+                                <div class="col float-start">
+                                    <textarea type="text" class="form-control" id="self-define-css" placeholder="自定义样式"
+                                              th:text="
+                                              ${
+                                                (
+                                                    session?.cv_user_id == memberIndexDto.listCssPatternDto?.userDefinedCss?.userId
+                                                    and
+                                                    !#strings.isEmpty(memberIndexDto.listCssPatternDto?.userDefinedCss?.patternContent)
+                                                )?
+                                                memberIndexDto.listCssPatternDto?.userDefinedCss?.patternContent:''
+                                              }"
+                                    ></textarea>
+                                </div>
+                            </div>
+                            <div class="container border-top mt-2">
+                                <small class="form-text text-muted">* 自定义样式示例: <code>background-image: linear-gradient(to top, #48c6ef 0%, #6f86d6 100%);</code></small>
+                                <small class="form-text text-muted">* 提示1: 可以使用自定义样式个性化定义网站样式,比如设置字体、添加背景图片等</small>
+                                <small class="form-text text-muted">* 提示2: 如果css样式编写错误,css样式将不能被使用,整个网站底色会呈现是白色,可以使用<code>系统默认</code>的颜色进行恢复</small>
+                                <small class="form-text text-muted">* 更多样式,请访问<a class="cv-link text-muted" target="_blank" href="https://gradienta.io?utm_source=https://upupor.com">https://gradienta.io</a></small>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2" th:if="!${#lists.isEmpty(memberIndexDto.listCssPatternDto.patternList)}">
+                            <div th:each="pattern : ${memberIndexDto.listCssPatternDto.patternList}">
+                                <div class="border rounded my-2 p-1">
+                                    <div class="row container my-1" style="height: 60px">
+                                        <div class="col float-start">
+                                            <div class="text-start">
+                                                <input type="radio" name="pattern_select" class="css_pattern_radio"
+                                                       th:checked="${memberIndexDto?.member?.memberExtend?.bgImg == pattern?.patternContent}?'checked'"
+                                                       th:value="${pattern.patternContent}">
+                                                [[${pattern.cssPatternName}]]
+                                            </div>
+                                        </div>
+                                        <div class="col float-start">
+                                            <div class="w-100 h-100 rounded" th:style="${pattern.patternContent}"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4">
+                                    <button type="submit" class="btn btn-primary">设置</button>
+                                    <button type="button" class="btn btn-secondary">取消</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

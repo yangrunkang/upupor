@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/error/error.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/error/error.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="card-heading">
+                        <h1 class="text-danger">404提示</h1>
+                    </div>
+                    <div class="mb-2">
+                        <div class="alert alert-danger alert-dismissible" th:switch="${ cvException != null }">
+                            <div th:case="true" th:utext="${cvException}" class="text-wrap"></div>
+                            <div th:case="false" class="text-wrap">访问地址有误</div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/login" title="登录">登录</a> |
+                        <a href="/register" title="注册">注册</a> |
+                        <a href="/integral-rules" title="积分规则">积分规则</a>
+                        <br />
+                        <br />
+                        <a href="javascript:history.go(-1)">返回上一页</a>
+                        <br/>
+                        <a href="/feedback" title="反馈问题">反馈问题</a>
+                        <br />
+                        <a href="/">返回首页</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

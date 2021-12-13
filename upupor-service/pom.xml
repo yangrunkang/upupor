@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>upupor</artifactId>
+        <groupId>com.upupor.parent</groupId>
+        <version>4.2.0-1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.upupor.service</groupId>
+    <artifactId>upupor-service</artifactId>
+    <version>4.2.0-1</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.upupor.spi</groupId>
+            <artifactId>upupor-spi</artifactId>
+            <version>4.2.0-1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.upupor.framework</groupId>
+            <artifactId>upupor-framework</artifactId>
+            <version>4.2.0-1</version>
+        </dependency>
+    </dependencies>
+
+
+    <build>
+        <plugins>
+            <!--mysql generator-->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.7</version>
+                <configuration>
+                    <!--mybatis的代码生成器的配置文件-->
+                    <configurationFile>src/main/resources/mybatis/mybatis-generator-config.xml</configurationFile>
+                    <!--允许覆盖生成的文件-->
+                    <!--值得注意的是，MyBatis Generator 只会覆盖旧的 po、dao、而 *mapper.xml 不会覆盖，而是追加，这样做的目的是防止用户自己写的 sql 语句一不小心都被 MyBatis Generator 给覆盖了-->
+                    <overwrite>false</overwrite>
+                    <!--将当前pom的依赖项添加到生成器的类路径中,就不用写依赖了-->
+                    <includeCompileDependencies>true</includeCompileDependencies>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

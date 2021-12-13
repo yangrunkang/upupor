@@ -1,0 +1,1 @@
+alter table member_extend add column bg_img varchar(512) default  null comment '用户设置的背景图';

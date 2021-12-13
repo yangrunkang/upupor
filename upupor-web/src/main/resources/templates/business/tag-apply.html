@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/business/tag-apply.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/business/tag-apply.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <!--未登录提示-->
+        <div th:include="fragments/index::user_not_login"></div>
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="lead border-bottom mb-2">标签申请</div>
+                    <form>
+                        <!--广告合作信息填写-->
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div  class="col-lg-2">
+                                    <label for="pageName" class="control-label"></label>
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control " id="pageName" placeholder="您期望将标签添加到哪个页面"
+                                           title="提示"
+                                           data-bs-container="body"
+                                           data-bs-toggle="popover"
+                                           data-bs-placement="right"
+                                           data-bs-content="填写的内容为空"
+                                    />
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div  class="col-lg-2">
+                                    <label for="tagName" class="control-label"></label>
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control " id="tagName" placeholder="请输入标签名"
+                                           title="提示"
+                                           data-bs-container="body"
+                                           data-bs-toggle="popover"
+                                           data-bs-placement="right"
+                                           data-bs-content="标签名不能为空,请检查"
+                                    />
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div  class="col-lg-2">
+                                    <label for="childTagName" class="control-label"></label>
+                                </div>
+                                <div class="col-lg-8">
+                                    <input type="text" class="form-control " id="childTagName" placeholder="如果有子标签名,请输入子标签名"
+                                           title="提示"
+                                           data-bs-container="body"
+                                           data-bs-toggle="popover"
+                                           data-bs-placement="right"
+                                           data-bs-content="子标签名不能为空"
+                                    />
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="row">
+                                <div class="col-lg-2"></div>
+                                <div class="col-lg-8">
+                                    <button type="submit" class="btn btn-primary">申请标签</button>
+                                    <div class="text-black-50 cv-font-sm mt-2">* 标签申请提交后,会进入审核流程,审核通过后可以正常应用于页面</div>
+                                </div>
+                                <div class="col-lg-2"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="my-2" th:include="fragments/index::tag_cloud"></div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a class="nav-link cv-link" href="/apply-ad" title="广告合作">广告合作</a>
+                        <a class="nav-link cv-link active" href="/apply-tag" title="标签申请">标签申请</a>
+                        <a class="nav-link cv-link" href="/apply-consultant" title="咨询申请">咨询申请</a>
+                    </div>
+                </div>
+                <div class="my-2" th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</html>

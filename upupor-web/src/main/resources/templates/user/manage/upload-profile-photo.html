@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/upload-profile-photo.css}" />
+<!--脚本-->
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/js/user/manage/upload-profile-photo.js}"></script>
+
+<!--加载图片裁剪插件-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="@{https://upupor-img.oss-cn-hangzhou.aliyuncs.com/js/cropper.min.css}" />
+<script th:fragment="js" type="text/javascript" th:src="@{https://upupor-img.oss-cn-hangzhou.aliyuncs.com/js/cropper.min.js}"></script>
+
+<div th:fragment="content">
+    <!--收藏夹-->
+    <div class="container">
+        <div class="row">
+            <!--右列-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <nav class="mb-3">
+                        <div class="nav nav-tabs">
+                            <a class="nav-item nav-link cv-link" href="/user/manage/edit-user-info">完善用户信息</a>
+                            <a class="nav-item nav-link cv-link" href="/user/manage/bg-style-settings">背景设置</a>
+                            <a class="nav-item nav-link cv-link active" href="/user/manage/upload-profile-photo">用户头像</a>
+                        </div>
+                    </nav>
+                    <div class="container mb-3">
+                        <div th:if="!${#strings.isEmpty(memberIndexDto.member.via)}" class="d-block text-center">
+                            <img class="lazyload rounded" style="width: 90px;height: 90px" id="avatar" th:data-src="${memberIndexDto.member.via}" alt="avatar">
+                        </div>
+
+
+                        <label class="label d-block text-center mt-3" data-bs-toggle="tooltip" title="更换头像">
+                            <input type="file" class="sr-only" style="display: none" id="input" name="image" accept="image/*">
+                            <div class="btn btn-outline-secondary btn-sm">更换头像</div>
+                        </label>
+                        <div class="alert" role="alert"></div>
+                        <div class="modal fade" id="modal"
+                             tabindex="1"
+                             role="dialog"
+                             aria-labelledby="modalLabel"
+                             aria-hidden="true"
+                             data-bs-keyboard="false"
+                             data-bs-backdrop="static"
+                        >
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content border-0 shadow-lg">
+                                    <div class="modal-header">
+                                        <h5 class="crop-title">裁剪头像</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="overflow:hidden;"  >
+                                        <div class="img-container">
+                                            <img id="image" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/profile-photo.png">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                        <button type="button" class="btn btn-primary" id="crop">上传</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="!${#lists.isEmpty(memberIndexDto.member.historyViaList)}">
+                        <div class="border-bottom"></div>
+                        <div class="lead mb-2 text-black-50">历史头像</div>
+                        <div style="display: inline-block" class="border-0 shadow-sm rounded m-2 px-2 pt-2 pb-1" th:each="historyVia : ${memberIndexDto.member.historyViaList}">
+                            <img class="lazyload rounded" style="width: 90px;height: 90px" th:data-src="${historyVia}" />
+                            <div class="text-center">
+                                <button class="btn btn-outline-secondary btn-sm mt-1" th:onclick="selectVia([[${historyVia}]])">选择</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

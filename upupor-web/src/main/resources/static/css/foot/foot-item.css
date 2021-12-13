@@ -1,0 +1,29 @@
+.empty-div {
+    height: 200px;
+    width: 150px;
+    background-image: linear-gradient(to right, #ceb8b8, #ff8989);;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.cv-thanks-line-height {
+    color: white;
+    font-size: 20px;
+    font-weight: lighter;
+    line-height: 180px;
+}
+
+.cv-thanks-line-height:hover {
+    text-decoration: none
+}
+
+
+img {
+    margin: 0 auto;
+}
+/*去除p标签下边距(注意其他地方也有)*/
+p {
+    /*margin: 0 0 1em;*/
+    margin: 0 0 0em;
+}

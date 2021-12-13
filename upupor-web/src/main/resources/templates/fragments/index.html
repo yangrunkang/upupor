@@ -1,0 +1,557 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<!--用户中心页面左边部分-->
+<div th:fragment="user_index_left">
+    <div class="card card-body shadow-sm border-0 p-2">
+        <div>
+            <div th:if="${memberIndexDto} != null and ${memberIndexDto.member} != null">
+                <p style="text-align: center" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
+                    <a href="/user/manage/upload-profile-photo" title="我的">
+                        <img class="img rounded" th:src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;" alt="头像"/>
+                    </a>
+                    <div>
+                        <img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/email.png" class="cv-icon-item" alt="邮箱"/></span> <span th:text="${memberIndexDto.member.email}">yangrunkang@qq.com</span>
+                    </div>
+                </p>
+                <div>
+                    <p><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/nickname.png" class="cv-icon-item" alt="昵称"/> 昵称: <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}" th:text="${memberIndexDto.member.userName}" th:title="${memberIndexDto.member.userName}"></a></p>
+                    <p><span><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/register-time.png" class="cv-icon-item" alt="注册时间"/> 注册时间: </span><span th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/jifen2.svg" class="cv-icon-item" alt="积分数"/> <a href="/user/manage/integral-record" class="cv-link" title="积分数">积分数: <span th:text="${memberIndexDto.member.totalIntegral}">2019.1.2</span></a>
+                        </div>
+                    </div>
+                    <div class="border-bottom my-2"></div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <a class="cv-link" href="/user/manage/pay-attention/num/fan" title="粉丝数"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/fans.png" class="cv-icon-item" alt=""/> 粉丝 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
+                        </div>
+                        <div class="col-lg-6">
+                            <a class="cv-link" href="/user/manage/pay-attention/num/attention" title="关注数"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/attention.png" class="cv-icon-item" alt=""/> 关注 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${memberIndexDto.member.attentionNum}">42</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="fragments/index::user_manage_fragment(false)"></div>
+    <div class="card card-body shadow-sm border-0 p-2 my-2">
+        <div class="nav flex-column nav-pills" aria-orientation="vertical">
+            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}" title="我的主页"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/profile.svg" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
+            <a class="nav-link cv-link user_manage_apply" href="/user/manage/apply" title="申请管理"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/apply.png" class="cv-icon-item" alt="申请管理"/> 申请管理</a>
+        </div>
+    </div>
+    <!--<div th:include="fragments/index::google_right_ad"></div>-->
+</div>
+
+
+<!--用户设置管理-->
+<div th:fragment="user_manage_fragment(show)">
+    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id}">
+        <div class="nav flex-column nav-pills" aria-orientation="vertical">
+            <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
+            <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio" href="/user/manage/content" title="内容管理"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/manage3.svg" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
+            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/message.svg" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
+            <!--            <a class="nav-link cv-link user_manage_comment" href="/user/manage/comment" title="评论管理"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/comment.png" class="cv-icon-item" alt="评论管理"/> 评论管理</a>-->
+            <a class="nav-link cv-link profile_message" th:href="'/profile-message/' + ${session?.cv_user_id}" title="留言板"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/goutong.png" class="cv-icon-item" alt="留言板"/> 留言板</a>
+            <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/collection.png" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
+            <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo" href="/user/manage/edit-user-info" title="设置"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/settings.svg" class="cv-icon-item" alt="设置"/> 设置</a>
+        </div>
+    </div>
+</div>
+
+
+<!--用户未登录提示-->
+<div th:fragment="user_not_login">
+    <!--未登录提示-->
+    <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="!${session?.cv_user_id}">
+        您还未登录,请前往登录页面<a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="登录">登录</a>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+
+<!--文章数据-->
+<div th:fragment="content_data">
+    <div>
+        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/liulan.png" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.contentData.viewNum}">0</span>
+        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/content-time.png" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.createDate}">2020-01-01 00:00</span>
+        <span th:if="${content?.latestCommentUserId} != null">
+            <span class="text-black-50 small"><span class="fw-bold text-black-50">·&nbsp;</span>最后回复:</span>
+            <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${content?.latestCommentUserId}" th:inline="text">[[${content?.latestCommentUserName}]]</a>
+            <span class="fw-bold text-black-50">·</span>
+            <span class="text-black-50 small" th:text="${content?.latestCommentDate}"></span>
+        </span>
+    </div>
+</div>
+
+<div th:fragment="tag_cloud">
+    <div th:if="!${#lists.isEmpty(cvTagList)}" class="card card-body shadow-sm border-0 p-2">
+        <div class="lead">网站标签</div>
+        <div>
+            <a th:each="tag : ${cvTagList}" class="badge rounded-pill fw-normal lh-sm bg-warning text-dark ms-1 cv-link" th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}+'('+${tag.count}+')'" th:title="${tag.tagName}"></a>
+        </div>
+        <div class="text-black-50 small">* 数据可能会延迟,标签更新时间为每天凌晨一点</div>
+    </div>
+</div>
+<!--文章类型-->
+<span th:fragment="content_type">
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/tech" title="技术" th:if="${content.contentType} == 1">技术</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/qa" title="问答" th:if="${content.contentType} == 2">问答</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/share" title="分享" th:if="${content.contentType} == 3">分享</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/workplace" title="职场" th:if="${content.contentType} == 4">职场</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/record" title="记录" th:if="${content.contentType} == 5">记录</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/topic" title="短内容" th:if="${content.contentType} == 6">短内容</a>
+</span>
+
+
+<!--
+文章列表渲染
+list: 文章列表
+fromProfile: 是否来自Profile页面
+-->
+<div th:fragment="content_list(list,fromProfile)">
+    <ul class="list-group list-group-flush">
+        <li th:class="${!fromProfile} ? 'list-group-item p-2' : (${content.pinnedStatus == 1} ?'list-group-item  p-2 mb-1 border border-info shadow-sm rounded' : 'list-group-item  p-2')" th:each="content,ite : ${list}">
+            <div th:if="${content.contentId != 'google-ad-feed'}" th:include="fragments/index::content_media"></div>
+            <div th:if="${content.contentId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
+        </li>
+    </ul>
+</div>
+
+
+<!--
+电台列表渲染
+list: 电台列表列表
+fromProfile: 是否来自Profile页面
+-->
+<div th:fragment="radio_list(list,fromProfile)">
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item p-2" th:each="radio,ite : ${list}">
+            <div class="d-flex align-items-center">
+                <div class="flex-grow-1">
+                    <div th:if="${radio.radioId != 'google-ad-feed'}" th:include="fragments/index::radio-item"></div>
+                    <div th:if="${radio.radioId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
+                </div>
+                <a th:if="${!fromProfile && radio.radioId != 'google-ad-feed'}" class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radio.member.userId}"  th:title="${radio.member.userName}">
+                    <img class="lazyload img rounded rounded-right cv-icon-60" th:data-src="${radio.member.via}" th:alt="${radio.member.userName}">
+                </a>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+<div th:fragment="content_manage(content)">
+    <a href="/pinned" title="置顶"><span th:if="${content.pinnedStatus == 1}" style="margin-right: 3px" class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark pull-left">置顶</span></a>
+    <a th:if="${content.status} == 0" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
+    <a th:if="${content.status} != 0" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
+</div>
+<div th:fragment="content_media">
+    <div class="d-flex align-items-center my-1">
+        <div class="flex-grow-1">
+            <div class="mt-0">
+                <h5>
+                    <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow" th:title="${content.title}" th:text="${content.title}"></a>
+                </h5>
+            </div>
+            <div class="mb-0" th:include="fragments/index::content_data"></div>
+        </div>
+        <div th:if="${!fromProfile}" th:include="fragments/index::content_profile_via"></div>
+    </div>
+</div>
+
+<div th:fragment="content_profile_via">
+    <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}"  th:title="${content.member.userName}">
+        <img class="lazyload img rounded rounded-right cv-icon-60" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
+    </a>
+</div>
+
+<div th:fragment="content_media_profile">
+    <div class="d-flex align-items-center my-1">
+        <div class="flex-grow-1">
+            <div class="mt-0">
+                <h5 >
+                    <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow" th:title="${content.title}" th:text="${content.title}"></a>
+                </h5>
+            </div>
+            <div class="mb-0" th:include="fragments/index::content_data"></div>
+        </div>
+        <a href="/pinned" title="置顶"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark pull-right" th:if="${content.pinnedStatus == 1}">置顶</span></a>
+    </div>
+</div>
+
+
+<span th:fragment="content_comment">
+    <div class="list-group list-group-flush">
+        <div class="d-flex align-items-top list-group-item p-1 mt-1" th:each="comment : ${contentIndexDto.content.listCommentDto.commentList}">
+        <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
+            <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-3 mb-2 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
+        </a>
+        <div class="flex-grow-1">
+            <div class="mt-0">
+                <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
+                    [[${comment.member.userName}]]
+                </a>
+                <div class="float-end text-black-50">
+                     [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
+                </div>
+            </div>
+            <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
+        </div>
+    </div>
+    </div>
+
+</span>
+
+
+<span th:fragment="radio_comment">
+    <div class="list-group list-group-flush">
+        <div class="d-flex align-items-top list-group-item p-1 mt-1" th:each="comment : ${radioIndexDto.radio.listCommentDto.commentList}">
+        <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
+            <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-3 mb-2 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
+        </a>
+        <div class="flex-grow-1">
+            <div class="mt-0">
+                <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
+                    [[${comment.member.userName}]]
+                </a>
+                <div class="float-end text-black-50">
+                     [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
+                </div>
+            </div>
+            <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
+        </div>
+    </div>
+    </div>
+
+</span>
+
+<!--无内容-->
+<div th:fragment="empty_content">
+    <div class="text-center">
+        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/empty.png" class="lazyload"
+             style="width: 128px;height: 128px"/>
+        <p class="text-black-50 lead">无内容</p>
+    </div>
+</div>
+
+<!--页面Slogan-->
+<div th:fragment="page_slogan">
+    <div class="card card-body shadow-sm border-0 p-2 mb-2 p-2" th:if="!${#strings.isEmpty(cv_slogan?.sloganText)}">
+        <div th:utext="${cv_slogan?.sloganText}"></div>
+    </div>
+</div>
+
+<!--页面Slogan-->
+<div th:fragment="page_banner">
+    <div class="card card-body shadow-sm border-0 p-2 mb-2"
+         th:if="!${#lists.isEmpty(commonPageIndexDto.listBannerDto.bannerList)}">
+        <div class="border-bottom text-secondary mb-2">
+            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/recommand.png" class="lazyload cv-icon-item" alt="广而告之"/> 广而告之
+        </div>
+        <div th:each="banner,ite : ${commonPageIndexDto.listBannerDto.bannerList}">
+            <a class="cv-link text-secondary"
+               th:href="${banner.bannerHref}"
+               th:title="${banner.bannerTitle} + ' ' + ${#strings.isEmpty(banner.bannerDesc)?'':banner.bannerDesc}">
+                [[${banner.bannerTitle}]]
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--主页菜单-->
+<div th:fragment="page_menu">
+    <ul class="nav nav-pills">
+        <li class="nav-item me-1"><a class="nav-link cv-link all" href="/" title="全部"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/all.png" /> 全部</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link topic" href="/topic" title="短内容"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/topic.png" /> 短内容</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link tech" href="/tech" title="技术"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-tech.png" /> 技术</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link share" href="/share" title="分享"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-share.png" /> 分享</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link workplace" href="/workplace" title="职场"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-work.png" /> 职场</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link record" href="/record" title="记录"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-record.png" /> 记录</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link qa" href="/qa" title="问答"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-qa.png" /> 问答</a></li>
+    </ul>
+    <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}" class="border-bottom my-1"></div>
+    <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
+        <ul class="nav nav-pills">
+            <!--如果以后涵盖子类，可以使用展开按钮-->
+            <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">
+                <a th:class="'nav-link cv-link ' + ${menu.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}" th:inline="text">
+                    <img th:data-src="${menu.icon}" class="lazyload cv-icon" />
+                    [[${menu.tagName}]]
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!--创建短内容的初衷-->
+<div th:fragment="why_create_topic">
+    <div class="card card-body shadow-sm border-0 p-2 my-2">
+        <strong>创建短内容的初衷</strong>
+        <div>有时候您可能不想写很长很长的内容,只想写一句话或者几句话</div>
+    </div>
+</div>
+
+
+<div th:fragment="apply_tag">
+    <a class="cv-link text-black-50" href="/apply-tag" title="没有您想要的标签? 去申请Go!" target="_blank">没有您想要的标签? 去申请Go!</a>
+</div>
+
+
+<div th:fragment="without_comment">
+    <div>
+        <p style="text-align: center;">
+            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/without_comment.svg" class="lazyload" style="text-align: center"/>
+            <p style="text-align: center;" class="text-black-50 lead">无评论内容,快来评论吧</p>
+        </p>
+    </div>
+</div>
+
+<div th:fragment="global_member_info">
+    <div class="card card-body shadow-sm border-0 p-2 mb-2 p-2" th:if="${session?.cv_user_id}">
+        <div style="text-align: center" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
+            <a th:href="'/profile/' + ${session?.cv_user_id}">
+                <img class="img rounded " th:src="${session?.cv_user_via}" style="width: 90px;height: 90px;"/>
+            </a>
+        </div>
+        <a style="text-align: center;font-size: 14px" th:if="!${#strings.isEmpty(session?.cv_user_via)}"
+           th:inline="text" th:href="'/profile/' + ${session?.cv_user_id}" class="text-black-50 cv-link">
+            [[${session?.cv_user_name}]]
+        </a>
+        <div class="border-bottom my-2" th:if="!${#strings.isEmpty(session?.cv_user_via)}"></div>
+        <div class="nav flex-column nav-pills" aria-orientation="vertical">
+            <a th:if="${cv_content_done}" class="nav-link cv-link" href="/before-editor">
+                <span>
+                    <img class="cv-icon" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/undo.svg" alt="继续上次编辑" /> 继续上次编辑
+                </span>
+            </a>
+            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
+                <span><img class="cv-icon" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/draft.svg" /> 草稿箱</span>
+                <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
+            </a>
+            <!--                        <a th:if="${unReadMegCount} != null and ${unReadMegCount} >= 1" class="nav-link cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">-->
+            <!--                            <img class="cv-icon" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/message.svg" /> 未读消息 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${unReadMegCount}">23</span>-->
+            <!--                        </a>-->
+            <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
+                <span><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/jifen2.svg" class="cv-icon-item" alt="签到领积分"/></span>
+                <span>签到领积分</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="global_search">
+    <div class="card card-body shadow-sm border-0 p-2 mb-2">
+        <div class="fw-normal border-bottom mb-2 text-black-50">全局搜索</div>
+        <div th:include="fragments/index::global_search_clean"></div>
+    </div>
+</div>
+
+<div th:fragment="global_search_clean">
+    <input type="text" class="form-control" placeholder="输入关键字" id="cv_navbar_search_input">
+</div>
+
+<div th:fragment="statement">
+    <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="${contentIndexDto.content.statement} != null">
+        <strong th:text="${contentIndexDto.content.statement.title}" style="font-size:17px"></strong>
+        <span th:text="${contentIndexDto.content.statement.statement}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+<div th:fragment="member_statement">
+    <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="${memberIndexDto.member.statement} != null">
+        <strong th:text="${memberIndexDto.member.statement.title}" style="font-size:17px"></strong>
+        <span th:text="${memberIndexDto.member.statement.statement}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+<div th:fragment="login_tips">
+    <div class="alert alert-danger alert-dismissible mb-2 mt-2" th:if="!${session?.cv_user_id}" role="alert">
+        <a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="登录后方可进行内容发布、评论、留言等操作">登录</a>后方可进行内容发布、评论、留言等操作
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+<div th:fragment="un_login_radio">
+    <div class="alert alert-danger alert-dismissible mb-2" th:if="!${session?.cv_user_id}" role="alert">
+        您还未<a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="您还未登录">登录</a>,登录后方可以发布电台
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+
+<div th:fragment="content_not_public_tips">
+    <div class="my-1"></div>
+    <div>由于文章还未公开:</div>
+    <div>
+        <ul>
+            <li>仅能浏览文章,查看历史评论</li>
+            <li>不能进行评论、点赞、分享等操作</li>
+        </ul>
+    </div>
+</div>
+
+<div th:fragment="create_radio">
+    <div class="card card-body shadow-sm border-0 p-0 mb-2">
+        <div class="nav flex-column nav-pills" aria-orientation="vertical">
+            <a  class="nav-link cv-link" style="font-size: 16px" href="/radio-station/record" title="在线录制电台">
+                <img class="lazyload cv-icon img" th:data-src="${ossStatic} + @{/icons/record.svg}"> 在线录制电台
+            </a>
+            <a  class="nav-link cv-link" style="font-size: 16px" href="/radio-station/create" title="上传电台音频">
+                <img class="lazyload cv-icon img" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/upload-radio.svg"> 上传电台音频
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<div th:fragment="can_not_receive_email">
+    <div class="card card-body shadow-sm border-0 p-2 my-2">
+        <a class="text-danger fw-normal cv-link" href="/feedback">接收不到邮件?</a>
+        <div class="border-bottom"></div>
+        <div class="text-black-50 cv-font-sm">* 声明: 我们使用的是阿里的邮件服务,原则上被拦截的可能很小</div>
+        <div class="text-black-50 cv-font-sm">* 注意: 如果收不到邮件,很可能被识别为垃圾邮件了,请到邮件垃圾箱中查看</div>
+    </div>
+</div>
+
+
+<!--个人中心公共部分-->
+<div th:fragment="profile_common">
+    <div th:if="${memberIndexDto.member.statement} != null" th:include="fragments/index::member_statement"></div>
+    <div class="card card-body shadow-sm border-0 p-2 mb-2">
+        <div style="font-size: 40px;font-weight: bold;" class="text-wrap" th:text="${memberIndexDto.member.userName}"></div>
+        <div th:switch="${memberIndexDto.member.memberExtend.introduce != null && memberIndexDto.member.memberExtend.introduce != ''}">
+            <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="true" th:text="${memberIndexDto.member.memberExtend.introduce}"></div>
+            <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="false">该作者个人简介未填写</div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--个人中心公共部分-->
+<div th:fragment="profile_right">
+    <div class="card card-body shadow-sm border-0 p-2">
+        <div>
+            <div style="text-align: center" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
+                <img class="lazyload img rounded" th:data-src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;"/>
+            </div>
+            <div>
+                <div class="mt-2">拥有 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.fansNum}">42</span> 个粉丝</div>
+                <div class="mt-2">关注 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.attentionNum}">42</span> 个作者</div>
+                <div class="mt-2">一共写了 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.totalContentNum}">42</span> 篇文章</div>
+                <div class="mt-2">于 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭</div>
+                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">最近活跃: <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span></div>
+                <div class="mt-2 mb-1" th:inline="text">积分: <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span></div>
+            </div>
+            <!--关注按钮-->
+            <div th:if="${session?.cv_user_id != memberIndexDto.member.userId} and !${memberIndexDto.currUserIsAttention}" class="mb-1">
+                <button class="btn btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${memberIndexDto.member.userId}]])" id="attention_btn">
+                    <span th:text="${memberIndexDto.currUserIsAttention} == false ? '关注作者':'已关注作者'" id="attention_tips"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--访问者-->
+    <div class="card card-body shadow-sm border-0 p-2 mt-2" th:if="!${#lists.isEmpty(memberIndexDto.viewerList)}">
+        <div class="small text-black-50">以下用户访问过:</div>
+        <span>
+            <a th:each="viewer : ${memberIndexDto.viewerList}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}">
+                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover" th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}" />
+            </a>
+        </span>
+    </div>
+    <!---->
+    <div class="card card-body shadow-sm border-0 p-2 my-2">
+        <div class="lead mb-1">内容标签</div>
+        <div th:if="${#lists.isEmpty(memberIndexDto.tagList)}">
+            <div th:include="fragments/index::empty_content"></div>
+        </div>
+        <div >
+            <a th:if="!${#lists.isEmpty(memberIndexDto.tagList)}"
+               th:each="tag : ${memberIndexDto.tagList}"
+               class="badge rounded-pill fw-normal lh-sm bg-warning text-dark cv-link ms-1"
+               th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
+        </div>
+        <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
+    </div>
+    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" th:include="fragments/index::user_manage_fragment(true)"></div>
+    <div th:include="fragments/index::google_right_ad"></div>
+</div>
+
+<!--文章详情-右侧-纵向广告-->
+<div th:fragment="google_right_ad">
+    <div class="card card-body shadow-sm border-0 p-2 mb-2 float-ads-vertical" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1' and ${adSwitchRight} == '0'">
+    </div>
+    <div class="card card-body shadow-sm border-0 p-0 mb-2 float-ads-vertical" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0' and ${adSwitchRight} == '0'">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- 文章详情-右侧-纵向广告 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             th:data-ad-client="${googleClient}"
+             th:data-ad-slot="${googleRightSlot}"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
+
+
+<!--列表信息流广告-->
+<div th:fragment="google_feed_ad">
+    <div class="card card-body border-0 p-2 mb-2 float-ads-feed" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1'">
+    </div>
+    <div class="float-ads-feed" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0'">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-format="fluid"
+             data-ad-layout-key="-hz+6+19-53+54"
+             th:data-ad-client="${googleClient}"
+             th:data-ad-slot="${googleFeedSlot}"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
+
+
+<div th:fragment="radio-item">
+    <div class="mt-0">
+        <h5>
+            <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow" th:title="${radio.radioIntro}"  th:text="${radio.radioIntro}"></a>
+        </h5>
+    </div>
+    <div>
+        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/liulan.png" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>
+        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/content-time.png" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.createDate}"></span>
+        <span th:if="${radio?.latestCommentUserId} != null">
+            <span class="text-black-50 small"><span class="fw-bold">·&nbsp;</span>最后回复:</span>
+            <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${radio?.latestCommentUserId}" th:inline="text">[[${radio?.latestCommentUserName}]]</a>
+            <span class="fw-bold text-black-50">·</span>
+            <span class="text-black-50 small" th:text="${radio?.latestCommentDate}"></span>
+        </span>
+    </div>
+</div>
+
+
+<div th:fragment="comment_box">
+    <div class="text-center" id="comment_loading">
+        <div class="spinner-grow text-primary" role="status"></div>
+        <p class="text-black-50">评论框加载中...</p>
+    </div>
+    <div id="vcr_editor"></div>
+    <input type="hidden" id="reply_to_user" />
+</div>
+
+
+
+</body>
+</html>

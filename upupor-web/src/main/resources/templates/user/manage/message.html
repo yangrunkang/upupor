@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/message.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/message.js}"></script>
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="lead border-bottom mb-2">个人消息</div>
+                    <div class="btn-toolbar mb-2" role="toolbar">
+                        <div class="btn-group me-2" role="group" aria-label="First group">
+                            <a class="btn btn-outline-secondary btn-sm user_manage_message_un-read" href="/user/manage/message/un-read">未读消息</a>
+                            <a class="btn btn-outline-secondary btn-sm user_manage_message_all" href="/user/manage/message/all">所有消息</a>
+                        </div>
+
+                        <div class="btn-group me-2" role="group" aria-label="Second group" th:if="!${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}">
+                            <button id="operation-message" type="button" class="btn btn-outline-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                操作
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
+                                <a class="cv-link dropdown-item" th:if="${unReadMegCount != 0}" th:onclick="readAll([[${memberIndexDto.member.userId}]])">全部标记为已读</a>
+                                <a class="cv-link dropdown-item" th:onclick="clearAll([[${memberIndexDto.member.userId}]],[[${memberIndexDto.listMessageDto.total}]])" >清除所有消息</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="table-responsive fixed-table-body">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 39%;">消息</td>
+                                    <td class="fw-bold" style="width: 12%;text-align: center">消息类型</td>
+                                    <td class="fw-bold hidden-xs" style="width: 16%;">创建时间</td>
+                                    <td class="fw-bold" style="width: 15%;text-align: center">操作</td>
+                                </tr>
+                                </thead>
+                            	<tbody>
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}"
+                                        th:each="message,ite : ${memberIndexDto.listMessageDto.messageList}"
+                                    >
+                                        <td th:text="${ite.count}" style="text-align: center"></td>
+                                        <td>
+                                            <div class="text-wrap" th:utext="${message.message}"></div>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:if="${message.messageType} == 0">系统消息</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm bg-success" th:if="${message.messageType} == 1">用户消息</span>
+                                        </td>
+                                        <td class="hidden-xs" th:text="${message.createDate}">创建时间</td>
+                                        <td style="text-align: center">
+                                            <div class="btn-group" role="group">
+                                                <!--状态是未读时显示已读和删除-->
+                                                <button class="btn btn-sm btn-outline-success" th:if="${message.status} == 0" th:onclick="changeMessageStatus('read',[[${message.messageId}]],[[${message.userId}]])">已读</button>
+                                                <button class="btn btn-sm btn-outline-danger" th:if="${message.status} == 0" th:onclick="changeMessageStatus('delete',[[${message.messageId}]],[[${message.userId}]])">删除</button>
+                                                <button class="btn btn-sm btn-outline-danger" th:if="${message.status} == 1" th:onclick="changeMessageStatus('delete',[[${message.messageId}]],[[${message.userId}]])">删除</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                            	</tbody>
+                            </table>
+                        </div>
+                        <div th:if="${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}">
+                            <div th:include="fragments/index::empty_content"></div>
+                        </div>
+                        <div>
+                        <div class="mt-2 float-end"
+                             th:if="!${#strings.isEmpty(memberIndexDto.listMessageDto.paginationHtml)}"
+                             th:utext="${memberIndexDto.listMessageDto.paginationHtml}"> </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

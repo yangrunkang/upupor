@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/message.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/message.js}"></script>
+<!--加载编辑器脚本-->
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/ckeditor5/ckeditor.js}"></script>
+<!--加载代码美化插件-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/prismjs/prism-min.css}"/>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/prismjs/prism-min.js}"></script>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div th:include="fragments/index::profile_common"></div>
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <nav class="mb-2">
+                        <div class="nav nav-tabs">
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}">文章</a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台</a>
+                            <a class="nav-item nav-link cv-link active" th:href="'/profile-message/'+${memberIndexDto.member.userId}">留言板<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listCommentDto.total}"></span></a>
+                        </div>
+                    </nav>
+                    <!--未登录提示-->
+                    <div th:if="!${session?.cv_user_id}"  th:include="fragments/index::login_tips"></div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listCommentDto.commentList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+                    <div th:if="!${#lists.isEmpty(memberIndexDto.listCommentDto.commentList)}">
+                        <div class="d-flex align-items-center my-1 mb-1" th:each="comment : ${memberIndexDto.listCommentDto.commentList}" style="overflow:hidden">
+                            <div class="flex-grow-1">
+                                <div class="card">
+                                    <div class="p-2 border-bottom">
+                                        <a class="cv-link text-black-50" th:href="'/profile/'+${comment.member.userId}">
+                                            <img th:data-src="${comment.member.via}" class="lazyload cv-icon img rounded" th:alt="${comment.member.userName}"/>
+                                        </a>
+                                        <a class="cv-link text-black-50 fw-bold" th:href="'/profile/'+${comment.member.userId}">
+                                            [[${comment.member.userName}]]
+                                        </a>
+                                        <span class="float-end text-black-50">
+                                     [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
+                                    </span>
+                                    </div>
+                                    <div class="card-body p-2">
+                                        <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mt-2 float-end"
+                                 th:if="!${#strings.isEmpty(memberIndexDto.listCommentDto.paginationHtml)}"
+                                 th:utext="${memberIndexDto.listCommentDto.paginationHtml}"> </div>
+                        </div>
+                    </div>
+                    <div class="my-2" th:if="${session?.cv_user_id}">
+                        <div id="comment_area">
+                            <div th:include="fragments/index::comment_box"></div>
+                            <div id="comment_btn_group" style="display: none">
+                                <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${memberIndexDto.member.userId}]])">留言</button>
+                                <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div th:include="fragments/index::profile_right"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,1 @@
+alter table slogan add column `bg_style` varchar(1024) DEFAULT NULL COMMENT '每个链接自定义背景样式';
