@@ -14,6 +14,7 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dao.mapper.CommentMapper;
 import com.upupor.service.dto.page.common.ListCommentDto;
+import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.service.CommentService;
 import com.upupor.service.service.MemberService;
 import com.upupor.service.utils.Asserts;
@@ -24,6 +25,7 @@ import com.upupor.spi.req.AddCommentReq;
 import com.upupor.spi.req.ListCommentReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -43,11 +45,11 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentMapper commentMapper;
-
     private final MemberService memberService;
+    private final ApplicationEventPublisher publisher;
 
     @Override
-    public Comment addComment(AddCommentReq addCommentReq) {
+    public Comment toComment(AddCommentReq addCommentReq) {
 
         Comment comment = new Comment();
         BeanUtils.copyProperties(addCommentReq, comment);
@@ -60,6 +62,16 @@ public class CommentServiceImpl implements CommentService {
         comment.setSysUpdateTime(new Date());
 
         if (commentMapper.insert(comment) > 0) {
+
+            ToCommentSuccessEvent event = ToCommentSuccessEvent.builder()
+                    .commenterUserId(comment.getUserId())
+                    .createTime(comment.getCreateTime())
+                    .targetId(addCommentReq.getTargetId())
+                    .commentSource(comment.getCommentSource())
+                    .build();
+            publisher.publishEvent(event);
+
+
             return comment;
         }
         return null;

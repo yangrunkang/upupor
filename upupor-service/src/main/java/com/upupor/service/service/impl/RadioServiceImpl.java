@@ -1,5 +1,6 @@
 package com.upupor.service.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -12,6 +13,7 @@ import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.service.ContentService;
 import com.upupor.service.service.MemberService;
 import com.upupor.service.service.RadioService;
+import com.upupor.service.utils.Asserts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -49,14 +51,17 @@ public class RadioServiceImpl implements RadioService {
     @Override
     public ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle) {
 
+        LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
+                .eq(Radio::getUserId, userId)
+                .like(Radio::getRadioIntro, searchTitle)
+                .orderByDesc(Radio::getCreateTime);
 
         PageHelper.startPage(pageNum, pageSize);
-        List<Radio> radioList = radioMapper.listRadioByUserId(userId, searchTitle);
+        List<Radio> radioList = radioMapper.selectList(query);
         PageInfo<Radio> pageInfo = new PageInfo<>(radioList);
 
         ListRadioDto listRadioDto = new ListRadioDto(pageInfo);
         listRadioDto.setRadioList(pageInfo.getList());
-
 
         // 绑定电台用户
         bindRadioMember(listRadioDto);
@@ -68,15 +73,21 @@ public class RadioServiceImpl implements RadioService {
 
     @Override
     public Radio getByRadioId(String radioId) {
-        if (StringUtils.isEmpty(radioId)) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR);
-        }
-        return radioMapper.selectByRadioId(radioId);
+        LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
+                .eq(Radio::getRadioId, radioId);
+        Radio radio = radioMapper.selectOne(query);
+        Asserts.notNull(radio,ErrorCode.RADIO_NOT_EXISTS);
+        return radio;
     }
 
     @Override
     public Radio getByRadioIdAndUserId(String radioId, String userId) {
-        return radioMapper.getByRadioIdAndUserId(radioId, userId);
+        LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
+                .eq(Radio::getRadioId, radioId)
+                .eq(Radio::getUserId, userId);
+        Radio radio = radioMapper.selectOne(query);
+        Asserts.notNull(radio,ErrorCode.RADIO_NOT_EXISTS);
+        return radio;
     }
 
     @Override

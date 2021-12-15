@@ -44,57 +44,55 @@ public class InnerMsgEmailListener {
     @EventListener
     @Async
     public void replayCommentEvent(ReplayCommentEvent replayCommentEvent) {
-        AddCommentReq addCommentReq = replayCommentEvent.getAddCommentReq();
-        // 添加的评论
-        Comment comment = replayCommentEvent.getComment();
+        String targetId = replayCommentEvent.getTargetId();
+        Integer commentSource = replayCommentEvent.getCommentSource();
+
         // 添加评论的人
-        Member addCommentMember = replayCommentEvent.getAddCommentMember();
-        String userId = addCommentMember.getUserId();
+        String creatorReplayUserId = replayCommentEvent.getCreateReplayUserId();
+        String creatorReplayUserName = replayCommentEvent.getCreateReplayUserName();
         String msgId = CcUtils.getUuId();
 
         // 如果是回复别人的评论要告知别人已经被回复
         // 获取用户id
         try {
-            String beReplayCommentUserId = addCommentReq.getReplyToUserId();
-            Member beReplayedUser = memberService.memberInfo(beReplayCommentUserId);
+            Member beReplayedUser = memberService.memberInfo(replayCommentEvent.getBeRepliedUserId());
             if (Objects.nonNull(beReplayedUser)) {
                 // 消息内容
                 String msg = null;
                 // 消息标题
                 String title = "您的评论收到了新的回复";
                 // 如果自己回复自己则啥也不做
-                if (beReplayedUser.getUserId().equals(userId)) {
+                if (beReplayedUser.getUserId().equals(creatorReplayUserId)) {
                     return;
                 }
 
-                if (comment.getCommentSource() >= CcEnum.CommentSource.TECH.getSource()
-                        && comment.getCommentSource() <= CcEnum.CommentSource.SHORT_CONTENT.getSource()) {
-                    Content content = contentService.getNormalContent(comment.getTargetId());
+                if (CcEnum.CommentSource.contentSource().contains(commentSource)) {
+                    Content content = contentService.getNormalContent(targetId);
                     // 评论回复站内信
                     msg = "您关于《" + String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle())
                             + "》的文章评论,收到了来自"
-                            + String.format(PROFILE_INNER_MSG, userId, msgId, addCommentMember.getUserName())
+                            + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
                             + "的回复,请" + String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, "点击查看");
-                } else if (comment.getCommentSource().equals(CcEnum.CommentSource.MESSAGE.getSource())) {
-                    // 留言板所有者
-                    String messageBoardUserId = comment.getTargetId();
-                    if (!messageBoardUserId.equals(userId)) {
-                        msg = String.format(MESSAGE_INTEGRAL, messageBoardUserId, msgId, "<strong>留言板</strong>")
-                                + "收到了来自"
-                                + String.format(PROFILE_INNER_MSG, userId, msgId, addCommentMember.getUserName())
-                                + "的回复,请" + String.format(MESSAGE_INTEGRAL, messageBoardUserId, msgId, "点击查看");
-                    } else {
-                        msg = String.format(MESSAGE_INTEGRAL, userId, msgId, "<strong>留言板</strong>")
-                                + "收到了来自"
-                                + String.format(PROFILE_INNER_MSG, userId, msgId, addCommentMember.getUserName())
-                                + "的回复,请" + String.format(MESSAGE_INTEGRAL, userId, msgId, "点击查看");
-                    }
+                } else if (commentSource.equals(CcEnum.CommentSource.MESSAGE.getSource())) {
                     title = "留言板有新的回复消息";
-                } else if (comment.getCommentSource() >= CcEnum.CommentSource.RADIO.getSource()) {
-                    Radio radio = radioService.getByRadioId(comment.getTargetId());
+                    // 留言板所有者(对应的就是事件的targetId)
+                    if (!targetId.equals(creatorReplayUserId)) {
+                        msg = String.format(MESSAGE_INTEGRAL, targetId, msgId, "<strong>留言板</strong>")
+                                + "收到了来自"
+                                + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
+                                + "的回复,请" + String.format(MESSAGE_INTEGRAL, targetId, msgId, "点击查看");
+                    } else {
+                        msg = String.format(MESSAGE_INTEGRAL, creatorReplayUserId, msgId, "<strong>留言板</strong>")
+                                + "收到了来自"
+                                + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
+                                + "的回复,请" + String.format(MESSAGE_INTEGRAL, creatorReplayUserId, msgId, "点击查看");
+                    }
+
+                } else if (commentSource >= CcEnum.CommentSource.RADIO.getSource()) {
+                    Radio radio = radioService.getByRadioId(targetId);
                     msg = "电台《" + String.format(RADIO_INNER_MSG, radio.getRadioId(), msgId, radio.getId())
                             + "》,收到了来自"
-                            + String.format(PROFILE_INNER_MSG, userId, msgId, addCommentMember.getUserName())
+                            + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
                             + "的回复,请" + String.format(RADIO_INNER_MSG, radio.getRadioId(), msgId, "点击查看");
                 }
 
@@ -118,6 +116,7 @@ public class InnerMsgEmailListener {
      */
     @EventListener
     @Async
+    @Deprecated // 计划使用 com.upupor.service.listener.eventbus.InnerMsgEmailListener.toCommentSuccessEvent 替换
     public void commentMessageEvent(CommentMessageEvent commentMessageEvent) {
         Member addCommentMember = commentMessageEvent.getAddCommentMember();
         AddCommentReq addCommentReq = commentMessageEvent.getAddCommentReq();
@@ -289,6 +288,29 @@ public class InnerMsgEmailListener {
                 "<div>官方微博: <a class='cv-link' data-toggle='modal' data-target='#weibo'>UpuporCom</a></div>";
         String msgId = CcUtils.getUuId();
         messageService.addMessage(member.getUserId(), msg, CcEnum.MessageType.SYSTEM.getType(), msgId);
+    }
+
+    /**
+     * 添加评论成功
+     *
+     * @param event
+     */
+    @EventListener
+    @Async
+    public void toCommentSuccessEvent(ToCommentSuccessEvent event) {
+        // 更新最新的评论者及评论时间(这里主要是为了方便查询,冗余字段,减少连表操作)
+        if (CcEnum.CommentSource.contentSource().contains(event.getCommentSource())) {
+            Content content = contentService.getNormalContent(event.getTargetId());
+            content.setLatestCommentTime(event.getCreateTime());
+            content.setLatestCommentUserId(event.getCommenterUserId());
+            contentService.updateContent(content);
+        }
+        if (event.getCommentSource().equals(CcEnum.CommentSource.RADIO.getSource())) {
+            Radio radio = radioService.getByRadioId(event.getTargetId());
+            radio.setLatestCommentTime(event.getCreateTime());
+            radio.setLatestCommentUserId(event.getCommenterUserId());
+            radioService.updateRadio(radio);
+        }
     }
 
     /**
