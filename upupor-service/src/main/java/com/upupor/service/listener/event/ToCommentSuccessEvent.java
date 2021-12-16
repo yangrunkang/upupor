@@ -1,5 +1,6 @@
 package com.upupor.service.listener.event;
 
+import com.upupor.service.common.CcEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,11 +26,15 @@ public class ToCommentSuccessEvent {
      */
     private String targetId;
 
-
     /**
      * 评论来源
      */
-    private Integer commentSource;
+    private CcEnum.CommentSource commentSource;
+
+    /**
+     * 评论Id
+     */
+    private String commentId;
 
 
 }

@@ -66,11 +66,11 @@ public class CommentServiceImpl implements CommentService {
             ToCommentSuccessEvent event = ToCommentSuccessEvent.builder()
                     .commenterUserId(comment.getUserId())
                     .createTime(comment.getCreateTime())
+                    .commentId(comment.getCommentId())
+                    .commentSource(CcEnum.CommentSource.getBySource(comment.getCommentSource()))
                     .targetId(addCommentReq.getTargetId())
-                    .commentSource(comment.getCommentSource())
                     .build();
             publisher.publishEvent(event);
-
 
             return comment;
         }

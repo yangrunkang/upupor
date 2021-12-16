@@ -739,11 +739,21 @@ public enum CcEnum {
             this.name = name;
         }
 
+        public static CommentSource getBySource(Integer source) {
+            for (CommentSource value : values()) {
+                if (value.getSource().equals(source)) {
+                    return value;
+                }
+            }
+            throw new BusinessException(ErrorCode.PARAM_ERROR);
+        }
+
         /**
          * 内容资源
+         *
          * @return
          */
-        public static List<Integer> contentSource(){
+        public static List<Integer> contentSource() {
             List<Integer> commentSourceList = new ArrayList<>();
             commentSourceList.add(TECH.getSource());
             commentSourceList.add(QA.getSource());

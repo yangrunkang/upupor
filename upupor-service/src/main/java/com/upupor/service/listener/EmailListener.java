@@ -1,4 +1,4 @@
-package com.upupor.service.listener.eventbus;
+package com.upupor.service.listener;
 
 import com.upupor.service.dto.email.SendEmailEvent;
 import com.upupor.service.utils.CcEmailUtils;
@@ -6,8 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.util.StringUtils;
 
 /**

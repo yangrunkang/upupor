@@ -5,8 +5,8 @@ import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.listener.event.CommentMessageEvent;
 import com.upupor.service.listener.event.ReplayCommentEvent;
+import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.service.CommentService;
 import com.upupor.service.service.ContentService;
 import com.upupor.service.service.MemberService;
@@ -69,7 +69,7 @@ public class CommentsController {
             if (StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {
                 // 常规的评论
                 String creatorUserId = getCreatorUserId(addCommentReq);
-                comment(addCommentReq, comment, currentUser, creatorUserId);
+                comment(addCommentReq.getTargetId(), comment, creatorUserId);
             } else {
                 // 处理回复某一条评论的逻辑
                 Member beReplayedUser = memberService.memberInfo(addCommentReq.getReplyToUserId());
@@ -93,6 +93,7 @@ public class CommentsController {
 
     /**
      * // 创作者的用户Id
+     *
      * @param addCommentReq
      * @return
      */
@@ -116,16 +117,22 @@ public class CommentsController {
         return creatorUserId;
     }
 
-    private void comment(AddCommentReq addCommentReq, Comment comment, Member addCommentMember, String belongUserId) {
+    private void comment(String targetId, Comment comment, String belongUserId) {
         // 只有被评论的对象不是自己,才发消息
-        if (!belongUserId.equals(ServletUtils.getUserId())) {
-            // 添加消息
-            CommentMessageEvent commentMessageEvent = new CommentMessageEvent();
-            commentMessageEvent.setAddCommentMember(addCommentMember);
-            commentMessageEvent.setAddCommentReq(addCommentReq);
-            commentMessageEvent.setComment(comment);
-            eventPublisher.publishEvent(commentMessageEvent);
+        if (belongUserId.equals(ServletUtils.getUserId())) {
+            return;
         }
+
+        // 添加消息
+        ToCommentSuccessEvent event = ToCommentSuccessEvent.builder()
+                .commenterUserId(comment.getUserId())
+                .createTime(comment.getCreateTime())
+                .commentId(comment.getCommentId())
+                .commentSource(CcEnum.CommentSource.getBySource(comment.getCommentSource()))
+                .targetId(targetId)
+                .build();
+
+        eventPublisher.publishEvent(event);
     }
 
 
