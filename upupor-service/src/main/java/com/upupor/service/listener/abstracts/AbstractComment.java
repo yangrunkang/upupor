@@ -40,9 +40,10 @@ public abstract class AbstractComment<T> {
 
     /**
      * @param commentSource 评论来源
+     * @param targetId
      * @return 判断是否处理
      */
-    public abstract Boolean confirmSource(CcEnum.CommentSource commentSource);
+    public abstract Boolean confirmSource(CcEnum.CommentSource commentSource,String targetId);
 
     /**
      * 获取用户信息

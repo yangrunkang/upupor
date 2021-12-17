@@ -40,7 +40,7 @@ public class CcEmailUtils {
         // 0-关闭 1-开启
         if (property.equals(CcConstant.CV_OFF)) {
             log.info("邮件开关已关闭");
-            log.error("发送邮件日志[未真实发送邮件]: 收件人:{},文章标题:{}", sendEmailEvent.getToAddress(), sendEmailEvent.getTitle());
+            log.error("发送邮件日志[未真实发送邮件]: \n收件人:{},\n文章标题:{},\n邮件内容:{}", sendEmailEvent.getToAddress(), sendEmailEvent.getTitle(),sendEmailEvent.getContent());
             return false;
         } else if (property.equals(CcConstant.CV_ON)) {
             // 接入模板

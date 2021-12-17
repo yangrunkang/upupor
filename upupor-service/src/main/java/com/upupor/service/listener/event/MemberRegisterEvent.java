@@ -1,6 +1,5 @@
 package com.upupor.service.listener.event;
 
-import com.upupor.service.dao.entity.Member;
 import lombok.Data;
 
 /**
@@ -10,6 +9,6 @@ import lombok.Data;
 @Data
 public class MemberRegisterEvent {
 
-    private Member member;
+    private String userId;
 
 }

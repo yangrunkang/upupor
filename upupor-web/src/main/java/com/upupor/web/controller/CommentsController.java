@@ -69,26 +69,30 @@ public class CommentsController {
             if (StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {
                 // 常规的评论
                 String creatorUserId = getCreatorUserId(addCommentReq);
-                comment(addCommentReq.getTargetId(), comment, creatorUserId);
+                normalCommentEvent(addCommentReq.getTargetId(), comment, creatorUserId);
             } else {
                 // 处理回复某一条评论的逻辑
-                Member beReplayedUser = memberService.memberInfo(addCommentReq.getReplyToUserId());
-                if (Objects.nonNull(beReplayedUser)) {
-                    ReplayCommentEvent replayCommentEvent = ReplayCommentEvent.builder()
-                            .commentSource(comment.getCommentSource())
-                            .targetId(comment.getTargetId())
-                            .createReplayUserId(currentUser.getUserId())
-                            .createReplayUserName(currentUser.getUserName())
-                            .beRepliedUserId(beReplayedUser.getUserId())
-                            .build();
-                    eventPublisher.publishEvent(replayCommentEvent);
-                }
+                replayCommentEvent(addCommentReq, comment, currentUser);
             }
         } catch (Exception e) {
         }
 
         cc.setData(true);
         return cc;
+    }
+
+    private void replayCommentEvent(AddCommentReq addCommentReq, Comment comment, Member currentUser) {
+        Member beReplayedUser = memberService.memberInfo(addCommentReq.getReplyToUserId());
+        if (Objects.nonNull(beReplayedUser)) {
+            ReplayCommentEvent replayCommentEvent = ReplayCommentEvent.builder()
+                    .commentSource(comment.getCommentSource())
+                    .targetId(comment.getTargetId())
+                    .createReplayUserId(currentUser.getUserId())
+                    .createReplayUserName(currentUser.getUserName())
+                    .beRepliedUserId(beReplayedUser.getUserId())
+                    .build();
+            eventPublisher.publishEvent(replayCommentEvent);
+        }
     }
 
     /**
@@ -117,7 +121,7 @@ public class CommentsController {
         return creatorUserId;
     }
 
-    private void comment(String targetId, Comment comment, String belongUserId) {
+    private void normalCommentEvent(String targetId, Comment comment, String belongUserId) {
         // 只有被评论的对象不是自己,才发消息
         if (belongUserId.equals(ServletUtils.getUserId())) {
             return;

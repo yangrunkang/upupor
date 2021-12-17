@@ -2,7 +2,6 @@ package com.upupor.service.listener.impl;
 
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
-import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.abstracts.AbstractComment;
@@ -10,6 +9,7 @@ import com.upupor.service.service.*;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 import static com.upupor.service.common.CcConstant.MsgTemplate.*;
 
@@ -40,15 +40,17 @@ public class ContentComment extends AbstractComment<Content> {
         // 文章信息
         Content target = getTarget(targetId);
         String contentId = target.getContentId();
-        String contentTitle = target.getContentId();
+        String contentTitle = target.getTitle();
         Member contentAuthor = getMemberInfo(target.getUserId());
-
-        // 评论信息
-        Comment comment = getComment(commentId);
 
         // 获取评论者信息
         Member commenter = getMemberInfo(commenterUserId);
         String commenterUserName = commenter.getUserName();
+
+        // 如果文章作者自己评论自己就不用发邮件了
+        if(commenter.getUserId().equals(target.getUserId())){
+            return;
+        }
 
         // 站内信通知作者
         String innerMsgText = "您的文章《" + String.format(CONTENT_INNER_MSG, contentId, msgId, contentTitle) + "》有新的评论,来自"
@@ -79,7 +81,7 @@ public class ContentComment extends AbstractComment<Content> {
     }
 
     @Override
-    public Boolean confirmSource(CcEnum.CommentSource commentSource) {
-        return CcEnum.CommentSource.contentSource().contains(commentSource.getSource());
+    public Boolean confirmSource(CcEnum.CommentSource commentSource, String targetId) {
+        return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.contentSource().contains(commentSource.getSource());
     }
 }

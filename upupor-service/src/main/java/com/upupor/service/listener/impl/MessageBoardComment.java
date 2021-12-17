@@ -11,6 +11,7 @@ import com.upupor.service.service.MessageService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 import static com.upupor.service.common.CcConstant.MsgTemplate.*;
 
@@ -46,6 +47,10 @@ public class MessageBoardComment extends AbstractComment<Member> {
         Member commenter = getMemberInfo(commenterUserId);
         String commenterUserName = commenter.getUserName();
 
+        // 如果作者自己评论自己就不用发邮件了
+        if(commenter.getUserId().equals(targetMember.getUserId())){
+            return;
+        }
 
         // 站内信通知对方收到新的留言
         String msg = "您收到了新的留言信息,点击" + String.format(MESSAGE_INTEGRAL, targetUserId, msgId, "<strong>留言板</strong>") + "查看. 留言来自"
@@ -72,7 +77,7 @@ public class MessageBoardComment extends AbstractComment<Member> {
     }
 
     @Override
-    public Boolean confirmSource(CcEnum.CommentSource commentSource) {
-        return CcEnum.CommentSource.MESSAGE.getSource().equals(commentSource.getSource());
+    public Boolean confirmSource(CcEnum.CommentSource commentSource, String targetId) {
+        return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.MESSAGE.getSource().equals(commentSource.getSource());
     }
 }

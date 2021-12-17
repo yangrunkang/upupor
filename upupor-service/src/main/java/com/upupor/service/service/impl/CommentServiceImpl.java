@@ -14,7 +14,6 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dao.mapper.CommentMapper;
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.service.CommentService;
 import com.upupor.service.service.MemberService;
 import com.upupor.service.utils.Asserts;
@@ -62,16 +61,6 @@ public class CommentServiceImpl implements CommentService {
         comment.setSysUpdateTime(new Date());
 
         if (commentMapper.insert(comment) > 0) {
-
-            ToCommentSuccessEvent event = ToCommentSuccessEvent.builder()
-                    .commenterUserId(comment.getUserId())
-                    .createTime(comment.getCreateTime())
-                    .commentId(comment.getCommentId())
-                    .commentSource(CcEnum.CommentSource.getBySource(comment.getCommentSource()))
-                    .targetId(addCommentReq.getTargetId())
-                    .build();
-            publisher.publishEvent(event);
-
             return comment;
         }
         return null;

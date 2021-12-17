@@ -79,7 +79,10 @@ public class InnerMsgEmailListener {
                             + "》的文章评论,收到了来自"
                             + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
                             + "的回复,请" + String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, "点击查看");
-                } else if (commentSource.equals(CcEnum.CommentSource.MESSAGE.getSource())) {
+                }
+
+
+                if (commentSource.equals(CcEnum.CommentSource.MESSAGE.getSource())) {
                     title = "留言板有新的回复消息";
                     // 留言板所有者(对应的就是事件的targetId)
                     if (!targetId.equals(creatorReplayUserId)) {
@@ -94,9 +97,11 @@ public class InnerMsgEmailListener {
                                 + "的回复,请" + String.format(MESSAGE_INTEGRAL, creatorReplayUserId, msgId, "点击查看");
                     }
 
-                } else if (commentSource >= CcEnum.CommentSource.RADIO.getSource()) {
+                }
+
+                if (CcEnum.CommentSource.RADIO.getSource().equals(commentSource)) {
                     Radio radio = radioService.getByRadioId(targetId);
-                    msg = "电台《" + String.format(RADIO_INNER_MSG, radio.getRadioId(), msgId, radio.getId())
+                    msg = "电台《" + String.format(RADIO_INNER_MSG, radio.getRadioId(), msgId, radio.getRadioIntro())
                             + "》,收到了来自"
                             + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
                             + "的回复,请" + String.format(RADIO_INNER_MSG, radio.getRadioId(), msgId, "点击查看");
@@ -144,13 +149,12 @@ public class InnerMsgEmailListener {
     @Async
     public void registerInnerMessage(MemberRegisterEvent memberRegisterEvent) {
         // 添加站内信
-        Member member = memberRegisterEvent.getMember();
         String msg = "<div class='text-info' style='font-size: 16px;'>愿景: 让每个人享受分享</div>" +
                 "<div>欢迎使用Upupor</div>" +
                 "<div>官方微信公众号: <a class='cv-link' data-toggle='modal' data-target='#wechat'>Upupor</a></div>" +
                 "<div>官方微博: <a class='cv-link' data-toggle='modal' data-target='#weibo'>UpuporCom</a></div>";
         String msgId = CcUtils.getUuId();
-        messageService.addMessage(member.getUserId(), msg, CcEnum.MessageType.SYSTEM.getType(), msgId);
+        messageService.addMessage(memberRegisterEvent.getUserId(), msg, CcEnum.MessageType.SYSTEM.getType(), msgId);
     }
 
     /**
@@ -176,8 +180,11 @@ public class InnerMsgEmailListener {
         }
 
         for (AbstractComment abstractComment : abstractCommentList) {
-            if (abstractComment.confirmSource(event.getCommentSource())) {
-                abstractComment.comment(event.getTargetId(), event.getCommenterUserId(), event.getCommentId());
+            try {
+                if (abstractComment.confirmSource(event.getCommentSource(), event.getTargetId())) {
+                    abstractComment.comment(event.getTargetId(), event.getCommenterUserId(), event.getCommentId());
+                }
+            } catch (Exception e) {
             }
         }
     }
