@@ -108,7 +108,7 @@ public class MemberController {
 
         // 注册消息
         MemberRegisterEvent memberRegisterEvent = new MemberRegisterEvent();
-        memberRegisterEvent.setMember(member);
+        memberRegisterEvent.setUserId(member.getUserId());
         eventPublisher.publishEvent(memberRegisterEvent);
 
         cc.setData(true);

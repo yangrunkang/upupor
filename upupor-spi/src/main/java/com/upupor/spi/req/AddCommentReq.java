@@ -8,9 +8,20 @@ import lombok.Data;
  */
 @Data
 public class AddCommentReq {
-
+    /**
+     * 目标id
+     */
     private String targetId;
+    /**
+     * 评论来源
+     */
     private Integer commentSource;
+    /**
+     * 评论内容
+     */
     private String commentContent;
+    /**
+     * 回复给用户
+     */
     private String replyToUserId;
 }

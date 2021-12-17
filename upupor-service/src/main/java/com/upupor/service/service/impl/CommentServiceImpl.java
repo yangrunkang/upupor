@@ -24,6 +24,7 @@ import com.upupor.spi.req.AddCommentReq;
 import com.upupor.spi.req.ListCommentReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -43,11 +44,11 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
 
     private final CommentMapper commentMapper;
-
     private final MemberService memberService;
+    private final ApplicationEventPublisher publisher;
 
     @Override
-    public Comment addComment(AddCommentReq addCommentReq) {
+    public Comment toComment(AddCommentReq addCommentReq) {
 
         Comment comment = new Comment();
         BeanUtils.copyProperties(addCommentReq, comment);

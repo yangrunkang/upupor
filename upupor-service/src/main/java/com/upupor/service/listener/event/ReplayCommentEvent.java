@@ -1,8 +1,6 @@
 package com.upupor.service.listener.event;
 
-import com.upupor.service.dao.entity.Comment;
-import com.upupor.service.dao.entity.Member;
-import com.upupor.spi.req.AddCommentReq;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -11,18 +9,31 @@ import lombok.Data;
  * @author runkangyang (cruise)
  * @date 2020.03.06 01:22
  */
+@Builder
 @Data
 public class ReplayCommentEvent {
     /**
-     * 添加的评论请求
+     * 被回复用户的用户id
      */
-    private AddCommentReq addCommentReq;
+    private String beRepliedUserId;
+
     /**
-     * 具体的评论内容
+     * 创建回复的用户id
      */
-    private Comment comment;
+    private String createReplayUserId;
+
     /**
-     * 发表评论的人
+     * 创建回复的用户名
      */
-    private Member addCommentMember;
+    private String createReplayUserName;
+
+    /**
+     * 评论的目标
+     */
+    private String targetId;
+
+    /**
+     * 评论来源
+     */
+    private Integer commentSource;
 }

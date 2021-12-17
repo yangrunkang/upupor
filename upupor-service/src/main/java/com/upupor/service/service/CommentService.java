@@ -22,7 +22,7 @@ public interface CommentService {
      * @param addCommentReq
      * @return
      */
-    Comment addComment(AddCommentReq addCommentReq);
+    Comment toComment(AddCommentReq addCommentReq);
 
     /**
      * 更新评论

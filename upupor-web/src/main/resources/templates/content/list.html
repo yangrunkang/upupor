@@ -38,6 +38,7 @@
 
                 <!--全局个人信息卡片-->
                 <div th:include="fragments/index::global_member_info"></div>
+                <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <!--全局搜索-->
                 <div th:include="fragments/index::global_search"></div>
                 <!--活跃用户-->

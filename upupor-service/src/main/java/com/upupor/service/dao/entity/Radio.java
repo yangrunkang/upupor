@@ -34,18 +34,20 @@ public class Radio {
     private String radioUrl;
 
     /**
-     * 当前电台上传状态
-     */
-    private Integer uploadStatus;
-
-    /**
      * 最新回复的人
      */
     private String latestCommentUserId;
     /****************************************/
     /**
+     * 当前电台上传状态
+     */
+    @TableField(exist = false)
+    private Integer uploadStatus;
+
+    /**
      * 评论数
      */
+    @TableField(exist = false)
     private Integer commentTotal;
 
     /**

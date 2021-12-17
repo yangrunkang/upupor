@@ -5,8 +5,8 @@ import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.listener.event.CommentMessageEvent;
 import com.upupor.service.listener.event.ReplayCommentEvent;
+import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.service.CommentService;
 import com.upupor.service.service.ContentService;
 import com.upupor.service.service.MemberService;
@@ -59,89 +59,20 @@ public class CommentsController {
             addCommentReq.setReplyToUserId(null);
         }
 
-        // 获取当前登录的用户Id
-        String userId = ServletUtils.getUserId();
-
-        // 评论的人
-        Member addCommentMember = memberService.memberInfo(userId);
-
-        Boolean isContentTable = false;
-        Boolean isRadioTable = false;
-
-        // 被评论对象的所属者
-        String belongUserId = null;
-        // 目前只有文章和短内容的评论
-        if (addCommentReq.getCommentSource().equals(CcEnum.CommentSource.SHORT_CONTENT.getSource())) {
-            Content content = contentService.getNormalContent(addCommentReq.getTargetId());
-            if (Objects.isNull(content)) {
-                throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
-            }
-
-            belongUserId = content.getUserId();
-            isContentTable = true;
-        } else if (addCommentReq.getCommentSource() >= CcEnum.CommentSource.TECH.getSource() && addCommentReq.getCommentSource() <= CcEnum.CommentSource.RECORD.getSource()) {
-            Content content = contentService.getNormalContent(addCommentReq.getTargetId());
-            if (Objects.isNull(content)) {
-                throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
-            }
-            belongUserId = content.getUserId();
-            isContentTable = true;
-        } else if (addCommentReq.getCommentSource().equals(CcEnum.CommentSource.MESSAGE.getSource())) {
-            belongUserId = addCommentReq.getTargetId();
-        } else if (addCommentReq.getCommentSource().equals(CcEnum.CommentSource.RADIO.getSource())) {
-            Radio radio = radioService.getByRadioId(addCommentReq.getTargetId());
-            if (Objects.isNull(radio)) {
-                throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
-            }
-            belongUserId = radio.getUserId();
-            isRadioTable = true;
-        }
-
-        if (Objects.isNull(belongUserId)) {
-            throw new BusinessException(ErrorCode.COMMENT_SOURCE_NULL);
-        }
-
         // 回复事件
         try {
             // 添加评论
-            Comment comment = commentService.addComment(addCommentReq);
-            if (isContentTable) {
-                Content content = contentService.getNormalContent(addCommentReq.getTargetId());
-                if (Objects.isNull(content)) {
-                    throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
-                }
+            Comment comment = commentService.toComment(addCommentReq);
 
-                content.setLatestCommentTime(comment.getCreateTime());
-                content.setLatestCommentUserId(comment.getUserId());
-                contentService.updateContent(content);
-            }
-
-            if (isRadioTable) {
-                Radio radio = radioService.getByRadioId(addCommentReq.getTargetId());
-                if (Objects.isNull(radio)) {
-                    throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
-                }
-                radio.setLatestCommentTime(comment.getCreateTime());
-                radio.setLatestCommentUserId(comment.getUserId());
-                radioService.updateRadio(radio);
-            }
-
-
-            if (!StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {
-                Member beReplayedUser = memberService.memberInfo(addCommentReq.getReplyToUserId());
-                if (Objects.nonNull(beReplayedUser)) {
-                    ReplayCommentEvent replayCommentEvent = new ReplayCommentEvent();
-                    replayCommentEvent.setAddCommentMember(addCommentMember);
-                    replayCommentEvent.setAddCommentReq(addCommentReq);
-                    replayCommentEvent.setComment(comment);
-                    eventPublisher.publishEvent(replayCommentEvent);
-                } else {
-                    // 评论
-                    comment(addCommentReq, comment, addCommentMember, belongUserId);
-                }
+            // 评论的人(当前用户)
+            Member currentUser = memberService.memberInfo(ServletUtils.getUserId());
+            if (StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {
+                // 常规的评论
+                String creatorUserId = getCreatorUserId(addCommentReq);
+                normalCommentEvent(addCommentReq.getTargetId(), comment, creatorUserId);
             } else {
-                // 评论
-                comment(addCommentReq, comment, addCommentMember, belongUserId);
+                // 处理回复某一条评论的逻辑
+                replayCommentEvent(addCommentReq, comment, currentUser);
             }
         } catch (Exception e) {
         }
@@ -150,16 +81,62 @@ public class CommentsController {
         return cc;
     }
 
-    private void comment(AddCommentReq addCommentReq, Comment comment, Member addCommentMember, String belongUserId) {
-        // 只有被评论的对象不是自己,才发消息
-        if (!belongUserId.equals(ServletUtils.getUserId())) {
-            // 添加消息
-            CommentMessageEvent commentMessageEvent = new CommentMessageEvent();
-            commentMessageEvent.setAddCommentMember(addCommentMember);
-            commentMessageEvent.setAddCommentReq(addCommentReq);
-            commentMessageEvent.setComment(comment);
-            eventPublisher.publishEvent(commentMessageEvent);
+    private void replayCommentEvent(AddCommentReq addCommentReq, Comment comment, Member currentUser) {
+        Member beReplayedUser = memberService.memberInfo(addCommentReq.getReplyToUserId());
+        if (Objects.nonNull(beReplayedUser)) {
+            ReplayCommentEvent replayCommentEvent = ReplayCommentEvent.builder()
+                    .commentSource(comment.getCommentSource())
+                    .targetId(comment.getTargetId())
+                    .createReplayUserId(currentUser.getUserId())
+                    .createReplayUserName(currentUser.getUserName())
+                    .beRepliedUserId(beReplayedUser.getUserId())
+                    .build();
+            eventPublisher.publishEvent(replayCommentEvent);
         }
+    }
+
+    /**
+     * // 创作者的用户Id
+     *
+     * @param addCommentReq
+     * @return
+     */
+    private String getCreatorUserId(AddCommentReq addCommentReq) {
+        // 创作者的用户Id
+        String creatorUserId = null;
+        // 目前只有文章和短内容的评论
+        if (CcEnum.CommentSource.contentSource().contains(addCommentReq.getCommentSource())) {
+            Content content = contentService.getNormalContent(addCommentReq.getTargetId());
+            creatorUserId = content.getUserId();
+        } else if (addCommentReq.getCommentSource().equals(CcEnum.CommentSource.MESSAGE.getSource())) {
+            creatorUserId = addCommentReq.getTargetId();
+        } else if (addCommentReq.getCommentSource().equals(CcEnum.CommentSource.RADIO.getSource())) {
+            Radio radio = radioService.getByRadioId(addCommentReq.getTargetId());
+            creatorUserId = radio.getUserId();
+        }
+
+        if (Objects.isNull(creatorUserId)) {
+            throw new BusinessException(ErrorCode.COMMENT_SOURCE_NULL);
+        }
+        return creatorUserId;
+    }
+
+    private void normalCommentEvent(String targetId, Comment comment, String belongUserId) {
+        // 只有被评论的对象不是自己,才发消息
+        if (belongUserId.equals(ServletUtils.getUserId())) {
+            return;
+        }
+
+        // 添加消息
+        ToCommentSuccessEvent event = ToCommentSuccessEvent.builder()
+                .commenterUserId(comment.getUserId())
+                .createTime(comment.getCreateTime())
+                .commentId(comment.getCommentId())
+                .commentSource(CcEnum.CommentSource.getBySource(comment.getCommentSource()))
+                .targetId(targetId)
+                .build();
+
+        eventPublisher.publishEvent(event);
     }
 
 

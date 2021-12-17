@@ -1,4 +1,4 @@
-package com.upupor.service.listener.eventbus;
+package com.upupor.service.listener;
 
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcConstant;

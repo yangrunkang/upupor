@@ -22,37 +22,8 @@
   <sql id="Blob_Column_List">
     radio_intro, radio_url
   </sql>
-  <select id="selectByRadioId" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from radio
-    where radio_id = #{radioId,jdbcType=VARCHAR}
-  </select>
-
-  <select id="getByRadioIdAndUserId" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from radio
-    where radio_id = #{radioId,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
-  </select>
 
 
-  <select id="listRadioByUserId" resultMap="ResultMapWithBLOBs">
-    select
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from radio
-    where user_id = #{userId,jdbcType=VARCHAR} and `status` = 0
-    <if test="searchTitle != null">
-      and radio_intro like concat('%',#{searchTitle,jdbcType=VARCHAR},'%')
-    </if>
-    order by create_time desc
-  </select>
 
 
   <select id="countRadioByUserId" resultType="java.lang.Integer">

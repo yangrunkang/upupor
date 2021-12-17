@@ -2,6 +2,8 @@ package com.upupor.service.common;
 
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.service.common.CcConstant.OSS_URL;
@@ -736,6 +738,32 @@ public enum CcEnum {
             this.source = source;
             this.name = name;
         }
+
+        public static CommentSource getBySource(Integer source) {
+            for (CommentSource value : values()) {
+                if (value.getSource().equals(source)) {
+                    return value;
+                }
+            }
+            throw new BusinessException(ErrorCode.PARAM_ERROR);
+        }
+
+        /**
+         * 内容资源
+         *
+         * @return
+         */
+        public static List<Integer> contentSource() {
+            List<Integer> commentSourceList = new ArrayList<>();
+            commentSourceList.add(TECH.getSource());
+            commentSourceList.add(QA.getSource());
+            commentSourceList.add(SHARE.getSource());
+            commentSourceList.add(WORKPLACE.getSource());
+            commentSourceList.add(RECORD.getSource());
+            commentSourceList.add(SHORT_CONTENT.getSource());
+            return commentSourceList;
+        }
+
     }
 
     /**
