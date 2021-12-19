@@ -287,7 +287,7 @@ public interface ContentService {
     void lastAndNextContent(Content content);
 
 
-    Boolean updateStatus(UpdateContentReq updateContentReq);
+    Boolean updateContentStatus(UpdateContentReq updateContentReq);
 
     /**
      * 草稿总数

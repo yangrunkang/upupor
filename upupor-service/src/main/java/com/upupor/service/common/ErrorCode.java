@@ -109,6 +109,7 @@ public enum ErrorCode {
     TODO_ALREADY_DELETE(167, "该待办已清除"),
     COLLECT_VIA_NOT_EXISTS(168, "收藏不存在"),
     MEMBER_CONFIG_LESS(169, "缺少用户配置"),
+    FIRST_CANCEL_PINNED(170, "文章置顶中,请优先取消指定"),
 
 
     //占位 兜底异常

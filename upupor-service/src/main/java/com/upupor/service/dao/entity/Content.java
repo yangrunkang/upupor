@@ -192,6 +192,16 @@ public class Content {
         this.collectNum = 0;
     }
 
+    public void init(){
+        this.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
+        this.setIsInitialStatus(CcEnum.ContentIsInitialStatus.FIRST_PUBLISHED.getStatus());
+        this.setEditTimes(0);
+        this.setPinnedStatus(CcEnum.PinnedStatus.UN_PINNED.getStatus());
+        this.setCreateTime(CcDateUtil.getCurrentTime());
+        this.setLatestCommentTime(CcDateUtil.getCurrentTime());
+        this.setSysUpdateTime(new Date());
+    }
+
 
     public String getCreateDate() {
         if (Objects.isNull(createTime)) {

@@ -141,6 +141,13 @@
                 </div>
     </div>
             <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-0 mb-2" th:if="${contentIndexDto.createContentDesc != null}">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a  class="nav-link cv-link" style="font-size: 16px" th:href="${contentIndexDto.createContentDesc.href}">
+                            <img class="lazyload cv-icon" th:src="${contentIndexDto.createContentDesc.icon}" /> [[${contentIndexDto.createContentDesc.desc}]]
+                        </a>
+                    </div>
+                </div>
                 <div th:if="${session?.is_admin}" class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">管理员专有权限</div>
                     <div class="media-right media-middle ms-1">
@@ -151,13 +158,6 @@
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">操作</div>
                     <div class="media-right media-middle ms-1">
                         <a class="btn btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType}+'&contentId='+${contentIndexDto.content.contentId}+'&edit=true'}">修改文章</a>
-                    </div>
-                </div>
-                <div class="card card-body shadow-sm border-0 p-0 mb-2" th:if="${contentIndexDto.createContentDesc != null}">
-                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <a  class="nav-link cv-link" style="font-size: 16px" th:href="${contentIndexDto.createContentDesc.href}">
-                            <img class="lazyload cv-icon" th:src="${contentIndexDto.createContentDesc.icon}" /> [[${contentIndexDto.createContentDesc.desc}]]
-                        </a>
                     </div>
                 </div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status == 0}">
