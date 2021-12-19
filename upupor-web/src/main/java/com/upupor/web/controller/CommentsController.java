@@ -82,14 +82,13 @@ public class CommentsController {
     }
 
     private void replayCommentEvent(AddCommentReq addCommentReq, Comment comment, Member currentUser) {
-        Member beReplayedUser = memberService.memberInfo(addCommentReq.getReplyToUserId());
-        if (Objects.nonNull(beReplayedUser)) {
+        if (Objects.nonNull(addCommentReq.getReplyToUserId())) {
             ReplayCommentEvent replayCommentEvent = ReplayCommentEvent.builder()
                     .commentSource(comment.getCommentSource())
                     .targetId(comment.getTargetId())
                     .createReplayUserId(currentUser.getUserId())
                     .createReplayUserName(currentUser.getUserName())
-                    .beRepliedUserId(beReplayedUser.getUserId())
+                    .beRepliedUserId(addCommentReq.getReplyToUserId())
                     .build();
             eventPublisher.publishEvent(replayCommentEvent);
         }

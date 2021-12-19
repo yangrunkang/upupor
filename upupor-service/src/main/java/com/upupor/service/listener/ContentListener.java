@@ -10,6 +10,7 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Viewer;
 import com.upupor.service.dao.mapper.ViewerMapper;
 import com.upupor.service.dto.page.common.ListFansDto;
+import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.listener.event.ViewerEvent;
 import com.upupor.service.service.*;
@@ -145,5 +146,26 @@ public class ContentListener {
             }
         }
     }
+
+
+    /**
+     * 点赞事件
+     *
+     * @param contentLikeEvent
+     */
+    @EventListener
+    @Async
+    public void likeMessage(ContentLikeEvent contentLikeEvent) {
+        String msgId = CcUtils.getUuId();
+        Content content = contentLikeEvent.getContent();
+        Member member = memberService.memberInfo(contentLikeEvent.getClickUserId());
+
+        String message = "您的文章《" +
+                String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle()) + "》被 " +
+                String.format(PROFILE_INNER_MSG, member.getUserId(), msgId, member.getUserName()) +
+                " 在" + CcDateUtil.snsFormat(CcDateUtil.getCurrentTime()) + "点赞了";
+        messageService.addMessage(content.getUserId(), message, CcEnum.MessageType.SYSTEM.getType(), msgId);
+    }
+
 
 }
