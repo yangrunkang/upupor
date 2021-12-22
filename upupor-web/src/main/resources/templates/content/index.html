@@ -23,13 +23,13 @@
         </div>
         <div class="row">
             <div class="col-lg-9 mb-2">
+                <div th:if="${contentIndexDto.content?.originType} == 1"
+                     class="p-1 mb-2 text-secondary rounded small border border-light rounded-start rounded-3 shadow-sm bg-white"><strong>·</strong> 本文为转载内容
+                    <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}"
+                          th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span>
+                </div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div>
-                        <div th:if="${contentIndexDto.content?.originType} == 1"
-                             class="font-weight-light text-dark bg-warning p-1 rounded small">本文为转载内容
-                            <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}"
-                                  th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span>
-                        </div>
                         <div class="d-flex">
                             <div class="flex-grow-1">
                                 <h3 class="text-wrap m-0" th:text="${contentIndexDto.content.title}"></h3>

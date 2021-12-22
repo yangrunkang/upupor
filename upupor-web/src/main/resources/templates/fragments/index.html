@@ -146,7 +146,6 @@ fromProfile: 是否来自Profile页面
 
 
 <div th:fragment="content_manage(content)">
-    <a href="/pinned" title="置顶"><span th:if="${content.pinnedStatus == 1}" style="margin-right: 3px" class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark pull-left">置顶</span></a>
     <a th:if="${content.status} == 0" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
     <a th:if="${content.status} != 0" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
 </div>

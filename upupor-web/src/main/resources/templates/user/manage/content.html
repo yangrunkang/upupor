@@ -56,7 +56,8 @@
                                         th:each="content,ite : ${memberIndexDto.listContentDto.contentList}"
                                     >
                                         <td style="text-align: center">
-                                            <span th:text="${ite.count}"></span>
+                                            <span th:if="${content.pinnedStatus} == 0" th:text="${ite.count}"></span>
+                                            <span th:if="${content.pinnedStatus} == 1" style="cursor: pointer;" onclick="window.location.href = '/pinned'"><span th:include="fragments/icon::top"></span></span>
                                         </td>
                                         <td>
                                             <div th:replace="fragments/index::content_manage(${content})"></div>
