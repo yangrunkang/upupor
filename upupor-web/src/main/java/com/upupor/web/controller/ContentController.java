@@ -77,7 +77,7 @@ public class ContentController {
     @ApiOperation("更新内容状态")
     public CcResponse status(UpdateContentReq updateContentReq) {
         CcResponse cc = new CcResponse();
-        Boolean editSuccess = contentService.updateStatus(updateContentReq);
+        Boolean editSuccess = contentService.updateContentStatus(updateContentReq);
         if (editSuccess) {
             // 发布成功,清除Key
             RedisUtil.remove(CcConstant.CvCache.CONTENT_CACHE_KEY + ServletUtils.getUserId());
@@ -203,11 +203,11 @@ public class ContentController {
     @PostMapping("/pinned")
     @ResponseBody
     @ApiOperation("文章置顶")
-    public CcResponse pinned(AddPinnedReq addPinnedReq) {
+    public CcResponse pinned(PinnedReq pinnedReq) {
 
         String userId = ServletUtils.getUserId();
 
-        String contentId = addPinnedReq.getContentId();
+        String contentId = pinnedReq.getContentId();
         Content content = contentService.getContentByContentIdNoStatus(contentId);
         if (Objects.isNull(content)) {
             throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
@@ -221,6 +221,21 @@ public class ContentController {
             throw new BusinessException(ErrorCode.CONTENT_STATUS_NOT_NORMAL, "不能置顶");
         }
 
+        if (CcEnum.PinnedStatus.PINNED.getStatus().equals(pinnedReq.getPinnedStatus())) {
+            cancelBeforePinnedContent(userId);
+
+            content.setContentId(contentId);
+            content.setUserId(userId);
+            content.setPinnedStatus(CcEnum.PinnedStatus.PINNED.getStatus());
+            contentService.updateContent(content);
+        } else if (CcEnum.PinnedStatus.UN_PINNED.getStatus().equals(pinnedReq.getPinnedStatus())) {
+            cancelBeforePinnedContent(userId);
+        }
+
+        return new CcResponse();
+    }
+
+    private void cancelBeforePinnedContent(String userId) {
         List<Content> pinnedContentList = contentService.getContentListByPinned(CcEnum.PinnedStatus.PINNED.getStatus(), userId);
         if (!CollectionUtils.isEmpty(pinnedContentList)) {
             // 先将之前的置顶文章取消置顶
@@ -231,12 +246,6 @@ public class ContentController {
                 contentService.updateContent(c);
             });
         }
-
-        content.setContentId(contentId);
-        content.setUserId(userId);
-        content.setPinnedStatus(CcEnum.PinnedStatus.PINNED.getStatus());
-        contentService.updateContent(content);
-        return new CcResponse();
     }
 
 

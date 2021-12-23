@@ -1,5 +1,6 @@
-package com.upupor.service.listener.impl;
+package com.upupor.service.listener.impl.comment;
 
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
@@ -74,5 +75,13 @@ public class RadioComment extends AbstractComment<Radio> {
     @Override
     public Boolean confirmSource(CcEnum.CommentSource commentSource, String targetId) {
         return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.RADIO.getSource().equals(commentSource.getSource());
+    }
+
+    @Override
+    public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
+        Radio radio = getTarget(targetId);
+        radio.setLatestCommentTime(CcDateUtil.getCurrentTime());
+        radio.setLatestCommentUserId(commenterUserId);
+        radioService.updateRadio(radio);
     }
 }

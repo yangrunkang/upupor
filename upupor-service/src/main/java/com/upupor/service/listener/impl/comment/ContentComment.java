@@ -1,5 +1,6 @@
-package com.upupor.service.listener.impl;
+package com.upupor.service.listener.impl.comment;
 
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Content;
@@ -22,7 +23,7 @@ import static com.upupor.service.common.CcConstant.MsgTemplate.*;
 public class ContentComment extends AbstractComment<Content> {
 
     @Resource
-    private ContentService commentService;
+    private ContentService contentService;
 
     @Resource
     private MessageService messageService;
@@ -48,7 +49,7 @@ public class ContentComment extends AbstractComment<Content> {
         String commenterUserName = commenter.getUserName();
 
         // 如果文章作者自己评论自己就不用发邮件了
-        if(commenter.getUserId().equals(target.getUserId())){
+        if (commenter.getUserId().equals(target.getUserId())) {
             return;
         }
 
@@ -77,11 +78,19 @@ public class ContentComment extends AbstractComment<Content> {
 
     @Override
     protected Content getTarget(String targetId) {
-        return commentService.getNormalContent(targetId);
+        return contentService.getNormalContent(targetId);
     }
 
     @Override
     public Boolean confirmSource(CcEnum.CommentSource commentSource, String targetId) {
         return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.contentSource().contains(commentSource.getSource());
+    }
+
+    @Override
+    public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
+        Content content = getTarget(targetId);
+        content.setLatestCommentTime(CcDateUtil.getCurrentTime());
+        content.setLatestCommentUserId(commenterUserId);
+        contentService.updateContent(content);
     }
 }

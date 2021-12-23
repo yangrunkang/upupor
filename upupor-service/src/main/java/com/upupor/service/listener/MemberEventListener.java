@@ -1,11 +1,18 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.dao.entity.Attention;
 import com.upupor.service.dao.entity.Member;
+import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.listener.event.MemberLoginEvent;
+import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.service.MemberIntegralService;
 import com.upupor.service.service.MemberService;
+import com.upupor.service.service.MessageService;
+import com.upupor.service.utils.CcUtils;
+import com.upupor.spi.req.AddAttentionReq;
 import com.upupor.spi.req.GetMemberIntegralReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +25,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
+
+import static com.upupor.service.common.CcConstant.MsgTemplate.PROFILE_EMAIL;
+import static com.upupor.service.common.CcConstant.MsgTemplate.PROFILE_INNER_MSG;
 
 /**
  * 用户事件监听器
@@ -34,6 +44,7 @@ public class MemberEventListener {
 
     private final MemberIntegralService memberIntegralService;
     private final MemberService memberService;
+    private final MessageService messageService;
 
     /**
      * 用户登录时间
@@ -117,4 +128,44 @@ public class MemberEventListener {
     }
 
 
+    /**
+     * 关注消息事件
+     *
+     * @param attentionUserEvent
+     */
+    @EventListener
+    @Async
+    public void attentionMessage(AttentionUserEvent attentionUserEvent) {
+        AddAttentionReq addAttentionReq = attentionUserEvent.getAddAttentionReq();
+        Attention attention = attentionUserEvent.getAttention();
+        Member attentionUser = memberService.memberInfo(attention.getUserId());
+        String msgId = CcUtils.getUuId();
+        String msg = "您有新的关注者 " + String.format(PROFILE_INNER_MSG, attentionUser.getUserId(), msgId, attentionUser.getUserName())
+                + " 去Ta的主页看看吧";
+        messageService.addMessage(addAttentionReq.getAttentionUserId(), msg, CcEnum.MessageType.SYSTEM.getType(), msgId);
+
+        // 发送邮件 被关注的人要通知ta
+        Member member = memberService.memberInfo(addAttentionReq.getAttentionUserId());
+        String emailTitle = "您有新的关注者";
+        String emailContent = "点击" + String.format(PROFILE_EMAIL, attentionUser.getUserId(), msgId, attentionUser.getUserName()) + " 去Ta的主页看看吧";
+        messageService.sendEmail(member.getEmail(), emailTitle, emailContent, member.getUserId());
+    }
+
+
+    /**
+     * 新用户注册时间
+     *
+     * @param memberRegisterEvent
+     */
+    @EventListener
+    @Async
+    public void registerInnerMessage(MemberRegisterEvent memberRegisterEvent) {
+        // 添加站内信
+        String msg = "<div class='text-info' style='font-size: 16px;'>愿景: 让每个人享受分享</div>" +
+                "<div>欢迎使用Upupor</div>" +
+                "<div>官方微信公众号: <a class='cv-link' data-toggle='modal' data-target='#wechat'>Upupor</a></div>" +
+                "<div>官方微博: <a class='cv-link' data-toggle='modal' data-target='#weibo'>UpuporCom</a></div>";
+        String msgId = CcUtils.getUuId();
+        messageService.addMessage(memberRegisterEvent.getUserId(), msg, CcEnum.MessageType.SYSTEM.getType(), msgId);
+    }
 }

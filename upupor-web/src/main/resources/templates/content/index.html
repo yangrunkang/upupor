@@ -23,6 +23,11 @@
         </div>
         <div class="row">
             <div class="col-lg-9 mb-2">
+                <div th:if="${contentIndexDto.content?.originType} == 1"
+                     class="p-1 mb-2 text-secondary rounded border border-light rounded-start rounded-3 shadow-sm bg-white"><strong>·</strong> 本文为转载内容
+                    <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}"
+                          th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span>
+                </div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div>
                         <div class="d-flex">
@@ -73,11 +78,8 @@
                         <article class="ck ck-content ck-rounded-corners mt-1" style="font-size: 16px;overflow:hidden"
                              th:utext="${contentIndexDto.content.contentExtend.detailContent}"></article>
                         <hr class="border-bottom my-2"/>
-                        <div th:switch="${contentIndexDto.content?.originType}">
-                            <div class="text-black-50 small" th:case="2">
-                                <span class="text-black-50">本作品系原创,采用<a target="_blank" class="cv-link text-black-50" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0 国际》</a>许可协议.转载请说明出处</span>
-                            </div>
-                            <div class="text-black-50 small" th:case="1">本文为转载内容  <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}" class="text-black-50" th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span></div>
+                        <div th:if="${contentIndexDto.content?.originType} == 2" class="text-black-50 small" >
+                            <span class="text-black-50">本作品系原创,采用<a target="_blank" class="cv-link text-black-50" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0 国际》</a>许可协议.转载请说明出处</span>
                         </div>
                         <div>
                             <span class="text-black-50 small">
@@ -139,6 +141,13 @@
                 </div>
     </div>
             <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-0 mb-2" th:if="${contentIndexDto.createContentDesc != null}">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                        <a  class="nav-link cv-link" style="font-size: 16px" th:href="${contentIndexDto.createContentDesc.href}">
+                            <img class="lazyload cv-icon" th:src="${contentIndexDto.createContentDesc.icon}" /> [[${contentIndexDto.createContentDesc.desc}]]
+                        </a>
+                    </div>
+                </div>
                 <div th:if="${session?.is_admin}" class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">管理员专有权限</div>
                     <div class="media-right media-middle ms-1">
@@ -149,13 +158,6 @@
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">操作</div>
                     <div class="media-right media-middle ms-1">
                         <a class="btn btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType}+'&contentId='+${contentIndexDto.content.contentId}+'&edit=true'}">修改文章</a>
-                    </div>
-                </div>
-                <div class="card card-body shadow-sm border-0 p-0 mb-2" th:if="${contentIndexDto.createContentDesc != null}">
-                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <a  class="nav-link cv-link" style="font-size: 16px" th:href="${contentIndexDto.createContentDesc.href}">
-                            <img class="lazyload cv-icon" th:src="${contentIndexDto.createContentDesc.icon}" /> [[${contentIndexDto.createContentDesc.desc}]]
-                        </a>
                     </div>
                 </div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status == 0}">

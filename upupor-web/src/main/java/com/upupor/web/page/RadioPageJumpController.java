@@ -4,6 +4,7 @@ import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.RadioIndexDto;
 import com.upupor.service.service.CommentService;
+import com.upupor.service.service.MessageService;
 import com.upupor.service.service.ViewerService;
 import com.upupor.service.service.aggregation.RadioAggregateService;
 import com.upupor.service.utils.PageUtils;
@@ -37,6 +38,8 @@ public class RadioPageJumpController {
     private final CommentService commentService;
 
     private final ViewerService viewerService;
+
+    private final MessageService messageService;
 
     @ApiOperation("电台")
     @GetMapping("/radio-station")
@@ -83,7 +86,8 @@ public class RadioPageJumpController {
 
     @ApiOperation("电台详情")
     @GetMapping("/r/{radioId}")
-    public ModelAndView radioDetail(@PathVariable("radioId") String radioId, Integer pageNum, Integer pageSize) {
+    public ModelAndView radioDetail(@PathVariable("radioId") String radioId, Integer pageNum, Integer pageSize,
+                                    String msgId) {
         if (Objects.isNull(pageNum)) {
             // 获取最新的评论
             Integer count = commentService.countByTargetId(radioId);
@@ -92,6 +96,10 @@ public class RadioPageJumpController {
 
         if (Objects.isNull(pageSize)) {
             pageSize = CcConstant.Page.SIZE_COMMENT;
+        }
+
+        if (Objects.nonNull(msgId)) {
+            messageService.tagMsgRead(msgId);
         }
 
         ModelAndView modelAndView = new ModelAndView();

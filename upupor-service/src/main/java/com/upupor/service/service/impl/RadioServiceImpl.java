@@ -53,8 +53,12 @@ public class RadioServiceImpl implements RadioService {
 
         LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
                 .eq(Radio::getUserId, userId)
-                .like(Radio::getRadioIntro, searchTitle)
                 .orderByDesc(Radio::getCreateTime);
+
+        if(!StringUtils.isEmpty(searchTitle)){
+            query.like(Radio::getRadioIntro, searchTitle);
+        }
+
 
         PageHelper.startPage(pageNum, pageSize);
         List<Radio> radioList = radioMapper.selectList(query);

@@ -257,76 +257,33 @@ public class ContentServiceImpl implements ContentService {
             }
         }
 
-
+        // 生成文章数据
         Content content = new Content();
-        if (StringUtils.isEmpty(addContentDetailReq.getPreContentId())) {
-            content.setContentId(CcUtils.getUuId());
-        } else {
-            // 检查preContentId是否已经使用
-            try {
-                Content normalContent = getNormalContent(addContentDetailReq.getPreContentId());
-                if (Objects.nonNull(normalContent)) {
-                    throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
-                }
-            } catch (Exception e) {
-                if (e instanceof BusinessException
-                        && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())) {
-                    // 忽略
-                } else {
-                    throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
-                }
-            }
-
-
-            content.setContentId(addContentDetailReq.getPreContentId());
-        }
+        content.init();
+        generateContentId(addContentDetailReq, content);
         content.setUserId(userId);
         content.setTitle(addContentDetailReq.getTitle());
         content.setContentType(addContentDetailReq.getContentType());
         content.setShortContent(addContentDetailReq.getShortContent());
         content.setTagIds(CcUtils.removeLastComma(addContentDetailReq.getTagIds()));
         content.setStatementId(member.getStatementId());
-
-        // 设置文章初始数据
-        content.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
-        // 默认 第一次发布
-        content.setIsInitialStatus(CcEnum.ContentIsInitialStatus.FIRST_PUBLISHED.getStatus());
-        content.setEditTimes(0);
-        content.setPinnedStatus(CcEnum.PinnedStatus.UN_PINNED.getStatus());
-        content.setCreateTime(CcDateUtil.getCurrentTime());
-        content.setLatestCommentTime(CcDateUtil.getCurrentTime());
-        content.setSysUpdateTime(new Date());
-
-        // 原创处理
-        if (Objects.nonNull(addContentDetailReq.getOriginType())) {
-            content.setOriginType(addContentDetailReq.getOriginType());
-            content.setNoneOriginLink(addContentDetailReq.getNoneOriginLink());
-        }
-
-        // 具体操作 发布 或者 草稿
-        if (!StringUtils.isEmpty(addContentDetailReq.getOperation())) {
-            String draftTag = "temp";
-            if (draftTag.equals(addContentDetailReq.getOperation())) {
-                content.setStatus(CcEnum.ContentStatus.DRAFT.getStatus());
-                content.setIsInitialStatus(CcEnum.ContentIsInitialStatus.NOT_FIRST_PUBLISH_EVER.getStatus());
-            }
-        }
-
         // 初始化文章拓展表
         ContentExtend contentExtend = new ContentExtend();
         contentExtend.setContentId(content.getContentId());
         contentExtend.setDetailContent(addContentDetailReq.getContent());
         contentExtend.setSysUpdateTime(new Date());
-
         content.setContentExtend(contentExtend);
-
         // 初始化文章数据
         this.initContendData(content.getContentId());
+        // 原创处理
+        origialProcessing(addContentDetailReq, content);
+        // 具体操作 发布 或者 草稿
+        publishOperator(addContentDetailReq, content);
+
 
         int count = contentMapper.insert(content);
         int total = contentExtendMapper.insert(contentExtend) + count;
         boolean addSuccess = total > 1;
-
 
         if (addSuccess) {
             // 发送创建文章成功事件
@@ -341,6 +298,50 @@ public class ContentServiceImpl implements ContentService {
         return addSuccess;
     }
 
+    private void publishOperator(AddContentDetailReq addContentDetailReq, Content content) {
+        if (!StringUtils.isEmpty(addContentDetailReq.getOperation())) {
+            String draftTag = "temp";
+            if (draftTag.equals(addContentDetailReq.getOperation())) {
+                content.setStatus(CcEnum.ContentStatus.DRAFT.getStatus());
+                content.setIsInitialStatus(CcEnum.ContentIsInitialStatus.NOT_FIRST_PUBLISH_EVER.getStatus());
+            }
+        }
+    }
+
+    private void origialProcessing(AddContentDetailReq addContentDetailReq, Content content) {
+        if (Objects.nonNull(addContentDetailReq.getOriginType())) {
+            content.setOriginType(addContentDetailReq.getOriginType());
+            content.setNoneOriginLink(addContentDetailReq.getNoneOriginLink());
+        }
+    }
+
+    private void generateContentId(AddContentDetailReq addContentDetailReq, Content content) {
+        if (StringUtils.isEmpty(addContentDetailReq.getPreContentId())) {
+            content.setContentId(CcUtils.getUuId());
+        } else {
+            // 检查preContentId是否已经使用
+            checkPreContentId(addContentDetailReq);
+            content.setContentId(addContentDetailReq.getPreContentId());
+        }
+    }
+
+    private void checkPreContentId(AddContentDetailReq addContentDetailReq) {
+        try {
+            // 检查重复提交
+            Content normalContent = getNormalContent(addContentDetailReq.getPreContentId());
+            if (Objects.nonNull(normalContent)) {
+                throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
+            }
+        } catch (Exception e) {
+            if (e instanceof BusinessException
+                    && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())) {
+                // 忽略
+            } else {
+                throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
+            }
+        }
+    }
+
     private void publishContentEvent(Content content) {
         PublishContentEvent createContentEvent = new PublishContentEvent();
         createContentEvent.setContentId(content.getContentId());
@@ -351,22 +352,15 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Boolean updateContent(UpdateContentReq updateContentReq) {
 
-        // check
-        String contentId = updateContentReq.getContentId();
-        Content editContent = getManageContentDetail(contentId);
+        Content editContent = getManageContentDetail(updateContentReq.getContentId());
 
         // 校验内容所属的用户id是否是当前用户
         ServletUtils.checkOperatePermission(editContent.getUserId());
-
-        // 检查置顶的文章
-        if (Objects.nonNull(editContent.getPinnedStatus()) && editContent.getPinnedStatus().equals(CcEnum.PinnedStatus.PINNED.getStatus())) {
-            if (Objects.nonNull(updateContentReq.getStatus()) && updateContentReq.getStatus() != 0) {
-                throw new BusinessException(ErrorCode.FORBIDDEN_SET_PINNED_CONTENT_STATUS_NOT_NORMAL);
-            }
-        }
+        // 检查置顶文章的状态
+        pinnedContentCheck(updateContentReq, editContent);
 
         // 记录变更次数
-        setEditTimes(updateContentReq, editContent);
+        updateEditTimes(updateContentReq, editContent);
 
         // 编辑Content
         BeanUtils.copyProperties(updateContentReq, editContent);
@@ -374,7 +368,7 @@ public class ContentServiceImpl implements ContentService {
             editContent.setTagIds(CcUtils.removeLastComma(updateContentReq.getTagIds()));
         }
 
-        // 操作更改为公开草稿
+        // 操作更改为公开、草稿
         boolean isSendCreateContentMessage = false;
         if (Objects.nonNull(updateContentReq.getIsDraftPublic()) && updateContentReq.getIsDraftPublic()) {
             editContent.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
@@ -402,6 +396,14 @@ public class ContentServiceImpl implements ContentService {
         return Boolean.TRUE;
     }
 
+    private void pinnedContentCheck(UpdateContentReq updateContentReq, Content editContent) {
+        if (Objects.nonNull(editContent.getPinnedStatus()) && editContent.getPinnedStatus().equals(CcEnum.PinnedStatus.PINNED.getStatus())) {
+            if (Objects.nonNull(updateContentReq.getStatus()) && !updateContentReq.getStatus().equals(CcEnum.ContentStatus.NORMAL.getStatus())) {
+                throw new BusinessException(ErrorCode.FORBIDDEN_SET_PINNED_CONTENT_STATUS_NOT_NORMAL);
+            }
+        }
+    }
+
     @Override
     public Boolean updateContent(Content content) {
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
@@ -409,12 +411,19 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public Boolean updateStatus(UpdateContentReq updateContentReq) {
+    public Boolean updateContentStatus(UpdateContentReq updateContentReq) {
         // check
         String contentId = updateContentReq.getContentId();
         Content editContent = getManageContentDetail(contentId);
         // 校验内容所属的用户id是否是当前用户
         ServletUtils.checkOperatePermission(editContent.getUserId());
+
+        if(Objects.nonNull(editContent.getPinnedStatus())
+        && CcEnum.PinnedStatus.PINNED.getStatus().equals(editContent.getPinnedStatus())
+        && !CcEnum.ContentStatus.NORMAL.getStatus().equals(updateContentReq.getStatus())
+        ){
+            throw new BusinessException(FIRST_CANCEL_PINNED);
+        }
 
         // 如果只是单纯的在控制中心更改状态
         boolean isSendCreateContentMessage = false;
@@ -447,7 +456,7 @@ public class ContentServiceImpl implements ContentService {
         return contentMapper.countDraft(userId);
     }
 
-    private void setEditTimes(UpdateContentReq updateContentReq, Content editContent) {
+    private void updateEditTimes(UpdateContentReq updateContentReq, Content editContent) {
         String updateTitleContent = updateContentReq.getTitle() + updateContentReq.getDetailContent();
         String originTitleContent = editContent.getTitle() + editContent.getContentExtend().getDetailContent();
         if (!updateTitleContent.equals(originTitleContent)) {

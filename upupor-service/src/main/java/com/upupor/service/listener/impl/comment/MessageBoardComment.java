@@ -1,4 +1,4 @@
-package com.upupor.service.listener.impl;
+package com.upupor.service.listener.impl.comment;
 
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
@@ -79,5 +79,10 @@ public class MessageBoardComment extends AbstractComment<Member> {
     @Override
     public Boolean confirmSource(CcEnum.CommentSource commentSource, String targetId) {
         return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.MESSAGE.getSource().equals(commentSource.getSource());
+    }
+
+    @Override
+    public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
+
     }
 }

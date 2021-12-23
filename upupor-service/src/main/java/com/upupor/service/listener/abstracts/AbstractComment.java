@@ -72,4 +72,5 @@ public abstract class AbstractComment<T> {
         return CcUtils.getUuId();
     }
 
+    public abstract void updateTargetCommentCreatorInfo(String targetId,String commenterUserId);
 }

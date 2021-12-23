@@ -70,10 +70,19 @@ function userLeftContentBtnActive() {
  * 位置置顶
  * @param contentId
  */
-function pinned(contentId) {
+function pinned(contentId,ope) {
+    let _title = '';
+    let _pinnedStatus = 0;
+    if(ope === 'pinned'){
+        _title = "确定将文章置顶吗?";
+        _pinnedStatus = 1;
+    }else if(ope === 'cancel'){
+        _title = "确定将取消文章置顶吗?";
+        _pinnedStatus = 0;
+    }
 
     swal({
-        title: "确定将文章置顶吗?",
+        title: _title,
         text: "提示",
         icon: "warning",
         buttons: [{
@@ -91,6 +100,7 @@ function pinned(contentId) {
         if (willDelete) {
             let pinnedReq = {
                 contentId: contentId,
+                pinnedStatus: _pinnedStatus,
             };
             $.cvPost('/content/pinned', pinnedReq, function (data) {
                 if (respCodeOk(data)) {

@@ -56,7 +56,8 @@
                                         th:each="content,ite : ${memberIndexDto.listContentDto.contentList}"
                                     >
                                         <td style="text-align: center">
-                                            <span th:text="${ite.count}"></span>
+                                            <span th:if="${content.pinnedStatus} == 0" th:text="${ite.count}"></span>
+                                            <span th:if="${content.pinnedStatus} == 1" style="cursor: pointer;" onclick="window.location.href = '/pinned'"><span th:include="fragments/icon::top"></span></span>
                                         </td>
                                         <td>
                                             <div th:replace="fragments/index::content_manage(${content})"></div>
@@ -92,7 +93,8 @@
                                                     <!--&from=m 代表从管理后台来-->
                                                     <a class="cv-link dropdown-item" th:href="@{'/editor?type='+${content.contentType}+'&contentId='+${content.contentId}+'&edit=true'}"><span th:include="fragments/icon::edit"></span>编辑</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="cv-link dropdown-item" th:onclick="pinned([[${content.contentId}]])"><span th:include="fragments/icon::top"></span>置顶</a>
+                                                    <a class="cv-link dropdown-item" th:if="${content.pinnedStatus} == 0" th:onclick="pinned([[${content.contentId}]],'pinned')"><span th:include="fragments/icon::top"></span>置顶</a>
+                                                    <a class="cv-link dropdown-item" th:if="${content.pinnedStatus} == 1" th:onclick="pinned([[${content.contentId}]],'cancel')"><span th:include="fragments/icon::top_cancel"></span>取消置顶</a>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="cv-link dropdown-item" th:onclick="changeContentStatus('normal',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
                                                     <a class="cv-link dropdown-item" th:onclick="changeContentStatus('draft',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::caogao"></span>草稿</a>
