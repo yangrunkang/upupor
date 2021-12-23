@@ -24,7 +24,7 @@
         <div class="row">
             <div class="col-lg-9 mb-2">
                 <div th:if="${contentIndexDto.content?.originType} == 1"
-                     class="p-1 mb-2 text-secondary rounded small border border-light rounded-start rounded-3 shadow-sm bg-white"><strong>·</strong> 本文为转载内容
+                     class="p-1 mb-2 text-secondary rounded border border-light rounded-start rounded-3 shadow-sm bg-white"><strong>·</strong> 本文为转载内容
                     <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}"
                           th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span>
                 </div>
