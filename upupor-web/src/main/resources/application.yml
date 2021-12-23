@@ -125,8 +125,6 @@ codingvcr:
   # oss 文件存储地址
   file-host: ${OSS_FILE_HOST}
  ossStatic: ${OSS_STATIC}
- luence:
-  indexDic: ${LUENCE_INDEX_DIC}
  env: ${UPUPOR_ENV}
  # 不需要登录的接口
  interfaceWhiteUrlList:

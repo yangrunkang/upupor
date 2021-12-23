@@ -1,7 +1,6 @@
 package com.upupor.service.listener.abstracts;
 
 import com.upupor.service.common.CcEnum;
-import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.service.CommentService;
 import com.upupor.service.service.MemberService;
@@ -53,16 +52,6 @@ public abstract class AbstractComment<T> {
      */
     protected Member getMemberInfo(String userId) {
         return memberService.memberInfo(userId);
-    }
-
-    /**
-     * 获取评论信息
-     *
-     * @param commentId 评论id
-     * @return
-     */
-    protected Comment getComment(String commentId) {
-        return commentService.getCommentByCommentId(commentId);
     }
 
     /**
