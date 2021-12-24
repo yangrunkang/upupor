@@ -1,4 +1,4 @@
-package com.upupor.service.service.manage;
+package com.upupor.service.manage.service;
 
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.spi.req.ListCommentReq;

@@ -61,5 +61,11 @@ public abstract class AbstractComment<T> {
         return CcUtils.getUuId();
     }
 
+    /**
+     * 更新目标的评论者信息
+     * @param targetId
+     * @param commenterUserId
+     */
     public abstract void updateTargetCommentCreatorInfo(String targetId,String commenterUserId);
+
 }

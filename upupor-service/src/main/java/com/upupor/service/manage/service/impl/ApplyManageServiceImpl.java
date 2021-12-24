@@ -1,11 +1,11 @@
-package com.upupor.service.service.manage.impl;
+package com.upupor.service.manage.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.service.dao.entity.Apply;
 import com.upupor.service.dao.mapper.ApplyMapper;
 import com.upupor.service.dto.page.common.ListApplyDto;
-import com.upupor.service.service.manage.ApplyManageService;
+import com.upupor.service.manage.service.ApplyManageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

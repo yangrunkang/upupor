@@ -5,8 +5,6 @@ import com.upupor.service.listener.abstracts.AbstractComment;
 import com.upupor.service.listener.abstracts.AbstractReplyComment;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
-import com.upupor.service.service.ContentService;
-import com.upupor.service.service.RadioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -26,12 +24,8 @@ import java.util.List;
 @Component
 public class CommentListener {
 
-    private final ContentService contentService;
-    private final RadioService radioService;
-
     private final List<AbstractComment> abstractCommentList;
     private final List<AbstractReplyComment> abstractReplyCommentList;
-
 
     /**
      * 添加评论成功
@@ -77,6 +71,7 @@ public class CommentListener {
             try {
                 if (abstractReplyComment.isHandled(replayCommentEvent.getTargetId(), CcEnum.CommentSource.getBySource(replayCommentEvent.getCommentSource()))) {
                     abstractReplyComment.reply(replayCommentEvent);
+                    abstractReplyComment.updateTargetCommentCreatorInfo(replayCommentEvent.getTargetId(), createReplayUserId);
                 }
             } catch (Exception e) {
             }

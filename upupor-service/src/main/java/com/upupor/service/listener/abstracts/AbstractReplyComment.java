@@ -35,6 +35,14 @@ public abstract class AbstractReplyComment<T> {
     public abstract void reply(ReplayCommentEvent replayCommentEvent);
 
     /**
+     * 更新目标的评论者信息
+     * @param targetId
+     * @param commenterUserId
+     */
+    public abstract void updateTargetCommentCreatorInfo(String targetId,String commenterUserId);
+
+
+    /**
      * 获取目标对象
      * @param targetId
      * @return

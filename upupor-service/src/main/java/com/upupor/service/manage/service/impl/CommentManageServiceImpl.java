@@ -1,4 +1,4 @@
-package com.upupor.service.service.manage.impl;
+package com.upupor.service.manage.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -7,7 +7,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.mapper.CommentMapper;
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.service.service.manage.CommentManageService;
+import com.upupor.service.manage.service.CommentManageService;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.spi.req.ListCommentReq;
 import lombok.RequiredArgsConstructor;

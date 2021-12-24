@@ -93,8 +93,6 @@ codingvcr:
   corePoolSize: 10
   maxPoolSize: 30
   keepAliveSeconds: 120
- # 广告
- ads: all-top,all-bottom,tech-right-class,tech-right-promote,tech-right-ad,qa,share,workplace
  # 压缩后的图片输出地址
  thumbnails:
   # 压缩质量

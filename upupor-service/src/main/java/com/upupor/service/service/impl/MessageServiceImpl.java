@@ -107,7 +107,6 @@ public class MessageServiceImpl implements MessageService {
         // 所有消息已读
         LambdaQueryWrapper<Message> query = new LambdaQueryWrapper<Message>()
                 .eq(Message::getUserId, updateMessageReq.getUserId());
-
         List<Message> messages = messageMapper.selectList(query);
         AtomicInteger updateCount = new AtomicInteger();
         messages.forEach(message -> {

@@ -7,7 +7,6 @@ import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.dto.page.RadioIndexDto;
 import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.service.*;
@@ -77,14 +76,7 @@ public class RadioAggregateService {
     }
 
 
-    public MemberIndexDto manageRadio(Integer pageNum, Integer pageSize, String userId, String searchTitle) {
 
-        MemberIndexDto memberIndexDto = new MemberIndexDto();
-        ListRadioDto listRadioDto = radioService.listRadioByUserId(pageNum, pageSize, userId, searchTitle);
-        memberIndexDto.setListRadioDto(listRadioDto);
-        memberIndexDto.setMember(memberService.memberInfoData(userId));
-        return memberIndexDto;
-    }
 
     public RadioIndexDto detail(String radioId, Integer pageNum, Integer pageSize) {
 

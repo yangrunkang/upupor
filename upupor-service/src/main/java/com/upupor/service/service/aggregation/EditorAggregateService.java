@@ -26,7 +26,6 @@ import static com.upupor.service.service.aggregation.CommonAggregateService.getC
 public class EditorAggregateService {
 
     private final TagService tagService;
-
     private final ContentService contentService;
 
     /**

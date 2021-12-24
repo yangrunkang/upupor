@@ -38,9 +38,7 @@ import static com.upupor.service.common.CcConstant.CvCache.ACTIVE_USER_LIST;
 public class CommonAggregateService {
 
     private final ContentService contentService;
-
     private final TagService tagService;
-
     private final BannerService bannerService;
 
     public static HrefDesc getCreateContentInfo(Integer contentType, String tag) {
