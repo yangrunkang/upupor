@@ -50,7 +50,7 @@
                             </div>
                         </li>
                         <li class="nav-item login" th:if="!${session?.cv_user_id}">
-                            <a class="nav-link cv-link" href="/login" title="登录"><img class="lazyload cv-icon-item" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/login.svg" /> <span>登录</span></a>
+                            <a class="nav-link cv-link" href="/login" title="登录"><img class="lazyload cv-icon-item" th:src="${ossStatic} + @{/icons/system/login.svg}" /> <span>登录</span></a>
                         </li>
                         <li class="nav-item d-none d-xl-block" th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
                             <a  class="nav-link message cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">

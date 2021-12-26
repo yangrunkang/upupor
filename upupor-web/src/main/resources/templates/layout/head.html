@@ -18,7 +18,7 @@
         <meta th:if="${#strings.isEmpty(seo_description)}" name="description" content="在upupor,您可以浏览网站所有内容,发布内容,参与互动,对您喜欢的作者进行关注,对内容进行点赞和评价,创建短内容,发布广告等商务活动,个人内容管理等等" />
         <meta th:if="${#strings.isEmpty(seo_keywords)}" name="keywords" content="upupor,upupor.com,分享,朋友,线下,技术,问答,分享,职场,记录" />
         <!--网站图标-->
-        <link rel="shortcut icon" href="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/uricon.ico" />
+        <link rel="shortcut icon" th:href="${ossStatic} + @{/asserts/uricon.ico}" />
         <!--告知Google的网页的本地化版本-->
         <link rel="alternate" hreflang="zh-Hans" href="https://www.upupor.com" />
         <!--bootstrap css-->

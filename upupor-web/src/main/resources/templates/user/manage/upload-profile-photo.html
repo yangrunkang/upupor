@@ -7,8 +7,8 @@
 <script th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/js/user/manage/upload-profile-photo.js}"></script>
 
 <!--加载图片裁剪插件-->
-<link th:fragment="css" type="text/css" rel="stylesheet" th:href="@{https://upupor-img.oss-cn-hangzhou.aliyuncs.com/js/cropper.min.css}" />
-<script th:fragment="js" type="text/javascript" th:src="@{https://upupor-img.oss-cn-hangzhou.aliyuncs.com/js/cropper.min.js}"></script>
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/js/cropper.min.css}" />
+<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/cropper.min.js}"></script>
 
 <div th:fragment="content">
     <!--收藏夹-->
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="modal-body" style="overflow:hidden;"  >
                                         <div class="img-container">
-                                            <img id="image" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/profile-photo.png">
+                                            <img id="image" th:src="${ossStatic} + @{/system/profile-photo.png}">
                                         </div>
                                     </div>
                                     <div class="modal-footer">
