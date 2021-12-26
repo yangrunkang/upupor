@@ -15,12 +15,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="nav-item d-md-none d-none d-xl-block">
                         <a class="nav-link cv-link home topic tech share workplace record qa me-1" href="/" title="文章">
-                            <img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/zhishi.svg" /> 文章
+                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}" /> 文章
                         </a>
                     </div>
                     <div class="nav-item radio-station d-md-none d-none d-xl-block">
                         <a class="nav-link cv-link" href="/radio-station" title="电台">
-                            <img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/radio.svg" /> 电台
+                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}" /> 电台
                         </a>
                     </div>
                     <div class="nav-item todo-list d-md-none d-none d-xl-block">
@@ -31,22 +31,22 @@
                     <ul class="navbar-nav ms-auto my-1">
                         <li class="nav-item dropdown d-none d-xl-block">
                             <a class="nav-link cv-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img style="width:21px;height: 21px" class="lazyload" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-content.png" />  创作
+                                <img style="width:21px;height: 21px" class="lazyload" th:data-src="${ossStatic} + @{/icons/write/write-content.png}" />  创作
                             </a>
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="navbarDropdown">
-                                <a class="cv-link dropdown-item" href="/before-editor" th:if="${cv_content_done}"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/undo.svg" alt="继续上次编辑" /> 继续上次编辑</a>
+                                <a class="cv-link dropdown-item" href="/before-editor" th:if="${cv_content_done}"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/undo.svg}" alt="继续上次编辑" /> 继续上次编辑</a>
                                 <a th:if="${draftCount} != null and ${draftCount} >= 1" class="cv-link dropdown-item" href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                                    <img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/draft.svg" /> 草稿箱 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
+                                    <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
                                 </a>
                                 <div class="dropdown-divider" th:if="(${draftCount} != null and ${draftCount} >= 1) or (${cv_content_done})"></div>
-                                <a class="cv-link dropdown-item" href="/editor?type=6" title="短内容"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/topic.png" alt="创建短内容"> 短内容</a>
-                                <a class="cv-link dropdown-item" href="/editor?type=1" title="技术"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-tech.png" alt="技术" /> 技术</a>
-                                <a class="cv-link dropdown-item" href="/editor?type=2" title="问答"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-qa.png" alt="提问"/> 提问</a>
-                                <a class="cv-link dropdown-item" href="/editor?type=3" title="分享"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-share.png" alt="分享"/> 分享</a>
-                                <a class="cv-link dropdown-item" href="/editor?type=4" title="职场"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-work.png" alt="职场"/> 职场</a>
-                                <a class="cv-link dropdown-item" href="/editor?type=5" title="记录"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-record.png" alt="记录"/> 记录</a>
+                                <a class="cv-link dropdown-item" href="/editor?type=6" title="短内容"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/topic.png}" alt="创建短内容"> 短内容</a>
+                                <a class="cv-link dropdown-item" href="/editor?type=1" title="技术"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-tech.png}" alt="技术" /> 技术</a>
+                                <a class="cv-link dropdown-item" href="/editor?type=2" title="问答"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-qa.png}" alt="提问"/> 提问</a>
+                                <a class="cv-link dropdown-item" href="/editor?type=3" title="分享"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-share.png}" alt="分享"/> 分享</a>
+                                <a class="cv-link dropdown-item" href="/editor?type=4" title="职场"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-work.png}" alt="职场"/> 职场</a>
+                                <a class="cv-link dropdown-item" href="/editor?type=5" title="记录"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-record.png}" alt="记录"/> 记录</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="cv-link dropdown-item" href="/radio-station/create" title="上传电台"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/radio.svg" alt="电台"/> 电台</a>
+                                <a class="cv-link dropdown-item" href="/radio-station/create" title="上传电台"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}" alt="电台"/> 电台</a>
                             </div>
                         </li>
                         <li class="nav-item login" th:if="!${session?.cv_user_id}">
@@ -54,11 +54,11 @@
                         </li>
                         <li class="nav-item d-none d-xl-block" th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
                             <a  class="nav-link message cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">
-                                <img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/message.svg" /> <span class="badge rounded-pill fw-normal lh-sm bg-danger" th:text="${unReadMegCount}">23</span>
+                                <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/message.svg}" /> <span class="badge rounded-pill fw-normal lh-sm bg-danger" th:text="${unReadMegCount}">23</span>
                             </a>
                         </li>
                         <li class="nav-item register" th:if="!${session?.cv_user_id}">
-                            <a class="nav-link cv-link" href="/register" title="注册"><img class="lazyload cv-icon-item" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/register.svg" /> <span>注册</span></a>
+                            <a class="nav-link cv-link" href="/register" title="注册"><img class="lazyload cv-icon-item" th:data-src="${ossStatic} + @{/icons/system/register.svg}" /> <span>注册</span></a>
                         </li>
                         <li class="nav-item user_manage" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
                             <a class="nav-link user cv-link" href="/user/manage/content" title="我的">
@@ -76,16 +76,16 @@
         <div class="container d-xl-none">
             <ul class="list-group list-group-horizontal shadow-sm border-0 mb-2">
                 <a class="list-group-item cv-link flex-grow-1" href="/" title="文章">
-                    <img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/zhishi.svg" /> 文章
+                    <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}" /> 文章
                 </a>
                 <a class="list-group-item cv-link flex-grow-1" href="/todo-list" title="待办">
                     <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}" /> 待办
                 </a>
                 <a class="list-group-item cv-link flex-grow-1" href="/radio-station" title="电台">
-                    <img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/radio.svg" /> 电台
+                    <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}" /> 电台
                 </a>
                 <a class="list-group-item cv-link flex-grow-1" href="/before-editor" title="创作">
-                    <img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-content.png" /> 创作
+                    <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-content.png}" /> 创作
                 </a>
             </ul>
         </div>

@@ -31,15 +31,15 @@
                             <span class="fw-bold">·</span>
                         </div>
                         <div class="me-1">
-                            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/liulan.png" class="lazyload cv-icon-small"/> <span th:text="${radioIndexDto.radio.contentData.viewNum}">0</span>
+                            <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span th:text="${radioIndexDto.radio.contentData.viewNum}">0</span>
                             <span class="fw-bold">·</span>
                         </div>
                         <div class="me-1">
-                            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/comment-yellow.png" class="lazyload cv-icon-small"/> <span  th:text="${radioIndexDto.radio.contentData.commentNum}">0</span>
+                            <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/> <span  th:text="${radioIndexDto.radio.contentData.commentNum}">0</span>
                             <span class="fw-bold">·</span>
                         </div>
                         <div class="me-1">
-                            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/content-time.png" class="lazyload cv-icon-small"/> <span  th:text="${radioIndexDto.radio.createDate}">2020-01-01 00:00</span>
+                            <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span  th:text="${radioIndexDto.radio.createDate}">2020-01-01 00:00</span>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                     </p>
                     <div>
                         <p style="text-align: center">
-                            <a class="cv-link text-black-50 small" th:inline="text" th:href="'/profile-message/'+${radioIndexDto.radio.member.userId}"><img style=" width: 20px;height: 20px" class="lazyload" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/goutong.png"> 和作者沟通</a>
+                            <a class="cv-link text-black-50 small" th:inline="text" th:href="'/profile-message/'+${radioIndexDto.radio.member.userId}"><img style=" width: 20px;height: 20px" class="lazyload" th:data-src="${ossStatic} + @{/icons/system/goutong.png}"> 和作者沟通</a>
                         </p>
                     </div>
                     <div>

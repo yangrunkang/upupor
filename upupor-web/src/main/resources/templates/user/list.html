@@ -30,7 +30,7 @@
                                 </div>
                                 <span class="mb-0 text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}" th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
                                 <a class="btn btn-warning" th:href="'/profile-message/' + ${member.userId}" th:inline="text">
-                                    <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/goutong.png" class="lazyload cv-icon-item" alt="留言"/>  留言
+                                    <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item" alt="留言"/>  留言
                                 </a>
                             </div>
                         </li>

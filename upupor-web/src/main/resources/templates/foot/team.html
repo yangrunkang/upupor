@@ -14,7 +14,7 @@
                     <div>
                         <div class="lead border-bottom mb-2">网站开发者</div>
                         <div class="d-block text-center">
-                            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/team.jpeg" class="lazyload img-rounded img-thumbnail img-responsive"  alt="one person team"/>
+                            <img th:data-src="${ossStatic} + @{/asserts/team.jpeg}" class="lazyload img-rounded img-thumbnail img-responsive"  alt="one person team"/>
                         </div>
                         <div class="lead border-top my-2">简介</div>
                         <div style="font-size: 17px;color: #7D8B99" class="text-wrap">
@@ -37,14 +37,7 @@
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <a class="nav-link cv-link" href="/vision" title="愿景"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/vision.svg" class="lazyload cv-icon" />  愿景</a>
-                        <a class="nav-link cv-link" href="/brand-story" title="品牌故事"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/brand-story.svg" class="lazyload cv-icon" />  品牌故事</a>
-                        <a class="nav-link cv-link active" href="/team" title="技术"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/teamwork.svg" class="lazyload cv-icon" />  技术</a>
-                        <a class="nav-link cv-link" href="/thanks" title="致谢"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/thanks.svg" class="lazyload cv-icon" />  致谢</a>
-                        <a class="nav-link cv-link" href="/logo-design" title="logo设计"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/design.svg" class="lazyload cv-icon" />  logo设计</a>
-                        <a class="nav-link cv-link" href="/business-cooperation" title="商务合作"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/business-co.svg" class="lazyload cv-icon" />  商务合作</a>
-                        <a class="nav-link cv-link" href="/check-info" title="关于广告"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/ad.svg" class="lazyload cv-icon" />  关于广告</a>
-                        <a class="nav-link cv-link" href="/pinned" title="关于置顶"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/zhiding.svg" class="lazyload cv-icon" />  关于置顶</a>
+                        <div th:replace="fragments/index::foot_left('team')"></div>
                     </div>
                 </div>
                 <div class="mt-2" th:include="fragments/index::google_right_ad"></div>
