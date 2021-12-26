@@ -93,8 +93,6 @@ codingvcr:
   corePoolSize: 10
   maxPoolSize: 30
   keepAliveSeconds: 120
- # 广告
- ads: all-top,all-bottom,tech-right-class,tech-right-promote,tech-right-ad,qa,share,workplace
  # 压缩后的图片输出地址
  thumbnails:
   # 压缩质量
@@ -125,8 +123,6 @@ codingvcr:
   # oss 文件存储地址
   file-host: ${OSS_FILE_HOST}
  ossStatic: ${OSS_STATIC}
- luence:
-  indexDic: ${LUENCE_INDEX_DIC}
  env: ${UPUPOR_ENV}
  # 不需要登录的接口
  interfaceWhiteUrlList:

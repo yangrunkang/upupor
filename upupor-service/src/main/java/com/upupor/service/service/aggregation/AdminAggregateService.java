@@ -24,9 +24,7 @@ import static com.upupor.service.utils.ServletUtils.getUserId;
 @RequiredArgsConstructor
 public class AdminAggregateService {
 
-
     private final MemberService memberService;
-
     private final ContentService contentService;
 
 

@@ -49,15 +49,15 @@
                                 <span class="fw-bold">·</span>
                             </div>
                             <div class="me-1">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/liulan.png" class="lazyload cv-icon-small"/> <span th:text="${contentIndexDto.content.contentData.viewNum}">0</span>
+                                <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span th:text="${contentIndexDto.content.contentData.viewNum}">0</span>
                                 <span class="fw-bold">·</span>
                             </div>
                             <div class="me-1">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/comment-yellow.png" class="lazyload cv-icon-small"/> <span  th:text="${contentIndexDto.content.contentData.commentNum}">0</span>
+                                <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/> <span  th:text="${contentIndexDto.content.contentData.commentNum}">0</span>
                                 <span class="fw-bold">·</span>
                             </div>
                             <div class="me-1">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/content-time.png" class="lazyload cv-icon-small"/> <span  th:text="${contentIndexDto.content.createDate}">2020-01-01 00:00</span>
+                                <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span  th:text="${contentIndexDto.content.createDate}">2020-01-01 00:00</span>
                             </div>
                             <div class="me-1 d-none d-xl-block">
                                 <div data-bs-toggle="collapse" href="#edit-reason"
@@ -169,25 +169,25 @@
                                 <span class="me-3">
                                     <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.contentData.likeNum}"></span>
                                     <span class="text-black-50 m-1">个</span>
-                                    <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/zan.png" class="lazyload cv-icon-item"/>
+                                    <img th:data-src="${ossStatic} + @{/icons/system/zan.png}" class="lazyload cv-icon-item"/>
                                 </span>
                                 <span>
                                     <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.collectNum}"></span>
                                     <span class="text-black-50 m-1">个</span>
-                                    <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/collection.png" class="lazyload cv-icon-item"/>
+                                    <img th:data-src="${ossStatic} + @{/icons/system/collection.png}" class="lazyload cv-icon-item"/>
                                 </span>
                             </div>
                         </div>
                         <div th:if="${session?.cv_user_id != contentIndexDto.content.userId}">
                             <!--点赞按钮-->
                             <a class="btn btn-sm btn-outline-warning text-dark" id="like_btn" th:onclick="like([[${contentIndexDto.content.contentId}]])">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/zan.png" class="lazyload cv-icon-item"/>
+                                <img th:data-src="${ossStatic} + @{/icons/system/zan.png}" class="lazyload cv-icon-item"/>
                                 <span id="like_text" th:text="${contentIndexDto.currUserIsClickLike} == false ? '点赞':'已点赞'" >点赞</span>  <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" id="like_badge" th:text="${contentIndexDto.content.contentData.likeNum}">集赞数</span>
                             </a>
                             <!--点赞按钮..end-->
                             <!--收藏按钮-->
                             <a class="btn btn-sm btn-outline-warning text-dark" th:onclick="collect([[${contentIndexDto.content.contentId}]])">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/collection.png" class="lazyload cv-icon-item"/>
+                                <img th:data-src="${ossStatic} + @{/icons/system/collection.png}" class="lazyload cv-icon-item"/>
                                 <span id="collect_span_text" th:text="${contentIndexDto.currUserIsCollect} == false ? '收藏':'已收藏'"></span>  <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" id="collect_badge" th:text="${contentIndexDto.content.collectNum}">收藏数</span>
                             </a>
                         </div>
@@ -212,11 +212,11 @@
                 </div>
                 <!--如果作者有电台,跳转到作者电台列表-->
                 <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.hasRadio}" th:inline="text">
-                    <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto?.content?.userId}+'/radio'"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/radio.svg">  [[${contentIndexDto.content.member.userName}]]的电台</a>
+                    <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto?.content?.userId}+'/radio'"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}">  [[${contentIndexDto.content.member.userName}]]的电台</a>
                 </div>
                 <!--跳转到作者的留言板-->
                 <div class="card card-body shadow-sm border-0 p-2 mb-2"  th:inline="text">
-                    <a class="cv-link text-black-50" th:href="'/profile-message/'+${contentIndexDto?.content?.userId}"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/goutong.png">  [[${contentIndexDto.content.member.userName}]]的留言板</a>
+                    <a class="cv-link text-black-50" th:href="'/profile-message/'+${contentIndexDto?.content?.userId}"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/goutong.png}">  [[${contentIndexDto.content.member.userName}]]的留言板</a>
                 </div>
                 <div th:include="fragments/index::google_right_ad"></div>
 
@@ -227,7 +227,7 @@
                             <!--分享到linkedin-->
                             <a  class="cv-link"
                                 th:href="'https://www.linkedin.com/shareArticle?mini=true&url=https://www.upupor.com/u/'+${contentIndexDto.content.contentId}" target="_blank" rel="noopener">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/LinkedIn.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 领英
+                                <img th:data-src="${ossStatic} + @{/system/LinkedIn.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 领英
                             </a>
                         </div>
                         <div class="mb-1">
@@ -236,7 +236,7 @@
                                th:href="'http://service.weibo.com/share/share.php?url=https://www.upupor.com/u/'
                                     +${contentIndexDto.content.contentId}+'&title='+${contentIndexDto.content.title}+'&appkey=2178125307&ralateUid=7389727164'"
                                target="_blank" rel="noopener">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/weibo.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 微博
+                                <img th:data-src="${ossStatic} + @{/system/weibo.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 微博
                             </a>
                         </div>
                         <div class="mb-1">
@@ -245,7 +245,7 @@
                                th:href="'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.upupor.com/u/'
                                     +${contentIndexDto.content.contentId}+'&title='+${contentIndexDto.content.title}"
                                target="_blank" rel="noopener">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/qq_zone.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 QQ空间
+                                <img th:data-src="${ossStatic} + @{/system/qq_zone.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 QQ空间
                             </a>
                         </div>
                         <div class="mb-1">
@@ -253,13 +253,13 @@
                             <a class="cv-link" th:href="'https://www.facebook.com/sharer.php?title='
                                     +${contentIndexDto.content.title}
                                     +'&u='+${'https://www.upupor.com/u/'+contentIndexDto.content.contentId}" target="_blank">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/facebook.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Facebook
+                                <img th:data-src="${ossStatic} + @{/system/facebook.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Facebook
                             </a>
                         </div>
                         <div class="mb-1">
                             <!--分享到twitter-->
                             <a class="cv-link" th:href="${'https://twitter.com/share?text=' + contentIndexDto.content.title + '&url=https://www.upupor.com/u/' + contentIndexDto.content.contentId}" target="_blank" rel="noopener">
-                                <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/twitter.png" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Twitter
+                                <img th:data-src="${ossStatic} + @{/system/twitter.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Twitter
                             </a>
                         </div>
                     </div>

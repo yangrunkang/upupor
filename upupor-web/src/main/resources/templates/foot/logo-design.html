@@ -14,27 +14,20 @@
                     <div>
                         <div class="lead border-bottom mb-2">logo设计历程</div>
                         <blockquote><p>ICON设计历程·共三版</p></blockquote>
-                        <p class="text-black-50 mt-2">第一版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="20%" width="20%" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/iconOne.png"></p>
-                        <p class=" text-black-50 mt-2">第二版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="20%" width="20%" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/iconSecond.png"></p>
-                        <p class=" text-black-50 mt-2">第三版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="20%" width="20%" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/iconThird.png"></p>
+                        <p class="text-black-50 mt-2">第一版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="20%" width="20%" th:src="${ossStatic} + @{/asserts/iconOne.png}"></p>
+                        <p class=" text-black-50 mt-2">第二版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="20%" width="20%" th:src="${ossStatic} + @{/asserts/iconSecond.png}"></p>
+                        <p class=" text-black-50 mt-2">第三版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="20%" width="20%" th:src="${ossStatic} + @{/asserts/iconThird.png}"></p>
                         <hr />
                         <blockquote><p>Upupor设计历程·共二版</p></blockquote>
-                        <p class=" text-black-50 mt-2">第一版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="30%" width="30%" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/logoOne.png"></p>
-                        <p class=" text-black-50 mt-2">第二版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="50%" width="50%" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/asserts/logoSecond.png"></p>
+                        <p class=" text-black-50 mt-2">第一版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="30%" width="30%" th:src="${ossStatic} + @{/asserts/logoOne.png}"></p>
+                        <p class=" text-black-50 mt-2">第二版&nbsp;&nbsp;&nbsp;<img class="lazyload img-thumbnail" height="50%" width="50%" th:src="${ossStatic} + @{/asserts/logoSecond.png}"></p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <a class="nav-link cv-link" href="/vision" title="愿景"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/vision.svg" class="lazyload cv-icon" />  愿景</a>
-                        <a class="nav-link cv-link" href="/brand-story" title="品牌故事"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/brand-story.svg" class="lazyload cv-icon" />  品牌故事</a>
-                        <a class="nav-link cv-link" href="/team" title="技术"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/teamwork.svg" class="lazyload cv-icon" />  技术</a>
-                        <a class="nav-link cv-link" href="/thanks" title="致谢"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/thanks.svg" class="lazyload cv-icon" />  致谢</a>
-                        <a class="nav-link cv-link active" href="/logo-design" title="logo设计"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/design.svg" class="lazyload cv-icon" />  logo设计</a>
-                        <a class="nav-link cv-link" href="/business-cooperation" title="商务合作"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/business-co.svg" class="lazyload cv-icon" />  商务合作</a>
-                        <a class="nav-link cv-link" href="/check-info" title="关于广告"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/ad.svg" class="lazyload cv-icon" />  关于广告</a>
-                        <a class="nav-link cv-link" href="/pinned" title="关于置顶"><img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/footer/zhiding.svg" class="lazyload cv-icon" />  关于置顶</a>
+                        <div th:replace="fragments/index::foot_left('logo-design')"></div>
                     </div>
                 </div>
                 <div class="mt-2" th:include="fragments/index::google_right_ad"></div>

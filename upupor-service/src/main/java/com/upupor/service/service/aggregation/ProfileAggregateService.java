@@ -36,19 +36,12 @@ import java.util.stream.Collectors;
 public class ProfileAggregateService {
 
     private final MemberService memberService;
-
     private final ContentService contentService;
-
     private final TagService tagService;
-
     private final FanService fanService;
-
     private final CommentService commentService;
-
     private final AttentionService attentionService;
-
     private final ViewerService viewerService;
-
     private final RadioService radioService;
 
     public MemberIndexDto index(String userId, Integer pageNum, Integer pageSize, CcEnum.ViewTargetType source) {

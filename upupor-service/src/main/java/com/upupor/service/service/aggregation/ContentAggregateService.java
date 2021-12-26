@@ -32,13 +32,9 @@ import java.util.stream.Collectors;
 public class ContentAggregateService {
 
     private final ContentService contentService;
-
     private final CommentService commentService;
-
     private final CollectService collectService;
-
     private final TagService tagService;
-
     private final ViewerService viewerService;
 
     /**

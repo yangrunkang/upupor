@@ -12,24 +12,24 @@
                         <img class="img rounded" th:src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;" alt="头像"/>
                     </a>
                     <div>
-                        <img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/email.png" class="cv-icon-item" alt="邮箱"/></span> <span th:text="${memberIndexDto.member.email}">yangrunkang@qq.com</span>
+                        <img th:src="${ossStatic} + @{/icons/system/email.png}" class="cv-icon-item" alt="邮箱"/></span> <span th:text="${memberIndexDto.member.email}">yangrunkang@qq.com</span>
                     </div>
                 </p>
                 <div>
-                    <p><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/nickname.png" class="cv-icon-item" alt="昵称"/> 昵称: <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}" th:text="${memberIndexDto.member.userName}" th:title="${memberIndexDto.member.userName}"></a></p>
-                    <p><span><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/register-time.png" class="cv-icon-item" alt="注册时间"/> 注册时间: </span><span th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
+                    <p><img th:src="${ossStatic} + @{/icons/system/nickname.png}" class="cv-icon-item" alt="昵称"/> 昵称: <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}" th:text="${memberIndexDto.member.userName}" th:title="${memberIndexDto.member.userName}"></a></p>
+                    <p><span><img th:src="${ossStatic} + @{/icons/system/register-time.png}" class="cv-icon-item" alt="注册时间"/> 注册时间: </span><span th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
                     <div class="row">
                         <div class="col-lg-12">
-                            <img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/jifen2.svg" class="cv-icon-item" alt="积分数"/> <a href="/user/manage/integral-record" class="cv-link" title="积分数">积分数: <span th:text="${memberIndexDto.member.totalIntegral}">2019.1.2</span></a>
+                            <img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="积分数"/> <a href="/user/manage/integral-record" class="cv-link" title="积分数">积分数: <span th:text="${memberIndexDto.member.totalIntegral}">2019.1.2</span></a>
                         </div>
                     </div>
                     <div class="border-bottom my-2"></div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <a class="cv-link" href="/user/manage/pay-attention/num/fan" title="粉丝数"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/fans.png" class="cv-icon-item" alt=""/> 粉丝 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
+                            <a class="cv-link" href="/user/manage/pay-attention/num/fan" title="粉丝数"><img th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
                         </div>
                         <div class="col-lg-6">
-                            <a class="cv-link" href="/user/manage/pay-attention/num/attention" title="关注数"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/attention.png" class="cv-icon-item" alt=""/> 关注 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${memberIndexDto.member.attentionNum}">42</span></a>
+                            <a class="cv-link" href="/user/manage/pay-attention/num/attention" title="关注数"><img th:src="${ossStatic} + @{/icons/system/attention.png}" class="cv-icon-item" alt=""/> 关注 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${memberIndexDto.member.attentionNum}">42</span></a>
                         </div>
                     </div>
                 </div>
@@ -39,8 +39,8 @@
     <div th:replace="fragments/index::user_manage_fragment(false)"></div>
     <div class="card card-body shadow-sm border-0 p-2 my-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}" title="我的主页"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/profile.svg" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
-            <a class="nav-link cv-link user_manage_apply" href="/user/manage/apply" title="申请管理"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/apply.png" class="cv-icon-item" alt="申请管理"/> 申请管理</a>
+            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}" title="我的主页"><img th:src="${ossStatic} + @{/icons/system/profile.svg}" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
+            <a class="nav-link cv-link user_manage_apply" href="/user/manage/apply" title="申请管理"><img th:src="${ossStatic} + @{/icons/system/apply.png}" class="cv-icon-item" alt="申请管理"/> 申请管理</a>
         </div>
     </div>
     <!--<div th:include="fragments/index::google_right_ad"></div>-->
@@ -52,12 +52,12 @@
     <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id}">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
-            <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio" href="/user/manage/content" title="内容管理"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/manage3.svg" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
-            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/message.svg" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
-            <!--            <a class="nav-link cv-link user_manage_comment" href="/user/manage/comment" title="评论管理"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/comment.png" class="cv-icon-item" alt="评论管理"/> 评论管理</a>-->
-            <a class="nav-link cv-link profile_message" th:href="'/profile-message/' + ${session?.cv_user_id}" title="留言板"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/goutong.png" class="cv-icon-item" alt="留言板"/> 留言板</a>
-            <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/collection.png" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
-            <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo" href="/user/manage/edit-user-info" title="设置"><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/settings.svg" class="cv-icon-item" alt="设置"/> 设置</a>
+            <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
+            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
+            <!--            <a class="nav-link cv-link user_manage_comment" href="/user/manage/comment" title="评论管理"><img th:src="${ossStatic} + @{/icons/system/comment.png}" class="cv-icon-item" alt="评论管理"/> 评论管理</a>-->
+            <a class="nav-link cv-link profile_message" th:href="'/profile-message/' + ${session?.cv_user_id}" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
+            <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
+            <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo" href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="设置"/> 设置</a>
         </div>
     </div>
 </div>
@@ -76,8 +76,8 @@
 <!--文章数据-->
 <div th:fragment="content_data">
     <div>
-        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/liulan.png" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.contentData.viewNum}">0</span>
-        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/content-time.png" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.createDate}">2020-01-01 00:00</span>
+        <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.contentData.viewNum}">0</span>
+        <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.createDate}">2020-01-01 00:00</span>
         <span th:if="${content?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold text-black-50">·&nbsp;</span>最后回复:</span>
             <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${content?.latestCommentUserId}" th:inline="text">[[${content?.latestCommentUserName}]]</a>
@@ -232,7 +232,7 @@ fromProfile: 是否来自Profile页面
 <!--无内容-->
 <div th:fragment="empty_content">
     <div class="text-center">
-        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/system/empty.png" class="lazyload"
+        <img th:data-src="${ossStatic} + @{/system/empty.png}" class="lazyload"
              style="width: 128px;height: 128px"/>
         <p class="text-black-50 lead">无内容</p>
     </div>
@@ -250,7 +250,7 @@ fromProfile: 是否来自Profile页面
     <div class="card card-body shadow-sm border-0 p-2 mb-2"
          th:if="!${#lists.isEmpty(commonPageIndexDto.listBannerDto.bannerList)}">
         <div class="border-bottom text-secondary mb-2">
-            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/recommand.png" class="lazyload cv-icon-item" alt="广而告之"/> 广而告之
+            <img th:data-src="${ossStatic} + @{/icons/system/recommand.png}" class="lazyload cv-icon-item" alt="广而告之"/> 广而告之
         </div>
         <div th:each="banner,ite : ${commonPageIndexDto.listBannerDto.bannerList}">
             <a class="cv-link text-secondary"
@@ -265,13 +265,13 @@ fromProfile: 是否来自Profile页面
 <!--主页菜单-->
 <div th:fragment="page_menu">
     <ul class="nav nav-pills">
-        <li class="nav-item me-1"><a class="nav-link cv-link all" href="/" title="全部"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/all.png" /> 全部</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link topic" href="/topic" title="短内容"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/topic.png" /> 短内容</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link tech" href="/tech" title="技术"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-tech.png" /> 技术</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link share" href="/share" title="分享"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-share.png" /> 分享</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link workplace" href="/workplace" title="职场"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-work.png" /> 职场</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link record" href="/record" title="记录"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-record.png" /> 记录</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link qa" href="/qa" title="问答"><img class="lazyload cv-icon" data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/write/write-qa.png" /> 问答</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link all" href="/" title="全部"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/all.png}" /> 全部</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link topic" href="/topic" title="短内容"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/topic.png}" /> 短内容</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link tech" href="/tech" title="技术"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-tech.png}" /> 技术</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link share" href="/share" title="分享"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-share.png}" /> 分享</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link workplace" href="/workplace" title="职场"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-work.png}" /> 职场</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link record" href="/record" title="记录"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-record.png}" /> 记录</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link qa" href="/qa" title="问答"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-qa.png}" /> 问答</a></li>
     </ul>
     <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}" class="border-bottom my-1"></div>
     <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
@@ -304,7 +304,7 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="without_comment">
     <div>
         <p style="text-align: center;">
-            <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/without_comment.svg" class="lazyload" style="text-align: center"/>
+            <img th:data-src="${ossStatic} + @{/icons/without_comment.svg}" class="lazyload" style="text-align: center"/>
             <p style="text-align: center;" class="text-black-50 lead">无评论内容,快来评论吧</p>
         </p>
     </div>
@@ -325,18 +325,18 @@ fromProfile: 是否来自Profile页面
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <a th:if="${cv_content_done}" class="nav-link cv-link" href="/before-editor">
                 <span>
-                    <img class="cv-icon" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/undo.svg" alt="继续上次编辑" /> 继续上次编辑
+                    <img class="cv-icon" th:src="${ossStatic} + @{/icons/system/undo.svg}" alt="继续上次编辑" /> 继续上次编辑
                 </span>
             </a>
             <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                <span><img class="cv-icon" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/draft.svg" /> 草稿箱</span>
+                <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱</span>
                 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
             </a>
             <!--                        <a th:if="${unReadMegCount} != null and ${unReadMegCount} >= 1" class="nav-link cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">-->
-            <!--                            <img class="cv-icon" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/message.svg" /> 未读消息 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${unReadMegCount}">23</span>-->
+            <!--                            <img class="cv-icon" th:src="${ossStatic} + @{/icons/system/message.svg}" /> 未读消息 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${unReadMegCount}">23</span>-->
             <!--                        </a>-->
             <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
-                <span><img src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/jifen2.svg" class="cv-icon-item" alt="签到领积分"/></span>
+                <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
                 <span>签到领积分</span>
             </a>
         </div>
@@ -402,7 +402,7 @@ fromProfile: 是否来自Profile页面
                 <img class="lazyload cv-icon img" th:data-src="${ossStatic} + @{/icons/record.svg}"> 在线录制电台
             </a>
             <a  class="nav-link cv-link" style="font-size: 16px" href="/radio-station/create" title="上传电台音频">
-                <img class="lazyload cv-icon img" src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/upload-radio.svg"> 上传电台音频
+                <img class="lazyload cv-icon img" th:src="${ossStatic} + @{/icons/system/upload-radio.svg}"> 上传电台音频
             </a>
         </div>
     </div>
@@ -529,8 +529,8 @@ fromProfile: 是否来自Profile页面
         </h5>
     </div>
     <div>
-        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/liulan.png" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>
-        <img data-src="https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/system/content-time.png" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.createDate}"></span>
+        <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>
+        <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.createDate}"></span>
         <span th:if="${radio?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold">·&nbsp;</span>最后回复:</span>
             <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${radio?.latestCommentUserId}" th:inline="text">[[${radio?.latestCommentUserName}]]</a>
@@ -551,6 +551,23 @@ fromProfile: 是否来自Profile页面
 </div>
 
 
+
+<div th:fragment="foot_left(target)">
+    <a th:class="${target == 'vision'?'nav-link cv-link active':'nav-link cv-link'}" href="/vision" title="愿景"><img th:data-src="${ossStatic} + @{/icons/system/footer/vision.svg}" class="lazyload cv-icon" />  愿景</a>
+    <a th:class="${target == 'brand-story'?'nav-link cv-link active':'nav-link cv-link'}" href="/brand-story" title="品牌故事"><img th:data-src="${ossStatic} + @{/icons/system/footer/brand-story.svg}" class="lazyload cv-icon" />  品牌故事</a>
+    <a th:class="${target == 'team'?'nav-link cv-link active':'nav-link cv-link'}" href="/team" title="技术"><img th:data-src="${ossStatic} + @{/icons/system/footer/teamwork.svg}" class="lazyload cv-icon" />  技术</a>
+    <a th:class="${target == 'thanks'?'nav-link cv-link active':'nav-link cv-link'}" href="/thanks" title="致谢"><img th:data-src="${ossStatic} + @{/icons/system/footer/thanks.svg}" class="lazyload cv-icon" />  致谢</a>
+    <a th:class="${target == 'logo-design'?'nav-link cv-link active':'nav-link cv-link'}" href="/logo-design" title="logo设计"><img th:data-src="${ossStatic} + @{/icons/system/footer/design.svg}" class="lazyload cv-icon" />  logo设计</a>
+    <a th:class="${target == 'business-cooperation'?'nav-link cv-link active':'nav-link cv-link'}" href="/business-cooperation" title="商务合作"><img th:data-src="${ossStatic} + @{/icons/system/footer/business-co.svg}" class="lazyload cv-icon" />  商务合作</a>
+    <a th:class="${target == 'check-info'?'nav-link cv-link active':'nav-link cv-link'}" href="/check-info" title="关于广告"><img th:data-src="${ossStatic} + @{/icons/system/footer/ad.svg}" class="lazyload cv-icon" />  关于广告</a>
+    <a th:class="${target == 'pinned'?'nav-link cv-link active':'nav-link cv-link'}" href="/pinned" title="关于置顶"><img th:data-src="${ossStatic} + @{/icons/system/footer/zhiding.svg}" class="lazyload cv-icon" />  关于置顶</a>
+</div>
+
+<div th:fragment="apply(target)">
+    <a th:class="${target == 'apply-ad'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-ad" title="广告合作">广告合作</a>
+    <a th:class="${target == 'apply-tag'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-tag" title="标签申请">标签申请</a>
+    <a th:class="${target == 'apply-consultant'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-consultant" title="咨询申请">咨询申请</a>
+</div>
 
 </body>
 </html>

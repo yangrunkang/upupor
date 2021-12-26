@@ -66,4 +66,9 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
     protected Member getTarget(String targetId) {
         return getMemberService().memberInfo(targetId);
     }
+
+    @Override
+    public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
+
+    }
 }

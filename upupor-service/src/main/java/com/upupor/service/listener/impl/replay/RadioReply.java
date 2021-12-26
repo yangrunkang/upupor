@@ -1,5 +1,6 @@
 package com.upupor.service.listener.impl.replay;
 
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
@@ -61,5 +62,11 @@ public class RadioReply extends AbstractReplyComment<Radio> {
         return radioService.getByRadioId(targetId);
     }
 
-
+    @Override
+    public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
+        Radio radio = getTarget(targetId);
+        radio.setLatestCommentTime(CcDateUtil.getCurrentTime());
+        radio.setLatestCommentUserId(commenterUserId);
+        radioService.updateRadio(radio);
+    }
 }

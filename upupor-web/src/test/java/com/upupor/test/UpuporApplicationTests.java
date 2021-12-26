@@ -15,8 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @SpringBootTest(classes = UpuporWebApplication.class)
@@ -104,9 +103,23 @@ public class UpuporApplicationTests {
 
     }
 
+    public static final String s ="# /icons/system/";
+    public static void removeRepeate() {
+        SortedSet set = new TreeSet<String>();
+        for(String st :s.split("\n")){
+            set.add(st);
+        }
+
+        Iterator it = set.iterator();
+        while (it.hasNext()){
+            System.out.println(it.next());
+        }
+
+    }
+
 
     public static void main(String[] args) {
-        renderCss();
+        removeRepeate();
     }
 
 
@@ -114,6 +127,7 @@ public class UpuporApplicationTests {
     public void testUploadUserNamePhoto() throws Exception {
         System.out.println(AvatarHelper.generateAvatar(1));
     }
+
 
 
 }

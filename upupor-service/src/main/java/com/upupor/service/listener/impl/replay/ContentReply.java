@@ -1,5 +1,6 @@
 package com.upupor.service.listener.impl.replay;
 
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
@@ -63,5 +64,11 @@ public class ContentReply extends AbstractReplyComment<Content> {
         return contentService.getNormalContent(targetId);
     }
 
-
+    @Override
+    public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
+        Content content = getTarget(targetId);
+        content.setLatestCommentTime(CcDateUtil.getCurrentTime());
+        content.setLatestCommentUserId(commenterUserId);
+        contentService.updateContent(content);
+    }
 }
