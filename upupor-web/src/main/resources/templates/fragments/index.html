@@ -563,5 +563,11 @@ fromProfile: 是否来自Profile页面
     <a th:class="${target == 'pinned'?'nav-link cv-link active':'nav-link cv-link'}" href="/pinned" title="关于置顶"><img th:data-src="${ossStatic} + @{/icons/system/footer/zhiding.svg}" class="lazyload cv-icon" />  关于置顶</a>
 </div>
 
+<div th:fragment="apply(target)">
+    <a th:class="${target == 'apply-ad'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-ad" title="广告合作">广告合作</a>
+    <a th:class="${target == 'apply-tag'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-tag" title="标签申请">标签申请</a>
+    <a th:class="${target == 'apply-consultant'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-consultant" title="咨询申请">咨询申请</a>
+</div>
+
 </body>
 </html>

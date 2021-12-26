@@ -183,9 +183,7 @@
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <a class="nav-link cv-link active" href="/apply-ad" title="广告合作">广告合作</a>
-                        <a class="nav-link cv-link" href="/apply-tag" title="标签申请">标签申请</a>
-                        <a class="nav-link cv-link" href="/apply-consultant" title="咨询申请">咨询申请</a>
+                        <div th:replace="fragments/index::apply('apply-ad')"></div>
                     </div>
                 </div>
                 <div class="my-2" th:include="fragments/index::google_right_ad"></div>
