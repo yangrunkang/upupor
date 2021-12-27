@@ -1,5 +1,6 @@
 package com.upupor.service.service.aggregation.abstracts.impl;
 
+import com.upupor.service.business.AdService;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.service.CommentService;
@@ -49,7 +50,8 @@ public class MessageProfile extends ProfileAbstract {
 
     @Override
     protected void addAd() {
-
+        ListCommentDto listCommentDto = getMemberIndexDto().getListCommentDto();
+        AdService.commentListAd(listCommentDto.getCommentList());
     }
 
 }

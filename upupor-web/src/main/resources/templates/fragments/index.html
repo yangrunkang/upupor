@@ -187,21 +187,21 @@ fromProfile: 是否来自Profile页面
 <span th:fragment="content_comment">
     <div class="list-group list-group-flush">
         <div class="d-flex align-items-top list-group-item p-1 mt-1" th:each="comment : ${contentIndexDto.content.listCommentDto.commentList}">
-        <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
-            <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-3 mb-2 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
-        </a>
-        <div class="flex-grow-1">
-            <div class="mt-0">
-                <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
-                    [[${comment.member.userName}]]
-                </a>
-                <div class="float-end text-black-50">
-                     [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
+            <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
+                <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-3 mb-2 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
+            </a>
+            <div class="flex-grow-1">
+                <div class="mt-0">
+                    <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
+                        [[${comment.member.userName}]]
+                    </a>
+                    <div class="float-end text-black-50">
+                         [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
+                    </div>
                 </div>
+                <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
             </div>
-            <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
         </div>
-    </div>
     </div>
 
 </span>
@@ -573,7 +573,8 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="render_user_list(userList)">
     <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(userList)}">
         <li class="list-group-item  p-2" th:each="member,ite : ${userList}">
-            <div class="d-flex align-items-center my-1 ">
+            <div th:if="${member.userId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
+            <div th:if="${member.userId != 'google-ad-feed'}" class="d-flex align-items-center my-1 ">
                 <img class="lazyload me-3 img rounded cv-icon-60 me-2"
                      th:if="!${#strings.isEmpty(member.via)}"
                      th:data-src="${member.via}"

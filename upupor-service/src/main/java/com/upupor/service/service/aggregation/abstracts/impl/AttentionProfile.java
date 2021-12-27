@@ -1,5 +1,6 @@
 package com.upupor.service.service.aggregation.abstracts.impl;
 
+import com.upupor.service.business.AdService;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.common.ListAttentionDto;
 import com.upupor.service.service.AttentionService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AttentionProfile extends ProfileAbstract {
     private final AttentionService attentionService;
+
     @Override
     public CcEnum.ViewTargetType viewTargetType() {
         return CcEnum.ViewTargetType.PROFILE_ATTENTION;
@@ -29,6 +31,7 @@ public class AttentionProfile extends ProfileAbstract {
 
     @Override
     protected void addAd() {
-
+        ListAttentionDto listAttentionDto = getMemberIndexDto().getListAttentionDto();
+        AdService.memberListAd(listAttentionDto.getMemberList());
     }
 }

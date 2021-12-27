@@ -34,7 +34,10 @@
                     </div>
                     <div th:if="!${#lists.isEmpty(memberIndexDto.listCommentDto.commentList)}">
                         <div class="d-flex align-items-center my-1 mb-1" th:each="comment : ${memberIndexDto.listCommentDto.commentList}" style="overflow:hidden">
-                            <div class="flex-grow-1">
+                            <div class="flex-grow-1" th:if="${comment.commentId == 'google-ad-feed'}">
+                                <div class="card" th:include="fragments/index::google_feed_ad"></div>
+                            </div>
+                            <div class="flex-grow-1" th:if="${comment.commentId != 'google-ad-feed'}">
                                 <div class="card">
                                     <div class="p-2 border-bottom">
                                         <a class="cv-link text-black-50" th:href="'/profile/'+${comment.member.userId}">

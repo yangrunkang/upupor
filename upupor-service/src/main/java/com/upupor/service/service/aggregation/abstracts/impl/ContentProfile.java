@@ -1,17 +1,13 @@
 package com.upupor.service.service.aggregation.abstracts.impl;
 
-import com.upupor.service.common.CcConstant;
+import com.upupor.service.business.AdService;
 import com.upupor.service.common.CcEnum;
-import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.service.ContentService;
 import com.upupor.service.service.aggregation.abstracts.ProfileAbstract;
 import com.upupor.spi.req.ListContentReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import java.util.Random;
 
 /**
  * @author Yang Runkang (cruise)
@@ -45,24 +41,7 @@ public class ContentProfile extends ProfileAbstract {
     @Override
     protected void addAd() {
         ListContentDto listContentDto = getMemberIndexDto().getListContentDto();
-        // 个人主页文章列表添加广告
-        if (!CollectionUtils.isEmpty(listContentDto.getContentList())) {
-            boolean exists = listContentDto.getContentList().parallelStream().anyMatch(t -> t.getContentId().equals(CcConstant.GoogleAd.FEED_AD));
-            if (!exists) {
-                int adIndex = new Random().nextInt(CcConstant.Page.SIZE);
-                int maxIndex = listContentDto.getContentList().size() - 1;
-                if (adIndex <= 2) {
-                    adIndex = 3;
-                }
-                if (adIndex >= maxIndex) {
-                    adIndex = maxIndex;
-                }
-                Content adContent = new Content();
-                adContent.setContentId(CcConstant.GoogleAd.FEED_AD);
-                adContent.setUserId(CcConstant.GoogleAd.FEED_AD);
-                listContentDto.getContentList().add(adIndex, adContent);
-            }
-        }
+        AdService.contentListAd(listContentDto.getContentList());
 
     }
 }

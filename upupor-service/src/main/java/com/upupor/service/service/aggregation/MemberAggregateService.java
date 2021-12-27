@@ -1,5 +1,6 @@
 package com.upupor.service.service.aggregation;
 
+import com.upupor.service.business.AdService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Member;
@@ -46,6 +47,8 @@ public class MemberAggregateService {
         if (CollectionUtils.isEmpty(memberExtends)) {
             return new MemberListDto();
         }
+
+        AdService.memberListAd(listMemberDto.getMemberList());
 
         listMemberDto.getMemberList().forEach(member -> {
             for (MemberExtend memberExtend : memberExtends) {

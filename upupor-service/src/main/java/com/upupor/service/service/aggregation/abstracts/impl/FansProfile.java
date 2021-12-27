@@ -1,5 +1,6 @@
 package com.upupor.service.service.aggregation.abstracts.impl;
 
+import com.upupor.service.business.AdService;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.service.FanService;
@@ -30,6 +31,7 @@ public class FansProfile extends ProfileAbstract {
 
     @Override
     protected void addAd() {
-
+        ListFansDto listFansDto = getMemberIndexDto().getListFansDto();
+        AdService.memberListAd(listFansDto.getMemberList());
     }
 }
