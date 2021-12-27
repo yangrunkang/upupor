@@ -37,7 +37,7 @@ public class PasswordUtils {
      * @return
      */
     private static String getMd5(String inputPassword, String userId, Long userCreateTime) {
-        String slat = "upupor-slat" + userId + userCreateTime;
+        String slat = "codingvcr-slat" + userId + userCreateTime;
         String base = inputPassword + slat;
         // 11+32位长度
         return "#UPUPOR#" + DigestUtils.md5DigestAsHex(base.getBytes());
