@@ -5,6 +5,7 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/attention.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/attention.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/common.js}"></script>
 <!--内容-->
 <div th:fragment="content">
     <div class="container">
@@ -25,7 +26,7 @@
                     <div>
                         <div class="mt-2 float-end"
                              th:if="!${#strings.isEmpty(memberIndexDto.listAttentionDto.paginationHtml)}"
-                             th:utext="${memberIndexDto.listRadioDto.paginationHtml}"> </div>
+                             th:utext="${memberIndexDto.listAttentionDto.paginationHtml}"> </div>
                     </div>
                 </div>
             </div>
