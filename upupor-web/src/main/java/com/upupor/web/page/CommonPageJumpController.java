@@ -42,7 +42,8 @@ public class CommonPageJumpController {
     @GetMapping("/")
     public ModelAndView index(Integer pageNum, Integer pageSize) {
         ModelAndView modelAndView = new ModelAndView();
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize);
+        GetCommonReq commonReq =
+                GetCommonReq.create(null, null, pageNum, pageSize, null);
         modelAndView.addObject(commonAggregateService.index(commonReq));
         modelAndView.setViewName(CONTENT_LIST);
         return modelAndView;
@@ -52,8 +53,9 @@ public class CommonPageJumpController {
     @ApiOperation("短内容页面")
     @GetMapping("/topic")
     public ModelAndView topic(Integer pageNum, Integer pageSize) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize, CcEnum.ContentType.SHORT_CONTENT.getType());
-        return bindingContentList(commonReq);
+        GetCommonReq commonReq =
+                GetCommonReq.create(null, null, pageNum, pageSize, CcEnum.ContentType.SHORT_CONTENT.getType());
+        return contentList(commonReq);
     }
 
     @ApiOperation("问答")
@@ -61,8 +63,9 @@ public class CommonPageJumpController {
     public ModelAndView qa(Integer pageNum, Integer pageSize,
                            @PathVariable(value = "tagId", required = false) String tagId,
                            @PathVariable(value = "tagInId", required = false) String tagInId) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize, tagId, tagInId, CcEnum.ContentType.QA.getType());
-        return getModelAndView(commonReq, tagId, tagInId);
+        GetCommonReq commonReq =
+                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, CcEnum.ContentType.QA.getType());
+        return getModelAndView(commonReq);
     }
 
     @ApiOperation("记录")
@@ -70,8 +73,9 @@ public class CommonPageJumpController {
     public ModelAndView record(Integer pageNum, Integer pageSize,
                                @PathVariable(value = "tagId", required = false) String tagId
     ) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize, tagId, CcEnum.ContentType.RECORD.getType());
-        return getModelAndView(commonReq, tagId);
+        GetCommonReq commonReq =
+                GetCommonReq.create(tagId, null, pageNum, pageSize, CcEnum.ContentType.RECORD.getType());
+        return getModelAndView(commonReq);
     }
 
     @ApiOperation("分享")
@@ -79,8 +83,9 @@ public class CommonPageJumpController {
     public ModelAndView share(Integer pageNum, Integer pageSize,
                               @PathVariable(value = "tagId", required = false) String tagId,
                               @PathVariable(value = "tagInId", required = false) String tagInId) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize, tagId, tagInId, CcEnum.ContentType.SHARE.getType());
-        return getModelAndView(commonReq, tagId, tagInId);
+        GetCommonReq commonReq =
+                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, CcEnum.ContentType.SHARE.getType());
+        return getModelAndView(commonReq);
     }
 
     @ApiOperation("技术")
@@ -88,8 +93,10 @@ public class CommonPageJumpController {
     public ModelAndView tagInChild(Integer pageNum, Integer pageSize,
                                    @PathVariable(value = "tagId", required = false) String tagId,
                                    @PathVariable(value = "tagInId", required = false) String tagInId) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize, tagId, tagInId, CcEnum.ContentType.TECH.getType());
-        return getModelAndView(commonReq, tagId, tagInId);
+        GetCommonReq commonReq =
+                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, CcEnum.ContentType.TECH.getType());
+
+        return getModelAndView(commonReq);
     }
 
 
@@ -97,51 +104,17 @@ public class CommonPageJumpController {
     @GetMapping(value = {"/workplace", "/workplace/{tagId}"})
     public ModelAndView workMenu(Integer pageNum, Integer pageSize,
                                  @PathVariable(value = "tagId", required = false) String tagId) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize, tagId, CcEnum.ContentType.WORKPLACE.getType());
-        return getModelAndView(commonReq, tagId);
+        GetCommonReq commonReq =
+                GetCommonReq.create(tagId, null, pageNum, pageSize, CcEnum.ContentType.WORKPLACE.getType());
+        return getModelAndView(commonReq);
     }
 
 
-    private GetCommonReq getCommonReq(Integer pageNum, Integer pageSize, String tagId, String tagInId, Integer contentType) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize, contentType);
-        commonReq.setTagId(tagId);
-        commonReq.setTagInId(tagInId);
-        return commonReq;
-    }
+    private ModelAndView getModelAndView(GetCommonReq commonReq) {
 
-    private GetCommonReq getCommonReq(Integer pageNum, Integer pageSize, String tagId, Integer contentType) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize, contentType);
-        commonReq.setTagId(tagId);
-        return commonReq;
-    }
-
-    private GetCommonReq getCommonReq(Integer pageNum, Integer pageSize, Integer contentType) {
-        GetCommonReq commonReq = getCommonReq(pageNum, pageSize);
-        commonReq.setContentType(contentType);
-        return commonReq;
-    }
-
-    private GetCommonReq getCommonReq(Integer pageNum, Integer pageSize) {
-        if (Objects.isNull(pageNum)) {
-            pageNum = CcConstant.Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE;
-        }
-
-        GetCommonReq commonReq = new GetCommonReq();
-        commonReq.setPageNum(pageNum);
-        commonReq.setPageSize(pageSize);
-        return commonReq;
-    }
-
-    private ModelAndView getModelAndView(GetCommonReq commonReq, String tagId) {
-
-        ModelAndView mv = bindingContentList(commonReq);
+        ModelAndView mv = contentList(commonReq);
         // 绑定一级文章标题
-        if (bindingFirstTitle(tagId, mv)) {
-            return mv;
-        }
+        bindingFirstTitle(commonReq.getTagId(), mv);
 
         return mv;
     }
@@ -163,18 +136,13 @@ public class CommonPageJumpController {
         return false;
     }
 
-    private ModelAndView getModelAndView(GetCommonReq commonReq, String tagId, String tagInId) {
-        return getModelAndView(commonReq, tagId);
-    }
-
-
     /**
      * 绑定文章列表
      *
      * @param commonReq
      * @return
      */
-    private ModelAndView bindingContentList(GetCommonReq commonReq) {
+    private ModelAndView contentList(GetCommonReq commonReq) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject(commonAggregateService.index(commonReq));
         modelAndView.addObject(CcConstant.SeoKey.TITLE, CcEnum.ContentType.getName(commonReq.getContentType()));

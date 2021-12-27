@@ -56,8 +56,6 @@ public interface CommentService {
      */
     Integer total();
 
-//    void filterOutDeletedComment(ListCommentDto listCommentDto);
-
     /**
      * 绑定评论的用户名
      *

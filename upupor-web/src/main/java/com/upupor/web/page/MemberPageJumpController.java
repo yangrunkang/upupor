@@ -122,6 +122,53 @@ public class MemberPageJumpController {
         return modelAndView;
     }
 
+    @ApiOperation("作者主页-关注")
+    @GetMapping("/profile/{userId}/attention")
+    public ModelAndView attetion(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize, String msgId) {
+        if (Objects.isNull(pageNum)) {
+            pageNum = CcConstant.Page.NUM;
+        }
+        if (Objects.isNull(pageSize)) {
+            pageSize = CcConstant.Page.SIZE;
+        }
+
+        if (Objects.nonNull(msgId)) {
+            messageService.tagMsgRead(msgId);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(AUTHOR_ATTENTION);
+        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, CcEnum.ViewTargetType.PROFILE_ATTENTION);
+        modelAndView.addObject(memberIndexDto);
+        modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName() + "的关注");
+        modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
+        return modelAndView;
+    }
+
+
+    @ApiOperation("作者主页-粉丝")
+    @GetMapping("/profile/{userId}/fans")
+    public ModelAndView fans(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize, String msgId) {
+        if (Objects.isNull(pageNum)) {
+            pageNum = CcConstant.Page.NUM;
+        }
+        if (Objects.isNull(pageSize)) {
+            pageSize = CcConstant.Page.SIZE;
+        }
+
+        if (Objects.nonNull(msgId)) {
+            messageService.tagMsgRead(msgId);
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(AUTHOR_FANS);
+        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, CcEnum.ViewTargetType.PROFILE_FANS);
+        modelAndView.addObject(memberIndexDto);
+        modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName() + "的粉丝");
+        modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
+        return modelAndView;
+    }
+
     @ApiOperation("作者主页-电台")
     @GetMapping("/profile/{userId}/radio")
     public ModelAndView indexRadio(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize, String msgId) {

@@ -48,22 +48,17 @@ import static com.upupor.service.common.ErrorCode.ARTICLE_NOT_BELONG_TO_YOU;
 public class ContentPageJumpController {
 
     private final ContentAggregateService contentAggregateService;
-
     private final CollectService collectService;
-
     private final ContentService contentService;
-
     private final MessageService messageService;
-
     private final MemberIntegralService memberIntegralService;
-
     private final FileService fileService;
     private final CommentService commentService;
     private final ViewerService viewerService;
     private final RadioService radioService;
-    @Value("${codingvcr.oss.file-host}")
+    @Value("${upupor.oss.file-host}")
     private String ossFileHost;
-    @Value("${codingvcr.thumbnails.allows}")
+    @Value("${upupor.thumbnails.allows}")
     private String allowsFilesSuffix;
 
     /**

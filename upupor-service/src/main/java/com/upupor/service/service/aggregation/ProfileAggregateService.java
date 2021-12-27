@@ -9,9 +9,7 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.dto.page.common.*;
 import com.upupor.service.service.*;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
@@ -68,7 +66,6 @@ public class ProfileAggregateService {
         ListRadioDto listRadioDto = new ListRadioDto();
         ListCommentDto listCommentDto = new ListCommentDto();
 
-
         if (CcEnum.ViewTargetType.PROFILE_CONTENT.equals(source)) {
             ListContentReq listContentReq = new ListContentReq();
             listContentReq.setUserId(userId);
@@ -79,27 +76,33 @@ public class ProfileAggregateService {
             // 绑定文章数据
             contentService.bindContentData(listContentDto);
             // 记录访问者
-            viewerService.addViewer(userId, CcEnum.ViewTargetType.PROFILE_CONTENT);
-            //获取访问者
-            memberIndexDto.setViewerList(viewerService.listViewerByTargetIdAndType(userId, CcEnum.ViewTargetType.PROFILE_CONTENT));
+            recordViewer(userId, memberIndexDto, CcEnum.ViewTargetType.PROFILE_CONTENT);
         }
 
         if (CcEnum.ViewTargetType.PROFILE_RADIO.equals(source)) {
             listRadioDto = radioService.listRadioByUserId(pageNum, pageSize, userId, null);
             // 记录访问者
-            viewerService.addViewer(userId, CcEnum.ViewTargetType.PROFILE_RADIO);
-            //获取访问者
-            memberIndexDto.setViewerList(viewerService.listViewerByTargetIdAndType(userId, CcEnum.ViewTargetType.PROFILE_RADIO));
+            recordViewer(userId, memberIndexDto, CcEnum.ViewTargetType.PROFILE_RADIO);
         }
 
         if (CcEnum.ViewTargetType.PROFILE_MESSAGE.equals(source)) {
             listCommentDto = message(userId, pageNum, pageSize);
             // 记录访问者
-            viewerService.addViewer(userId, CcEnum.ViewTargetType.PROFILE_MESSAGE);
-            // 设置访问者
-            memberIndexDto.setViewerList(viewerService.listViewerByTargetIdAndType(userId, CcEnum.ViewTargetType.PROFILE_MESSAGE));
+            recordViewer(userId, memberIndexDto, CcEnum.ViewTargetType.PROFILE_MESSAGE);
         }
 
+        if (CcEnum.ViewTargetType.PROFILE_ATTENTION.equals(source)) {
+            ListAttentionDto listAttentionDto = attentionService.getAttentions(userId, pageNum, pageSize);
+            memberIndexDto.setListAttentionDto(listAttentionDto);
+            recordViewer(userId, memberIndexDto, CcEnum.ViewTargetType.PROFILE_ATTENTION);
+        }
+
+        if (CcEnum.ViewTargetType.PROFILE_FANS.equals(source)) {
+            ListFansDto listFansDto = fanService.getFans(userId, pageNum, pageSize);
+            memberIndexDto.setListFansDto(listFansDto);
+            // 记录访问者
+            recordViewer(userId, memberIndexDto, CcEnum.ViewTargetType.PROFILE_FANS);
+        }
 
         // 获取用户总积分值
         Integer totalIntegral = memberService.totalIntegral(member.getUserId());
@@ -167,6 +170,13 @@ public class ProfileAggregateService {
         // 获取用户属性
         memberIndexDto.setMember(member);
         return memberIndexDto;
+    }
+
+    private void recordViewer(String userId, MemberIndexDto memberIndexDto, CcEnum.ViewTargetType profileAttention) {
+        // 记录访问者
+        viewerService.addViewer(userId, profileAttention);
+        // 设置访问者
+        memberIndexDto.setViewerList(viewerService.listViewerByTargetIdAndType(userId, profileAttention));
     }
 
     private List<Tag> getUserTagList(String userId) {

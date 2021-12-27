@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "codingvcr")
+@ConfigurationProperties(prefix = "upupor")
 public class UpuporConfig {
     /**
      * 不用校验是否登录的url

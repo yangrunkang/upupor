@@ -24,7 +24,6 @@ import com.upupor.spi.req.AddCommentReq;
 import com.upupor.spi.req.ListCommentReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -45,7 +44,6 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentMapper commentMapper;
     private final MemberService memberService;
-    private final ApplicationEventPublisher publisher;
 
     @Override
     public Comment toComment(AddCommentReq addCommentReq) {
@@ -101,8 +99,6 @@ public class CommentServiceImpl implements CommentService {
     public Integer total() {
         return commentMapper.total();
     }
-
-
 
     @Override
     public void bindCommentUserName(List<Comment> commentList) {

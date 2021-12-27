@@ -11,33 +11,7 @@
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div class="lead border-bottom mb-2">所有用户</div>
-                    <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(memberListDto.listMemberDto.memberList)}">
-                        <li class="list-group-item  p-2" th:each="member,ite : ${memberListDto.listMemberDto.memberList}">
-                            <div class="d-flex align-items-center my-1 ">
-                                <img class="lazyload me-3 img rounded cv-icon-60 me-2"
-                                     th:if="!${#strings.isEmpty(member.via)}"
-                                     th:data-src="${member.via}"
-                                     th:alt="${member.userName}"
-                                />
-                                <div class="flex-grow-1">
-                                    <h5 class="mt-0 mb-1">
-                                        <a th:href="@{'/profile/'+${member.userId}}" class="cv-link"
-                                           th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
-                                            <span th:text="${member.userName}">标题</span>
-                                        </a>
-                                    </h5>
-                                    <div class="mb-0 text-black-50" th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">内容简介</div>
-                                </div>
-                                <span class="mb-0 text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}" th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
-                                <a class="btn btn-warning" th:href="'/profile-message/' + ${member.userId}" th:inline="text">
-                                    <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item" alt="留言"/>  留言
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                    <div th:if="${#lists.isEmpty(memberListDto.listMemberDto.memberList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
+                    <div class="mt-2" th:replace="fragments/index::render_user_list(${memberListDto.listMemberDto.memberList})"></div>
                     <div>
                         <div class="mt-2 float-end"
                          th:if="!${#strings.isEmpty(memberListDto.listMemberDto.paginationHtml)}"

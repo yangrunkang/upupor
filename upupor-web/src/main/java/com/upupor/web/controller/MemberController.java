@@ -50,7 +50,7 @@ public class MemberController {
     /**
      * 当前激活的环境
      */
-    @Value("${codingvcr.env}")
+    @Value("${upupor.env}")
     private String activeEnv;
 
     @ApiOperation("用户登录")

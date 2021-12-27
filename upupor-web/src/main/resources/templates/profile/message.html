@@ -22,6 +22,8 @@
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}">文章</a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台</a>
                             <a class="nav-item nav-link cv-link active" th:href="'/profile-message/'+${memberIndexDto.member.userId}">留言板<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listCommentDto.total}"></span></a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'">关注</a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'">粉丝</a>
                         </div>
                     </nav>
                     <!--未登录提示-->

@@ -4,7 +4,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
- * CodingVCR初始化
+ * upupor初始化
  *
  * @author YangRunkang(cruise)
  * @date 2020/02/03 17:16

@@ -25,11 +25,13 @@ import com.upupor.spi.req.DelAttentionReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.upupor.service.common.CcConstant.MsgTemplate.PROFILE_INTEGRAL;
 
@@ -69,10 +71,37 @@ public class AttentionServiceImpl implements AttentionService {
         PageHelper.startPage(pageNum, pageSize);
         List<Attention> fans = attentionMapper.getAttentions(userId);
         PageInfo<Attention> pageInfo = new PageInfo<>(fans);
-
         ListAttentionDto listAttentionDto = new ListAttentionDto(pageInfo);
         listAttentionDto.setAttentionList(pageInfo.getList());
+
+        List<Attention> attentionList = listAttentionDto.getAttentionList();
+        if (!CollectionUtils.isEmpty(attentionList)) {
+
+            bindAttentionMemberInfo(attentionList);
+        }
+
         return listAttentionDto;
+    }
+    /**
+     * 封装关注者 粉丝信息
+     *
+     * @param attentionList
+     */
+    private void bindAttentionMemberInfo(List<Attention> attentionList) {
+        List<String> attentionUserIdList = attentionList.stream().map(Attention::getAttentionUserId).distinct().collect(Collectors.toList());
+        List<Member> memberList = memberService.listByUserIdList(attentionUserIdList);
+
+        if (CollectionUtils.isEmpty(memberList)) {
+            return;
+        }
+
+        for (Attention attention : attentionList) {
+            for (Member member : memberList) {
+                if (attention.getAttentionUserId().equals(member.getUserId())) {
+                    attention.setMember(member);
+                }
+            }
+        }
     }
 
     @Override

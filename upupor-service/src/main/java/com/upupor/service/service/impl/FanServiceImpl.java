@@ -5,15 +5,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Fans;
+import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.mapper.FansMapper;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.service.FanService;
+import com.upupor.service.service.MemberService;
 import com.upupor.service.utils.Asserts;
 import com.upupor.spi.req.DelFanReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.upupor.service.common.ErrorCode.OBJECT_NOT_EXISTS;
 
@@ -28,6 +32,7 @@ import static com.upupor.service.common.ErrorCode.OBJECT_NOT_EXISTS;
 public class FanServiceImpl implements FanService {
 
     private final FansMapper fansMapper;
+    private final MemberService memberService;
 
     @Override
     public int add(Fans fans) {
@@ -47,8 +52,34 @@ public class FanServiceImpl implements FanService {
 
         ListFansDto listFansDto = new ListFansDto(pageInfo);
         listFansDto.setFansList(pageInfo.getList());
+
+
+        List<Fans> fansList = listFansDto.getFansList();
+
+        //
+        if (!CollectionUtils.isEmpty(fansList)) {
+            bindFansMemberInfo(fansList);
+        }
+
         return listFansDto;
     }
+
+    private void bindFansMemberInfo(List<Fans> fansList) {
+        List<String> fanUserIdList = fansList.stream().map(Fans::getFanUserId).distinct().collect(Collectors.toList());
+        List<Member> memberList = memberService.listByUserIdList(fanUserIdList);
+        if (CollectionUtils.isEmpty(memberList)) {
+            return;
+        }
+
+        for (Fans fans : fansList) {
+            for (Member member : memberList) {
+                if (fans.getFanUserId().equals(member.getUserId())) {
+                    fans.setMember(member);
+                }
+            }
+        }
+    }
+
 
 
     @Override
