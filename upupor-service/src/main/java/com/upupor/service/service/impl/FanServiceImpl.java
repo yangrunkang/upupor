@@ -53,12 +53,10 @@ public class FanServiceImpl implements FanService {
         ListFansDto listFansDto = new ListFansDto(pageInfo);
         listFansDto.setFansList(pageInfo.getList());
 
-
         List<Fans> fansList = listFansDto.getFansList();
-
-        //
         if (!CollectionUtils.isEmpty(fansList)) {
             bindFansMemberInfo(fansList);
+            listFansDto.setMemberList(fansList.stream().map(Fans::getMember).collect(Collectors.toList()));
         }
 
         return listFansDto;

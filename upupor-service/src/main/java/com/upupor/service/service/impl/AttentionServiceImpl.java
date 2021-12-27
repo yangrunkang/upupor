@@ -76,10 +76,9 @@ public class AttentionServiceImpl implements AttentionService {
 
         List<Attention> attentionList = listAttentionDto.getAttentionList();
         if (!CollectionUtils.isEmpty(attentionList)) {
-
             bindAttentionMemberInfo(attentionList);
+            listAttentionDto.setMemberList(attentionList.stream().map(Attention::getMember).collect(Collectors.toList()));
         }
-
         return listAttentionDto;
     }
     /**

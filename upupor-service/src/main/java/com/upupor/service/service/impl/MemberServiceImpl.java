@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -42,7 +43,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberIntegralMapper memberIntegralMapper;
     private final ContentDataMapper contentDataMapper;
     private final MemberIntegralService memberIntegralService;
-    private final FanService fanService;
+    @Resource
+    private FanService fanService;
     private final StatementMapper statementMapper;
     private final CssPatternService cssPatternService;
     private final MemberConfigMapper memberConfigMapper;
