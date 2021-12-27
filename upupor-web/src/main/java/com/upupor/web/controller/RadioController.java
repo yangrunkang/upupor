@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
-import static com.upupor.framework.thread.EventBusThreadPool.UPUPOR_THREAD_POOL;
+import static com.upupor.framework.thread.UpuporThreadPoolInit.UPUPOR_THREAD_POOL;
 
 
 /**
@@ -56,7 +56,7 @@ public class RadioController {
 
     private final ContentService contentService;
 
-    @Value("${codingvcr.oss.file-host}")
+    @Value("${upupor.oss.file-host}")
     private String ossFileHost;
 
     @ApiOperation("删除音频")

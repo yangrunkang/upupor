@@ -87,7 +87,7 @@ mybatis-plus:
  mapper-locations: classpath:mybatis/mapper/*.xml
 
 # codingvcr配置
-codingvcr:
+upupor:
  # 自定义线程池
  pool:
   corePoolSize: 10

@@ -44,9 +44,9 @@ public class PictureUploadController {
 
     private final MemberService memberService;
     private final FileService fileService;
-    @Value("${codingvcr.thumbnails.allows}")
+    @Value("${upupor.thumbnails.allows}")
     private String allowsFilesSuffix;
-    @Value("${codingvcr.oss.file-host}")
+    @Value("${upupor.oss.file-host}")
     private String ossFileHost;
 
     @ApiOperation("上传头像")

@@ -24,4 +24,14 @@ public class GetCommonReq {
      */
     private Integer contentType;
 
+    public static GetCommonReq create(String tagId, String tagInId, Integer pageNum, Integer pageSize, Integer contentType) {
+        GetCommonReq getCommonReq = new GetCommonReq();
+        getCommonReq.setTagId(tagId);
+        getCommonReq.setTagInId(tagInId);
+        getCommonReq.setPageNum(pageNum);
+        getCommonReq.setPageSize(pageSize);
+        getCommonReq.setContentType(contentType);
+        return getCommonReq;
+
+    }
 }

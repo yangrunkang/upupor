@@ -127,6 +127,8 @@ public final class CcConstant {
     public static final String EDIT_USER_MANAGE_FEEDBACK = "user/manage/feedback";
     public static final String EDIT_USER_MANAGE_MESSAGE = "user/manage/message";
     public static final String AUTHOR_PROFILE = "profile/index";
+    public static final String AUTHOR_ATTENTION = "profile/attention";
+    public static final String AUTHOR_FANS = "profile/fans";
     public static final String AUTHOR_RADIO = "profile/radio";
     public static final String AUTHOR_MESSAGE = "profile/message";
     public static final String FEEDBACK_INDEX = "feedback/index";
@@ -252,7 +254,7 @@ public final class CcConstant {
      * 消息模板
      */
     public static final class MsgTemplate {
-        private static final String WEBSITE = CcUtils.getProperty("codingvcr.website");
+        private static final String WEBSITE = CcUtils.getProperty("upupor.website");
         /**
          * 个人主页
          * userId,userName

@@ -5,6 +5,7 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/message.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/message.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/common.js}"></script>
 <!--加载编辑器脚本-->
 <script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/ckeditor5/ckeditor.js}"></script>
 <!--加载代码美化插件-->
@@ -22,6 +23,8 @@
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}">文章</a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台</a>
                             <a class="nav-item nav-link cv-link active" th:href="'/profile-message/'+${memberIndexDto.member.userId}">留言板<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listCommentDto.total}"></span></a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'">关注</a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'">粉丝</a>
                         </div>
                     </nav>
                     <!--未登录提示-->
@@ -31,7 +34,10 @@
                     </div>
                     <div th:if="!${#lists.isEmpty(memberIndexDto.listCommentDto.commentList)}">
                         <div class="d-flex align-items-center my-1 mb-1" th:each="comment : ${memberIndexDto.listCommentDto.commentList}" style="overflow:hidden">
-                            <div class="flex-grow-1">
+                            <div class="flex-grow-1" th:if="${comment.commentId == 'google-ad-feed'}">
+                                <div class="card" th:include="fragments/index::google_feed_ad"></div>
+                            </div>
+                            <div class="flex-grow-1" th:if="${comment.commentId != 'google-ad-feed'}">
                                 <div class="card">
                                     <div class="p-2 border-bottom">
                                         <a class="cv-link text-black-50" th:href="'/profile/'+${comment.member.userId}">

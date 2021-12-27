@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="index">
 <!--css-->
-<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/profile.css}"/>
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/fans.css}"/>
 <!--脚本-->
-<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/profile.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/fans.js}"></script>
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/common.js}"></script>
 <!--内容-->
 <div th:fragment="content">
@@ -16,21 +16,18 @@
                     <nav class="mb-2">
                         <div class="nav nav-tabs">
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}">文章</a>
-                            <a class="nav-item nav-link cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台<span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listRadioDto.total}"></span></a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台</a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile-message/'+${memberIndexDto.member.userId}">留言板</a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'">关注</a>
-                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'">粉丝</a>
+                            <a class="nav-item nav-link cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'">粉丝<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listFansDto.total}"></span></a>
                         </div>
                     </nav>
 
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listRadioDto.radioList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
-                    <div th:replace="fragments/index::radio_list(${memberIndexDto.listRadioDto.radioList},true)"></div>
+                    <div th:replace="fragments/index::render_user_list(${memberIndexDto.listFansDto.memberList})"></div>
                     <div>
                         <div class="mt-2 float-end"
-                             th:if="!${#strings.isEmpty(memberIndexDto.listRadioDto.paginationHtml)}"
-                             th:utext="${memberIndexDto.listRadioDto.paginationHtml}"> </div>
+                             th:if="!${#strings.isEmpty(memberIndexDto.listFansDto.paginationHtml)}"
+                             th:utext="${memberIndexDto.listFansDto.paginationHtml}"> </div>
                     </div>
                 </div>
             </div>

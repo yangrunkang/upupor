@@ -28,7 +28,7 @@ public class OssUtils {
         double outputQuality;
         if (Objects.isNull(quality)) {
             // 获取压缩后输出图片的质量
-            String outputQualityKey = "codingvcr.thumbnails.output-quality";
+            String outputQualityKey = "upupor.thumbnails.output-quality";
             outputQuality = Double.parseDouble(getProperty(outputQualityKey));
         } else {
             outputQuality = quality;
@@ -67,9 +67,9 @@ public class OssUtils {
                 endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
             }
             // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建。
-            String accessKeyId = CcUtils.getProperty("codingvcr.email.accesskey-id");
-            String accessKeySecret = CcUtils.getProperty("codingvcr.email.accesskey-secret");
-            String bucketName = CcUtils.getProperty("codingvcr.oss.bucket-name");
+            String accessKeyId = CcUtils.getProperty("upupor.email.accesskey-id");
+            String accessKeySecret = CcUtils.getProperty("upupor.email.accesskey-secret");
+            String bucketName = CcUtils.getProperty("upupor.oss.bucket-name");
             ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             ossClient.putObject(bucketName, folderName, inputStream);
             ossClient.shutdown();
@@ -84,7 +84,7 @@ public class OssUtils {
     }
 
     public static Boolean checkEnvIsDev() {
-        String property = getProperty("codingvcr.env");
+        String property = getProperty("upupor.env");
         return "dev".equals(property);
     }
 

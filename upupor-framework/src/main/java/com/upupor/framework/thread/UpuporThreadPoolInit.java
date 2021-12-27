@@ -16,11 +16,11 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @date 2020.01.18 11:24
  */
 @Configuration
-@EnableConfigurationProperties({EventPoolConfig.class})
+@EnableConfigurationProperties({ThreadPoolConfig.class})
 @RequiredArgsConstructor
-public class EventBusThreadPool {
+public class UpuporThreadPoolInit {
     public static final String UPUPOR_THREAD_POOL = "upuporThreadPool";
-    private final EventPoolConfig eventPoolConfig;
+    private final ThreadPoolConfig eventPoolConfig;
 
     @Bean(UPUPOR_THREAD_POOL)
     public Executor eventThreadPool() {

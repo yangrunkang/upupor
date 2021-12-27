@@ -5,6 +5,7 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/profile.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/profile.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/common.js}"></script>
 <!--内容-->
 <div th:fragment="content">
     <div class="container">
@@ -17,6 +18,8 @@
                             <a class="nav-item nav-link cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}">文章<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listContentDto.total}"></span></a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台</a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile-message/'+${memberIndexDto.member.userId}">留言板</a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'">关注</a>
+                            <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'">粉丝</a>
                         </div>
                     </nav>
                     <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}">

@@ -36,7 +36,7 @@ public class CcEmailUtils {
      * @return
      */
     public static Boolean sendEmail(SendEmailEvent sendEmailEvent) {
-        String property = CcUtils.getProperty("codingvcr.email.on-off");
+        String property = CcUtils.getProperty("upupor.email.on-off");
         // 0-关闭 1-开启
         if (property.equals(CcConstant.CV_OFF)) {
             log.info("邮件开关已关闭");
@@ -64,8 +64,8 @@ public class CcEmailUtils {
      * @param htmlBody  邮件正文(文本邮件的大小限制为3M)
      */
     public static Boolean sendEmail(String toAddress, String subject, String tagName, String htmlBody) {
-        String accessKeyId = CcUtils.getProperty("codingvcr.email.accesskey-id");
-        String accessKeySecret = CcUtils.getProperty("codingvcr.email.accesskey-secret");
+        String accessKeyId = CcUtils.getProperty("upupor.email.accesskey-id");
+        String accessKeySecret = CcUtils.getProperty("upupor.email.accesskey-secret");
         // 如果是除杭州region外的其它region（如新加坡、澳洲Region），需要将下面的"cn-hangzhou"替换为"ap-southeast-1"、或"ap-southeast-2"。
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
         // 如果是除杭州region外的其它region（如新加坡region）， 需要做如下处理
@@ -79,9 +79,9 @@ public class CcEmailUtils {
         try {
             //request.setVersion("2017-06-22");// 如果是除杭州region外的其它region（如新加坡region）,必须指定为2017-06-22
 //            request.setAccountName("控制台创建的发信地址");
-            request.setAccountName(CcUtils.getProperty("codingvcr.email.sender-account-name"));
+            request.setAccountName(CcUtils.getProperty("upupor.email.sender-account-name"));
             // 发信人昵称
-            request.setFromAlias(CcUtils.getProperty("codingvcr.email.sender-nick-name"));
+            request.setFromAlias(CcUtils.getProperty("upupor.email.sender-nick-name"));
             request.setAddressType(1);
             request.setTagName(tagName);
             request.setReplyToAddress(true);

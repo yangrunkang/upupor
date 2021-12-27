@@ -1,8 +1,7 @@
 package com.upupor.service.service.aggregation;
 
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.AdService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.File;
@@ -12,11 +11,9 @@ import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.Objects;
-import java.util.Random;
 
 /**
  * 电台聚合服务
@@ -43,39 +40,11 @@ public class RadioAggregateService {
 
     public RadioIndexDto index(Integer pageNum, Integer pageSize) {
         ListRadioDto listRadioDto = radioService.list(pageNum, pageSize);
-
-        // 个人主页电台列表添加广告
-        if (!CollectionUtils.isEmpty(listRadioDto.getRadioList())) {
-            boolean exists = listRadioDto.getRadioList().parallelStream().anyMatch(t -> t.getRadioId().equals(CcConstant.GoogleAd.FEED_AD));
-            if (!exists) {
-                int adIndex = new Random().nextInt(CcConstant.Page.SIZE);
-                int maxIndex = listRadioDto.getRadioList().size() - 1;
-                if (adIndex <= 2) {
-                    adIndex = 3;
-                }
-                if (adIndex >= maxIndex) {
-                    adIndex = maxIndex;
-                }
-                Radio radio = new Radio();
-                radio.setRadioId(CcConstant.GoogleAd.FEED_AD);
-                radio.setUserId(CcConstant.GoogleAd.FEED_AD);
-                radio.setCreateTime(CcDateUtil.getCurrentTime());
-
-//                Member member = new Member();
-//                member.setUserId(CcConstant.GoogleAd.FEED_AD);
-//                member.setVia(CcConstant.GoogleAd.FEED_AD);
-//                member.setUserName(CcConstant.GoogleAd.FEED_AD);
-//                radio.setMember(member);
-                listRadioDto.getRadioList().add(adIndex, radio);
-            }
-        }
-
+        AdService.radioListAd(listRadioDto.getRadioList());
         RadioIndexDto radioIndexDto = new RadioIndexDto();
         radioIndexDto.setListRadioDto(listRadioDto);
         return radioIndexDto;
     }
-
-
 
 
     public RadioIndexDto detail(String radioId, Integer pageNum, Integer pageSize) {

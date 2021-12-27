@@ -54,7 +54,7 @@ public class GenerateSiteMapScheduled {
 
     private final RadioService radioService;
 
-    @Value("${codingvcr.website}")
+    @Value("${upupor.website}")
     private String webSite;
 
     /**

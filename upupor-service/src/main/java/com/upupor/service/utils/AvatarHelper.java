@@ -32,7 +32,7 @@ public class AvatarHelper {
                 return DEFAULT_PROFILE_PHOTO;
             }
             OssUtils.uploadToOss(fileName, create(hashCode));
-            url = CcUtils.getProperty("codingvcr.oss.file-host") + fileName;
+            url = CcUtils.getProperty("upupor.oss.file-host") + fileName;
         } catch (Exception e) {
             url = DEFAULT_PROFILE_PHOTO;
         }

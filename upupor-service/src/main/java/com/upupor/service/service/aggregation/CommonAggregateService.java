@@ -49,6 +49,14 @@ public class CommonAggregateService {
     }
 
     public CommonPageIndexDto index(GetCommonReq getCommonReq) {
+        if (Objects.isNull(getCommonReq.getPageNum())) {
+            getCommonReq.setPageNum(CcConstant.Page.NUM);
+        }
+
+        if (Objects.isNull(getCommonReq.getPageSize())) {
+            getCommonReq.setPageSize(CcConstant.Page.SIZE);
+        }
+
         // 请求参数封装
         String tag = getTagId(getCommonReq);
 

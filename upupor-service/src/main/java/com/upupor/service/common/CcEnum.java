@@ -982,6 +982,8 @@ public enum CcEnum {
         PROFILE_CONTENT(1, "个人主页-文章"),
         PROFILE_MESSAGE(2, "个人主页-留言板"),
         PROFILE_RADIO(3, "个人主页-电台"),
+        PROFILE_ATTENTION(4, "个人主页-关注"),
+        PROFILE_FANS(5, "个人主页-粉丝"),
         ;
         private final Integer type;
         private final String name;

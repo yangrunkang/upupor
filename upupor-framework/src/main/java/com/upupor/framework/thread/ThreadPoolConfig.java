@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @created: 2019/12/09 18:13
  */
 @Data
-@ConfigurationProperties(prefix = "codingvcr.pool")
-public class EventPoolConfig {
+@ConfigurationProperties(prefix = "upupor.pool")
+public class ThreadPoolConfig {
 
     /**
      * 核心线程数

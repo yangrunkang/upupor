@@ -2,6 +2,7 @@ package com.upupor.web.page;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.utils.FileUtils;
+import com.upupor.service.business.AdService;
 import com.upupor.service.common.*;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.File;
@@ -18,7 +19,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +28,6 @@ import org.thymeleaf.util.ArrayUtils;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Random;
 
 import static com.upupor.service.common.CcConstant.Page.SIZE_COMMENT;
 import static com.upupor.service.common.CcConstant.SeoKey;
@@ -48,22 +47,17 @@ import static com.upupor.service.common.ErrorCode.ARTICLE_NOT_BELONG_TO_YOU;
 public class ContentPageJumpController {
 
     private final ContentAggregateService contentAggregateService;
-
     private final CollectService collectService;
-
     private final ContentService contentService;
-
     private final MessageService messageService;
-
     private final MemberIntegralService memberIntegralService;
-
     private final FileService fileService;
     private final CommentService commentService;
     private final ViewerService viewerService;
     private final RadioService radioService;
-    @Value("${codingvcr.oss.file-host}")
+    @Value("${upupor.oss.file-host}")
     private String ossFileHost;
-    @Value("${codingvcr.thumbnails.allows}")
+    @Value("${upupor.thumbnails.allows}")
     private String allowsFilesSuffix;
 
     /**
@@ -103,24 +97,7 @@ public class ContentPageJumpController {
 
         // 推荐文章
         contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
-        // 在推荐文章中插入广告
-        if (!CollectionUtils.isEmpty(contentIndexDto.getRandomContentList())) {
-            boolean exists = contentIndexDto.getRandomContentList().parallelStream().anyMatch(t -> t.getContentId().equals(CcConstant.GoogleAd.FEED_AD));
-            if (!exists) {
-                int adIndex = new Random().nextInt(CcConstant.Page.SIZE);
-                int maxIndex = contentIndexDto.getRandomContentList().size() - 1;
-                if (adIndex <= 2) {
-                    adIndex = 3;
-                }
-                if (adIndex >= maxIndex) {
-                    adIndex = maxIndex;
-                }
-                Content adContent = new Content();
-                adContent.setContentId(CcConstant.GoogleAd.FEED_AD);
-                adContent.setUserId(CcConstant.GoogleAd.FEED_AD);
-                contentIndexDto.getRandomContentList().add(adIndex, adContent);
-            }
-        }
+        AdService.contentListAd(contentIndexDto.getRandomContentList());
 
         // 绑定文章其他数据
         bindContentOtherData(contentIndexDto, content);

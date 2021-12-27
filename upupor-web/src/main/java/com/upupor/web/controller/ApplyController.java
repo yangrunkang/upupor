@@ -47,7 +47,7 @@ public class ApplyController {
     private final FileService fileService;
     private final MessageService messageService;
 
-    @Value("${codingvcr.oss.file-host}")
+    @Value("${upupor.oss.file-host}")
     private String ossFileHost;
 
     @ApiOperation("添加广告申请")

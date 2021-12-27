@@ -64,49 +64,49 @@ public class PageAspectAdvice {
     /**
      * 当前激活的环境
      */
-    @Value("${codingvcr.env}")
+    @Value("${upupor.env}")
     private String activeEnv;
 
     /**
      * 当前激活的环境
      */
-    @Value("${codingvcr.ossStatic}")
+    @Value("${upupor.ossStatic}")
     private String ossStatic;
 
     /**
      * 是否开启广告
      */
-    @Value("${codingvcr.ad-switch}")
+    @Value("${upupor.ad-switch}")
     private String adSwitch;
 
     /**
      * 是否开启右侧广告
      */
-    @Value("${codingvcr.ad-switch.right}")
+    @Value("${upupor.ad-switch.right}")
     private String adSwitchRight;
 
     /**
      * 是否开启分析
      */
-    @Value("${codingvcr.analyze-switch}")
+    @Value("${upupor.analyze-switch}")
     private String analyzeSwitch;
 
     /**
      * google广告ClientID
      */
-    @Value("${codingvcr.googleAd.dataAdClientId}")
+    @Value("${upupor.googleAd.dataAdClientId}")
     private String dataAdClientId;
 
     /**
      * google广告ClientID
      */
-    @Value("${codingvcr.googleAd.rightSlot}")
+    @Value("${upupor.googleAd.rightSlot}")
     private String rightSlot;
 
     /**
      * google广告ClientID
      */
-    @Value("${codingvcr.googleAd.feedSlot}")
+    @Value("${upupor.googleAd.feedSlot}")
     private String feedSlot;
 
 
