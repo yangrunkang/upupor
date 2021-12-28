@@ -114,7 +114,7 @@ fromProfile: 是否来自Profile页面
 -->
 <div th:fragment="content_list(list,fromProfile)">
     <ul class="list-group list-group-flush">
-        <li th:class="${!fromProfile} ? 'list-group-item p-2' : (${content.pinnedStatus == 1} ?'list-group-item  p-2 mb-1 border border-info shadow-sm rounded' : 'list-group-item  p-2')" th:each="content,ite : ${list}">
+        <li th:class="${!fromProfile} ? 'list-group-item p-1' : (${content.pinnedStatus == 1} ?'list-group-item p-1 mb-1 border border-info shadow-sm rounded' : 'list-group-item p-1')" th:each="content,ite : ${list}">
             <div th:if="${content.contentId != 'google-ad-feed'}" th:include="fragments/index::content_media"></div>
             <div th:if="${content.contentId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
         </li>
@@ -130,7 +130,7 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="radio_list(list,fromProfile)">
 
     <ul class="list-group list-group-flush">
-        <li class="list-group-item p-2" th:each="radio,ite : ${list}">
+        <li class="list-group-item p-1" th:each="radio,ite : ${list}">
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
                     <div th:if="${radio.radioId != 'google-ad-feed'}" th:include="fragments/index::radio-item"></div>
@@ -569,7 +569,7 @@ fromProfile: 是否来自Profile页面
 
 <div th:fragment="render_user_list(userList)">
     <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(userList)}">
-        <li class="list-group-item  p-2" th:each="member,ite : ${userList}">
+        <li class="list-group-item p-1" th:each="member,ite : ${userList}">
             <div th:if="${member.userId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
             <div th:if="${member.userId != 'google-ad-feed'}" class="d-flex align-items-center my-1 ">
                 <img class="lazyload me-3 img rounded cv-icon-60 me-2"
