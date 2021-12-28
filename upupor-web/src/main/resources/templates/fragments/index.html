@@ -153,7 +153,7 @@ fromProfile: 是否来自Profile页面
     <div class="d-flex align-items-center">
         <div class="flex-grow-1">
             <div class="mt-0">
-                <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-5 fst-normal" th:title="${content.title}" th:text="${content.title}"></a>
+                <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${content.title}" th:text="${content.title}"></a>
 <!--                <span class="badge bg-light text-dark float-end" th:text="${content.contentTypeDesc}"></span>-->
             </div>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
@@ -523,7 +523,7 @@ fromProfile: 是否来自Profile页面
 
 <div th:fragment="radio-item">
     <div class="mt-0">
-        <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow fs-5 fst-normal" th:title="${radio.radioIntro}"  th:text="${radio.radioIntro}"></a>
+        <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${radio.radioIntro}"  th:text="${radio.radioIntro}"></a>
     </div>
     <div>
         <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>
