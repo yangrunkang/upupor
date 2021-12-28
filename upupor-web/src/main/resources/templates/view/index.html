@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/view/index.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/view/index.js}"></script>
+<div th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="lead border-bottom">浏览记录</div>
+                    <div class="card card-body border-0 p-2 my-2"
+                         th:if="${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}">
+                        <div th:include="fragments/index::empty_content"></div>
+                    </div>
+
+                    <ul class="mt-2 list-group list-group-flush"
+                        th:if="!${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}">
+                        <li class="list-group-item p-1" th:each="view,ite : ${listViewHistoryDto.viewHistoryList}">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <p class="font-weight-bold mb-1">
+                                        <a th:href="${view.url}" class="cv-link"
+                                           th:title="${view?.title}"><span th:text="${view?.title}">标题</span></a>
+                                    </p>
+                                    <div class="mb-0 text-black-50 small"
+                                         th:text="${view.createDate}">时间
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div>
+                        <div class="mt-2 float-end"
+                             th:if="!${#strings.isEmpty(listViewHistoryDto.paginationHtml)}"
+                             th:utext="${listViewHistoryDto.paginationHtml}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-0 p-2">
+                    <div class="text-black-50">浏览记录</div>
+                </div>
+                <div class="mt-2" th:include="fragments/index::google_right_ad"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

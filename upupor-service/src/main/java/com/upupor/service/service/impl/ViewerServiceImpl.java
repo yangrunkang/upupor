@@ -1,13 +1,20 @@
 package com.upupor.service.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.dao.entity.Member;
+import com.upupor.service.dao.entity.ViewHistory;
 import com.upupor.service.dao.entity.Viewer;
+import com.upupor.service.dao.mapper.ViewHistoryMapper;
 import com.upupor.service.dao.mapper.ViewerMapper;
+import com.upupor.service.dto.page.common.ListViewHistoryDto;
 import com.upupor.service.listener.event.ViewerEvent;
 import com.upupor.service.service.MemberService;
 import com.upupor.service.service.ViewerService;
+import com.upupor.service.service.viewhistory.AbstractViewHistory;
 import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +34,10 @@ import java.util.stream.Collectors;
 public class ViewerServiceImpl implements ViewerService {
 
     private final ViewerMapper viewerMapper;
+    private final ViewHistoryMapper viewHistoryMapper;
     private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
+    private final List<AbstractViewHistory> abstractViewHistoryList;
 
     @Override
     public void addViewer(String targetId, CcEnum.ViewTargetType targetType) {
@@ -81,4 +90,49 @@ public class ViewerServiceImpl implements ViewerService {
         });
         return viewerList;
     }
+
+    @Override
+    public ListViewHistoryDto listViewHistoryByUserId(String userId, Integer pageNum, Integer pageSize) {
+
+        ListViewHistoryDto listViewHistoryDto = new ListViewHistoryDto();
+
+        LambdaQueryWrapper<ViewHistory> query = new LambdaQueryWrapper<ViewHistory>()
+                .eq(ViewHistory::getViewerUserId, userId)
+                .orderByDesc(ViewHistory::getCreateTime);
+        PageHelper.startPage(pageNum, pageSize);
+        List<ViewHistory> viewHistories = viewHistoryMapper.selectList(query);
+        PageInfo<ViewHistory> pageInfo = new PageInfo<>(viewHistories);
+
+        setViewHistoryTitle(pageInfo.getList());
+
+        listViewHistoryDto.setTotal(pageInfo.getTotal());
+        listViewHistoryDto.setViewHistoryList(pageInfo.getList());
+        return listViewHistoryDto;
+    }
+
+    /**
+     * 设置浏览记录的title
+     *
+     * @param viewHistoryList
+     */
+    private void setViewHistoryTitle(List<ViewHistory> viewHistoryList) {
+        if (CollectionUtils.isEmpty(viewHistoryList)) {
+            return;
+        }
+
+        Map<Integer, List<ViewHistory>> map = viewHistoryList.stream().collect(Collectors.groupingBy(ViewHistory::getTargetType));
+
+        for (Integer targetType : map.keySet()) {
+            for (AbstractViewHistory abstractViewHistory : abstractViewHistoryList) {
+                if (abstractViewHistory.viewTargetType().getType().equals(targetType)) {
+                    abstractViewHistory.initData(map.get(targetType));
+                    abstractViewHistory.setViewHistoryTitleAndUrl();
+                }
+            }
+        }
+
+
+    }
+
+
 }

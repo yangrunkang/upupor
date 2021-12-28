@@ -2,6 +2,7 @@ package com.upupor.service.service;
 
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Viewer;
+import com.upupor.service.dto.page.common.ListViewHistoryDto;
 
 import java.util.List;
 
@@ -31,5 +32,14 @@ public interface ViewerService {
      */
     List<Viewer> listViewerByTargetIdAndType(String targetId, CcEnum.ViewTargetType targetType);
 
+
+    /**
+     * 根据用户id获取其浏览记录
+     * @param userId
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    ListViewHistoryDto listViewHistoryByUserId(String userId, Integer pageNum, Integer pageSize);
 
 }

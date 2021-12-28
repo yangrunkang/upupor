@@ -143,6 +143,7 @@ public final class CcConstant {
     public static final String UNSUBSCRIBE_MAIL = "user/unsubscribe-mail";
     public static final String TODO_INDEX = "todo/index";
     public static final String LOG_INDEX = "log/index";
+    public static final String VIEW_HISTORY = "view/index";
     /**
      * 运营活动
      */

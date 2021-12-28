@@ -4,10 +4,8 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.dao.entity.Fans;
-import com.upupor.service.dao.entity.Member;
-import com.upupor.service.dao.entity.Viewer;
+import com.upupor.service.dao.entity.*;
+import com.upupor.service.dao.mapper.ViewHistoryMapper;
 import com.upupor.service.dao.mapper.ViewerMapper;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
@@ -47,6 +45,7 @@ public class ContentListener {
     private final MemberService memberService;
     private final MessageService messageService;
     private final ViewerMapper viewerMapper;
+    private final ViewHistoryMapper viewHistoryMapper;
 
     @EventListener
     @Async
@@ -59,7 +58,13 @@ public class ContentListener {
         if (Objects.isNull(viewerUserId)) {
             return;
         }
+        // 记录浏览者
+        recordViewer(targetId, targetType, viewerUserId);
+        // 记录浏览记录
+        recordViewerHistory(targetId, targetType, viewerUserId);
+    }
 
+    private void recordViewer(String targetId, CcEnum.ViewTargetType targetType, String viewerUserId) {
         int count = viewerMapper.countByTargetIdAndViewerUserId(targetId, viewerUserId, targetType.getType());
         if (count > 0) {
             return;
@@ -72,8 +77,19 @@ public class ContentListener {
         viewer.setDeleteStatus(CcEnum.ViewerDeleteStatus.NORMAL.getStatus());
         viewer.setSysUpdateTime(new Date());
         viewer.setCreateTime(CcDateUtil.getCurrentTime());
-
         viewerMapper.insert(viewer);
+    }
+
+    private void recordViewerHistory(String targetId, CcEnum.ViewTargetType targetType, String viewerUserId) {
+
+        ViewHistory viewHistory = new ViewHistory();
+        viewHistory.setTargetId(targetId);
+        viewHistory.setViewerUserId(viewerUserId);
+        viewHistory.setTargetType(targetType.getType());
+        viewHistory.setDeleteStatus(CcEnum.ViewerDeleteStatus.NORMAL.getStatus());
+        viewHistory.setSysUpdateTime(new Date());
+        viewHistory.setCreateTime(CcDateUtil.getCurrentTime());
+        viewHistoryMapper.insert(viewHistory);
     }
 
     @EventListener

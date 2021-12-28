@@ -141,6 +141,7 @@ upupor:
   - /m
   - /before-editor
   - /user/admin
+  - /view/history
  googleAd:
   dataAdClientId: ${GOOGLE_DATA_AD_CLIENT_ID}
   rightSlot: ${GOOGLE_AD_RIGHT}

@@ -108,7 +108,7 @@ public class RadioPageJumpController {
         RadioIndexDto detail = radioAggregateService.detail(radioId, pageNum, pageSize);
 
         // 记录访问者
-        viewerService.addViewer(radioId, CcEnum.ViewTargetType.CONTENT);
+        viewerService.addViewer(radioId, CcEnum.ViewTargetType.RADIO);
         // 电台列表
         modelAndView.addObject(detail);
 

@@ -978,12 +978,13 @@ public enum CcEnum {
         /**
          * 0-内容(包含文章和电台)  1-个人主页  2-留言板
          */
-        CONTENT(0, "内容(包含文章和电台)"),
+        CONTENT(0, "内容"),
         PROFILE_CONTENT(1, "个人主页-文章"),
         PROFILE_MESSAGE(2, "个人主页-留言板"),
         PROFILE_RADIO(3, "个人主页-电台"),
         PROFILE_ATTENTION(4, "个人主页-关注"),
         PROFILE_FANS(5, "个人主页-粉丝"),
+        RADIO(6, "电台"),
         ;
         private final Integer type;
         private final String name;

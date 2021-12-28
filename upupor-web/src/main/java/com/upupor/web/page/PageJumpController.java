@@ -4,9 +4,11 @@ import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;
 import com.upupor.service.service.MemberService;
+import com.upupor.service.service.ViewerService;
 import com.upupor.service.service.aggregation.MemberAggregateService;
 import com.upupor.service.service.aggregation.SearchAggregateService;
 import com.upupor.service.service.aggregation.TagAggregateService;
+import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,15 +37,11 @@ import static com.upupor.service.common.CcConstant.*;
 @RestController
 @RequiredArgsConstructor
 public class PageJumpController implements Serializable {
-
-
     private final SearchAggregateService searchAggregateService;
-
     private final TagAggregateService tagAggregateService;
-
     private final MemberAggregateService memberAggregateService;
-
     private final MemberService memberService;
+    private final ViewerService viewerService;
 
     @ApiOperation("每日签到")
     @GetMapping("/daily-points")
@@ -314,6 +312,25 @@ public class PageJumpController implements Serializable {
         // Seo
         modelAndView.addObject(SeoKey.TITLE, "更新日志");
         modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "更新日志");
+        return modelAndView;
+    }
+
+    @ApiOperation("浏览记录")
+    @GetMapping("/view/history")
+    public ModelAndView viewHistory(Integer pageNum, Integer pageSize) {
+        if (Objects.isNull(pageNum)) {
+            pageNum = Page.NUM;
+        }
+        if (Objects.isNull(pageSize)) {
+            pageSize = Page.SIZE;
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(VIEW_HISTORY);
+        modelAndView.addObject(viewerService.listViewHistoryByUserId(ServletUtils.getUserId(), pageNum,pageSize ));
+        // Seo
+        modelAndView.addObject(SeoKey.TITLE, "浏览记录");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "浏览记录");
         return modelAndView;
     }
 
