@@ -10,8 +10,7 @@ import java.util.Date;
  * @author runkangyang
  */
 @Data
-public class ApplyDocument {
-    private Long id;
+public class ApplyDocument extends BaseEntity {
 
     private String applyDocumentId;
 

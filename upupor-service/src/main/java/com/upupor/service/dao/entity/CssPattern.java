@@ -6,8 +6,7 @@ import lombok.Data;
  * Css模式
  */
 @Data
-public class CssPattern {
-    private Long id;
+public class CssPattern extends BaseEntity {
 
     private String userId;
 

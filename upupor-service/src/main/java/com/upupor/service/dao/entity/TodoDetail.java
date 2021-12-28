@@ -8,8 +8,7 @@ import java.util.Date;
  * 待办明细
  */
 @Data
-public class TodoDetail {
-    private Long id;
+public class TodoDetail extends BaseEntity {
 
     private String todoId;
 

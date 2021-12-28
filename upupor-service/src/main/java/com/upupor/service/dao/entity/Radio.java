@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
-public class Radio {
-    private Long id;
+public class Radio extends BaseEntity {
 
     private String radioId;
 

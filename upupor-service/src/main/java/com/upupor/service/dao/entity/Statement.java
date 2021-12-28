@@ -10,9 +10,7 @@ import java.util.Date;
  * @author runkangyang
  */
 @Data
-public class Statement {
-
-    private Long id;
+public class Statement extends BaseEntity {
 
     private Integer statementId;
 

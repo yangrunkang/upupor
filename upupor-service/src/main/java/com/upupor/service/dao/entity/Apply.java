@@ -13,9 +13,7 @@ import java.util.Date;
  * @author runkangyang
  */
 @Data
-public class Apply {
-
-    private Long id;
+public class Apply extends BaseEntity {
 
     private String applyId;
 

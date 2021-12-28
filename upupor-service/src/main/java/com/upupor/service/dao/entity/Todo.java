@@ -12,8 +12,7 @@ import java.util.Objects;
  */
 
 @Data
-public class Todo {
-    private Long id;
+public class Todo extends BaseEntity {
 
     private String userId;
 

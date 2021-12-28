@@ -10,9 +10,7 @@ import java.util.Date;
  * 访问者
  */
 @Data
-public class Viewer {
-
-    private Long id;
+public class Viewer extends BaseEntity {
 
     private String targetId;
 

@@ -13,8 +13,7 @@ import java.util.Date;
  * @date 2020.03.08 09:40
  */
 @Data
-public class MemberIntegral {
-    private Long id;
+public class MemberIntegral extends BaseEntity {
 
     private String integralId;
 

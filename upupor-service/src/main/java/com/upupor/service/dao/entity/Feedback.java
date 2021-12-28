@@ -5,8 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Feedback {
-    private Long id;
+public class Feedback extends BaseEntity {
 
     private String userId;
 

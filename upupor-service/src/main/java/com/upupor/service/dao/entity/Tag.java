@@ -12,8 +12,7 @@ import java.util.Date;
  * @date 2020.01.08 02:23
  */
 @Data
-public class Tag {
-    private Long id;
+public class Tag extends BaseEntity {
 
     /**
      * 标签Id

@@ -6,8 +6,7 @@ import lombok.Data;
  * 文章数据
  */
 @Data
-public class ContentData {
-    private Long id;
+public class ContentData extends BaseEntity {
 
     private Integer viewNum;
 

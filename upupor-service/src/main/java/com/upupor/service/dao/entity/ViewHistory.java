@@ -53,6 +53,12 @@ public class ViewHistory {
     private String title;
 
     /**
+     * 来源
+     */
+    @TableField(exist = false)
+    private String source;
+
+    /**
      * 浏览url
      */
     @TableField(exist = false)

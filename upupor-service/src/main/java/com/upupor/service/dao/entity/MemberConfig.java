@@ -10,8 +10,7 @@ import java.util.Date;
  * @author runkangyang
  */
 @Data
-public class MemberConfig {
-    private Long id;
+public class MemberConfig extends BaseEntity {
 
     private String configId;
 

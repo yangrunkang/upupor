@@ -8,9 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Fans {
-
-    private Long id;
+public class Fans extends BaseEntity {
 
     private String fanId;
 

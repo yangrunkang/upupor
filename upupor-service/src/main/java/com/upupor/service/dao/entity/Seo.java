@@ -8,8 +8,7 @@ import java.util.Date;
  * Seo
  */
 @Data
-public class Seo {
-    private Long id;
+public class Seo extends BaseEntity {
 
     private String seoId;
 

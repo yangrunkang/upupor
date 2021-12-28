@@ -5,8 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Resource {
-    private Long id;
+public class Resource extends BaseEntity {
 
     private String resourceId;
 

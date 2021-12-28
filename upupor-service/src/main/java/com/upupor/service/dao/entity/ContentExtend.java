@@ -10,9 +10,7 @@ import java.util.Date;
  * @author runkangyang
  */
 @Data
-public class ContentExtend {
-
-    private Long id;
+public class ContentExtend extends BaseEntity {
 
     private String contentId;
 

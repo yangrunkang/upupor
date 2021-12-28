@@ -8,8 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Attention {
-    private Long id;
+public class Attention extends BaseEntity {
 
     private String attentionId;
 

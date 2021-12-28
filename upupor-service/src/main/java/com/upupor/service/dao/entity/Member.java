@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
-public class Member {
-    private Long id;
+public class Member extends BaseEntity {
 
     private String userId;
 

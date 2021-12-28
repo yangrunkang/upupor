@@ -22,8 +22,7 @@ import java.util.Objects;
  * @date: 2020.01.05 23:37
  */
 @Data
-public class Content {
-    private Long id;
+public class Content extends BaseEntity {
 
     private String contentId;
 

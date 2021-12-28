@@ -22,6 +22,7 @@ public class ProfileContentViewHistory extends ProfileAttentionViewHistory {
                 if (member.getUserId().equals(viewHistory.getTargetId())) {
                     viewHistory.setTitle(member.getUserName()+"的主页");
                     viewHistory.setUrl("/profile/" + member.getUserId());
+                    viewHistory.setSource(viewTargetType().getName());
                 }
             }
         }

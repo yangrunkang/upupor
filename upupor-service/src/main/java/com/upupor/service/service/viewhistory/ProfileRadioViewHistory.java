@@ -23,6 +23,7 @@ public class ProfileRadioViewHistory extends ProfileAttentionViewHistory {
                 if (member.getUserId().equals(viewHistory.getTargetId())) {
                     viewHistory.setTitle(member.getUserName()+"的电台");
                     viewHistory.setUrl("/profile/" + member.getUserId() + "/radio");
+                    viewHistory.setSource(viewTargetType().getName());
                 }
             }
         }

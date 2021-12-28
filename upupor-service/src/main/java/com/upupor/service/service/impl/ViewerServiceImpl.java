@@ -93,9 +93,6 @@ public class ViewerServiceImpl implements ViewerService {
 
     @Override
     public ListViewHistoryDto listViewHistoryByUserId(String userId, Integer pageNum, Integer pageSize) {
-
-        ListViewHistoryDto listViewHistoryDto = new ListViewHistoryDto();
-
         LambdaQueryWrapper<ViewHistory> query = new LambdaQueryWrapper<ViewHistory>()
                 .eq(ViewHistory::getViewerUserId, userId)
                 .orderByDesc(ViewHistory::getCreateTime);
@@ -103,6 +100,7 @@ public class ViewerServiceImpl implements ViewerService {
         List<ViewHistory> viewHistories = viewHistoryMapper.selectList(query);
         PageInfo<ViewHistory> pageInfo = new PageInfo<>(viewHistories);
 
+        ListViewHistoryDto listViewHistoryDto = new ListViewHistoryDto(pageInfo);
         setViewHistoryTitle(pageInfo.getList());
 
         listViewHistoryDto.setTotal(pageInfo.getTotal());

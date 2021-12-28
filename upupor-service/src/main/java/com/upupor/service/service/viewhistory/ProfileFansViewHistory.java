@@ -22,6 +22,7 @@ public class ProfileFansViewHistory extends ProfileAttentionViewHistory {
                 if (member.getUserId().equals(viewHistory.getTargetId())) {
                     viewHistory.setTitle(member.getUserName()+"的粉丝");
                     viewHistory.setUrl("/profile/" + member.getUserId() + "/fans");
+                    viewHistory.setSource(viewTargetType().getName());
                 }
             }
         }

@@ -39,6 +39,7 @@ public class ContentViewHistory extends AbstractViewHistory<Content> {
                 if (content.getContentId().equals(viewHistory.getTargetId())) {
                     viewHistory.setTitle(content.getTitle());
                     viewHistory.setUrl("/u/" + content.getContentId());
+                    viewHistory.setSource(viewTargetType().getName());
                 }
             }
         }

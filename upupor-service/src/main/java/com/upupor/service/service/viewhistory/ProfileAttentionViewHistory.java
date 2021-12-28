@@ -39,6 +39,7 @@ public class ProfileAttentionViewHistory extends AbstractViewHistory<Member> {
                 if (member.getUserId().equals(viewHistory.getTargetId())) {
                     viewHistory.setTitle(member.getUserName()+"的关注");
                     viewHistory.setUrl("/profile/" + member.getUserId() + "/attention");
+                    viewHistory.setSource(viewTargetType().getName());
                 }
             }
         }

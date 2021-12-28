@@ -24,10 +24,12 @@
                                     <p class="font-weight-bold mb-1">
                                         <a th:href="${view.url}" class="cv-link"
                                            th:title="${view?.title}"><span th:text="${view?.title}">标题</span></a>
+                                        <span class="badge bg-light text-dark float-end" th:text="${view.source}"></span>
                                     </p>
-                                    <div class="mb-0 text-black-50 small"
-                                         th:text="${view.createDate}">时间
+                                    <div class="mb-0 text-black-50 small">
+                                        <span th:text="${view.createDate}"></span>
                                     </div>
+
                                 </div>
                             </div>
                         </li>

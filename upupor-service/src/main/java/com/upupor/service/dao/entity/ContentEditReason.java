@@ -5,8 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class ContentEditReason {
-    private Long id;
+public class ContentEditReason extends BaseEntity {
 
     private String contentId;
 

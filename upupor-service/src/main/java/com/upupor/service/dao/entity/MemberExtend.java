@@ -8,8 +8,7 @@ import java.util.Date;
  * 用户拓展信息
  */
 @Data
-public class MemberExtend {
-    private Long id;
+public class MemberExtend extends BaseEntity {
 
     private String userId;
 

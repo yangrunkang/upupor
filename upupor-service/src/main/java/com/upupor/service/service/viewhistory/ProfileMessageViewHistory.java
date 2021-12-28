@@ -28,6 +28,7 @@ public class ProfileMessageViewHistory extends ProfileAttentionViewHistory{
                 if (member.getUserId().equals(viewHistory.getTargetId())) {
                     viewHistory.setTitle(member.getUserName()+"的留言板");
                     viewHistory.setUrl("/profile-message/" + member.getUserId());
+                    viewHistory.setSource(viewTargetType().getName());
                 }
             }
         }

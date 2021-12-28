@@ -8,8 +8,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Comment {
-    private Long id;
+public class Comment extends BaseEntity {
 
     private String userId;
 

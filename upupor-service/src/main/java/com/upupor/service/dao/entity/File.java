@@ -10,8 +10,7 @@ import java.util.Date;
  * @author runkangyang
  */
 @Data
-public class File {
-    private Long id;
+public class File extends BaseEntity {
 
     private String fileMd5;
 

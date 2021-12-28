@@ -33,6 +33,7 @@ public class RadioViewHistory extends AbstractViewHistory<Radio> {
                 if (radio.getRadioId().equals(viewHistory.getTargetId())) {
                     viewHistory.setTitle(radio.getRadioIntro());
                     viewHistory.setUrl("/r/" + radio.getRadioId());
+                    viewHistory.setSource(viewTargetType().getName());
                 }
             }
         }

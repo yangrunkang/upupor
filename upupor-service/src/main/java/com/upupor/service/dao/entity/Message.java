@@ -11,8 +11,7 @@ import java.util.Date;
  * @author runkangyang
  */
 @Data
-public class Message {
-    private Long id;
+public class Message extends BaseEntity {
 
     private String messageId;
 

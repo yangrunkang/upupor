@@ -14,8 +14,7 @@ import java.util.Date;
  * @date 2020.01.27 15:08
  */
 @Data
-public class Collect {
-    private Long id;
+public class Collect extends BaseEntity {
 
     private String collectId;
 

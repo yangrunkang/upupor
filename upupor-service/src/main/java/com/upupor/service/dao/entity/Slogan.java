@@ -11,8 +11,7 @@ import java.util.Date;
  * @date 2020.02.23 22:45
  */
 @Data
-public class Slogan {
-    private Long id;
+public class Slogan extends BaseEntity {
 
     private String sloganId;
 
