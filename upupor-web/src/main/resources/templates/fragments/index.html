@@ -150,12 +150,11 @@ fromProfile: 是否来自Profile页面
     <a th:if="${content.status} != 0" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
 </div>
 <div th:fragment="content_media">
-    <div class="d-flex align-items-center my-1">
+    <div class="d-flex align-items-center">
         <div class="flex-grow-1">
             <div class="mt-0">
-                <h5>
-                    <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow" th:title="${content.title}" th:text="${content.title}"></a>
-                </h5>
+                <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${content.title}" th:text="${content.title}"></a>
+<!--                <span class="badge bg-light text-dark float-end" th:text="${content.contentTypeDesc}"></span>-->
             </div>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
         </div>
@@ -265,20 +264,20 @@ fromProfile: 是否来自Profile页面
 <!--主页菜单-->
 <div th:fragment="page_menu">
     <ul class="nav nav-pills">
-        <li class="nav-item me-1"><a class="nav-link cv-link all" href="/" title="全部"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/all.png}" /> 全部</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link topic" href="/topic" title="短内容"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/topic.png}" /> 短内容</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link tech" href="/tech" title="技术"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-tech.png}" /> 技术</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link share" href="/share" title="分享"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-share.png}" /> 分享</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link workplace" href="/workplace" title="职场"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-work.png}" /> 职场</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link record" href="/record" title="记录"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-record.png}" /> 记录</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link qa" href="/qa" title="问答"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-qa.png}" /> 问答</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link small all" href="/" title="全部"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/all.png}" /> 全部</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link small topic" href="/topic" title="短内容"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/topic.png}" /> 短内容</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link small tech" href="/tech" title="技术"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-tech.png}" /> 技术</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link small share" href="/share" title="分享"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-share.png}" /> 分享</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link small workplace" href="/workplace" title="职场"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-work.png}" /> 职场</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link small record" href="/record" title="记录"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-record.png}" /> 记录</a></li>
+        <li class="nav-item me-1"><a class="nav-link cv-link small qa" href="/qa" title="问答"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-qa.png}" /> 问答</a></li>
     </ul>
     <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}" class="border-bottom my-1"></div>
     <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
         <ul class="nav nav-pills">
             <!--如果以后涵盖子类，可以使用展开按钮-->
             <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">
-                <a th:class="'nav-link cv-link ' + ${menu.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}" th:inline="text">
+                <a th:class="'nav-link cv-link small ' + ${menu.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}" th:inline="text">
                     <img th:data-src="${menu.icon}" class="lazyload cv-icon" />
                     [[${menu.tagName}]]
                 </a>
@@ -524,9 +523,7 @@ fromProfile: 是否来自Profile页面
 
 <div th:fragment="radio-item">
     <div class="mt-0">
-        <h5>
-            <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow" th:title="${radio.radioIntro}"  th:text="${radio.radioIntro}"></a>
-        </h5>
+        <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${radio.radioIntro}"  th:text="${radio.radioIntro}"></a>
     </div>
     <div>
         <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>

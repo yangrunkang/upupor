@@ -91,15 +91,15 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
                                                     <!--&from=m 代表从管理后台来-->
-                                                    <a class="cv-link dropdown-item" th:href="@{'/editor?type='+${content.contentType}+'&contentId='+${content.contentId}+'&edit=true'}"><span th:include="fragments/icon::edit"></span>编辑</a>
+                                                    <a class="cv-link dropdown-item small" th:href="@{'/editor?type='+${content.contentType}+'&contentId='+${content.contentId}+'&edit=true'}"><span th:include="fragments/icon::edit"></span>编辑</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="cv-link dropdown-item" th:if="${content.pinnedStatus} == 0" th:onclick="pinned([[${content.contentId}]],'pinned')"><span th:include="fragments/icon::top"></span>置顶</a>
-                                                    <a class="cv-link dropdown-item" th:if="${content.pinnedStatus} == 1" th:onclick="pinned([[${content.contentId}]],'cancel')"><span th:include="fragments/icon::top_cancel"></span>取消置顶</a>
+                                                    <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus} == 0" th:onclick="pinned([[${content.contentId}]],'pinned')"><span th:include="fragments/icon::top"></span>置顶</a>
+                                                    <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus} == 1" th:onclick="pinned([[${content.contentId}]],'cancel')"><span th:include="fragments/icon::top_cancel"></span>取消置顶</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="cv-link dropdown-item" th:onclick="changeContentStatus('normal',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
-                                                    <a class="cv-link dropdown-item" th:onclick="changeContentStatus('draft',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::caogao"></span>草稿</a>
-                                                    <a class="cv-link dropdown-item" th:onclick="changeContentStatus('only-self-see',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
-                                                    <a class="cv-link dropdown-item" th:onclick="changeContentStatus('delete',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('normal',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('draft',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::caogao"></span>草稿</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('only-self-see',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('delete',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                                 </div>
                                             </div>
                                         </td>

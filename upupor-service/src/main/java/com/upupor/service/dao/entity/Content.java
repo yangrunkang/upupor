@@ -143,6 +143,11 @@ public class Content extends BaseEntity {
      */
     @TableField(exist = false)
     private Member member;
+    /**
+     * 用户
+     */
+    @TableField(exist = false)
+    private String contentTypeDesc;
 
     /**
      * 收藏数
@@ -227,4 +232,11 @@ public class Content extends BaseEntity {
         return CcDateUtil.snsFormat(createTime);
     }
 
+    public String getContentTypeDesc() {
+        CcEnum.ContentType byContentType = CcEnum.ContentType.getByContentType(contentType);
+        if(Objects.isNull(byContentType)){
+            return "内容";
+        }
+        return byContentType.getName();
+    }
 }

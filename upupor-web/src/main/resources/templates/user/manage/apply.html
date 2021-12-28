@@ -62,8 +62,8 @@
                                                 操作
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
-                                                <a class="cv-link dropdown-item" th:onclick="applyOperate('stop',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::zhongzhi"></span>终止</a>
-                                                <a class="cv-link dropdown-item" th:onclick="applyOperate('delete',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                <a class="cv-link dropdown-item small" th:onclick="applyOperate('stop',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::zhongzhi"></span>终止</a>
+                                                <a class="cv-link dropdown-item small" th:onclick="applyOperate('delete',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                             </div>
                                         </div>
                                         <a class="btn btn-primary btn-sm"

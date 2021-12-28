@@ -25,7 +25,7 @@
         <div class="row">
             <div class="col-lg-9 mb-2">
                 <div th:if="${contentIndexDto.content?.originType} == 1"
-                     class="p-1 mb-2 text-secondary rounded border border-light rounded-start rounded-3 shadow-sm bg-white"><strong>·</strong> 本文为转载内容
+                     class="p-1 mb-2 text-black-50 rounded border border-light rounded-start rounded-3 shadow-sm bg-white small"><strong class="fw-bolder text-black-50">·</strong> 本文为转载内容
                     <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}"
                           th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span>
                 </div>
@@ -33,7 +33,7 @@
                     <div>
                         <div class="d-flex">
                             <div class="flex-grow-1">
-                                <h3 class="text-wrap m-0" th:text="${contentIndexDto.content.title}"></h3>
+                                <h5 class="text-wrap m-0" th:text="${contentIndexDto.content.title}"></h5>
                             </div>
                         </div>
                         <div th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">

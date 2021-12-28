@@ -46,9 +46,9 @@
                                                     状态
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
-                                                    <a class="cv-link dropdown-item" th:onclick="changeCollectStatus('normal',[[${collect.collectId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
-                                                    <a class="cv-link dropdown-item" th:onclick="changeCollectStatus('only-self-see',[[${collect.collectId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
-                                                    <a class="cv-link dropdown-item" th:onclick="changeCollectStatus('delete',[[${collect.collectId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('normal',[[${collect.collectId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('only-self-see',[[${collect.collectId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('delete',[[${collect.collectId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                                 </div>
                                             </div>
                                         </td>
