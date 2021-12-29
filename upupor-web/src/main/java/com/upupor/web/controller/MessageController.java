@@ -1,7 +1,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.service.common.CcResponse;
-import com.upupor.service.service.MessageService;
+import com.upupor.service.service.aggregation.service.MessageService;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.spi.req.UpdateMessageReq;
 import io.swagger.annotations.Api;

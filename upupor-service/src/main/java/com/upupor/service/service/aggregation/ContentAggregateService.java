@@ -8,7 +8,7 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.dto.page.common.TagDto;
-import com.upupor.service.service.*;
+import com.upupor.service.service.aggregation.service.*;
 import com.upupor.spi.req.ListContentReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

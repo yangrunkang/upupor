@@ -1,7 +1,7 @@
 package com.upupor.service.manage;
 
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.service.TagService;
+import com.upupor.service.service.aggregation.service.TagService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;

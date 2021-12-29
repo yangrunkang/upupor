@@ -6,7 +6,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.common.ListMessageDto;
 import com.upupor.service.manage.AbstractManageInfoGet;
 import com.upupor.service.manage.ManageDto;
-import com.upupor.service.service.MessageService;
+import com.upupor.service.service.aggregation.service.MessageService;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.spi.req.ListMessageReq;
 import org.springframework.stereotype.Component;

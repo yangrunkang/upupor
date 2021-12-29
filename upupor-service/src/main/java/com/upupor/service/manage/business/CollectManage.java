@@ -6,8 +6,8 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.common.ListCollectDto;
 import com.upupor.service.manage.AbstractManageInfoGet;
 import com.upupor.service.manage.ManageDto;
-import com.upupor.service.service.CollectService;
-import com.upupor.service.service.ContentService;
+import com.upupor.service.service.aggregation.service.CollectService;
+import com.upupor.service.service.aggregation.service.ContentService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 

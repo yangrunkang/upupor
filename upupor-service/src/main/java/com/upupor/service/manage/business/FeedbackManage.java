@@ -2,7 +2,7 @@ package com.upupor.service.manage.business;
 
 import com.upupor.service.manage.AbstractManageInfoGet;
 import com.upupor.service.manage.ManageDto;
-import com.upupor.service.service.MemberService;
+import com.upupor.service.service.aggregation.service.MemberService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

@@ -2,7 +2,7 @@ package com.upupor.service.scheduled;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.service.dto.page.common.CountTagDto;
-import com.upupor.service.service.ContentService;
+import com.upupor.service.service.aggregation.service.ContentService;
 import com.upupor.service.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -6,7 +6,7 @@ import com.upupor.service.manage.AbstractManageInfoGet;
 import com.upupor.service.manage.CommonService;
 import com.upupor.service.manage.ManageDto;
 import com.upupor.service.manage.service.ContentManageService;
-import com.upupor.service.service.ContentService;
+import com.upupor.service.service.aggregation.service.ContentService;
 import com.upupor.spi.req.ListContentReq;
 import org.springframework.stereotype.Component;
 

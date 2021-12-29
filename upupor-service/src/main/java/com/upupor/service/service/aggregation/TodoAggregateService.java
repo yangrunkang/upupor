@@ -2,7 +2,7 @@ package com.upupor.service.service.aggregation;
 
 import com.upupor.service.dto.page.TodoIndexDto;
 import com.upupor.service.dto.page.common.ListTodoDto;
-import com.upupor.service.service.TodoService;
+import com.upupor.service.service.aggregation.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

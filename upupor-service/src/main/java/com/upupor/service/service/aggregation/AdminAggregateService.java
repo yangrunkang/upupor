@@ -7,8 +7,8 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.service.ContentService;
-import com.upupor.service.service.MemberService;
+import com.upupor.service.service.aggregation.service.ContentService;
+import com.upupor.service.service.aggregation.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

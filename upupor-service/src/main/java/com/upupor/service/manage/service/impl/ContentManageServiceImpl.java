@@ -8,7 +8,7 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.mapper.ContentMapper;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.manage.service.ContentManageService;
-import com.upupor.service.service.ContentService;
+import com.upupor.service.service.aggregation.service.ContentService;
 import com.upupor.spi.req.ListContentReq;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;

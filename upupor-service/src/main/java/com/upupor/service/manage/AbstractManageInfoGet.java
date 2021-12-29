@@ -2,8 +2,8 @@ package com.upupor.service.manage;
 
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.service.CssPatternService;
-import com.upupor.service.service.MemberService;
+import com.upupor.service.service.aggregation.service.CssPatternService;
+import com.upupor.service.service.aggregation.service.MemberService;
 import com.upupor.service.utils.ServletUtils;
 
 import javax.annotation.Resource;

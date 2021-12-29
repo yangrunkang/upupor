@@ -7,7 +7,7 @@ import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Todo;
 import com.upupor.service.dao.entity.TodoDetail;
-import com.upupor.service.service.TodoService;
+import com.upupor.service.service.aggregation.service.TodoService;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.spi.req.AddTodoReq;

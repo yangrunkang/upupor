@@ -1,7 +1,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.service.common.CcResponse;
-import com.upupor.service.service.FanService;
+import com.upupor.service.service.aggregation.service.FanService;
 import com.upupor.spi.req.DelFanReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

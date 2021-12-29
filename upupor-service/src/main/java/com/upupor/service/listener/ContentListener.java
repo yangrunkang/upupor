@@ -11,7 +11,7 @@ import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.listener.event.ViewerEvent;
-import com.upupor.service.service.*;
+import com.upupor.service.service.aggregation.service.*;
 import com.upupor.service.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

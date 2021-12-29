@@ -3,7 +3,7 @@ package com.upupor.service.scheduled;
 import com.alibaba.fastjson.JSON;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dto.cache.CacheMemberDto;
-import com.upupor.service.service.MemberService;
+import com.upupor.service.service.aggregation.service.MemberService;
 import com.upupor.service.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

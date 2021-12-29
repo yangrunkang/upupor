@@ -4,7 +4,7 @@ import com.upupor.service.dao.entity.Apply;
 import com.upupor.service.dto.page.common.ApplyDto;
 import com.upupor.service.manage.AbstractManageInfoGet;
 import com.upupor.service.manage.ManageDto;
-import com.upupor.service.service.ApplyService;
+import com.upupor.service.service.aggregation.service.ApplyService;
 import com.upupor.service.utils.Asserts;
 import org.springframework.stereotype.Component;
 

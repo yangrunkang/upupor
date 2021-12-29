@@ -3,7 +3,7 @@ package com.upupor.service.manage.business;
 import com.upupor.service.dto.page.common.ListAttentionDto;
 import com.upupor.service.manage.AbstractManageInfoGet;
 import com.upupor.service.manage.ManageDto;
-import com.upupor.service.service.AttentionService;
+import com.upupor.service.service.aggregation.service.AttentionService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

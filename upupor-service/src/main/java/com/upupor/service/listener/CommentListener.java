@@ -1,10 +1,10 @@
 package com.upupor.service.listener;
 
 import com.upupor.service.common.CcEnum;
-import com.upupor.service.listener.abstracts.AbstractComment;
-import com.upupor.service.listener.abstracts.AbstractReplyComment;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
+import com.upupor.service.service.comment.AbstractComment;
+import com.upupor.service.service.replay.AbstractReplyComment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
