@@ -178,7 +178,7 @@ fromProfile: 是否来自Profile页面
             </div>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
         </div>
-        <a href="/pinned" title="置顶"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark pull-right" th:if="${content.pinnedStatus == 1}">置顶</span></a>
+        <a href="/pinned" title="置顶" th:if="${content.pinnedStatus == 1}"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark pull-right">置顶</span></a>
     </div>
 </div>
 
@@ -480,6 +480,9 @@ fromProfile: 是否来自Profile页面
     </div>
     <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" th:include="fragments/index::user_manage_fragment(true)"></div>
     <div th:include="fragments/index::google_right_ad"></div>
+    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" class="card card-body shadow-sm border-0 p-2 my-2">
+        <a class="text-secondary" href="/view/history">我的浏览记录</a>
+    </div>
 </div>
 
 <!--文章详情-右侧-纵向广告-->

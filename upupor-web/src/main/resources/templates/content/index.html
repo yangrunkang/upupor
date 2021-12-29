@@ -296,6 +296,7 @@
                         </div>
                         <div th:if="!${#lists.isEmpty(contentIndexDto.authorOtherContentList)}">
                             <div th:each="c,ite : ${contentIndexDto.authorOtherContentList}">
+                                <span class="float-start" style="cursor: pointer;" onclick="window.location.href = '/pinned'" th:if="${c.pinnedStatus} == 1" th:include="fragments/icon::top"></span>
                                 <a class="cv-link text-secondary up-text-overflow"
                                    th:text="${c.title}"
                                    th:href="'/u/'+${c.contentId}"
