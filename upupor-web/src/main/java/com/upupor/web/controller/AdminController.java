@@ -1,8 +1,8 @@
 package com.upupor.web.controller;
 
+import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.dao.entity.Content;
-import com.upupor.service.service.aggregation.service.ContentService;
 import com.upupor.spi.req.SetKeywordsReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

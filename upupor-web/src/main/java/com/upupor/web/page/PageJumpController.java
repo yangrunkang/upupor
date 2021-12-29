@@ -1,13 +1,13 @@
 package com.upupor.web.page;
 
+import com.upupor.service.business.aggregation.MemberAggregateService;
+import com.upupor.service.business.aggregation.SearchAggregateService;
+import com.upupor.service.business.aggregation.TagAggregateService;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.business.aggregation.service.ViewerService;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;
-import com.upupor.service.service.aggregation.MemberAggregateService;
-import com.upupor.service.service.aggregation.SearchAggregateService;
-import com.upupor.service.service.aggregation.TagAggregateService;
-import com.upupor.service.service.aggregation.service.MemberService;
-import com.upupor.service.service.aggregation.service.ViewerService;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

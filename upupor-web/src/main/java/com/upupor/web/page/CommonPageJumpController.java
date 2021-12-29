@@ -1,10 +1,10 @@
 package com.upupor.web.page;
 
+import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Tag;
-import com.upupor.service.service.aggregation.CommonAggregateService;
-import com.upupor.service.service.aggregation.service.TagService;
 import com.upupor.spi.req.GetCommonReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

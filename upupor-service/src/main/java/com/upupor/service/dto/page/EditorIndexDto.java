@@ -1,8 +1,8 @@
 package com.upupor.service.dto.page;
 
+import com.upupor.service.business.aggregation.CommonAggregateService;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Tag;
-import com.upupor.service.service.aggregation.CommonAggregateService;
 import lombok.Data;
 
 import java.util.ArrayList;

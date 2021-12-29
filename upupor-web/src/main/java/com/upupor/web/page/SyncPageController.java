@@ -1,8 +1,8 @@
 package com.upupor.web.page;
 
+import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
-import com.upupor.service.service.aggregation.service.ContentService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

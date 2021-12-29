@@ -1,6 +1,7 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
@@ -11,7 +12,6 @@ import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.listener.event.ViewerEvent;
-import com.upupor.service.service.aggregation.service.*;
 import com.upupor.service.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

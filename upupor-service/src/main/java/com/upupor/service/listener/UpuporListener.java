@@ -1,11 +1,11 @@
 package com.upupor.service.listener;
 
+import com.upupor.service.business.aggregation.service.BuriedPointDataService;
+import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
-import com.upupor.service.service.aggregation.service.BuriedPointDataService;
-import com.upupor.service.service.aggregation.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

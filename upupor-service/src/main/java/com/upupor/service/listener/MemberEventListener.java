@@ -1,6 +1,9 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.service.MemberIntegralService;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Attention;
@@ -8,9 +11,6 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.listener.event.MemberLoginEvent;
 import com.upupor.service.listener.event.MemberRegisterEvent;
-import com.upupor.service.service.aggregation.service.MemberIntegralService;
-import com.upupor.service.service.aggregation.service.MemberService;
-import com.upupor.service.service.aggregation.service.MessageService;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.spi.req.AddAttentionReq;
 import com.upupor.spi.req.GetMemberIntegralReq;

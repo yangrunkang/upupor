@@ -1,13 +1,13 @@
 package com.upupor.web.controller;
 
+import com.upupor.service.business.aggregation.service.FileService;
+import com.upupor.service.business.aggregation.service.MemberIntegralService;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.common.*;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.MemberRegisterEvent;
-import com.upupor.service.service.aggregation.service.FileService;
-import com.upupor.service.service.aggregation.service.MemberIntegralService;
-import com.upupor.service.service.aggregation.service.MemberService;
-import com.upupor.service.service.aggregation.service.MessageService;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;

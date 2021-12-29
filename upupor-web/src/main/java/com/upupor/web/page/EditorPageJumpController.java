@@ -1,6 +1,9 @@
 package com.upupor.web.page;
 
 import com.alibaba.fastjson.JSON;
+import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.EditorAggregateService;
+import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.ErrorCode;
@@ -8,9 +11,6 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.ContentExtend;
 import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.page.EditorIndexDto;
-import com.upupor.service.service.aggregation.CommonAggregateService;
-import com.upupor.service.service.aggregation.EditorAggregateService;
-import com.upupor.service.service.aggregation.service.TagService;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;

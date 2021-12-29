@@ -1,10 +1,10 @@
 package com.upupor.test;
 
 
+import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.scheduled.DetectUserOperationScheduled;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
-import com.upupor.service.service.aggregation.service.ContentService;
 import com.upupor.service.utils.AvatarHelper;
 import com.upupor.service.utils.CcEmailUtils;
 import com.upupor.service.utils.CcUtils;

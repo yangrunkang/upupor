@@ -1,8 +1,8 @@
 package com.upupor.web.router;
 
+import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Content;
-import com.upupor.service.service.aggregation.service.ContentService;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -2,14 +2,14 @@ package com.upupor.web.page;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.utils.FileUtils;
-import com.upupor.service.business.AdService;
+import com.upupor.service.business.ad.AbstractAd;
+import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.ContentAggregateService;
+import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.*;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dto.page.ContentIndexDto;
-import com.upupor.service.service.aggregation.CommonAggregateService;
-import com.upupor.service.service.aggregation.ContentAggregateService;
-import com.upupor.service.service.aggregation.service.*;
 import com.upupor.service.utils.*;
 import com.upupor.spi.req.GetContentReq;
 import com.upupor.spi.req.GetMemberIntegralReq;
@@ -97,7 +97,7 @@ public class ContentPageJumpController {
 
         // 推荐文章
         contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
-        AdService.contentListAd(contentIndexDto.getRandomContentList());
+        AbstractAd.ad(contentIndexDto.getRandomContentList());
 
         // 绑定文章其他数据
         bindContentOtherData(contentIndexDto, content);

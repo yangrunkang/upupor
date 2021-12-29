@@ -1,11 +1,11 @@
 package com.upupor.service.dto.page;
 
-import com.upupor.service.business.AdService;
+import com.upupor.service.business.ad.AbstractAd;
+import com.upupor.service.business.aggregation.CommonAggregateService;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.page.common.ListBannerDto;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.service.aggregation.CommonAggregateService;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class CommonPageIndexDto {
     }
 
     public ListContentDto getListContentDto() {
-        AdService.contentListAd(listContentDto.getContentList());
+        AbstractAd.ad(listContentDto.getContentList());
         return listContentDto;
     }
 
