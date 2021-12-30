@@ -508,7 +508,7 @@ fromProfile: 是否来自Profile页面
     <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" th:include="fragments/index::user_manage_fragment(true)"></div>
     <div th:include="fragments/index::google_right_ad"></div>
     <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" class="card card-body shadow-sm border-0 p-2 my-2">
-        <a class="text-secondary" href="/view/history">我的浏览记录</a>
+        <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>我的浏览记录</a>
     </div>
 </div>
 

@@ -361,4 +361,15 @@ public class PageJumpController implements Serializable {
         return modelAndView;
     }
 
+    @ApiOperation("开源")
+    @GetMapping("/open")
+    public ModelAndView open() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(OPEN);
+        // Seo
+        modelAndView.addObject(SeoKey.TITLE, "upupor开源");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "upupor开源");
+        return modelAndView;
+    }
+
 }
