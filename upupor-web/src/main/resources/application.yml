@@ -75,11 +75,11 @@ spring:
    # 开启多文件上传功能
    enabled: true
    # 文件写入磁盘的阈值
-   file-size-threshold: 50MB
+   file-size-threshold: 100MB
    # 文件最大
-   max-file-size: 20MB
+   max-file-size: 100MB
    # 最大请求大小
-   max-request-size: 25MB
+   max-request-size: 100MB
  mvc:
   async:
    request-timeout: 300000
