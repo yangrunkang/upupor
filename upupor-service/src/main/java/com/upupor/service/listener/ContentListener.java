@@ -1,19 +1,44 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 yangrunkang
+ *
+ * Author: yangrunkang
+ * Email: yangrunkang53@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.upupor.service.listener;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.dao.entity.Fans;
-import com.upupor.service.dao.entity.Member;
-import com.upupor.service.dao.entity.Viewer;
+import com.upupor.service.dao.entity.*;
+import com.upupor.service.dao.mapper.ViewHistoryMapper;
 import com.upupor.service.dao.mapper.ViewerMapper;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.listener.event.ViewerEvent;
-import com.upupor.service.service.*;
 import com.upupor.service.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +72,7 @@ public class ContentListener {
     private final MemberService memberService;
     private final MessageService messageService;
     private final ViewerMapper viewerMapper;
+    private final ViewHistoryMapper viewHistoryMapper;
 
     @EventListener
     @Async
@@ -59,7 +85,13 @@ public class ContentListener {
         if (Objects.isNull(viewerUserId)) {
             return;
         }
+        // 记录浏览者
+        recordViewer(targetId, targetType, viewerUserId);
+        // 记录浏览记录
+        recordViewerHistory(targetId, targetType, viewerUserId);
+    }
 
+    private void recordViewer(String targetId, CcEnum.ViewTargetType targetType, String viewerUserId) {
         int count = viewerMapper.countByTargetIdAndViewerUserId(targetId, viewerUserId, targetType.getType());
         if (count > 0) {
             return;
@@ -72,8 +104,19 @@ public class ContentListener {
         viewer.setDeleteStatus(CcEnum.ViewerDeleteStatus.NORMAL.getStatus());
         viewer.setSysUpdateTime(new Date());
         viewer.setCreateTime(CcDateUtil.getCurrentTime());
-
         viewerMapper.insert(viewer);
+    }
+
+    private void recordViewerHistory(String targetId, CcEnum.ViewTargetType targetType, String viewerUserId) {
+
+        ViewHistory viewHistory = new ViewHistory();
+        viewHistory.setTargetId(targetId);
+        viewHistory.setViewerUserId(viewerUserId);
+        viewHistory.setTargetType(targetType.getType());
+        viewHistory.setDeleteStatus(CcEnum.ViewerDeleteStatus.NORMAL.getStatus());
+        viewHistory.setSysUpdateTime(new Date());
+        viewHistory.setCreateTime(CcDateUtil.getCurrentTime());
+        viewHistoryMapper.insert(viewHistory);
     }
 
     @EventListener

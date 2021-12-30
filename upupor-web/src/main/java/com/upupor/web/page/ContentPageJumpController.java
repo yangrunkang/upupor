@@ -1,15 +1,42 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 yangrunkang
+ *
+ * Author: yangrunkang
+ * Email: yangrunkang53@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.upupor.web.page;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.utils.FileUtils;
-import com.upupor.service.business.AdService;
+import com.upupor.service.business.ad.AbstractAd;
+import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.ContentAggregateService;
+import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.*;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dto.page.ContentIndexDto;
-import com.upupor.service.service.*;
-import com.upupor.service.service.aggregation.CommonAggregateService;
-import com.upupor.service.service.aggregation.ContentAggregateService;
 import com.upupor.service.utils.*;
 import com.upupor.spi.req.GetContentReq;
 import com.upupor.spi.req.GetMemberIntegralReq;
@@ -97,7 +124,7 @@ public class ContentPageJumpController {
 
         // 推荐文章
         contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
-        AdService.contentListAd(contentIndexDto.getRandomContentList());
+        AbstractAd.ad(contentIndexDto.getRandomContentList());
 
         // 绑定文章其他数据
         bindContentOtherData(contentIndexDto, content);

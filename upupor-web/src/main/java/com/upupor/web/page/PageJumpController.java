@@ -1,12 +1,41 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 yangrunkang
+ *
+ * Author: yangrunkang
+ * Email: yangrunkang53@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.upupor.web.page;
 
+import com.upupor.service.business.aggregation.MemberAggregateService;
+import com.upupor.service.business.aggregation.SearchAggregateService;
+import com.upupor.service.business.aggregation.TagAggregateService;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.business.aggregation.service.ViewerService;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;
-import com.upupor.service.service.MemberService;
-import com.upupor.service.service.aggregation.MemberAggregateService;
-import com.upupor.service.service.aggregation.SearchAggregateService;
-import com.upupor.service.service.aggregation.TagAggregateService;
+import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -35,15 +64,11 @@ import static com.upupor.service.common.CcConstant.*;
 @RestController
 @RequiredArgsConstructor
 public class PageJumpController implements Serializable {
-
-
     private final SearchAggregateService searchAggregateService;
-
     private final TagAggregateService tagAggregateService;
-
     private final MemberAggregateService memberAggregateService;
-
     private final MemberService memberService;
+    private final ViewerService viewerService;
 
     @ApiOperation("每日签到")
     @GetMapping("/daily-points")
@@ -314,6 +339,36 @@ public class PageJumpController implements Serializable {
         // Seo
         modelAndView.addObject(SeoKey.TITLE, "更新日志");
         modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "更新日志");
+        return modelAndView;
+    }
+
+    @ApiOperation("浏览记录")
+    @GetMapping("/view/history")
+    public ModelAndView viewHistory(Integer pageNum, Integer pageSize) {
+        if (Objects.isNull(pageNum)) {
+            pageNum = Page.NUM;
+        }
+        if (Objects.isNull(pageSize)) {
+            pageSize = Page.SIZE;
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(VIEW_HISTORY);
+        modelAndView.addObject(viewerService.listViewHistoryByUserId(ServletUtils.getUserId(), pageNum,pageSize ));
+        // Seo
+        modelAndView.addObject(SeoKey.TITLE, "浏览记录");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "浏览记录");
+        return modelAndView;
+    }
+
+    @ApiOperation("开源")
+    @GetMapping("/open")
+    public ModelAndView open() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(OPEN);
+        // Seo
+        modelAndView.addObject(SeoKey.TITLE, "upupor开源");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "upupor开源");
         return modelAndView;
     }
 
