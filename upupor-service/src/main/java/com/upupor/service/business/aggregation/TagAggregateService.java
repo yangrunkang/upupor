@@ -29,10 +29,10 @@ package com.upupor.service.business.aggregation;
 
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.TagService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.TagIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.spi.req.ListContentReq;
+import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -63,7 +63,7 @@ public class TagAggregateService {
         listContentReq.setTagIdList(tagIdList);
         listContentReq.setPageNum(pageNum);
         listContentReq.setPageSize(pageSize);
-        listContentReq.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
+        listContentReq.setStatus(ContentStatus.NORMAL);
 
         ListContentDto listContentDto = contentService.listContents(listContentReq);
         tagIndexDto.setListContentDto(listContentDto);

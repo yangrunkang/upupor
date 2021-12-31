@@ -32,10 +32,10 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.google.common.collect.Lists;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.dao.LastAndNextContentDto;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.dto.page.common.TagDto;
+import com.upupor.service.types.*;
 import lombok.Data;
 
 import java.util.Date;
@@ -64,7 +64,7 @@ public class Content extends BaseEntity {
     /**
      * 文章类型 0-默认 1-技术 2-问答 3-分享 4-职场 5-记录
      */
-    private Integer contentType;
+    private ContentType contentType;
 
     /**
      * 文章标签,多个以","隔开
@@ -74,17 +74,17 @@ public class Content extends BaseEntity {
     /**
      * 状态 0-正常 1-草稿 2-审核中 3-异常 4-删除 5-回收站 6-仅自己可见
      */
-    private Integer status;
+    private ContentStatus status;
 
     /**
      * 是否是第一次发布 0-未发布 1-已发布
      */
-    private Integer isInitialStatus;
+    private ContentIsInitialStatus isInitialStatus;
 
     /**
      * 置顶状态
      */
-    private Integer pinnedStatus;
+    private PinnedStatus pinnedStatus;
 
     /**
      * 编辑次数
@@ -92,7 +92,7 @@ public class Content extends BaseEntity {
     private Integer editTimes;
 
 
-    private Integer originType;
+    private OriginType originType;
     private String noneOriginLink;
 
     /**
@@ -120,7 +120,7 @@ public class Content extends BaseEntity {
 
     /**********************非DB字段*****************************/
     public static List<Integer> manageStatusList = Lists.newArrayList(
-            CcEnum.ContentStatus.EXCEPTION.getStatus(), CcEnum.ContentStatus.DELETED.getStatus()
+            ContentStatus.EXCEPTION.getStatus(), ContentStatus.DELETED.getStatus()
     );
 
     @TableField(exist = false)
@@ -224,10 +224,10 @@ public class Content extends BaseEntity {
     }
 
     public void init(){
-        this.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
-        this.setIsInitialStatus(CcEnum.ContentIsInitialStatus.FIRST_PUBLISHED.getStatus());
+        this.setStatus(ContentStatus.NORMAL);
+        this.setIsInitialStatus(ContentIsInitialStatus.FIRST_PUBLISHED);
         this.setEditTimes(0);
-        this.setPinnedStatus(CcEnum.PinnedStatus.UN_PINNED.getStatus());
+        this.setPinnedStatus(PinnedStatus.UN_PINNED);
         this.setCreateTime(CcDateUtil.getCurrentTime());
         this.setLatestCommentTime(CcDateUtil.getCurrentTime());
         this.setSysUpdateTime(new Date());
@@ -260,7 +260,7 @@ public class Content extends BaseEntity {
     }
 
     public String getContentTypeDesc() {
-        CcEnum.ContentType byContentType = CcEnum.ContentType.getByContentType(contentType);
+        ContentType byContentType = ContentType.getByContentType(contentType);
         if(Objects.isNull(byContentType)){
             return "内容";
         }

@@ -35,7 +35,6 @@ import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Content;
@@ -43,12 +42,15 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dao.mapper.CommentMapper;
 import com.upupor.service.dto.page.common.ListCommentDto;
+import com.upupor.service.spi.req.AddCommentReq;
+import com.upupor.service.spi.req.ListCommentReq;
+import com.upupor.service.types.CommentAgree;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.CommentStatus;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.PageUtils;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.AddCommentReq;
-import com.upupor.spi.req.ListCommentReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -79,8 +81,8 @@ public class CommentServiceImpl implements CommentService {
         BeanUtils.copyProperties(addCommentReq, comment);
         comment.setUserId(ServletUtils.getUserId());
         comment.setCommentId(CcUtils.getUuId());
-        comment.setStatus(CcEnum.CommentStatus.NORMAL.getStatus());
-        comment.setAgree(CcEnum.CommentAgree.NONE.getAgree());
+        comment.setStatus(CommentStatus.NORMAL);
+        comment.setAgree(CommentAgree.NONE);
         comment.setLikeNum(BigDecimal.ZERO.intValue());
         comment.setCreateTime(CcDateUtil.getCurrentTime());
         comment.setSysUpdateTime(new Date());
@@ -170,11 +172,11 @@ public class CommentServiceImpl implements CommentService {
         }
         ListCommentReq listCommentReq = new ListCommentReq();
         listCommentReq.setTargetId(contentId);
-        listCommentReq.setStatus(CcEnum.CommentStatus.NORMAL.getStatus());
+        listCommentReq.setStatus(CommentStatus.NORMAL);
         listCommentReq.setPageNum(pageNum);
         listCommentReq.setPageSize(pageSize);
         // 评论来源和文章类型一致
-        listCommentReq.setCommentSource(content.getContentType());
+        listCommentReq.setCommentSource(CommentSource.getBySource(content.getContentType().getType()));
 
         ListCommentDto listCommentDto = this.listComment(listCommentReq);
         List<Comment> comments = listCommentDto.getCommentList();
@@ -205,7 +207,7 @@ public class CommentServiceImpl implements CommentService {
         }
         ListCommentReq listCommentReq = new ListCommentReq();
         listCommentReq.setTargetId(radioId);
-        listCommentReq.setStatus(CcEnum.CommentStatus.NORMAL.getStatus());
+        listCommentReq.setStatus(CommentStatus.NORMAL);
         listCommentReq.setPageNum(pageNum);
         listCommentReq.setPageSize(pageSize);
         ListCommentDto listCommentDto = this.listComment(listCommentReq);

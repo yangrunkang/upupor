@@ -31,13 +31,13 @@ import com.alibaba.fastjson.JSON;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.dao.entity.*;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.dto.seo.GoogleSeoDto;
+import com.upupor.service.types.*;
 import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.service.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -153,7 +153,7 @@ public class GenerateSiteMapScheduled {
             return;
         }
         radioAllList.forEach(radio -> {
-            if (radio.getStatus().equals(CcEnum.ContentStatus.NORMAL.getStatus())) {
+            if (radio.getStatus().equals(RadioStatus.NORMAL)) {
                 GoogleSeoDto googleSeoDto = new GoogleSeoDto();
                 // 按照参数顺序依次是 来源、内容Id
                 String contentUrl = webSite + "/r/%s";
@@ -194,43 +194,43 @@ public class GenerateSiteMapScheduled {
      * @param sdf
      */
     private void generateEveryTag(List<GoogleSeoDto> googleSeoDtoList, SimpleDateFormat sdf) {
-        List<Tag> techTagList = tagService.getTagsByType(CcEnum.TagType.TECH.getType());
-        List<Tag> qaTagList = tagService.getTagsByType(CcEnum.TagType.QA.getType());
-        List<Tag> shareTagList = tagService.getTagsByType(CcEnum.TagType.SHARE.getType());
-        List<Tag> workplaceTagList = tagService.getTagsByType(CcEnum.TagType.WORKPLACE.getType());
-        List<Tag> recordTagList = tagService.getTagsByType(CcEnum.TagType.RECORD.getType());
+        List<Tag> techTagList = tagService.getTagsByType(ContentType.TECH);
+        List<Tag> qaTagList = tagService.getTagsByType(ContentType.QA);
+        List<Tag> shareTagList = tagService.getTagsByType(ContentType.SHARE);
+        List<Tag> workplaceTagList = tagService.getTagsByType(ContentType.WORKPLACE);
+        List<Tag> recordTagList = tagService.getTagsByType(ContentType.RECORD);
 
-        renderTagUrl(googleSeoDtoList, techTagList, CcEnum.TagType.TECH.getType(), sdf);
-        renderTagUrl(googleSeoDtoList, qaTagList, CcEnum.TagType.QA.getType(), sdf);
-        renderTagUrl(googleSeoDtoList, shareTagList, CcEnum.TagType.SHARE.getType(), sdf);
-        renderTagUrl(googleSeoDtoList, workplaceTagList, CcEnum.TagType.WORKPLACE.getType(), sdf);
-        renderTagUrl(googleSeoDtoList, recordTagList, CcEnum.TagType.RECORD.getType(), sdf);
+        renderTagUrl(googleSeoDtoList, techTagList, ContentType.TECH, sdf);
+        renderTagUrl(googleSeoDtoList, qaTagList, ContentType.QA, sdf);
+        renderTagUrl(googleSeoDtoList, shareTagList, ContentType.SHARE, sdf);
+        renderTagUrl(googleSeoDtoList, workplaceTagList, ContentType.WORKPLACE, sdf);
+        renderTagUrl(googleSeoDtoList, recordTagList, ContentType.RECORD, sdf);
 
     }
 
-    private void renderTagUrl(List<GoogleSeoDto> googleSeoDtoList, List<Tag> tagList, Integer type, SimpleDateFormat sdf) {
+    private void renderTagUrl(List<GoogleSeoDto> googleSeoDtoList, List<Tag> tagList, ContentType type, SimpleDateFormat sdf) {
         if (CollectionUtils.isEmpty(tagList)) {
             return;
         }
 
-        if (type.equals(CcEnum.TagType.TECH.getType())) {
+        if (type.equals(ContentType.TECH)) {
             renderSeo(googleSeoDtoList, tagList, sdf, "tech");
 
         }
 
-        if (type.equals(CcEnum.TagType.QA.getType())) {
+        if (type.equals(ContentType.QA)) {
             renderSeo(googleSeoDtoList, tagList, sdf, "qa");
         }
 
-        if (type.equals(CcEnum.TagType.SHARE.getType())) {
+        if (type.equals(ContentType.SHARE)) {
             renderSeo(googleSeoDtoList, tagList, sdf, "share");
         }
 
-        if (type.equals(CcEnum.TagType.WORKPLACE.getType())) {
+        if (type.equals(ContentType.WORKPLACE)) {
             renderSeo(googleSeoDtoList, tagList, sdf, "workplace");
         }
 
-        if (type.equals(CcEnum.TagType.RECORD.getType())) {
+        if (type.equals(ContentType.RECORD)) {
             renderSeo(googleSeoDtoList, tagList, sdf, "record");
         }
 
@@ -272,7 +272,7 @@ public class GenerateSiteMapScheduled {
             return;
         }
         memberList.forEach(member -> {
-            if (member.getStatus().equals(CcEnum.MemberStatus.NORMAL.getStatus())) {
+            if (member.getStatus().equals(MemberStatus.NORMAL)) {
                 // 用户首页
                 GoogleSeoDto memberProfile = new GoogleSeoDto();
                 String memberProfileUrl = webSite + "/profile/%s";
@@ -352,7 +352,7 @@ public class GenerateSiteMapScheduled {
                 Seo seo = new Seo();
                 seo.setSeoId("google");
                 seo.setCreateTime(CcDateUtil.getCurrentTime());
-                seo.setSeoStatus(CcEnum.SeoStatus.NORMAL.getStatus());
+                seo.setSeoStatus(SeoStatus.NORMAL);
                 seo.setSysUpdateTime(new Date());
                 seo.setSeoContent(s);
                 Boolean addSeo = seoService.addSeo(seo);
@@ -391,7 +391,7 @@ public class GenerateSiteMapScheduled {
             return;
         }
         contentList.forEach(content -> {
-            if (content.getStatus().equals(CcEnum.ContentStatus.NORMAL.getStatus())) {
+            if (content.getStatus().equals(ContentStatus.NORMAL.getStatus())) {
                 GoogleSeoDto googleSeoDto = new GoogleSeoDto();
                 // 按照参数顺序依次是 来源、内容Id
                 String contentUrl = webSite + "/u/%s";

@@ -30,6 +30,7 @@ package com.upupor.service.dao.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.AttentionStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -43,7 +44,7 @@ public class Attention extends BaseEntity {
 
     private String attentionUserId;
 
-    private Integer attentionStatus;
+    private AttentionStatus attentionStatus;
 
     private Long createTime;
 

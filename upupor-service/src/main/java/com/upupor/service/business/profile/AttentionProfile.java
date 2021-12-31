@@ -29,8 +29,8 @@ package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.AttentionService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.common.ListAttentionDto;
+import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -41,12 +41,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class AttentionProfile extends ProfileAbstract {
+public class AttentionProfile extends AbstractProfile {
     private final AttentionService attentionService;
 
     @Override
-    public CcEnum.ViewTargetType viewTargetType() {
-        return CcEnum.ViewTargetType.PROFILE_ATTENTION;
+    public ViewTargetType viewTargetType() {
+        return ViewTargetType.PROFILE_ATTENTION;
     }
 
     @Override

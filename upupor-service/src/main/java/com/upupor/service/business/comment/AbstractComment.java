@@ -29,8 +29,8 @@ package com.upupor.service.business.comment;
 
 import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Member;
+import com.upupor.service.types.CommentSource;
 import com.upupor.service.utils.CcUtils;
 
 /**
@@ -69,7 +69,7 @@ public abstract class AbstractComment<T> {
      * @param targetId
      * @return 判断是否处理
      */
-    public abstract Boolean confirmSource(CcEnum.CommentSource commentSource,String targetId);
+    public abstract Boolean confirmSource(CommentSource commentSource, String targetId);
 
     /**
      * 获取用户信息

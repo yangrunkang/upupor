@@ -92,26 +92,26 @@ public enum ContentType {
         this.tips = tips;
     }
 
-    public static String getUrl(Integer contentType) {
+    public static String getUrl(ContentType contentType) {
         if (Objects.isNull(contentType)) {
             return null;
         }
         ContentType[] values = values();
         for (ContentType tmp : values) {
-            if (tmp.getType().equals(contentType)) {
+            if (tmp.equals(contentType)) {
                 return tmp.getUrl();
             }
         }
         return null;
     }
 
-    public static String getName(Integer contentType) {
+    public static String getName(ContentType contentType) {
         if (Objects.isNull(contentType)) {
             return null;
         }
         ContentType[] values = values();
         for (ContentType tmp : values) {
-            if (tmp.getType().equals(contentType)) {
+            if (tmp.equals(contentType)) {
                 return tmp.getName();
             }
         }
@@ -133,13 +133,13 @@ public enum ContentType {
     }
 
 
-    public static ContentType getByContentType(Integer contentType) {
+    public static ContentType getByContentType(ContentType contentType) {
         if (Objects.isNull(contentType)) {
             return null;
         }
         ContentType[] values = values();
         for (ContentType tmp : values) {
-            if (tmp.getType().equals(contentType)) {
+            if (tmp.equals(contentType)) {
                 return tmp;
             }
         }

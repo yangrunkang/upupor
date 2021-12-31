@@ -32,9 +32,10 @@ import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.comment.AbstractComment;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Member;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -82,7 +83,7 @@ public class MessageBoardComment extends AbstractComment<Member> {
         // 站内信通知对方收到新的留言
         String msg = "您收到了新的留言信息,点击" + String.format(MESSAGE_INTEGRAL, targetUserId, msgId, "<strong>留言板</strong>") + "查看. 留言来自"
                 + String.format(PROFILE_INNER_MSG, commenterUserId, msgId, commenterUserName);
-        messageService.addMessage(targetUserId, msg, CcEnum.MessageType.USER_REPLAY.getType(), msgId);
+        messageService.addMessage(targetUserId, msg, MessageType.USER_REPLAY, msgId);
 
         // 发送邮件通知对方收到新的留言
 
@@ -104,8 +105,8 @@ public class MessageBoardComment extends AbstractComment<Member> {
     }
 
     @Override
-    public Boolean confirmSource(CcEnum.CommentSource commentSource, String targetId) {
-        return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.MESSAGE.getSource().equals(commentSource.getSource());
+    public Boolean confirmSource(CommentSource commentSource, String targetId) {
+        return Objects.nonNull(getTarget(targetId)) && CommentSource.MESSAGE.equals(commentSource);
     }
 
     @Override

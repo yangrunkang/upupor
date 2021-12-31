@@ -27,6 +27,7 @@
 
 package com.upupor.service.dao.entity;
 
+import com.upupor.service.types.OpenEmail;
 import lombok.Data;
 
 import java.util.Date;
@@ -54,6 +55,6 @@ public class MemberConfig extends BaseEntity {
     /**
      * 是否开启邮件通知 0-开启 1-关闭
      */
-    private Integer openEmail;
+    private OpenEmail openEmail;
 
 }

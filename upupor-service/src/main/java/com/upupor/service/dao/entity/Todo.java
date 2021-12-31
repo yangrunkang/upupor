@@ -29,6 +29,7 @@ package com.upupor.service.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.TodoStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -51,7 +52,7 @@ public class Todo extends BaseEntity {
 
     private Long endTime;
 
-    private Integer status;
+    private TodoStatus status;
 
     private Long createTime;
 

@@ -33,8 +33,8 @@ import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.profile.service.ProfileAggregateService;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.MemberIndexDto;
+import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.utils.PageUtils;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
@@ -142,7 +142,7 @@ public class MemberPageJumpController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(AUTHOR_PROFILE);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, CcEnum.ViewTargetType.PROFILE_CONTENT);
+        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_CONTENT);
         modelAndView.addObject(memberIndexDto);
         modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName());
         modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
@@ -165,7 +165,7 @@ public class MemberPageJumpController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(AUTHOR_ATTENTION);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, CcEnum.ViewTargetType.PROFILE_ATTENTION);
+        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_ATTENTION);
         modelAndView.addObject(memberIndexDto);
         modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName() + "的关注");
         modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
@@ -189,7 +189,7 @@ public class MemberPageJumpController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(AUTHOR_FANS);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, CcEnum.ViewTargetType.PROFILE_FANS);
+        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_FANS);
         modelAndView.addObject(memberIndexDto);
         modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName() + "的粉丝");
         modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
@@ -212,7 +212,7 @@ public class MemberPageJumpController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(AUTHOR_RADIO);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, CcEnum.ViewTargetType.PROFILE_RADIO);
+        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_RADIO);
         modelAndView.addObject(memberIndexDto);
         modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName());
         modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
@@ -238,7 +238,7 @@ public class MemberPageJumpController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(AUTHOR_MESSAGE);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, CcEnum.ViewTargetType.PROFILE_MESSAGE);
+        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_MESSAGE);
         modelAndView.addObject(memberIndexDto);
         modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName() + "留言板");
         modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());

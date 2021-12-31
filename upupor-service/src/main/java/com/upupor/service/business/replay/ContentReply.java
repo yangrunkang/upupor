@@ -31,10 +31,11 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.ReplayCommentEvent;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -59,8 +60,8 @@ public class ContentReply extends AbstractReplyComment<Content> {
 
 
     @Override
-    public Boolean isHandled(String targetId, CcEnum.CommentSource commentSource) {
-        return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.contentSource().contains(commentSource.getSource());
+    public Boolean isHandled(String targetId, CommentSource commentSource) {
+        return Objects.nonNull(getTarget(targetId)) && CommentSource.contentSource().contains(commentSource);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class ContentReply extends AbstractReplyComment<Content> {
                 + "的回复,请" + String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, "点击查看");
 
         // 站内信通知
-        getMessageService().addMessage(beRepliedUserId, msg, CcEnum.MessageType.USER_REPLAY.getType(), msgId);
+        getMessageService().addMessage(beRepliedUserId, msg, MessageType.USER_REPLAY, msgId);
         // 邮件通知
         getMessageService().sendEmail(beRepliedMember.getEmail(), title(), msg, beRepliedUserId);
     }

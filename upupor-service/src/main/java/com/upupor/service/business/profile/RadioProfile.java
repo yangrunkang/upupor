@@ -29,8 +29,8 @@ package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.RadioService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -41,12 +41,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class RadioProfile extends ProfileAbstract {
+public class RadioProfile extends AbstractProfile {
     private final RadioService radioService;
 
     @Override
-    public CcEnum.ViewTargetType viewTargetType() {
-        return CcEnum.ViewTargetType.PROFILE_RADIO;
+    public ViewTargetType viewTargetType() {
+        return ViewTargetType.PROFILE_RADIO;
     }
 
     @Override

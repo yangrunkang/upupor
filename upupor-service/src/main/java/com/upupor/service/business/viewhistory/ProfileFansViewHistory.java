@@ -27,9 +27,10 @@
 
 package com.upupor.service.business.viewhistory;
 
-import com.upupor.service.common.CcEnum;
+
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.ViewHistory;
+import com.upupor.service.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
 /**
@@ -39,8 +40,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProfileFansViewHistory extends ProfileAttentionViewHistory {
     @Override
-    public CcEnum.ViewTargetType viewTargetType() {
-        return CcEnum.ViewTargetType.PROFILE_FANS;
+    public ViewTargetType viewTargetType() {
+        return ViewTargetType.PROFILE_FANS;
     }
     @Override
     public void setViewHistoryTitleAndUrl() {

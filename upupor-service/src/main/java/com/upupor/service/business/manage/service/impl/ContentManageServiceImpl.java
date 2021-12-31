@@ -36,7 +36,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.mapper.ContentMapper;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.spi.req.ListContentReq;
+import com.upupor.service.spi.req.ListContentReq;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;

@@ -31,17 +31,22 @@ import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.RadioService;
-import com.upupor.service.common.*;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcConstant;
+import com.upupor.service.common.CcResponse;
+import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
+import com.upupor.service.spi.req.AddCommentReq;
+import com.upupor.service.spi.req.ListCommentReq;
+import com.upupor.service.spi.req.UpdateCommentReq;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.CommentStatus;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.AddCommentReq;
-import com.upupor.spi.req.ListCommentReq;
-import com.upupor.spi.req.UpdateCommentReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -131,12 +136,12 @@ public class CommentsController {
         // 创作者的用户Id
         String creatorUserId = null;
         // 目前只有文章和短内容的评论
-        if (CcEnum.CommentSource.contentSource().contains(addCommentReq.getCommentSource())) {
+        if (CommentSource.contentSource().contains(addCommentReq.getCommentSource())) {
             Content content = contentService.getNormalContent(addCommentReq.getTargetId());
             creatorUserId = content.getUserId();
-        } else if (addCommentReq.getCommentSource().equals(CcEnum.CommentSource.MESSAGE.getSource())) {
+        } else if (addCommentReq.getCommentSource().equals(CommentSource.MESSAGE)) {
             creatorUserId = addCommentReq.getTargetId();
-        } else if (addCommentReq.getCommentSource().equals(CcEnum.CommentSource.RADIO.getSource())) {
+        } else if (addCommentReq.getCommentSource().equals(CommentSource.RADIO)) {
             Radio radio = radioService.getByRadioId(addCommentReq.getTargetId());
             creatorUserId = radio.getUserId();
         }
@@ -158,7 +163,7 @@ public class CommentsController {
                 .commenterUserId(comment.getUserId())
                 .createTime(comment.getCreateTime())
                 .commentId(comment.getCommentId())
-                .commentSource(CcEnum.CommentSource.getBySource(comment.getCommentSource()))
+                .commentSource(comment.getCommentSource())
                 .targetId(targetId)
                 .build();
 
@@ -199,7 +204,7 @@ public class CommentsController {
             listCommentReq.setPageSize(CcConstant.Page.SIZE);
         }
         // 正常的
-        listCommentReq.setStatus(CcEnum.CommentStatus.NORMAL.getStatus());
+        listCommentReq.setStatus(CommentStatus.NORMAL);
         cc.setData(commentService.listComment(listCommentReq));
         return cc;
     }

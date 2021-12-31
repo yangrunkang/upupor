@@ -45,7 +45,7 @@
     id, integral_id, integral_user_id,target_id, integral_rule_id, integral_value, integral_text,
     status, remark, create_time, sys_update_time
   </sql>
-  <select id="countByCondition" parameterType="com.upupor.spi.req.GetMemberIntegralReq"
+  <select id="countByCondition" parameterType="com.upupor.service.spi.req.GetMemberIntegralReq"
           resultType="java.lang.Integer">
     select
     count(*)

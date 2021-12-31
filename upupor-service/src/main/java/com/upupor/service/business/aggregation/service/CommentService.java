@@ -31,8 +31,8 @@ import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.spi.req.AddCommentReq;
-import com.upupor.spi.req.ListCommentReq;
+import com.upupor.service.spi.req.AddCommentReq;
+import com.upupor.service.spi.req.ListCommentReq;
 
 import java.util.List;
 

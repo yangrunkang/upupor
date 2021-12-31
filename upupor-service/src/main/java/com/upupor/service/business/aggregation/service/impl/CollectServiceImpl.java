@@ -36,6 +36,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Collect;
 import com.upupor.service.dao.mapper.CollectMapper;
 import com.upupor.service.dto.page.common.ListCollectDto;
+import com.upupor.service.types.CollectType;
 import com.upupor.service.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -102,8 +103,8 @@ public class CollectServiceImpl implements CollectService {
 
 
     @Override
-    public Integer collectNum(Integer collectType, String collectValue) {
-        return collectMapper.collectNum(collectType, collectValue);
+    public Integer collectNum(CollectType collectType, String collectValue) {
+        return collectMapper.collectNum(collectType.getType(), collectValue);
     }
 
     @Override

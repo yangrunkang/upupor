@@ -30,6 +30,8 @@ package com.upupor.service.dao.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.MessageStatus;
+import com.upupor.service.types.MessageType;
 import lombok.Data;
 
 import java.util.Date;
@@ -44,11 +46,11 @@ public class Message extends BaseEntity {
 
     private String userId;
 
-    private Integer messageType;
+    private MessageType messageType;
 
     private String message;
 
-    private Integer status;
+    private MessageStatus status;
 
     private Long createTime;
 

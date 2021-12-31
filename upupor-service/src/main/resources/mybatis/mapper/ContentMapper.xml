@@ -160,7 +160,7 @@
     where content_type = #{contentType,jdbcType=INTEGER} and status = 0
   </select>
 
-    <select id="listContent" parameterType="com.upupor.spi.req.ListContentReq" resultMap="BaseResultMap">
+    <select id="listContent" parameterType="com.upupor.service.spi.req.ListContentReq" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from content
@@ -194,7 +194,7 @@
         order by create_time desc
     </select>
 
-    <select id="listContentManage" parameterType="com.upupor.spi.req.ListContentReq" resultMap="BaseResultMap">
+    <select id="listContentManage" parameterType="com.upupor.service.spi.req.ListContentReq" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from content

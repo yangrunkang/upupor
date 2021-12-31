@@ -28,10 +28,10 @@
 package com.upupor.service.business.viewhistory;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dao.entity.ViewHistory;
 import com.upupor.service.dao.mapper.RadioMapper;
+import com.upupor.service.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -49,8 +49,8 @@ public class RadioViewHistory extends AbstractViewHistory<Radio> {
 
 
     @Override
-    public CcEnum.ViewTargetType viewTargetType() {
-        return CcEnum.ViewTargetType.RADIO;
+    public ViewTargetType viewTargetType() {
+        return ViewTargetType.RADIO;
     }
 
     @Override

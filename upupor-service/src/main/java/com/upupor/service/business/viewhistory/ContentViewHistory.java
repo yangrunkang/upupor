@@ -28,10 +28,10 @@
 package com.upupor.service.business.viewhistory;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.ViewHistory;
 import com.upupor.service.dao.mapper.ContentMapper;
+import com.upupor.service.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -48,8 +48,8 @@ public class ContentViewHistory extends AbstractViewHistory<Content> {
     private ContentMapper contentMapper;
 
     @Override
-    public CcEnum.ViewTargetType viewTargetType() {
-        return CcEnum.ViewTargetType.CONTENT;
+    public ViewTargetType viewTargetType() {
+        return ViewTargetType.CONTENT;
     }
 
     @Override

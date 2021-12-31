@@ -33,7 +33,7 @@ import com.upupor.service.dto.dao.ContentIdAndTitle;
 import com.upupor.service.dto.dao.MoreCollectDto;
 import com.upupor.service.dto.dao.MoreCommentDto;
 import com.upupor.service.dto.page.common.CountTagDto;
-import com.upupor.spi.req.ListContentReq;
+import com.upupor.service.spi.req.ListContentReq;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -27,6 +27,7 @@
 
 package com.upupor.service.listener.event;
 
+import com.upupor.service.types.CommentSource;
 import lombok.Builder;
 import lombok.Data;
 
@@ -62,5 +63,5 @@ public class ReplayCommentEvent {
     /**
      * 评论来源
      */
-    private Integer commentSource;
+    private CommentSource commentSource;
 }

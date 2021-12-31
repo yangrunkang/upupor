@@ -32,13 +32,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.MemberIntegral;
 import com.upupor.service.dao.mapper.MemberIntegralMapper;
 import com.upupor.service.dto.page.common.ListIntegralDto;
+import com.upupor.service.spi.req.GetMemberIntegralReq;
+import com.upupor.service.types.MemberIntegralStatus;
 import com.upupor.service.utils.CcUtils;
-import com.upupor.spi.req.GetMemberIntegralReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -137,7 +137,7 @@ public class MemberIntegralServiceImpl implements MemberIntegralService {
         if (StringUtils.isEmpty(desc)) {
             addIntegral.setIntegralText(integralEnum.getRuleDesc());
         }
-        addIntegral.setStatus(CcEnum.IntegralStatus.NORMAL.getStatus());
+        addIntegral.setStatus(MemberIntegralStatus.NORMAL);
         addIntegral.setSysUpdateTime(new Date());
         addIntegral.setCreateTime(CcDateUtil.getCurrentTime());
         addIntegral.setTargetId(targetId);
@@ -160,7 +160,7 @@ public class MemberIntegralServiceImpl implements MemberIntegralService {
         if (StringUtils.isEmpty(desc)) {
             reduceIntegral.setIntegralText(integralEnum.getRuleDesc());
         }
-        reduceIntegral.setStatus(CcEnum.IntegralStatus.NORMAL.getStatus());
+        reduceIntegral.setStatus(MemberIntegralStatus.NORMAL);
         reduceIntegral.setSysUpdateTime(new Date());
         reduceIntegral.setCreateTime(CcDateUtil.getCurrentTime());
         reduceIntegral.setTargetId(targetId);

@@ -30,6 +30,8 @@ package com.upupor.service.dao.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.CollectStatus;
+import com.upupor.service.types.CollectType;
 import lombok.Data;
 
 import java.util.Date;
@@ -49,9 +51,9 @@ public class Collect extends BaseEntity {
 
     private String collectValue;
 
-    private Integer collectType;
+    private CollectType collectType;
 
-    private Integer status;
+    private CollectStatus status;
 
     private Long createTime;
 

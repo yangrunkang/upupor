@@ -27,6 +27,7 @@
 
 package com.upupor.service.listener.event;
 
+import com.upupor.service.types.PointType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -47,6 +48,6 @@ public class BuriedPointDataEvent {
     /**
      * 埋点类型
      */
-    private Integer pointType;
+    private PointType pointType;
 
 }

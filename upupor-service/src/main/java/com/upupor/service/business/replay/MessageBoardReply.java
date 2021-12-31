@@ -29,9 +29,10 @@ package com.upupor.service.business.replay;
 
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.ReplayCommentEvent;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -52,8 +53,8 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
     }
 
     @Override
-    public Boolean isHandled(String targetId, CcEnum.CommentSource commentSource) {
-        return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.MESSAGE.equals(commentSource);
+    public Boolean isHandled(String targetId, CommentSource commentSource) {
+        return Objects.nonNull(getTarget(targetId)) && CommentSource.MESSAGE.equals(commentSource);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
         }
 
         // 站内信通知
-        getMessageService().addMessage(beReplayedUser.getUserId(), msg, CcEnum.MessageType.USER_REPLAY.getType(), msgId);
+        getMessageService().addMessage(beReplayedUser.getUserId(), msg, MessageType.USER_REPLAY, msgId);
 
         // 邮件通知
         getMessageService().sendEmail(beReplayedUser.getEmail(), title, msg, beReplayedUser.getUserId());

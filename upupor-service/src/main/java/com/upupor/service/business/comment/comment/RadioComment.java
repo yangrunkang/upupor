@@ -33,9 +33,10 @@ import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.aggregation.service.RadioService;
 import com.upupor.service.business.comment.AbstractComment;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -84,7 +85,7 @@ public class RadioComment extends AbstractComment<Radio> {
         // 站内信通知对方收到新的留言
         String msg = "您收到了新的电台评论,点击<strong>《" + String.format(RADIO_INTEGRAL, radio.getRadioId(), msgId, radioName) + "》</strong>查看,评论来自"
                 + String.format(PROFILE_INNER_MSG, commenterUserId, msgId, commenterUserName);
-        messageService.addMessage(radioAuthorUserId, msg, CcEnum.MessageType.USER_REPLAY.getType(), msgId);
+        messageService.addMessage(radioAuthorUserId, msg, MessageType.USER_REPLAY, msgId);
 
         // 发送邮件通知对方收到新的留言
 
@@ -100,8 +101,8 @@ public class RadioComment extends AbstractComment<Radio> {
     }
 
     @Override
-    public Boolean confirmSource(CcEnum.CommentSource commentSource, String targetId) {
-        return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.RADIO.getSource().equals(commentSource.getSource());
+    public Boolean confirmSource(CommentSource commentSource, String targetId) {
+        return Objects.nonNull(getTarget(targetId)) && CommentSource.RADIO.equals(commentSource);
     }
 
     @Override

@@ -27,6 +27,8 @@
 
 package com.upupor.service.dao.entity;
 
+import com.upupor.service.types.SloganStatus;
+import com.upupor.service.types.SloganType;
 import lombok.Data;
 
 import java.util.Date;
@@ -51,9 +53,9 @@ public class Slogan extends BaseEntity {
      */
     private String bgStyle;
 
-    private Integer sloganType;
+    private SloganType sloganType;
 
-    private Integer sloganStatus;
+    private SloganStatus sloganStatus;
 
     private Long createTime;
 

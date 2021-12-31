@@ -28,7 +28,7 @@
 package com.upupor.service.listener.event;
 
 import com.upupor.service.dao.entity.Attention;
-import com.upupor.spi.req.AddAttentionReq;
+import com.upupor.service.spi.req.AddAttentionReq;
 import lombok.Data;
 
 /**

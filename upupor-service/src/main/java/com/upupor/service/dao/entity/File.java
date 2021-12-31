@@ -27,6 +27,7 @@
 
 package com.upupor.service.dao.entity;
 
+import com.upupor.service.types.UploadStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -45,7 +46,7 @@ public class File extends BaseEntity {
 
     private Long createTime;
 
-    private Integer uploadStatus;
+    private UploadStatus uploadStatus;
 
     private Date sysUpdateTime;
 

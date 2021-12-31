@@ -27,10 +27,11 @@
 
 package com.upupor.service.business.viewhistory;
 
-import com.upupor.service.common.CcEnum;
+
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.ViewHistory;
 import com.upupor.service.dao.mapper.CommentMapper;
+import com.upupor.service.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -45,8 +46,8 @@ public class ProfileMessageViewHistory extends ProfileAttentionViewHistory{
     private CommentMapper commentMapper;
 
     @Override
-    public CcEnum.ViewTargetType viewTargetType() {
-        return CcEnum.ViewTargetType.PROFILE_MESSAGE;
+    public ViewTargetType viewTargetType() {
+        return ViewTargetType.PROFILE_MESSAGE;
     }
     @Override
     public void setViewHistoryTitleAndUrl() {

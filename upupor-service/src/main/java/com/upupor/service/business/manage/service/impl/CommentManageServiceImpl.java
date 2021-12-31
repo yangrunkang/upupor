@@ -35,8 +35,8 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.mapper.CommentMapper;
 import com.upupor.service.dto.page.common.ListCommentDto;
+import com.upupor.service.spi.req.ListCommentReq;
 import com.upupor.service.utils.CcUtils;
-import com.upupor.spi.req.ListCommentReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

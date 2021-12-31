@@ -89,7 +89,7 @@
         where phone = #{phone,jdbcType=VARCHAR}
     </select>
 
-    <select id="select" parameterType="com.upupor.spi.req.GetMemberReq" resultMap="BaseResultMap">
+    <select id="select" parameterType="com.upupor.service.spi.req.GetMemberReq" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from member

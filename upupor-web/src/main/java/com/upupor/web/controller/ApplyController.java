@@ -33,16 +33,21 @@ import com.upupor.framework.utils.FileUtils;
 import com.upupor.service.business.aggregation.service.ApplyService;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.common.*;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcConstant;
+import com.upupor.service.common.CcResponse;
+import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Apply;
 import com.upupor.service.dao.entity.ApplyDocument;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dto.page.apply.ApplyContentDto;
+import com.upupor.service.spi.req.*;
+import com.upupor.service.types.ApplySource;
+import com.upupor.service.types.ApplyStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
-import com.upupor.spi.req.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -98,7 +103,7 @@ public class ApplyController {
 
         apply.setApplySource(adApplyReq.getType());
         apply.setApplyContent(JSON.toJSONString(applyContentDto));
-        apply.setApplyStatus(CcEnum.ApplyStatus.WAIT_APPLY.getStatus());
+        apply.setApplyStatus(ApplyStatus.WAIT_APPLY);
         apply.setCreateTime(CcDateUtil.getCurrentTime());
         apply.setSysUpdateTime(new Date());
 
@@ -140,7 +145,7 @@ public class ApplyController {
 
         apply.setApplySource(addConsultantReq.getType());
         apply.setApplyContent(JSON.toJSONString(applyContentDto));
-        apply.setApplyStatus(CcEnum.ApplyStatus.WAIT_APPLY.getStatus());
+        apply.setApplyStatus(ApplyStatus.WAIT_APPLY);
         apply.setCreateTime(CcDateUtil.getCurrentTime());
         apply.setSysUpdateTime(new Date());
 
@@ -171,9 +176,9 @@ public class ApplyController {
         Apply apply = new Apply();
         apply.setApplyId(CcUtils.getUuId());
         apply.setUserId(ServletUtils.getUserId());
-        apply.setApplySource(CcEnum.ApplySource.TAG.getSource());
+        apply.setApplySource(ApplySource.TAG);
         apply.setApplyContent(JSON.toJSONString(addTagReq));
-        apply.setApplyStatus(CcEnum.ApplyStatus.WAIT_APPLY.getStatus());
+        apply.setApplyStatus(ApplyStatus.WAIT_APPLY);
         apply.setCreateTime(CcDateUtil.getCurrentTime());
         apply.setSysUpdateTime(new Date());
 
@@ -211,7 +216,7 @@ public class ApplyController {
         if (Objects.isNull(apply)) {
             throw new BusinessException(ErrorCode.NOT_EXISTS_APPLY);
         }
-        apply.setApplyStatus(CcEnum.ApplyStatus.APPLY_DELETED.getStatus());
+        apply.setApplyStatus(ApplyStatus.APPLY_DELETED);
 
         Integer result = applyService.update(apply);
         ccResponse.setData(result > 0);
@@ -302,7 +307,7 @@ public class ApplyController {
 
         if (result > 0) {
             // 提交材料成功,更改状态
-            apply.setApplyStatus(CcEnum.ApplyStatus.APPLY_DOCUMENT_COMMIT.getStatus());
+            apply.setApplyStatus(ApplyStatus.APPLY_DOCUMENT_COMMIT);
             applyService.update(apply);
         }
 

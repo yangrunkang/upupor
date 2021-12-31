@@ -27,6 +27,7 @@
 
 package com.upupor.service.dao.entity;
 
+import com.upupor.service.types.FeedBackStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -38,7 +39,7 @@ public class Feedback extends BaseEntity {
 
     private String feedbackId;
 
-    private Integer status;
+    private FeedBackStatus status;
 
     private String reply;
 

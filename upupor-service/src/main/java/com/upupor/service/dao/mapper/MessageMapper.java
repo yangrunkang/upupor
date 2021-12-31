@@ -29,7 +29,7 @@ package com.upupor.service.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.service.dao.entity.Message;
-import com.upupor.spi.req.ListMessageReq;
+import com.upupor.service.spi.req.ListMessageReq;
 
 import java.util.List;
 

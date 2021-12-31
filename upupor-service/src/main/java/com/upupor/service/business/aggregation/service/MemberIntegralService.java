@@ -30,7 +30,7 @@ package com.upupor.service.business.aggregation.service;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.MemberIntegral;
 import com.upupor.service.dto.page.common.ListIntegralDto;
-import com.upupor.spi.req.GetMemberIntegralReq;
+import com.upupor.service.spi.req.GetMemberIntegralReq;
 
 import java.util.List;
 

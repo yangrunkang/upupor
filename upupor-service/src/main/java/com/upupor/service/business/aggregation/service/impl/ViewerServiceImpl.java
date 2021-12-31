@@ -33,7 +33,6 @@ import com.github.pagehelper.PageInfo;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.ViewerService;
 import com.upupor.service.business.viewhistory.AbstractViewHistory;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.ViewHistory;
@@ -42,6 +41,7 @@ import com.upupor.service.dao.mapper.ViewHistoryMapper;
 import com.upupor.service.dao.mapper.ViewerMapper;
 import com.upupor.service.dto.page.common.ListViewHistoryDto;
 import com.upupor.service.listener.event.ViewerEvent;
+import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +67,7 @@ public class ViewerServiceImpl implements ViewerService {
     private final List<AbstractViewHistory> abstractViewHistoryList;
 
     @Override
-    public void addViewer(String targetId, CcEnum.ViewTargetType targetType) {
+    public void addViewer(String targetId, ViewTargetType targetType) {
         String userId = null;
         try {
             userId = ServletUtils.getUserId();
@@ -85,7 +85,7 @@ public class ViewerServiceImpl implements ViewerService {
     }
 
     @Override
-    public List<Viewer> listViewerByTargetIdAndType(String targetId, CcEnum.ViewTargetType targetType) {
+    public List<Viewer> listViewerByTargetIdAndType(String targetId, ViewTargetType targetType) {
         List<Viewer> viewerList = viewerMapper.listByTargetId(targetId, targetType.getType());
         if (CollectionUtils.isEmpty(viewerList)) {
             return new ArrayList<>();
@@ -145,11 +145,11 @@ public class ViewerServiceImpl implements ViewerService {
             return;
         }
 
-        Map<Integer, List<ViewHistory>> map = viewHistoryList.stream().collect(Collectors.groupingBy(ViewHistory::getTargetType));
+        Map<ViewTargetType, List<ViewHistory>> map = viewHistoryList.stream().collect(Collectors.groupingBy(ViewHistory::getTargetType));
 
-        for (Integer targetType : map.keySet()) {
+        for (ViewTargetType targetType : map.keySet()) {
             for (AbstractViewHistory abstractViewHistory : abstractViewHistoryList) {
-                if (abstractViewHistory.viewTargetType().getType().equals(targetType)) {
+                if (abstractViewHistory.viewTargetType().equals(targetType)) {
                     abstractViewHistory.initData(map.get(targetType));
                     abstractViewHistory.setViewHistoryTitleAndUrl();
                 }

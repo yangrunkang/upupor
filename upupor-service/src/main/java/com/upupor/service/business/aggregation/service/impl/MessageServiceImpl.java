@@ -33,13 +33,14 @@ import com.github.pagehelper.PageInfo;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Message;
 import com.upupor.service.dao.mapper.MessageMapper;
 import com.upupor.service.dto.email.SendEmailEvent;
 import com.upupor.service.dto.page.common.ListMessageDto;
-import com.upupor.spi.req.ListMessageReq;
-import com.upupor.spi.req.UpdateMessageReq;
+import com.upupor.service.spi.req.ListMessageReq;
+import com.upupor.service.spi.req.UpdateMessageReq;
+import com.upupor.service.types.MessageStatus;
+import com.upupor.service.types.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -71,7 +72,7 @@ public class MessageServiceImpl implements MessageService {
     private final ApplicationEventPublisher eventPublisher;
 
     @Override
-    public Integer addMessage(String toUserId, String msgContent, Integer messageType, String msgId) {
+    public Integer addMessage(String toUserId, String msgContent, MessageType messageType, String msgId) {
         Assert.notNull(msgId, "msgId不能为空");
 
         try {
@@ -80,10 +81,10 @@ public class MessageServiceImpl implements MessageService {
             message.setMessage(msgContent);
             message.setUserId(toUserId);
             if (Objects.isNull(messageType)) {
-                messageType = CcEnum.MessageType.SYSTEM.getType();
+                messageType = MessageType.SYSTEM;
             }
             message.setMessageType(messageType);
-            message.setStatus(CcEnum.MessageStatus.UN_READ.getStatus());
+            message.setStatus(MessageStatus.UN_READ);
             message.setCreateTime(CcDateUtil.getCurrentTime());
             message.setSysUpdateTime(new Date());
             return messageMapper.insert(message);
@@ -177,11 +178,11 @@ public class MessageServiceImpl implements MessageService {
             return 0;
         }
 
-        if (CcEnum.MessageStatus.READ.getStatus().equals(message.getStatus())
-                || CcEnum.MessageStatus.DELETED.getStatus().equals(message.getStatus())) {
+        if (MessageStatus.READ.equals(message.getStatus())
+                || MessageStatus.DELETED.equals(message.getStatus())) {
             return 0;
         }
-        message.setStatus(CcEnum.MessageStatus.READ.getStatus());
+        message.setStatus(MessageStatus.READ);
         return messageMapper.updateById(message);
     }
 }

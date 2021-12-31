@@ -32,14 +32,19 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.CollectService;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
-import com.upupor.service.common.*;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcResponse;
+import com.upupor.service.common.ErrorCode;
+import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Collect;
 import com.upupor.service.dao.entity.Content;
+import com.upupor.service.spi.req.AddCollectReq;
+import com.upupor.service.spi.req.UpdateCollectReq;
+import com.upupor.service.types.CollectStatus;
+import com.upupor.service.types.CollectType;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.AddCollectReq;
-import com.upupor.spi.req.UpdateCollectReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -97,13 +102,13 @@ public class CollectController {
             Asserts.notNull(collect, ErrorCode.COLLECT_VIA_NOT_EXISTS);
             // 该用户的收藏取消
             collect.setUserId(userId);
-            collect.setStatus(CcEnum.CollectStatus.DELETE.getStatus());
+            collect.setStatus(CollectStatus.DELETE);
             Integer cancelCollect = collectService.update(collect);
             boolean handleSuccess = cancelCollect > 0;
             if (handleSuccess) {
                 Content content = null;
                 String text = null;
-                if (addCollectReq.getCollectType().equals(CcEnum.CollectType.CONTENT.getType())) {
+                if (addCollectReq.getCollectType().equals(CollectType.CONTENT)) {
                     content = contentService.getNormalContent(addCollectReq.getCollectValue());
                 }
 
@@ -117,20 +122,20 @@ public class CollectController {
             return ccResponse;
         } else {
             // 添加收藏前校验自己是否有【仅自己可见】 的收藏项,如果有直接更新状态就好了
-            Boolean isExists = collectService.existsCollectContent(addCollectReq.getCollectValue(), CcEnum.CollectStatus.ONLY_SELF_SEE.getStatus(), userId);
+            Boolean isExists = collectService.existsCollectContent(addCollectReq.getCollectValue(), CollectStatus.ONLY_SELF_SEE.getStatus(), userId);
             if (isExists) {
-                Collect collect = collectService.getCollect(addCollectReq.getCollectValue(), CcEnum.CollectStatus.ONLY_SELF_SEE.getStatus(), userId);
+                Collect collect = collectService.getCollect(addCollectReq.getCollectValue(), CollectStatus.ONLY_SELF_SEE.getStatus(), userId);
                 if (Objects.isNull(collect)) {
                     throw new BusinessException(ErrorCode.COLLECT_CONTENT_ERROR);
                 }
-                collect.setStatus(CcEnum.CollectStatus.NORMAL.getStatus());
+                collect.setStatus(CollectStatus.NORMAL);
                 Integer integer = collectService.update(collect);
                 ccResponse.setData(integer > 0);
                 return ccResponse;
             }
 
             Content content = null;
-            if (addCollectReq.getCollectType().equals(CcEnum.CollectType.CONTENT.getType())) {
+            if (addCollectReq.getCollectType().equals(CollectType.CONTENT)) {
                 content = contentService.getNormalContent(addCollectReq.getCollectValue());
                 if (content.getUserId().equals(userId)) {
                     throw new BusinessException(ErrorCode.FORBIDDEN_COLLECT_SELF_CONTENT);
@@ -143,7 +148,7 @@ public class CollectController {
             collect.setCollectId(CcUtils.getUuId());
             collect.setCollectType(addCollectReq.getCollectType());
             collect.setCollectValue(addCollectReq.getCollectValue());
-            collect.setStatus(CcEnum.CollectStatus.NORMAL.getStatus());
+            collect.setStatus(CollectStatus.NORMAL);
             collect.setCreateTime(CcDateUtil.getCurrentTime());
             collect.setSysUpdateTime(new Date());
 

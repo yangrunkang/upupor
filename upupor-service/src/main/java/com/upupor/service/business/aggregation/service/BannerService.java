@@ -28,6 +28,7 @@
 package com.upupor.service.business.aggregation.service;
 
 import com.upupor.service.dto.page.common.ListBannerDto;
+import com.upupor.service.types.BannerStatus;
 
 /**
  * Banner接口
@@ -45,7 +46,7 @@ public interface BannerService {
      * @param pageSize
      * @return
      */
-    ListBannerDto listBannerByStatus(Integer bannerStatus, Integer pageNum, Integer pageSize);
+    ListBannerDto listBannerByStatus(BannerStatus bannerStatus, Integer pageNum, Integer pageSize);
 
 
 }

@@ -30,15 +30,15 @@ package com.upupor.web.controller;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.TodoService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Todo;
 import com.upupor.service.dao.entity.TodoDetail;
+import com.upupor.service.spi.req.AddTodoReq;
+import com.upupor.service.spi.req.UpdateTodoDoneStatus;
+import com.upupor.service.types.TodoStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.AddTodoReq;
-import com.upupor.spi.req.UpdateTodoDoneStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -75,7 +75,7 @@ public class TodoController {
         todo.setTitle(addTodoReq.getTodo());
         todo.setStartTime(0L);
         todo.setEndTime(0L);
-        todo.setStatus(CcEnum.TodoStatus.UN_DO.getStatus());
+        todo.setStatus(TodoStatus.UN_DO);
         todo.setCreateTime(CcDateUtil.getCurrentTime());
         todo.setSysUpdateTime(new Date());
 
@@ -115,11 +115,11 @@ public class TodoController {
         update.setId(todo.getId());
 
         // 如果todo是已经完成,则更新为未完成
-        if (CcEnum.TodoStatus.DONE.getStatus().equals(todo.getStatus())) {
-            update.setStatus(CcEnum.TodoStatus.UN_DO.getStatus());
-        } else if (CcEnum.TodoStatus.UN_DO.getStatus().equals(todo.getStatus())) {
+        if (TodoStatus.DONE.equals(todo.getStatus())) {
+            update.setStatus(TodoStatus.UN_DO);
+        } else if (TodoStatus.UN_DO.equals(todo.getStatus())) {
             // 如果todo是未完成,则更新完成
-            update.setStatus(CcEnum.TodoStatus.DONE.getStatus());
+            update.setStatus(TodoStatus.DONE);
         } else {
             throw new BusinessException(ErrorCode.TODO_STATUS_ERROR);
         }
@@ -147,14 +147,14 @@ public class TodoController {
             throw new BusinessException(ErrorCode.TODO_NOT_BELONG_TO_YOU);
         }
 
-        if (todo.getStatus().equals(CcEnum.TodoStatus.DELETE.getStatus())) {
+        if (todo.getStatus().equals(TodoStatus.DELETE)) {
             throw new BusinessException(ErrorCode.TODO_ALREADY_DELETE);
         }
 
 
         Todo delete = new Todo();
         delete.setId(todo.getId());
-        delete.setStatus(CcEnum.TodoStatus.DELETE.getStatus());
+        delete.setStatus(TodoStatus.DELETE);
 
         Integer result = todoService.update(delete);
         ccResponse.setData(result > 0);

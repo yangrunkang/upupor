@@ -30,6 +30,7 @@ package com.upupor.service.dao.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.FansStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -43,7 +44,7 @@ public class Fans extends BaseEntity {
 
     private String fanUserId;
 
-    private Integer fanStatus;
+    private FansStatus fanStatus;
 
     private Long createTime;
 

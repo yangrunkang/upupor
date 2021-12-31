@@ -38,11 +38,12 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.ContentExtend;
 import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.page.EditorIndexDto;
+import com.upupor.service.spi.req.AddCacheContentReq;
+import com.upupor.service.spi.req.GetEditorReq;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.AddCacheContentReq;
-import com.upupor.spi.req.GetEditorReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -114,7 +115,7 @@ public class EditorPageJumpController {
      */
     @ApiOperation("正常流程从页面新建编辑内容")
     @GetMapping("/editor")
-    public ModelAndView editor(@RequestParam(value = "type", required = false) Integer contentType,
+    public ModelAndView editor(@RequestParam(value = "type", required = false) ContentType contentType,
                                @RequestParam(value = "contentId", required = false) String contentId,
                                @RequestParam(value = "edit", required = false) Boolean edit,
                                @RequestParam(value = "tag", required = false) String tag

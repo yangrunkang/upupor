@@ -33,8 +33,8 @@ import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.EditorIndexDto;
+import com.upupor.service.spi.req.GetEditorReq;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.GetEditorReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

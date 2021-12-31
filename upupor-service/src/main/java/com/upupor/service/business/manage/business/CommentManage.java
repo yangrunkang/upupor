@@ -32,12 +32,12 @@ import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.CommentManageService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.spi.req.ListCommentReq;
+import com.upupor.service.spi.req.ListCommentReq;
+import com.upupor.service.types.CommentSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -114,7 +114,7 @@ public class CommentManage extends AbstractManageInfoGet {
             return;
         }
         List<String> targetIdList = commentList.stream()
-                .filter(c -> c.getCommentSource().equals(CcEnum.CommentSource.MESSAGE.getSource()))
+                .filter(c -> c.getCommentSource().equals(CommentSource.MESSAGE))
                 .map(Comment::getTargetId).distinct().collect(Collectors.toList());
         if (CollectionUtils.isEmpty(targetIdList)) {
             return;

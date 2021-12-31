@@ -29,6 +29,7 @@ package com.upupor.service.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.MemberIntegralStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -54,7 +55,7 @@ public class MemberIntegral extends BaseEntity {
 
     private String integralText;
 
-    private Integer status;
+    private MemberIntegralStatus status;
 
     private String remark;
 

@@ -30,6 +30,8 @@ package com.upupor.service.dao.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcConstant;
+import com.upupor.service.types.ViewTargetType;
+import com.upupor.service.types.ViewerDeleteStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -46,9 +48,9 @@ public class ViewHistory {
 
     private String viewerUserId;
 
-    private Integer targetType;
+    private ViewTargetType targetType;
 
-    private Integer deleteStatus;
+    private ViewerDeleteStatus deleteStatus;
 
     private Date sysUpdateTime;
 

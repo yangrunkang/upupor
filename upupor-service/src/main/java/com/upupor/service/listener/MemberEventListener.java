@@ -31,16 +31,16 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Attention;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.listener.event.MemberLoginEvent;
 import com.upupor.service.listener.event.MemberRegisterEvent;
+import com.upupor.service.spi.req.AddAttentionReq;
+import com.upupor.service.spi.req.GetMemberIntegralReq;
+import com.upupor.service.types.MessageType;
 import com.upupor.service.utils.CcUtils;
-import com.upupor.spi.req.AddAttentionReq;
-import com.upupor.spi.req.GetMemberIntegralReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -169,7 +169,7 @@ public class MemberEventListener {
         String msgId = CcUtils.getUuId();
         String msg = "您有新的关注者 " + String.format(PROFILE_INNER_MSG, attentionUser.getUserId(), msgId, attentionUser.getUserName())
                 + " 去Ta的主页看看吧";
-        messageService.addMessage(addAttentionReq.getAttentionUserId(), msg, CcEnum.MessageType.SYSTEM.getType(), msgId);
+        messageService.addMessage(addAttentionReq.getAttentionUserId(), msg, MessageType.SYSTEM, msgId);
 
         // 发送邮件 被关注的人要通知ta
         Member member = memberService.memberInfo(addAttentionReq.getAttentionUserId());
@@ -193,6 +193,6 @@ public class MemberEventListener {
                 "<div>官方微信公众号: <a class='cv-link' data-toggle='modal' data-target='#wechat'>Upupor</a></div>" +
                 "<div>官方微博: <a class='cv-link' data-toggle='modal' data-target='#weibo'>UpuporCom</a></div>";
         String msgId = CcUtils.getUuId();
-        messageService.addMessage(memberRegisterEvent.getUserId(), msg, CcEnum.MessageType.SYSTEM.getType(), msgId);
+        messageService.addMessage(memberRegisterEvent.getUserId(), msg, MessageType.SYSTEM, msgId);
     }
 }

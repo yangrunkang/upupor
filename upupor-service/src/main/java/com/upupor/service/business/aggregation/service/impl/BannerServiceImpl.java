@@ -33,6 +33,7 @@ import com.upupor.service.business.aggregation.service.BannerService;
 import com.upupor.service.dao.entity.Banner;
 import com.upupor.service.dao.mapper.BannerMapper;
 import com.upupor.service.dto.page.common.ListBannerDto;
+import com.upupor.service.types.BannerStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,9 +52,9 @@ public class BannerServiceImpl implements BannerService {
     private final BannerMapper bannerMapper;
 
     @Override
-    public ListBannerDto listBannerByStatus(Integer bannerStatus, Integer pageNum, Integer pageSize) {
+    public ListBannerDto listBannerByStatus(BannerStatus bannerStatus, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Banner> banners = bannerMapper.listBannerByStatus(bannerStatus);
+        List<Banner> banners = bannerMapper.listBannerByStatus(bannerStatus.getStatus());
         PageInfo<Banner> pageInfo = new PageInfo<>(banners);
 
         ListBannerDto listBannerDto = new ListBannerDto(pageInfo);

@@ -34,16 +34,22 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.ContentData;
 import com.upupor.service.dao.entity.MemberIntegral;
 import com.upupor.service.listener.event.ContentLikeEvent;
+import com.upupor.service.spi.req.*;
+import com.upupor.service.types.ContentStatus;
+import com.upupor.service.types.MemberIntegralStatus;
+import com.upupor.service.types.PinnedStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
@@ -184,12 +190,12 @@ public class ContentController {
         }
 
         memberIntegralList.forEach(memberIntegral -> {
-            if (memberIntegral.getStatus().equals(CcEnum.MemberIntegralStatus.DELETED.getStatus())) {
-                memberIntegral.setStatus(CcEnum.MemberIntegralStatus.NORMAL.getStatus());
+            if (memberIntegral.getStatus().equals(MemberIntegralStatus.DELETED)) {
+                memberIntegral.setStatus(MemberIntegralStatus.NORMAL);
                 // 新增点赞数
                 addLikeNum(contentData);
             } else {
-                memberIntegral.setStatus(CcEnum.MemberIntegralStatus.DELETED.getStatus());
+                memberIntegral.setStatus(MemberIntegralStatus.DELETED);
                 // 扣减点赞数
                 minusLikeNum(contentData);
             }
@@ -233,18 +239,18 @@ public class ContentController {
             throw new BusinessException(ErrorCode.CONTENT_NOT_BELONG_TO_YOU);
         }
 
-        if (!content.getStatus().equals(CcEnum.ContentStatus.NORMAL.getStatus())) {
+        if (!content.getStatus().equals(ContentStatus.NORMAL)) {
             throw new BusinessException(ErrorCode.CONTENT_STATUS_NOT_NORMAL, "不能置顶");
         }
 
-        if (CcEnum.PinnedStatus.PINNED.getStatus().equals(pinnedReq.getPinnedStatus())) {
+        if (PinnedStatus.PINNED.equals(pinnedReq.getPinnedStatus())) {
             cancelBeforePinnedContent(userId);
 
             content.setContentId(contentId);
             content.setUserId(userId);
-            content.setPinnedStatus(CcEnum.PinnedStatus.PINNED.getStatus());
+            content.setPinnedStatus(PinnedStatus.PINNED);
             contentService.updateContent(content);
-        } else if (CcEnum.PinnedStatus.UN_PINNED.getStatus().equals(pinnedReq.getPinnedStatus())) {
+        } else if (PinnedStatus.UN_PINNED.equals(pinnedReq.getPinnedStatus())) {
             cancelBeforePinnedContent(userId);
         }
 
@@ -252,13 +258,13 @@ public class ContentController {
     }
 
     private void cancelBeforePinnedContent(String userId) {
-        List<Content> pinnedContentList = contentService.getContentListByPinned(CcEnum.PinnedStatus.PINNED.getStatus(), userId);
+        List<Content> pinnedContentList = contentService.getContentListByPinned(PinnedStatus.PINNED.getStatus(), userId);
         if (!CollectionUtils.isEmpty(pinnedContentList)) {
             // 先将之前的置顶文章取消置顶
             pinnedContentList.forEach(c -> {
                 c.setUserId(userId);
                 c.setContentId(c.getContentId());
-                c.setPinnedStatus(CcEnum.PinnedStatus.UN_PINNED.getStatus());
+                c.setPinnedStatus(PinnedStatus.UN_PINNED);
                 contentService.updateContent(c);
             });
         }
