@@ -25,36 +25,43 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.business.content;
 
-import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.dao.entity.Content;
+import com.upupor.service.utils.ServletUtils;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+
+import static com.upupor.service.common.ErrorCode.ARTICLE_NOT_BELONG_TO_YOU;
 
 /**
- * 音频服务
+ * 未公开的内容
  *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-public interface RadioService {
+@Component
+public class UnpublishedContent extends AbstractContent {
+    @Resource
+    private ContentService contentService;
 
-    Boolean addRadio(Radio radio);
+    @Override
+    protected Content queryContent() {
+        Content content = contentService.getManageContentDetail(getContentId());
+        // 校验文章所属人
+        String userId = ServletUtils.getUserId();
+        if (!content.getUserId().equals(userId)) {
+            throw new BusinessException(ARTICLE_NOT_BELONG_TO_YOU);
+        }
 
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
+        return content;
+    }
 
-    Radio getByRadioId(String radioId);
+    @Override
+    protected void individuateBusiness() {
 
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
-
-    /**
-     * 文章作者是否有电台
-     *
-     * @param userId
-     */
-    Boolean userHasRadio(String userId);
-
+    }
 }

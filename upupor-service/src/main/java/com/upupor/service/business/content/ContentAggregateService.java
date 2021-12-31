@@ -25,36 +25,45 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.business.content;
 
-import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.dto.page.ContentIndexDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
- * 音频服务
+ * 内容数据集合
  *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author runkangyang (cruise)
+ * @date 2020.01.11 11:00
  */
-public interface RadioService {
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ContentAggregateService {
 
-    Boolean addRadio(Radio radio);
-
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
+    private final PublishedContent publishedContent;
+    private final UnpublishedContent unpublishedContent;
 
     /**
-     * 文章作者是否有电台
+     * 文章详情
      *
-     * @param userId
+     * @param contentId
+     * @return
      */
-    Boolean userHasRadio(String userId);
+    public ContentIndexDto contentDetail(String contentId, Integer pageNum, Integer pageSize) {
+        return publishedContent.pageContentIndexDto(contentId, pageNum, pageSize);
+    }
+
+    /**
+     * 文章详情
+     *
+     * @param contentId
+     * @return
+     */
+    public ContentIndexDto contentManageDetail(String contentId, Integer pageNum, Integer pageSize) {
+        return unpublishedContent.pageContentIndexDto(contentId, pageNum, pageSize);
+    }
 
 }

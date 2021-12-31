@@ -25,24 +25,29 @@
  * SOFTWARE.
  */
 
-package com.upupor.spi.req;
+package com.upupor.service.types;
 
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
+import lombok.Getter;
 
 /**
- * 添加活动请求
- *
- * @author YangRunkang(cruise)
- * @date 2020/02/05 00:14
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-@Data
-public class AddActivityReq {
+@Getter
+public enum BannerStatus {
+    /**
+     *
+     */
+    NORMAL(0, "正常"),
+    DELETED(1, "下架"),
+    ;
+    private final Integer status;
+    private final String name;
 
-    @Length(max = 256, message = "短内容标题名太长,不能超过 256 个字")
-    private String activityName;
-
-    private String activityDesc;
-
+    BannerStatus(Integer status, String name) {
+        this.status = status;
+        this.name = name;
+    }
 
 }
+

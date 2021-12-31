@@ -25,11 +25,28 @@
  * SOFTWARE.
  */
 
-/*设置Ckeditor5的高度*/
-.ck-editor__editable_inline {
-    min-height: 300px !important;
-}
+package com.upupor.service.types;
 
-dt {
-    font-weight: normal;
+import lombok.Getter;
+
+/**
+ * 收藏类型
+ *
+ * @author cruise
+ * @createTime 2021-12-31 18:03
+ */
+@Getter
+public enum CollectType {
+    /**
+     *
+     */
+    CONTENT(0, "内容"),
+    ;
+    private final Integer type;
+    private final String name;
+
+    CollectType(Integer type, String name) {
+        this.type = type;
+        this.name = name;
+    }
 }

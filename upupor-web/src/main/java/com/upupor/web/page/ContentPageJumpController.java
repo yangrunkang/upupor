@@ -112,45 +112,20 @@ public class ContentPageJumpController {
         }
 
         // 文章详情首页
-        ContentIndexDto contentIndexDto = detailContentIndexDto(contentId, pageNum, pageSize);
-        Content content = contentIndexDto.getContent();
-        // 进一步校验访问来源
-        if (!content.getStatus().equals(CcEnum.ContentStatus.NORMAL.getStatus())) {
-            throw new BusinessException(ErrorCode.ILLEGAL_PATH_TO_VIEW_CONTENT);
-        }
-
-        // 文章浏览数数据+1
-        contentService.viewNumPlusOne(content.getContentId());
-
-        // 推荐文章
-        contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
-        AbstractAd.ad(contentIndexDto.getRandomContentList());
-
-        // 绑定文章其他数据
-        bindContentOtherData(contentIndexDto, content);
-
-        // 记录访问者
-        viewerService.addViewer(contentId, CcEnum.ViewTargetType.CONTENT);
-
-        // 文章作者是否有电台
-        contentIndexDto.setHasRadio(radioService.userHasRadio(content.getUserId()));
-
-        // 创建文章
-        contentIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(content.getContentType(), null));
+        ContentIndexDto contentIndexDto = contentAggregateService.contentDetail(contentId, pageNum, pageSize);
 
         // 返回到内容详情页
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(CcConstant.CONTENT_INDEX);
         modelAndView.addObject(contentIndexDto);
-        modelAndView.addObject(SeoKey.TITLE, content.getTitle());
-        modelAndView.addObject(SeoKey.DESCRIPTION, content.getTitle());
+        modelAndView.addObject(SeoKey.TITLE, contentIndexDto.getContent().getTitle());
+        modelAndView.addObject(SeoKey.DESCRIPTION, contentIndexDto.getContent().getTitle());
         // 文章详情设置关键字
-        if (!StringUtils.isEmpty(content.getKeywords())) {
-            modelAndView.addObject(SeoKey.KEYWORDS, content.getKeywords());
+        if (!StringUtils.isEmpty(contentIndexDto.getContent().getKeywords())) {
+            modelAndView.addObject(SeoKey.KEYWORDS, contentIndexDto.getContent().getKeywords());
         } else {
-            modelAndView.addObject(SeoKey.KEYWORDS, CcUtils.getSegmentResult(content.getTitle()));
+            modelAndView.addObject(SeoKey.KEYWORDS, CcUtils.getSegmentResult(contentIndexDto.getContent().getTitle()));
         }
-
         return modelAndView;
     }
 
@@ -172,17 +147,9 @@ public class ContentPageJumpController {
         }
 
         // 文章详情首页
-        ContentIndexDto contentIndexDto = detailManageContentIndexDto(contentId, pageNum, pageSize);
+        ContentIndexDto contentIndexDto = contentAggregateService.contentManageDetail(contentId, pageNum, pageSize);
         Content content = contentIndexDto.getContent();
 
-        // 校验文章所属人
-        String userId = ServletUtils.getUserId();
-        if (!content.getUserId().equals(userId)) {
-            throw new BusinessException(ARTICLE_NOT_BELONG_TO_YOU);
-        }
-
-        // 绑定文章其他数据
-        bindContentOtherData(contentIndexDto, content);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(CcConstant.CONTENT_INDEX);
@@ -277,96 +244,6 @@ public class ContentPageJumpController {
         return JSON.toJSONString(res);
     }
 
-    private ContentIndexDto detailContentIndexDto(String contentId, Integer pageNum, Integer pageSize) {
-
-        if (StringUtils.isEmpty(contentId)) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR);
-        }
-
-        ContentIndexDto contentIndexDto;
-        GetContentReq getContentReq = new GetContentReq();
-        getContentReq.setContentId(contentId);
-        try {
-            contentIndexDto = contentAggregateService.contentDetail(contentId, pageNum, pageSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 异常处理
-            if (e instanceof BusinessException) {
-                throw (BusinessException) e;
-            } else {
-                throw new BusinessException(ErrorCode.SYSTEM_ERROR, e.getMessage());
-            }
-        }
-        return contentIndexDto;
-    }
-
-    private ContentIndexDto detailManageContentIndexDto(String contentId, Integer pageNum, Integer pageSize) {
-
-        if (StringUtils.isEmpty(contentId)) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR);
-        }
-
-        ContentIndexDto contentIndexDto;
-        GetContentReq getContentReq = new GetContentReq();
-        getContentReq.setContentId(contentId);
-        try {
-            contentIndexDto = contentAggregateService.contentManageDetail(contentId, pageNum, pageSize);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // 异常处理
-            if (e instanceof BusinessException) {
-                throw (BusinessException) e;
-            } else {
-                throw new BusinessException(ErrorCode.SYSTEM_ERROR, e.getMessage());
-            }
-        }
-        return contentIndexDto;
-    }
-
-    /**
-     * 绑定文章常用数据
-     *
-     * @param contentIndexDto
-     * @param content
-     */
-    private void bindContentOtherData(ContentIndexDto contentIndexDto, Content content) {
-        // 设置是否收藏过
-        settingIsCollect(contentIndexDto, content);
-
-        // 设置文章是否点赞
-        settingIsLike(contentIndexDto, content);
-
-        // 设置当前用户是否关注作者
-        settingIsAttention(contentIndexDto, content);
-
-    }
-
-    private void settingIsAttention(ContentIndexDto contentIndexDto, Content content) {
-        String contentUserId = content.getUserId();
-        contentIndexDto.setCurrUserIsAttention(contentService.currentUserIsAttentionAuthor(contentUserId));
-    }
-
-    private void settingIsLike(ContentIndexDto contentIndexDto, Content content) {
-        boolean currUserIsClickLike = false;
-        try {
-            GetMemberIntegralReq getMemberIntegralReq = new GetMemberIntegralReq();
-            getMemberIntegralReq.setUserId(ServletUtils.getUserId());
-            getMemberIntegralReq.setRuleId(IntegralEnum.CLICK_LIKE.getRuleId());
-            getMemberIntegralReq.setTargetId(content.getContentId());
-            currUserIsClickLike = memberIntegralService.checkExists(getMemberIntegralReq);
-        } catch (Exception ignored) {
-        }
-        contentIndexDto.setCurrUserIsClickLike(currUserIsClickLike);
-    }
-
-    private void settingIsCollect(ContentIndexDto contentIndexDto, Content content) {
-        boolean currUserIsCollect = false;
-        try {
-            currUserIsCollect = collectService.existsCollectContent(content.getContentId(), ServletUtils.getUserId());
-        } catch (Exception ignored) {
-        }
-        contentIndexDto.setCurrUserIsCollect(currUserIsCollect);
-    }
 
     @Data
     private static class CkeditorUploadResponse {

@@ -25,36 +25,35 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
-
-import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+package com.upupor.service.types;
 
 /**
- * 音频服务
+ * 广告申请状态 0-待审核 1-审核中 2-已通过 3-已拒绝
  *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-public interface RadioService {
 
-    Boolean addRadio(Radio radio);
+import lombok.Getter;
 
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
-
+@Getter
+public enum ApplyStatus {
     /**
-     * 文章作者是否有电台
-     *
-     * @param userId
+     * 待审核
      */
-    Boolean userHasRadio(String userId);
+    WAIT_APPLY(0, "待审核"),
+    APPLYING(1, "审核中"),
+    APPLY_PASS(2, "已通过"),
+    APPLY_REFUSE(3, "已拒绝"),
+    APPLY_TERMINATE(4, "已终止"),
+    APPLY_DELETED(5, "已删除"),
+    APPLY_DOCUMENT_COMMIT(6, "材料已提交"),
+    ;
+    private final Integer status;
+    private final String name;
 
+    ApplyStatus(Integer status, String name) {
+        this.status = status;
+        this.name = name;
+    }
 }

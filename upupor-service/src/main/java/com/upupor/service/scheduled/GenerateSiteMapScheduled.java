@@ -71,14 +71,9 @@ import static com.upupor.service.common.CcConstant.CvCache.TAG_COUNT;
 public class GenerateSiteMapScheduled {
 
     private final ContentService contentService;
-
-
     private final SeoService seoService;
-
     private final MemberService memberService;
-
     private final TagService tagService;
-
     private final RadioService radioService;
 
     @Value("${upupor.website}")

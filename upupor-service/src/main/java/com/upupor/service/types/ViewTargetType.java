@@ -25,36 +25,33 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.types;
 
-import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+import lombok.Getter;
 
 /**
- * 音频服务
- *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-public interface RadioService {
-
-    Boolean addRadio(Radio radio);
-
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
+@Getter
+public enum ViewTargetType {
 
     /**
-     * 文章作者是否有电台
-     *
-     * @param userId
+     * 0-内容(包含文章和电台)  1-个人主页  2-留言板
      */
-    Boolean userHasRadio(String userId);
+    CONTENT(0, "内容"),
+    PROFILE_CONTENT(1, "个人主页·文章"),
+    PROFILE_MESSAGE(2, "个人主页·留言板"),
+    PROFILE_RADIO(3, "个人主页·电台"),
+    PROFILE_ATTENTION(4, "个人主页·关注"),
+    PROFILE_FANS(5, "个人主页·粉丝"),
+    RADIO(6, "电台"),
+    ;
+    private final Integer type;
+    private final String name;
 
+    ViewTargetType(Integer type, String name) {
+        this.type = type;
+        this.name = name;
+    }
 }

@@ -25,3 +25,27 @@
  * SOFTWARE.
  */
 
+package com.upupor.service.types;
+
+import lombok.Getter;
+
+/**
+ * @author cruise
+ * @createTime 2021-12-31 18:03
+ */
+@Getter
+public enum PinnedStatus {
+    /**
+     *
+     */
+    UN_PINNED(0, "未置顶"),
+    PINNED(1, "置顶"),
+    ;
+    private final Integer status;
+    private final String name;
+
+    PinnedStatus(Integer status, String name) {
+        this.status = status;
+        this.name = name;
+    }
+}

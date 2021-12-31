@@ -25,36 +25,31 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.types;
 
-import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+import lombok.Getter;
 
 /**
- * 音频服务
- *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-public interface RadioService {
 
-    Boolean addRadio(Radio radio);
-
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
-
+@Getter
+public enum FeedBackStatus {
     /**
-     * 文章作者是否有电台
-     *
-     * @param userId
+     * 0-正常 1-处理中 2-已处理 3-验收中(限定3天内验收) 4-已关闭  (进度要显示在页面中)
      */
-    Boolean userHasRadio(String userId);
+    NORMAL(0, "正常"),
+    HANDLING(1, "处理中"),
+    HANDLED(2, "已处理"),
+    CHECKING(3, "验收中(限定3天内验收) "),
+    CLOSED(4, "已关闭"),
+    ;
+    private final Integer status;
+    private final String name;
 
+    FeedBackStatus(Integer status, String name) {
+        this.status = status;
+        this.name = name;
+    }
 }

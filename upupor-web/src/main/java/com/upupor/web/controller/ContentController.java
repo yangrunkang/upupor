@@ -113,17 +113,6 @@ public class ContentController {
         return cc;
     }
 
-    @GetMapping("/get/{contentId}")
-    @ResponseBody
-    @ApiOperation("获取内容")
-    public CcResponse get(@PathVariable("contentId") String contentId) {
-        CcResponse cc = new CcResponse();
-        GetContentReq getContentReq = new GetContentReq();
-        getContentReq.setContentId(contentId);
-        cc.setData(contentService.getContentDetail(contentId));
-        return cc;
-    }
-
     @PostMapping("/like")
     @ResponseBody
     @ApiOperation("喜欢")

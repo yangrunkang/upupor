@@ -25,36 +25,31 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.types;
 
-import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+import lombok.Getter;
 
 /**
- * 音频服务
+ * 审核来源
  *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-public interface RadioService {
-
-    Boolean addRadio(Radio radio);
-
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
-
+@Getter
+public enum ApplySource {
     /**
-     * 文章作者是否有电台
      *
-     * @param userId
      */
-    Boolean userHasRadio(String userId);
+    CONSULTING_SERVICE(0, "咨询服务"),
+    NEW_FEATURES(1, "新功能建议"),
+    AD(2, "广告"),
+    TAG(3, "标签"),
+    ;
+    private final Integer source;
+    private final String name;
 
+    ApplySource(Integer source, String name) {
+        this.source = source;
+        this.name = name;
+    }
 }

@@ -25,23 +25,37 @@
  * SOFTWARE.
  */
 
-package com.upupor.spi.req;
+package com.upupor.service.types;
 
-import lombok.Data;
+import lombok.Getter;
 
 /**
- * 更新活动
- *
- * @author YangRunkang(cruise)
- * @date 2020/02/06 03:28
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-@Data
-public class UpdateActivityReq {
+@Getter
+public enum OriginType {
+    /**
+     * 无
+     */
+    NONE(0, "无"),
 
-    private String activityId;
+    /**
+     * 非原创
+     */
+    NONE_ORIGIN(1, "非原创"),
 
-    private Integer activityStatus;
+    /**
+     * 原创
+     */
+    ORIGIN(2, "原创"),
 
-    private String userId;
+    ;
+    private final Integer type;
+    private final String name;
 
+    OriginType(Integer status, String name) {
+        this.type = status;
+        this.name = name;
+    }
 }

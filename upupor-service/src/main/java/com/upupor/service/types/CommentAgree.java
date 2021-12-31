@@ -25,36 +25,43 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
-
-import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+package com.upupor.service.types;
 
 /**
- * 音频服务
- *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-public interface RadioService {
 
-    Boolean addRadio(Radio radio);
+import lombok.Getter;
 
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
+@Getter
+public enum CommentAgree {
+    /**
+     * 正常
+     */
+    NONE(0, "无"),
 
     /**
-     * 文章作者是否有电台
-     *
-     * @param userId
+     * 已被采纳
      */
-    Boolean userHasRadio(String userId);
+    AGREE(1, "已被采纳"),
 
+    /**
+     * 中立
+     */
+    MIDDLE(2, "中立"),
+
+    /**
+     * 反对
+     */
+    DIS_AGREE(3, "反对"),
+
+    ;
+    private final Integer agree;
+    private final String name;
+
+    CommentAgree(Integer agree, String name) {
+        this.agree = agree;
+        this.name = name;
+    }
 }

@@ -25,7 +25,63 @@
  * SOFTWARE.
  */
 
-/*设置编辑器高度*/
-.ck-editor__editable_inline {
-    min-height: 120px !important;
+package com.upupor.service.types;
+
+import lombok.Getter;
+
+/**
+ * 内容状态
+ *
+ * @author cruise
+ * @createTime 2021-12-31 18:03
+ */
+@Getter
+public enum ContentStatus {
+    /**
+     * 正常
+     */
+    NORMAL(0, "正常"),
+
+    /**
+     * 草稿
+     */
+    DRAFT(1, "草稿"),
+
+
+    /**
+     * 审核中
+     */
+    Applying(2, "审核中"),
+
+
+    /**
+     * 异常
+     */
+    EXCEPTION(3, "异常"),
+
+
+    /**
+     * 已删除
+     */
+    DELETED(4, "已删除"),
+
+
+    /**
+     * 回收站
+     */
+    RUBBISH(5, "回收站"),
+
+    /**
+     * 仅自己可见
+     */
+    ONLY_SELF_CAN_SEE(6, "仅自己可见"),
+
+    ;
+    private final Integer status;
+    private final String name;
+
+    ContentStatus(Integer status, String name) {
+        this.status = status;
+        this.name = name;
+    }
 }
