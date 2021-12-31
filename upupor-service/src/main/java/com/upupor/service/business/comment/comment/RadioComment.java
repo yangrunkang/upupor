@@ -58,7 +58,7 @@ public class RadioComment extends AbstractComment<Radio> {
     private MessageService messageService;
 
     public RadioComment(CommentService commentService, MemberService memberService) {
-        super(commentService, memberService);
+        super(memberService);
     }
 
     @Override

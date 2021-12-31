@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -42,6 +43,7 @@ public enum FansStatus {
     NORMAL(0, "正常"),
     DELETED(1, "删除"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

@@ -47,7 +47,7 @@ public abstract class AbstractAd<T extends BaseEntity> {
     /**
      * vo列表
      */
-    private List<T> voList;
+    private final List<T> voList;
 
     public AbstractAd(List<T> voList) {
         this.voList = voList;

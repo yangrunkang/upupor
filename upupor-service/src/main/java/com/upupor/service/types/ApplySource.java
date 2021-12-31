@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -45,6 +46,7 @@ public enum ApplySource {
     AD(2, "广告"),
     TAG(3, "标签"),
     ;
+    @EnumValue
     private final Integer source;
     private final String name;
 

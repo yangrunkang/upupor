@@ -406,7 +406,7 @@ public class PageAspectAdvice {
                     return slogan;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return null;
     }

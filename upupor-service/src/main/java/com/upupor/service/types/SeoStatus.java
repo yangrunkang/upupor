@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -40,6 +41,7 @@ public enum SeoStatus {
      */
     NORMAL(0, "正常"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

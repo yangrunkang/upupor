@@ -32,6 +32,7 @@ package com.upupor.service.types;
  * @createTime 2021-12-31 18:03
  */
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -76,6 +77,7 @@ public enum ContentType {
     SHORT_CONTENT(6, "短内容", "/topic", "发布短内容", OSS_URL + "icons/system/topic.png", "创建 > 短内容"),
 
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
     private final String url;

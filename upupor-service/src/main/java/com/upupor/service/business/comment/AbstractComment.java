@@ -27,7 +27,6 @@
 
 package com.upupor.service.business.comment;
 
-import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.types.CommentSource;
@@ -40,11 +39,9 @@ import com.upupor.service.utils.CcUtils;
  * @date 2021年12月16日 21:15
  */
 public abstract class AbstractComment<T> {
-    private final CommentService commentService;
     private final MemberService memberService;
 
-    public AbstractComment(CommentService commentService, MemberService memberService) {
-        this.commentService = commentService;
+    public AbstractComment( MemberService memberService) {
         this.memberService = memberService;
     }
 

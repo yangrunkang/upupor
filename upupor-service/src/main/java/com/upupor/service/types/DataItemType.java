@@ -34,6 +34,7 @@ package com.upupor.service.types;
  * @createTime 2021-12-31 18:03
  */
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 @Getter
@@ -54,6 +55,7 @@ public enum DataItemType {
     COMMENT_TYPE(2, "评论数"),
 
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
 

@@ -85,6 +85,8 @@ spring:
    request-timeout: 300000
 mybatis-plus:
  mapper-locations: classpath:mybatis/mapper/*.xml
+ configuration:
+  default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
 
 # codingvcr配置
 upupor:

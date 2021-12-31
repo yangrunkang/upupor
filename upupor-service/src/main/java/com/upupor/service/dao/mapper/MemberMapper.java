@@ -36,11 +36,6 @@ import java.util.List;
 
 public interface MemberMapper extends BaseMapper<Member> {
 
-
-    List<Member> selectByEmail(String email);
-
-    List<Member> selectByPhone(String phone);
-
     Member select(GetMemberReq getMemberReq);
 
 

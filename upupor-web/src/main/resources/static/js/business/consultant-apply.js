@@ -54,7 +54,7 @@ function addConsultantApply() {
         let adReq = {
             topic: topic,
             desc: desc,
-            type: 0,
+            type: 'CONSULTING_SERVICE',
         };
 
         $.cvPost('/apply/addConsultant', adReq, function (data) {

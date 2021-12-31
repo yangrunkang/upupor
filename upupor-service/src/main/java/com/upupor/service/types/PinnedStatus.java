@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -41,6 +42,7 @@ public enum PinnedStatus {
     UN_PINNED(0, "未置顶"),
     PINNED(1, "置顶"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

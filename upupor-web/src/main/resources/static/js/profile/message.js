@@ -89,7 +89,7 @@ function comment(userId) {
     let beReplyUserId = $("#reply_to_user").val();
     let comment = {
         targetId: userId,
-        commentSource: 7,
+        commentSource: 'MESSAGE',
         commentContent: commentContent,
         replyToUserId: beReplyUserId
     };

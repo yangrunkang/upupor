@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -44,6 +45,7 @@ public enum CollectStatus {
     ONLY_SELF_SEE(1, "仅自己可见"),
     DELETE(2, "删除"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

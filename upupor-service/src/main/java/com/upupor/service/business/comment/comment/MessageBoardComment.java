@@ -60,7 +60,7 @@ public class MessageBoardComment extends AbstractComment<Member> {
     private MemberIntegralService memberIntegralService;
 
     public MessageBoardComment(CommentService commentService, MemberService memberService) {
-        super(commentService, memberService);
+        super(memberService);
     }
 
     @Override

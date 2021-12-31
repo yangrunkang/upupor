@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -46,6 +47,7 @@ public enum MemberIsAdmin {
     ADMIN(1, "管理员"),
 
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

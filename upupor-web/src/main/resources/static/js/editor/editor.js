@@ -62,13 +62,13 @@ function autoSave() {
 
     if (!cvIsNull(title) || !cvIsNull(vcrEditorContent)) {
 
-        let origin_type = 0;
+        let origin_type = 'NONE';
         let checkValue = $('input:radio[class="align-self-center original_radio"]:checked').val();
         let none_origin_link = $('#none_original_link').val();
         if(checkValue === 'none_original'){
-            origin_type = 1;
+            origin_type = 'NONE_ORIGIN';
         }else{
-            origin_type = 2;
+            origin_type = 'ORIGIN';
         }
 
         let req = {
@@ -165,13 +165,13 @@ function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
         $.cvWarn("标题为空");
         return false;
     }
-    let origin_type = 0;
+    let origin_type = 'NONE';
     let checkValue = $('input:radio[class="align-self-center original_radio"]:checked').val();
     let none_origin_link = $('#none_original_link').val();
     if(checkValue === 'none_original'){
-        origin_type = 1;
+        origin_type = 'NONE_ORIGIN';
     }else{
-        origin_type = 2;
+        origin_type = 'ORIGIN';
     }
 
     // 获取的是option的value
@@ -209,13 +209,13 @@ function handleSaveContentEvent(operation) {
         return false;
     }
 
-    let origin_type = 0;
+    let origin_type = 'ORIGIN';
     let none_origin_link = $('#none_original_link').val();
     let checkValue = $('input:radio[class="align-self-center original_radio"]:checked').val();
     if(checkValue === 'none_original'){
-        origin_type = 1;
+        origin_type = 'NONE_ORIGIN';
     }else{
-        origin_type = 2;
+        origin_type = 'ORIGIN';
     }
 
     let content = {

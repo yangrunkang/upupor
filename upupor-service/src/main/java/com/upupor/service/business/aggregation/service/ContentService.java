@@ -37,6 +37,7 @@ import com.upupor.service.spi.req.AddContentDetailReq;
 import com.upupor.service.spi.req.ListContentReq;
 import com.upupor.service.spi.req.UpdateContentReq;
 import com.upupor.service.types.ContentType;
+import com.upupor.service.types.PinnedStatus;
 
 import java.util.List;
 
@@ -250,7 +251,7 @@ public interface ContentService {
      * @param pinnedStatus
      * @return
      */
-    List<Content> getContentListByPinned(Integer pinnedStatus, String userId);
+    List<Content> getContentListByPinned(PinnedStatus pinnedStatus, String userId);
 
 
     void handlePinnedContent(ListContentDto listContentDto, String userId);

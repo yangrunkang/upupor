@@ -106,7 +106,7 @@ public class CommentsController {
                 // 处理回复某一条评论的逻辑
                 replayCommentEvent(addCommentReq, comment, currentUser);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         cc.setData(true);

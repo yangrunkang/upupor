@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -47,6 +48,7 @@ public enum ViewTargetType {
     PROFILE_FANS(5, "个人主页·粉丝"),
     RADIO(6, "电台"),
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
 

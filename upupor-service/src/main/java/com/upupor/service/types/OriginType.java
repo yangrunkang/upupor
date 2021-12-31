@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -51,6 +52,7 @@ public enum OriginType {
     ORIGIN(2, "原创"),
 
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
 

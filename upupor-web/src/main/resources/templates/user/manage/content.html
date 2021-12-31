@@ -83,8 +83,8 @@
                                         th:each="content,ite : ${memberIndexDto.listContentDto.contentList}"
                                     >
                                         <td style="text-align: center">
-                                            <span th:if="${content.pinnedStatus} == 0" th:text="${ite.count}"></span>
-                                            <span th:if="${content.pinnedStatus} == 1" style="cursor: pointer;" onclick="window.location.href = '/pinned'"><span th:include="fragments/icon::top"></span></span>
+                                            <span th:if="${content.pinnedStatus} == 'UN_PINNED'" th:text="${ite.count}"></span>
+                                            <span th:if="${content.pinnedStatus} == 'PINNED'" style="cursor: pointer;" onclick="window.location.href = '/pinned'"><span th:include="fragments/icon::top"></span></span>
                                         </td>
                                         <td>
                                             <div th:replace="fragments/index::content_manage(${content})"></div>
@@ -93,14 +93,13 @@
                                             <span th:include="fragments/index::content_type"></span>
                                         </td>
                                         <td style="text-align: center">
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${content.status} == 0">正常</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status} == 1">草稿</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status} == 2">审核中</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status} == 3">异常</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status} == 4">删除</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-dark" th:if="${content.status} == 5">回收站</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status} == 6">仅自己可见</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status} < 0 or ${content.status} > 6">未知</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${content.status} == 'NORMAL'">正常</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status} == 'DRAFT'">草稿</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status} == 'Applying'">审核中</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status} == 'EXCEPTION'">异常</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status} == 'DELETED'">删除</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-dark" th:if="${content.status} == 'RUBBISH'">回收站</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
                                         </td>
                                         <td class="hidden-xs">
                                             <div th:each="tagDto : ${content.tagDtoList}" style="float: left">
@@ -120,13 +119,13 @@
                                                     <!--&from=m 代表从管理后台来-->
                                                     <a class="cv-link dropdown-item small" th:href="@{'/editor?type='+${content.contentType}+'&contentId='+${content.contentId}+'&edit=true'}"><span th:include="fragments/icon::edit"></span>编辑</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus} == 0" th:onclick="pinned([[${content.contentId}]],'pinned')"><span th:include="fragments/icon::top"></span>置顶</a>
-                                                    <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus} == 1" th:onclick="pinned([[${content.contentId}]],'cancel')"><span th:include="fragments/icon::top_cancel"></span>取消置顶</a>
+                                                    <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus} == 'UN_PINNED'" th:onclick="pinned([[${content.contentId}]],'pinned')"><span th:include="fragments/icon::top"></span>置顶</a>
+                                                    <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus} == 'PINNED'" th:onclick="pinned([[${content.contentId}]],'cancel')"><span th:include="fragments/icon::top_cancel"></span>取消置顶</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('normal',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('draft',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::caogao"></span>草稿</a>
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('only-self-see',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('delete',[[${content.status}]],[[${content.contentId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('NORMAL',[[${content.contentId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('DRAFT',[[${content.contentId}]])"><span th:include="fragments/icon::caogao"></span>草稿</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('ONLY_SELF_CAN_SEE',[[${content.contentId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('DELETED',[[${content.contentId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                                 </div>
                                             </div>
                                         </td>

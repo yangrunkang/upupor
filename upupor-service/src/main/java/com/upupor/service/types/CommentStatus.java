@@ -32,6 +32,7 @@ package com.upupor.service.types;
  * @createTime 2021-12-31 18:03
  */
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -50,6 +51,7 @@ public enum CommentStatus {
     DELETE(1, "删除"),
 
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

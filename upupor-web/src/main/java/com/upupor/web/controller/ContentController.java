@@ -258,7 +258,7 @@ public class ContentController {
     }
 
     private void cancelBeforePinnedContent(String userId) {
-        List<Content> pinnedContentList = contentService.getContentListByPinned(PinnedStatus.PINNED.getStatus(), userId);
+        List<Content> pinnedContentList = contentService.getContentListByPinned(PinnedStatus.PINNED, userId);
         if (!CollectionUtils.isEmpty(pinnedContentList)) {
             // 先将之前的置顶文章取消置顶
             pinnedContentList.forEach(c -> {

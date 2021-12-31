@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -42,6 +43,7 @@ public enum OpenEmail {
     SUBSCRIBE_EMAIL(0, "订阅"),
     UN_SUBSCRIBE_EMAIL(1, "取消订阅"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

@@ -57,7 +57,7 @@ function applyOperate(operate, applyId,userId) {
             if (willDelete) {
                 let delReq = {
                     applyId: applyId,
-                    status: 4,
+                    status: 'APPLY_TERMINATE',
                     userId: userId,
                 };
                 $.cvPost('/apply/edit', delReq, function (res) {

@@ -58,12 +58,7 @@
         from member
         where status = 0
     </select>
-    <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from member
-        where email = #{email,jdbcType=VARCHAR} and status = 0
-    </select>
+
     <select id="listByUserIdList" parameterType="java.util.List" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -81,12 +76,6 @@
         select
         <include refid="Base_Column_List"/>
         from member where status = 0 order by last_login_time desc
-    </select>
-    <select id="selectByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from member
-        where phone = #{phone,jdbcType=VARCHAR}
     </select>
 
     <select id="select" parameterType="com.upupor.service.spi.req.GetMemberReq" resultMap="BaseResultMap">

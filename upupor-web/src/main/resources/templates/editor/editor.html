@@ -104,7 +104,7 @@
                     </div>
                     <!--编辑按钮-->
                     <div th:if="${edit}">
-                        <button type="button" class="btn btn-success" th:if="${editorIndexDto.content.status != 0}"
+                        <button type="button" class="btn btn-success" th:if="${editorIndexDto.content.status != 'NORMAL'}"
                                 th:onclick="updateContentPublic([[${editorIndexDto.contentType}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]])">
                             发布
                         </button>
@@ -132,12 +132,12 @@
                         <span class="me-2"></span>
                         <input type="radio" name="original" class="align-self-center original_radio" value="none_original" th:checked="${editorIndexDto.content.originType == 1}?'checked'">&nbsp;转载
                     </div>
-                    <div class="original" th:style="${editorIndexDto.content.originType} == 2 ? 'display: block':'display: none'">
+                    <div class="original" th:style="${editorIndexDto.content.originType} == 'ORIGIN' ? 'display: block':'display: none'">
                         <div class="small border-top mt-1">
                             原创作品将采用<a class="cv-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0 国际》</a>许可协议进行发布
                         </div>
                     </div>
-                    <div class="none_original" th:style="${editorIndexDto.content.originType} == 1 ? 'display: block':'display: none'">
+                    <div class="none_original" th:style="${editorIndexDto.content.originType} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
                         <div class="border-top my-1"></div>
                         <div class="form-group mb-3">
                                 <textarea class="form-control  " id="none_original_link"

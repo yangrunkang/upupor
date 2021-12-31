@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -45,6 +46,7 @@ public enum FeedBackStatus {
     CHECKING(3, "验收中(限定3天内验收) "),
     CLOSED(4, "已关闭"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

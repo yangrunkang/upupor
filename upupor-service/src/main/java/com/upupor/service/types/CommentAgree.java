@@ -32,6 +32,7 @@ package com.upupor.service.types;
  * @createTime 2021-12-31 18:03
  */
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 @Getter
@@ -57,6 +58,7 @@ public enum CommentAgree {
     DIS_AGREE(3, "反对"),
 
     ;
+    @EnumValue
     private final Integer agree;
     private final String name;
 

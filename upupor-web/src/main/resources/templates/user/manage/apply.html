@@ -62,25 +62,25 @@
                                         <p th:utext="${apply.applyContent}"></p>
                                     </td>
                                     <td style="text-align: center">
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 0">咨询服务</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 1">新功能建议</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 2">广告</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 3">标签</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 'CONSULTING_SERVICE'">咨询服务</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 'NEW_FEATURES'">新功能建议</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 'AD'">广告</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applySource} == 'TAG'">标签</span>
                                     </td>
                                     <!--状态-->
                                     <td style="text-align: center">
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${apply.applyStatus} == 0 or ${apply.applyStatus} == 1 or ${apply.applyStatus} == 2 or ${apply.applyStatus} == 6">正常</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 3">拒绝</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 4">结束</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${apply.applyStatus} == 'WAIT_APPLY' or ${apply.applyStatus} == 'APPLYING' or ${apply.applyStatus} == 'APPLY_PASS' or ${apply.applyStatus} == 'APPLY_DOCUMENT_COMMIT'">正常</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 'APPLY_REFUSE'">拒绝</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 'APPLY_TERMINATE'">结束</span>
                                     </td>
                                     <!--进度-->
                                     <td style="text-align: center">
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-primary" th:if="${apply.applyStatus} == 0">待审核</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applyStatus} == 1">审核中</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${apply.applyStatus} == 2">已通过</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 3">已拒绝</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 4">已终止</span>
-                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-primary" th:if="${apply.applyStatus} == 6">材料已提交</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-primary" th:if="${apply.applyStatus} == 'WAIT_APPLY'">待审核</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${apply.applyStatus} == 'APPLYING'">审核中</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${apply.applyStatus} == 'APPLY_PASS'">已通过</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 'APPLY_REFUSE'">已拒绝</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${apply.applyStatus} == 'APPLY_TERMINATE'">已终止</span>
+                                        <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-primary" th:if="${apply.applyStatus} == 'APPLY_DOCUMENT_COMMIT'">材料已提交</span>
                                     </td>
                                     <td class="hidden-xs" th:text="${apply.createDate}">创建时间</td>
                                     <td style="text-align: center;">
@@ -94,7 +94,7 @@
                                             </div>
                                         </div>
                                         <a class="btn btn-primary btn-sm"
-                                           th:if="${apply.applySource} == 2 and ${apply.applyStatus} == 2"
+                                           th:if="${apply.applySource} == 2 and ${apply.applyStatus} == 'APPLY_PASS'"
                                            th:href="'/user/manage/apply/commit/'+${apply.applyId}">提交材料</a>
                                     </td>
                                 </tr>

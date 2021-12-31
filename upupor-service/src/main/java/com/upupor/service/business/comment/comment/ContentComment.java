@@ -60,7 +60,7 @@ public class ContentComment extends AbstractComment<Content> {
     private MemberIntegralService memberIntegralService;
 
     public ContentComment(CommentService commentService, MemberService memberService) {
-        super(commentService, memberService);
+        super(memberService);
     }
 
     @Override

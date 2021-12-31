@@ -166,7 +166,7 @@ function collect(contentId) {
     }
     let req = {
         collectValue: contentId,
-        collectType: 0,
+        collectType: 'CONTENT',
         isCollect: isCollect,
     };
 

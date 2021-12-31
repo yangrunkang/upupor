@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -42,6 +43,7 @@ public enum CollectType {
      */
     CONTENT(0, "内容"),
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
 

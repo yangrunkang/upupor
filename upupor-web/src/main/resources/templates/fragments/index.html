@@ -125,12 +125,12 @@
 </div>
 <!--文章类型-->
 <span th:fragment="content_type">
-    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/tech" title="技术" th:if="${content.contentType} == 1">技术</a>
-    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/qa" title="问答" th:if="${content.contentType} == 2">问答</a>
-    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/share" title="分享" th:if="${content.contentType} == 3">分享</a>
-    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/workplace" title="职场" th:if="${content.contentType} == 4">职场</a>
-    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/record" title="记录" th:if="${content.contentType} == 5">记录</a>
-    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/topic" title="短内容" th:if="${content.contentType} == 6">短内容</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/tech" title="技术" th:if="${content.contentType} == 'TECH'">技术</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/qa" title="问答" th:if="${content.contentType} == 'QA'">问答</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/share" title="分享" th:if="${content.contentType} == 'SHARE'">分享</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/workplace" title="职场" th:if="${content.contentType} == 'WORKPLACE'">职场</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/record" title="记录" th:if="${content.contentType} == 'RECORD'">记录</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/topic" title="短内容" th:if="${content.contentType} == 'SHORT_CONTENT'">短内容</a>
 </span>
 
 
@@ -141,7 +141,7 @@ fromProfile: 是否来自Profile页面
 -->
 <div th:fragment="content_list(list,fromProfile)">
     <ul class="list-group list-group-flush">
-        <li th:class="${!fromProfile} ? 'list-group-item p-1' : (${content.pinnedStatus == 1} ?'list-group-item p-1 mb-1 border border-info shadow-sm rounded' : 'list-group-item p-1')" th:each="content,ite : ${list}">
+        <li th:class="${!fromProfile} ? 'list-group-item p-1' : (${content.pinnedStatus == 'PINNED'} ?'list-group-item p-1 mb-1 border border-info shadow-sm rounded' : 'list-group-item p-1')" th:each="content,ite : ${list}">
             <div th:if="${content.contentId != 'google-ad-feed'}" th:include="fragments/index::content_media"></div>
             <div th:if="${content.contentId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
         </li>
@@ -173,8 +173,8 @@ fromProfile: 是否来自Profile页面
 
 
 <div th:fragment="content_manage(content)">
-    <a th:if="${content.status} == 0" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
-    <a th:if="${content.status} != 0" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
+    <a th:if="${content.status} == 'NORMAL'" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
+    <a th:if="${content.status} != 'NORMAL'" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
 </div>
 <div th:fragment="content_media">
     <div class="d-flex align-items-center">
@@ -205,7 +205,7 @@ fromProfile: 是否来自Profile页面
             </div>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
         </div>
-        <a href="/pinned" title="置顶" th:if="${content.pinnedStatus == 1}"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark pull-right">置顶</span></a>
+        <a href="/pinned" title="置顶" th:if="${content.pinnedStatus == 'PINNED'}"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark pull-right">置顶</span></a>
     </div>
 </div>
 

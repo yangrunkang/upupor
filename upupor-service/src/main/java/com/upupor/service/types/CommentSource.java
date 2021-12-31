@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import lombok.Getter;
@@ -82,6 +83,7 @@ public enum CommentSource {
     RADIO(8, "电台"),
 
     ;
+    @EnumValue
     private final Integer source;
     private final String name;
 

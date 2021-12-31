@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -41,6 +42,7 @@ public enum UploadStatus {
     UPLOADING(0, "上传中"),
     UPLOADED(1, "上传完毕"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

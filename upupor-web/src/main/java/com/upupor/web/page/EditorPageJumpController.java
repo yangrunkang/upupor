@@ -48,7 +48,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -204,9 +203,6 @@ public class EditorPageJumpController {
 
         // 获取标签 继续编辑就获取缓存中的
         List<Tag> tagList = tagService.getTagsByType(addCacheContentReq.getContentType());
-        if (CollectionUtils.isEmpty(tagList)) {
-//            throw new BusinessException(ErrorCode.SYSTEM_INIT_ERROR_WITHOUT_ANY_TAGS);
-        }
         editorIndexDto.setTagList(tagList);
         editorIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(addCacheContentReq.getContentType(), addCacheContentReq.getTagIds()));
         return editorIndexDto;

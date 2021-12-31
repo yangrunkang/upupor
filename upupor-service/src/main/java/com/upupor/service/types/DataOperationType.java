@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -43,6 +44,7 @@ public enum DataOperationType {
     INCREASE(0, "增加"),
     DECREASE(1, "减少"),
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
 

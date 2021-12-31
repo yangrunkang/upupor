@@ -110,7 +110,7 @@ function addAdApply() {
             applyUserWechat: applyUserWechat,
             adIntro: adIntro,
             positionIdList: _positionIdList,
-            type: 2,
+            type: 'AD',
         };
 
         $.cvPost('/apply/addAd', adReq, function (data) {

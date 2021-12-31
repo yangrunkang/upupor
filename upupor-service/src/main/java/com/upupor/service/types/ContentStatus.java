@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -77,6 +78,7 @@ public enum ContentStatus {
     ONLY_SELF_CAN_SEE(6, "仅自己可见"),
 
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

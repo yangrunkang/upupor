@@ -391,7 +391,7 @@ public class GenerateSiteMapScheduled {
             return;
         }
         contentList.forEach(content -> {
-            if (content.getStatus().equals(ContentStatus.NORMAL.getStatus())) {
+            if (content.getStatus().equals(ContentStatus.NORMAL)) {
                 GoogleSeoDto googleSeoDto = new GoogleSeoDto();
                 // 按照参数顺序依次是 来源、内容Id
                 String contentUrl = webSite + "/u/%s";

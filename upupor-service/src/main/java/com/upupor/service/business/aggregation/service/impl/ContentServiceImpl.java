@@ -101,7 +101,7 @@ public class ContentServiceImpl implements ContentService {
     public Content getContentDetail(String contentId) {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
                 .eq(Content::getContentId, contentId)
-                .eq(Content::getStatus, ContentStatus.NORMAL.getStatus());
+                .eq(Content::getStatus, ContentStatus.NORMAL);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         bindContentExtend(content);
@@ -135,7 +135,7 @@ public class ContentServiceImpl implements ContentService {
     public Content getNormalContent(String contentId) {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
                 .eq(Content::getContentId, contentId)
-                .eq(Content::getStatus, ContentStatus.NORMAL.getStatus());
+                .eq(Content::getStatus, ContentStatus.NORMAL);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         content.setContentData(getContentData(Lists.newArrayList(contentId)).get(0));
@@ -183,7 +183,7 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
 
-        List<Content> pinnedContentList = getContentListByPinned(PinnedStatus.PINNED.getStatus(), userId);
+        List<Content> pinnedContentList = getContentListByPinned(PinnedStatus.PINNED, userId);
         if (CollectionUtils.isEmpty(pinnedContentList)) {
             return;
         }
@@ -228,9 +228,14 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public ListContentDto listContentByContentType(ContentType contentType, Integer pageNum, Integer pageSize, String tag) {
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
+                .eq(Content::getContentType, contentType)
+                .eq(Content::getTagIds, tag)
+                .eq(Content::getStatus, ContentStatus.NORMAL)
+                .orderByDesc(Content::getLatestCommentTime);
         // 分页查询
         PageHelper.startPage(pageNum, pageSize);
-        List<Content> contents = contentMapper.listContentByContentType(contentType.getType(), tag);
+        List<Content> contents = contentMapper.selectList(query);
         PageInfo<Content> pageInfo = new PageInfo<>(contents);
 
         // 封装文章数据
@@ -421,8 +426,8 @@ public class ContentServiceImpl implements ContentService {
     }
 
     private void pinnedContentCheck(UpdateContentReq updateContentReq, Content editContent) {
-        if (Objects.nonNull(editContent.getPinnedStatus()) && editContent.getPinnedStatus().equals(PinnedStatus.PINNED.getStatus())) {
-            if (Objects.nonNull(updateContentReq.getStatus()) && !updateContentReq.getStatus().equals(ContentStatus.NORMAL.getStatus())) {
+        if (Objects.nonNull(editContent.getPinnedStatus()) && editContent.getPinnedStatus().equals(PinnedStatus.PINNED)) {
+            if (Objects.nonNull(updateContentReq.getStatus()) && !updateContentReq.getStatus().equals(ContentStatus.NORMAL)) {
                 throw new BusinessException(ErrorCode.FORBIDDEN_SET_PINNED_CONTENT_STATUS_NOT_NORMAL);
             }
         }
@@ -442,10 +447,10 @@ public class ContentServiceImpl implements ContentService {
         // 校验内容所属的用户id是否是当前用户
         ServletUtils.checkOperatePermission(editContent.getUserId());
 
-        if(Objects.nonNull(editContent.getPinnedStatus())
-        && PinnedStatus.PINNED.getStatus().equals(editContent.getPinnedStatus())
-        && !ContentStatus.NORMAL.getStatus().equals(updateContentReq.getStatus())
-        ){
+        if (Objects.nonNull(editContent.getPinnedStatus())
+                && PinnedStatus.PINNED.equals(editContent.getPinnedStatus())
+                && !ContentStatus.NORMAL.equals(updateContentReq.getStatus())
+        ) {
             throw new BusinessException(FIRST_CANCEL_PINNED);
         }
 
@@ -745,7 +750,7 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public List<Content> getContentListByPinned(Integer pinnedStatus, String userId) {
+    public List<Content> getContentListByPinned(PinnedStatus pinnedStatus, String userId) {
 
         if (Objects.isNull(pinnedStatus)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);

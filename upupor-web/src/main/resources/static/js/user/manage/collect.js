@@ -35,16 +35,16 @@ function userLeftContentBtnActive(){
 }
 
 function changeCollectStatus(operation, collectId) {
-    let status = 0;
+    let status = 'NORMAL';
     if (operation === 'delete') {
         operation = "删除";
-        status = 2;
+        status = 'DELETE';
     } else if (operation === 'only-self-see') {
         operation = "仅自己可见";
-        status = 1;
+        status = 'ONLY_SELF_SEE';
     } else if (operation === 'normal') {
         operation = "正常";
-        status = 0;
+        status = 'NORMAL';
     }else {
         $.cvError("异常操作,已被禁止");
         return;

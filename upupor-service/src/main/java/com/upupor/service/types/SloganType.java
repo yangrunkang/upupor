@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -40,6 +41,7 @@ public enum SloganType {
      */
     PAGE(0, "页面"),
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
 

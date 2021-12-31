@@ -99,13 +99,13 @@ function userLeftContentBtnActive() {
  */
 function pinned(contentId,ope) {
     let _title = '';
-    let _pinnedStatus = 0;
+    let _pinnedStatus = 'UN_PINNED';
     if(ope === 'pinned'){
         _title = "确定将文章置顶吗?";
-        _pinnedStatus = 1;
+        _pinnedStatus = 'PINNED';
     }else if(ope === 'cancel'){
         _title = "确定将取消文章置顶吗?";
-        _pinnedStatus = 0;
+        _pinnedStatus = 'UN_PINNED';
     }
 
     swal({
@@ -149,19 +149,15 @@ function pinned(contentId,ope) {
  * @param operation
  * @param content
  */
-function changeContentStatus(operation, status,contentId) {
-    if (operation === 'draft') {
+function changeContentStatus(operation,contentId) {
+    if (operation === 'DRAFT') {
         operation = "确定将文章变更为草稿吗";
-        status = 1;
-    } else if (operation === 'delete') {
+    } else if (operation === 'DELETED') {
         operation = "确定将文章删除吗";
-        status = 4;
-    } else if (operation === 'only-self-see') {
+    } else if (operation === 'ONLY_SELF_CAN_SEE') {
         operation = "确定将文章变更为自己可见吗";
-        status = 6;
-    } else if (operation === 'normal') {
+    } else if (operation === 'NORMAL') {
         operation = "确定将文章变更为正常吗";
-        status = 0;
     } else {
         $.cvError("异常操作,已被禁止");
         return;
@@ -186,7 +182,7 @@ function changeContentStatus(operation, status,contentId) {
         if (willDelete) {
             let updateContent = {
                 contentId: contentId,
-                status: status,
+                status: operation,
             };
             $.cvPost('/content/status', updateContent, function (data) {
                 if (respSuccess(data)) {

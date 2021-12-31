@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -49,6 +50,7 @@ public enum ContentIsInitialStatus {
     FIRST_PUBLISHED(1, "第一次发布"),
 
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 
