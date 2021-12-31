@@ -241,11 +241,6 @@ public class ContentServiceImpl implements ContentService {
         return listContentDto;
     }
 
-    @Override
-    public ListContentDto listContentByContentType(Integer contentType, Integer pageNum, Integer pageSize) {
-        return listContentByContentType(contentType, pageNum, pageSize, null);
-    }
-
     /**
      * 绑定详细文章
      *
@@ -519,11 +514,6 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Integer total() {
         return contentMapper.total();
-    }
-
-    @Override
-    public Integer viewTotal() {
-        return contentDataMapper.viewTotal();
     }
 
     @Override
@@ -816,43 +806,6 @@ public class ContentServiceImpl implements ContentService {
             content.setStatement(statement);
         }
     }
-
-    @Override
-    public void bindAuthorOtherContent(ContentIndexDto contentIndexDto, Content content) {
-        ListContentReq listContentReq = new ListContentReq();
-        listContentReq.setPageNum(CcConstant.Page.NUM);
-        listContentReq.setPageSize(CcConstant.Page.SIZE);
-        listContentReq.setUserId(content.getUserId());
-        listContentReq.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
-        ListContentDto listContentDto = this.listContent(listContentReq);
-        if (Objects.nonNull(listContentDto)) {
-            List<Content> contentList = listContentDto.getContentList();
-            if (!CollectionUtils.isEmpty(contentList)) {
-                // 排除当前用户正在浏览的文章
-                List<Content> collect = contentList.stream().filter(c -> !c.getContentId().equals(content.getContentId())).collect(Collectors.toList());
-                if (!CollectionUtils.isEmpty(collect)) {
-                    contentIndexDto.setAuthorOtherContentList(collect);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void bindContentTagName(ContentIndexDto contentIndexDto, Content content) {
-        // 处理文章标签
-        String tagIds = content.getTagIds();
-        if (StringUtils.isEmpty(tagIds)) {
-            return;
-        }
-
-        List<TagDto> tagDtoList = tagService.listTagNameByTagId(tagIds);
-        if (CollectionUtils.isEmpty(tagDtoList)) {
-            return;
-        }
-        // 处理标签
-        contentIndexDto.setTagDtoList(tagDtoList);
-    }
-
 
     @Override
     public void bindLikesMember(Content content) {

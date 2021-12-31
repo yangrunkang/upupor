@@ -35,7 +35,7 @@ import java.util.Objects;
 
 /**
  * 分页工具
- *
+ * @note: 这是js的替代版,写这个工具类的原因是为了在IE浏览器上可以成功渲染出分页按钮,从而提高用户到达其他页面的机率。js的分页组件在IE上渲染不出来
  * @author YangRunkang(cruise)
  * @date 2021/01/08 19:59
  */

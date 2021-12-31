@@ -1,0 +1,202 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 yangrunkang
+ *
+ * Author: yangrunkang
+ * Email: yangrunkang53@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.upupor.service.business.content;
+
+import com.upupor.service.business.aggregation.service.CollectService;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.MemberIntegralService;
+import com.upupor.service.business.aggregation.service.TagService;
+import com.upupor.service.common.CcConstant;
+import com.upupor.service.common.CcEnum;
+import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.dao.entity.Content;
+import com.upupor.service.dto.page.ContentIndexDto;
+import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.service.dto.page.common.TagDto;
+import com.upupor.service.utils.ServletUtils;
+import com.upupor.spi.req.GetMemberIntegralReq;
+import com.upupor.spi.req.ListContentReq;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.util.CollectionUtils;
+
+import javax.annotation.Resource;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+/**
+ * 抽象文章类
+ *
+ * @author cruise
+ * @createTime 2021-12-31 18:03
+ */
+
+@RequiredArgsConstructor
+public abstract class AbstractContent {
+    @Resource
+    private ContentService contentService;
+    @Resource
+    private TagService tagService;
+    @Resource
+    private CollectService collectService;
+    @Resource
+    private MemberIntegralService memberIntegralService;
+    @Getter
+    private final ContentIndexDto contentIndexDto = new ContentIndexDto();
+    @Getter
+    private String contentId;
+    @Getter
+    private Content content;
+    @Getter
+    private Integer pageNum;
+    @Getter
+    private Integer pageSize;
+
+    /**
+     * 获取文章
+     *
+     * @return
+     */
+    protected abstract Content queryContent();
+
+    /**
+     * 共用逻辑
+     */
+    protected void commonLogic() {
+        // 获取文章数据
+        contentService.bindContentData(Collections.singletonList(content));
+
+        // 绑定文章作者
+        contentService.bindContentMember(content);
+
+        // 绑定文章声明
+        contentService.bindContentStatement(content);
+
+        // 绑定最近编辑的原因
+        contentService.bindContentEditReason(content);
+
+        // 获取文章标签
+        List<TagDto> tagDtoList = tagService.listTagNameByTagId(content.getTagIds());
+        contentIndexDto.setTagDtoList(tagDtoList);
+
+        // 作者其他的文章
+        bindAuthorOtherContent();
+
+
+    }
+
+    /**
+     * 绑定文章常用数据
+     */
+    private void bindContentOtherData() {
+        // 设置是否收藏过
+        settingIsCollect(contentIndexDto, content);
+
+        // 设置文章是否点赞
+        settingIsLike(contentIndexDto, content);
+
+        // 设置当前用户是否关注作者
+        settingIsAttention(contentIndexDto, content);
+
+    }
+
+    private void bindAuthorOtherContent() {
+        ListContentReq listContentReq = new ListContentReq();
+        listContentReq.setPageNum(CcConstant.Page.NUM);
+        listContentReq.setPageSize(CcConstant.Page.SIZE);
+        listContentReq.setUserId(contentIndexDto.getContent().getUserId());
+        listContentReq.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
+        ListContentDto listContentDto = contentService.listContent(listContentReq);
+        if (Objects.nonNull(listContentDto)) {
+            List<Content> contentList = listContentDto.getContentList();
+            if (!CollectionUtils.isEmpty(contentList)) {
+                // 排除当前用户正在浏览的文章
+                List<Content> otherContentList = contentList.stream().filter(c -> !c.getContentId().equals(contentIndexDto.getContent().getContentId())).collect(Collectors.toList());
+                if (!CollectionUtils.isEmpty(otherContentList)) {
+                    contentIndexDto.setAuthorOtherContentList(otherContentList);
+                }
+            }
+        }
+    }
+
+    /**
+     * 个性化业务
+     */
+    protected abstract void individuateBusiness();
+
+    /**
+     * 页面内容
+     *
+     * @return
+     */
+    public ContentIndexDto pageContentIndexDto(String contentId, Integer pageNum, Integer pageSize) {
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+        this.contentId = contentId;
+
+        // 获取文章
+        this.content = queryContent();
+        contentIndexDto.setContent(this.content);
+        // 共用逻辑
+        commonLogic();
+        // 个性化业务
+        individuateBusiness();
+        return contentIndexDto;
+    }
+
+
+    private void settingIsAttention(ContentIndexDto contentIndexDto, Content content) {
+        String contentUserId = content.getUserId();
+        contentIndexDto.setCurrUserIsAttention(contentService.currentUserIsAttentionAuthor(contentUserId));
+    }
+
+    private void settingIsLike(ContentIndexDto contentIndexDto, Content content) {
+        boolean currUserIsClickLike = false;
+        try {
+            GetMemberIntegralReq getMemberIntegralReq = new GetMemberIntegralReq();
+            getMemberIntegralReq.setUserId(ServletUtils.getUserId());
+            getMemberIntegralReq.setRuleId(IntegralEnum.CLICK_LIKE.getRuleId());
+            getMemberIntegralReq.setTargetId(content.getContentId());
+            currUserIsClickLike = memberIntegralService.checkExists(getMemberIntegralReq);
+        } catch (Exception ignored) {
+        }
+        contentIndexDto.setCurrUserIsClickLike(currUserIsClickLike);
+    }
+
+    private void settingIsCollect(ContentIndexDto contentIndexDto, Content content) {
+        boolean currUserIsCollect = false;
+        try {
+            currUserIsCollect = collectService.existsCollectContent(content.getContentId(), ServletUtils.getUserId());
+        } catch (Exception ignored) {
+        }
+        contentIndexDto.setCurrUserIsCollect(currUserIsCollect);
+    }
+
+}

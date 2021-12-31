@@ -53,15 +53,10 @@ import java.util.Objects;
 public class RadioAggregateService {
 
     private final RadioService radioService;
-
     private final MemberService memberService;
-
     private final FileService fileService;
-
     private final CommentService commentService;
-
     private final ContentService contentService;
-
     private final ViewerService viewerService;
 
 

@@ -25,23 +25,43 @@
  * SOFTWARE.
  */
 
-package com.upupor.spi.req;
+package com.upupor.service.business.content;
 
-import lombok.Data;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.dao.entity.Content;
+import com.upupor.service.utils.ServletUtils;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+
+import static com.upupor.service.common.ErrorCode.ARTICLE_NOT_BELONG_TO_YOU;
 
 /**
- * 更新活动
+ * 未公开的内容
  *
- * @author YangRunkang(cruise)
- * @date 2020/02/06 03:28
+ * @author cruise
+ * @createTime 2021-12-31 18:03
  */
-@Data
-public class UpdateActivityReq {
+@Component
+public class UnpublishedContent extends AbstractContent {
+    @Resource
+    private ContentService contentService;
 
-    private String activityId;
+    @Override
+    protected Content queryContent() {
+        Content content = contentService.getManageContentDetail(getContentId());
+        // 校验文章所属人
+        String userId = ServletUtils.getUserId();
+        if (!content.getUserId().equals(userId)) {
+            throw new BusinessException(ARTICLE_NOT_BELONG_TO_YOU);
+        }
 
-    private Integer activityStatus;
+        return content;
+    }
 
-    private String userId;
+    @Override
+    protected void individuateBusiness() {
 
+    }
 }

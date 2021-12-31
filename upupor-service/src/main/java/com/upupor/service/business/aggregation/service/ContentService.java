@@ -102,16 +102,6 @@ public interface ContentService {
     ListContentDto listContentByContentType(Integer contentType, Integer pageNum, Integer pageSize, String tag);
 
     /**
-     * com.upupor.service.service.aggregation.service.ContentService#listContentByContentType(...) 的重载
-     *
-     * @param contentType
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    ListContentDto listContentByContentType(Integer contentType, Integer pageNum, Integer pageSize);
-
-    /**
      * 添加内容
      *
      * @param addContentDetailReq
@@ -156,13 +146,6 @@ public interface ContentService {
      * 文章总数
      */
     Integer total();
-
-    /**
-     * 文章浏览总数
-     *
-     * @return
-     */
-    Integer viewTotal();
 
     /**
      * 绑定文章数据
@@ -279,10 +262,6 @@ public interface ContentService {
     void bindContentEditReason(Content content);
 
     void bindContentStatement(Content content);
-
-    void bindAuthorOtherContent(ContentIndexDto contentIndexDto, Content content);
-
-    void bindContentTagName(ContentIndexDto contentIndexDto, Content content);
 
     /**
      * 罗列所有的标签

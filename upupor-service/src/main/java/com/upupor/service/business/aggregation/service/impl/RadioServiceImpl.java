@@ -111,15 +111,6 @@ public class RadioServiceImpl implements RadioService {
         return radio;
     }
 
-    @Override
-    public Radio getByRadioIdAndUserId(String radioId, String userId) {
-        LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
-                .eq(Radio::getRadioId, radioId)
-                .eq(Radio::getUserId, userId);
-        Radio radio = radioMapper.selectOne(query);
-        Asserts.notNull(radio,ErrorCode.RADIO_NOT_EXISTS);
-        return radio;
-    }
 
     @Override
     public Integer updateRadio(Radio radio) {

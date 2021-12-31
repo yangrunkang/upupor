@@ -25,3 +25,45 @@
  * SOFTWARE.
  */
 
+package com.upupor.service.business.content;
+
+import com.upupor.service.dto.page.ContentIndexDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+/**
+ * 内容数据集合
+ *
+ * @author runkangyang (cruise)
+ * @date 2020.01.11 11:00
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ContentAggregateService {
+
+    private final PublishedContent publishedContent;
+    private final UnpublishedContent unpublishedContent;
+
+    /**
+     * 文章详情
+     *
+     * @param contentId
+     * @return
+     */
+    public ContentIndexDto contentDetail(String contentId, Integer pageNum, Integer pageSize) {
+        return publishedContent.pageContentIndexDto(contentId, pageNum, pageSize);
+    }
+
+    /**
+     * 文章详情
+     *
+     * @param contentId
+     * @return
+     */
+    public ContentIndexDto contentManageDetail(String contentId, Integer pageNum, Integer pageSize) {
+        return unpublishedContent.pageContentIndexDto(contentId, pageNum, pageSize);
+    }
+
+}

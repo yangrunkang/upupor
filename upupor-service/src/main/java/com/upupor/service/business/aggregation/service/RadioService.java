@@ -44,8 +44,6 @@ public interface RadioService {
 
     Radio getByRadioId(String radioId);
 
-    Radio getByRadioIdAndUserId(String radioId, String userId);
-
     Integer updateRadio(Radio radio);
 
     ListRadioDto list(Integer pageNum, Integer pageSize);
