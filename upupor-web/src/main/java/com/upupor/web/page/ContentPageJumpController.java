@@ -29,17 +29,17 @@ package com.upupor.web.page;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.utils.FileUtils;
-import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.business.aggregation.CommonAggregateService;
-import com.upupor.service.business.aggregation.ContentAggregateService;
-import com.upupor.service.business.aggregation.service.*;
-import com.upupor.service.common.*;
+import com.upupor.service.business.aggregation.service.CommentService;
+import com.upupor.service.business.aggregation.service.FileService;
+import com.upupor.service.business.aggregation.service.MessageService;
+import com.upupor.service.business.content.ContentAggregateService;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcConstant;
+import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.utils.*;
-import com.upupor.spi.req.GetContentReq;
-import com.upupor.spi.req.GetMemberIntegralReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
@@ -58,7 +58,6 @@ import java.util.Objects;
 
 import static com.upupor.service.common.CcConstant.Page.SIZE_COMMENT;
 import static com.upupor.service.common.CcConstant.SeoKey;
-import static com.upupor.service.common.ErrorCode.ARTICLE_NOT_BELONG_TO_YOU;
 
 
 /**
@@ -74,14 +73,9 @@ import static com.upupor.service.common.ErrorCode.ARTICLE_NOT_BELONG_TO_YOU;
 public class ContentPageJumpController {
 
     private final ContentAggregateService contentAggregateService;
-    private final CollectService collectService;
-    private final ContentService contentService;
     private final MessageService messageService;
-    private final MemberIntegralService memberIntegralService;
     private final FileService fileService;
     private final CommentService commentService;
-    private final ViewerService viewerService;
-    private final RadioService radioService;
     @Value("${upupor.oss.file-host}")
     private String ossFileHost;
     @Value("${upupor.thumbnails.allows}")
