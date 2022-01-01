@@ -651,7 +651,7 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
 
-        return OpenEmail.SUBSCRIBE_EMAIL.getStatus().equals(memberConfig.getOpenEmail());
+        return OpenEmail.SUBSCRIBE_EMAIL.equals(memberConfig.getOpenEmail());
     }
 
 

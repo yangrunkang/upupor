@@ -34,24 +34,21 @@ function userLeftContentBtnActive(){
     $("." + path_name.split("/").slice(1).join("_")).addClass('active');
 }
 
-function changeCollectStatus(operation, collectId) {
-    let status = 'NORMAL';
-    if (operation === 'delete') {
-        operation = "删除";
-        status = 'DELETE';
-    } else if (operation === 'only-self-see') {
-        operation = "仅自己可见";
-        status = 'ONLY_SELF_SEE';
-    } else if (operation === 'normal') {
-        operation = "正常";
-        status = 'NORMAL';
+function changeCollectStatus(status, collectId) {
+    let tips ='';
+    if (status === 'DELETE') {
+        tips = "删除";
+    } else if (status === 'ONLY_SELF_SEE') {
+        tips = "仅自己可见";
+    } else if (status === 'NORMAL') {
+        tips = "正常";
     }else {
         $.cvError("异常操作,已被禁止");
         return;
     }
 
     swal({
-        title: "确定将状态变更为" + operation + "?",
+        title: "确定将状态变更为" + tips + "?",
         text: "提示",
         icon: "warning",
         buttons: [{

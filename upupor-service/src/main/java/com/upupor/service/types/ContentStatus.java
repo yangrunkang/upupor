@@ -30,6 +30,9 @@ package com.upupor.service.types;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 内容状态
  *
@@ -85,5 +88,12 @@ public enum ContentStatus {
     ContentStatus(Integer status, String name) {
         this.status = status;
         this.name = name;
+    }
+
+    public static List<ContentStatus> notIn(){
+        List<ContentStatus> statusList = new ArrayList<ContentStatus>();
+        statusList.add(ContentStatus.DRAFT);
+        statusList.add(ContentStatus.DELETED);
+        return statusList;
     }
 }

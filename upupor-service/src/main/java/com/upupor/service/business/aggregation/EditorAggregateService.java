@@ -63,7 +63,6 @@ public class EditorAggregateService {
      */
     public EditorIndexDto index(GetEditorReq getEditorReq) {
         EditorIndexDto editorIndexDto = new EditorIndexDto();
-        editorIndexDto.setContentType(getEditorReq.getContentType());
         editorIndexDto.setTagList(tagService.getTagsByType(getEditorReq.getContentType()));
         editorIndexDto.setCreateTag(getEditorReq.getTag());
 

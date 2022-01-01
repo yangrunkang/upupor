@@ -50,6 +50,7 @@ public class ContentAd extends AbstractAd<Content>{
     @Override
     protected void insertAd(int adIndex) {
         Content adContent = new Content();
+        adContent.init();
         adContent.setContentId(CcConstant.GoogleAd.FEED_AD);
         getVoList().add(adIndex, adContent);
     }

@@ -101,20 +101,18 @@ public class RadioController {
 
         String userId = ServletUtils.getUserId();
 
-        Radio byRadioId = radioService.getByRadioId(delRadioReq.getRadioId());
-        if (Objects.isNull(byRadioId)) {
+        Radio radio = radioService.getByRadioId(delRadioReq.getRadioId());
+        if (Objects.isNull(radio)) {
             throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
         }
 
-        if (!byRadioId.getUserId().equals(userId)) {
+        if (!radio.getUserId().equals(userId)) {
             throw new BusinessException(ErrorCode.RADIO_NOT_BELONG_TO_YOU);
         }
 
-        Radio update = new Radio();
-        update.setRadioId(delRadioReq.getRadioId());
-        update.setStatus(RadioStatus.DELETED);
-        update.setSysUpdateTime(new Date());
-        Integer integer = radioService.updateRadio(update);
+        radio.setStatus(RadioStatus.DELETED);
+        radio.setSysUpdateTime(new Date());
+        Integer integer = radioService.updateRadio(radio);
 
 
         CcResponse ccResponse = new CcResponse();

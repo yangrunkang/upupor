@@ -110,8 +110,8 @@
                             <label for="introduce" class="col-sm-2 col-form-label">邮件开关</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="openEmail">
-                                    <option value="0" th:selected="${memberIndexDto.member.memberConfig?.openEmail == 0}">开启</option>
-                                    <option value="1" th:selected="${memberIndexDto.member.memberConfig?.openEmail == 1}">关闭</option>
+                                    <option value="SUBSCRIBE_EMAIL" th:selected="${memberIndexDto.member.memberConfig?.openEmail.name() == 'SUBSCRIBE_EMAIL'}">开启</option>
+                                    <option value="UN_SUBSCRIBE_EMAIL" th:selected="${memberIndexDto.member.memberConfig?.openEmail.name() == 'UN_SUBSCRIBE_EMAIL'}">关闭</option>
                                 </select>
                             </div>
                         </div>

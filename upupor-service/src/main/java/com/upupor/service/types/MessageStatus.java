@@ -30,6 +30,9 @@ package com.upupor.service.types;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author cruise
  * @createTime 2021-12-31 18:03
@@ -50,5 +53,12 @@ public enum MessageStatus {
     MessageStatus(Integer status, String name) {
         this.status = status;
         this.name = name;
+    }
+
+    public static List<MessageStatus> all(){
+        List<MessageStatus> statusList = new ArrayList<MessageStatus>();
+        statusList.add(READ);
+        statusList.add(UN_READ);
+        return statusList;
     }
 }

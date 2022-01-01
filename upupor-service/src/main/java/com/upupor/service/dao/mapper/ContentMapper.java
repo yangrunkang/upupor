@@ -45,9 +45,6 @@ public interface ContentMapper extends BaseMapper<Content> {
 
     List<Content> listContent(@Param("listContentReq") ListContentReq listContentReq);
 
-    List<Content> listContentManage(@Param("listContentReq") ListContentReq listContentReq);
-
-    List<Content> listContentManageDraft(@Param("userId") String userId, @Param("searchTitle") String searchTitle);
 
     /**
      * 根据文章类型来获取文章列表

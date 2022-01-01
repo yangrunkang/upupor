@@ -90,16 +90,16 @@
                         </div>
                     </div>
 
-                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status == 0}">
+                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status.name() == 'NORMAL'}">
                         <div id="comment_area">
                             <div th:include="fragments/index::comment_box"></div>
                             <div id="comment_btn_group" style="display: none">
-                                <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${radioIndexDto.radio.radioId}]],8)">评论</button>
+                                <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${radioIndexDto.radio.radioId}]],'RADIO')">评论</button>
                                 <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">取消</button>
                             </div>
                         </div>
                     </div>
-                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(radioIndexDto.radio.listCommentDto.commentList)} and ${radioIndexDto.radio.status} == 0">
+                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(radioIndexDto.radio.listCommentDto.commentList)} and ${radioIndexDto.radio.status.name()} == 'NORMAL'">
                         <div th:include="fragments/index::without_comment"></div>
                     </div>
                 </div>

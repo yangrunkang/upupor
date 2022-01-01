@@ -28,6 +28,8 @@
 package com.upupor.service.spi.req;
 
 import com.upupor.service.types.ContentStatus;
+import com.upupor.service.types.ContentType;
+import com.upupor.service.types.OriginType;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -46,9 +48,9 @@ public class UpdateContentReq {
 
     private String shortContent;
 
-    private Integer contentType;
+    private ContentType contentType;
 
-    private Integer tagType;
+    private ContentType tagType;
 
     private String detailContent;
 
@@ -66,7 +68,7 @@ public class UpdateContentReq {
      */
     private String editReason;
 
-    private Integer originType;
+    private OriginType originType;
     private String noneOriginLink;
 
     /**

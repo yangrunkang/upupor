@@ -40,6 +40,7 @@ import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.page.EditorIndexDto;
 import com.upupor.service.spi.req.AddCacheContentReq;
 import com.upupor.service.spi.req.GetEditorReq;
+import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
@@ -151,6 +152,7 @@ public class EditorPageJumpController {
 
         modelAndView.setViewName(EDITOR);
         modelAndView.addObject(SeoKey.TITLE, "编辑器");
+        // 参数传递
         modelAndView.addObject("type", contentType);
         // 预生成 内容ID
         modelAndView.addObject("pre_content_id", CcUtils.getUuId());
@@ -185,6 +187,7 @@ public class EditorPageJumpController {
         EditorIndexDto editorIndexDto = new EditorIndexDto();
         //
         Content content = new Content();
+        content.setStatus(ContentStatus.NORMAL);
         content.setTitle(addCacheContentReq.getTitle());
         content.setShortContent(addCacheContentReq.getShortContent());
         content.setContentType(addCacheContentReq.getContentType());

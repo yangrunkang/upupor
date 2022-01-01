@@ -221,6 +221,8 @@ public class Content extends BaseEntity {
         this.collectTotal = 0;
         this.commentTotal = 0;
         this.collectNum = 0;
+        this.originType = OriginType.ORIGIN;
+        this.pinnedStatus = PinnedStatus.UN_PINNED;
     }
 
     public void init(){
@@ -228,6 +230,7 @@ public class Content extends BaseEntity {
         this.setIsInitialStatus(ContentIsInitialStatus.FIRST_PUBLISHED);
         this.setEditTimes(0);
         this.setPinnedStatus(PinnedStatus.UN_PINNED);
+        this.setOriginType(OriginType.ORIGIN);
         this.setCreateTime(CcDateUtil.getCurrentTime());
         this.setLatestCommentTime(CcDateUtil.getCurrentTime());
         this.setSysUpdateTime(new Date());

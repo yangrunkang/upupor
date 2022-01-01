@@ -44,14 +44,14 @@
 <div th:fragment="content">
     <div class="container" th:if="${contentIndexDto.content.statement} != null" th:include="fragments/index::statement"></div>
     <div class="container">
-        <div class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-warning" th:if="${contentIndexDto.content.status} == 'DRAFT' or ${contentIndexDto.content.status} == 'ONLY_SELF_CAN_SEE'">
-            <div th:if="${contentIndexDto.content.status} == 'DRAFT'" class="fw-bold">预览·该页内容为草稿,仅您自己可见</div>
-            <div th:if="${contentIndexDto.content.status} == 'ONLY_SELF_CAN_SEE'" class="fw-bold">预览·该页内容仅您自己可见</div>
+        <div class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-warning" th:if="${contentIndexDto.content.status.name()} == 'DRAFT' or ${contentIndexDto.content.status.name()} == 'ONLY_SELF_CAN_SEE'">
+            <div th:if="${contentIndexDto.content.status.name()} == 'DRAFT'" class="fw-bold">预览·该页内容为草稿,仅您自己可见</div>
+            <div th:if="${contentIndexDto.content.status.name()} == 'ONLY_SELF_CAN_SEE'" class="fw-bold">预览·该页内容仅您自己可见</div>
             <div th:include="fragments/index::content_not_public_tips"></div>
         </div>
         <div class="row">
             <div class="col-lg-9 mb-2">
-                <div th:if="${contentIndexDto.content?.originType} == 'NONE_ORIGIN'"
+                <div th:if="${contentIndexDto.content?.originType.name()} == 'NONE_ORIGIN'"
                      class="p-1 mb-2 text-black-50 rounded border border-light rounded-start rounded-3 shadow-sm bg-white small"><strong class="fw-bolder text-black-50">·</strong> 本文为转载内容
                     <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}"
                           th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span>
@@ -106,7 +106,7 @@
                         <article class="ck ck-content ck-rounded-corners mt-1" style="font-size: 16px;overflow:hidden"
                              th:utext="${contentIndexDto.content.contentExtend.detailContent}"></article>
                         <hr class="border-bottom my-2"/>
-                        <div th:if="${contentIndexDto.content?.originType} == 'ORIGIN'" class="text-black-50 small" >
+                        <div th:if="${contentIndexDto.content?.originType.name()} == 'ORIGIN'" class="text-black-50 small" >
                             <span class="text-black-50">本作品系原创,采用<a target="_blank" class="cv-link text-black-50" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0 国际》</a>许可协议.转载请说明出处</span>
                         </div>
                         <div>
@@ -150,16 +150,16 @@
                     </div>
                 </div>
 
-                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status == 'NORMAL'}">
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div id="comment_area">
                         <div th:include="fragments/index::comment_box"></div>
                         <div id="comment_btn_group" style="display: none">
-                            <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${contentIndexDto.content.contentId}]],[[${contentIndexDto.content.contentType}]])">评论</button>
+                            <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${contentIndexDto.content.contentId}]],[[${contentIndexDto.content.contentType.name()}]])">评论</button>
                             <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">取消</button>
                         </div>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(contentIndexDto.content.listCommentDto.commentList)} and ${contentIndexDto.content.status} == 'NORMAL'">
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(contentIndexDto.content.listCommentDto.commentList)} and ${contentIndexDto.content.status.name()} == 'NORMAL'">
                     <div th:include="fragments/index::without_comment"></div>
                 </div>
                 <!--推荐文章-->
@@ -185,10 +185,10 @@
                 <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">操作</div>
                     <div class="media-right media-middle ms-1">
-                        <a class="btn btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType}+'&contentId='+${contentIndexDto.content.contentId}+'&edit=true'}">修改文章</a>
+                        <a class="btn btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType.name()}+'&contentId='+${contentIndexDto.content.contentId}+'&edit=true'}">修改文章</a>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status == 'NORMAL'}">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id != contentIndexDto.content.userId}">点赞<span class="fw-bold mx-1">·</span>收藏</div>
                     <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">本文收到的 点赞数 和 收藏数</div>
                     <div class="btn-group w-100">
@@ -248,7 +248,7 @@
                 </div>
                 <div th:include="fragments/index::google_right_ad"></div>
 
-                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status == 'NORMAL'}">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div>
                         <div class="text-black-50 border-bottom mb-1 pt-0">分享文章</div>
                         <div class="mb-1">
@@ -323,7 +323,7 @@
                         </div>
                         <div th:if="!${#lists.isEmpty(contentIndexDto.authorOtherContentList)}">
                             <div th:each="c,ite : ${contentIndexDto.authorOtherContentList}">
-                                <span class="float-start" style="cursor: pointer;" onclick="window.location.href = '/pinned'" th:if="${c.pinnedStatus} == 'PINNED'" th:include="fragments/icon::top"></span>
+                                <span class="float-start" style="cursor: pointer;" onclick="window.location.href = '/pinned'" th:if="${c.pinnedStatus.name()} == 'PINNED'" th:include="fragments/icon::top"></span>
                                 <a class="cv-link text-secondary up-text-overflow"
                                    th:text="${c.title}"
                                    th:href="'/u/'+${c.contentId}"
@@ -339,19 +339,19 @@
                     <div class="text-black-50 border-bottom mb-2 pt-0">文章导航</div>
                     <nav aria-label="breadcrumb mb-0">
                         <ol class="breadcrumb mb-0">
-                            <li th:if="${contentIndexDto.content.contentType} == 'TECH'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/tech">技术</a></li>
-                            <li th:if="${contentIndexDto.content.contentType} == 'QA'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/qa">问答</a></li>
-                            <li th:if="${contentIndexDto.content.contentType} == 'SHARE'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/share">分享</a></li>
-                            <li th:if="${contentIndexDto.content.contentType} == 'WORKPLACE'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/workplace">职场</a></li>
-                            <li th:if="${contentIndexDto.content.contentType} == 'RECORD'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/record">记录</a></li>
-                            <li th:if="${contentIndexDto.content.contentType} == 'SHORT_CONTENT'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/topic">短内容</a></li>
+                            <li th:if="${contentIndexDto.content.contentType.name()} == 'TECH'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/tech">技术</a></li>
+                            <li th:if="${contentIndexDto.content.contentType.name()} == 'QA'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/qa">问答</a></li>
+                            <li th:if="${contentIndexDto.content.contentType.name()} == 'SHARE'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/share">分享</a></li>
+                            <li th:if="${contentIndexDto.content.contentType.name()} == 'WORKPLACE'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/workplace">职场</a></li>
+                            <li th:if="${contentIndexDto.content.contentType.name()} == 'RECORD'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/record">记录</a></li>
+                            <li th:if="${contentIndexDto.content.contentType.name()} == 'SHORT_CONTENT'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/topic">短内容</a></li>
                             <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 'TECH'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/tech/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 'QA'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/qa/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 'SHARE'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/share/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 'WORKPLACE'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/workplace/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 'RECORD'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/record/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType} == 'SHORT_CONTENT'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/topic/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'TECH'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/tech/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'QA'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/qa/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'SHARE'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/share/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'WORKPLACE'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/workplace/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'RECORD'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/record/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'SHORT_CONTENT'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/topic/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
                             </li>
                         </ol>
                     </nav>

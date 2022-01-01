@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.service.business.aggregation.service.ContentService;
@@ -37,11 +38,14 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.mapper.ContentMapper;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 内容管理服务
@@ -73,8 +77,23 @@ public class ContentManageServiceImpl implements ContentManageService {
     }
 
     private ListContentDto getListContentDto(ListContentReq listContentReq) {
+
+        LambdaQueryWrapper<Content> listQuery = new LambdaQueryWrapper<Content>()
+                .notIn(Content::getStatus, ContentStatus.notIn())
+                .orderByDesc(Content::getCreateTime);
+        if (StringUtils.isNotEmpty(listContentReq.getUserId())) {
+            listQuery.eq(Content::getUserId, listContentReq.getUserId());
+        }
+        if (StringUtils.isNotEmpty(listContentReq.getContentId())) {
+            listQuery.eq(Content::getContentId, listContentReq.getContentId());
+        }
+        bindSearchTitle(listContentReq.getSearchTitle(), listQuery);
+        if (Objects.nonNull(listContentReq.getSelect()) && "ONLY_SELF_SEE".equals(listContentReq.getSelect())) {
+            listQuery.eq(Content::getStatus, ContentStatus.ONLY_SELF_CAN_SEE);
+        }
+
         PageHelper.startPage(listContentReq.getPageNum(), listContentReq.getPageSize());
-        List<Content> contents = contentMapper.listContentManage(listContentReq);
+        List<Content> contents = contentMapper.selectList(listQuery);
         PageInfo<Content> pageInfo = new PageInfo<>(contents);
 
         contentService.bindContentMember(contents);
@@ -84,9 +103,21 @@ public class ContentManageServiceImpl implements ContentManageService {
         return listContentDto;
     }
 
+    private void bindSearchTitle(String searchTitle, LambdaQueryWrapper<Content> listQuery) {
+        if (StringUtils.isNotEmpty(searchTitle)) {
+            listQuery.like(Content::getTitle, searchTitle);
+        }
+    }
+
     private ListContentDto getListContentDtoDraft(Integer pageNum, Integer pageSize, String userId, String searchTitle) {
+        LambdaQueryWrapper<Content> listQuery = new LambdaQueryWrapper<Content>()
+                .eq(Content::getStatus, ContentStatus.DRAFT)
+                .eq(Content::getUserId, userId)
+                .orderByDesc(Content::getCreateTime);
+        bindSearchTitle(searchTitle, listQuery);
+
         PageHelper.startPage(pageNum, pageSize);
-        List<Content> contents = contentMapper.listContentManageDraft(userId, searchTitle);
+        List<Content> contents = contentMapper.selectList(listQuery);
         PageInfo<Content> pageInfo = new PageInfo<>(contents);
 
         contentService.bindContentMember(contents);

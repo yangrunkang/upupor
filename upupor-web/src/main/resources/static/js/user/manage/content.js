@@ -149,14 +149,15 @@ function pinned(contentId,ope) {
  * @param operation
  * @param content
  */
-function changeContentStatus(operation,contentId) {
-    if (operation === 'DRAFT') {
+function changeContentStatus(status,contentId) {
+    let operation = '';
+    if (status === 'DRAFT') {
         operation = "确定将文章变更为草稿吗";
-    } else if (operation === 'DELETED') {
+    } else if (status === 'DELETED') {
         operation = "确定将文章删除吗";
-    } else if (operation === 'ONLY_SELF_CAN_SEE') {
+    } else if (status === 'ONLY_SELF_CAN_SEE') {
         operation = "确定将文章变更为自己可见吗";
-    } else if (operation === 'NORMAL') {
+    } else if (status === 'NORMAL') {
         operation = "确定将文章变更为正常吗";
     } else {
         $.cvError("异常操作,已被禁止");
@@ -182,7 +183,7 @@ function changeContentStatus(operation,contentId) {
         if (willDelete) {
             let updateContent = {
                 contentId: contentId,
-                status: operation,
+                status: status,
             };
             $.cvPost('/content/status', updateContent, function (data) {
                 if (respSuccess(data)) {

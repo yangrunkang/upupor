@@ -39,7 +39,7 @@ import java.util.Date;
 
 public class CcDateUtil {
 
-    private static final String FORMAT = "yyyy-MM-dd HH:mm";
+    private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String FORMAT_HH_MM = "HH:mm";
     private static final String FORMAT_SHORT = "yyyy-MM-dd";
     private static final SimpleDateFormat SDF = new SimpleDateFormat(FORMAT);

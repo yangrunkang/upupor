@@ -30,7 +30,6 @@ package com.upupor.service.dto.page;
 import com.upupor.service.business.aggregation.CommonAggregateService;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Tag;
-import com.upupor.service.types.ContentType;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -45,10 +44,6 @@ import java.util.List;
 @Data
 public class EditorIndexDto {
 
-    /**
-     * 来源
-     */
-    private ContentType contentType;
 
     /**
      * 须知

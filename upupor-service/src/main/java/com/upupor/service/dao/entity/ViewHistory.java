@@ -100,6 +100,6 @@ public class ViewHistory {
     private String createDate;
 
     public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
+        return CcDateUtil.snsFormat(createTime);
     }
 }

@@ -229,10 +229,15 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public ListContentDto listContentByContentType(ContentType contentType, Integer pageNum, Integer pageSize, String tag) {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getContentType, contentType)
-                .eq(Content::getTagIds, tag)
                 .eq(Content::getStatus, ContentStatus.NORMAL)
                 .orderByDesc(Content::getLatestCommentTime);
+        if (Objects.nonNull(contentType)) {
+            query.eq(Content::getContentType, contentType);
+        }
+        if (Objects.nonNull(tag)) {
+            query.eq(Content::getTagIds, tag);
+        }
+
         // 分页查询
         PageHelper.startPage(pageNum, pageSize);
         List<Content> contents = contentMapper.selectList(query);
@@ -409,6 +414,13 @@ public class ContentServiceImpl implements ContentService {
                 isSendCreateContentMessage = true;
             }
         }
+
+        // 从转载变为原创,需要清除转载的链接
+        if(OriginType.NONE_ORIGIN.equals(editContent.getOriginType())
+                && OriginType.ORIGIN.equals(updateContentReq.getOriginType())){
+            editContent.setNoneOriginLink(null);
+        }
+
         editContent.setSysUpdateTime(new Date());
         int updateCount = contentMapper.updateById(editContent);
 
@@ -418,6 +430,8 @@ public class ContentServiceImpl implements ContentService {
             editContent.getContentExtend().setSysUpdateTime(new Date());
             updateCount = updateCount + contentExtendMapper.updateById(editContent.getContentExtend());
         }
+
+
 
         if (updateCount > 0 && isSendCreateContentMessage) {
             publishContentEvent(editContent);

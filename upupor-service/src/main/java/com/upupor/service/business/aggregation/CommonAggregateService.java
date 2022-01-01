@@ -73,7 +73,7 @@ public class CommonAggregateService {
         if (Objects.isNull(contentType)) {
             return null;
         }
-        return new HrefDesc(Objects.requireNonNull(ContentType.getByContentType(contentType)), tag);
+        return new HrefDesc(Objects.requireNonNull(contentType), tag);
     }
 
     public CommonPageIndexDto index(GetCommonReq getCommonReq) {
@@ -139,10 +139,10 @@ public class CommonAggregateService {
 
         public HrefDesc(ContentType contentType, String tag) {
             this.desc = contentType.getWebText();
-            this.href = "/editor?type=" + contentType.getType();
+            this.href = "/editor?type=" + contentType.name();
             this.icon = contentType.getIcon();
             this.tips = contentType.getTips();
-            this.href = "/editor?type=" + contentType.getType();
+            this.href = "/editor?type=" + contentType.name();
             if (!StringUtils.isEmpty(tag)) {
                 this.href = this.getHref() + "&tag=" + tag;
             }

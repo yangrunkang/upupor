@@ -61,7 +61,7 @@ function changeMessageStatus(operate, messageId,userId) {
             closeOnEsc: false,
         }).then((willDelete) => {
             if (willDelete) {
-                handlePostMessage(messageId,userId,status);
+                handlePostMessage(messageId,userId,operate);
             }
         });
     } else {
@@ -145,7 +145,7 @@ function readAll(userId){
         if (willDelete) {
             let req = {
                 userId: userId,
-                status: 1
+                status: 'READ'
             };
 
             $.cvPost('/message/edit',req,function(data){

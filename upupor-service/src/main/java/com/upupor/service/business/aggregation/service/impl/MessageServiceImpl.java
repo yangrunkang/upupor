@@ -146,8 +146,17 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public ListMessageDto listMessage(ListMessageReq listMessageReq) {
+        LambdaQueryWrapper<Message> query = new LambdaQueryWrapper<Message>()
+                .eq(Message::getUserId, listMessageReq.getUserId())
+                .in(Message::getStatus,MessageStatus.all())
+                .orderByDesc(Message::getCreateTime)
+                ;
+        if(Objects.nonNull(listMessageReq.getStatus())){
+            query.eq(Message::getStatus,listMessageReq.getStatus());
+        }
+
         PageHelper.startPage(listMessageReq.getPageNum(), listMessageReq.getPageSize());
-        List<Message> messages = messageMapper.listMessage(listMessageReq);
+        List<Message> messages = messageMapper.selectList(query);
         PageInfo<Message> pageInfo = new PageInfo<>(messages);
 
         ListMessageDto listMessageDto = new ListMessageDto(pageInfo);
