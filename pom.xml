@@ -32,7 +32,6 @@
     <modules>
         <module>upupor-web</module>
         <module>upupor-service</module>
-        <module>upupor-spi</module>
         <module>upupor-framework</module>
     </modules>
     <parent>

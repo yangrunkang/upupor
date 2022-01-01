@@ -45,11 +45,6 @@
             <artifactId>upupor-service</artifactId>
             <version>4.2.0-1</version>
         </dependency>
-        <dependency>
-            <groupId>com.upupor.spi</groupId>
-            <artifactId>upupor-spi</artifactId>
-            <version>4.2.0-1</version>
-        </dependency>
     </dependencies>
 
     <build>
