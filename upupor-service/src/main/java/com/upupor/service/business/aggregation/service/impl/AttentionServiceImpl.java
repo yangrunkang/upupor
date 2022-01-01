@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -36,7 +36,6 @@ import com.upupor.service.business.aggregation.service.FanService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Attention;
@@ -45,10 +44,12 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.mapper.AttentionMapper;
 import com.upupor.service.dto.page.common.ListAttentionDto;
 import com.upupor.service.listener.event.AttentionUserEvent;
+import com.upupor.service.spi.req.AddAttentionReq;
+import com.upupor.service.spi.req.DelAttentionReq;
+import com.upupor.service.types.AttentionStatus;
+import com.upupor.service.types.FansStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.AddAttentionReq;
-import com.upupor.spi.req.DelAttentionReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -142,7 +143,7 @@ public class AttentionServiceImpl implements AttentionService {
         }
         LambdaQueryWrapper<Attention> attention = new LambdaQueryWrapper<Attention>()
                 .eq(Attention::getAttentionId, attentionId)
-                .eq(Attention::getAttentionStatus, CcEnum.AttentionStatus.NORMAL.getStatus());
+                .eq(Attention::getAttentionStatus, AttentionStatus.NORMAL);
         return select(attention);
     }
 
@@ -178,7 +179,7 @@ public class AttentionServiceImpl implements AttentionService {
                         .eq(Attention::getUserId, userId)
                         .eq(Attention::getAttentionUserId, addAttentionReq.getAttentionUserId());
                 Attention attention = select(queryAttention);
-                attention.setAttentionStatus(CcEnum.AttentionStatus.DELETED.getStatus());
+                attention.setAttentionStatus(AttentionStatus.DELETED);
                 Integer updateAttention = update(attention);
 
 
@@ -187,7 +188,7 @@ public class AttentionServiceImpl implements AttentionService {
                         .eq(Fans::getUserId, addAttentionReq.getAttentionUserId())
                         .eq(Fans::getFanUserId, userId);
                 Fans fans = fanService.select(queryFans);
-                fans.setFanStatus(CcEnum.FansStatus.DELETED.getStatus());
+                fans.setFanStatus(FansStatus.DELETED);
                 Integer updateFan = fanService.update(fans);
 
                 boolean handleSuccess = (updateAttention + updateFan) > 0;
@@ -213,7 +214,7 @@ public class AttentionServiceImpl implements AttentionService {
             // 关注其他作者(这个是由用户独立管控的,不能删除)
             Attention attention = new Attention();
             attention.setAttentionId(CcUtils.getUuId());
-            attention.setAttentionStatus(CcEnum.AttentionStatus.NORMAL.getStatus());
+            attention.setAttentionStatus(AttentionStatus.NORMAL);
             attention.setUserId(userId);
             attention.setAttentionUserId(addAttentionReq.getAttentionUserId());
             attention.setCreateTime(CcDateUtil.getCurrentTime());
@@ -226,7 +227,7 @@ public class AttentionServiceImpl implements AttentionService {
             // 等他自己用自己的userId去查的时候,会有数据
             fans.setUserId(addAttentionReq.getAttentionUserId());
             fans.setFanUserId(userId);
-            fans.setFanStatus(CcEnum.FansStatus.NORMAL.getStatus());
+            fans.setFanStatus(FansStatus.NORMAL);
             fans.setCreateTime(CcDateUtil.getCurrentTime());
             fans.setSysUpdateTime(new Date());
             int addFans = fanService.add(fans);
@@ -262,7 +263,7 @@ public class AttentionServiceImpl implements AttentionService {
             throw new BusinessException(ErrorCode.OBJECT_NOT_EXISTS);
         }
 
-        attention.setAttentionStatus(CcEnum.AttentionStatus.DELETED.getStatus());
+        attention.setAttentionStatus(AttentionStatus.DELETED);
         Integer updateAttentionCount = update(attention);
 
         // 对应的被关注的用户在其【粉丝列表】中要移除
@@ -272,11 +273,11 @@ public class AttentionServiceImpl implements AttentionService {
         LambdaQueryWrapper<Fans> queryFan = new LambdaQueryWrapper<Fans>()
                 .eq(Fans::getUserId, userId)
                 .eq(Fans::getFanUserId, fanUserId)
-                .eq(Fans::getFanStatus, CcEnum.FansStatus.NORMAL.getStatus());
+                .eq(Fans::getFanStatus, FansStatus.NORMAL.getStatus());
         Fans fans = fanService.select(queryFan);
         Integer updateFanCount = 0;
         if (Objects.nonNull(fans)) {
-            fans.setFanStatus(CcEnum.FansStatus.DELETED.getStatus());
+            fans.setFanStatus(FansStatus.DELETED);
             updateFanCount = fanService.update(fans);
         }
         return (updateFanCount + updateAttentionCount) > 0;

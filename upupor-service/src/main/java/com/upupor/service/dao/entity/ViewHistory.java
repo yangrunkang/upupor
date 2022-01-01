@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,6 +30,8 @@ package com.upupor.service.dao.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.common.CcConstant;
+import com.upupor.service.types.ViewTargetType;
+import com.upupor.service.types.ViewerDeleteStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -46,9 +48,9 @@ public class ViewHistory {
 
     private String viewerUserId;
 
-    private Integer targetType;
+    private ViewTargetType targetType;
 
-    private Integer deleteStatus;
+    private ViewerDeleteStatus deleteStatus;
 
     private Date sysUpdateTime;
 
@@ -98,6 +100,6 @@ public class ViewHistory {
     private String createDate;
 
     public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
+        return CcDateUtil.snsFormat(createTime);
     }
 }

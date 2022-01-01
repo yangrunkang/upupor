@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,9 +29,9 @@ package com.upupor.service.business.replay;
 
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.ReplayCommentEvent;
+import com.upupor.service.types.CommentSource;
 import com.upupor.service.utils.CcUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +53,7 @@ public abstract class AbstractReplyComment<T> {
      * @param commentSource
      * @return
      */
-    public abstract Boolean isHandled(String targetId, CcEnum.CommentSource commentSource);
+    public abstract Boolean isHandled(String targetId, CommentSource commentSource);
 
     /**
      * 回复

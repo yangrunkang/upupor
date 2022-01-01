@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -28,7 +28,7 @@
 $(function () {
     $('.original_radio').click(function(){
         let checkValue = $('input:radio[class="align-self-center original_radio"]:checked').val();
-        if(checkValue === 'none_original'){
+        if(checkValue === 'NONE_ORIGIN'){
             $('.none_original').show();
             $('.original').hide();
         }else{
@@ -62,14 +62,8 @@ function autoSave() {
 
     if (!cvIsNull(title) || !cvIsNull(vcrEditorContent)) {
 
-        let origin_type = 0;
-        let checkValue = $('input:radio[class="align-self-center original_radio"]:checked').val();
         let none_origin_link = $('#none_original_link').val();
-        if(checkValue === 'none_original'){
-            origin_type = 1;
-        }else{
-            origin_type = 2;
-        }
+        let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
 
         let req = {
             title: title,
@@ -165,14 +159,10 @@ function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
         $.cvWarn("标题为空");
         return false;
     }
-    let origin_type = 0;
-    let checkValue = $('input:radio[class="align-self-center original_radio"]:checked').val();
+
     let none_origin_link = $('#none_original_link').val();
-    if(checkValue === 'none_original'){
-        origin_type = 1;
-    }else{
-        origin_type = 2;
-    }
+    let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
+
 
     // 获取的是option的value
     let content = {
@@ -209,14 +199,8 @@ function handleSaveContentEvent(operation) {
         return false;
     }
 
-    let origin_type = 0;
     let none_origin_link = $('#none_original_link').val();
-    let checkValue = $('input:radio[class="align-self-center original_radio"]:checked').val();
-    if(checkValue === 'none_original'){
-        origin_type = 1;
-    }else{
-        origin_type = 2;
-    }
+    let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
 
     let content = {
         title: title,

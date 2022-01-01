@@ -1,7 +1,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -39,11 +39,11 @@
         <div class="row">
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-0 p-2" th:inline="text">
-                    <div th:if="${radioIndexDto.radio.uploadStatus} == 1">
+                    <div th:if="${radioIndexDto.radio.uploadStatus} == 'UPLOADED'">
                         <audio style="width: 100%" th:src="${radioIndexDto.radio.radioUrl}" preload="auto" controls></audio>
                     </div>
                     <h5 class="mt-2">[[${radioIndexDto.radio.radioIntro}]]</h5>
-                    <div th:if="${radioIndexDto.radio.uploadStatus} == 0">
+                    <div th:if="${radioIndexDto.radio.uploadStatus} == 'UPLOADING'">
                         <div class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-warning">
                             为了不影响您的使用体验,电台文件技术上做了异步上传。<br/>
                             所以此时此刻,您的电台文件正在努力的上传中,请耐心等待~
@@ -90,16 +90,16 @@
                         </div>
                     </div>
 
-                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status == 0}">
+                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status.name() == 'NORMAL'}">
                         <div id="comment_area">
                             <div th:include="fragments/index::comment_box"></div>
                             <div id="comment_btn_group" style="display: none">
-                                <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${radioIndexDto.radio.radioId}]],8)">评论</button>
+                                <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${radioIndexDto.radio.radioId}]],'RADIO')">评论</button>
                                 <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">取消</button>
                             </div>
                         </div>
                     </div>
-                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(radioIndexDto.radio.listCommentDto.commentList)} and ${radioIndexDto.radio.status} == 0">
+                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(radioIndexDto.radio.listCommentDto.commentList)} and ${radioIndexDto.radio.status.name()} == 'NORMAL'">
                         <div th:include="fragments/index::without_comment"></div>
                     </div>
                 </div>

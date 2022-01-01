@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -33,8 +33,8 @@ import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.EditorIndexDto;
+import com.upupor.service.spi.req.GetEditorReq;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.GetEditorReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +63,6 @@ public class EditorAggregateService {
      */
     public EditorIndexDto index(GetEditorReq getEditorReq) {
         EditorIndexDto editorIndexDto = new EditorIndexDto();
-        editorIndexDto.setContentType(getEditorReq.getContentType());
         editorIndexDto.setTagList(tagService.getTagsByType(getEditorReq.getContentType()));
         editorIndexDto.setCreateTag(getEditorReq.getTag());
 

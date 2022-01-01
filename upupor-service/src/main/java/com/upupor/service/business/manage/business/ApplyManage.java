@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -32,10 +32,10 @@ import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ApplyManageService;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.apply.ApplyContentDto;
 import com.upupor.service.dto.page.common.ListApplyDto;
-import com.upupor.spi.req.AddTagReq;
+import com.upupor.service.spi.req.AddTagReq;
+import com.upupor.service.types.ApplySource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -77,11 +77,11 @@ public class ApplyManage extends AbstractManageInfoGet {
         }
 
         listApplyDto.getApplyList().forEach(apply -> {
-            if (apply.getApplySource().equals(CcEnum.ApplySource.AD.getSource())) {
+            if (apply.getApplySource().equals(ApplySource.AD)) {
                 ApplyContentDto applyContentDto = JSON.parseObject(apply.getApplyContent(), ApplyContentDto.class);
                 apply.setApplyContent(applyContentDto.getApplyIntro());
             }
-            if (apply.getApplySource().equals(CcEnum.ApplySource.TAG.getSource())) {
+            if (apply.getApplySource().equals(ApplySource.TAG)) {
                 AddTagReq addTagReq = JSON.parseObject(apply.getApplyContent(), AddTagReq.class);
                 StringBuilder str = new StringBuilder();
                 str.append("<strong>页面</strong>: ").append(addTagReq.getPageName()).append(CcConstant.HTML_BREAK_LINE);
@@ -93,7 +93,7 @@ public class ApplyManage extends AbstractManageInfoGet {
                 }
                 apply.setApplyContent(str.toString());
             }
-            if (apply.getApplySource().equals(CcEnum.ApplySource.CONSULTING_SERVICE.getSource())) {
+            if (apply.getApplySource().equals(ApplySource.CONSULTING_SERVICE)) {
                 ApplyContentDto applyContentDto = JSON.parseObject(apply.getApplyContent(), ApplyContentDto.class);
                 StringBuilder str = new StringBuilder();
                 str.append("<strong>主题</strong>: ").append(applyContentDto.getApplyProject()).append(CcConstant.HTML_BREAK_LINE);

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,9 +29,10 @@ package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.spi.req.ListContentReq;
+import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.types.ContentStatus;
+import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -42,12 +43,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class ContentProfile extends ProfileAbstract {
+public class ContentProfile extends AbstractProfile {
     private final ContentService contentService;
 
     @Override
-    public CcEnum.ViewTargetType viewTargetType() {
-        return CcEnum.ViewTargetType.PROFILE_CONTENT;
+    public ViewTargetType viewTargetType() {
+        return ViewTargetType.PROFILE_CONTENT;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ContentProfile extends ProfileAbstract {
 
         ListContentReq listContentReq = new ListContentReq();
         listContentReq.setUserId(userId);
-        listContentReq.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
+        listContentReq.setStatus(ContentStatus.NORMAL);
         listContentReq.setPageNum(pageNum);
         listContentReq.setPageSize(pageSize);
         ListContentDto listContentDto = contentService.listContent(listContentReq);

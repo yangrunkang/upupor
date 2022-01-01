@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -41,6 +42,7 @@ public enum MessageType {
     SYSTEM(0, "系统消息"),
     USER_REPLAY(1, "用户回复"),
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
 

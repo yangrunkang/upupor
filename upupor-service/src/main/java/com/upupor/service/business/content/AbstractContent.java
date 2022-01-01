@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -32,15 +32,15 @@ import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.dto.page.common.TagDto;
+import com.upupor.service.spi.req.GetMemberIntegralReq;
+import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.GetMemberIntegralReq;
-import com.upupor.spi.req.ListContentReq;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.CollectionUtils;
@@ -132,7 +132,7 @@ public abstract class AbstractContent {
         listContentReq.setPageNum(CcConstant.Page.NUM);
         listContentReq.setPageSize(CcConstant.Page.SIZE);
         listContentReq.setUserId(contentIndexDto.getContent().getUserId());
-        listContentReq.setStatus(CcEnum.ContentStatus.NORMAL.getStatus());
+        listContentReq.setStatus(ContentStatus.NORMAL);
         ListContentDto listContentDto = contentService.listContent(listContentReq);
         if (Objects.nonNull(listContentDto)) {
             List<Content> contentList = listContentDto.getContentList();

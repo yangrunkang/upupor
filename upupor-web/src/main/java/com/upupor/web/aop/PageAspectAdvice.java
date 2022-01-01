@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -36,15 +36,18 @@ import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.aggregation.service.SloganService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Slogan;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.scheduled.CountTagScheduled;
+import com.upupor.service.spi.req.ListMessageReq;
+import com.upupor.service.types.MessageStatus;
+import com.upupor.service.types.PointType;
+import com.upupor.service.types.SloganStatus;
+import com.upupor.service.types.SloganType;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.ListMessageReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -163,7 +166,7 @@ public class PageAspectAdvice {
         // 页面请求埋点
         BuriedPointDataEvent pointEvent = BuriedPointDataEvent.builder()
                 .request(request)
-                .pointType(CcEnum.PointType.PAGE_REQUEST.getType())
+                .pointType(PointType.PAGE_REQUEST)
                 .build();
         publisher.publishEvent(pointEvent);
 
@@ -390,9 +393,9 @@ public class PageAspectAdvice {
                     Slogan slogan = new Slogan();
                     slogan.setSloganId(CcUtils.getUuId());
                     slogan.setSloganName(path);
-                    slogan.setSloganType(CcEnum.SloganType.PAGE.getType());
+                    slogan.setSloganType(SloganType.PAGE);
                     slogan.setCreateTime(CcDateUtil.getCurrentTime());
-                    slogan.setSloganStatus(CcEnum.SloganStatus.NORMAL.getStatus());
+                    slogan.setSloganStatus(SloganStatus.NORMAL);
                     slogan.setSysUpdateTime(new Date());
                     sloganService.addSlogan(slogan);
                 } else {
@@ -403,7 +406,7 @@ public class PageAspectAdvice {
                     return slogan;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return null;
     }
@@ -412,7 +415,7 @@ public class PageAspectAdvice {
         try {
             ListMessageReq listMessageReq = new ListMessageReq();
             listMessageReq.setUserId(ServletUtils.getUserId());
-            listMessageReq.setStatus(CcEnum.MessageStatus.UN_READ.getStatus());
+            listMessageReq.setStatus(MessageStatus.UN_READ);
             Integer unReadCount = messageService.unReadMessageTotal(listMessageReq);
             modelAndView.addObject(CcConstant.UNREAD_MSG_COUNT, unReadCount);
             // 将维度消息数显示在title

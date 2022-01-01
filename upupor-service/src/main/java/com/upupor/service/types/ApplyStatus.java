@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -34,6 +34,7 @@ package com.upupor.service.types;
  * @createTime 2021-12-31 18:03
  */
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 @Getter
@@ -49,6 +50,7 @@ public enum ApplyStatus {
     APPLY_DELETED(5, "已删除"),
     APPLY_DOCUMENT_COMMIT(6, "材料已提交"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 

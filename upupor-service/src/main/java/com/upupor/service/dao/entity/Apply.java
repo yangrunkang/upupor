@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,6 +30,8 @@ package com.upupor.service.dao.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.ApplySource;
+import com.upupor.service.types.ApplyStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -46,9 +48,9 @@ public class Apply extends BaseEntity {
 
     private String userId;
 
-    private Integer applySource;
+    private ApplySource applySource;
 
-    private Integer applyStatus;
+    private ApplyStatus applyStatus;
 
     private String applyUserName;
 

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -28,8 +28,8 @@
 package com.upupor.web.router;
 
 import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Content;
+import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -69,10 +69,10 @@ public class RouterPageJumpController {
             return modelAndView;
         }
 
-        if (CcEnum.ContentStatus.NORMAL.getStatus().equals(content.getStatus())) {
+        if (ContentStatus.NORMAL.equals(content.getStatus())) {
             modelAndView.setViewName("redirect:/u/" + content.getContentId());
             return modelAndView;
-        } else if (CcEnum.ContentStatus.DRAFT.getStatus().equals(content.getStatus()) || CcEnum.ContentStatus.ONLY_SELF_CAN_SEE.getStatus().equals(content.getStatus())) {
+        } else if (ContentStatus.DRAFT.equals(content.getStatus()) || ContentStatus.ONLY_SELF_CAN_SEE.equals(content.getStatus())) {
             modelAndView.setViewName("redirect:/m/" + content.getContentId());
             return modelAndView;
         }

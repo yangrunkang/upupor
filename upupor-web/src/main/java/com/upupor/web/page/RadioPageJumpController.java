@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -32,8 +32,8 @@ import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.aggregation.service.ViewerService;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.RadioIndexDto;
+import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -135,7 +135,7 @@ public class RadioPageJumpController {
         RadioIndexDto detail = radioAggregateService.detail(radioId, pageNum, pageSize);
 
         // 记录访问者
-        viewerService.addViewer(radioId, CcEnum.ViewTargetType.RADIO);
+        viewerService.addViewer(radioId, ViewTargetType.RADIO);
         // 电台列表
         modelAndView.addObject(detail);
 

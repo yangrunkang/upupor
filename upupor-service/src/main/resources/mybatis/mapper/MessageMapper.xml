@@ -2,7 +2,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -41,20 +41,8 @@
     <sql id="Base_Column_List">
     id, message_id, user_id, message_type, message, status, create_time, sys_update_time
   </sql>
-    <select id="listMessage" parameterType="com.upupor.spi.req.ListMessageReq" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from message
-        where 1=1 and status in (0,1)
-        <if test="userId != null">
-            and user_id = #{userId,jdbcType=VARCHAR}
-        </if>
-        <if test="status != null">
-            and status = #{status,jdbcType=INTEGER}
-        </if>
-        order by create_time desc
-    </select>
-  <select id="listMessageCount" parameterType="com.upupor.spi.req.ListMessageReq" resultType="java.lang.Integer">
+
+  <select id="listMessageCount" parameterType="com.upupor.service.spi.req.ListMessageReq" resultType="java.lang.Integer">
         select
         count(*)
         from message

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,6 +27,7 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import lombok.Getter;
@@ -82,6 +83,7 @@ public enum CommentSource {
     RADIO(8, "电台"),
 
     ;
+    @EnumValue
     private final Integer source;
     private final String name;
 
@@ -104,14 +106,14 @@ public enum CommentSource {
      *
      * @return
      */
-    public static List<Integer> contentSource() {
-        List<Integer> commentSourceList = new ArrayList<>();
-        commentSourceList.add(TECH.getSource());
-        commentSourceList.add(QA.getSource());
-        commentSourceList.add(SHARE.getSource());
-        commentSourceList.add(WORKPLACE.getSource());
-        commentSourceList.add(RECORD.getSource());
-        commentSourceList.add(SHORT_CONTENT.getSource());
+    public static List<CommentSource> contentSource() {
+        List<CommentSource> commentSourceList = new ArrayList<>();
+        commentSourceList.add(TECH);
+        commentSourceList.add(QA);
+        commentSourceList.add(SHARE);
+        commentSourceList.add(WORKPLACE);
+        commentSourceList.add(RECORD);
+        commentSourceList.add(SHORT_CONTENT);
         return commentSourceList;
     }
 

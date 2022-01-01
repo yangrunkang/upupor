@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,7 +30,7 @@ package com.upupor.service.business.aggregation.service;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.MemberIntegral;
 import com.upupor.service.dto.page.common.ListIntegralDto;
-import com.upupor.spi.req.GetMemberIntegralReq;
+import com.upupor.service.spi.req.GetMemberIntegralReq;
 
 import java.util.List;
 

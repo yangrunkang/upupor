@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -31,10 +31,11 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.aggregation.service.RadioService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.listener.event.ReplayCommentEvent;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -58,8 +59,8 @@ public class RadioReply extends AbstractReplyComment<Radio> {
     }
 
     @Override
-    public Boolean isHandled(String targetId, CcEnum.CommentSource commentSource) {
-        return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.RADIO.equals(commentSource);
+    public Boolean isHandled(String targetId, CommentSource commentSource) {
+        return Objects.nonNull(getTarget(targetId)) && CommentSource.RADIO.equals(commentSource);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class RadioReply extends AbstractReplyComment<Radio> {
 
 
         // 站内信通知
-        getMessageService().addMessage(beRepliedUserId, msg, CcEnum.MessageType.USER_REPLAY.getType(), msgId);
+        getMessageService().addMessage(beRepliedUserId, msg, MessageType.USER_REPLAY, msgId);
         // 邮件通知
         getMessageService().sendEmail(beReplayedUser.getEmail(), title(), msg, beRepliedUserId);
     }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -31,11 +31,11 @@ import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.common.ListMessageDto;
+import com.upupor.service.spi.req.ListMessageReq;
+import com.upupor.service.types.MessageStatus;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.ListMessageReq;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -68,7 +68,7 @@ public class MessageManage extends AbstractManageInfoGet {
 
         ListMessageReq listMessageReq = new ListMessageReq();
         if (status.equals(unread)) {
-            listMessageReq.setStatus(CcEnum.MessageStatus.UN_READ.getStatus());
+            listMessageReq.setStatus(MessageStatus.UN_READ);
         } else if (status.equals(all)) {
             // 所有消息
             listMessageReq.setStatus(null);

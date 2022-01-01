@@ -1,7 +1,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -50,6 +50,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="根据标题搜索" id="searchTitle" aria-label="Recipient's username with two button addons" aria-describedby="button-addon4">
                             <button class="btn btn-outline-secondary btn-sm" id="button-addon4" type="button" onclick="manageContentSearch()">搜索</button>
+                            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="window.location.href = window.location.pathname">所有</button>
                         </div>
                     </div>
                     <div>
@@ -68,7 +69,8 @@
                                 <thead>
                                 <tr>
                                     <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
-                                    <td class="fw-bold" style="width: 63%;">简介</td>
+                                    <td class="fw-bold" style="width: 43%;">简介</td>
+                                    <td class="fw-bold" style="width: 20%;">状态</td>
                                     <td class="fw-bold" style="width: 21%;text-align: center">创建时间</td>
                                     <td class="fw-bold" style="width: 8%;text-align: center">操作</td>
                                 </tr>
@@ -80,6 +82,11 @@
                                         </td>
                                         <td>
                                             <a class="cv-link up-text-overflow" th:href="'/r/'+${radio.radioId}" th:text="${radio.radioIntro}"></a>
+                                        </td>
+                                        <td style="text-align: center">
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${radio.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${radio.status.name()} == 'HIDE'">隐藏</span>
+                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${radio.status.name()} == 'DELETED'">删除</span>
                                         </td>
                                         <td style="text-align: center" th:text="${radio.createDate}">创建时间</td>
                                         <td style="text-align: center">

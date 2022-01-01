@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -39,17 +39,17 @@ import java.util.Date;
 
 public class CcDateUtil {
 
-    private static final String FORMAT = "yyyy-MM-dd HH:mm";
+    private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String FORMAT_HH_MM = "HH:mm";
     private static final String FORMAT_SHORT = "yyyy-MM-dd";
     private static final SimpleDateFormat SDF = new SimpleDateFormat(FORMAT);
     private static final SimpleDateFormat SDF_HH_MM = new SimpleDateFormat(FORMAT_HH_MM);
-    private static long zero = 0L;
-    private static long one = 1L;
-    private static long minute = 60L;
-    private static long hour = 60L * minute;
-    private static long day = 24 * hour;
-    private static long day30 = 30 * day;
+    private static final long zero = 0L;
+    private static final long one = 1L;
+    private static final long minute = 60L;
+    private static final long hour = 60L * minute;
+    private static final long day = 24 * hour;
+    private static final long day30 = 30 * day;
 
     /**
      * 时间戳转换成日期格式字符串

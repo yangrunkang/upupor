@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -28,10 +28,10 @@
 package com.upupor.service.business.aggregation.service.impl;
 
 import com.upupor.service.business.aggregation.service.TagService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dao.mapper.TagMapper;
 import com.upupor.service.dto.page.common.TagDto;
+import com.upupor.service.types.ContentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -66,15 +66,15 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> getTagsByType(Integer tagType) {
+    public List<Tag> getTagsByType(ContentType tagType) {
         if (Objects.isNull(tagType)) {
             return new ArrayList<>();
         }
-        if (tagType.equals(CcEnum.ContentType.SHORT_CONTENT.getType())) {
+        if (tagType.equals(ContentType.SHORT_CONTENT)) {
             return tagMapper.getAll();
         }
 
-        List<Tag> tags = tagMapper.listByTagType(tagType);
+        List<Tag> tags = tagMapper.listByTagType(tagType.getType());
         if (CollectionUtils.isEmpty(tags)) {
             tags = new ArrayList<>();
         }

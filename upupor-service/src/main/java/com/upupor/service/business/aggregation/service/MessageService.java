@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,8 +29,9 @@ package com.upupor.service.business.aggregation.service;
 
 import com.upupor.service.dao.entity.Message;
 import com.upupor.service.dto.page.common.ListMessageDto;
-import com.upupor.spi.req.ListMessageReq;
-import com.upupor.spi.req.UpdateMessageReq;
+import com.upupor.service.spi.req.ListMessageReq;
+import com.upupor.service.spi.req.UpdateMessageReq;
+import com.upupor.service.types.MessageType;
 
 /**
  * 消息服务
@@ -45,9 +46,10 @@ public interface MessageService {
      *
      * @param toUserId   消息给到的目标用户
      * @param msgContent
+     * @param messageType
      * @return
      */
-    Integer addMessage(String toUserId, String msgContent, Integer messageType, String msgId);
+    Integer addMessage(String toUserId, String msgContent, MessageType messageType, String msgId);
 
     /**
      * 发送邮件

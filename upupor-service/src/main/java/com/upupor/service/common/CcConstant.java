@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -211,9 +211,9 @@ public final class CcConstant {
      * SEO Key
      */
     public static final class SeoKey {
-        public static String TITLE = "seo_title";
-        public static String DESCRIPTION = "seo_description";
-        public static String KEYWORDS = "seo_keywords";
+        public static final String TITLE = "seo_title";
+        public static final String DESCRIPTION = "seo_description";
+        public static final String KEYWORDS = "seo_keywords";
     }
 
     /**

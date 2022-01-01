@@ -2,7 +2,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -45,7 +45,7 @@
     id, integral_id, integral_user_id,target_id, integral_rule_id, integral_value, integral_text,
     status, remark, create_time, sys_update_time
   </sql>
-  <select id="countByCondition" parameterType="com.upupor.spi.req.GetMemberIntegralReq"
+  <select id="countByCondition" parameterType="com.upupor.service.spi.req.GetMemberIntegralReq"
           resultType="java.lang.Integer">
     select
     count(*)

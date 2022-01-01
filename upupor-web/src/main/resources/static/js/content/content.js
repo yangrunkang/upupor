@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -80,12 +80,12 @@ function copyContentUrl() {
  * @param contentId 目标Id
  * @param commentSource 评论来源
  */
-function comment(contentId,contentType) {
+function comment(contentId,commentSource) {
     if (cvIsNull(contentId)) {
         $.cvWarn("文章唯一Id缺失,禁止评论");
         return;
     }
-    if (cvIsNull(contentType)) {
+    if (cvIsNull(commentSource)) {
         $.cvWarn("文章类型异常,禁止评论");
         return;
     }
@@ -98,7 +98,7 @@ function comment(contentId,contentType) {
     let userId = $("#reply_to_user").val();
     let comment = {
         targetId: contentId,
-        commentSource: contentType,
+        commentSource: commentSource,
         commentContent: commentContent,
         replyToUserId: userId
     };
@@ -166,7 +166,7 @@ function collect(contentId) {
     }
     let req = {
         collectValue: contentId,
-        collectType: 0,
+        collectType: 'CONTENT',
         isCollect: isCollect,
     };
 

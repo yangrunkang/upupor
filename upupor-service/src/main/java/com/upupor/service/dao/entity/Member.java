@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,6 +29,8 @@ package com.upupor.service.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.MemberIsAdmin;
+import com.upupor.service.types.MemberStatus;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class Member extends BaseEntity {
 
     private String userName;
 
-    private Integer status;
+    private MemberStatus status;
 
     private String email;
 
@@ -58,7 +60,7 @@ public class Member extends BaseEntity {
     /**
      * 是否是管理员 0-非管理源 1-管理员
      */
-    private Integer isAdmin;
+    private MemberIsAdmin isAdmin;
 
     private Long createTime;
     /**

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -33,7 +33,7 @@ import com.upupor.service.dto.dao.ContentIdAndTitle;
 import com.upupor.service.dto.dao.MoreCollectDto;
 import com.upupor.service.dto.dao.MoreCommentDto;
 import com.upupor.service.dto.page.common.CountTagDto;
-import com.upupor.spi.req.ListContentReq;
+import com.upupor.service.spi.req.ListContentReq;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -45,9 +45,6 @@ public interface ContentMapper extends BaseMapper<Content> {
 
     List<Content> listContent(@Param("listContentReq") ListContentReq listContentReq);
 
-    List<Content> listContentManage(@Param("listContentReq") ListContentReq listContentReq);
-
-    List<Content> listContentManageDraft(@Param("userId") String userId, @Param("searchTitle") String searchTitle);
 
     /**
      * 根据文章类型来获取文章列表

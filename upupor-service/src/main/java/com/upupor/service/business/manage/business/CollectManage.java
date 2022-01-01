@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -31,10 +31,10 @@ import com.upupor.service.business.aggregation.service.CollectService;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Collect;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.common.ListCollectDto;
+import com.upupor.service.types.CollectType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -80,7 +80,7 @@ public class CollectManage extends AbstractManageInfoGet {
         }
 
         List<String> contentIdList = listCollectDto.getCollectList().stream()
-                .filter(collect -> collect.getCollectType().equals(CcEnum.CollectType.CONTENT.getType()))
+                .filter(collect -> collect.getCollectType().equals(CollectType.CONTENT))
                 .map(Collect::getCollectValue).distinct().collect(Collectors.toList());
         if (CollectionUtils.isEmpty(contentIdList)) {
             return;

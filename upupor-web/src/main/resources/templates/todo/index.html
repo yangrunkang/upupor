@@ -1,7 +1,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -57,18 +57,18 @@
                         <div th:include="fragments/index::empty_content"></div>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li th:class="${todo.status == 0} ? 'list-group-item' : 'list-group-item text-decoration-line-through text-black-50'" th:inline="text"
+                        <li th:class="${todo.status.name() == 'UN_DO'} ? 'list-group-item' : 'list-group-item text-decoration-line-through text-black-50'" th:inline="text"
                                th:if="!${#lists.isEmpty(todoIndexDto.listTodoDto.todoList)}"
                                th:each="todo,ite : ${todoIndexDto.listTodoDto.todoList}"
                                th:id="${todo.todoId}"
                         >
-                            <input class="form-check-input me-1" type="checkbox" th:if="${todo.status == 0}"  th:onclick="markTodo([[${todo.todoId}]])">
-                            <input class="form-check-input me-1" type="checkbox" th:if="${todo.status == 1}" checked th:onclick="markTodo([[${todo.todoId}]])">
+                            <input class="form-check-input me-1" type="checkbox" th:if="${todo.status.name() == 'UN_DO'}"  th:onclick="markTodo([[${todo.todoId}]])">
+                            <input class="form-check-input me-1" type="checkbox" th:if="${todo.status.name() == 'DONE'}" checked th:onclick="markTodo([[${todo.todoId}]])">
                             <span>
                                 <span class="fw-bold">
                                     [[${todo.title}]]
                                     <button th:id="${todo.todoId} + 'delete_forever'"
-                                    th:class="${todo.status == 0} ?'btn btn-danger btn-sm text-decoration-none float-end invisible': 'btn btn-danger btn-sm text-decoration-none float-end'"
+                                    th:class="${todo.status.name() == 'UN_DO'} ?'btn btn-danger btn-sm text-decoration-none float-end invisible': 'btn btn-danger btn-sm text-decoration-none float-end'"
                                     th:onclick="deleteTodo([[${todo.todoId}]])">永久删除</button>
                                 </span>
                                 <span class="badge rounded-pill bg-secondary ms-2" th:inline="text">[[${todo.createDate}]]</span>

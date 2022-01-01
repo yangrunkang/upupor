@@ -1,7 +1,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -46,9 +46,9 @@
                         您上次还有未完成的内容,是否继续编辑?
                     </div>
                     <div>
-                        <a class="btn btn-primary" th:href="'/continue-editor?type='+${cacheContent.contentType}+'&edit='+${cacheContent.edit}">继续编辑</a>
+                        <a class="btn btn-primary" th:href="'/continue-editor?type='+${cacheContent.contentType.name()}+'&edit='+${cacheContent.edit}">继续编辑</a>
                         <a class="btn btn-secondary write-new" href="/before-editor?opt=new" data-bs-toggle="tooltip" data-bs-placement="right" title="提示:会清空下面未完成内容">丢弃,创建新的内容</a>
-                        <a class="btn btn-primary continue-edit-draft" style="display: none" th:href="'/editor?type='+${cacheContent.contentType}+'&opt=continue-edit-draft'" data-bs-toggle="tooltip" data-bs-placement="top" th:title="'提示:会擦除未完成的内容《'+${cacheContent.title}+'》'">继续编辑个人中心文章</a>
+                        <a class="btn btn-primary continue-edit-draft" style="display: none" th:href="'/editor?type='+${cacheContent.contentType.name()}+'&opt=continue-edit-draft'" data-bs-toggle="tooltip" data-bs-placement="top" th:title="'提示:会擦除未完成的内容《'+${cacheContent.title}+'》'">继续编辑个人中心文章</a>
                     </div>
                     <p class="alert alert-secondary mt-3">上次未完成的内容:</p>
                     <div class="card card-body shadow-sm border-0 p-2">

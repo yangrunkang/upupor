@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,6 +30,7 @@ package com.upupor.service.business.aggregation.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.service.dao.entity.Collect;
 import com.upupor.service.dto.page.common.ListCollectDto;
+import com.upupor.service.types.CollectType;
 
 /**
  * 收藏服务
@@ -70,7 +71,7 @@ public interface CollectService {
     Integer addCollect(Collect collect);
 
 
-    Integer collectNum(Integer collectType, String collectValue);
+    Integer collectNum(CollectType collectType, String collectValue);
 
     Collect select(LambdaQueryWrapper<Collect> queryCollect);
 

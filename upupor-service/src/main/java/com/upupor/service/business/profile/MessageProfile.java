@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,9 +29,11 @@ package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.CommentService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.spi.req.ListCommentReq;
+import com.upupor.service.spi.req.ListCommentReq;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.CommentStatus;
+import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -45,12 +47,12 @@ import java.util.Objects;
  */
 @Component
 @RequiredArgsConstructor
-public class MessageProfile extends ProfileAbstract {
+public class MessageProfile extends AbstractProfile {
     private final CommentService commentService;
 
     @Override
-    public CcEnum.ViewTargetType viewTargetType() {
-        return CcEnum.ViewTargetType.PROFILE_MESSAGE;
+    public ViewTargetType viewTargetType() {
+        return ViewTargetType.PROFILE_MESSAGE;
     }
 
     @Override
@@ -59,8 +61,8 @@ public class MessageProfile extends ProfileAbstract {
         listCommentReq.setPageNum(pageNum);
         listCommentReq.setPageSize(pageSize);
         listCommentReq.setTargetId(userId);
-        listCommentReq.setStatus(CcEnum.CommentStatus.NORMAL.getStatus());
-        listCommentReq.setCommentSource(CcEnum.CommentSource.MESSAGE.getSource());
+        listCommentReq.setStatus(CommentStatus.NORMAL);
+        listCommentReq.setCommentSource(CommentSource.MESSAGE);
 
         ListCommentDto listCommentDto = commentService.listComment(listCommentReq);
         if (Objects.isNull(listCommentDto)) {

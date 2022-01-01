@@ -1,7 +1,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -66,12 +66,12 @@
                                     <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
                                 </a>
                                 <div class="dropdown-divider" th:if="(${draftCount} != null and ${draftCount} >= 1) or (${cv_content_done})"></div>
-                                <a class="cv-link dropdown-item small" href="/editor?type=6" title="短内容"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/topic.png}" alt="创建短内容"> 短内容</a>
-                                <a class="cv-link dropdown-item small" href="/editor?type=1" title="技术"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-tech.png}" alt="技术" /> 技术</a>
-                                <a class="cv-link dropdown-item small" href="/editor?type=2" title="问答"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-qa.png}" alt="提问"/> 提问</a>
-                                <a class="cv-link dropdown-item small" href="/editor?type=3" title="分享"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-share.png}" alt="分享"/> 分享</a>
-                                <a class="cv-link dropdown-item small" href="/editor?type=4" title="职场"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-work.png}" alt="职场"/> 职场</a>
-                                <a class="cv-link dropdown-item small" href="/editor?type=5" title="记录"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-record.png}" alt="记录"/> 记录</a>
+                                <a class="cv-link dropdown-item small" href="/editor?type=SHORT_CONTENT" title="短内容"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/topic.png}" alt="创建短内容"> 短内容</a>
+                                <a class="cv-link dropdown-item small" href="/editor?type=TECH" title="技术"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-tech.png}" alt="技术" /> 技术</a>
+                                <a class="cv-link dropdown-item small" href="/editor?type=QA" title="问答"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-qa.png}" alt="提问"/> 提问</a>
+                                <a class="cv-link dropdown-item small" href="/editor?type=SHARE" title="分享"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-share.png}" alt="分享"/> 分享</a>
+                                <a class="cv-link dropdown-item small" href="/editor?type=WORKPLACE" title="职场"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-work.png}" alt="职场"/> 职场</a>
+                                <a class="cv-link dropdown-item small" href="/editor?type=RECORD" title="记录"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-record.png}" alt="记录"/> 记录</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="cv-link dropdown-item small" href="/radio-station/create" title="上传电台"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}" alt="电台"/> 电台</a>
                             </div>

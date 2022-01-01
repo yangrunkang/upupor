@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,7 +27,11 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author cruise
@@ -42,11 +46,19 @@ public enum MessageStatus {
     READ(1, "已读"),
     DELETED(2, "删除"),
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 
     MessageStatus(Integer status, String name) {
         this.status = status;
         this.name = name;
+    }
+
+    public static List<MessageStatus> all(){
+        List<MessageStatus> statusList = new ArrayList<MessageStatus>();
+        statusList.add(READ);
+        statusList.add(UN_READ);
+        return statusList;
     }
 }

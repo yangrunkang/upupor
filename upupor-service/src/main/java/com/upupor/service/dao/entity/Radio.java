@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,6 +30,8 @@ package com.upupor.service.dao.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.dto.page.common.ListCommentDto;
+import com.upupor.service.types.RadioStatus;
+import com.upupor.service.types.UploadStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -45,7 +47,7 @@ public class Radio extends BaseEntity {
 
     private String contentId;
 
-    private Integer status;
+    private RadioStatus status;
 
     private Long createTime;
 
@@ -68,7 +70,7 @@ public class Radio extends BaseEntity {
      * 当前电台上传状态
      */
     @TableField(exist = false)
-    private Integer uploadStatus;
+    private UploadStatus uploadStatus;
 
     /**
      * 评论数

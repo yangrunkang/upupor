@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -31,12 +31,13 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.ContentData;
 import com.upupor.service.dao.entity.ContentEditReason;
 import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.spi.req.AddContentDetailReq;
-import com.upupor.spi.req.ListContentReq;
-import com.upupor.spi.req.UpdateContentReq;
+import com.upupor.service.spi.req.AddContentDetailReq;
+import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.spi.req.UpdateContentReq;
+import com.upupor.service.types.ContentType;
+import com.upupor.service.types.PinnedStatus;
 
 import java.util.List;
 
@@ -94,12 +95,12 @@ public interface ContentService {
     /**
      * 根据文章类型来获取文章列表
      *
+     * @param contentType
      * @param pageNum
      * @param pageSize
-     * @param contentType
      * @return
      */
-    ListContentDto listContentByContentType(Integer contentType, Integer pageNum, Integer pageSize, String tag);
+    ListContentDto listContentByContentType(ContentType contentType, Integer pageNum, Integer pageSize, String tag);
 
     /**
      * 添加内容
@@ -250,7 +251,7 @@ public interface ContentService {
      * @param pinnedStatus
      * @return
      */
-    List<Content> getContentListByPinned(Integer pinnedStatus, String userId);
+    List<Content> getContentListByPinned(PinnedStatus pinnedStatus, String userId);
 
 
     void handlePinnedContent(ListContentDto listContentDto, String userId);

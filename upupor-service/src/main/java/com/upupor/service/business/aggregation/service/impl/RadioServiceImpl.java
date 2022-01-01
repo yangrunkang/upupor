@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -40,6 +40,7 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dao.mapper.RadioMapper;
 import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.types.RadioStatus;
 import com.upupor.service.utils.Asserts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -80,6 +81,7 @@ public class RadioServiceImpl implements RadioService {
 
         LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
                 .eq(Radio::getUserId, userId)
+                .eq(Radio::getStatus, RadioStatus.NORMAL)
                 .orderByDesc(Radio::getCreateTime);
 
         if(!StringUtils.isEmpty(searchTitle)){

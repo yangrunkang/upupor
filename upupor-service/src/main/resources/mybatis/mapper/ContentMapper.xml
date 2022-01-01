@@ -2,7 +2,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -160,7 +160,7 @@
     where content_type = #{contentType,jdbcType=INTEGER} and status = 0
   </select>
 
-    <select id="listContent" parameterType="com.upupor.spi.req.ListContentReq" resultMap="BaseResultMap">
+    <select id="listContent" parameterType="com.upupor.service.spi.req.ListContentReq" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from content
@@ -194,35 +194,7 @@
         order by create_time desc
     </select>
 
-    <select id="listContentManage" parameterType="com.upupor.spi.req.ListContentReq" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from content
-        where status not in (1,4)
-        <if test="listContentReq.userId != null">
-            and user_id = #{listContentReq.userId,jdbcType=VARCHAR}
-        </if>
-        <if test="listContentReq.contentId != null">
-            and content_id = #{listContentReq.contentId,jdbcType=VARCHAR}
-        </if>
-        <if test="listContentReq.searchTitle != null">
-            and title like concat('%',#{listContentReq.searchTitle,jdbcType=VARCHAR},'%')
-        </if>
-        <if test="listContentReq.select != null and listContentReq.select == 'only-self-see'">
-            and status = 6
-        </if>
-        order by create_time desc
-    </select>
-    <select id="listContentManageDraft" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from content
-        where status = 1 and user_id = #{userId,jdbcType=VARCHAR}
-        <if test="searchTitle != null">
-            and title like concat('%',#{searchTitle,jdbcType=VARCHAR},'%')
-        </if>
-        order by create_time desc
-    </select>
+
     <select id="total" resultType="java.lang.Integer">
     select
     count(*)

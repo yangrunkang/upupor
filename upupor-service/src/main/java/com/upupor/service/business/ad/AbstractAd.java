@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -47,7 +47,7 @@ public abstract class AbstractAd<T extends BaseEntity> {
     /**
      * vo列表
      */
-    private List<T> voList;
+    private final List<T> voList;
 
     public AbstractAd(List<T> voList) {
         this.voList = voList;

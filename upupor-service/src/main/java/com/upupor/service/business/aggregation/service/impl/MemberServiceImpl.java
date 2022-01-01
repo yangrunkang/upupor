@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -39,8 +39,11 @@ import com.upupor.service.dao.mapper.*;
 import com.upupor.service.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.listener.event.MemberLoginEvent;
+import com.upupor.service.spi.req.*;
+import com.upupor.service.types.MemberIsAdmin;
+import com.upupor.service.types.MemberStatus;
+import com.upupor.service.types.OpenEmail;
 import com.upupor.service.utils.*;
-import com.upupor.spi.req.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
@@ -89,7 +92,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = new Member();
         BeanUtils.copyProperties(addMemberReq, member);
         member.setUserId(CcUtils.getUuId());
-        member.setStatus(CcEnum.MemberStatus.NORMAL.getStatus());
+        member.setStatus(MemberStatus.NORMAL);
         member.setVia(AvatarHelper.generateAvatar(Math.abs(member.getUserId().hashCode())));
         member.setCreateTime(CcDateUtil.getCurrentTime());
         member.setSysUpdateTime(new Date());
@@ -126,12 +129,15 @@ public class MemberServiceImpl implements MemberService {
         List<Member> memberList = new ArrayList<>();
 
         if (!StringUtils.isEmpty(addMemberReq.getEmail())) {
-            memberList = memberMapper.selectByEmail(addMemberReq.getEmail());
+            memberList = selectByEmail(addMemberReq.getEmail());
         }
         toCheck(memberList);
 
         if (!StringUtils.isEmpty(addMemberReq.getPhone())) {
-            memberList = memberMapper.selectByPhone(addMemberReq.getPhone());
+            LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
+                    .eq(Member::getPhone, addMemberReq.getPhone())
+                    .eq(Member::getStatus,MemberStatus.NORMAL);
+            memberList = memberMapper.selectList(query);
         }
         toCheck(memberList);
     }
@@ -158,8 +164,7 @@ public class MemberServiceImpl implements MemberService {
         if (StringUtils.isEmpty(getMemberReq.getPassword())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR.getCode(), "密码为空");
         }
-
-        List<Member> members = memberMapper.selectByEmail(getMemberReq.getEmail());
+        List<Member> members = selectByEmail(getMemberReq.getEmail());
         if (CollectionUtils.isEmpty(members)) {
             throw new BusinessException(ErrorCode.WITHOUT_USER_PLEASE_TO_REGISTER);
         }
@@ -194,6 +199,14 @@ public class MemberServiceImpl implements MemberService {
         return Boolean.TRUE;
     }
 
+    private List<Member> selectByEmail(String email) {
+        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
+                .eq(Member::getEmail, email)
+                .eq(Member::getStatus,MemberStatus.NORMAL);
+        List<Member> members = memberMapper.selectList(query);
+        return members;
+    }
+
 
     @Override
     public Boolean exists(String userId) {
@@ -210,7 +223,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = getMember(userId);
         MemberExtend memberExtend = getMemberExtend(userId);
         // 检查用户状态
-        if (!member.getStatus().equals(CcEnum.MemberStatus.NORMAL.getStatus())) {
+        if (!member.getStatus().equals(MemberStatus.NORMAL)) {
             throw new BusinessException(ErrorCode.USER_STATUS_EXCEPTION);
         }
         member.setMemberExtend(memberExtend);
@@ -229,7 +242,7 @@ public class MemberServiceImpl implements MemberService {
     private Member getMember(String userId) {
         LambdaQueryWrapper<Member> queryMember = new LambdaQueryWrapper<Member>()
                 .eq(Member::getUserId, userId)
-                .eq(Member::getStatus, CcEnum.MemberStatus.NORMAL.getStatus());
+                .eq(Member::getStatus, MemberStatus.NORMAL);
         Member member = memberMapper.selectOne(queryMember);
         Asserts.notNull(member, ErrorCode.MEMBER_NOT_EXISTS);
         return member;
@@ -607,11 +620,11 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
 
-        if (CcEnum.OpenEmail.UN_SUBSCRIBE_EMAIL.getStatus().equals(memberConfig.getOpenEmail())) {
+        if (OpenEmail.UN_SUBSCRIBE_EMAIL.equals(memberConfig.getOpenEmail())) {
             return true;
         }
 
-        memberConfig.setOpenEmail(CcEnum.OpenEmail.UN_SUBSCRIBE_EMAIL.getStatus());
+        memberConfig.setOpenEmail(OpenEmail.UN_SUBSCRIBE_EMAIL);
         return memberConfigMapper.updateById(memberConfig) > 0;
     }
 
@@ -638,7 +651,7 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
 
-        return CcEnum.OpenEmail.SUBSCRIBE_EMAIL.getStatus().equals(memberConfig.getOpenEmail());
+        return OpenEmail.SUBSCRIBE_EMAIL.equals(memberConfig.getOpenEmail());
     }
 
 
@@ -669,7 +682,7 @@ public class MemberServiceImpl implements MemberService {
         memberConfig.setConfigId(CcUtils.getUuId());
         memberConfig.setUserId(userId);
         memberConfig.setCreateTime(CcDateUtil.getCurrentTime());
-        memberConfig.setOpenEmail(CcEnum.OpenEmail.SUBSCRIBE_EMAIL.getStatus());
+        memberConfig.setOpenEmail(OpenEmail.SUBSCRIBE_EMAIL);
         memberConfig.setSysUpdateTime(new Date());
         return memberConfigMapper.insert(memberConfig);
     }
@@ -680,7 +693,7 @@ public class MemberServiceImpl implements MemberService {
         String userId = ServletUtils.getUserId();
         if (!StringUtils.isEmpty(userId)) {
             Member member = memberInfo(userId);
-            if (!member.getIsAdmin().equals(CcEnum.MemberIsAdmin.ADMIN.getStatus())) {
+            if (!member.getIsAdmin().equals(MemberIsAdmin.ADMIN)) {
                 throw new BusinessException(ErrorCode.USER_NOT_ADMIN);
             }
         }

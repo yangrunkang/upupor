@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,7 +29,6 @@ package com.upupor.service.listener;
 
 import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.business.replay.AbstractReplyComment;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import lombok.RequiredArgsConstructor;
@@ -96,7 +95,7 @@ public class CommentListener {
 
         for (AbstractReplyComment abstractReplyComment : abstractReplyCommentList) {
             try {
-                if (abstractReplyComment.isHandled(replayCommentEvent.getTargetId(), CcEnum.CommentSource.getBySource(replayCommentEvent.getCommentSource()))) {
+                if (abstractReplyComment.isHandled(replayCommentEvent.getTargetId(), replayCommentEvent.getCommentSource())) {
                     abstractReplyComment.reply(replayCommentEvent);
                     abstractReplyComment.updateTargetCommentCreatorInfo(replayCommentEvent.getTargetId(), createReplayUserId);
                 }

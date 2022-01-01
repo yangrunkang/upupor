@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -38,16 +38,17 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.ContentExtend;
 import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.page.EditorIndexDto;
+import com.upupor.service.spi.req.AddCacheContentReq;
+import com.upupor.service.spi.req.GetEditorReq;
+import com.upupor.service.types.ContentStatus;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.AddCacheContentReq;
-import com.upupor.spi.req.GetEditorReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -114,7 +115,7 @@ public class EditorPageJumpController {
      */
     @ApiOperation("正常流程从页面新建编辑内容")
     @GetMapping("/editor")
-    public ModelAndView editor(@RequestParam(value = "type", required = false) Integer contentType,
+    public ModelAndView editor(@RequestParam(value = "type", required = false) ContentType contentType,
                                @RequestParam(value = "contentId", required = false) String contentId,
                                @RequestParam(value = "edit", required = false) Boolean edit,
                                @RequestParam(value = "tag", required = false) String tag
@@ -151,6 +152,7 @@ public class EditorPageJumpController {
 
         modelAndView.setViewName(EDITOR);
         modelAndView.addObject(SeoKey.TITLE, "编辑器");
+        // 参数传递
         modelAndView.addObject("type", contentType);
         // 预生成 内容ID
         modelAndView.addObject("pre_content_id", CcUtils.getUuId());
@@ -185,6 +187,7 @@ public class EditorPageJumpController {
         EditorIndexDto editorIndexDto = new EditorIndexDto();
         //
         Content content = new Content();
+        content.setStatus(ContentStatus.NORMAL);
         content.setTitle(addCacheContentReq.getTitle());
         content.setShortContent(addCacheContentReq.getShortContent());
         content.setContentType(addCacheContentReq.getContentType());
@@ -203,9 +206,6 @@ public class EditorPageJumpController {
 
         // 获取标签 继续编辑就获取缓存中的
         List<Tag> tagList = tagService.getTagsByType(addCacheContentReq.getContentType());
-        if (CollectionUtils.isEmpty(tagList)) {
-//            throw new BusinessException(ErrorCode.SYSTEM_INIT_ERROR_WITHOUT_ANY_TAGS);
-        }
         editorIndexDto.setTagList(tagList);
         editorIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(addCacheContentReq.getContentType(), addCacheContentReq.getTagIds()));
         return editorIndexDto;

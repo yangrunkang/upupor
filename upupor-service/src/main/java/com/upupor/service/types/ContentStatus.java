@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,7 +27,11 @@
 
 package com.upupor.service.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 内容状态
@@ -77,11 +81,19 @@ public enum ContentStatus {
     ONLY_SELF_CAN_SEE(6, "仅自己可见"),
 
     ;
+    @EnumValue
     private final Integer status;
     private final String name;
 
     ContentStatus(Integer status, String name) {
         this.status = status;
         this.name = name;
+    }
+
+    public static List<ContentStatus> notIn(){
+        List<ContentStatus> statusList = new ArrayList<ContentStatus>();
+        statusList.add(ContentStatus.DRAFT);
+        statusList.add(ContentStatus.DELETED);
+        return statusList;
     }
 }

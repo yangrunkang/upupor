@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -89,7 +89,7 @@ function comment(userId) {
     let beReplyUserId = $("#reply_to_user").val();
     let comment = {
         targetId: userId,
-        commentSource: 7,
+        commentSource: 'MESSAGE',
         commentContent: commentContent,
         replyToUserId: beReplyUserId
     };

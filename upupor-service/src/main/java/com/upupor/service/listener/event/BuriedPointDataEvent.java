@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,6 +27,7 @@
 
 package com.upupor.service.listener.event;
 
+import com.upupor.service.types.PointType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -47,6 +48,6 @@ public class BuriedPointDataEvent {
     /**
      * 埋点类型
      */
-    private Integer pointType;
+    private PointType pointType;
 
 }

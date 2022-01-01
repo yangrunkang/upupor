@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -32,13 +32,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.service.business.aggregation.service.FanService;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Fans;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.mapper.FansMapper;
 import com.upupor.service.dto.page.common.ListFansDto;
+import com.upupor.service.spi.req.DelFanReq;
+import com.upupor.service.types.FansStatus;
 import com.upupor.service.utils.Asserts;
-import com.upupor.spi.req.DelFanReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -123,12 +123,12 @@ public class FanServiceImpl implements FanService {
 
         LambdaQueryWrapper<Fans> query = new LambdaQueryWrapper<Fans>()
                 .eq(Fans::getFanId, fanId)
-                .eq(Fans::getFanStatus, CcEnum.FansStatus.NORMAL.getStatus());
+                .eq(Fans::getFanStatus, FansStatus.NORMAL);
 
         Fans fans = select(query);
         Asserts.notNull(fans, OBJECT_NOT_EXISTS);
 
-        fans.setFanStatus(CcEnum.FansStatus.DELETED.getStatus());
+        fans.setFanStatus(FansStatus.DELETED);
         return update(fans);
     }
 }

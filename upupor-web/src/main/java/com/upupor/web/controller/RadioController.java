@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -34,16 +34,21 @@ import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.RadioService;
-import com.upupor.service.common.*;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcConstant;
+import com.upupor.service.common.CcResponse;
+import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
+import com.upupor.service.spi.req.AddRadioReq;
+import com.upupor.service.spi.req.DelRadioReq;
+import com.upupor.service.types.RadioStatus;
+import com.upupor.service.types.UploadStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
-import com.upupor.spi.req.AddRadioReq;
-import com.upupor.spi.req.DelRadioReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
@@ -96,20 +101,18 @@ public class RadioController {
 
         String userId = ServletUtils.getUserId();
 
-        Radio byRadioId = radioService.getByRadioId(delRadioReq.getRadioId());
-        if (Objects.isNull(byRadioId)) {
+        Radio radio = radioService.getByRadioId(delRadioReq.getRadioId());
+        if (Objects.isNull(radio)) {
             throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
         }
 
-        if (!byRadioId.getUserId().equals(userId)) {
+        if (!radio.getUserId().equals(userId)) {
             throw new BusinessException(ErrorCode.RADIO_NOT_BELONG_TO_YOU);
         }
 
-        Radio update = new Radio();
-        update.setRadioId(delRadioReq.getRadioId());
-        update.setStatus(CcEnum.RadioStatus.DELETED.getStatus());
-        update.setSysUpdateTime(new Date());
-        Integer integer = radioService.updateRadio(update);
+        radio.setStatus(RadioStatus.DELETED);
+        radio.setSysUpdateTime(new Date());
+        Integer integer = radioService.updateRadio(radio);
 
 
         CcResponse ccResponse = new CcResponse();
@@ -164,7 +167,7 @@ public class RadioController {
             // 文件入库
             try {
                 File upuporFile = UpuporFileUtils.getUpuporFile(md5, radioUrl, ServletUtils.getUserId());
-                upuporFile.setUploadStatus(CcEnum.UploadStatus.UPLOADING.getStatus());
+                upuporFile.setUploadStatus(UploadStatus.UPLOADING);
                 fileService.addFile(upuporFile);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -205,7 +208,7 @@ public class RadioController {
         radio.setRadioId(CcUtils.getUuId());
         radio.setUserId(member.getUserId());
         radio.setContentId(null);
-        radio.setStatus(CcEnum.RadioStatus.NORMAL.getStatus());
+        radio.setStatus(RadioStatus.NORMAL);
         radio.setCreateTime(CcDateUtil.getCurrentTime());
         radio.setLatestCommentTime(CcDateUtil.getCurrentTime());
         radio.setSysUpdateTime(new Date());
@@ -259,8 +262,8 @@ public class RadioController {
                     Thread.sleep(1300);
                     fileByMd5 = fileService.selectByMd5(this.fileMd5);
                 }
-                if (Objects.nonNull(fileByMd5) && fileByMd5.getUploadStatus().equals(CcEnum.UploadStatus.UPLOADING.getStatus())) {
-                    fileByMd5.setUploadStatus(CcEnum.UploadStatus.UPLOADED.getStatus());
+                if (Objects.nonNull(fileByMd5) && fileByMd5.getUploadStatus().equals(UploadStatus.UPLOADING)) {
+                    fileByMd5.setUploadStatus(UploadStatus.UPLOADED);
                     fileService.update(fileByMd5);
                 }
             } catch (Exception e) {

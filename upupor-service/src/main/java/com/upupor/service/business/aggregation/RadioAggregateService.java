@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,12 +30,12 @@ package com.upupor.service.business.aggregation;
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dto.page.RadioIndexDto;
 import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -93,7 +93,7 @@ public class RadioAggregateService {
         contentService.bindRadioContentData(Collections.singletonList(radio));
 
         // 绑定访问者
-        radio.setViewerList(viewerService.listViewerByTargetIdAndType(radioId, CcEnum.ViewTargetType.CONTENT));
+        radio.setViewerList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));
 
         RadioIndexDto radioIndexDto = new RadioIndexDto();
         radioIndexDto.setRadio(radio);

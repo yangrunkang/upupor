@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,11 +30,15 @@ package com.upupor.web.controller;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.FeedbackService;
 import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.common.*;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcConstant;
+import com.upupor.service.common.CcResponse;
+import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Feedback;
+import com.upupor.service.spi.req.AddFeedbackReq;
+import com.upupor.service.types.FeedBackStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.AddFeedbackReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -75,7 +79,7 @@ public class FeedbackController {
         Feedback feedback = new Feedback();
         feedback.setFeedbackId(CcUtils.getUuId());
         feedback.setFeedbackContent(add.getContent());
-        feedback.setStatus(CcEnum.FeedBackStatus.NORMAL.getStatus());
+        feedback.setStatus(FeedBackStatus.NORMAL);
         feedback.setCreateTime(CcDateUtil.getCurrentTime());
         try {
             feedback.setUserId(ServletUtils.getUserId());

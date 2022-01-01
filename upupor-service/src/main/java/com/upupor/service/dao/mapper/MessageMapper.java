@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,13 +29,9 @@ package com.upupor.service.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.service.dao.entity.Message;
-import com.upupor.spi.req.ListMessageReq;
-
-import java.util.List;
+import com.upupor.service.spi.req.ListMessageReq;
 
 public interface MessageMapper extends BaseMapper<Message> {
-
-    List<Message> listMessage(ListMessageReq listMessageReq);
 
     Integer listMessageCount(ListMessageReq listMessageReq);
 

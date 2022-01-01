@@ -2,7 +2,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2021 yangrunkang
+  ~ Copyright (c) 2021-2022 yangrunkang
   ~
   ~ Author: yangrunkang
   ~ Email: yangrunkang53@gmail.com
@@ -79,7 +79,7 @@
     </select>
 
 
-    <select id="list" parameterType="com.upupor.spi.req.ListCommentReq" resultMap="BaseResultMap">
+    <select id="list" parameterType="com.upupor.service.spi.req.ListCommentReq" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from comment
@@ -102,7 +102,7 @@
         order by create_time asc
     </select>
 
-    <select id="listManage" parameterType="com.upupor.spi.req.ListCommentReq" resultMap="BaseResultMap">
+    <select id="listManage" parameterType="com.upupor.service.spi.req.ListCommentReq" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_Alias_List"/>
         from comment ct

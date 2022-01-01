@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -31,13 +31,15 @@ import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.CommonAggregateService;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
+import com.upupor.service.spi.req.GetMemberIntegralReq;
+import com.upupor.service.types.CollectType;
+import com.upupor.service.types.ContentStatus;
+import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.GetMemberIntegralReq;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -68,11 +70,11 @@ public class PublishedContent extends AbstractContent {
     protected Content queryContent() {
         Content content = contentService.getContentDetail(getContentId());
         // 提示文章已删除
-        if (content.getStatus().equals(CcEnum.ContentStatus.DELETED.getStatus())) {
+        if (content.getStatus().equals(ContentStatus.DELETED)) {
             throw new BusinessException(ErrorCode.ARTICLE_DELETED);
         }
         // 进一步校验访问来源
-        if (!content.getStatus().equals(CcEnum.ContentStatus.NORMAL.getStatus())) {
+        if (!content.getStatus().equals(ContentStatus.NORMAL)) {
             throw new BusinessException(ErrorCode.ILLEGAL_PATH_TO_VIEW_CONTENT);
         }
         return content;
@@ -96,7 +98,7 @@ public class PublishedContent extends AbstractContent {
         contentService.lastAndNextContent(content);
 
         // 记录访问者
-        content.setViewerList(viewerService.listViewerByTargetIdAndType(content.getContentId(), CcEnum.ViewTargetType.CONTENT));
+        content.setViewerList(viewerService.listViewerByTargetIdAndType(content.getContentId(), ViewTargetType.CONTENT));
 
         // 文章浏览数数据+1
         contentService.viewNumPlusOne(content.getContentId());
@@ -108,7 +110,7 @@ public class PublishedContent extends AbstractContent {
         AbstractAd.ad(contentIndexDto.getRandomContentList());
 
         // 记录访问者
-        viewerService.addViewer(getContentId(), CcEnum.ViewTargetType.CONTENT);
+        viewerService.addViewer(getContentId(), ViewTargetType.CONTENT);
 
         // 文章作者是否有电台
         contentIndexDto.setHasRadio(radioService.userHasRadio(content.getUserId()));
@@ -126,7 +128,7 @@ public class PublishedContent extends AbstractContent {
         if (Objects.isNull(content)) {
             throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
         }
-        Integer collectNum = collectService.collectNum(CcEnum.CollectType.CONTENT.getType(), content.getContentId());
+        Integer collectNum = collectService.collectNum(CollectType.CONTENT, content.getContentId());
         content.setCollectNum(collectNum);
     }
 

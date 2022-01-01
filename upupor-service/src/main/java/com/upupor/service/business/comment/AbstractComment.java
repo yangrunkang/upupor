@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,10 +27,9 @@
 
 package com.upupor.service.business.comment;
 
-import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Member;
+import com.upupor.service.types.CommentSource;
 import com.upupor.service.utils.CcUtils;
 
 /**
@@ -40,11 +39,9 @@ import com.upupor.service.utils.CcUtils;
  * @date 2021年12月16日 21:15
  */
 public abstract class AbstractComment<T> {
-    private final CommentService commentService;
     private final MemberService memberService;
 
-    public AbstractComment(CommentService commentService, MemberService memberService) {
-        this.commentService = commentService;
+    public AbstractComment( MemberService memberService) {
         this.memberService = memberService;
     }
 
@@ -69,7 +66,7 @@ public abstract class AbstractComment<T> {
      * @param targetId
      * @return 判断是否处理
      */
-    public abstract Boolean confirmSource(CcEnum.CommentSource commentSource,String targetId);
+    public abstract Boolean confirmSource(CommentSource commentSource, String targetId);
 
     /**
      * 获取用户信息

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,10 +30,11 @@ package com.upupor.service.business.comment.comment;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.business.comment.AbstractComment;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -59,7 +60,7 @@ public class ContentComment extends AbstractComment<Content> {
     private MemberIntegralService memberIntegralService;
 
     public ContentComment(CommentService commentService, MemberService memberService) {
-        super(commentService, memberService);
+        super(memberService);
     }
 
     @Override
@@ -94,7 +95,7 @@ public class ContentComment extends AbstractComment<Content> {
                 IntegralEnum.CREATE_COMMENT.getIntegral() + " 积分;快去写文章吧,您收到的评论越多,就会获得更多的积分~";
 
         // 站内信
-        messageService.addMessage(contentAuthor.getUserId(), innerMsgText, CcEnum.MessageType.SYSTEM.getType(), msgId);
+        messageService.addMessage(contentAuthor.getUserId(), innerMsgText, MessageType.SYSTEM, msgId);
 
         // 邮件
         messageService.sendEmail(contentAuthor.getEmail(), emailTitle, emailContent, contentAuthor.getUserId());
@@ -109,8 +110,8 @@ public class ContentComment extends AbstractComment<Content> {
     }
 
     @Override
-    public Boolean confirmSource(CcEnum.CommentSource commentSource, String targetId) {
-        return Objects.nonNull(getTarget(targetId)) && CcEnum.CommentSource.contentSource().contains(commentSource.getSource());
+    public Boolean confirmSource(CommentSource commentSource, String targetId) {
+        return Objects.nonNull(getTarget(targetId)) && CommentSource.contentSource().contains(commentSource);
     }
 
     @Override

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -57,7 +57,7 @@ function applyOperate(operate, applyId,userId) {
             if (willDelete) {
                 let delReq = {
                     applyId: applyId,
-                    status: 4,
+                    status: 'APPLY_TERMINATE',
                     userId: userId,
                 };
                 $.cvPost('/apply/edit', delReq, function (res) {

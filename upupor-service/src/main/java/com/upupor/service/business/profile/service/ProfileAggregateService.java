@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,9 +27,9 @@
 
 package com.upupor.service.business.profile.service;
 
-import com.upupor.service.business.profile.ProfileAbstract;
-import com.upupor.service.common.CcEnum;
+import com.upupor.service.business.profile.AbstractProfile;
 import com.upupor.service.dto.page.MemberIndexDto;
+import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,12 +45,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProfileAggregateService {
 
-    private final List<ProfileAbstract> profileAbstractList;
+    private final List<AbstractProfile> abstractProfileList;
 
-    public MemberIndexDto index(String userId, Integer pageNum, Integer pageSize, CcEnum.ViewTargetType source) {
-        for (ProfileAbstract profileAbstract : profileAbstractList) {
-            if (profileAbstract.viewTargetType().equals(source)) {
-                return profileAbstract.getBusinessData(userId, pageNum, pageSize);
+    public MemberIndexDto index(String userId, Integer pageNum, Integer pageSize, ViewTargetType source) {
+        for (AbstractProfile abstractProfile : abstractProfileList) {
+            if (abstractProfile.viewTargetType().equals(source)) {
+                return abstractProfile.getBusinessData(userId, pageNum, pageSize);
             }
         }
         return new MemberIndexDto();

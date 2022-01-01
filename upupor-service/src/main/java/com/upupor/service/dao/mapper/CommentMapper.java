@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,7 +30,7 @@ package com.upupor.service.dao.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dto.dao.CommentNumDto;
-import com.upupor.spi.req.ListCommentReq;
+import com.upupor.service.spi.req.ListCommentReq;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

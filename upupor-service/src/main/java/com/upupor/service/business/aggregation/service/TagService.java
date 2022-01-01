@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,6 +29,7 @@ package com.upupor.service.business.aggregation.service;
 
 import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.page.common.TagDto;
+import com.upupor.service.types.ContentType;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public interface TagService {
      * @param tagType
      * @return
      */
-    List<Tag> getTagsByType(Integer tagType);
+    List<Tag> getTagsByType(ContentType tagType);
 
 
     /**

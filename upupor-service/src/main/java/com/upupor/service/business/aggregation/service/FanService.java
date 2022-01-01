@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,7 +30,7 @@ package com.upupor.service.business.aggregation.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.service.dao.entity.Fans;
 import com.upupor.service.dto.page.common.ListFansDto;
-import com.upupor.spi.req.DelFanReq;
+import com.upupor.service.spi.req.DelFanReq;
 
 /**
  * 粉丝服务

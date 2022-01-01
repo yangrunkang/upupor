@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -29,8 +29,8 @@ package com.upupor.web.controller;
 
 import com.upupor.service.business.aggregation.service.AttentionService;
 import com.upupor.service.common.CcResponse;
-import com.upupor.spi.req.AddAttentionReq;
-import com.upupor.spi.req.DelAttentionReq;
+import com.upupor.service.spi.req.AddAttentionReq;
+import com.upupor.service.spi.req.DelAttentionReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

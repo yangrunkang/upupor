@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -54,7 +54,7 @@ function addConsultantApply() {
         let adReq = {
             topic: topic,
             desc: desc,
-            type: 0,
+            type: 'CONSULTING_SERVICE',
         };
 
         $.cvPost('/apply/addConsultant', adReq, function (data) {

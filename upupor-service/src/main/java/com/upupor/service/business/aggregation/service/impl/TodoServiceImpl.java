@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -32,13 +32,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.service.business.aggregation.service.TodoService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Todo;
 import com.upupor.service.dao.entity.TodoDetail;
 import com.upupor.service.dao.mapper.TodoDetailMapper;
 import com.upupor.service.dao.mapper.TodoMapper;
 import com.upupor.service.dto.page.common.ListTodoDto;
+import com.upupor.service.types.TodoStatus;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -102,7 +102,7 @@ public class TodoServiceImpl implements TodoService {
 
         LambdaQueryWrapper<Todo> todoLambdaQueryWrapper = new LambdaQueryWrapper<Todo>()
                 .eq(Todo::getUserId, userId)
-                .notIn(Todo::getStatus, CcEnum.TodoStatus.DELETE.getStatus())
+                .notIn(Todo::getStatus, TodoStatus.DELETE)
                 .orderByDesc(Todo::getCreateTime);
 
         PageHelper.startPage(pageNum, pageSize);

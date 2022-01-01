@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -32,14 +32,15 @@ import com.upupor.service.business.aggregation.service.BannerService;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.cache.CacheMemberDto;
 import com.upupor.service.dto.page.CommonPageIndexDto;
 import com.upupor.service.dto.page.common.ListBannerDto;
 import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.service.spi.req.GetCommonReq;
+import com.upupor.service.types.BannerStatus;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.utils.RedisUtil;
-import com.upupor.spi.req.GetCommonReq;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -68,11 +69,11 @@ public class CommonAggregateService {
     private final TagService tagService;
     private final BannerService bannerService;
 
-    public static HrefDesc getCreateContentInfo(Integer contentType, String tag) {
+    public static HrefDesc getCreateContentInfo(ContentType contentType, String tag) {
         if (Objects.isNull(contentType)) {
             return null;
         }
-        return new HrefDesc(Objects.requireNonNull(CcEnum.ContentType.getByContentType(contentType)), tag);
+        return new HrefDesc(Objects.requireNonNull(contentType), tag);
     }
 
     public CommonPageIndexDto index(GetCommonReq getCommonReq) {
@@ -92,7 +93,7 @@ public class CommonAggregateService {
 
         // 获取左边菜单栏list
         List<Tag> tagList = new ArrayList<>();
-        if (Objects.nonNull(getCommonReq.getContentType()) && !CcEnum.ContentType.SHORT_CONTENT.getType().equals(getCommonReq.getContentType())) {
+        if (Objects.nonNull(getCommonReq.getContentType()) && !ContentType.SHORT_CONTENT.equals(getCommonReq.getContentType())) {
             tagList = tagService.getTagsByType(getCommonReq.getContentType());
         }
 
@@ -104,14 +105,14 @@ public class CommonAggregateService {
         }
 
         // 获取Banner栏
-        ListBannerDto listBannerDto = bannerService.listBannerByStatus(CcEnum.BannerStatus.NORMAL.getStatus(), CcConstant.Page.NUM, CcConstant.Page.SIZE);
+        ListBannerDto listBannerDto = bannerService.listBannerByStatus(BannerStatus.NORMAL, CcConstant.Page.NUM, CcConstant.Page.SIZE);
 
         CommonPageIndexDto commonPageIndexDto = new CommonPageIndexDto();
         commonPageIndexDto.setTagList(tagList);
         commonPageIndexDto.setMemberList(cacheMemberDto.getMemberList());
         commonPageIndexDto.setListContentDto(listContentDto);
         commonPageIndexDto.setListBannerDto(listBannerDto);
-        commonPageIndexDto.setCurrentRootUrl(CcEnum.ContentType.getUrl(getCommonReq.getContentType()));
+        commonPageIndexDto.setCurrentRootUrl(ContentType.getUrl(getCommonReq.getContentType()));
         commonPageIndexDto.setCreateContentDesc(getCreateContentInfo(getCommonReq.getContentType(), tag));
         return commonPageIndexDto;
     }
@@ -136,12 +137,12 @@ public class CommonAggregateService {
         private String icon;
         private String tips;
 
-        public HrefDesc(CcEnum.ContentType contentType, String tag) {
+        public HrefDesc(ContentType contentType, String tag) {
             this.desc = contentType.getWebText();
-            this.href = "/editor?type=" + contentType.getType();
+            this.href = "/editor?type=" + contentType.name();
             this.icon = contentType.getIcon();
             this.tips = contentType.getTips();
-            this.href = "/editor?type=" + contentType.getType();
+            this.href = "/editor?type=" + contentType.name();
             if (!StringUtils.isEmpty(tag)) {
                 this.href = this.getHref() + "&tag=" + tag;
             }

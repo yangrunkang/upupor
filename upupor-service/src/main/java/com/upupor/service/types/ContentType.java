@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -32,6 +32,7 @@ package com.upupor.service.types;
  * @createTime 2021-12-31 18:03
  */
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 import java.util.Objects;
@@ -76,6 +77,7 @@ public enum ContentType {
     SHORT_CONTENT(6, "短内容", "/topic", "发布短内容", OSS_URL + "icons/system/topic.png", "创建 > 短内容"),
 
     ;
+    @EnumValue
     private final Integer type;
     private final String name;
     private final String url;
@@ -92,26 +94,26 @@ public enum ContentType {
         this.tips = tips;
     }
 
-    public static String getUrl(Integer contentType) {
+    public static String getUrl(ContentType contentType) {
         if (Objects.isNull(contentType)) {
             return null;
         }
         ContentType[] values = values();
         for (ContentType tmp : values) {
-            if (tmp.getType().equals(contentType)) {
+            if (tmp.equals(contentType)) {
                 return tmp.getUrl();
             }
         }
         return null;
     }
 
-    public static String getName(Integer contentType) {
+    public static String getName(ContentType contentType) {
         if (Objects.isNull(contentType)) {
             return null;
         }
         ContentType[] values = values();
         for (ContentType tmp : values) {
-            if (tmp.getType().equals(contentType)) {
+            if (tmp.equals(contentType)) {
                 return tmp.getName();
             }
         }
@@ -133,13 +135,13 @@ public enum ContentType {
     }
 
 
-    public static ContentType getByContentType(Integer contentType) {
+    public static ContentType getByContentType(ContentType contentType) {
         if (Objects.isNull(contentType)) {
             return null;
         }
         ContentType[] values = values();
         for (ContentType tmp : values) {
-            if (tmp.getType().equals(contentType)) {
+            if (tmp.equals(contentType)) {
                 return tmp;
             }
         }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -50,6 +50,7 @@ public class ContentAd extends AbstractAd<Content>{
     @Override
     protected void insertAd(int adIndex) {
         Content adContent = new Content();
+        adContent.init();
         adContent.setContentId(CcConstant.GoogleAd.FEED_AD);
         getVoList().add(adIndex, adContent);
     }

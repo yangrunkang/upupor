@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -35,10 +35,10 @@ import com.upupor.service.common.*;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.MemberRegisterEvent;
+import com.upupor.service.spi.req.*;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.spi.req.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

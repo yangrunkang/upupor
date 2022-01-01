@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -41,13 +41,9 @@ function userLeftContentBtnActive() {
 }
 
 function changeMessageStatus(operate, messageId,userId) {
-    let status = 0;
-    if (operate === 'read') {
-        status = 1;
-        handlePostMessage(messageId,userId,status);
-    } else if (operate === 'delete') {
-        status = 2;
-
+    if (operate === 'READ') {
+        handlePostMessage(messageId,userId,operate);
+    } else if (operate === 'DELETED') {
         swal({
             title: "确定删除吗?",
             text: "提示",
@@ -65,7 +61,7 @@ function changeMessageStatus(operate, messageId,userId) {
             closeOnEsc: false,
         }).then((willDelete) => {
             if (willDelete) {
-                handlePostMessage(messageId,userId,status);
+                handlePostMessage(messageId,userId,operate);
             }
         });
     } else {
@@ -115,7 +111,7 @@ function clearAll(userId,total){
         if (willDelete) {
             let req = {
                 userId: userId,
-                status: 2
+                status: 'DELETED'
             };
 
             $.cvPost('/message/edit',req,function(data){
@@ -149,7 +145,7 @@ function readAll(userId){
         if (willDelete) {
             let req = {
                 userId: userId,
-                status: 1
+                status: 'READ'
             };
 
             $.cvPost('/message/edit',req,function(data){

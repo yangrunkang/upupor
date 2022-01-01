@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,9 +27,10 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.common.CcEnum;
+
 import com.upupor.service.dao.entity.Viewer;
 import com.upupor.service.dto.page.common.ListViewHistoryDto;
+import com.upupor.service.types.ViewTargetType;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public interface ViewerService {
      * @param targetType
      * @return
      */
-    void addViewer(String targetId, CcEnum.ViewTargetType targetType);
+    void addViewer(String targetId, ViewTargetType targetType);
 
 
     /**
@@ -57,7 +58,7 @@ public interface ViewerService {
      * @param targetId
      * @return
      */
-    List<Viewer> listViewerByTargetIdAndType(String targetId, CcEnum.ViewTargetType targetType);
+    List<Viewer> listViewerByTargetIdAndType(String targetId, ViewTargetType targetType);
 
 
     /**

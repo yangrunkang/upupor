@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,8 +27,9 @@
 
 package com.upupor.service.business.viewhistory;
 
-import com.upupor.service.common.CcEnum;
+
 import com.upupor.service.dao.entity.ViewHistory;
+import com.upupor.service.types.ViewTargetType;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,7 +55,7 @@ public abstract class AbstractViewHistory<T> {
     /**
      * 浏览类型
      */
-    public abstract CcEnum.ViewTargetType viewTargetType();
+    public abstract ViewTargetType viewTargetType();
 
     /**
      * 获取目标内容
@@ -76,7 +77,7 @@ public abstract class AbstractViewHistory<T> {
      */
     public List<ViewHistory> getSpecifyViewHistory() {
         return getViewHistoryList().stream()
-                .filter(s -> s.getTargetType().equals(viewTargetType().getType())).collect(Collectors.toList());
+                .filter(s -> s.getTargetType().equals(viewTargetType())).collect(Collectors.toList());
     }
 
     /**

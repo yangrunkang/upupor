@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,6 +30,9 @@ package com.upupor.service.dao.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.types.CommentAgree;
+import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.CommentStatus;
 import lombok.Data;
 
 import java.util.Date;
@@ -43,11 +46,11 @@ public class Comment extends BaseEntity {
 
     private String targetId;
 
-    private Integer commentSource;
+    private CommentSource commentSource;
 
-    private Integer status;
+    private CommentStatus status;
 
-    private Integer agree;
+    private CommentAgree agree;
 
     private Integer likeNum;
 

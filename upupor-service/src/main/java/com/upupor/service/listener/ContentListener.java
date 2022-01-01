@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,7 +30,6 @@ package com.upupor.service.listener;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.*;
 import com.upupor.service.dao.mapper.ViewHistoryMapper;
@@ -39,6 +38,10 @@ import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.listener.event.ViewerEvent;
+import com.upupor.service.types.ContentStatus;
+import com.upupor.service.types.MessageType;
+import com.upupor.service.types.ViewTargetType;
+import com.upupor.service.types.ViewerDeleteStatus;
 import com.upupor.service.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -78,7 +81,7 @@ public class ContentListener {
     @Async
     public void viewer(ViewerEvent event) {
         String targetId = event.getTargetId();
-        CcEnum.ViewTargetType targetType = event.getTargetType();
+        ViewTargetType targetType = event.getTargetType();
 
         String viewerUserId = event.getViewerUserId();
         // 如果为空,说明用户未登录
@@ -91,7 +94,7 @@ public class ContentListener {
         recordViewerHistory(targetId, targetType, viewerUserId);
     }
 
-    private void recordViewer(String targetId, CcEnum.ViewTargetType targetType, String viewerUserId) {
+    private void recordViewer(String targetId, ViewTargetType targetType, String viewerUserId) {
         int count = viewerMapper.countByTargetIdAndViewerUserId(targetId, viewerUserId, targetType.getType());
         if (count > 0) {
             return;
@@ -100,20 +103,20 @@ public class ContentListener {
         Viewer viewer = new Viewer();
         viewer.setTargetId(targetId);
         viewer.setViewerUserId(viewerUserId);
-        viewer.setTargetType(targetType.getType());
-        viewer.setDeleteStatus(CcEnum.ViewerDeleteStatus.NORMAL.getStatus());
+        viewer.setTargetType(targetType);
+        viewer.setDeleteStatus(ViewerDeleteStatus.NORMAL);
         viewer.setSysUpdateTime(new Date());
         viewer.setCreateTime(CcDateUtil.getCurrentTime());
         viewerMapper.insert(viewer);
     }
 
-    private void recordViewerHistory(String targetId, CcEnum.ViewTargetType targetType, String viewerUserId) {
+    private void recordViewerHistory(String targetId, ViewTargetType targetType, String viewerUserId) {
 
         ViewHistory viewHistory = new ViewHistory();
         viewHistory.setTargetId(targetId);
         viewHistory.setViewerUserId(viewerUserId);
-        viewHistory.setTargetType(targetType.getType());
-        viewHistory.setDeleteStatus(CcEnum.ViewerDeleteStatus.NORMAL.getStatus());
+        viewHistory.setTargetType(targetType);
+        viewHistory.setDeleteStatus(ViewerDeleteStatus.NORMAL);
         viewHistory.setSysUpdateTime(new Date());
         viewHistory.setCreateTime(CcDateUtil.getCurrentTime());
         viewHistoryMapper.insert(viewHistory);
@@ -129,7 +132,7 @@ public class ContentListener {
         }
 
         Content content = contentService.getContentByContentIdNoStatus(contentId);
-        if (Objects.isNull(content) || !content.getStatus().equals(CcEnum.ContentStatus.NORMAL.getStatus())) {
+        if (Objects.isNull(content) || !content.getStatus().equals(ContentStatus.NORMAL)) {
             return;
         }
 
@@ -180,7 +183,7 @@ public class ContentListener {
                         + String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, "点击查看");
 
                 // 发送站内信
-                messageService.addMessage(member.getUserId(), innerMessage, CcEnum.MessageType.SYSTEM.getType(), msgId);
+                messageService.addMessage(member.getUserId(), innerMessage, MessageType.SYSTEM, msgId);
                 // 发送邮件
                 messageService.sendEmail(member.getEmail(), content.getTitle(), email, member.getUserId());
 
@@ -207,7 +210,7 @@ public class ContentListener {
                 String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle()) + "》被 " +
                 String.format(PROFILE_INNER_MSG, member.getUserId(), msgId, member.getUserName()) +
                 " 在" + CcDateUtil.snsFormat(CcDateUtil.getCurrentTime()) + "点赞了";
-        messageService.addMessage(content.getUserId(), message, CcEnum.MessageType.SYSTEM.getType(), msgId);
+        messageService.addMessage(content.getUserId(), message, MessageType.SYSTEM, msgId);
     }
 
 

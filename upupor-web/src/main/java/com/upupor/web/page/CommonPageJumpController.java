@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -30,9 +30,9 @@ package com.upupor.web.page;
 import com.upupor.service.business.aggregation.CommonAggregateService;
 import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.CcEnum;
 import com.upupor.service.dao.entity.Tag;
-import com.upupor.spi.req.GetCommonReq;
+import com.upupor.service.spi.req.GetCommonReq;
+import com.upupor.service.types.ContentType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +81,7 @@ public class CommonPageJumpController {
     @GetMapping("/topic")
     public ModelAndView topic(Integer pageNum, Integer pageSize) {
         GetCommonReq commonReq =
-                GetCommonReq.create(null, null, pageNum, pageSize, CcEnum.ContentType.SHORT_CONTENT.getType());
+                GetCommonReq.create(null, null, pageNum, pageSize, ContentType.SHORT_CONTENT);
         return contentList(commonReq);
     }
 
@@ -91,7 +91,7 @@ public class CommonPageJumpController {
                            @PathVariable(value = "tagId", required = false) String tagId,
                            @PathVariable(value = "tagInId", required = false) String tagInId) {
         GetCommonReq commonReq =
-                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, CcEnum.ContentType.QA.getType());
+                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, ContentType.QA);
         return getModelAndView(commonReq);
     }
 
@@ -101,7 +101,7 @@ public class CommonPageJumpController {
                                @PathVariable(value = "tagId", required = false) String tagId
     ) {
         GetCommonReq commonReq =
-                GetCommonReq.create(tagId, null, pageNum, pageSize, CcEnum.ContentType.RECORD.getType());
+                GetCommonReq.create(tagId, null, pageNum, pageSize, ContentType.RECORD);
         return getModelAndView(commonReq);
     }
 
@@ -111,7 +111,7 @@ public class CommonPageJumpController {
                               @PathVariable(value = "tagId", required = false) String tagId,
                               @PathVariable(value = "tagInId", required = false) String tagInId) {
         GetCommonReq commonReq =
-                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, CcEnum.ContentType.SHARE.getType());
+                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, ContentType.SHARE);
         return getModelAndView(commonReq);
     }
 
@@ -121,7 +121,7 @@ public class CommonPageJumpController {
                                    @PathVariable(value = "tagId", required = false) String tagId,
                                    @PathVariable(value = "tagInId", required = false) String tagInId) {
         GetCommonReq commonReq =
-                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, CcEnum.ContentType.TECH.getType());
+                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, ContentType.TECH);
 
         return getModelAndView(commonReq);
     }
@@ -132,7 +132,7 @@ public class CommonPageJumpController {
     public ModelAndView workMenu(Integer pageNum, Integer pageSize,
                                  @PathVariable(value = "tagId", required = false) String tagId) {
         GetCommonReq commonReq =
-                GetCommonReq.create(tagId, null, pageNum, pageSize, CcEnum.ContentType.WORKPLACE.getType());
+                GetCommonReq.create(tagId, null, pageNum, pageSize, ContentType.WORKPLACE);
         return getModelAndView(commonReq);
     }
 
@@ -172,7 +172,7 @@ public class CommonPageJumpController {
     private ModelAndView contentList(GetCommonReq commonReq) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject(commonAggregateService.index(commonReq));
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, CcEnum.ContentType.getName(commonReq.getContentType()));
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, ContentType.getName(commonReq.getContentType()));
         modelAndView.setViewName(CONTENT_LIST);
         return modelAndView;
     }

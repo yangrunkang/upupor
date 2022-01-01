@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -110,7 +110,7 @@ function addAdApply() {
             applyUserWechat: applyUserWechat,
             adIntro: adIntro,
             positionIdList: _positionIdList,
-            type: 2,
+            type: 'AD',
         };
 
         $.cvPost('/apply/addAd', adReq, function (data) {

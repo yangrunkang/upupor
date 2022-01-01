@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.service;
 
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.spi.req.ListContentReq;
+import com.upupor.service.spi.req.ListContentReq;
 
 /**
  * 内容管理服务

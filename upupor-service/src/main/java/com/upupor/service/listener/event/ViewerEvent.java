@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2021 yangrunkang
+ * Copyright (c) 2021-2022 yangrunkang
  *
  * Author: yangrunkang
  * Email: yangrunkang53@gmail.com
@@ -27,7 +27,8 @@
 
 package com.upupor.service.listener.event;
 
-import com.upupor.service.common.CcEnum;
+
+import com.upupor.service.types.ViewTargetType;
 import lombok.Data;
 
 /**
@@ -39,6 +40,6 @@ import lombok.Data;
 @Data
 public class ViewerEvent {
     private String targetId;
-    private CcEnum.ViewTargetType targetType;
+    private ViewTargetType targetType;
     private String viewerUserId;
 }
