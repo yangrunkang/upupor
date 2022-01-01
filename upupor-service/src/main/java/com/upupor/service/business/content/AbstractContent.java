@@ -32,15 +32,12 @@ import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.dto.page.common.TagDto;
-import com.upupor.service.spi.req.GetMemberIntegralReq;
 import com.upupor.service.spi.req.ListContentReq;
 import com.upupor.service.types.ContentStatus;
-import com.upupor.service.utils.ServletUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.CollectionUtils;
@@ -112,21 +109,6 @@ public abstract class AbstractContent {
 
     }
 
-    /**
-     * 绑定文章常用数据
-     */
-    private void bindContentOtherData() {
-        // 设置是否收藏过
-        settingIsCollect(contentIndexDto, content);
-
-        // 设置文章是否点赞
-        settingIsLike(contentIndexDto, content);
-
-        // 设置当前用户是否关注作者
-        settingIsAttention(contentIndexDto, content);
-
-    }
-
     private void bindAuthorOtherContent() {
         ListContentReq listContentReq = new ListContentReq();
         listContentReq.setPageNum(CcConstant.Page.NUM);
@@ -171,32 +153,5 @@ public abstract class AbstractContent {
         return contentIndexDto;
     }
 
-
-    private void settingIsAttention(ContentIndexDto contentIndexDto, Content content) {
-        String contentUserId = content.getUserId();
-        contentIndexDto.setCurrUserIsAttention(contentService.currentUserIsAttentionAuthor(contentUserId));
-    }
-
-    private void settingIsLike(ContentIndexDto contentIndexDto, Content content) {
-        boolean currUserIsClickLike = false;
-        try {
-            GetMemberIntegralReq getMemberIntegralReq = new GetMemberIntegralReq();
-            getMemberIntegralReq.setUserId(ServletUtils.getUserId());
-            getMemberIntegralReq.setRuleId(IntegralEnum.CLICK_LIKE.getRuleId());
-            getMemberIntegralReq.setTargetId(content.getContentId());
-            currUserIsClickLike = memberIntegralService.checkExists(getMemberIntegralReq);
-        } catch (Exception ignored) {
-        }
-        contentIndexDto.setCurrUserIsClickLike(currUserIsClickLike);
-    }
-
-    private void settingIsCollect(ContentIndexDto contentIndexDto, Content content) {
-        boolean currUserIsCollect = false;
-        try {
-            currUserIsCollect = collectService.existsCollectContent(content.getContentId(), ServletUtils.getUserId());
-        } catch (Exception ignored) {
-        }
-        contentIndexDto.setCurrUserIsCollect(currUserIsCollect);
-    }
 
 }

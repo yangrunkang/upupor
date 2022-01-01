@@ -74,7 +74,7 @@
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
                                                     <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('NORMAL',[[${collect.collectId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('ONLY_SELF_SEE',[[${collect.collectId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
+<!--                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('ONLY_SELF_SEE',[[${collect.collectId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>-->
                                                     <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('DELETE',[[${collect.collectId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                                 </div>
                                             </div>

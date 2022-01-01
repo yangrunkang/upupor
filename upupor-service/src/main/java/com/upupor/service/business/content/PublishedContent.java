@@ -106,7 +106,7 @@ public class PublishedContent extends AbstractContent {
         handleContentCollectNum();
 
         // 推荐文章
-        getContentIndexDto().setRandomContentList(contentService.randomContent(content.getUserId()));
+        contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
         AbstractAd.ad(contentIndexDto.getRandomContentList());
 
         // 记录访问者
@@ -114,6 +114,10 @@ public class PublishedContent extends AbstractContent {
 
         // 文章作者是否有电台
         contentIndexDto.setHasRadio(radioService.userHasRadio(content.getUserId()));
+
+        settingIsAttention(contentIndexDto,content);
+        settingIsLike(contentIndexDto,content);
+        settingIsCollect(contentIndexDto,content);
 
         // 创建文章
         contentIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(content.getContentType(), null));

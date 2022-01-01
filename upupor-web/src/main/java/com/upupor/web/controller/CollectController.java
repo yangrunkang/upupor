@@ -38,6 +38,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Collect;
 import com.upupor.service.dao.entity.Content;
+import com.upupor.service.dao.mapper.CollectMapper;
 import com.upupor.service.spi.req.AddCollectReq;
 import com.upupor.service.spi.req.UpdateCollectReq;
 import com.upupor.service.types.CollectStatus;
@@ -76,6 +77,8 @@ public class CollectController {
 
     private final CollectService collectService;
 
+    private final CollectMapper collectMapper;
+
     private final ContentService contentService;
 
     private final MemberIntegralService memberIntegralService;
@@ -101,9 +104,7 @@ public class CollectController {
             Collect collect = collectService.select(queryCollect);
             Asserts.notNull(collect, ErrorCode.COLLECT_VIA_NOT_EXISTS);
             // 该用户的收藏取消
-            collect.setUserId(userId);
-            collect.setStatus(CollectStatus.DELETE);
-            Integer cancelCollect = collectService.update(collect);
+            int cancelCollect = collectMapper.deleteById(collect);
             boolean handleSuccess = cancelCollect > 0;
             if (handleSuccess) {
                 Content content = null;
@@ -121,18 +122,7 @@ public class CollectController {
             ccResponse.setData(handleSuccess);
             return ccResponse;
         } else {
-            // 添加收藏前校验自己是否有【仅自己可见】 的收藏项,如果有直接更新状态就好了
-            Boolean isExists = collectService.existsCollectContent(addCollectReq.getCollectValue(), CollectStatus.ONLY_SELF_SEE.getStatus(), userId);
-            if (isExists) {
-                Collect collect = collectService.getCollect(addCollectReq.getCollectValue(), CollectStatus.ONLY_SELF_SEE.getStatus(), userId);
-                if (Objects.isNull(collect)) {
-                    throw new BusinessException(ErrorCode.COLLECT_CONTENT_ERROR);
-                }
-                collect.setStatus(CollectStatus.NORMAL);
-                Integer integer = collectService.update(collect);
-                ccResponse.setData(integer > 0);
-                return ccResponse;
-            }
+
 
             Content content = null;
             if (addCollectReq.getCollectType().equals(CollectType.CONTENT)) {

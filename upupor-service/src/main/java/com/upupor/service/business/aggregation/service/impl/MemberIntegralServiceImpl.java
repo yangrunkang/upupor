@@ -172,10 +172,17 @@ public class MemberIntegralServiceImpl implements MemberIntegralService {
         LambdaQueryWrapper<MemberIntegral> query = new LambdaQueryWrapper<MemberIntegral>()
                 .eq(MemberIntegral::getIntegralUserId, getMemberIntegralReq.getUserId())
                 .eq(MemberIntegral::getIntegralRuleId, getMemberIntegralReq.getRuleId())
-                .eq(MemberIntegral::getTargetId, getMemberIntegralReq.getTargetId())
-                .eq(MemberIntegral::getStatus, getMemberIntegralReq.getStatus())
-                .lt(MemberIntegral::getCreateTime, getMemberIntegralReq.getStartCreateTime())
-                .gt(MemberIntegral::getCreateTime, getMemberIntegralReq.getEndCreateTime());
+                .eq(MemberIntegral::getTargetId, getMemberIntegralReq.getTargetId());
+
+        if (Objects.nonNull(getMemberIntegralReq.getStatus())) {
+            query.eq(MemberIntegral::getStatus, getMemberIntegralReq.getStatus());
+        }
+        if (Objects.nonNull(getMemberIntegralReq.getStartCreateTime())) {
+            query.lt(MemberIntegral::getCreateTime, getMemberIntegralReq.getStartCreateTime());
+        }
+        if (Objects.nonNull(getMemberIntegralReq.getEndCreateTime())) {
+            query.gt(MemberIntegral::getCreateTime, getMemberIntegralReq.getEndCreateTime());
+        }
         return memberIntegralMapper.selectList(query);
     }
 

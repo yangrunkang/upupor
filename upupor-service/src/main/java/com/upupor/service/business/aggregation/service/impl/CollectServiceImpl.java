@@ -36,6 +36,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Collect;
 import com.upupor.service.dao.mapper.CollectMapper;
 import com.upupor.service.dto.page.common.ListCollectDto;
+import com.upupor.service.types.CollectStatus;
 import com.upupor.service.types.CollectType;
 import com.upupor.service.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
@@ -87,12 +88,12 @@ public class CollectServiceImpl implements CollectService {
     }
 
     @Override
-    public Boolean existsCollectContent(String contentId, Integer collectStatus, String userId) {
+    public Boolean existsCollectContent(String contentId, CollectStatus collectStatus, String userId) {
         return collectMapper.getByContentIdAndCollectStatus(contentId, collectStatus, userId) > 0;
     }
 
     @Override
-    public Collect getCollect(String contentId, Integer collectStatus, String userId) {
+    public Collect getCollect(String contentId, CollectStatus collectStatus, String userId) {
         return collectMapper.getCollect(contentId, collectStatus, userId);
     }
 

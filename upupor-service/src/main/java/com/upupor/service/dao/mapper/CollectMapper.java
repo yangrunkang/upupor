@@ -29,6 +29,7 @@ package com.upupor.service.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.service.dao.entity.Collect;
+import com.upupor.service.types.CollectStatus;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -55,9 +56,9 @@ public interface CollectMapper extends BaseMapper<Collect> {
 
     int existsCollectContent(@Param("contentId") String contentId, @Param("userId") String userId);
 
-    int getByContentIdAndCollectStatus(@Param("contentId") String contentId, @Param("collectStatus") Integer collectStatus, @Param("userId") String userId);
+    int getByContentIdAndCollectStatus(@Param("contentId") String contentId, @Param("collectStatus") CollectStatus collectStatus, @Param("userId") String userId);
 
-    Collect getCollect(@Param("contentId") String contentId, @Param("collectStatus") Integer collectStatus, @Param("userId") String userId);
+    Collect getCollect(@Param("contentId") String contentId, @Param("collectStatus") CollectStatus collectStatus, @Param("userId") String userId);
 
     Integer collectNum(@Param("collectType") Integer collectType, @Param("collectValue") String collectValue);
 }

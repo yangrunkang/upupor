@@ -33,6 +33,7 @@ import com.upupor.service.common.*;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.ContentData;
 import com.upupor.service.dao.entity.MemberIntegral;
+import com.upupor.service.dao.mapper.MemberIntegralMapper;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.spi.req.*;
 import com.upupor.service.types.ContentStatus;
@@ -73,6 +74,7 @@ public class ContentController {
     private final ContentService contentService;
     private final MemberIntegralService memberIntegralService;
     private final ApplicationEventPublisher eventPublisher;
+    private final MemberIntegralMapper memberIntegralMapper;
 
     @PostMapping("/add")
     @ResponseBody
@@ -137,38 +139,32 @@ public class ContentController {
         getMemberIntegralReq.setUserId(clickUserId);
         getMemberIntegralReq.setRuleId(IntegralEnum.CLICK_LIKE.getRuleId());
         getMemberIntegralReq.setTargetId(contentId);
+        getMemberIntegralReq.setStatus(MemberIntegralStatus.NORMAL);
         Boolean exists = memberIntegralService.checkExists(getMemberIntegralReq);
         if (exists) {
             // 不加状态
             List<MemberIntegral> memberIntegralList = memberIntegralService.getByGetMemberIntegralReq(getMemberIntegralReq);
-            if (CollectionUtils.isEmpty(memberIntegralList)) {
-                // exists 为true,却没有数据,原则上要抛出异常,这里不抛出,直接返回cc
-                return cc;
+            int count = 0;
+            for (MemberIntegral memberIntegral : memberIntegralList) {
+                count = count + memberIntegralMapper.deleteById(memberIntegral);
+                minusLikeNum(contentData);
             }
-            changeStatus(contentData, memberIntegralList);
+            cc.setData(count > 0);
         } else {
-            // 如果系统中有删除的,则变更状态,否则新增积分数据
-            List<MemberIntegral> memberIntegralList = memberIntegralService.getByGetMemberIntegralReq(getMemberIntegralReq);
-            if (CollectionUtils.isEmpty(memberIntegralList)) {
-                if (content.getUserId().equals(clickUserId)) {
-                    throw new BusinessException(FORBIDDEN_LIKE_SELF_CONTENT);
-                }
-
-                // 增加点赞数
-                addLikeNum(contentData);
-
-                // 添加积分数据
-                String text = String.format("您点赞了《%s》,赠送积分", String.format(CONTENT_INTEGRAL, content.getContentId(), CcUtils.getUuId(), content.getTitle()));
-                memberIntegralService.addIntegral(IntegralEnum.CLICK_LIKE, text, clickUserId, contentId);
-
-                // 通知作者有点赞消息
-                ContentLikeEvent contentLikeEvent = new ContentLikeEvent();
-                contentLikeEvent.setContent(content);
-                contentLikeEvent.setClickUserId(clickUserId);
-                eventPublisher.publishEvent(contentLikeEvent);
-            } else {
-                changeStatus(contentData, memberIntegralList);
+            if (content.getUserId().equals(clickUserId)) {
+                throw new BusinessException(FORBIDDEN_LIKE_SELF_CONTENT);
             }
+
+            // 添加积分数据
+            String text = String.format("您点赞了《%s》,赠送积分", String.format(CONTENT_INTEGRAL, content.getContentId(), CcUtils.getUuId(), content.getTitle()));
+            memberIntegralService.addIntegral(IntegralEnum.CLICK_LIKE, text, clickUserId, contentId);
+            // 增加点赞数
+            addLikeNum(contentData);
+            // 通知作者有点赞消息
+            ContentLikeEvent contentLikeEvent = new ContentLikeEvent();
+            contentLikeEvent.setContent(content);
+            contentLikeEvent.setClickUserId(clickUserId);
+            eventPublisher.publishEvent(contentLikeEvent);
         }
 
         contentService.updateContentData(contentData);
@@ -181,27 +177,6 @@ public class ContentController {
         contentData.setLikeNum(likeNum + 1);
     }
 
-    private void changeStatus(ContentData contentData, List<MemberIntegral> memberIntegralList) {
-        if (CollectionUtils.isEmpty(memberIntegralList)) {
-            return;
-        }
-        if (Objects.isNull(contentData)) {
-            return;
-        }
-
-        memberIntegralList.forEach(memberIntegral -> {
-            if (memberIntegral.getStatus().equals(MemberIntegralStatus.DELETED)) {
-                memberIntegral.setStatus(MemberIntegralStatus.NORMAL);
-                // 新增点赞数
-                addLikeNum(contentData);
-            } else {
-                memberIntegral.setStatus(MemberIntegralStatus.DELETED);
-                // 扣减点赞数
-                minusLikeNum(contentData);
-            }
-            memberIntegralService.update(memberIntegral);
-        });
-    }
 
     private void minusLikeNum(ContentData contentData) {
         Integer likeNum = contentData.getLikeNum();

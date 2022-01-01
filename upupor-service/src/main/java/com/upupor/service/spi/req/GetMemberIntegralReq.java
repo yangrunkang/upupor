@@ -41,7 +41,7 @@ public class GetMemberIntegralReq {
     private String userId;
     private Integer ruleId;
     private String targetId;
-    private long startCreateTime;
-    private long endCreateTime;
+    private Long startCreateTime;
+    private Long endCreateTime;
     private MemberIntegralStatus status;
 }
