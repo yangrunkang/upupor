@@ -352,6 +352,10 @@ public final class CcConstant {
          */
         public static final String CREATE_CONTENT_TIME_OUT = "create_content_time_out";
 
+
+        public static final String createContentIntervalkey(String userId){
+            return CcConstant.CvCache.CREATE_CONTENT_TIME_OUT + userId;
+        }
     }
 
     /**

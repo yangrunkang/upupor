@@ -216,24 +216,27 @@ public class Content extends BaseEntity {
     private List<Viewer> viewerList;
 
     public Content() {
-        this.tagIds = CcConstant.EMPTY_STR;
-        this.listCommentDto = new ListCommentDto();
+        init();
+    }
+
+    public static Content create() {
+        return new Content();
+    }
+
+    private void init() {
         this.collectTotal = 0;
         this.commentTotal = 0;
         this.collectNum = 0;
-        this.originType = OriginType.ORIGIN;
+        this.listCommentDto = new ListCommentDto();
+        this.tagIds = CcConstant.EMPTY_STR;
+        this.status = ContentStatus.NORMAL;
+        this.isInitialStatus = ContentIsInitialStatus.FIRST_PUBLISHED;
+        this.editTimes = 0;
         this.pinnedStatus = PinnedStatus.UN_PINNED;
-    }
-
-    public void init(){
-        this.setStatus(ContentStatus.NORMAL);
-        this.setIsInitialStatus(ContentIsInitialStatus.FIRST_PUBLISHED);
-        this.setEditTimes(0);
-        this.setPinnedStatus(PinnedStatus.UN_PINNED);
-        this.setOriginType(OriginType.ORIGIN);
-        this.setCreateTime(CcDateUtil.getCurrentTime());
-        this.setLatestCommentTime(CcDateUtil.getCurrentTime());
-        this.setSysUpdateTime(new Date());
+        this.originType = OriginType.ORIGIN;
+        this.createTime = CcDateUtil.getCurrentTime();
+        this.latestCommentTime = CcDateUtil.getCurrentTime();
+        this.sysUpdateTime = new Date();
     }
 
 
@@ -264,7 +267,7 @@ public class Content extends BaseEntity {
 
     public String getContentTypeDesc() {
         ContentType byContentType = ContentType.getByContentType(contentType);
-        if(Objects.isNull(byContentType)){
+        if (Objects.isNull(byContentType)) {
             return "内容";
         }
         return byContentType.getName();

@@ -34,7 +34,6 @@ import com.google.common.collect.Lists;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.*;
@@ -71,6 +70,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.upupor.service.common.CcConstant.CvCache.createContentIntervalkey;
 import static com.upupor.service.common.ErrorCode.*;
 
 /**
@@ -274,26 +274,10 @@ public class ContentServiceImpl implements ContentService {
         String userId = member.getUserId();
 
         // 检查是否配置了发文间隔
-        Integer existsCount = memberConfigMapper.countByUserId(userId);
-        Long timeCreateContentInterval = null;
-        String keyOfCreateContent = CcConstant.CvCache.CREATE_CONTENT_TIME_OUT + userId;
-        if (existsCount >= 1) {
-            MemberConfig memberConfig = memberService.memberInfoData(userId).getMemberConfig();
-            Asserts.notNull(memberConfig, MEMBER_CONFIG_LESS);
-            timeCreateContentInterval = memberConfig.getIntervalTimeCreateContent();
-            if (Objects.nonNull(timeCreateContentInterval) && timeCreateContentInterval > 0) {
-                if (Objects.nonNull(RedisUtil.get(keyOfCreateContent))) {
-                    LocalDateTime canCreateContentTime = LocalDateTime.now().plus(timeCreateContentInterval, ChronoUnit.SECONDS);
-                    DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                    throw new BusinessException(ErrorCode.NEXT_PUBLIC_TIME, dtf2.format(canCreateContentTime), false);
-                }
-
-            }
-        }
+        Long limitedInterval = checkIntervalLimit(userId);
 
         // 生成文章数据
-        Content content = new Content();
-        content.init();
+        Content content = Content.create();
         generateContentId(addContentDetailReq, content);
         content.setUserId(userId);
         content.setTitle(addContentDetailReq.getTitle());
@@ -308,7 +292,7 @@ public class ContentServiceImpl implements ContentService {
         contentExtend.setSysUpdateTime(new Date());
         content.setContentExtend(contentExtend);
         // 初始化文章数据
-        this.initContendData(content.getContentId());
+        initContendData(content.getContentId());
         // 原创处理
         origialProcessing(addContentDetailReq, content);
         // 具体操作 发布 或者 草稿
@@ -324,12 +308,45 @@ public class ContentServiceImpl implements ContentService {
             publishContentEvent(content);
 
             // 缓存创建文章的动作(标识),用于限制某一用户恶意刷文
-            if (existsCount >= 1 && Objects.nonNull(timeCreateContentInterval)) {
-                RedisUtil.set(keyOfCreateContent, content.getContentId(), timeCreateContentInterval);
+            if (Objects.nonNull(limitedInterval)) {
+                RedisUtil.set(createContentIntervalkey(userId), content.getContentId(), limitedInterval);
             }
         }
 
         return addSuccess;
+    }
+
+    /**
+     * 创建文章间隔时间检查
+     *
+     * @param userId
+     * @return
+     */
+    private Long checkIntervalLimit(String userId) {
+        Long timeCreateContentInterval = null;
+
+        Integer hasMemberConfig = memberConfigMapper.countByUserId(userId);
+        if (hasMemberConfig < 1) {
+            return timeCreateContentInterval;
+        }
+
+        String limited = RedisUtil.get(createContentIntervalkey(userId));
+        if (Objects.isNull(limited)) {
+            return timeCreateContentInterval;
+        }
+
+        // 获取配置的发文限制
+        MemberConfig memberConfig = memberService.memberInfoData(userId).getMemberConfig();
+        Asserts.notNull(memberConfig, MEMBER_CONFIG_LESS);
+        timeCreateContentInterval = memberConfig.getIntervalTimeCreateContent();
+        if (Objects.isNull(timeCreateContentInterval) || timeCreateContentInterval <= 0) {
+            return timeCreateContentInterval;
+        }
+
+        LocalDateTime canCreateContentTime = LocalDateTime.now().plus(timeCreateContentInterval, ChronoUnit.SECONDS);
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        throw new BusinessException(ErrorCode.NEXT_PUBLIC_TIME, dtf2.format(canCreateContentTime), false);
+
     }
 
     private void publishOperator(AddContentDetailReq addContentDetailReq, Content content) {
@@ -416,8 +433,8 @@ public class ContentServiceImpl implements ContentService {
         }
 
         // 从转载变为原创,需要清除转载的链接
-        if(OriginType.NONE_ORIGIN.equals(editContent.getOriginType())
-                && OriginType.ORIGIN.equals(updateContentReq.getOriginType())){
+        if (OriginType.NONE_ORIGIN.equals(editContent.getOriginType())
+                && OriginType.ORIGIN.equals(updateContentReq.getOriginType())) {
             editContent.setNoneOriginLink(null);
         }
 
@@ -430,7 +447,6 @@ public class ContentServiceImpl implements ContentService {
             editContent.getContentExtend().setSysUpdateTime(new Date());
             updateCount = updateCount + contentExtendMapper.updateById(editContent.getContentExtend());
         }
-
 
 
         if (updateCount > 0 && isSendCreateContentMessage) {
