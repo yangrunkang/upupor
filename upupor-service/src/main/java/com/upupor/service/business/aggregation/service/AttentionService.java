@@ -53,7 +53,6 @@ public interface AttentionService {
 
     Attention getAttentionByAttentionId(String attentionId);
 
-    Integer update(Attention attention);
 
     /**
      * 获取关注者

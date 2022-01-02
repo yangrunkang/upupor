@@ -30,7 +30,6 @@ package com.upupor.service.business.aggregation.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.AttentionService;
 import com.upupor.service.business.aggregation.service.FanService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
@@ -42,6 +41,7 @@ import com.upupor.service.dao.entity.Attention;
 import com.upupor.service.dao.entity.Fans;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.mapper.AttentionMapper;
+import com.upupor.service.dao.mapper.FansMapper;
 import com.upupor.service.dto.page.common.ListAttentionDto;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.spi.req.AddAttentionReq;
@@ -56,7 +56,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -74,6 +73,7 @@ import static com.upupor.service.common.CcConstant.MsgTemplate.PROFILE_INTEGRAL;
 public class AttentionServiceImpl implements AttentionService {
 
     private final AttentionMapper attentionMapper;
+    private final FansMapper fansMapper;
     private final MemberIntegralService memberIntegralService;
     private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
@@ -89,10 +89,6 @@ public class AttentionServiceImpl implements AttentionService {
         return attentionMapper.checkExists(attentionUserId, userId) > 0;
     }
 
-    @Override
-    public Integer update(Attention attention) {
-        return attentionMapper.updateById(attention);
-    }
 
     @Override
     public ListAttentionDto getAttentions(String userId, Integer pageNum, Integer pageSize) {
@@ -109,6 +105,7 @@ public class AttentionServiceImpl implements AttentionService {
         }
         return listAttentionDto;
     }
+
     /**
      * 封装关注者 粉丝信息
      *
@@ -162,77 +159,31 @@ public class AttentionServiceImpl implements AttentionService {
         if (addAttentionReq.getAttentionUserId().equals(userId)) {
             throw new BusinessException(ErrorCode.FORBIDDEN_ATTENTION_SELF);
         }
-
         // 检查是否存在
         Boolean exists = checkExists(addAttentionReq.getAttentionUserId(), userId);
-
-        // 已关注
-        if (addAttentionReq.getIsAttention()) {
-            // 已关注的取消
-            if (exists) {
-
-                if (CcUtils.isAllEmpty(userId, addAttentionReq.getAttentionUserId())) {
-                    throw new BusinessException(ErrorCode.PARAM_ERROR);
-                }
-                // 删除已关注记录
-                LambdaQueryWrapper<Attention> queryAttention = new LambdaQueryWrapper<Attention>()
-                        .eq(Attention::getUserId, userId)
-                        .eq(Attention::getAttentionUserId, addAttentionReq.getAttentionUserId());
-                Attention attention = select(queryAttention);
-                attention.setAttentionStatus(AttentionStatus.DELETED);
-                Integer updateAttention = update(attention);
-
-
-                // 通知 被关注用户(AttentionUserId) 减少了一个粉丝
-                LambdaQueryWrapper<Fans> queryFans = new LambdaQueryWrapper<Fans>()
-                        .eq(Fans::getUserId, addAttentionReq.getAttentionUserId())
-                        .eq(Fans::getFanUserId, userId);
-                Fans fans = fanService.select(queryFans);
-                fans.setFanStatus(FansStatus.DELETED);
-                Integer updateFan = fanService.update(fans);
-
-                boolean handleSuccess = (updateAttention + updateFan) > 0;
-                // 取消关注要将之前添加的积分添加回来
-                if (handleSuccess) {
-                    String attentionUserId = addAttentionReq.getAttentionUserId();
-                    Member member = memberService.memberInfo(attentionUserId);
-                    String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
-                    String text = "取消关注 " + userName + " ,扣减积分";
-                    memberIntegralService.reduceIntegral(IntegralEnum.ATTENTION_AUTHOR, text, userId, member.getUserId());
-                }
-
-                return handleSuccess;
-            }
+        if (exists) {
+            return cancelAttention(addAttentionReq, userId);
         } else {
-            // 未关注的,关注
+            return toAttention(addAttentionReq, userId);
+        }
+    }
 
-            // 如果已经存在关注,则提示
-            if (exists) {
-                throw new BusinessException(ErrorCode.ATTENTION_REPEATED);
-            }
+    private boolean toAttention(AddAttentionReq addAttentionReq, String userId) {
+        // 添加关注记录
+        Attention attention = Attention.init();
+        attention.setUserId(userId);
+        attention.setAttentionUserId(addAttentionReq.getAttentionUserId());
+        Integer addAttention = add(attention);
 
-            // 关注其他作者(这个是由用户独立管控的,不能删除)
-            Attention attention = new Attention();
-            attention.setAttentionId(CcUtils.getUuId());
-            attention.setAttentionStatus(AttentionStatus.NORMAL);
-            attention.setUserId(userId);
-            attention.setAttentionUserId(addAttentionReq.getAttentionUserId());
-            attention.setCreateTime(CcDateUtil.getCurrentTime());
-            attention.setSysUpdateTime(new Date());
-            Integer addAttention = add(attention);
+        // 给对方添加一个粉丝记录
+        Fans fans = Fans.init();
+        fans.setUserId(addAttentionReq.getAttentionUserId());
+        fans.setFanUserId(userId);
+        int addFans = fanService.add(fans);
+        boolean handleSuccess = (addAttention + addFans) > 1;
 
-            // 通知 被关注用户(AttentionUserId) 涨了一个粉丝
-            Fans fans = new Fans();
-            fans.setFanId(CcUtils.getUuId());
-            // 等他自己用自己的userId去查的时候,会有数据
-            fans.setUserId(addAttentionReq.getAttentionUserId());
-            fans.setFanUserId(userId);
-            fans.setFanStatus(FansStatus.NORMAL);
-            fans.setCreateTime(CcDateUtil.getCurrentTime());
-            fans.setSysUpdateTime(new Date());
-            int addFans = fanService.add(fans);
-            boolean handleSuccess = (addAttention + addFans) > 1;
 
+        if (handleSuccess) {
             // 发送关注用户事件
             AttentionUserEvent attentionUserEvent = new AttentionUserEvent();
             attentionUserEvent.setAddAttentionReq(addAttentionReq);
@@ -240,46 +191,68 @@ public class AttentionServiceImpl implements AttentionService {
             eventPublisher.publishEvent(attentionUserEvent);
 
             // 添加积分
-            if (handleSuccess) {
-                String attentionUserId = addAttentionReq.getAttentionUserId();
-                Member member = memberService.memberInfo(attentionUserId);
-                String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
-                String text = "关注 " + userName + " ,增加积分";
-                memberIntegralService.addIntegral(IntegralEnum.ATTENTION_AUTHOR, text, userId, fans.getFanId());
-            }
-            return handleSuccess;
+            String attentionUserId = addAttentionReq.getAttentionUserId();
+            Member member = memberService.memberInfo(attentionUserId);
+            String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
+            String text = "关注 " + userName + " ,增加积分";
+            memberIntegralService.addIntegral(IntegralEnum.ATTENTION_AUTHOR, text, userId, fans.getFanId());
         }
-        return Boolean.FALSE;
+        return handleSuccess;
+    }
+
+    private boolean cancelAttention(AddAttentionReq addAttentionReq, String userId) {
+        if (CcUtils.isAllEmpty(userId, addAttentionReq.getAttentionUserId())) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR);
+        }
+        // 删除关注记录
+        LambdaQueryWrapper<Attention> queryAttention = new LambdaQueryWrapper<Attention>()
+                .eq(Attention::getUserId, userId)
+                .eq(Attention::getAttentionUserId, addAttentionReq.getAttentionUserId());
+        Attention attention = select(queryAttention);
+        int deleteAttention = attentionMapper.deleteById(attention);
+
+        // 将对方的粉丝也删除
+        LambdaQueryWrapper<Fans> queryFans = new LambdaQueryWrapper<Fans>()
+                .eq(Fans::getUserId, addAttentionReq.getAttentionUserId())
+                .eq(Fans::getFanUserId, userId);
+        Fans fans = fanService.select(queryFans);
+        int deleteFan = fansMapper.deleteById(fans);
+
+        boolean isDeleted = (deleteAttention + deleteFan) > 0;
+        // 取消关注要将之前添加的积分添加回来
+        if (isDeleted) {
+            String attentionUserId = addAttentionReq.getAttentionUserId();
+            Member member = memberService.memberInfo(attentionUserId);
+            String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
+            String text = "取消关注 " + userName + " ,扣减积分";
+            memberIntegralService.reduceIntegral(IntegralEnum.ATTENTION_AUTHOR, text, userId, member.getUserId());
+        }
+
+        return isDeleted;
     }
 
 
     @Override
     public Boolean delAttention(DelAttentionReq delAttentionReq) {
-        String attentionId = delAttentionReq.getAttentionId();
-
-        Attention attention = getAttentionByAttentionId(attentionId);
-
-        if (Objects.isNull(attention)) {
-            throw new BusinessException(ErrorCode.OBJECT_NOT_EXISTS);
+        Attention attention = getAttentionByAttentionId(delAttentionReq.getAttentionId());
+        int deleteAttention = 0;
+        if (Objects.nonNull(attention)) {
+            deleteAttention = attentionMapper.deleteById(attention);
         }
 
-        attention.setAttentionStatus(AttentionStatus.DELETED);
-        Integer updateAttentionCount = update(attention);
 
         // 对应的被关注的用户在其【粉丝列表】中要移除
         String userId = attention.getAttentionUserId();
         String fanUserId = attention.getUserId();
-
         LambdaQueryWrapper<Fans> queryFan = new LambdaQueryWrapper<Fans>()
                 .eq(Fans::getUserId, userId)
                 .eq(Fans::getFanUserId, fanUserId)
                 .eq(Fans::getFanStatus, FansStatus.NORMAL.getStatus());
         Fans fans = fanService.select(queryFan);
-        Integer updateFanCount = 0;
+        int deleteFans = 0;
         if (Objects.nonNull(fans)) {
-            fans.setFanStatus(FansStatus.DELETED);
-            updateFanCount = fanService.update(fans);
+            deleteFans = fansMapper.deleteById(fans);
         }
-        return (updateFanCount + updateAttentionCount) > 0;
+        return (deleteFans + deleteAttention) > 0;
     }
 }

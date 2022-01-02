@@ -66,8 +66,6 @@ public interface FanService {
     ListFansDto getFans(String userId, Integer pageNum, Integer pageSize);
 
 
-    Integer update(Fans fan);
-
     Fans select(LambdaQueryWrapper<Fans> queryFans);
 
     /**

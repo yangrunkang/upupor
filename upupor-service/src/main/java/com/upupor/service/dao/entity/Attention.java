@@ -31,6 +31,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.AttentionStatus;
+import com.upupor.service.utils.CcUtils;
 import lombok.Data;
 
 import java.util.Date;
@@ -74,5 +75,12 @@ public class Attention extends BaseEntity {
         return CcDateUtil.snsFormat(createTime);
     }
 
-
+    public static Attention init(){
+        Attention attention = new Attention();
+        attention.setAttentionId(CcUtils.getUuId());
+        attention.setAttentionStatus(AttentionStatus.NORMAL);
+        attention.setCreateTime(CcDateUtil.getCurrentTime());
+        attention.setSysUpdateTime(new Date());
+        return attention;
+    }
 }

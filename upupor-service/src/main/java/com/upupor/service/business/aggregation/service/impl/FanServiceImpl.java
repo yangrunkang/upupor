@@ -32,21 +32,22 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.service.business.aggregation.service.FanService;
 import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.dao.entity.Attention;
 import com.upupor.service.dao.entity.Fans;
 import com.upupor.service.dao.entity.Member;
+import com.upupor.service.dao.mapper.AttentionMapper;
 import com.upupor.service.dao.mapper.FansMapper;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.spi.req.DelFanReq;
 import com.upupor.service.types.FansStatus;
-import com.upupor.service.utils.Asserts;
+import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static com.upupor.service.common.ErrorCode.OBJECT_NOT_EXISTS;
 
 /**
  * 粉丝服务
@@ -59,6 +60,7 @@ import static com.upupor.service.common.ErrorCode.OBJECT_NOT_EXISTS;
 public class FanServiceImpl implements FanService {
 
     private final FansMapper fansMapper;
+    private final AttentionMapper attentionMapper;
     private final MemberService memberService;
 
     @Override
@@ -105,13 +107,6 @@ public class FanServiceImpl implements FanService {
         }
     }
 
-
-
-    @Override
-    public Integer update(Fans fan) {
-        return fansMapper.updateById(fan);
-    }
-
     @Override
     public Fans select(LambdaQueryWrapper<Fans> queryFans) {
         return fansMapper.selectOne(queryFans);
@@ -120,15 +115,31 @@ public class FanServiceImpl implements FanService {
     @Override
     public Integer delFans(DelFanReq delFanReq) {
         String fanId = delFanReq.getFanId();
-
+        String userId = ServletUtils.getUserId();
+        // 移除自己的粉丝
         LambdaQueryWrapper<Fans> query = new LambdaQueryWrapper<Fans>()
                 .eq(Fans::getFanId, fanId)
+                .eq(Fans::getUserId, userId)
                 .eq(Fans::getFanStatus, FansStatus.NORMAL);
 
         Fans fans = select(query);
-        Asserts.notNull(fans, OBJECT_NOT_EXISTS);
+        int deleteFans = 0;
+        if (Objects.nonNull(fans)) {
+            deleteFans = fansMapper.deleteById(fans);
+        }
 
-        fans.setFanStatus(FansStatus.DELETED);
-        return update(fans);
+        // 将对方的关注列表也删除了
+        LambdaQueryWrapper<Attention> queryAttention = new LambdaQueryWrapper<Attention>()
+                .eq(Attention::getUserId, fans.getFanUserId())
+                .eq(Attention::getAttentionUserId,fans.getUserId())
+                .eq(Attention::getAttentionStatus, FansStatus.NORMAL);
+        Attention attention = attentionMapper.selectOne(queryAttention);
+        int deleteAttention = 0;
+        if (Objects.nonNull(attention)) {
+            deleteAttention = attentionMapper.deleteById(attention);
+        }
+
+
+        return deleteFans + deleteAttention;
     }
 }

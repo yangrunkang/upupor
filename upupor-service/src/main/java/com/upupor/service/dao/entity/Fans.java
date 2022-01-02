@@ -31,6 +31,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.FansStatus;
+import com.upupor.service.utils.CcUtils;
 import lombok.Data;
 
 import java.util.Date;
@@ -68,5 +69,14 @@ public class Fans extends BaseEntity {
     @JSONField(serialize = false)
     public String getCreateDateDiff() {
         return CcDateUtil.snsFormat(createTime);
+    }
+
+    public static Fans init(){
+        Fans fans = new Fans();
+        fans.setFanId(CcUtils.getUuId());
+        fans.setFanStatus(FansStatus.NORMAL);
+        fans.setCreateTime(CcDateUtil.getCurrentTime());
+        fans.setSysUpdateTime(new Date());
+        return fans;
     }
 }
