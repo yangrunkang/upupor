@@ -84,11 +84,6 @@ public class AttentionServiceImpl implements AttentionService {
         return attentionMapper.insert(attention);
     }
 
-    @Override
-    public Boolean checkExists(String attentionUserId, String userId) {
-        return attentionMapper.checkExists(attentionUserId, userId) > 0;
-    }
-
 
     @Override
     public ListAttentionDto getAttentions(String userId, Integer pageNum, Integer pageSize) {
@@ -134,6 +129,16 @@ public class AttentionServiceImpl implements AttentionService {
     }
 
     @Override
+    public Attention getAttention(String attentionUserId, String userId) {
+        LambdaQueryWrapper<Attention> queryAttention = new LambdaQueryWrapper<Attention>()
+                .eq(Attention::getUserId, userId)
+                .eq(Attention::getAttentionUserId, attentionUserId)
+                .eq(Attention::getAttentionStatus, FansStatus.NORMAL);
+        return attentionMapper.selectOne(queryAttention);
+
+    }
+
+    @Override
     public Attention getAttentionByAttentionId(String attentionId) {
         if (CcUtils.isAllEmpty(attentionId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
@@ -159,10 +164,11 @@ public class AttentionServiceImpl implements AttentionService {
         if (addAttentionReq.getAttentionUserId().equals(userId)) {
             throw new BusinessException(ErrorCode.FORBIDDEN_ATTENTION_SELF);
         }
-        // 检查是否存在
-        Boolean exists = checkExists(addAttentionReq.getAttentionUserId(), userId);
-        if (exists) {
-            return cancelAttention(addAttentionReq, userId);
+        Attention attention = getAttention(addAttentionReq.getAttentionUserId(), userId);
+        if (Objects.nonNull(attention)) {
+            DelAttentionReq delAttentionReq = new DelAttentionReq();
+            delAttentionReq.setAttentionId(attention.getAttentionId());
+            return delAttention(delAttentionReq);
         } else {
             return toAttention(addAttentionReq, userId);
         }
@@ -200,37 +206,6 @@ public class AttentionServiceImpl implements AttentionService {
         return handleSuccess;
     }
 
-    private boolean cancelAttention(AddAttentionReq addAttentionReq, String userId) {
-        if (CcUtils.isAllEmpty(userId, addAttentionReq.getAttentionUserId())) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR);
-        }
-        // 删除关注记录
-        LambdaQueryWrapper<Attention> queryAttention = new LambdaQueryWrapper<Attention>()
-                .eq(Attention::getUserId, userId)
-                .eq(Attention::getAttentionUserId, addAttentionReq.getAttentionUserId());
-        Attention attention = select(queryAttention);
-        int deleteAttention = attentionMapper.deleteById(attention);
-
-        // 将对方的粉丝也删除
-        LambdaQueryWrapper<Fans> queryFans = new LambdaQueryWrapper<Fans>()
-                .eq(Fans::getUserId, addAttentionReq.getAttentionUserId())
-                .eq(Fans::getFanUserId, userId);
-        Fans fans = fanService.select(queryFans);
-        int deleteFan = fansMapper.deleteById(fans);
-
-        boolean isDeleted = (deleteAttention + deleteFan) > 0;
-        // 取消关注要将之前添加的积分添加回来
-        if (isDeleted) {
-            String attentionUserId = addAttentionReq.getAttentionUserId();
-            Member member = memberService.memberInfo(attentionUserId);
-            String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
-            String text = "取消关注 " + userName + " ,扣减积分";
-            memberIntegralService.reduceIntegral(IntegralEnum.ATTENTION_AUTHOR, text, userId, member.getUserId());
-        }
-
-        return isDeleted;
-    }
-
 
     @Override
     public Boolean delAttention(DelAttentionReq delAttentionReq) {
@@ -253,6 +228,14 @@ public class AttentionServiceImpl implements AttentionService {
         if (Objects.nonNull(fans)) {
             deleteFans = fansMapper.deleteById(fans);
         }
-        return (deleteFans + deleteAttention) > 0;
+        boolean delAttention = (deleteFans + deleteAttention) > 0;
+        if (delAttention) {
+            String attentionUserId = attention.getUserId();
+            Member member = memberService.memberInfo(attentionUserId);
+            String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
+            String text = "取消关注 " + userName + " ,扣减积分";
+            memberIntegralService.reduceIntegral(IntegralEnum.ATTENTION_AUTHOR, text, member.getUserId(), attention.getAttentionUserId());
+        }
+        return delAttention;
     }
 }

@@ -40,9 +40,5 @@ public class AddAttentionReq {
 
     private String attentionUserId;
 
-    /**
-     * true:已经收藏  false:未收藏
-     */
-    private Boolean isAttention;
 
 }

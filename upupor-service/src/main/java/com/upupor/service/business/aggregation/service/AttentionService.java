@@ -49,9 +49,9 @@ public interface AttentionService {
      */
     Integer add(Attention attention);
 
-    Boolean checkExists(String attentionUserId, String userId);
-
     Attention getAttentionByAttentionId(String attentionId);
+
+    Attention getAttention(String attentionUserId,String userId);
 
 
     /**

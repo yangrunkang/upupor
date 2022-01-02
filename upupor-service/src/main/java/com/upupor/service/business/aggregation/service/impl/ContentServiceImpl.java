@@ -715,7 +715,8 @@ public class ContentServiceImpl implements ContentService {
     public Boolean currentUserIsAttentionAuthor(String contentUserId) {
         boolean currentUserIsAttention = false;
         try {
-            currentUserIsAttention = attentionService.checkExists(contentUserId, ServletUtils.getUserId());
+            Attention attention = attentionService.getAttention(contentUserId, ServletUtils.getUserId());
+            currentUserIsAttention = Objects.nonNull(attention);
         } catch (Exception e) {
         }
         return currentUserIsAttention;
