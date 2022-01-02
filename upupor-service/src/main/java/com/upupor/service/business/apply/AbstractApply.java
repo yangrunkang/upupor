@@ -25,23 +25,60 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.dao.mapper;
+package com.upupor.service.business.apply;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.upupor.service.business.aggregation.service.ApplyService;
+import com.upupor.service.business.aggregation.service.MessageService;
+import com.upupor.service.common.CcConstant;
 import com.upupor.service.dao.entity.Apply;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import javax.annotation.Resource;
 
-public interface ApplyMapper extends BaseMapper<Apply> {
+import static com.upupor.service.common.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+
+/**
+ * 抽象申请
+ *
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月02日 20:06
+ * @email: yangrunkang53@gmail.com
+ */
+public abstract class AbstractApply<T> {
+
+    @Resource
+    private MessageService messageService;
+
+    @Resource
+    private ApplyService applyService;
+
+    private Apply applyEntity = null;
 
     /**
-     * 根据用户id获取申请列表
+     * 通知管理员
+     */
+    protected abstract void notifyAdministrator(Apply apply);
+
+    /**
+     * 申请
      *
-     * @param userId
+     * @param t
      * @return
      */
-    List<Apply> listApplyListByUserId(@Param("userId") String userId);
+    protected abstract Boolean apply(T t);
 
-    List<Apply> listApplyListByUserIdManage(@Param("userId") String userId);
+    protected void sendEmail(String title, String content) {
+        messageService.sendEmail(CcConstant.UPUPOR_EMAIL, title, content, SKIP_SUBSCRIBE_EMAIL_CHECK);
+    }
+
+    protected Boolean apply(Apply apply) {
+        applyEntity = apply;
+        return applyService.addApply(apply) > 0;
+    }
+
+    public Boolean doBusiness(T t){
+        Boolean success = apply(t);
+        notifyAdministrator(applyEntity);
+        return success;
+    }
+
 }

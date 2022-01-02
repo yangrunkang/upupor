@@ -28,7 +28,11 @@
 package com.upupor.service.business.aggregation.service;
 
 import com.upupor.service.dao.entity.Apply;
-import com.upupor.service.dao.entity.ApplyDocument;
+import com.upupor.service.spi.req.AddApplyDocumentReq;
+import com.upupor.service.spi.req.DelApplyReq;
+import com.upupor.service.spi.req.UpdateApplyReq;
+
+import java.io.IOException;
 
 /**
  * 申请服务
@@ -47,13 +51,6 @@ public interface ApplyService {
     Integer addApply(Apply apply);
 
     /**
-     * 广告总数
-     *
-     * @return
-     */
-    Integer total();
-
-    /**
      * 根据申请id获取申请
      */
     Apply getByApplyId(String applyId);
@@ -61,17 +58,19 @@ public interface ApplyService {
     /**
      * 更新申请
      *
-     * @param apply
+     * @param updateApplyReq
      * @return
      */
-    Integer update(Apply apply);
+    Boolean editApply(UpdateApplyReq updateApplyReq);
 
     /**
      * 提交文件
      *
-     * @param applyDocument 申请文件
+     * @param addApplyDocumentReq 申请文件
      * @return
      */
-    Integer commitDocument(ApplyDocument applyDocument);
+    Integer commitDocument(AddApplyDocumentReq addApplyDocumentReq) throws IOException;
+
+    Boolean delApply(DelApplyReq delApplyReq);
 
 }

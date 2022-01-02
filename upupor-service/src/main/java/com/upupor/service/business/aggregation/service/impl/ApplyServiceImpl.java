@@ -28,13 +28,36 @@
 package com.upupor.service.business.aggregation.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.FileUtils;
 import com.upupor.service.business.aggregation.service.ApplyService;
+import com.upupor.service.business.aggregation.service.FileService;
+import com.upupor.service.business.aggregation.service.MessageService;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcConstant;
+import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Apply;
 import com.upupor.service.dao.entity.ApplyDocument;
+import com.upupor.service.dao.entity.File;
 import com.upupor.service.dao.mapper.ApplyDocumentMapper;
 import com.upupor.service.dao.mapper.ApplyMapper;
+import com.upupor.service.spi.req.AddApplyDocumentReq;
+import com.upupor.service.spi.req.DelApplyReq;
+import com.upupor.service.spi.req.UpdateApplyReq;
+import com.upupor.service.types.ApplyStatus;
+import com.upupor.service.utils.CcUtils;
+import com.upupor.service.utils.OssUtils;
+import com.upupor.service.utils.ServletUtils;
+import com.upupor.service.utils.UpuporFileUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.Objects;
+
+import static com.upupor.service.common.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 
 /**
  * 申请服务
@@ -47,17 +70,15 @@ import org.springframework.stereotype.Service;
 public class ApplyServiceImpl implements ApplyService {
 
     private final ApplyMapper applyMapper;
-
+    private final FileService fileService;
     private final ApplyDocumentMapper applyDocumentMapper;
+    private final MessageService messageService;
+    @Value("${upupor.oss.file-host}")
+    private String ossFileHost;
 
     @Override
     public Integer addApply(Apply apply) {
         return applyMapper.insert(apply);
-    }
-
-    @Override
-    public Integer total() {
-        return applyMapper.total();
     }
 
     @Override
@@ -68,13 +89,103 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     @Override
-    public Integer update(Apply apply) {
-        return applyMapper.updateById(apply);
+    public Boolean editApply(UpdateApplyReq updateApplyReq) {
+        String reqUserId = updateApplyReq.getUserId();
+        ServletUtils.checkOperatePermission(reqUserId);
+
+        String applyId = updateApplyReq.getApplyId();
+        Apply apply = getByApplyId(applyId);
+        if (Objects.isNull(apply)) {
+            throw new BusinessException(ErrorCode.NOT_EXISTS_APPLY);
+        }
+        apply.setApplyStatus(updateApplyReq.getStatus());
+
+
+        return applyMapper.updateById(apply) > 0;
     }
 
     @Override
-    public Integer commitDocument(ApplyDocument applyDocument) {
-        return applyDocumentMapper.insert(applyDocument);
+    public Integer commitDocument(AddApplyDocumentReq addApplyDocumentReq) throws IOException {
+        String userId = ServletUtils.getUserId();
+        ServletUtils.checkOperatePermission(userId);
+
+        String fileType = FileUtils.getFileType(addApplyDocumentReq.getFile().getInputStream());
+        if ("application/x-sh".equals(fileType)) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传脚本文件");
+        }
+
+        String applyId = addApplyDocumentReq.getApplyId();
+        Apply apply = getByApplyId(applyId);
+        if (Objects.isNull(apply)) {
+            throw new BusinessException(ErrorCode.NOT_EXISTS_APPLY);
+        }
+
+        ApplyDocument applyDocument = new ApplyDocument();
+        applyDocument.setApplyDocumentId(CcUtils.getUuId());
+        applyDocument.setApplyId(applyId);
+        applyDocument.setCopyWriting(addApplyDocumentReq.getApplyAdText().trim());
+
+        if (Objects.nonNull(addApplyDocumentReq.getFile())) {
+            // 检查文件之前是否已经上传过
+            String md5 = UpuporFileUtils.getMd5(addApplyDocumentReq.getFile().getInputStream());
+            File fileByMd5 = fileService.selectByMd5(md5);
+            String fileUrl;
+            if (Objects.isNull(fileByMd5)) {
+                // 上传的文件
+                String originalFilename = addApplyDocumentReq.getFile().getOriginalFilename();
+                assert originalFilename != null;
+                String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
+                String fileName = "apply_" + CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
+                String folderName = "apply/" + fileName;
+                OssUtils.uploadAnyFile(addApplyDocumentReq.getFile(), folderName);
+                fileUrl = ossFileHost + folderName;
+                // 文件入库
+                try {
+                    File upuporFile = UpuporFileUtils.getUpuporFile(md5, fileUrl, userId);
+                    fileService.addFile(upuporFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                fileUrl = fileByMd5.getFileUrl();
+            }
+            applyDocument.setUpload(fileUrl);
+        }
+
+
+        applyDocument.setCreateTime(CcDateUtil.getCurrentTime());
+        applyDocument.setSysUpdateTime(new Date());
+
+        Integer result = applyDocumentMapper.insert(applyDocument);
+
+        if (result > 0) {
+            // 提交材料成功,更改状态
+            apply.setApplyStatus(ApplyStatus.APPLY_DOCUMENT_COMMIT);
+            applyMapper.updateById(apply);
+
+            //
+            // 发送邮件
+            String emailContent = "收到新的申请,请尽快处理";
+            messageService.sendEmail(CcConstant.UPUPOR_EMAIL, "广告申请材料提交!!!请尽快处理", "广告申请材料:" + emailContent, SKIP_SUBSCRIBE_EMAIL_CHECK);
+        }
+
+        return result;
     }
 
+    @Override
+    public Boolean delApply(DelApplyReq delApplyReq) {
+        String reqUserId = delApplyReq.getUserId();
+        String applyId = delApplyReq.getApplyId();
+
+        ServletUtils.checkOperatePermission(reqUserId);
+
+        Apply apply = getByApplyId(applyId);
+        if (Objects.isNull(apply)) {
+            throw new BusinessException(ErrorCode.NOT_EXISTS_APPLY);
+        }
+        apply.setApplyStatus(ApplyStatus.APPLY_DELETED);
+
+        return applyMapper.updateById(apply) > 0;
+    }
 }

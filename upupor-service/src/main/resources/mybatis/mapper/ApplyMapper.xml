@@ -65,15 +65,5 @@
     order by create_time desc
   </select>
 
-  <select id="total" resultType="java.lang.Integer">
-    select
-    count(*)
-    from apply where apply_status = 2
-  </select>
-
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    update apply set apply_status = 5
-    where apply_id = #{applyId,jdbcType=VARCHAR}
-  </delete>
 
 </mapper>

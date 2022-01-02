@@ -58,11 +58,8 @@ public class FansController {
     @PostMapping(value = "/del")
     @ResponseBody
     public CcResponse del(DelFanReq delFanReq) {
-
-        Integer updateCount = fanService.delFans(delFanReq);
-
         CcResponse ccResponse = new CcResponse();
-        ccResponse.setData(updateCount > 0);
+        ccResponse.setData(fanService.delFans(delFanReq) > 0);
         return ccResponse;
     }
 

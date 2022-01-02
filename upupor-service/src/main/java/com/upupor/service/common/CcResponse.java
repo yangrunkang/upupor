@@ -68,4 +68,9 @@ public class CcResponse implements Serializable {
         this.code = errorCode.getCode();
         this.data = errorCode.getMessage();
     }
+
+    public CcResponse(Object data) {
+        this.data = data;
+    }
+
 }

@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.dao.entity.Feedback;
+import com.upupor.service.spi.req.AddFeedbackReq;
 
 /**
  * 反馈服务
@@ -39,9 +39,9 @@ public interface FeedbackService {
     /**
      * 添加反馈
      *
-     * @param feedback
+     * @param addFeedbackReq
      * @return
      */
-    Integer addFeedBack(Feedback feedback);
+    Integer addFeedBack(AddFeedbackReq addFeedbackReq);
 
 }

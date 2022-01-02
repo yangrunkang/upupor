@@ -82,7 +82,7 @@ public class ApplyManage extends AbstractManageInfoGet {
                 apply.setApplyContent(applyContentDto.getApplyIntro());
             }
             if (apply.getApplySource().equals(ApplySource.TAG)) {
-                AddTagReq addTagReq = JSON.parseObject(apply.getApplyContent(), AddTagReq.class);
+                AddTagReq addTagReq = JSON.parseObject(apply.getApplyContentDto().getApplyIntro(), AddTagReq.class);
                 StringBuilder str = new StringBuilder();
                 str.append("<strong>页面</strong>: ").append(addTagReq.getPageName()).append(CcConstant.HTML_BREAK_LINE);
                 if (!StringUtils.isEmpty(addTagReq.getTagName())) {
