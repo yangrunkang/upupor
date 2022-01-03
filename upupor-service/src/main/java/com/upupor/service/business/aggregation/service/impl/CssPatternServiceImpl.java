@@ -54,8 +54,9 @@ public class CssPatternServiceImpl implements CssPatternService {
 
     @Override
     public ListCssPatternDto getAll(String userId) {
-
-        List<CssPattern> cssPatternList = cssPatternMapper.selectList(new LambdaQueryWrapper<>());
+        LambdaQueryWrapper<CssPattern> query = new LambdaQueryWrapper<CssPattern>()
+                .isNull(CssPattern::getUserId);
+        List<CssPattern> cssPatternList = cssPatternMapper.selectList(query);
         if (CollectionUtils.isEmpty(cssPatternList)) {
             cssPatternList = new ArrayList<>();
         }
