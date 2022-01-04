@@ -599,7 +599,7 @@ fromProfile: 是否来自Profile页面
 
 <div th:fragment="render_user_list(userList)">
     <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(userList)}">
-        <li class="list-group-item p-1" th:each="member,ite : ${userList}">
+        <li class="list-group-item p-0" th:each="member,ite : ${userList}">
             <div th:if="${member.userId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
             <div th:if="${member.userId != 'google-ad-feed'}" class="d-flex align-items-center my-1 ">
                 <img class="lazyload me-3 img rounded cv-icon-60 me-2"
@@ -608,16 +608,14 @@ fromProfile: 是否来自Profile页面
                      th:alt="${member.userName}"
                 />
                 <div class="flex-grow-1">
-                    <h5 class="mt-0 mb-1">
-                        <a th:href="@{'/profile/'+${member.userId}}" class="cv-link"
-                           th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
-                            <span th:text="${member.userName}">标题</span>
-                        </a>
-                    </h5>
-                    <div class="mb-0 text-black-50" th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">内容简介</div>
+                    <a th:href="@{'/profile/'+${member.userId}}" class="cv-link fs-6 fst-normal"
+                       th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
+                        <span th:text="${member.userName}">标题</span>
+                    </a>
+                    <div class="text-black-50" th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">内容简介</div>
                 </div>
-                <span class="mb-0 text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}" th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
-                <a class="btn btn-warning" th:href="'/profile-message/' + ${member.userId}" th:inline="text">
+                <span class="text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}" th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
+                <a class="btn btn-warning btn-sm" th:href="'/profile-message/' + ${member.userId}" th:inline="text">
                     <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item" alt="留言"/>  留言
                 </a>
             </div>
