@@ -119,11 +119,28 @@ public class CommentServiceImpl implements CommentService {
 
         bindCommentUser(pageInfo.getList());
 
+        setCommentFloorNumber(pageInfo.getList(),listCommentReq.getPageNum(),listCommentReq.getPageSize());
+
         ListCommentDto listCommentDto = new ListCommentDto(pageInfo);
         listCommentDto.setCommentList(pageInfo.getList());
         listCommentDto.setPaginationHtml(PageUtils.paginationHtmlForComment(pageInfo.getTotal(), pageInfo.getPageNum(), listCommentReq.getPageSize()));
 
         return listCommentDto;
+    }
+
+    private void setCommentFloorNumber(List<Comment> list,Integer pageNum,Integer pageSize) {
+        if(CollectionUtils.isEmpty(list)) {
+            return;
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            Comment comment = list.get(i);
+            int toAdd = 0;
+            if(pageNum>1){
+                toAdd = (pageNum - 1) * pageSize;
+            }
+            comment.setFloorNum(String.valueOf((i+1)+toAdd));
+        }
     }
 
     @Override

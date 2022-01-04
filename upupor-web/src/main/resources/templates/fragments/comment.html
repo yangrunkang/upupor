@@ -49,7 +49,9 @@
                                 [[${comment.member.userName}]]
                             </a>
                             <div class="float-end text-black-50">
-                                [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
+                                [[${comment.createDateDiff}]]
+                                · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
+                                · <span class="badge bg-light text-black-50" th:text="${comment.floorNum} + '#'"></span>
                             </div>
                         </div>
                         <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>

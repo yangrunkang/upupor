@@ -84,6 +84,10 @@ public class Comment extends BaseEntity {
     @TableField(exist = false)
     private String createDateDiff;
 
+    @TableField(exist = false)
+    private String floorNum;
+
+
     public String getCreateDate() {
         return CcDateUtil.timeStamp2Date(createTime);
     }
@@ -95,5 +99,7 @@ public class Comment extends BaseEntity {
         }
         return CcDateUtil.snsFormat(createTime);
     }
+
+
 
 }
