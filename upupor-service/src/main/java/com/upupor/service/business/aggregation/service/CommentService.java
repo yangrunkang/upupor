@@ -88,7 +88,7 @@ public interface CommentService {
      *
      * @param commentList
      */
-    void bindCommentUserName(List<Comment> commentList);
+    void bindCommentUser(List<Comment> commentList);
 
     void bindContentComment(Content content, Integer pageNum, Integer pageSize);
 

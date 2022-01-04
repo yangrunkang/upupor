@@ -56,39 +56,7 @@
                     </nav>
                     <!--未登录提示-->
                     <div th:if="!${session?.cv_user_id}"  th:include="fragments/index::login_tips"></div>
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listCommentDto.commentList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
-                    <div th:if="!${#lists.isEmpty(memberIndexDto.listCommentDto.commentList)}">
-                        <div class="d-flex align-items-center my-1 mb-1" th:each="comment : ${memberIndexDto.listCommentDto.commentList}" style="overflow:hidden">
-                            <div class="flex-grow-1" th:if="${comment.commentId == 'google-ad-feed'}">
-                                <div class="card" th:include="fragments/index::google_feed_ad"></div>
-                            </div>
-                            <div class="flex-grow-1" th:if="${comment.commentId != 'google-ad-feed'}">
-                                <div class="card">
-                                    <div class="p-2 border-bottom">
-                                        <a class="cv-link text-black-50" th:href="'/profile/'+${comment.member.userId}">
-                                            <img th:data-src="${comment.member.via}" class="lazyload cv-icon img rounded" th:alt="${comment.member.userName}"/>
-                                        </a>
-                                        <a class="cv-link text-black-50 fw-bold" th:href="'/profile/'+${comment.member.userId}">
-                                            [[${comment.member.userName}]]
-                                        </a>
-                                        <span class="float-end text-black-50">
-                                     [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
-                                    </span>
-                                    </div>
-                                    <div class="card-body p-2">
-                                        <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="mt-2 float-end"
-                                 th:if="!${#strings.isEmpty(memberIndexDto.listCommentDto.paginationHtml)}"
-                                 th:utext="${memberIndexDto.listCommentDto.paginationHtml}"> </div>
-                        </div>
-                    </div>
+                    <div th:include="fragments/comment::commentList(${memberIndexDto.listCommentDto.commentList},${memberIndexDto.listCommentDto.paginationHtml},${memberIndexDto.listCommentDto.total},true)"></div>
                     <div class="my-2" th:if="${session?.cv_user_id}">
                         <div id="comment_area">
                             <div th:include="fragments/index::comment_box"></div>

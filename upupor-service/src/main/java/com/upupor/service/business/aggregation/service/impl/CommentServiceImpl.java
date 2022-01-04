@@ -117,6 +117,8 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> commentList = commentMapper.list(listCommentReq);
         PageInfo<Comment> pageInfo = new PageInfo<>(commentList);
 
+        bindCommentUser(pageInfo.getList());
+
         ListCommentDto listCommentDto = new ListCommentDto(pageInfo);
         listCommentDto.setCommentList(pageInfo.getList());
         listCommentDto.setPaginationHtml(PageUtils.paginationHtmlForComment(pageInfo.getTotal(), pageInfo.getPageNum(), listCommentReq.getPageSize()));
@@ -130,7 +132,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void bindCommentUserName(List<Comment> commentList) {
+    public void bindCommentUser(List<Comment> commentList) {
         if (CollectionUtils.isEmpty(commentList)) {
             return;
         }
@@ -179,10 +181,6 @@ public class CommentServiceImpl implements CommentService {
         listCommentReq.setCommentSource(CommentSource.getBySource(content.getContentType().getType()));
 
         ListCommentDto listCommentDto = this.listComment(listCommentReq);
-        List<Comment> comments = listCommentDto.getCommentList();
-        if (!CollectionUtils.isEmpty(comments)) {
-            this.bindCommentUserName(comments);
-        }
         content.setListCommentDto(listCommentDto);
     }
 
@@ -211,10 +209,6 @@ public class CommentServiceImpl implements CommentService {
         listCommentReq.setPageNum(pageNum);
         listCommentReq.setPageSize(pageSize);
         ListCommentDto listCommentDto = this.listComment(listCommentReq);
-        List<Comment> comments = listCommentDto.getCommentList();
-        if (!CollectionUtils.isEmpty(comments)) {
-            this.bindCommentUserName(comments);
-        }
         radio.setListCommentDto(listCommentDto);
     }
 

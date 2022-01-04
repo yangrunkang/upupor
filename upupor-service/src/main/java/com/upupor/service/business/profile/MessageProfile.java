@@ -36,9 +36,6 @@ import com.upupor.service.types.CommentStatus;
 import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import java.util.Objects;
 
 /**
  * @author Yang Runkang (cruise)
@@ -65,14 +62,6 @@ public class MessageProfile extends AbstractProfile {
         listCommentReq.setCommentSource(CommentSource.MESSAGE);
 
         ListCommentDto listCommentDto = commentService.listComment(listCommentReq);
-        if (Objects.isNull(listCommentDto)) {
-            listCommentDto = new ListCommentDto();
-        }
-
-        // 绑定评论用户
-        if (!CollectionUtils.isEmpty(listCommentDto.getCommentList())) {
-            commentService.bindCommentUserName(listCommentDto.getCommentList());
-        }
         getMemberIndexDto().setListCommentDto(listCommentDto);
     }
 

@@ -73,23 +73,7 @@
                 <div>
                     <!--未登录提示-->
                     <div class="mt-2" th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
-                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(radioIndexDto.radio.listCommentDto.commentList)}">
-                        <div class="border-bottom mb-2">
-                            <span class="lead">评论<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${radioIndexDto.radio.listCommentDto.total}"></span></span>
-                        </div>
-                        <div>
-                            <div class="mt-2 float-end"
-                                 th:if="!${#strings.isEmpty(radioIndexDto.radio.listCommentDto.paginationHtml)}"
-                                 th:utext="${radioIndexDto.radio.listCommentDto.paginationHtml}"> </div>
-                        </div>
-                        <div th:include="fragments/index::radio_comment"></div>
-                        <div>
-                            <div class="mt-2 float-end"
-                             th:if="!${#strings.isEmpty(radioIndexDto.radio.listCommentDto.paginationHtml)}"
-                             th:utext="${radioIndexDto.radio.listCommentDto.paginationHtml}"> </div>
-                        </div>
-                    </div>
-
+                    <div th:include="fragments/comment::commentList(${radioIndexDto.radio.listCommentDto.commentList},${radioIndexDto.radio.listCommentDto.paginationHtml},${radioIndexDto.radio.listCommentDto.total},false)"></div>
                     <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status.name() == 'NORMAL'}">
                         <div id="comment_area">
                             <div th:include="fragments/index::comment_box"></div>
@@ -99,11 +83,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(radioIndexDto.radio.listCommentDto.commentList)} and ${radioIndexDto.radio.status.name()} == 'NORMAL'">
-                        <div th:include="fragments/index::without_comment"></div>
-                    </div>
                 </div>
-    </div>
+            </div>
             <div class="col-lg-3">
                 <div th:include="fragments/index::create_radio"></div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">

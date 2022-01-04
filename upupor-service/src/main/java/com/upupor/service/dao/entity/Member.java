@@ -32,6 +32,7 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.MemberIsAdmin;
 import com.upupor.service.types.MemberStatus;
 import lombok.Data;
+import org.apache.logging.log4j.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -150,6 +151,7 @@ public class Member extends BaseEntity {
         this.attentionNum = 0;
         this.totalIntegral = 0;
         this.historyViaList = new ArrayList<>();
+        this.createDateDiff = Strings.EMPTY;
     }
 
     public String getCreateDate() {

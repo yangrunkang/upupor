@@ -29,6 +29,7 @@ package com.upupor.service.business.ad;
 
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.dao.entity.Comment;
+import com.upupor.service.dao.entity.Member;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class CommentAd extends AbstractAd<Comment> {
     protected void insertAd(int adIndex) {
         Comment ad = new Comment();
         ad.setCommentId(CcConstant.GoogleAd.FEED_AD);
+        ad.setMember(new Member());
         getVoList().add(adIndex, ad);
     }
 }

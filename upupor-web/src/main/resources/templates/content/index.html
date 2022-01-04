@@ -133,23 +133,7 @@
                 </div>
                 <!--未登录提示-->
                 <div th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(contentIndexDto.content.listCommentDto.commentList)}">
-                    <div class="border-bottom mb-2">
-                        <span class="lead">评论<span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark ms-2" th:text="${contentIndexDto.content.listCommentDto.total}"></span></span>
-                    </div>
-                    <div>
-                        <div class="mt-2 float-end"
-                             th:if="!${#strings.isEmpty(contentIndexDto.content.listCommentDto.paginationHtml)}"
-                             th:utext="${contentIndexDto.content.listCommentDto.paginationHtml}"> </div>
-                    </div>
-                    <div th:include="fragments/index::content_comment"></div>
-                    <div>
-                        <div class="mt-2 float-end"
-                         th:if="!${#strings.isEmpty(contentIndexDto.content.listCommentDto.paginationHtml)}"
-                         th:utext="${contentIndexDto.content.listCommentDto.paginationHtml}"> </div>
-                    </div>
-                </div>
-
+                <div th:if="${contentIndexDto.content.status.name()} == 'NORMAL'" th:include="fragments/comment::commentList(${contentIndexDto.content.listCommentDto.commentList},${contentIndexDto.content.listCommentDto.paginationHtml},${contentIndexDto.content.listCommentDto.total},false)"></div>
                 <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div id="comment_area">
                         <div th:include="fragments/index::comment_box"></div>
@@ -159,15 +143,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(contentIndexDto.content.listCommentDto.commentList)} and ${contentIndexDto.content.status.name()} == 'NORMAL'">
-                    <div th:include="fragments/index::without_comment"></div>
-                </div>
                 <!--推荐文章-->
                 <div class="card card-body shadow-sm border-0 p-2 mt-2" th:if="!${#lists.isEmpty(contentIndexDto.randomContentList)}">
                     <div class="lead">推荐阅读</div>
                     <div th:replace="fragments/index::content_list(${contentIndexDto.randomContentList},false)"></div>
                 </div>
-    </div>
+            </div>
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-0 p-0 mb-2" th:if="${contentIndexDto.createContentDesc != null}">
                     <div class="nav flex-column nav-pills" aria-orientation="vertical">

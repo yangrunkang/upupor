@@ -81,7 +81,6 @@
             <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
             <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
             <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
-            <!--            <a class="nav-link cv-link user_manage_comment" href="/user/manage/comment" title="评论管理"><img th:src="${ossStatic} + @{/icons/system/comment.png}" class="cv-icon-item" alt="评论管理"/> 评论管理</a>-->
             <a class="nav-link cv-link profile_message" th:href="'/profile-message/' + ${session?.cv_user_id}" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
             <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
             <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo" href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="设置"/> 设置</a>
@@ -208,52 +207,6 @@ fromProfile: 是否来自Profile页面
         <a href="/pinned" title="置顶" th:if="${content.pinnedStatus.name() == 'PINNED'}"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark pull-right">置顶</span></a>
     </div>
 </div>
-
-
-<span th:fragment="content_comment">
-    <div class="list-group list-group-flush">
-        <div class="d-flex align-items-top list-group-item p-1 mt-1" th:each="comment : ${contentIndexDto.content.listCommentDto.commentList}">
-            <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
-                <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-3 mb-2 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
-            </a>
-            <div class="flex-grow-1">
-                <div class="mt-0">
-                    <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
-                        [[${comment.member.userName}]]
-                    </a>
-                    <div class="float-end text-black-50">
-                         [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
-                    </div>
-                </div>
-                <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
-            </div>
-        </div>
-    </div>
-
-</span>
-
-
-<span th:fragment="radio_comment">
-    <div class="list-group list-group-flush">
-        <div class="d-flex align-items-top list-group-item p-1 mt-1" th:each="comment : ${radioIndexDto.radio.listCommentDto.commentList}">
-        <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
-            <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-3 mb-2 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
-        </a>
-        <div class="flex-grow-1">
-            <div class="mt-0">
-                <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
-                    [[${comment.member.userName}]]
-                </a>
-                <div class="float-end text-black-50">
-                     [[${comment.createDateDiff}]] · <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
-                </div>
-            </div>
-            <div class="ck ck-content ck-rounded-corners" style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
-        </div>
-    </div>
-    </div>
-
-</span>
 
 <!--无内容-->
 <div th:fragment="empty_content">

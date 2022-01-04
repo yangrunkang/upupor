@@ -33,9 +33,11 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.CommentAgree;
 import com.upupor.service.types.CommentSource;
 import com.upupor.service.types.CommentStatus;
+import joptsimple.internal.Strings;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 public class Comment extends BaseEntity {
@@ -88,6 +90,9 @@ public class Comment extends BaseEntity {
 
     @JSONField(serialize = false)
     public String getCreateDateDiff() {
+        if(Objects.isNull(createTime)){
+            return Strings.EMPTY;
+        }
         return CcDateUtil.snsFormat(createTime);
     }
 
