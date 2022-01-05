@@ -31,8 +31,8 @@ import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.spi.req.ListCommentReq;
-import com.upupor.service.types.CommentSource;
 import com.upupor.service.types.CommentStatus;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -59,7 +59,7 @@ public class MessageProfile extends AbstractProfile {
         listCommentReq.setPageSize(pageSize);
         listCommentReq.setTargetId(userId);
         listCommentReq.setStatus(CommentStatus.NORMAL);
-        listCommentReq.setCommentSource(CommentSource.MESSAGE);
+        listCommentReq.setCommentSource(ContentType.MESSAGE);
 
         ListCommentDto listCommentDto = commentService.listComment(listCommentReq);
         getMemberIndexDto().setListCommentDto(listCommentDto);

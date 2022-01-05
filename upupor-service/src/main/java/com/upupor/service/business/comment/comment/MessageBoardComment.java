@@ -34,7 +34,7 @@ import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Member;
-import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
@@ -105,8 +105,8 @@ public class MessageBoardComment extends AbstractComment<Member> {
     }
 
     @Override
-    public Boolean confirmSource(CommentSource commentSource, String targetId) {
-        return Objects.nonNull(getTarget(targetId)) && CommentSource.MESSAGE.equals(commentSource);
+    public Boolean confirmSource(ContentType contentType, String targetId) {
+        return Objects.nonNull(getTarget(targetId)) && ContentType.MESSAGE.equals(contentType);
     }
 
     @Override

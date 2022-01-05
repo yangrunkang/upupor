@@ -31,8 +31,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.CommentAgree;
-import com.upupor.service.types.CommentSource;
 import com.upupor.service.types.CommentStatus;
+import com.upupor.service.types.ContentType;
 import joptsimple.internal.Strings;
 import lombok.Data;
 
@@ -48,7 +48,7 @@ public class Comment extends BaseEntity {
 
     private String targetId;
 
-    private CommentSource commentSource;
+    private ContentType commentSource;
 
     private CommentStatus status;
 

@@ -35,7 +35,7 @@ import com.upupor.service.business.aggregation.service.RadioService;
 import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
-import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
@@ -101,8 +101,8 @@ public class RadioComment extends AbstractComment<Radio> {
     }
 
     @Override
-    public Boolean confirmSource(CommentSource commentSource, String targetId) {
-        return Objects.nonNull(getTarget(targetId)) && CommentSource.RADIO.equals(commentSource);
+    public Boolean confirmSource(ContentType contentType, String targetId) {
+        return Objects.nonNull(getTarget(targetId)) && ContentType.RADIO.equals(contentType);
     }
 
     @Override

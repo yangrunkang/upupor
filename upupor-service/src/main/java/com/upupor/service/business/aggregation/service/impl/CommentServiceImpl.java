@@ -45,7 +45,6 @@ import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.spi.req.AddCommentReq;
 import com.upupor.service.spi.req.ListCommentReq;
 import com.upupor.service.types.CommentAgree;
-import com.upupor.service.types.CommentSource;
 import com.upupor.service.types.CommentStatus;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.CcUtils;
@@ -195,7 +194,7 @@ public class CommentServiceImpl implements CommentService {
         listCommentReq.setPageNum(pageNum);
         listCommentReq.setPageSize(pageSize);
         // 评论来源和文章类型一致
-        listCommentReq.setCommentSource(CommentSource.getBySource(content.getContentType().getType()));
+        listCommentReq.setCommentSource(content.getContentType());
 
         ListCommentDto listCommentDto = this.listComment(listCommentReq);
         content.setListCommentDto(listCommentDto);

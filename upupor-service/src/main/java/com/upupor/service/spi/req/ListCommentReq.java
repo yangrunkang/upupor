@@ -27,8 +27,8 @@
 
 package com.upupor.service.spi.req;
 
-import com.upupor.service.types.CommentSource;
 import com.upupor.service.types.CommentStatus;
+import com.upupor.service.types.ContentType;
 import lombok.Data;
 
 /**
@@ -44,7 +44,7 @@ public class ListCommentReq {
     /**
      * 评论来源和文章类型是一致的
      */
-    private CommentSource commentSource;
+    private ContentType commentSource;
     private Integer pageNum;
     private Integer pageSize;
 

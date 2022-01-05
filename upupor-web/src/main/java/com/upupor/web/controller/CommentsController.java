@@ -44,8 +44,8 @@ import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.spi.req.AddCommentReq;
 import com.upupor.service.spi.req.ListCommentReq;
 import com.upupor.service.spi.req.UpdateCommentReq;
-import com.upupor.service.types.CommentSource;
 import com.upupor.service.types.CommentStatus;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -136,12 +136,12 @@ public class CommentsController {
         // 创作者的用户Id
         String creatorUserId = null;
         // 目前只有文章和短内容的评论
-        if (CommentSource.contentSource().contains(addCommentReq.getCommentSource())) {
+        if (ContentType.contentSource().contains(addCommentReq.getCommentSource())) {
             Content content = contentService.getNormalContent(addCommentReq.getTargetId());
             creatorUserId = content.getUserId();
-        } else if (addCommentReq.getCommentSource().equals(CommentSource.MESSAGE)) {
+        } else if (ContentType.MESSAGE.equals(addCommentReq.getCommentSource())) {
             creatorUserId = addCommentReq.getTargetId();
-        } else if (addCommentReq.getCommentSource().equals(CommentSource.RADIO)) {
+        } else if (ContentType.RADIO.equals(addCommentReq.getCommentSource())) {
             Radio radio = radioService.getByRadioId(addCommentReq.getTargetId());
             creatorUserId = radio.getUserId();
         }

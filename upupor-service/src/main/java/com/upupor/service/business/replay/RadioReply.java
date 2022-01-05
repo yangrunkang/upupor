@@ -34,7 +34,7 @@ import com.upupor.service.business.aggregation.service.RadioService;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.listener.event.ReplayCommentEvent;
-import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
@@ -59,8 +59,8 @@ public class RadioReply extends AbstractReplyComment<Radio> {
     }
 
     @Override
-    public Boolean isHandled(String targetId, CommentSource commentSource) {
-        return Objects.nonNull(getTarget(targetId)) && CommentSource.RADIO.equals(commentSource);
+    public Boolean isHandled(String targetId, ContentType contentType) {
+        return Objects.nonNull(getTarget(targetId)) && ContentType.RADIO.equals(contentType);
     }
 
     @Override

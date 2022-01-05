@@ -28,7 +28,7 @@
 package com.upupor.service.listener.event;
 
 
-import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.ContentType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -57,7 +57,7 @@ public class ToCommentSuccessEvent {
     /**
      * 评论来源
      */
-    private CommentSource commentSource;
+    private ContentType commentSource;
 
     /**
      * 评论Id

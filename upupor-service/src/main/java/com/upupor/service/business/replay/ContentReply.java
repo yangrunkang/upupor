@@ -34,7 +34,7 @@ import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.ReplayCommentEvent;
-import com.upupor.service.types.CommentSource;
+import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
 
@@ -60,8 +60,8 @@ public class ContentReply extends AbstractReplyComment<Content> {
 
 
     @Override
-    public Boolean isHandled(String targetId, CommentSource commentSource) {
-        return Objects.nonNull(getTarget(targetId)) && CommentSource.contentSource().contains(commentSource);
+    public Boolean isHandled(String targetId, ContentType contentType) {
+        return Objects.nonNull(getTarget(targetId)) && ContentType.contentSource().contains(contentType);
     }
 
     @Override

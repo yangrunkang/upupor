@@ -35,6 +35,8 @@ package com.upupor.service.types;
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.service.common.CcConstant.OSS_URL;
@@ -76,6 +78,15 @@ public enum ContentType {
      */
     SHORT_CONTENT(6, "短内容", "/topic", "发布短内容", OSS_URL + "icons/system/topic.png", "创建 > 短内容"),
 
+    /**
+     * 留言
+     */
+    MESSAGE(7, "留言"),
+
+    /**
+     * 电台
+     */
+    RADIO(8, "电台"),
     ;
     @EnumValue
     private final Integer type;
@@ -92,6 +103,15 @@ public enum ContentType {
         this.webText = webText;
         this.icon = icon;
         this.tips = tips;
+    }
+
+    ContentType(Integer type, String name) {
+        this.type = type;
+        this.name = name;
+        this.url = null;
+        this.webText = null;
+        this.icon = null;
+        this.tips = null;
     }
 
     public static String getUrl(ContentType contentType) {
@@ -146,6 +166,22 @@ public enum ContentType {
             }
         }
         return null;
+    }
+
+    /**
+     * 内容资源
+     *
+     * @return
+     */
+    public static List<ContentType> contentSource() {
+        List<ContentType> contentTypeList = new ArrayList<>();
+        contentTypeList.add(TECH);
+        contentTypeList.add(QA);
+        contentTypeList.add(SHARE);
+        contentTypeList.add(WORKPLACE);
+        contentTypeList.add(RECORD);
+        contentTypeList.add(SHORT_CONTENT);
+        return contentTypeList;
     }
 
 
