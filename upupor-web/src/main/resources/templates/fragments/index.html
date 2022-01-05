@@ -105,9 +105,9 @@
         <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.contentData.viewNum}">0</span>
         <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.createDate}">2020-01-01 00:00</span>
         <span th:if="${content?.latestCommentUserId} != null">
-            <span class="text-black-50 small"><span class="fw-bold text-black-50">·&nbsp;</span>最后回复:</span>
+            <span class="text-black-50 small"><span class="fw-bold text-black-50">&nbsp;·&nbsp;</span>最后回复:</span>
             <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${content?.latestCommentUserId}" th:inline="text">[[${content?.latestCommentUserName}]]</a>
-            <span class="fw-bold text-black-50">·</span>
+            <span class="fw-bold text-black-50">&nbsp;·&nbsp;</span>
             <span class="text-black-50 small" th:text="${content?.latestCommentDate}"></span>
         </span>
     </div>

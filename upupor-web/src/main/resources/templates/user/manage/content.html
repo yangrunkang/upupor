@@ -68,14 +68,14 @@
                         <div class="table-responsive fixed-table-body">
                             <table class="table table-hover" id="manage_content_table">
                                 <thead>
-                                <tr>
-                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
-                                    <td class="fw-bold" style="width: 38%;">内容标题</td>
-                                    <td class="fw-bold" style="width: 9%;text-align: center">类型</td>
-                                    <td class="fw-bold" style="width: 6%;text-align: center">状态</td>
-                                    <td class="fw-bold hidden-xs" style="width: 10%;text-align: center">标签</td>
-                                    <td class="fw-bold hidden-xs" style="width: 21%;">创建时间</td>
-                                    <td class="fw-bold" style="width: 8%;text-align: center">操作</td>
+                                    <tr>
+                                        <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                        <td class="fw-bold" style="width: 38%;">内容标题</td>
+                                        <td class="fw-bold d-none d-sm-block" style="width: 9%;text-align: center">类型</td>
+                                        <td class="fw-bold" style="width: 6%;text-align: center">状态</td>
+                                        <td class="fw-bold d-none d-sm-block" style="width: 10%;text-align: center">标签</td>
+                                        <td class="fw-bold d-none d-sm-block" style="width: 21%;">创建时间</td>
+                                        <td class="fw-bold" style="width: 8%;text-align: center">操作</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,7 +89,7 @@
                                         <td>
                                             <div th:replace="fragments/index::content_manage(${content})"></div>
                                         </td>
-                                        <td style="text-align: center">
+                                        <td class="d-none d-sm-block" style="text-align: center">
                                             <span th:include="fragments/index::content_type"></span>
                                         </td>
                                         <td style="text-align: center">
@@ -101,7 +101,7 @@
                                             <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
                                             <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
                                         </td>
-                                        <td class="hidden-xs">
+                                        <td class="d-none d-sm-block">
                                             <div th:each="tagDto : ${content.tagDtoList}" style="float: left">
                                                 <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
                                             </div>
@@ -109,7 +109,7 @@
                                                 无
                                             </a>
                                         </td>
-                                        <td class="hidden-xs" th:text="${content.createDate}">创建时间</td>
+                                        <td class="d-none d-sm-block" th:text="${content.createDate}">创建时间</td>
                                         <td style="text-align: center">
                                             <div class="btn-group" role="group" aria-label="Second group">
                                                 <button id="operation-message" type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -136,13 +136,10 @@
                         <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}">
                             <div th:include="fragments/index::empty_content"></div>
                         </div>
-                        <div>
                         <div class="mt-2 float-end"
                              th:if="!${#strings.isEmpty(memberIndexDto.listContentDto.paginationHtml)}"
-                             th:utext="${memberIndexDto.listContentDto.paginationHtml}"> </div>
+                             th:utext="${memberIndexDto.listContentDto.paginationHtml}"></div>
                     </div>
-                    </div>
-
                 </div>
             </div>
             <!--左列-用户信息-->
