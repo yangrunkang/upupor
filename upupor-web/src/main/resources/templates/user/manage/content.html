@@ -71,10 +71,10 @@
                                     <tr>
                                         <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
                                         <td class="fw-bold" style="width: 38%;">内容标题</td>
-                                        <td class="fw-bold d-none d-sm-block" style="width: 9%;text-align: center">类型</td>
+                                        <td class="fw-bold" style="width: 9%;text-align: center">类型</td>
                                         <td class="fw-bold" style="width: 6%;text-align: center">状态</td>
-                                        <td class="fw-bold d-none d-sm-block" style="width: 10%;text-align: center">标签</td>
-                                        <td class="fw-bold d-none d-sm-block" style="width: 21%;">创建时间</td>
+                                        <td class="fw-bold" style="width: 10%;text-align: center">标签</td>
+                                        <td class="fw-bold" style="width: 21%;">创建时间</td>
                                         <td class="fw-bold" style="width: 8%;text-align: center">操作</td>
                                     </tr>
                                 </thead>
@@ -87,9 +87,9 @@
                                             <span th:if="${content.pinnedStatus.name()} == 'PINNED'" style="cursor: pointer;" onclick="window.location.href = '/pinned'"><span th:include="fragments/icon::top"></span></span>
                                         </td>
                                         <td>
-                                            <div th:replace="fragments/index::content_manage(${content})"></div>
+                                            <span th:replace="fragments/index::content_manage(${content})"></span>
                                         </td>
-                                        <td class="d-none d-sm-block" style="text-align: center">
+                                        <td style="text-align: center">
                                             <span th:include="fragments/index::content_type"></span>
                                         </td>
                                         <td style="text-align: center">
@@ -101,15 +101,15 @@
                                             <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
                                             <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
                                         </td>
-                                        <td class="d-none d-sm-block">
-                                            <div th:each="tagDto : ${content.tagDtoList}" style="float: left">
+                                        <td>
+                                            <span th:each="tagDto : ${content.tagDtoList}" style="float: left">
                                                 <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
-                                            </div>
-                                            <a th:if="${#lists.isEmpty(content.tagDtoList)}">
+                                            </span>
+                                            <span th:if="${#lists.isEmpty(content.tagDtoList)}">
                                                 无
-                                            </a>
+                                            </span>
                                         </td>
-                                        <td class="d-none d-sm-block" th:text="${content.createDate}">创建时间</td>
+                                        <td th:text="${content.createDate}">创建时间</td>
                                         <td style="text-align: center">
                                             <div class="btn-group" role="group" aria-label="Second group">
                                                 <button id="operation-message" type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
