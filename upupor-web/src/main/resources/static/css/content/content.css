@@ -24,18 +24,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-/*设置Ckeditor5的高度*/
-.ck-editor__editable_inline {
-    min-height: 120px !important;
-}
-
-/*去除p标签下边距*/
-p {
-    /*margin: 0 0 1em;*/
-    margin: 0 0 0em;
-}
-
 .copy-url {
     cursor: pointer;
 }

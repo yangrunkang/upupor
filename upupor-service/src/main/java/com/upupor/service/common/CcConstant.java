@@ -144,7 +144,6 @@ public final class CcConstant {
     public static final String USER_MANAGE_FAN = "user/manage/fans";
     public static final String USER_MANAGE_INTEGRAL = "user/manage/integral";
     public static final String EDITOR = "editor/editor";
-    public static final String EDITOR_MD = "editor/md";
     public static final String BEFORE_EDITOR = "components/before-editor";
     public static final String CONTENT_INDEX = "content/index";
     public static final String EDIT_USER_MANAGE_APPLY = "user/manage/apply";

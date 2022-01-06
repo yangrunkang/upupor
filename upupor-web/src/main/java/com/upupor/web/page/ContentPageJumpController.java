@@ -163,7 +163,7 @@ public class ContentPageJumpController {
      */
     @ApiOperation("编辑器上传图片文件")
     @PostMapping(value = "/uploadFile", consumes = "multipart/form-data")
-    public String uploadFileForEditor(@RequestParam("upload") MultipartFile file) throws IOException {
+    public String uploadFileForEditor(@RequestParam("file") MultipartFile file) throws IOException {
 
         if (Objects.isNull(file)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "文件为空");
@@ -179,8 +179,7 @@ public class ContentPageJumpController {
         String md5 = UpuporFileUtils.getMd5(file.getInputStream());
         File fileByMd5 = fileService.selectByMd5(md5);
 
-        String pictureUrl;
-
+        String pictureUrl = "Error";
         if (Objects.isNull(fileByMd5)) {
             // 获取文件后缀
             String originalFilename = file.getOriginalFilename();
@@ -220,38 +219,12 @@ public class ContentPageJumpController {
 
                 log.error("文件上传失败,文件类型:{}", fileType);
 
-                // 根据API文档封装错误消息
-                CkeditorUploadErrorResponse errorResponse = new CkeditorUploadErrorResponse();
-                ErrorMessage errorMessage = new ErrorMessage();
-                errorMessage.setMessage(e.getMessage());
-                errorResponse.setError(errorMessage);
-                return JSON.toJSONString(errorResponse);
+
             }
         } else {
             pictureUrl = fileByMd5.getFileUrl();
         }
-
-
-        // 根据API文档封装成功消息
-        CkeditorUploadResponse res = new CkeditorUploadResponse();
-        res.setUrl(pictureUrl);
-        return JSON.toJSONString(res);
-    }
-
-
-    @Data
-    private static class CkeditorUploadResponse {
-        private String url;
-    }
-
-    @Data
-    private static class CkeditorUploadErrorResponse {
-        private ErrorMessage error;
-    }
-
-    @Data
-    private static class ErrorMessage {
-        private String message;
+        return pictureUrl;
     }
 
 }

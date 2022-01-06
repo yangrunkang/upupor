@@ -32,10 +32,6 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/content/history.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/content/history.js}"></script>
-<!--加载代码美化插件-->
-<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/prismjs/prism-min.css}"/>
-<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/prismjs/prism-min.js}"></script>
-<script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/ckeditor5/ckeditor.js}"></script>
 <!--内容-->
 <div th:fragment="content">
     <div class="container">
@@ -58,11 +54,11 @@
                         </div>
                         <div class="card-title">
                             <div class="text-black-50" th:if="!${#strings.isEmpty(cacheContent.content)}">正文:</div>
-                            <div class="ck ck-content ck-rounded-corners" style="overflow:hidden" th:if="!${#strings.isEmpty(cacheContent.content)}" th:utext="${cacheContent.content}"></div>
+                            <div style="overflow:hidden" th:if="!${#strings.isEmpty(cacheContent.content)}" th:utext="${cacheContent.content}"></div>
                         </div>
                     </div>
                 </div>
-    </div>
+        </div>
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-0 p-2">
                     未完成的内容

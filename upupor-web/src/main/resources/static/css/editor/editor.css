@@ -24,45 +24,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-/**
-复写label标签,左对齐
- */
-.form-horizontal .control-label {
-    text-align: left;
-}
-
-/*设置Ckeditor5的高度*/
-.ck-editor__editable_inline {
-    min-height: 700px !important;
-}
-
-/*去除p标签下边距(注意其他地方也有)*/
-p {
-    margin: 0 0 0em;
-}
-
-
 .new-content {
     display: none;
 }
 
 .edit-content {
     display: none;
-}
-
-/*在编辑器页面添加这个样式,主要是添加background:hsla(0,0%,78%,.3);在非编辑器页面,是移除了这个属性的,给代码高亮让位*/
-.ck-content pre {
-    padding: 1em;
-    color: #353535;
-    border: 1px solid #c4c4c4;
-    background:hsla(0,0%,78%,.3);
-    border-radius: 2px;
-    text-align: left;
-    direction: ltr;
-    tab-size: 4;
-    white-space: pre-wrap;
-    font-style: normal;
-    min-width: 200px;
 }
 

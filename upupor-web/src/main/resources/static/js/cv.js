@@ -176,147 +176,35 @@ function loadBootstrapRichText(isComment) {
  * 获取编辑器数据
  */
 function getEditorData() {
-    return window.editor.getData();
+    return window.editor.getHtml();
 }
 
 /**
  * 加载不同的编辑器js,初始化是同一个
  */
 function initEditor(isComment){
-
-    let items = [
-        'heading',
-        '|',
-        'bold',
-        'alignment',
-        'bulletedList',
-        'numberedList',
-        '|',
-        'blockQuote',
-        'code',
-        'codeBlock',
-        'imageUpload',
-        'insertTable',
-        'link',
-        '|',
-        'fontColor',
-        'fontSize',
-        'fontBackgroundColor',
-        'highlight',
-        'italic',
-        'underline',
-        'horizontalLine',
-        'strikethrough',
-        'subscript',
-        'superscript',
-        'fontFamily',
-        '|',
-        'removeFormat',
-        'pageBreak',
-        'undo',
-        'redo',
-        'indent',
-        'outdent',
-        '|',
-        'exportWord'
-    ];
-
-    if(isComment){
-        items = [
-            'heading',
-            'bold',
-            'alignment',
-            'bulletedList',
-            'numberedList',
-            'blockQuote',
-            'code',
-            'imageUpload',
-            'insertTable',
-            'link',
-            'fontColor',
-            'removeFormat',
-            ];
-    }
-    ClassicEditor
-        .create( document.querySelector( '#vcr_editor' ), {
-            placeholder: '欢迎使用Upupor编辑器',
-            language: 'zh-cn',
-            image: {
-                upload: {
-                    types: ['jpeg', 'png', 'bmp', 'webp', 'tiff']
-                },
-                toolbar: [
-                    'imageTextAlternative',
-                    'imageStyle:full',
-                    // 'imageStyle:side'
-                ],
+    window.editor = new Cherry({
+        id: 'vcr_editor',
+        value: '',
+        editor: {
+            theme: 'default',
+            defaultModel: 'editOnly',
+            height: '300px',
+        },
+        toolbars:{
+            theme: 'light', // light or dark
+            toolbar : ['bold', 'italic', 'strikethrough','color', '|', 'header', 'list', 'insert', 'graph', 'togglePreview'],
+            bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup', '|', 'size'], // array or false
+            float : ['h1', 'h2', 'h3', '|', 'checklist', 'quote', 'quickTable', 'code'], // array or false
+            customMenu: {
             },
-            table: {
-                contentToolbar: [
-                    'tableColumn',
-                    'tableRow',
-                    'mergeTableCells',
-                    'tableCellProperties'
-                ]
+            fileUpload:(file, callback) => {
+                callback('s.jpg');
             },
-
-            // 图片上传(使用简单上传)
-            simpleUpload: {
-                // The URL that the images are uploaded to.
-                uploadUrl: '/uploadFile',
-            },
-            toolbar: {
-                items: items
-            },
-            wordCount: {
-                onUpdate: stats => {
-                    // 部分页面没有 editor_word_count 元素,所以捕获下异常
-                    try{
-                        let word_count = `${ stats.characters }`;
-                        if(word_count<=0){
-                            $(".editor_word_count").hide();
-                        }else{
-                            $(".editor_word_count").show();
-                            $(".ck-word-count__characters").html('已经输入' + `${ stats.characters }` + '个字')
-                        }
-                    }catch (e) {
-
-                    }
-
-                    // 如果是评论
-                    if(isComment){
-                        try{
-                            let word_count = `${ stats.characters }`;
-                            if(word_count<=0){
-                                // 如果清空了,就将回复人的id清空
-                                $("#reply_to_user").val('');
-                            }
-                        }catch (e) {
-
-                        }
-                    }
-
-                }
-            },
-            exportWord: {
-                fileName: 'upupor内容导出.docx',
-                converterOptions: {
-                    format: 'A4', // Default value, you don't need to specify it explicitly for A4.
-                    margin_top: '20mm',
-                    margin_bottom: '20mm',
-                    margin_right: '12mm',
-                    margin_left: '12mm'
-                }
-            },
-        } )
-        .then( editor => {
-            window.editor = editor;
-            $("#comment_btn_group").show();
-            $("#comment_loading").hide();
-        } )
-        .catch( error => {
-        } );
-
+        }
+    });
+    $("#comment_btn_group").show();
+    $("#comment_loading").hide();
 }
 
 
