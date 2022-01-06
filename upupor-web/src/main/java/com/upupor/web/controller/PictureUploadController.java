@@ -156,4 +156,76 @@ public class PictureUploadController {
         ccResponse.setData(picUrl);
         return ccResponse;
     }
+
+
+    /**
+     * 返回方法参数
+     * <p>
+     * 要记住 @RequestParam("value")里面的value值,要和页面提交的一直,如果是页面是 filedddd,@RequestParam()里面就要写filedddd
+     *
+     * @param file
+     * @return
+     */
+    @ApiOperation("编辑器上传图片文件")
+    @PostMapping(value = "/uploadFile/editor", consumes = "multipart/form-data")
+    public CcResponse uploadFileForEditor(@RequestParam("file") MultipartFile file) throws IOException {
+
+        if (Objects.isNull(file)) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR, "文件为空");
+        }
+
+        String fileType = FileUtils.getFileType(file.getInputStream());
+        if (!fileType.startsWith("image/")) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传非图像文件");
+        }
+
+
+        // 检查文件之前是否已经上传过
+        String md5 = UpuporFileUtils.getMd5(file.getInputStream());
+        File fileByMd5 = fileService.selectByMd5(md5);
+
+        String pictureUrl = "Error";
+        if (Objects.isNull(fileByMd5)) {
+            // 获取文件后缀
+            String originalFilename = file.getOriginalFilename();
+            assert originalFilename != null;
+            String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
+
+            // 判定是否是允许上传文件后缀
+            if (StringUtils.isEmpty(allowsFilesSuffix)) {
+                throw new BusinessException(ErrorCode.LESS_CONFIG);
+            }
+            String[] split = allowsFilesSuffix.split(CcConstant.COMMA);
+            if (ArrayUtils.isEmpty(split)) {
+                throw new BusinessException(ErrorCode.LESS_CONFIG);
+            }
+            if (!Arrays.asList(split).contains(suffix)) {
+                throw new BusinessException(ErrorCode.ILLEGAL_FILE_SUFFIX);
+            }
+            // 文件名
+            String fileName = "content_" + CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
+            String folderFileName;
+            try {
+                folderFileName = "content/" + fileName;
+                OssUtils.uploadImgFile(file, folderFileName, null);
+
+                pictureUrl = ossFileHost + folderFileName;
+
+                // 文件入库
+                try {
+                    File upuporFile = UpuporFileUtils.getUpuporFile(md5, pictureUrl, ServletUtils.getUserId());
+                    fileService.addFile(upuporFile);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            pictureUrl = fileByMd5.getFileUrl();
+        }
+
+        return new CcResponse(pictureUrl);
+    }
 }

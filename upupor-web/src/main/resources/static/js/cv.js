@@ -183,13 +183,17 @@ function getEditorData() {
  * 加载不同的编辑器js,初始化是同一个
  */
 function initEditor(isComment){
+    let _height = '800px';
+    if(isComment){
+        _height = '200px';
+    }
     window.editor = new Cherry({
         id: 'vcr_editor',
         value: '',
         editor: {
             theme: 'default',
             defaultModel: 'editOnly',
-            height: '300px',
+            height: _height,
         },
         toolbars:{
             theme: 'light', // light or dark
@@ -198,9 +202,27 @@ function initEditor(isComment){
             float : ['h1', 'h2', 'h3', '|', 'checklist', 'quote', 'quickTable', 'code'], // array or false
             customMenu: {
             },
-            fileUpload:(file, callback) => {
-                callback('s.jpg');
-            },
+        },
+        fileUpload(file, callback) {
+
+            var formData = new FormData();
+
+            formData.append('file', file);
+            $.ajax('/pic/uploadFile/editor', {
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                   if(respCodeOk(res)){
+                       callback(res.data.data);
+                   }
+                },
+
+                error: function () {
+                    $.cvError("上传失败")
+                }
+            });
         }
     });
     $("#comment_btn_group").show();
