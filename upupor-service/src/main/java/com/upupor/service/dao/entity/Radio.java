@@ -34,7 +34,6 @@ import com.upupor.service.types.RadioStatus;
 import com.upupor.service.types.UploadStatus;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,7 +50,7 @@ public class Radio extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     private String radioIntro;
 

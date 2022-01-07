@@ -34,8 +34,6 @@ import com.upupor.service.types.MessageStatus;
 import com.upupor.service.types.MessageType;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * @author runkangyang
  */
@@ -54,7 +52,7 @@ public class Message extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     /**
      * 冗余字段

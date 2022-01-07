@@ -29,8 +29,6 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class Banner extends BaseEntity {
 
@@ -48,6 +46,6 @@ public class Banner extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
 }

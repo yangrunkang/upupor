@@ -62,6 +62,7 @@ public enum ErrorCode {
     WRONG_EMAIL(34, "请输入正确的邮箱"),
     NOT_VIEW(35, "严重错误,非视图页面"),
     SUBMIT_REPEAT(36, "重复提交"),
+    NO_CONSTRUCTOR_ERROR(37, "禁止使用无参构造,统一入口"),
 
 
     // 业务异常 100-300

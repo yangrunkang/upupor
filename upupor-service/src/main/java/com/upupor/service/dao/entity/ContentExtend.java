@@ -29,8 +29,6 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 文章拓展
  *
@@ -41,8 +39,19 @@ public class ContentExtend extends BaseEntity {
 
     private String contentId;
 
-    private Date sysUpdateTime;
-
     private String detailContent;
+
+    public String markdownContent;
+
+    public static ContentExtend create(String contentId,
+                                       String detailContent,
+                                       String markDownContent) {
+        ContentExtend contentExtend = new ContentExtend();
+        contentExtend.setContentId(contentId);
+        contentExtend.setDetailContent(detailContent);
+        contentExtend.setMarkdownContent(markDownContent);
+        return contentExtend;
+    }
+
 
 }

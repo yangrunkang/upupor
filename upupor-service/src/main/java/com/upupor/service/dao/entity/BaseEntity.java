@@ -29,6 +29,8 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @author Yang Runkang (cruise)
  * @date 2021年12月28日 23:31
@@ -37,4 +39,5 @@ import lombok.Data;
 @Data
 public class BaseEntity{
     private Long id;
+    private Date sysUpdateTime = new Date();
 }

@@ -286,10 +286,8 @@ public class ContentServiceImpl implements ContentService {
         content.setTagIds(CcUtils.removeLastComma(addContentDetailReq.getTagIds()));
         content.setStatementId(member.getStatementId());
         // 初始化文章拓展表
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(content.getContentId());
-        contentExtend.setDetailContent(addContentDetailReq.getContent());
-        contentExtend.setSysUpdateTime(new Date());
+        ContentExtend contentExtend = ContentExtend.create(content.getContentId(), addContentDetailReq.getContent(), null);
+
         content.setContentExtend(contentExtend);
         // 初始化文章数据
         initContendData(content.getContentId());

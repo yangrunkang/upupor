@@ -29,8 +29,6 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 声明
  *
@@ -47,5 +45,5 @@ public class Statement extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 }

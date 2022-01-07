@@ -34,8 +34,6 @@ import com.upupor.service.types.CollectStatus;
 import com.upupor.service.types.CollectType;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 收藏
  *
@@ -56,8 +54,6 @@ public class Collect extends BaseEntity {
     private CollectStatus status;
 
     private Long createTime;
-
-    private Date sysUpdateTime;
 
     @TableField(exist = false)
     private String createDate;

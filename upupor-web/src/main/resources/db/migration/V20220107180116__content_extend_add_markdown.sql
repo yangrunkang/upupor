@@ -24,28 +24,4 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package com.upupor.service.dao.entity;
-
-import com.upupor.service.types.FeedBackStatus;
-import lombok.Data;
-
-@Data
-public class Feedback extends BaseEntity {
-
-    private String userId;
-
-    private String feedbackId;
-
-    private FeedBackStatus status;
-
-    private String reply;
-
-    private Long createTime;
-
-
-
-    private String feedbackContent;
-
-
-}
+alter table content_extend add column `markdown_content` longtext COLLATE utf8mb4_bin COMMENT 'markdown内容';

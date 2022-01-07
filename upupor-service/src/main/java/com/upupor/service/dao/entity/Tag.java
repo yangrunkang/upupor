@@ -29,8 +29,6 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 
 /**
  * 标签
@@ -60,7 +58,7 @@ public class Tag extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     private String icon;
 }

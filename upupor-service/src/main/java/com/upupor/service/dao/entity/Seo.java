@@ -30,8 +30,6 @@ package com.upupor.service.dao.entity;
 import com.upupor.service.types.SeoStatus;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * Seo
  */
@@ -44,7 +42,7 @@ public class Seo extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     private String seoContent;
 

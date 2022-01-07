@@ -176,13 +176,14 @@ function loadBootstrapRichText(isComment) {
  * 获取编辑器数据
  */
 function getEditorData() {
-    return window.editor.getHtml();
+    return window.editor.getMarkdown();
 }
 
 /**
  * 加载不同的编辑器js,初始化是同一个
  */
 function initEditor(isComment){
+
     let _height = '800px';
     if(isComment){
         _height = '200px';
@@ -205,7 +206,7 @@ function initEditor(isComment){
         },
         fileUpload(file, callback) {
 
-            var formData = new FormData();
+            let formData = new FormData();
 
             formData.append('file', file);
             $.ajax('/pic/uploadFile/editor', {
@@ -225,8 +226,11 @@ function initEditor(isComment){
             });
         }
     });
+
     $("#comment_btn_group").show();
     $("#comment_loading").hide();
+    let content = document.getElementById("md_value").value;
+    window.editor.setMarkdown(content);
 }
 
 

@@ -199,8 +199,8 @@ public class EditorPageJumpController {
         content.setOriginType(addCacheContentReq.getOriginType());
         content.setNoneOriginLink(addCacheContentReq.getNoneOriginLink());
         // 内容拓展
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setDetailContent(addCacheContentReq.getContent());
+        ContentExtend contentExtend = ContentExtend.create(null,addCacheContentReq.getContent(),null);
+
         content.setContentExtend(contentExtend);
         editorIndexDto.setContent(content);
 

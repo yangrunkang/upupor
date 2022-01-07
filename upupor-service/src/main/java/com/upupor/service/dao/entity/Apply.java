@@ -36,8 +36,6 @@ import com.upupor.service.types.ApplySource;
 import com.upupor.service.types.ApplyStatus;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 申请
  *
@@ -66,7 +64,7 @@ public class Apply extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     private String applyContent;
 

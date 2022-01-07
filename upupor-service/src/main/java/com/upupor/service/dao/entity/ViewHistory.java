@@ -34,13 +34,11 @@ import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.types.ViewerDeleteStatus;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 浏览记录
  */
 @Data
-public class ViewHistory {
+public class ViewHistory extends BaseEntity {
 
     private Long id;
 
@@ -51,8 +49,6 @@ public class ViewHistory {
     private ViewTargetType targetType;
 
     private ViewerDeleteStatus deleteStatus;
-
-    private Date sysUpdateTime;
 
     private Long createTime;
 

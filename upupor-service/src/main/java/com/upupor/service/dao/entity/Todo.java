@@ -32,7 +32,6 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.TodoStatus;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -56,7 +55,7 @@ public class Todo extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     /**
      * 明细

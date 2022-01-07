@@ -32,8 +32,6 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.MemberIntegralStatus;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 用户积分
  *
@@ -61,7 +59,7 @@ public class MemberIntegral extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     @TableField(exist = false)
     private String createDate;

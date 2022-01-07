@@ -29,8 +29,6 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class ContentEditReason extends BaseEntity {
 
@@ -38,7 +36,7 @@ public class ContentEditReason extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     private String reason;
 }

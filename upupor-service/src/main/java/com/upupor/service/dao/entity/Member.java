@@ -35,7 +35,6 @@ import lombok.Data;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -72,7 +71,7 @@ public class Member extends BaseEntity {
     /**
      * 系统更新时间
      */
-    private Date sysUpdateTime;
+
 /********************************************/
     /**
      * 页面冗余字段

@@ -38,7 +38,6 @@ import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.types.*;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -110,7 +109,7 @@ public class Content extends BaseEntity {
      */
     private String latestCommentUserId;
 
-    private Date sysUpdateTime;
+
 
     /**
      * 关键字
@@ -236,7 +235,6 @@ public class Content extends BaseEntity {
         this.originType = OriginType.ORIGIN;
         this.createTime = CcDateUtil.getCurrentTime();
         this.latestCommentTime = CcDateUtil.getCurrentTime();
-        this.sysUpdateTime = new Date();
     }
 
 

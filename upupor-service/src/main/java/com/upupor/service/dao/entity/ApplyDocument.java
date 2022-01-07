@@ -29,8 +29,6 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 申请文件
  *
@@ -51,5 +49,5 @@ public class ApplyDocument extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 }

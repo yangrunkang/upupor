@@ -31,8 +31,6 @@ import com.upupor.service.types.SloganStatus;
 import com.upupor.service.types.SloganType;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 文案标语
  *
@@ -59,5 +57,5 @@ public class Slogan extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 }

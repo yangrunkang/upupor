@@ -29,8 +29,6 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 用户拓展信息
  */
@@ -45,7 +43,7 @@ public class MemberExtend extends BaseEntity {
 
     private String emergencyCode;
 
-    private Date sysUpdateTime;
+
 
     private String introduce;
 

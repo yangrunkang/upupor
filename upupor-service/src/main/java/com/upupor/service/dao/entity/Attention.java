@@ -49,7 +49,7 @@ public class Attention extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     /**
      * 冗余字段

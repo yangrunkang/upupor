@@ -29,8 +29,6 @@ package com.upupor.service.dao.entity;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class BuriedPointData extends BaseEntity {
 
@@ -54,6 +52,6 @@ public class BuriedPointData extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
 }

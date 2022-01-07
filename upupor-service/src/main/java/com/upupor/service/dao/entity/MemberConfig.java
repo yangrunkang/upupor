@@ -30,8 +30,6 @@ package com.upupor.service.dao.entity;
 import com.upupor.service.types.OpenEmail;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 用户配置
  *
@@ -50,7 +48,7 @@ public class MemberConfig extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     /**
      * 是否开启邮件通知 0-开启 1-关闭

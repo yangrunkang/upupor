@@ -33,8 +33,6 @@ import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.types.ViewerDeleteStatus;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * 访问者
  */
@@ -49,7 +47,7 @@ public class Viewer extends BaseEntity {
 
     private ViewerDeleteStatus deleteStatus;
 
-    private Date sysUpdateTime;
+
 
     private Long createTime;
 

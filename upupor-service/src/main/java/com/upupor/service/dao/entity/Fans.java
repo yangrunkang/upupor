@@ -49,7 +49,7 @@ public class Fans extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     @TableField(exist = false)
     private Member member;

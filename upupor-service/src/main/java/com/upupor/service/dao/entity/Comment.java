@@ -36,7 +36,6 @@ import com.upupor.service.types.ContentType;
 import joptsimple.internal.Strings;
 import lombok.Data;
 
-import java.util.Date;
 import java.util.Objects;
 
 @Data
@@ -58,7 +57,7 @@ public class Comment extends BaseEntity {
 
     private Long createTime;
 
-    private Date sysUpdateTime;
+
 
     private String commentContent;
 

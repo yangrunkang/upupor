@@ -74,8 +74,10 @@
                                     <p class="text-black-50">编辑器加载中...</p>
                                 </div>
                                 <!--编辑器-->
-                                <div id="vcr_editor" style="overflow:hidden"
-                                     th:utext="${editorIndexDto?.content?.contentExtend?.detailContent}"></div>
+                                <input type="hidden" id="md_value" th:value="${editorIndexDto?.content?.contentExtend?.detailContent}" />
+                                <div id="vcr_editor"
+                                     style="overflow:hidden">
+                                </div>
                             </div>
                         </div>
                     </form>
