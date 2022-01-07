@@ -54,6 +54,8 @@ public class UpdateContentReq {
 
     private String detailContent;
 
+    private String mdContent;
+
     private ContentStatus status;
 
     private String userId;

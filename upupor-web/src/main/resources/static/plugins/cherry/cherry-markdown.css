@@ -1549,7 +1549,6 @@ green     #859900
   align-items: stretch;
   align-content: flex-start;
   height: 100%;
-  min-height: 400px;
   position: relative; }
   .cherry .cherry-editor,
   .cherry .cherry-previewer {
@@ -1571,7 +1570,7 @@ green     #859900
   line-height: 27px;
   color: #3f4a56;
   background: #f8fafb;
-  box-shadow: 0 0 10px rgba(128, 145, 165, 0.2); }
+  box-shadow: 0 0 0; }
   .cherry .ch-icon {
     vertical-align: middle; }
   .cherry .clearfix {
@@ -1604,7 +1603,7 @@ green     #859900
     top: 40px;
     left: 40px;
     border-collapse: separate;
-    box-shadow: 0 0 10px rgba(128, 145, 165, 0.2);
+    box-shadow: 0 0 0;
     padding: 4px;
     border-radius: 3px;
     width: auto;
@@ -1664,11 +1663,11 @@ green     #859900
   box-sizing: border-box;
   z-index: 1;
   user-select: none;
-  box-shadow: 0 0 10px rgba(128, 145, 165, 0.2);
+  box-shadow: 0 0 0;
   background: white; }
   [data-toolbar-theme='dark'] .cherry-toolbar {
     background: #20304b;
-    box-shadow: 0 0 10px rgba(128, 145, 165, 0.2); }
+    box-shadow: 0 0 0; }
     [data-toolbar-theme='dark'] .cherry-toolbar .cherry-toolbar-button {
       color: #d7e6fe;
       background: transparent; }
@@ -1959,7 +1958,7 @@ green     #859900
   padding: 5px 10px;
   z-index: 1000;
   background: #fff;
-  box-shadow: 0 0 10px rgba(128, 145, 165, 0.2); }
+  box-shadow: 0 0 0; }
   .cherry-color-wrap h3 {
     font-size: 12px;
     margin: 0px; }

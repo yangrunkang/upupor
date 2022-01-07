@@ -34,6 +34,15 @@ function cvIsNull(value) {
     return value === 'null' || value === null || value === '' || typeof (value) === undefined || value === 'undefined' || typeof (value) === 'undefined';
 }
 
+function getElementValue(id) {
+    let value = '';
+    let valueElement = document.getElementById(id);
+    if(!cvIsNull(valueElement)){
+        value = valueElement.value;
+    }
+    return value;
+}
+
 function cvEquals(str1, str2) {
     return str1 === str2;
 }

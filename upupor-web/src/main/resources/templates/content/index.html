@@ -32,7 +32,8 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/content/content.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/content/content.js}"></script>
-<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/common.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/comment.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/common.js}"></script>
 <!--加载复制插件-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/clipboard/clipboard.min.js}"></script>
 <!--编辑器-->
@@ -101,7 +102,7 @@
                                 <div class="cv-font-sm" th:if="${#strings.isEmpty(contentIndexDto.content?.contentEditReason?.reason)}">无</div>
                             </div>
                         </div>
-                        <article class="mt-1" style="font-size: 16px;overflow:hidden"
+                        <article class="mt-1 cherry-markdown" style="font-size: 16px;overflow:hidden"
                              th:utext="${contentIndexDto.content.contentExtend.detailContent}"></article>
                         <hr class="border-bottom my-2"/>
                         <div th:if="${contentIndexDto.content?.originType.name()} == 'ORIGIN'" class="text-black-50 small" >
@@ -132,6 +133,7 @@
                 <!--未登录提示-->
                 <div th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
                 <div th:if="${contentIndexDto.content.status.name()} == 'NORMAL'" th:include="fragments/comment::commentList(${contentIndexDto.content.listCommentDto.commentList},${contentIndexDto.content.listCommentDto.paginationHtml},${contentIndexDto.content.listCommentDto.total},false)"></div>
+                <!--评论框-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div id="comment_area">
                         <div th:include="fragments/index::comment_box"></div>

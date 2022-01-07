@@ -57,9 +57,9 @@ public class Comment extends BaseEntity {
 
     private Long createTime;
 
-
-
     private String commentContent;
+
+    private String mdCommentContent;
 
     /*******************/
 

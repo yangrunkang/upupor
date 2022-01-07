@@ -59,6 +59,7 @@ $(window).on('load', function() {
 function autoSave() {
     let title = $("#title").val();
     let vcrEditorContent = $.cvGetEditorData();
+    let vcrEditorContentMd = $.cvGetEditorDataMd();
 
     if (!cvIsNull(title) || !cvIsNull(vcrEditorContent)) {
 
@@ -68,6 +69,7 @@ function autoSave() {
         let req = {
             title: title,
             content: vcrEditorContent,
+            mdContent: vcrEditorContentMd,
             contentType: getQueryVariable("type"),
             tagIds: getSelectedTagIds(),
             edit: getQueryVariable("edit"),
@@ -153,6 +155,7 @@ function updateContentPublic(fromSource, contentId, userId) {
 function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
     let title = $("#title").val();
     let vcrEditorContent = $.cvGetEditorData();
+    let vcrEditorContentMd = $.cvGetEditorDataMd();
     let editReason = $("#edit_reason").val();
 
     if (cvIsNull(title)) {
@@ -169,6 +172,7 @@ function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
         contentId: contentId,
         title: title,
         detailContent: vcrEditorContent,
+        mdContent: vcrEditorContentMd,
         // todo
         picture: null,
         tagIds: getSelectedTagIds(),
@@ -193,6 +197,7 @@ function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
 function handleSaveContentEvent(operation) {
     let title = $("#title").val();
     let vcrEditorContent = $.cvGetEditorData();
+    let vcrEditorContentMd = $.cvGetEditorDataMd();
 
     if (cvIsNull(title)) {
         $.cvWarn("标题为空");
@@ -205,6 +210,7 @@ function handleSaveContentEvent(operation) {
     let content = {
         title: title,
         content: vcrEditorContent,
+        mdContent: vcrEditorContentMd,
         picture: null,
         contentType: getQueryVariable("type"),
         tagIds: getSelectedTagIds(),

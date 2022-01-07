@@ -30,6 +30,7 @@
       th:replace="index">
 <!--css-->
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/content/history.css}"/>
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/cherry/cherry-markdown.min.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/content/history.js}"></script>
 <!--内容-->
@@ -54,7 +55,7 @@
                         </div>
                         <div class="card-title">
                             <div class="text-black-50" th:if="!${#strings.isEmpty(cacheContent.content)}">正文:</div>
-                            <div style="overflow:hidden" th:if="!${#strings.isEmpty(cacheContent.content)}" th:utext="${cacheContent.content}"></div>
+                            <div class="cherry-markdown" style="overflow:hidden" th:if="!${#strings.isEmpty(cacheContent.content)}" th:utext="${cacheContent.content}"></div>
                         </div>
                     </div>
                 </div>

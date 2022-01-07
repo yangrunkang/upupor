@@ -33,4 +33,8 @@ $(function () {
     $(".image").children().click(function(){
         showImg(this);
     });
+    // 点击图片放大(cherry-markdown)
+    $(".cherry-markdown p img").click(function(){
+        showImg(this);
+    });
 });

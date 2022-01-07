@@ -44,7 +44,6 @@ public class MemberExtend extends BaseEntity {
     private String emergencyCode;
 
 
-
     private String introduce;
 
     /**

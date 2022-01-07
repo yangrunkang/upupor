@@ -32,6 +32,7 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/radio-station/index.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/radio-station/index.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/comment.js}"></script>
 <!--编辑器-->
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/cherry/cherry-markdown.min.css}"/>
 <script th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/cherry/cherry-markdown.min.js}"></script>
@@ -44,11 +45,12 @@
                         <audio style="width: 100%" th:src="${radioIndexDto.radio.radioUrl}" preload="auto" controls></audio>
                     </div>
                     <h5 class="mt-2">[[${radioIndexDto.radio.radioIntro}]]</h5>
-                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOADING'">
-                        <div class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-warning">
-                            为了不影响您的使用体验,电台文件技术上做了异步上传。<br/>
-                            所以此时此刻,您的电台文件正在努力的上传中,请耐心等待~
-                        </div>
+                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOADING'" class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-warning">
+                        为了不影响您的使用体验,电台文件技术上做了异步上传。<br/>
+                        所以此时此刻,您的电台文件正在努力的上传中,请耐心等待~
+                    </div>
+                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOAD_FAILED'" class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-danger">
+                        电台上传失败
                     </div>
 
                     <div class="my-1 d-inline-flex text-black-50 mb-2 border-top border-1 p-2" style="font-size: 14px">

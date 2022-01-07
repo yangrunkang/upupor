@@ -51,6 +51,7 @@ public class AddContentDetailReq {
     private ContentType contentType;
 
     private String content;
+    private String mdContent;
 
     @Length(max = 256, message = "标签过多,请减少标签数目")
     private String tagIds;

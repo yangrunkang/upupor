@@ -43,18 +43,18 @@
                     <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
                         <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-3 mb-2 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
                     </a>
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1" style="overflow:hidden;">
                         <div class="mt-0">
                             <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
                                 [[${comment.member.userName}]]
                             </a>
                             <div class="float-end text-black-50 small">
                                 <span class="d-none d-sm-block float-start text-black-50 ">[[${comment.createDateDiff}]]&nbsp;·&nbsp;</span>
-                                <span style="cursor: pointer" th:onclick="reply([[${comment.member.userName}]],[[${comment.member.userId}]],[[${comment.commentContent}]])">回复</span>
+                                <span style="cursor: pointer" th:onclick="renderReplayUserName([[${comment.member.userName}]],[[${comment.member.userId}]])">回复</span>
                                 ·&nbsp;<span class="badge bg-light text-black-50" th:text="${comment.floorNum} + '#'"></span>
                             </div>
                         </div>
-                        <div style="overflow:hidden;" th:utext="${comment.commentContent}">评论内容</div>
+                        <div class="cherry-markdown" th:utext="${comment.commentContent}">评论内容</div>
                     </div>
                 </div>
             </div>

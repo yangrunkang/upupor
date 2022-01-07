@@ -32,7 +32,8 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/message.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/message.js}"></script>
-<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/common.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/comment.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/common.js}"></script>
 <!--编辑器-->
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/cherry/cherry-markdown.min.css}"/>
 <script th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/cherry/cherry-markdown.min.js}"></script>
@@ -59,7 +60,7 @@
                         <div id="comment_area">
                             <div th:include="fragments/index::comment_box"></div>
                             <div id="comment_btn_group" style="display: none">
-                                <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${memberIndexDto.member.userId}]])">留言</button>
+                                <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${memberIndexDto.member.userId}]],'MESSAGE')">留言</button>
                                 <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">取消</button>
                             </div>
                         </div>

@@ -48,6 +48,12 @@ public class AddCommentReq {
      * 评论内容
      */
     private String commentContent;
+
+    /**
+     * markdown评论内容
+     */
+    private String mdCommentContent;
+
     /**
      * 回复给用户
      */

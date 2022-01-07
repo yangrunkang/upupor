@@ -74,7 +74,8 @@
                                     <p class="text-black-50">编辑器加载中...</p>
                                 </div>
                                 <!--编辑器-->
-                                <input type="hidden" id="md_value" th:value="${editorIndexDto?.content?.contentExtend?.detailContent}" />
+                                <input type="hidden" id="md_value" th:value="${editorIndexDto?.content?.contentExtend?.markdownContent}" />
+                                <input type="hidden" id="html_value" th:value="${editorIndexDto?.content?.contentExtend?.detailContent}" />
                                 <div id="vcr_editor"
                                      style="overflow:hidden">
                                 </div>

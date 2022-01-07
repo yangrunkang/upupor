@@ -35,6 +35,7 @@ import com.upupor.service.dao.entity.File;
 import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dto.page.RadioIndexDto;
 import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.types.UploadStatus;
 import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -79,6 +80,8 @@ public class RadioAggregateService {
         File fileByFileUrl = fileService.selectByFileUrl(radio.getRadioUrl());
         if (Objects.nonNull(fileByFileUrl)) {
             radio.setUploadStatus(fileByFileUrl.getUploadStatus());
+        }else{
+            radio.setUploadStatus(UploadStatus.UPLOAD_FAILED);
         }
 
         contentService.viewNumPlusOne(radioId);

@@ -42,6 +42,9 @@ $(function () {
     // 加载富文本编辑器js
     jQuery.cvLoadBootstrapRichText = loadBootstrapRichText;
     jQuery.cvGetEditorData = getEditorData;
+    jQuery.cvGetEditorDataMd = getEditorDataMd;
+    jQuery.cvSetEditorEmpty = setEditorEmpty;
+    jQuery.cvSetEditorContent = setEditorContent;
 
     // 开启GoUp组件
     $.goup({
@@ -176,7 +179,22 @@ function loadBootstrapRichText(isComment) {
  * 获取编辑器数据
  */
 function getEditorData() {
+    return window.editor.getHtml();
+}
+
+/**
+ * 获取编辑器数据
+ */
+function getEditorDataMd() {
     return window.editor.getMarkdown();
+}
+
+function setEditorEmpty() {
+    return window.editor.setMarkdown('');
+}
+
+function setEditorContent(t) {
+    return window.editor.setMarkdown(t);
 }
 
 /**
@@ -185,15 +203,17 @@ function getEditorData() {
 function initEditor(isComment){
 
     let _height = '800px';
+    let _defaultModel = 'editOnly';
     if(isComment){
         _height = '200px';
+        _defaultModel = 'edit&preview';
     }
     window.editor = new Cherry({
         id: 'vcr_editor',
         value: '',
         editor: {
             theme: 'default',
-            defaultModel: 'editOnly',
+            defaultModel: _defaultModel,
             height: _height,
         },
         toolbars:{
@@ -229,8 +249,15 @@ function initEditor(isComment){
 
     $("#comment_btn_group").show();
     $("#comment_loading").hide();
-    let content = document.getElementById("md_value").value;
-    window.editor.setMarkdown(content);
+
+    let mdValue = getElementValue("md_value");
+    let htmlValue = getElementValue("html_value");
+
+    if(cvIsNull(mdValue) && !cvIsNull(htmlValue)){
+        // 将html转为markdown
+        mdValue = window.editor.makeMarkdown(htmlValue);
+    }
+    window.editor.setMarkdown(mdValue);
 }
 
 

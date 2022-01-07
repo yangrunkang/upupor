@@ -41,6 +41,7 @@ public enum UploadStatus {
      */
     UPLOADING(0, "上传中"),
     UPLOADED(1, "上传完毕"),
+    UPLOAD_FAILED(2, "上传失败"),
     ;
     @EnumValue
     private final Integer status;

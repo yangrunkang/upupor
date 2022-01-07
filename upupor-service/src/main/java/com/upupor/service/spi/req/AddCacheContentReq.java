@@ -43,8 +43,8 @@ import lombok.Data;
 public class AddCacheContentReq {
 
     private String title;
-
     private String content;
+    private String mdContent;
 
     private String shortContent;
 

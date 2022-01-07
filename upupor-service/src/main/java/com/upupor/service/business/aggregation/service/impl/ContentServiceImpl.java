@@ -286,9 +286,10 @@ public class ContentServiceImpl implements ContentService {
         content.setTagIds(CcUtils.removeLastComma(addContentDetailReq.getTagIds()));
         content.setStatementId(member.getStatementId());
         // 初始化文章拓展表
-        ContentExtend contentExtend = ContentExtend.create(content.getContentId(), addContentDetailReq.getContent(), null);
-
-        content.setContentExtend(contentExtend);
+        content.setContentExtend(ContentExtend.create(
+                content.getContentId(),
+                addContentDetailReq.getContent(),
+                addContentDetailReq.getMdContent()));
         // 初始化文章数据
         initContendData(content.getContentId());
         // 原创处理
@@ -298,7 +299,7 @@ public class ContentServiceImpl implements ContentService {
 
 
         int count = contentMapper.insert(content);
-        int total = contentExtendMapper.insert(contentExtend) + count;
+        int total = contentExtendMapper.insert(content.getContentExtend()) + count;
         boolean addSuccess = total > 1;
 
         if (addSuccess) {
@@ -440,12 +441,12 @@ public class ContentServiceImpl implements ContentService {
         int updateCount = contentMapper.updateById(editContent);
 
         // 内容不等时再变更
-        if (!editContent.getContentExtend().getDetailContent().equals(updateContentReq.getDetailContent())) {
+        if (!editContent.getContentExtend().getMarkdownContent().equals(updateContentReq.getMdContent())) {
             editContent.getContentExtend().setDetailContent(updateContentReq.getDetailContent());
+            editContent.getContentExtend().setMarkdownContent(updateContentReq.getMdContent());
             editContent.getContentExtend().setSysUpdateTime(new Date());
             updateCount = updateCount + contentExtendMapper.updateById(editContent.getContentExtend());
         }
-
 
         if (updateCount > 0 && isSendCreateContentMessage) {
             publishContentEvent(editContent);
