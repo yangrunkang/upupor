@@ -38,8 +38,8 @@
 <!--加载复制插件-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/clipboard/clipboard.min.js}"></script>
 <!--编辑器-->
-<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/cherry/cherry-markdown.min.css}"/>
-<script th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/cherry/cherry-markdown.min.js}"></script>
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="'/plugins/cherry/cherry-markdown.min.css?v='+${staticSourceVersion}"/>
+<script th:fragment="js" type="text/javascript" th:src="'/plugins/cherry/cherry-markdown.min.js?v='+${staticSourceVersion}"></script>
 <!--内容-->
 <div th:fragment="content">
     <div class="container" th:if="${contentIndexDto.content.statement} != null" th:include="fragments/index::statement"></div>

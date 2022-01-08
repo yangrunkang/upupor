@@ -48,6 +48,7 @@ import com.upupor.service.types.SloganType;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
+import com.upupor.web.UpuporWebApplication;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -258,6 +259,7 @@ public class PageAspectAdvice {
         // 切入当前环境
         modelAndView.addObject(ACTIVE_ENV, activeEnv);
         modelAndView.addObject(OSS_STATIC, ossStatic);
+        modelAndView.addObject(STATIC_SOURCE_VERSION, UpuporWebApplication.STATIC_SOURCE_VERSION);
         modelAndView.addObject(AD_SWITCH, adSwitch);
         modelAndView.addObject(AD_SWITCH_RIGHT, adSwitchRight);
         // 谷歌广告信息

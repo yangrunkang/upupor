@@ -30,8 +30,8 @@
       xmlns:th="http://www.thymeleaf.org">
 <body>
     <div th:fragment="markdown-editor-plugin">
-        <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/plugins/cherry/cherry-markdown.min.css}"/>
-        <script th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/cherry/cherry-markdown.min.js}"></script>
+        <link th:fragment="css" type="text/css" rel="stylesheet" th:href="'/plugins/cherry/cherry-markdown.min.css?v='+${staticSourceVersion}"/>
+        <script th:fragment="js" type="text/javascript" th:src="'/plugins/cherry/cherry-markdown.min.js?v='+${staticSourceVersion}"></script>
     </div>
 </body>
 </html>

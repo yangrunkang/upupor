@@ -102,6 +102,12 @@ public final class CcConstant {
      * 跳过是否订阅邮件配置校验
      */
     public static final String SKIP_SUBSCRIBE_EMAIL_CHECK = "skip";
+
+    /**
+     * 静态资源版本
+     */
+    public static final String STATIC_SOURCE_VERSION = "staticSourceVersion";
+
     /**
      * 系统常量
      */

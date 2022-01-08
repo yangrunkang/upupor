@@ -28,6 +28,7 @@
 package com.upupor.web;
 
 
+import com.upupor.service.utils.CcUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -36,6 +37,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+
+import java.util.Random;
 
 /**
  * Upupor启动类
@@ -52,10 +55,12 @@ public class UpuporWebApplication {
 
     private static volatile boolean running = true;
     private static ConfigurableApplicationContext applicationContext = null;
+    public static final String STATIC_SOURCE_VERSION;
 
 
     static {
         System.setProperty("druid.mysql.usePingMethod", "false");
+        STATIC_SOURCE_VERSION = CcUtils.getUuId();
     }
 
     public static void main(String[] args) {
