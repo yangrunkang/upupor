@@ -25,21 +25,18 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.dao.entity;
+article img{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+}
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Data;
-
-import java.util.Date;
-
-/**
- * @author Yang Runkang (cruise)
- * @date 2021年12月28日 23:31
- * @email: yangrunkang53@gmail.com
- */
-@Data
-public class BaseEntity{
-    private Long id;
-
-    private Date sysUpdateTime = new Date();
+article figure img{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
 }

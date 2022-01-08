@@ -441,7 +441,8 @@ public class ContentServiceImpl implements ContentService {
         int updateCount = contentMapper.updateById(editContent);
 
         // 内容不等时再变更
-        if (!editContent.getContentExtend().getMarkdownContent().equals(updateContentReq.getMdContent())) {
+        String markdownContent = editContent.getContentExtend().getMarkdownContent();
+        if (!updateContentReq.getMdContent().equals(markdownContent)) {
             editContent.getContentExtend().setDetailContent(updateContentReq.getDetailContent());
             editContent.getContentExtend().setMarkdownContent(updateContentReq.getMdContent());
             editContent.getContentExtend().setSysUpdateTime(new Date());

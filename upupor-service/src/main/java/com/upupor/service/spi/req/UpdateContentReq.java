@@ -30,7 +30,9 @@ package com.upupor.service.spi.req;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.OriginType;
+import joptsimple.internal.Strings;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -78,4 +80,10 @@ public class UpdateContentReq {
      */
     private Boolean isDraftPublic;
 
+    public String getMdContent() {
+        if(StringUtils.isEmpty(mdContent)){
+            return Strings.EMPTY;
+        }
+        return mdContent;
+    }
 }
