@@ -29,12 +29,5 @@ $(function () {
     // 开启提示
     $('[data-toggle="tooltip"]').tooltip();
 
-    // 实现点击图片放大效果
-    $(".image").children().click(function(){
-        showImg(this);
-    });
-    // 点击图片放大(cherry-markdown)
-    $(".cherry-markdown p img").click(function(){
-        showImg(this);
-    });
+    $.cvLoadShowImg();
 });

@@ -45,6 +45,7 @@ $(function () {
     jQuery.cvGetEditorDataMd = getEditorDataMd;
     jQuery.cvSetEditorEmpty = setEditorEmpty;
     jQuery.cvSetEditorContent = setEditorContent;
+    jQuery.cvLoadShowImg = loadShowImg;
 
     // 开启GoUp组件
     $.goup({
@@ -78,6 +79,17 @@ function packagingToastInfo(message) {
         timer: 1500,
         closeOnClickOutside: false,
         closeOnEsc: false,
+    });
+}
+
+function loadShowImg() {
+    // 点击图片放大(ckeditor)
+    $(".image").children().click(function(){
+        showImg(this);
+    });
+    // 点击图片放大(cherry-markdown)
+    $(".cherry-markdown p img").click(function(){
+        showImg(this);
     });
 }
 
@@ -205,8 +217,8 @@ function initEditor(isComment){
     let _height = '800px';
     let _defaultModel = 'editOnly';
     if(isComment){
-        _height = '200px';
-        _defaultModel = 'edit&preview';
+        _height = '400px';
+        _defaultModel = 'editOnly';
     }
     window.editor = new Cherry({
         id: 'vcr_editor',
@@ -244,20 +256,31 @@ function initEditor(isComment){
                     $.cvError("上传失败")
                 }
             });
+        },
+        callback: {
+            /** 编辑器内容改变并完成渲染后触发 */
+            afterChange: function(){
+                console.log("内容变更")
+            },
+            /** 编辑器完成初次渲染后触发 */
+            afterInit: function(){
+                $("#comment_btn_group").show();
+                $("#comment_loading").hide();
+            },
         }
     });
-
-    $("#comment_btn_group").show();
-    $("#comment_loading").hide();
 
     let mdValue = getElementValue("md_value");
     let htmlValue = getElementValue("html_value");
 
     if(cvIsNull(mdValue) && !cvIsNull(htmlValue)){
         // 将html转为markdown
-        mdValue = window.editor.makeMarkdown(htmlValue);
+        mdValue = window.editor.engine.makeMarkdown(htmlValue);
     }
-    window.editor.setMarkdown(mdValue);
+
+    if(!cvIsNull(mdValue)){
+        window.editor.setMarkdown(mdValue);
+    }
 }
 
 

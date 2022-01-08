@@ -58,7 +58,7 @@
                     <div th:include="fragments/comment::commentList(${memberIndexDto.listCommentDto.commentList},${memberIndexDto.listCommentDto.paginationHtml},${memberIndexDto.listCommentDto.total},true)"></div>
                     <div class="my-2" th:if="${session?.cv_user_id}">
                         <div id="comment_area">
-                            <div th:include="fragments/index::comment_box"></div>
+                            <div th:include="fragments/comment::comment_box"></div>
                             <div id="comment_btn_group" style="display: none">
                                 <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${memberIndexDto.member.userId}]],'MESSAGE')">留言</button>
                                 <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">取消</button>

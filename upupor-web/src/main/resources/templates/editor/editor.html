@@ -119,16 +119,12 @@
                         <textarea type="text" id="edit_reason" class="form-control " placeholder="内容变更原因,选填" style="width: 100%;height: 60px;"></textarea>
                     </div>
                 </div>
-                <!--<div class="card card-body shadow-sm border-0 p-2 my-2">
-                    <p>
-                        <a href="/editor-md" title="切换到markdown编辑器" class="cv-link">切换到markdown编辑器</a>
-                    </p>
-                </div>-->
-                <div class="card card-body shadow-sm border-0 p-2 editor_word_count my-2">
-                    <div class="ck ck-word-count">
-                        <div class="ck-word-count__characters"></div>
-                    </div>
-                </div>
+                <!--字数统计-->
+<!--                <div class="card card-body shadow-sm border-0 p-2 editor_word_count my-2">-->
+<!--                    <div class="ck ck-word-count">-->
+<!--                        <div class="ck-word-count__characters"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
                     <div class="btn-group" style="width: 100%">
                         <input type="radio" name="original" class="align-self-center original_radio" value="ORIGIN" th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'">&nbsp;原创

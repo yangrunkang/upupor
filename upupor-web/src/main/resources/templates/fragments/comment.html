@@ -29,6 +29,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <body>
+
+<div th:fragment="comment_box">
+    <div>
+        <div class="text-center" id="comment_loading">
+            <div class="spinner-grow text-primary" role="status"></div>
+            <p class="text-black-50">评论框加载中...</p>
+        </div>
+        <div id="vcr_editor" style="height: 300px"></div>
+        <input type="hidden" id="reply_to_user" />
+    </div>
+</div>
+
+
 <div th:fragment="commentList(commentList,paginationHtml,total,fromProfile)">
     <div th:class="${fromProfile}?'':'card card-body shadow-sm border-0 p-2 my-2'">
         <div th:if="${#lists.isEmpty(commentList)}" >
