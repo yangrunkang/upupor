@@ -1,0 +1,154 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021-2022 yangrunkang
+ *
+ * Author: yangrunkang
+ * Email: yangrunkang53@gmail.com
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package com.upupor.service.business.editor;
+
+import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.dao.entity.Content;
+import com.upupor.service.dao.entity.Member;
+import com.upupor.service.dao.mapper.ContentExtendMapper;
+import com.upupor.service.dao.mapper.ContentMapper;
+import com.upupor.service.listener.event.PublishContentEvent;
+import com.upupor.service.spi.req.content.BaseContentReq;
+import com.upupor.service.utils.ServletUtils;
+import org.springframework.context.ApplicationEventPublisher;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * 编辑抽象
+ *
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月09日 11:13
+ * @email: yangrunkang53@gmail.com
+ */
+public abstract class AbstractEditor<T extends BaseContentReq> {
+
+    @Resource
+    protected MemberService memberService;
+
+    @Resource
+    protected ContentExtendMapper contentExtendMapper;
+
+    @Resource
+    protected ContentMapper contentMapper;
+
+    protected ContentService contentService;
+
+    @Resource
+    protected ApplicationEventPublisher eventPublisher;
+
+    protected T req;
+
+    public T getReq() {
+        return req;
+    }
+
+    /**
+     * 编辑类型
+     */
+    public enum EditorType {
+        /**
+         * 创建文章
+         */
+        CREATE,
+
+        /**
+         * 编辑文章
+         */
+        EDIT,
+
+        /**
+         * 更新状态
+         */
+        UPDATE_STATUS,
+    }
+
+    /**
+     * 用户信息
+     */
+    protected Member member;
+
+    public Member getMember() {
+        if (Objects.isNull(member)) {
+            member = memberService.memberInfo(ServletUtils.getUserId());
+        }
+        return member;
+    }
+
+    /**
+     * 编辑类型类型
+     *
+     * @return
+     */
+    protected abstract EditorType editorType();
+
+
+    /**
+     * 校验
+     */
+    protected abstract void check();
+
+    /**
+     * 执行业务
+     */
+    protected abstract Boolean doBusiness();
+
+
+    /**
+     * 执行业务
+     */
+    public static Boolean execute(List<AbstractEditor> abstractEditorList, EditorType editorType, BaseContentReq t) {
+        for (AbstractEditor abstractEditor : abstractEditorList) {
+            if (abstractEditor.editorType().equals(editorType)) {
+                abstractEditor.contentService = SpringContextUtils.getBean(ContentService.class);
+                abstractEditor.req = t;
+                abstractEditor.check();
+                return abstractEditor.doBusiness();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 发布文章事件
+     *
+     * @param content
+     */
+    protected void publishContentEvent(Content content) {
+        PublishContentEvent createContentEvent = new PublishContentEvent();
+        createContentEvent.setContentId(content.getContentId());
+        createContentEvent.setUserId(content.getUserId());
+        eventPublisher.publishEvent(createContentEvent);
+    }
+
+
+}

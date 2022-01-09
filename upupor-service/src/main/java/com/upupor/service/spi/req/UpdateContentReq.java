@@ -27,6 +27,7 @@
 
 package com.upupor.service.spi.req;
 
+import com.upupor.service.spi.req.content.BaseContentReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.OriginType;
@@ -41,7 +42,7 @@ import javax.validation.constraints.NotEmpty;
  * @created: 2019/12/22 16:44
  */
 @Data
-public class UpdateContentReq {
+public class UpdateContentReq  extends BaseContentReq {
 
     @NotEmpty(message = "文章Id为空")
     private String contentId;

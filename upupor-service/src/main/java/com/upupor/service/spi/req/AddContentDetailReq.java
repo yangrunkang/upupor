@@ -27,6 +27,7 @@
 
 package com.upupor.service.spi.req;
 
+import com.upupor.service.spi.req.content.BaseContentReq;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.OriginType;
 import lombok.Data;
@@ -39,7 +40,7 @@ import javax.validation.constraints.NotEmpty;
  * @created: 2019/12/22 16:44
  */
 @Data
-public class AddContentDetailReq {
+public class AddContentDetailReq  extends BaseContentReq {
 
     @Length(max = 256, message = "文章标题过长,最多可输入256个字")
     @NotEmpty(message = "标题不能为空")

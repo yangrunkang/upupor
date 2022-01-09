@@ -33,6 +33,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.*;
+import com.upupor.service.business.editor.AbstractEditor;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
@@ -43,34 +44,25 @@ import com.upupor.service.dto.dao.ContentIdAndTitle;
 import com.upupor.service.dto.dao.LastAndNextContentDto;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.spi.req.AddContentDetailReq;
 import com.upupor.service.spi.req.GetMemberIntegralReq;
 import com.upupor.service.spi.req.ListContentReq;
 import com.upupor.service.spi.req.UpdateContentReq;
 import com.upupor.service.types.*;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.CcUtils;
-import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.BeanUtils;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.upupor.service.common.CcConstant.CvCache.createContentIntervalkey;
 import static com.upupor.service.common.ErrorCode.*;
 
 /**
@@ -92,16 +84,13 @@ public class ContentServiceImpl implements ContentService {
     private final TagService tagService;
     private final StatementMapper statementMapper;
     private final MemberService memberService;
-    private final ApplicationEventPublisher eventPublisher;
-    private final MemberConfigMapper memberConfigMapper;
     private final MemberIntegralService memberIntegralService;
+    private final List<AbstractEditor> abstractEditorList;
 
 
     @Override
     public Content getContentDetail(String contentId) {
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getContentId, contentId)
-                .eq(Content::getStatus, ContentStatus.NORMAL);
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId).eq(Content::getStatus, ContentStatus.NORMAL);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         bindContentExtend(content);
@@ -112,9 +101,7 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Content getManageContentDetail(String contentId) {
 
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getContentId, contentId)
-                .notIn(Content::getStatus, Content.manageStatusList);
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId).notIn(Content::getStatus, Content.manageStatusList);
 
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
@@ -133,9 +120,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public Content getNormalContent(String contentId) {
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getContentId, contentId)
-                .eq(Content::getStatus, ContentStatus.NORMAL);
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId).eq(Content::getStatus, ContentStatus.NORMAL);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         content.setContentData(getContentData(Lists.newArrayList(contentId)).get(0));
@@ -148,8 +133,7 @@ public class ContentServiceImpl implements ContentService {
         if (StringUtils.isEmpty(contentId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getContentId, contentId);
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         return content;
@@ -228,9 +212,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public ListContentDto listContentByContentType(ContentType contentType, Integer pageNum, Integer pageSize, String tag) {
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getStatus, ContentStatus.NORMAL)
-                .orderByDesc(Content::getLatestCommentTime);
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getStatus, ContentStatus.NORMAL).orderByDesc(Content::getLatestCommentTime);
         if (Objects.nonNull(contentType)) {
             query.eq(Content::getContentType, contentType);
         }
@@ -260,8 +242,7 @@ public class ContentServiceImpl implements ContentService {
      */
     @Override
     public void bindContentExtend(Content content) {
-        LambdaQueryWrapper<ContentExtend> query = new LambdaQueryWrapper<ContentExtend>()
-                .eq(ContentExtend::getContentId, content.getContentId());
+        LambdaQueryWrapper<ContentExtend> query = new LambdaQueryWrapper<ContentExtend>().eq(ContentExtend::getContentId, content.getContentId());
         ContentExtend contentExtend = contentExtendMapper.selectOne(query);
         Asserts.notNull(contentExtend, DATA_MISSING);
         content.setContentExtend(contentExtend);
@@ -270,198 +251,20 @@ public class ContentServiceImpl implements ContentService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean addContent(AddContentDetailReq addContentDetailReq) {
-        Member member = memberService.memberInfo(ServletUtils.getUserId());
-        String userId = member.getUserId();
-
-        // 检查是否配置了发文间隔
-        Long limitedInterval = checkIntervalLimit(userId);
-
-        // 生成文章数据
-        Content content = Content.create();
-        generateContentId(addContentDetailReq, content);
-        content.setUserId(userId);
-        content.setTitle(addContentDetailReq.getTitle());
-        content.setContentType(addContentDetailReq.getContentType());
-        content.setShortContent(addContentDetailReq.getShortContent());
-        content.setTagIds(CcUtils.removeLastComma(addContentDetailReq.getTagIds()));
-        content.setStatementId(member.getStatementId());
-        // 初始化文章拓展表
-        content.setContentExtend(ContentExtend.create(
-                content.getContentId(),
-                addContentDetailReq.getContent(),
-                addContentDetailReq.getMdContent()));
-        // 初始化文章数据
-        initContendData(content.getContentId());
-        // 原创处理
-        origialProcessing(addContentDetailReq, content);
-        // 具体操作 发布 或者 草稿
-        publishOperator(addContentDetailReq, content);
-
-
-        int count = contentMapper.insert(content);
-        int total = contentExtendMapper.insert(content.getContentExtend()) + count;
-        boolean addSuccess = total > 1;
-
-        if (addSuccess) {
-            // 发送创建文章成功事件
-            publishContentEvent(content);
-
-            // 缓存创建文章的动作(标识),用于限制某一用户恶意刷文
-            if (Objects.nonNull(limitedInterval)) {
-                RedisUtil.set(createContentIntervalkey(userId), content.getContentId(), limitedInterval);
-            }
-        }
-
-        return addSuccess;
+        return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.CREATE, addContentDetailReq);
     }
 
-    /**
-     * 创建文章间隔时间检查
-     *
-     * @param userId
-     * @return
-     */
-    private Long checkIntervalLimit(String userId) {
-        Long timeCreateContentInterval = null;
-
-        Integer hasMemberConfig = memberConfigMapper.countByUserId(userId);
-        if (hasMemberConfig < 1) {
-            return timeCreateContentInterval;
-        }
-
-        String limited = RedisUtil.get(createContentIntervalkey(userId));
-        if (Objects.isNull(limited)) {
-            return timeCreateContentInterval;
-        }
-
-        // 获取配置的发文限制
-        MemberConfig memberConfig = memberService.memberInfoData(userId).getMemberConfig();
-        Asserts.notNull(memberConfig, MEMBER_CONFIG_LESS);
-        timeCreateContentInterval = memberConfig.getIntervalTimeCreateContent();
-        if (Objects.isNull(timeCreateContentInterval) || timeCreateContentInterval <= 0) {
-            return timeCreateContentInterval;
-        }
-
-        LocalDateTime canCreateContentTime = LocalDateTime.now().plus(timeCreateContentInterval, ChronoUnit.SECONDS);
-        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        throw new BusinessException(ErrorCode.NEXT_PUBLIC_TIME, dtf2.format(canCreateContentTime), false);
-
-    }
-
-    private void publishOperator(AddContentDetailReq addContentDetailReq, Content content) {
-        if (!StringUtils.isEmpty(addContentDetailReq.getOperation())) {
-            String draftTag = "temp";
-            if (draftTag.equals(addContentDetailReq.getOperation())) {
-                content.setStatus(ContentStatus.DRAFT);
-                content.setIsInitialStatus(ContentIsInitialStatus.NOT_FIRST_PUBLISH_EVER);
-            }
-        }
-    }
-
-    private void origialProcessing(AddContentDetailReq addContentDetailReq, Content content) {
-        if (Objects.nonNull(addContentDetailReq.getOriginType())) {
-            content.setOriginType(addContentDetailReq.getOriginType());
-            content.setNoneOriginLink(addContentDetailReq.getNoneOriginLink());
-        }
-    }
-
-    private void generateContentId(AddContentDetailReq addContentDetailReq, Content content) {
-        if (StringUtils.isEmpty(addContentDetailReq.getPreContentId())) {
-            content.setContentId(CcUtils.getUuId());
-        } else {
-            // 检查preContentId是否已经使用
-            checkPreContentId(addContentDetailReq);
-            content.setContentId(addContentDetailReq.getPreContentId());
-        }
-    }
-
-    private void checkPreContentId(AddContentDetailReq addContentDetailReq) {
-        try {
-            // 检查重复提交
-            Content normalContent = getNormalContent(addContentDetailReq.getPreContentId());
-            if (Objects.nonNull(normalContent)) {
-                throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
-            }
-        } catch (Exception e) {
-            if (e instanceof BusinessException
-                    && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())) {
-                // 忽略
-            } else {
-                throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
-            }
-        }
-    }
-
-    private void publishContentEvent(Content content) {
-        PublishContentEvent createContentEvent = new PublishContentEvent();
-        createContentEvent.setContentId(content.getContentId());
-        createContentEvent.setUserId(content.getUserId());
-        eventPublisher.publishEvent(createContentEvent);
-    }
 
     @Override
     public Boolean updateContent(UpdateContentReq updateContentReq) {
-
-        Content editContent = getManageContentDetail(updateContentReq.getContentId());
-
-        // 校验内容所属的用户id是否是当前用户
-        ServletUtils.checkOperatePermission(editContent.getUserId());
-        // 检查置顶文章的状态
-        pinnedContentCheck(updateContentReq, editContent);
-
-        // 记录变更次数
-        updateEditTimes(updateContentReq, editContent);
-
-        // 编辑Content
-        BeanUtils.copyProperties(updateContentReq, editContent);
-        if (!StringUtils.isEmpty(updateContentReq.getTagIds())) {
-            editContent.setTagIds(CcUtils.removeLastComma(updateContentReq.getTagIds()));
-        }
-
-        // 操作更改为公开、草稿
-        boolean isSendCreateContentMessage = false;
-        if (Objects.nonNull(updateContentReq.getIsDraftPublic()) && updateContentReq.getIsDraftPublic()) {
-            editContent.setStatus(ContentStatus.NORMAL);
-            if (!ContentIsInitialStatus.FIRST_PUBLISHED.equals(editContent.getIsInitialStatus())) {
-                editContent.setCreateTime(CcDateUtil.getCurrentTime());
-                editContent.setLatestCommentTime(CcDateUtil.getCurrentTime());
-                editContent.setIsInitialStatus(ContentIsInitialStatus.FIRST_PUBLISHED);
-                // 第一次将文章正式发出,需要发送邮件
-                isSendCreateContentMessage = true;
-            }
-        }
-
-        // 从转载变为原创,需要清除转载的链接
-        if (OriginType.NONE_ORIGIN.equals(editContent.getOriginType())
-                && OriginType.ORIGIN.equals(updateContentReq.getOriginType())) {
-            editContent.setNoneOriginLink(null);
-        }
-
-        editContent.setSysUpdateTime(new Date());
-        int updateCount = contentMapper.updateById(editContent);
-
-        // 内容不等时再变更
-        String markdownContent = editContent.getContentExtend().getMarkdownContent();
-        if (!updateContentReq.getMdContent().equals(markdownContent)) {
-            editContent.getContentExtend().setDetailContent(updateContentReq.getDetailContent());
-            editContent.getContentExtend().setMarkdownContent(updateContentReq.getMdContent());
-            editContent.getContentExtend().setSysUpdateTime(new Date());
-            updateCount = updateCount + contentExtendMapper.updateById(editContent.getContentExtend());
-        }
-
-        if (updateCount > 0 && isSendCreateContentMessage) {
-            publishContentEvent(editContent);
-        }
-        return Boolean.TRUE;
+        return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.EDIT, updateContentReq);
     }
 
-    private void pinnedContentCheck(UpdateContentReq updateContentReq, Content editContent) {
-        if (Objects.nonNull(editContent.getPinnedStatus()) && editContent.getPinnedStatus().equals(PinnedStatus.PINNED)) {
-            if (Objects.nonNull(updateContentReq.getStatus()) && !updateContentReq.getStatus().equals(ContentStatus.NORMAL)) {
-                throw new BusinessException(ErrorCode.FORBIDDEN_SET_PINNED_CONTENT_STATUS_NOT_NORMAL);
-            }
-        }
+    @Override
+    public Boolean updateContentStatus(UpdateContentReq updateContentReq) {
+        return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.UPDATE_STATUS, updateContentReq);
     }
+
 
     @Override
     public Boolean updateContent(Content content) {
@@ -469,43 +272,6 @@ public class ContentServiceImpl implements ContentService {
         return contentMapper.updateById(content) > 0;
     }
 
-    @Override
-    public Boolean updateContentStatus(UpdateContentReq updateContentReq) {
-        // check
-        String contentId = updateContentReq.getContentId();
-        Content editContent = getManageContentDetail(contentId);
-        // 校验内容所属的用户id是否是当前用户
-        ServletUtils.checkOperatePermission(editContent.getUserId());
-
-        if (Objects.nonNull(editContent.getPinnedStatus())
-                && PinnedStatus.PINNED.equals(editContent.getPinnedStatus())
-                && !ContentStatus.NORMAL.equals(updateContentReq.getStatus())
-        ) {
-            throw new BusinessException(FIRST_CANCEL_PINNED);
-        }
-
-        // 如果只是单纯的在控制中心更改状态
-        boolean isSendCreateContentMessage = false;
-        if (Objects.nonNull(updateContentReq.getStatus()) && updateContentReq.getStatus() == ContentStatus.NORMAL) {
-            if (!ContentIsInitialStatus.FIRST_PUBLISHED.equals(editContent.getIsInitialStatus())) {
-                editContent.setCreateTime(CcDateUtil.getCurrentTime());
-                editContent.setLatestCommentTime(CcDateUtil.getCurrentTime());
-                editContent.setIsInitialStatus(ContentIsInitialStatus.FIRST_PUBLISHED);
-                // 第一次将文章正式发出,需要发送邮件
-                isSendCreateContentMessage = true;
-            }
-        }
-
-        editContent.setStatus(updateContentReq.getStatus());
-        editContent.setSysUpdateTime(new Date());
-        boolean result = contentMapper.updateById(editContent) > 0;
-
-        if (result && isSendCreateContentMessage) {
-            publishContentEvent(editContent);
-        }
-
-        return result;
-    }
 
     @Override
     public Integer countDraft(String userId) {
@@ -514,29 +280,6 @@ public class ContentServiceImpl implements ContentService {
         }
         return contentMapper.countDraft(userId);
     }
-
-    private void updateEditTimes(UpdateContentReq updateContentReq, Content editContent) {
-        String updateTitleContent = updateContentReq.getTitle() + updateContentReq.getDetailContent();
-        String originTitleContent = editContent.getTitle() + editContent.getContentExtend().getDetailContent();
-        if (!updateTitleContent.equals(originTitleContent)) {
-            Integer editTimes = editContent.getEditTimes();
-            if (Objects.isNull(editTimes)) {
-                editTimes = 0;
-            }
-            editTimes = editTimes + 1;
-            editContent.setEditTimes(editTimes);
-            // 记录变更原因
-            if (!StringUtils.isEmpty(updateContentReq.getEditReason())) {
-                ContentEditReason contentEditReason = new ContentEditReason();
-                contentEditReason.setContentId(editContent.getContentId());
-                contentEditReason.setReason(updateContentReq.getEditReason());
-                contentEditReason.setCreateTime(CcDateUtil.getCurrentTime());
-                contentEditReason.setSysUpdateTime(new Date());
-                contentEditReasonMapper.insert(contentEditReason);
-            }
-        }
-    }
-
 
     @Override
     public List<Content> listByContentIdList(List<String> contentIdList) {
@@ -587,8 +330,7 @@ public class ContentServiceImpl implements ContentService {
     }
 
     private List<ContentData> getContentData(List<String> targetIdList) {
-        LambdaQueryWrapper<ContentData> query = new LambdaQueryWrapper<ContentData>()
-                .in(ContentData::getContentId, targetIdList);
+        LambdaQueryWrapper<ContentData> query = new LambdaQueryWrapper<ContentData>().in(ContentData::getContentId, targetIdList);
         return contentDataMapper.selectList(query);
     }
 
@@ -660,11 +402,9 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
 
-        List<String> userIdList = listContentDto.getContentList().stream()
-                .map(Content::getUserId).distinct().collect(Collectors.toList());
+        List<String> userIdList = listContentDto.getContentList().stream().map(Content::getUserId).distinct().collect(Collectors.toList());
 
-        List<String> latestCommentUserId = listContentDto.getContentList().stream().map(Content::getLatestCommentUserId).filter(Objects::nonNull)
-                .distinct().collect(Collectors.toList());
+        List<String> latestCommentUserId = listContentDto.getContentList().stream().map(Content::getLatestCommentUserId).filter(Objects::nonNull).distinct().collect(Collectors.toList());
 
         if (!CollectionUtils.isEmpty(latestCommentUserId)) {
             userIdList.addAll(latestCommentUserId);
@@ -791,9 +531,7 @@ public class ContentServiceImpl implements ContentService {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
 
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getUserId, userId)
-                .eq(Content::getPinnedStatus, pinnedStatus);
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getUserId, userId).eq(Content::getPinnedStatus, pinnedStatus);
         return contentMapper.selectList(query);
     }
 
@@ -860,9 +598,7 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
 
-        List<String> userIdList = likesIntegralList.stream()
-                .map(MemberIntegral::getIntegralUserId)
-                .distinct().collect(Collectors.toList());
+        List<String> userIdList = likesIntegralList.stream().map(MemberIntegral::getIntegralUserId).distinct().collect(Collectors.toList());
         List<Member> memberList = memberMapper.listByUserIdList(userIdList);
         if (CollectionUtils.isEmpty(memberList)) {
             return;
