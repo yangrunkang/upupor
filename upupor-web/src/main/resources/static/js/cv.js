@@ -230,9 +230,9 @@ function initEditor(isComment){
         },
         toolbars:{
             theme: 'light', // light or dark
-            toolbar : ['bold', 'italic', 'strikethrough','color', '|', 'header', 'list', 'insert', 'graph', 'togglePreview'],
-            bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup', '|', 'size'], // array or false
-            float : ['h1', 'h2', 'h3', '|', 'checklist', 'quote', 'quickTable', 'code'], // array or false
+            toolbar : ['bold', 'italic', 'strikethrough','color', 'header', 'list', 'insert', 'graph', 'switchModel'],
+            bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup',  'size'], // array or false
+            float : ['h1', 'h2', 'h3',  'checklist', 'quote', 'quickTable', 'code'], // array or false
             customMenu: {
             },
         },
