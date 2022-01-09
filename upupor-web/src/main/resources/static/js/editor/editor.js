@@ -60,8 +60,7 @@ function autoSave() {
     let title = $("#title").val();
     let vcrEditorContent = $.cvGetEditorData();
     let vcrEditorContentMd = $.cvGetEditorDataMd();
-
-    if (!cvIsNull(title) || !cvIsNull(vcrEditorContent)) {
+    if (!cvIsNull(title) || !cvIsNull(vcrEditorContentMd)) {
 
         let none_origin_link = $('#none_original_link').val();
         let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
