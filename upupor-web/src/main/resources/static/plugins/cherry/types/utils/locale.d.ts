@@ -3,13 +3,14 @@ declare namespace _default {
         bold: string;
         code: string;
         graph: string;
+        switchPreview: string;
+        insert: string;
         h1: string;
         h2: string;
         h3: string;
         h4: string;
         h5: string;
         header: string;
-        insert: string;
         italic: string;
         list: string;
         quickTable: string;
@@ -49,7 +50,6 @@ declare namespace _default {
         previewClose: string;
         codeTheme: string;
         switchModel: string;
-        switchPreview: string;
         switchEdit: string;
         classicBr: string;
         normalBr: string;

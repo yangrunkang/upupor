@@ -15,7 +15,7 @@
  */
 export function compileRegExp(obj: any, flags: any, allowExtendedFlags: any): RegExp;
 export function isLookbehindSupported(): boolean;
-export const HORIZONTAL_WHITESPACE: "[ \\t]";
+export const HORIZONTAL_WHITESPACE: "[ \\t\\u00a0]";
 export const ALLOW_WHITESPACE_MULTILINE: "(?:.*?)(?:(?:\\n.*?)*?)";
 export const DO_NOT_STARTS_AND_END_WITH_SPACES: "(?:\\S|(?:\\S.*?\\S))";
 export const DO_NOT_STARTS_AND_END_WITH_SPACES_MULTILINE: "(?:(?:\\S|(?:\\S[^\\n]*?\\S))(?:\\n(?:\\S|(?:\\S[^\\n]*?\\S)))*?)";

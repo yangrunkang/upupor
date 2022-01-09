@@ -4,6 +4,6 @@ export default class Suggester extends SyntaxBase {
     });
     initConfig(config: any): void;
     suggester: {};
-    toHtml(str: any): any;
+    toHtml(wholeMatch: any, leadingChar: any, keyword: any, text: any): any;
 }
 import SyntaxBase from "@/core/SyntaxBase";
