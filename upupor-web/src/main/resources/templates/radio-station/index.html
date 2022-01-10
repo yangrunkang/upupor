@@ -112,14 +112,9 @@
                     </div>
                 </div>
                 <!--访问者-->
-                <div  class="card card-body shadow-sm border-0 p-2 mb-2" th:if="!${#lists.isEmpty(radioIndexDto.radio.viewerList)}">
-                    <div class="small text-black-50">以下用户访问过:</div>
-                    <span>
-                        <a th:each="viewer : ${radioIndexDto.radio.viewerList}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}">
-                            <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover" th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}" />
-                        </a>
-                    </span>
-                </div>
+                <div th:include="fragments/index::viewList(${radioIndexDto.radio.viewerList})"></div>
+                <!--社交模板-->
+                <div th:include="fragments/social::social_box('r/',${radioIndexDto.radio.radioId},${radioIndexDto.radio.radioIntro})" th:if="${radioIndexDto.radio.status.name() == 'NORMAL'}"></div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <div  th:include="fragments/index::google_right_ad"></div>
             </div>

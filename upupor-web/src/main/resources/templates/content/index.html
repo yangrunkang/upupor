@@ -33,7 +33,7 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/common/img.css}"/>
 <!--脚本-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/content/content.js}"></script>
-<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/comment.js}"></script>
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/comment.js}" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}"></script>
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/common.js}"></script>
 <!--加载复制插件-->
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/clipboard/clipboard.min.js}"></script>
@@ -212,14 +212,7 @@
                     </div>
                 </div>
                 <!--访问者-->
-                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="!${#lists.isEmpty(contentIndexDto.content.viewerList)}">
-                    <div class="small text-black-50">以下用户访问过:</div>
-                    <span>
-                        <a th:each="viewer : ${contentIndexDto.content.viewerList}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}">
-                            <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover" th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}" />
-                        </a>
-                    </span>
-                </div>
+                <div th:include="fragments/index::viewList(${contentIndexDto.content.viewerList})"></div>
                 <!--如果作者有电台,跳转到作者电台列表-->
                 <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.hasRadio}" th:inline="text">
                     <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto?.content?.userId}+'/radio'"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}">  [[${contentIndexDto.content.member.userName}]]的电台</a>
@@ -229,51 +222,8 @@
                     <a class="cv-link text-black-50" th:href="'/profile-message/'+${contentIndexDto?.content?.userId}"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/goutong.png}">  [[${contentIndexDto.content.member.userName}]]的留言板</a>
                 </div>
                 <div th:include="fragments/index::google_right_ad"></div>
-
-                <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}">
-                    <div>
-                        <div class="text-black-50 border-bottom mb-1 pt-0">分享文章</div>
-                        <div class="mb-1">
-                            <!--分享到linkedin-->
-                            <a  class="cv-link"
-                                th:href="'https://www.linkedin.com/shareArticle?mini=true&url=https://www.upupor.com/u/'+${contentIndexDto.content.contentId}" target="_blank" rel="noopener">
-                                <img th:data-src="${ossStatic} + @{/system/LinkedIn.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 领英
-                            </a>
-                        </div>
-                        <div class="mb-1">
-                            <!--分享到weibo-->
-                            <a class="cv-link"
-                               th:href="'http://service.weibo.com/share/share.php?url=https://www.upupor.com/u/'
-                                    +${contentIndexDto.content.contentId}+'&title='+${contentIndexDto.content.title}+'&appkey=2178125307&ralateUid=7389727164'"
-                               target="_blank" rel="noopener">
-                                <img th:data-src="${ossStatic} + @{/system/weibo.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 微博
-                            </a>
-                        </div>
-                        <div class="mb-1">
-                            <!--分享到 QQ 空间-->
-                            <a class="cv-link"
-                               th:href="'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.upupor.com/u/'
-                                    +${contentIndexDto.content.contentId}+'&title='+${contentIndexDto.content.title}"
-                               target="_blank" rel="noopener">
-                                <img th:data-src="${ossStatic} + @{/system/qq_zone.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 QQ空间
-                            </a>
-                        </div>
-                        <div class="mb-1">
-                            <!--分享到facebook-->
-                            <a class="cv-link" th:href="'https://www.facebook.com/sharer.php?title='
-                                    +${contentIndexDto.content.title}
-                                    +'&u='+${'https://www.upupor.com/u/'+contentIndexDto.content.contentId}" target="_blank">
-                                <img th:data-src="${ossStatic} + @{/system/facebook.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Facebook
-                            </a>
-                        </div>
-                        <div class="mb-1">
-                            <!--分享到twitter-->
-                            <a class="cv-link" th:href="${'https://twitter.com/share?text=' + contentIndexDto.content.title + '&url=https://www.upupor.com/u/' + contentIndexDto.content.contentId}" target="_blank" rel="noopener">
-                                <img th:data-src="${ossStatic} + @{/system/twitter.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Twitter
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <!--社交模板-->
+                <div th:include="fragments/social::social_box('u/',${contentIndexDto.content.contentId},${contentIndexDto.content.title})" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}"></div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div>
                         <p style="text-align: center" th:if="!${#strings.isEmpty(contentIndexDto.content.member.via)}">

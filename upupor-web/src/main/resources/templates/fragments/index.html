@@ -410,7 +410,16 @@ fromProfile: 是否来自Profile页面
     </div>
 </div>
 
-
+<div th:fragment="viewList(list)">
+    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(list)}">
+        <div class="small text-black-50">以下用户访问过:</div>
+        <span>
+            <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}">
+                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover" th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}" />
+            </a>
+        </span>
+    </div>
+</div>
 
 <!--个人中心公共部分-->
 <div th:fragment="profile_right">
@@ -436,14 +445,7 @@ fromProfile: 是否来自Profile页面
         </div>
     </div>
     <!--访问者-->
-    <div class="card card-body shadow-sm border-0 p-2 mt-2" th:if="!${#lists.isEmpty(memberIndexDto.viewerList)}">
-        <div class="small text-black-50">以下用户访问过:</div>
-        <span>
-            <a th:each="viewer : ${memberIndexDto.viewerList}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}">
-                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover" th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}" />
-            </a>
-        </span>
-    </div>
+    <div th:include="fragments/index::viewList(${memberIndexDto.viewerList})"></div>
     <!---->
     <div class="card card-body shadow-sm border-0 p-2 my-2">
         <div class="lead mb-1">内容标签</div>
