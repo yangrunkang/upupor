@@ -223,7 +223,7 @@
                 </div>
                 <div th:include="fragments/index::google_right_ad"></div>
                 <!--社交模板-->
-                <div th:include="fragments/social::social_box('u/',${contentIndexDto.content.contentId},${contentIndexDto.content.title})" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}"></div>
+                <div th:include="fragments/social::social_box('u/','文章',${contentIndexDto.content.contentId},${contentIndexDto.content.title})" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}"></div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div>
                         <p style="text-align: center" th:if="!${#strings.isEmpty(contentIndexDto.content.member.via)}">

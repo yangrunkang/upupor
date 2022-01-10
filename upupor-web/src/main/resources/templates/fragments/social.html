@@ -30,10 +30,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div th:fragment="social_box(url,targetId,title)">
+    <div th:fragment="social_box(url,tag,targetId,title)">
         <div class="card card-body shadow-sm border-0 p-2 mb-2">
             <div>
-                <div class="text-black-50 border-bottom mb-1 pt-0">分享</div>
+                <div class="text-black-50 border-bottom mb-1 pt-0">分享[[${tag}]]</div>
                 <div class="mb-1">
                     <!--分享到linkedin-->
                     <a  class="cv-link"

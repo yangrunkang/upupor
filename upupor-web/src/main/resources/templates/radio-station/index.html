@@ -114,7 +114,7 @@
                 <!--访问者-->
                 <div th:include="fragments/index::viewList(${radioIndexDto.radio.viewerList})"></div>
                 <!--社交模板-->
-                <div th:include="fragments/social::social_box('r/',${radioIndexDto.radio.radioId},${radioIndexDto.radio.radioIntro})" th:if="${radioIndexDto.radio.status.name() == 'NORMAL'}"></div>
+                <div th:include="fragments/social::social_box('r/','电台',${radioIndexDto.radio.radioId},${radioIndexDto.radio.radioIntro})" th:if="${radioIndexDto.radio.status.name() == 'NORMAL'}"></div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <div  th:include="fragments/index::google_right_ad"></div>
             </div>
