@@ -63,9 +63,6 @@
                                 <a class="cv-link text-black-50" href="https://t.me/upupor_com"><img class="operation-pic" th:src="${ossStatic} + @{/icons/system/footer/telegram.svg}"  alt="电报: https://t.me/upupor_com" style="height: 16px; width: 16px;"/>Telegram</a>
                             </li>
                             <li class="list-inline-item me-1">
-                                <span class="text-black-50" th:text="'upupor.com©' + ${#dates.format(#dates.createNow(),'yyyy')}"></span>
-                            </li>
-                            <li class="list-inline-item me-1">
                                 <a class="cv-link text-black-50" href="/view/history"><span th:include="fragments/icon::view_record"></span>浏览记录</a>
                             </li>
                             <li class="list-inline-item me-1">
@@ -78,7 +75,8 @@
                     <div class="col w-100 text-black-50 text-center border-top small">
                         <span class="small text-black-50" th:if="${responseTime} != null and ${responseTime} > 0" th:text="'响应时间: ' + ${responseTime}+'ms'"></span> ·
                         <span class="small text-black-50">版本:[[${staticSourceVersion}]]</span> ·
-                        <a class="cv-link text-black-50 small" href="http://www.beian.miit.gov.cn">备案号:&nbsp;皖ICP备17015935号-2</a>
+                        <a class="cv-link text-black-50 small" href="http://www.beian.miit.gov.cn">备案号:&nbsp;皖ICP备17015935号-2</a> ·
+                        <span class="text-black-50" th:text="'upupor.com©' + ${#dates.format(#dates.createNow(),'yyyy')}"></span>
                     </div>
                 </div>
             </div>
