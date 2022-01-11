@@ -25,66 +25,52 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.spi.req;
+package com.upupor.service.dto;
 
-import com.upupor.service.spi.req.content.BaseContentReq;
-import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ContentType;
-import com.upupor.service.types.OriginType;
-import joptsimple.internal.Strings;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
-import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @author: YangRunkang(cruise)
- * @created: 2019/12/22 16:44
+ * @author cruise
+ * @createTime 2022-01-11 17:44
  */
 @Data
-public class UpdateContentReq  extends BaseContentReq {
+public class ContentTypeData {
+    private String typeName;
+    private String name;
+    private String url;
+    private String webText;
+    private String icon;
+    private String tips;
 
-    @NotEmpty(message = "文章Id为空")
-    private String contentId;
+    public ContentTypeData() {
+    }
 
-    private String title;
+    public ContentTypeData(String typeName, String name, String url, String webText, String icon, String tips) {
+        this.typeName = typeName;
+        this.name = name;
+        this.url = url;
+        this.webText = webText;
+        this.icon = icon;
+        this.tips = tips;
+    }
 
-    private String shortContent;
 
-    private ContentType contentType;
-
-    private ContentType tagType;
-
-    private String content;
-
-    private String mdContent;
-
-    private ContentStatus status;
-
-    private String userId;
-
-    /**
-     * 标签
-     */
-    private String tagIds;
-
-    /**
-     * 编辑原因
-     */
-    private String editReason;
-
-    private OriginType originType;
-    private String noneOriginLink;
-
-    /**
-     * 是否将草稿公开 true-公开
-     */
-    private Boolean isDraftPublic;
-
-    public String getMdContent() {
-        if(StringUtils.isEmpty(mdContent)){
-            return Strings.EMPTY;
+    public List<ContentTypeData> contentTypeDataList(){
+        List<ContentTypeData> list = new ArrayList<>();
+        for (ContentType value : ContentType.contentSource()) {
+            list.add(new ContentTypeData(
+                    value.name(),
+                    value.getName(),
+                    value.getUrl(),
+                    value.getWebText(),
+                    value.getIcon(),
+                    value.getTips()
+            ));
         }
-        return mdContent;
+        return list;
     }
 }

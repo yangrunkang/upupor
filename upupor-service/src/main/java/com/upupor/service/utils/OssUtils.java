@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
+import static com.upupor.service.utils.CcUtils.checkEnvIsDev;
 import static com.upupor.service.utils.CcUtils.getProperty;
 
 /**
@@ -110,9 +111,6 @@ public class OssUtils {
         }
     }
 
-    public static Boolean checkEnvIsDev() {
-        String property = getProperty("upupor.env");
-        return "dev".equals(property);
-    }
+
 
 }
