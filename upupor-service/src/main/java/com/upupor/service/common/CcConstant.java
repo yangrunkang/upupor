@@ -114,6 +114,11 @@ public final class CcConstant {
     public static final String STATIC_SOURCE_VERSION = "staticSourceVersion";
 
     /**
+     * Google分析ID
+     */
+    public static final String GOOGLE_TAG_ID = "googleTagId";
+
+    /**
      * 系统常量
      */
     public static final String GLOBAL_EXCEPTION = "cvException";

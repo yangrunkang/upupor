@@ -123,6 +123,9 @@ public class PageAspectAdvice {
     @Value("${upupor.analyze-switch}")
     private String analyzeSwitch;
 
+    @Value("${upupor.googleTagId}")
+    private String googleTagId;
+
     /**
      * google广告ClientID
      */
@@ -264,6 +267,7 @@ public class PageAspectAdvice {
         modelAndView.addObject(AD_SWITCH, adSwitch);
         modelAndView.addObject(SUPPORT_CONTENT_TYPE_LIST, new ContentTypeData().contentTypeDataList());
         modelAndView.addObject(AD_SWITCH_RIGHT, adSwitchRight);
+        modelAndView.addObject(GOOGLE_TAG_ID, googleTagId);
         // 谷歌广告信息
         modelAndView.addObject(GoogleAd.CLIENT_ID, dataAdClientId);
         modelAndView.addObject(GoogleAd.RIGHT_SLOT, rightSlot);

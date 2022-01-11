@@ -34,6 +34,7 @@ export UPUPOR_ENV=环境
 export GOOGLE_DATA_AD_CLIENT_ID=Google广告Id
 export GOOGLE_AD_RIGHT=右侧广告
 export GOOGLE_AD_FEED=信息流广告
+export GOOGLE_TAG_ID=Google分析Id
 ```
 
 ## 应用内环境变量
