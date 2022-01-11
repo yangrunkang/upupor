@@ -38,6 +38,7 @@ import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Slogan;
+import com.upupor.service.dto.ContentTypeData;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.scheduled.CountTagScheduled;
 import com.upupor.service.spi.req.ListMessageReq;
@@ -261,6 +262,7 @@ public class PageAspectAdvice {
         modelAndView.addObject(OSS_STATIC, ossStatic);
         modelAndView.addObject(STATIC_SOURCE_VERSION, UpuporWebApplication.STATIC_SOURCE_VERSION);
         modelAndView.addObject(AD_SWITCH, adSwitch);
+        modelAndView.addObject(SUPPORT_CONTENT_TYPE_LIST, new ContentTypeData().contentTypeDataList());
         modelAndView.addObject(AD_SWITCH_RIGHT, adSwitchRight);
         // 谷歌广告信息
         modelAndView.addObject(GoogleAd.CLIENT_ID, dataAdClientId);

@@ -58,33 +58,19 @@ $(window).on('load', function() {
 
 function autoSave() {
     let title = $("#title").val();
-    let vcrEditorContent = $.cvGetEditorData();
-    let vcrEditorContentMd = $.cvGetEditorDataMd();
+    let vcrEditorContentMd = $.cvGetEditorDataMd(); //用作自动保存的判断
     if (!cvIsNull(title) || !cvIsNull(vcrEditorContentMd)) {
-
-        let none_origin_link = $('#none_original_link').val();
-        let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
-
-        let req = {
-            title: title,
-            content: vcrEditorContent,
-            mdContent: vcrEditorContentMd,
-            contentType: getQueryVariable("type"),
-            tagIds: getSelectedTagIds(),
-            edit: getQueryVariable("edit"),
-            contentId: $(".hide-content-content-id").val(),
-            userId: $(".hide-content-user-id").val(),
-            originType: origin_type,
-            noneOriginLink: none_origin_link
-        };
-
-        $.cvPost('/cache/add', req, function (data) {
+        let content = getCommonReq();
+        content.contentType = getQueryVariable("type");
+        content.edit = getQueryVariable("edit");
+        content.contentId = $(".hide-content-content-id").val();
+        content.userId = $(".hide-content-user-id").val();
+        $.cvPost('/cache/add', content, function (data) {
             if (respCodeOk(data)) {
                 $(".auto-save-card").fadeIn();
                 $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
             }
         });
-
         return false;
     }
 
@@ -153,34 +139,17 @@ function updateContentPublic(fromSource, contentId, userId) {
  */
 function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
     let title = $("#title").val();
-    let vcrEditorContent = $.cvGetEditorData();
-    let vcrEditorContentMd = $.cvGetEditorDataMd();
-    let editReason = $("#edit_reason").val();
 
     if (cvIsNull(title)) {
         $.cvWarn("标题为空");
         return false;
     }
 
-    let none_origin_link = $('#none_original_link').val();
-    let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
-
-
-    // 获取的是option的value
-    let content = {
-        contentId: contentId,
-        title: title,
-        detailContent: vcrEditorContent,
-        mdContent: vcrEditorContentMd,
-        // todo
-        picture: null,
-        tagIds: getSelectedTagIds(),
-        userId: userId,
-        editReason: editReason,
-        originType: origin_type,
-        noneOriginLink: none_origin_link,
-        isDraftPublic: isDraftPublic
-    };
+    let content = getCommonReq();
+    content.contentId = contentId;
+    content.userId = userId;
+    content.editReason = $("#edit_reason").val();
+    content.isDraftPublic = isDraftPublic;
 
     $.cvPost('/content/edit', content, function (data) {
         if (respSuccess(data)) {
@@ -195,30 +164,14 @@ function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
 
 function handleSaveContentEvent(operation) {
     let title = $("#title").val();
-    let vcrEditorContent = $.cvGetEditorData();
-    let vcrEditorContentMd = $.cvGetEditorDataMd();
-
     if (cvIsNull(title)) {
         $.cvWarn("标题为空");
         return false;
     }
-
-    let none_origin_link = $('#none_original_link').val();
-    let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
-
-    let content = {
-        title: title,
-        content: vcrEditorContent,
-        mdContent: vcrEditorContentMd,
-        picture: null,
-        contentType: getQueryVariable("type"),
-        tagIds: getSelectedTagIds(),
-        operation: operation,
-        originType: origin_type,
-        noneOriginLink: none_origin_link,
-        preContentId: $(".hidden-pre-content-id").val()
-    };
-
+    let content = getCommonReq();
+    content.contentType= getQueryVariable("type");
+    content.operation= operation;
+    content.preContentId= $(".hidden-pre-content-id").val();
     $.cvPost('/content/add', content, function (data) {
         if (respSuccess(data)) {
             if (!cvIsNull(operation)) {
@@ -243,6 +196,7 @@ function jumpContent() {
     }, 1500);
 }
 
+
 /**
  * 获取选中的选项值
  * @returns {null}
@@ -250,4 +204,25 @@ function jumpContent() {
 function getSelectedTagIds() {
     // 获取的是option的value
     return $("#cv_selectpicker").val();
+}
+
+/**
+ * 获取统一的入参
+ */
+function getCommonReq() {
+    let title = $("#title").val();
+    let vcrEditorContent = $.cvGetEditorData();
+    let vcrEditorContentMd = $.cvGetEditorDataMd();
+    let none_origin_link = $('#none_original_link').val();
+    let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
+
+    return {
+        title: title,
+        content: vcrEditorContent,
+        mdContent: vcrEditorContentMd,
+        noneOriginLink: none_origin_link,
+        originType: origin_type,
+        tagIds: getSelectedTagIds(),
+        picture: null,
+    };
 }

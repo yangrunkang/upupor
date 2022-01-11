@@ -164,6 +164,11 @@ public class CcUtils {
         return value;
     }
 
+    public static Boolean checkEnvIsDev() {
+        String property = getProperty("upupor.env");
+        return "dev".equals(property);
+    }
+
     /**
      * 判断数组是否不为空
      *

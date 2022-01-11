@@ -104,6 +104,11 @@ public final class CcConstant {
     public static final String SKIP_SUBSCRIBE_EMAIL_CHECK = "skip";
 
     /**
+     * 系统支持的内容类型
+     */
+    public static final String SUPPORT_CONTENT_TYPE_LIST = "contentTypeList";
+
+    /**
      * 静态资源版本
      */
     public static final String STATIC_SOURCE_VERSION = "staticSourceVersion";

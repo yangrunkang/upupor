@@ -271,12 +271,9 @@
                     <div class="text-black-50 border-bottom mb-2 pt-0">文章导航</div>
                     <nav aria-label="breadcrumb mb-0">
                         <ol class="breadcrumb mb-0">
-                            <li th:if="${contentIndexDto.content.contentType.name()} == 'TECH'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/tech">技术</a></li>
-                            <li th:if="${contentIndexDto.content.contentType.name()} == 'QA'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/qa">问答</a></li>
-                            <li th:if="${contentIndexDto.content.contentType.name()} == 'SHARE'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/share">分享</a></li>
-                            <li th:if="${contentIndexDto.content.contentType.name()} == 'WORKPLACE'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/workplace">职场</a></li>
-                            <li th:if="${contentIndexDto.content.contentType.name()} == 'RECORD'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/record">记录</a></li>
-                            <li th:if="${contentIndexDto.content.contentType.name()} == 'SHORT_CONTENT'" class="breadcrumb-item"><a class="cv-link text-black-50" href="/topic">短内容</a></li>
+                            <li th:each="type : ${contentTypeList}"
+                                th:if="${contentIndexDto.content.contentType.name() == type.typeName}"
+                                class="breadcrumb-item"><a class="cv-link text-black-50" th:href="${type.url}">[[${type.name}]]</a></li>
                             <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
                                 <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'TECH'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/tech/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
                                 <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'QA'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/qa/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>

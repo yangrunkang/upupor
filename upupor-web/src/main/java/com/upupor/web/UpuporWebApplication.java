@@ -28,6 +28,7 @@
 package com.upupor.web;
 
 
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.utils.CcUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
@@ -38,6 +39,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
+import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
@@ -60,7 +62,7 @@ public class UpuporWebApplication {
 
     static {
         System.setProperty("druid.mysql.usePingMethod", "false");
-        STATIC_SOURCE_VERSION = CcUtils.getUuId();
+        STATIC_SOURCE_VERSION = LocalDateTime.now().toString();
     }
 
     public static void main(String[] args) {

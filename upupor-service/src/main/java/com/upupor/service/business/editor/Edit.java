@@ -118,7 +118,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         // 内容不等时再变更
         String markdownContent = editContent.getContentExtend().getMarkdownContent();
         if (!updateContentReq.getMdContent().equals(markdownContent)) {
-            editContent.getContentExtend().setDetailContent(updateContentReq.getDetailContent());
+            editContent.getContentExtend().setDetailContent(updateContentReq.getContent());
             editContent.getContentExtend().setMarkdownContent(updateContentReq.getMdContent());
             editContent.getContentExtend().setSysUpdateTime(new Date());
             updateCount = updateCount + contentExtendMapper.updateById(editContent.getContentExtend());
@@ -142,7 +142,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
 
     private void updateEditTimes(Content editContent) {
         UpdateContentReq updateContentReq = getReq();
-        String updateTitleContent = updateContentReq.getTitle() + updateContentReq.getDetailContent();
+        String updateTitleContent = updateContentReq.getTitle() + updateContentReq.getContent();
         String originTitleContent = editContent.getTitle() + editContent.getContentExtend().getDetailContent();
         if (!updateTitleContent.equals(originTitleContent)) {
             Integer editTimes = editContent.getEditTimes();

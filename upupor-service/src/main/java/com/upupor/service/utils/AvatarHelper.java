@@ -46,7 +46,7 @@ import java.math.BigInteger;
 import java.util.Random;
 
 import static com.upupor.service.common.CcConstant.DEFAULT_PROFILE_PHOTO;
-import static com.upupor.service.utils.OssUtils.checkEnvIsDev;
+import static com.upupor.service.utils.CcUtils.checkEnvIsDev;
 
 public class AvatarHelper {
 
