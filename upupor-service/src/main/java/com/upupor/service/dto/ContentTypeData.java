@@ -35,7 +35,6 @@ import java.util.List;
 
 /**
  * @author cruise
- * @createTime 2022-01-11 17:44
  */
 @Data
 public class ContentTypeData {
