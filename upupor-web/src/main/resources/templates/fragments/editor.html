@@ -33,5 +33,14 @@
         <link th:fragment="css" type="text/css" rel="stylesheet" th:href="'/plugins/cherry/cherry-markdown.min.css?v='+${staticSourceVersion}"/>
         <script th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/cherry/cherry-markdown.min.js}"></script>
     </div>
+
+    <div th:fragment="upupor-editor-progress">
+        <div class="upload-progress-bar-div card card-body shadow-sm border-0 p-2" style="display: none">
+            <div class="border-bottom small mb-2">上传中...请稍等</div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success upload-progress-bar" role="progressbar"><span class="progress-text"></span></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

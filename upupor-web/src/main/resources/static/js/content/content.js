@@ -24,6 +24,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+$(function () {
+    $.cvLoadShowImg();
+});
+
 function copyContentUrl() {
     let clipboard = new ClipboardJS('.copy-url');
     clipboard.on('success', function(e) {

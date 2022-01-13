@@ -160,6 +160,7 @@
                     <div class="small">1. 如果内容标题可以描述清楚,内容可以不用填写</div>
                 </div>
                 <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>
+                <div th:replace="fragments/editor::upupor-editor-progress"></div>
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
                     <div th:include="fragments/index::apply_tag"></div>
                 </div>

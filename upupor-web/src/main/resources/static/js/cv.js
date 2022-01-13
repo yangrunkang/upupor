@@ -239,21 +239,37 @@ function initEditor(isComment){
         fileUpload(file, callback) {
 
             let formData = new FormData();
-
             formData.append('file', file);
             $.ajax('/pic/uploadFile/editor', {
                 method: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
+                xhr: function () {
+                    myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) { // check if upload property exists
+                        $(".upload-progress-bar-div").show();
+                        myXhr.upload.addEventListener('progress', function (e) {
+                            let loaded = e.loaded;//已经上传大小情况
+                            let tot = e.total;//附件总大小
+                            let per = ((loaded / tot) * 100).toFixed(2);
+                            $(".upload-progress-bar").attr('style', 'width:' + per + '%');
+                        }, false); // for handling the progress of the upload
+                    }
+                    return myXhr;
+                },
                 success: function (res) {
                    if(respCodeOk(res)){
                        callback(res.data.data);
+                       $(".upload-progress-bar").attr('style', 'width:0%');
+                       $(".upload-progress-bar-div").hide();
                    }
                 },
 
-                error: function () {
-                    $.cvError("上传失败")
+                error: function (e) {
+                    $.cvError("上传失败" + e);
+                    $(".upload-progress-bar").attr('style', 'width:0%');
+                    $(".upload-progress-bar-div").hide();
                 }
             });
         },
