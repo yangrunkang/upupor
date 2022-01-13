@@ -267,7 +267,7 @@ function initEditor(isComment){
                 },
 
                 error: function (e) {
-                    $.cvError("上传失败" + e);
+                    $.cvError("上传失败");
                     $(".upload-progress-bar").attr('style', 'width:0%');
                     $(".upload-progress-bar-div").hide();
                 }
