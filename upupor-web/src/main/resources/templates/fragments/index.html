@@ -276,13 +276,10 @@ fromProfile: 是否来自Profile页面
 <!--主页菜单-->
 <div th:fragment="page_menu">
     <ul class="nav nav-pills">
+        <li class="nav-item me-1" th:each="type : ${contentTypeList}">
         <li class="nav-item me-1"><a class="nav-link cv-link small all" href="/" title="全部"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/all.png}" /> 全部</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link small topic" href="/topic" title="短内容"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/topic.png}" /> 短内容</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link small tech" href="/tech" title="技术"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-tech.png}" /> 技术</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link small share" href="/share" title="分享"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-share.png}" /> 分享</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link small workplace" href="/workplace" title="职场"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-work.png}" /> 职场</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link small record" href="/record" title="记录"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-record.png}" /> 记录</a></li>
-        <li class="nav-item me-1"><a class="nav-link cv-link small qa" href="/qa" title="问答"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-qa.png}" /> 问答</a></li>
+            <a th:class="'nav-link cv-link small ' + ${type.cssClass}" th:href="${type.url}" th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}" /> [[${type.name}]]</a>
+        </li>
     </ul>
     <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}" class="border-bottom my-1"></div>
     <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">

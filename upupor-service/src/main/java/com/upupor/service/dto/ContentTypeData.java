@@ -44,17 +44,19 @@ public class ContentTypeData {
     private String webText;
     private String icon;
     private String tips;
+    private String cssClass;
 
     public ContentTypeData() {
     }
 
-    public ContentTypeData(String typeName, String name, String url, String webText, String icon, String tips) {
+    public ContentTypeData(String typeName, String name, String url, String webText, String icon, String tips,String cssClass) {
         this.typeName = typeName;
         this.name = name;
         this.url = url;
         this.webText = webText;
         this.icon = icon;
         this.tips = tips;
+        this.cssClass = cssClass;
     }
 
 
@@ -67,7 +69,8 @@ public class ContentTypeData {
                     value.getUrl(),
                     value.getWebText(),
                     value.getIcon(),
-                    value.getTips()
+                    value.getTips(),
+                    value.name().toLowerCase()
             ));
         }
         return list;
