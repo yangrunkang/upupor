@@ -7,12 +7,12 @@ export default class Image extends SyntaxBase {
     extendMedia: {
         tag: string[];
         replacer: {
-            video(match: any, leadingChar: any, alt: any, link: any, title: any): any;
-            audio(match: any, leadingChar: any, alt: any, link: any, title: any): any;
+            video(match: any, leadingChar: any, alt: any, link: any, title: any, poster: any): any;
+            audio(match: any, leadingChar: any, alt: any, link: any, title: any, poster: any): any;
         };
     };
     toHtml(match: any, leadingChar: any, alt: any, link: any, title: any, ref: any): any;
-    toMediaHtml(match: any, leadingChar: any, mediaType: any, alt: any, link: any, title: any, ref: any, ...args: any[]): any;
+    toMediaHtml(match: any, leadingChar: any, mediaType: any, alt: any, link: any, title: any, ref: any, posterWrap: any, poster: any, ...args: any[]): any;
     testMedia(str: any): any;
 }
 import SyntaxBase from "@/core/SyntaxBase";

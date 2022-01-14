@@ -75,9 +75,10 @@ export default class Cherry extends CherryStatic {
     /**
      * 覆盖编辑区的内容
      * @param {string} content markdown内容
+     * @param {boolean} keepCursor 是否保持光标位置
      * @returns
      */
-    setValue(content: string): void;
+    setValue(content: string, keepCursor?: boolean): void;
     /**
      * 在光标处或者指定行+偏移量插入内容
      * @param {string} content 被插入的文本
@@ -99,9 +100,10 @@ export default class Cherry extends CherryStatic {
     /**
      * 覆盖编辑区的内容
      * @param {string} content markdown内容
+     * @param {boolean} keepCursor 是否保持光标位置
      * @returns
      */
-    setMarkdown(content: string): void;
+    setMarkdown(content: string, keepCursor?: boolean): void;
     /**
      * @private
      * @returns

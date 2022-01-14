@@ -171,6 +171,38 @@ fromProfile: 是否来自Profile页面
 </div>
 
 
+
+<div th:fragment="content_data_show(userId,userName,via,viewNum,commentNum,createDate,editTimes)">
+    <div class="my-1 d-inline-flex text-black-50 small">
+        <div class="me-1">
+            <a th:inline="text" th:href="'/profile/' + ${userId}" class="cv-link text-black-50">
+                <img th:data-src="${via}" class="lazyload cv-icon-small img rounded" /> [[${userName}]]
+            </a>
+            <span class="fw-bold">·</span>
+        </div>
+        <div class="me-1">
+            <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> [[${viewNum}]]
+            <span class="fw-bold">·</span>
+        </div>
+        <div class="me-1">
+            <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/> [[${commentNum}]]
+            <span class="fw-bold">·</span>
+        </div>
+        <div class="me-1">
+            <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> [[${createDate}]]
+        </div>
+        <div class="me-1 d-none d-xl-block">
+            <div data-bs-toggle="collapse" href="#edit-reason"
+                 aria-expanded="false" aria-controls="edit-reason"
+                 style="cursor: pointer"
+                 th:if="${editTimes > 0}">
+                <span class="fw-bold me-1">·</span>编辑次数:[[${editTimes}]]
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div th:fragment="content_manage(content)">
     <a th:if="${content.status.name()} == 'NORMAL'" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
     <a th:if="${content.status.name()} != 'NORMAL'" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>

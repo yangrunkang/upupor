@@ -68,34 +68,14 @@
                                class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link"
                                th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
                         </div>
-
-                        <div class="my-1 d-inline-flex text-black-50" style="font-size: 14px">
-                            <div class="me-1">
-                                <a th:inline="text" th:href="'/profile/' + ${contentIndexDto.content.userId}" class="cv-link text-black-50">
-                                    <img th:data-src="${contentIndexDto.content.member.via}" class="lazyload cv-icon-small img rounded" /> [[${contentIndexDto.content.member.userName}]]
-                                </a>
-                                <span class="fw-bold">·</span>
-                            </div>
-                            <div class="me-1">
-                                <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span th:text="${contentIndexDto.content.contentData.viewNum}">0</span>
-                                <span class="fw-bold">·</span>
-                            </div>
-                            <div class="me-1">
-                                <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/> <span  th:text="${contentIndexDto.content.contentData.commentNum}">0</span>
-                                <span class="fw-bold">·</span>
-                            </div>
-                            <div class="me-1">
-                                <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span  th:text="${contentIndexDto.content.createDate}">2020-01-01 00:00</span>
-                            </div>
-                            <div class="me-1 d-none d-xl-block">
-                                <div data-bs-toggle="collapse" href="#edit-reason"
-                                      aria-expanded="false" aria-controls="edit-reason"
-                                      style="cursor: pointer"
-                                      th:if="${contentIndexDto.content.editTimes > 0}">
-                                    <span class="fw-bold me-1">·</span>编辑次数:<span  th:text="${contentIndexDto.content.editTimes}">2020-01-01 00:00</span>
-                                </div>
-                            </div>
-                        </div>
+                        <div th:replace="fragments/index::content_data_show(${contentIndexDto.content.userId},
+                                                                            ${contentIndexDto.content.member.userName},
+                                                                            ${contentIndexDto.content.member.via},
+                                                                            ${contentIndexDto.content.contentData.viewNum},
+                                                                            ${contentIndexDto.content.contentData.commentNum},
+                                                                            ${contentIndexDto.content.createDate},
+                                                                            ${contentIndexDto.content.editTimes}
+                                                                            )"></div>
                         <div class="collapse" id="edit-reason">
                             <div class="card card-body shadow-sm border-0 p-2 my-2">
                                 <div class="text-black-50 small">最新一次编辑的原因:</div>

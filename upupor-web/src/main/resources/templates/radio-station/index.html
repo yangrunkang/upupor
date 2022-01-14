@@ -53,26 +53,14 @@
                     <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOAD_FAILED'" class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-danger">
                         电台上传失败
                     </div>
-
-                    <div class="my-1 d-inline-flex text-black-50 mb-2 border-top border-1 p-2" style="font-size: 14px">
-                        <div class="me-1">
-                            <a th:inline="text" th:href="'/profile/' + ${radioIndexDto.radio.userId}" class="cv-link text-black-50">
-                                <img th:data-src="${radioIndexDto.radio.member.via}" class="lazyload cv-icon-small img rounded" /> [[${radioIndexDto.radio.member.userName}]]
-                            </a>
-                            <span class="fw-bold">·</span>
-                        </div>
-                        <div class="me-1">
-                            <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span th:text="${radioIndexDto.radio.contentData.viewNum}">0</span>
-                            <span class="fw-bold">·</span>
-                        </div>
-                        <div class="me-1">
-                            <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/> <span  th:text="${radioIndexDto.radio.contentData.commentNum}">0</span>
-                            <span class="fw-bold">·</span>
-                        </div>
-                        <div class="me-1">
-                            <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span  th:text="${radioIndexDto.radio.createDate}">2020-01-01 00:00</span>
-                        </div>
-                    </div>
+                    <div th:replace="fragments/index::content_data_show(${radioIndexDto.radio.userId},
+                                                                            ${radioIndexDto.radio.member.userName},
+                                                                            ${radioIndexDto.radio.member.via},
+                                                                            ${radioIndexDto.radio.contentData.viewNum},
+                                                                            ${radioIndexDto.radio.contentData.commentNum},
+                                                                            ${radioIndexDto.radio.createDate},
+                                                                            0
+                                                                            )"></div>
                 </div>
                 <div>
                     <!--未登录提示-->
