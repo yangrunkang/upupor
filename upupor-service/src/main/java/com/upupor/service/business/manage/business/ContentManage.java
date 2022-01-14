@@ -34,7 +34,7 @@ import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ContentManageService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.outer.req.ListContentReq;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

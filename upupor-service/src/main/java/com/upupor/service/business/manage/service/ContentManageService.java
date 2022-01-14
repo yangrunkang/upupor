@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.service;
 
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.outer.req.ListContentReq;
 
 /**
  * 内容管理服务

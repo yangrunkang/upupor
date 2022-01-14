@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.service;
 
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.service.spi.req.ListCommentReq;
+import com.upupor.service.outer.req.ListCommentReq;
 
 /**
  * 评论管理服务

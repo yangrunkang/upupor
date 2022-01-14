@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.dao.entity.MemberExtend;
+import com.upupor.service.business.aggregation.dao.entity.MemberExtend;
 
 import java.util.List;
 

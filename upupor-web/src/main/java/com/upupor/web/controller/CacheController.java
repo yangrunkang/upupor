@@ -30,7 +30,7 @@ package com.upupor.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.CcResponse;
-import com.upupor.service.spi.req.AddCacheContentReq;
+import com.upupor.service.outer.req.AddCacheContentReq;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;

@@ -30,7 +30,7 @@ package com.upupor.service.business.profile;
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;

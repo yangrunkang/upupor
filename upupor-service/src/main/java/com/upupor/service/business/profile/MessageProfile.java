@@ -30,7 +30,7 @@ package com.upupor.service.business.profile;
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.service.spi.req.ListCommentReq;
+import com.upupor.service.outer.req.ListCommentReq;
 import com.upupor.service.types.CommentStatus;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.ViewTargetType;

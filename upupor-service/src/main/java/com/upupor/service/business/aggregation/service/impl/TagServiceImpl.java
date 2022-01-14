@@ -27,9 +27,9 @@
 
 package com.upupor.service.business.aggregation.service.impl;
 
+import com.upupor.service.business.aggregation.dao.entity.Tag;
+import com.upupor.service.business.aggregation.dao.mapper.TagMapper;
 import com.upupor.service.business.aggregation.service.TagService;
-import com.upupor.service.dao.entity.Tag;
-import com.upupor.service.dao.mapper.TagMapper;
 import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.types.ContentType;
 import lombok.RequiredArgsConstructor;

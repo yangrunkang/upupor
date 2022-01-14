@@ -28,7 +28,7 @@
 package com.upupor.service.utils;
 
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.dao.entity.File;
+import com.upupor.service.business.aggregation.dao.entity.File;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;

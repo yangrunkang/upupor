@@ -28,9 +28,9 @@
 package com.upupor.service.business.aggregation.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.service.dao.entity.Fans;
+import com.upupor.service.business.aggregation.dao.entity.Fans;
 import com.upupor.service.dto.page.common.ListFansDto;
-import com.upupor.service.spi.req.DelFanReq;
+import com.upupor.service.outer.req.DelFanReq;
 
 /**
  * 粉丝服务

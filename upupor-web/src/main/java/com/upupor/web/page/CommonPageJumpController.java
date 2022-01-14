@@ -28,10 +28,10 @@
 package com.upupor.web.page;
 
 import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.dao.entity.Tag;
-import com.upupor.service.spi.req.GetCommonReq;
+import com.upupor.service.outer.req.GetCommonReq;
 import com.upupor.service.types.ContentType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

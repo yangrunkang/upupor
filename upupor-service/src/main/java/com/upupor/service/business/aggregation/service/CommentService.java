@@ -27,12 +27,12 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.dao.entity.Comment;
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.dao.entity.Radio;
+import com.upupor.service.business.aggregation.dao.entity.Comment;
+import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.dao.entity.Radio;
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.service.spi.req.AddCommentReq;
-import com.upupor.service.spi.req.ListCommentReq;
+import com.upupor.service.outer.req.AddCommentReq;
+import com.upupor.service.outer.req.ListCommentReq;
 
 import java.util.List;
 

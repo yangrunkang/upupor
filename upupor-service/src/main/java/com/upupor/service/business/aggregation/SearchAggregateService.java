@@ -31,7 +31,7 @@ import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.dto.page.SearchIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.outer.req.ListContentReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

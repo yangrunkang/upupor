@@ -39,7 +39,7 @@ import com.upupor.service.dao.mapper.*;
 import com.upupor.service.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.listener.event.MemberLoginEvent;
-import com.upupor.service.spi.req.*;
+import com.upupor.service.outer.req.*;
 import com.upupor.service.types.MemberIsAdmin;
 import com.upupor.service.types.MemberStatus;
 import com.upupor.service.types.OpenEmail;

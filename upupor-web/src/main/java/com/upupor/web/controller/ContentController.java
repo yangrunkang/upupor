@@ -35,7 +35,7 @@ import com.upupor.service.dao.entity.ContentData;
 import com.upupor.service.dao.entity.MemberIntegral;
 import com.upupor.service.dao.mapper.MemberIntegralMapper;
 import com.upupor.service.listener.event.ContentLikeEvent;
-import com.upupor.service.spi.req.*;
+import com.upupor.service.outer.req.*;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.MemberIntegralStatus;
 import com.upupor.service.types.PinnedStatus;

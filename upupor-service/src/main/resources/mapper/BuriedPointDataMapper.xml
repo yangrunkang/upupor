@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021-2022 yangrunkang
+  ~
+  ~ Author: yangrunkang
+  ~ Email: yangrunkang53@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.business.aggregation.dao.mapper.BuriedPointDataMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.business.aggregation.dao.entity.BuriedPointData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="point_id" jdbcType="VARCHAR" property="pointId" />
+    <result column="session_id" jdbcType="VARCHAR" property="sessionId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="point_type" jdbcType="INTEGER" property="pointType" />
+    <result column="request_method" jdbcType="VARCHAR" property="requestMethod" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="port" jdbcType="BIGINT" property="port" />
+    <result column="servlet_path" jdbcType="VARCHAR" property="servletPath" />
+    <result column="parameters" jdbcType="VARCHAR" property="parameters" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, point_id, session_id, user_id, point_type, request_method, ip, port, servlet_path, 
+    parameters, create_time, sys_update_time
+  </sql>
+  <select id="countPageVisitNum" parameterType="java.lang.String" resultType="com.upupor.service.dto.dao.PageVisitData">
+    select
+    count(*) total
+    from buried_point_data
+    where servlet_path = #{pagePath,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

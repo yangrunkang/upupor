@@ -29,7 +29,7 @@ package com.upupor.web.controller;
 
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.common.CcResponse;
-import com.upupor.service.spi.req.UpdateMessageReq;
+import com.upupor.service.outer.req.UpdateMessageReq;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

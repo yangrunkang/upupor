@@ -28,11 +28,11 @@
 package com.upupor.service.business.aggregation;
 
 import com.upupor.service.business.ad.AbstractAd;
+import com.upupor.service.business.aggregation.dao.entity.File;
+import com.upupor.service.business.aggregation.dao.entity.Radio;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dao.entity.File;
-import com.upupor.service.dao.entity.Radio;
 import com.upupor.service.dto.page.RadioIndexDto;
 import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.types.UploadStatus;

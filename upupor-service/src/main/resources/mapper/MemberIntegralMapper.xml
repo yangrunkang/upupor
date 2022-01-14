@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021-2022 yangrunkang
+  ~
+  ~ Author: yangrunkang
+  ~ Email: yangrunkang53@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.business.aggregation.dao.mapper.MemberIntegralMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.business.aggregation.dao.entity.MemberIntegral">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="integral_id" jdbcType="VARCHAR" property="integralId" />
+    <result column="integral_user_id" jdbcType="VARCHAR" property="integralUserId" />
+    <result column="target_id" jdbcType="VARCHAR" property="targetId" />
+    <result column="integral_rule_id" jdbcType="BIGINT" property="integralRuleId" />
+    <result column="integral_value" jdbcType="BIGINT" property="integralValue" />
+    <result column="integral_text" jdbcType="VARCHAR" property="integralText" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, integral_id, integral_user_id,target_id, integral_rule_id, integral_value, integral_text,
+    status, remark, create_time, sys_update_time
+  </sql>
+  <select id="countByCondition" parameterType="com.upupor.service.outer.req.GetMemberIntegralReq"
+          resultType="java.lang.Integer">
+    select
+    count(*)
+    from member_integral
+    where 1=1 and status = 0
+    <if test="userId != null">
+      and integral_user_id = #{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="ruleId != null">
+      and integral_rule_id = #{ruleId,jdbcType=VARCHAR}
+    </if>
+    <if test="targetId != null">
+      and target_id = #{targetId,jdbcType=VARCHAR}
+    </if>
+    <if test="startCreateTime != null and endCreateTime != null and startCreateTime != 0 and endCreateTime != 0">
+       <![CDATA[
+      and create_time >= #{startCreateTime,jdbcType=BIGINT} and create_time<= #{endCreateTime,jdbcType=BIGINT}
+      ]]>
+    </if>
+
+  </select>
+
+  <select id="getTotalUserIntegral" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select
+    sum(integral_value)
+    from member_integral
+    where 1=1 and status = 0
+    and integral_user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+<select id="dailyPointsUserIdList" resultType="java.lang.String">
+    select
+    distinct integral_user_id
+    from member_integral
+    where status = 0 and integral_rule_id = 11 and
+    <![CDATA[
+      create_time >= #{startTime,jdbcType=BIGINT} and create_time <= #{endTime,jdbcType=BIGINT}
+    ]]>
+  </select>
+
+</mapper>

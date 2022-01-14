@@ -28,14 +28,14 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.utils.FileUtils;
+import com.upupor.service.business.aggregation.dao.entity.File;
+import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dao.entity.File;
-import com.upupor.service.dao.entity.Member;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;

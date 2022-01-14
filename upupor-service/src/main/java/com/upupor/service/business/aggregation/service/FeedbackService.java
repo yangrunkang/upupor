@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.spi.req.AddFeedbackReq;
+import com.upupor.service.outer.req.AddFeedbackReq;
 
 /**
  * 反馈服务

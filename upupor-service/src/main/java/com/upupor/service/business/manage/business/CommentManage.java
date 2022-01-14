@@ -36,7 +36,7 @@ import com.upupor.service.dao.entity.Comment;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.service.spi.req.ListCommentReq;
+import com.upupor.service.outer.req.ListCommentReq;
 import com.upupor.service.types.ContentType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

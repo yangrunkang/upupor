@@ -27,8 +27,8 @@
 
 package com.upupor.web.page;
 
+import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;

@@ -28,7 +28,7 @@
 package com.upupor.service.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.service.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.Member;
 import lombok.Data;
 
 import java.util.ArrayList;

@@ -29,8 +29,8 @@ package com.upupor.service.dto.page;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.CommonAggregateService;
-import com.upupor.service.dao.entity.Member;
-import com.upupor.service.dao.entity.Tag;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.dto.page.common.ListBannerDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import lombok.Data;

@@ -33,7 +33,7 @@ import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Apply;
 import com.upupor.service.dto.page.apply.ApplyContentDto;
-import com.upupor.service.spi.req.AddApplyReq;
+import com.upupor.service.outer.req.AddApplyReq;
 import com.upupor.service.types.ApplyStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;

@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.dao.entity.Tag;
+import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.types.ContentType;
 

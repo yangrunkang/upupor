@@ -27,15 +27,15 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.dao.entity.ContentData;
-import com.upupor.service.dao.entity.ContentEditReason;
-import com.upupor.service.dao.entity.Radio;
+import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.dao.entity.ContentData;
+import com.upupor.service.business.aggregation.dao.entity.ContentEditReason;
+import com.upupor.service.business.aggregation.dao.entity.Radio;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.spi.req.AddContentDetailReq;
-import com.upupor.service.spi.req.ListContentReq;
-import com.upupor.service.spi.req.UpdateContentReq;
+import com.upupor.service.outer.req.AddContentDetailReq;
+import com.upupor.service.outer.req.ListContentReq;
+import com.upupor.service.outer.req.UpdateContentReq;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.PinnedStatus;
 

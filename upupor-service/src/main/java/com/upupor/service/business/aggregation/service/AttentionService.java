@@ -28,10 +28,10 @@
 package com.upupor.service.business.aggregation.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.service.dao.entity.Attention;
+import com.upupor.service.business.aggregation.dao.entity.Attention;
 import com.upupor.service.dto.page.common.ListAttentionDto;
-import com.upupor.service.spi.req.AddAttentionReq;
-import com.upupor.service.spi.req.DelAttentionReq;
+import com.upupor.service.outer.req.AddAttentionReq;
+import com.upupor.service.outer.req.DelAttentionReq;
 
 /**
  * 关注服务

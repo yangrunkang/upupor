@@ -27,14 +27,14 @@
 
 package com.upupor.service.business.editor;
 
+import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.dao.entity.ContentExtend;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.MemberConfig;
+import com.upupor.service.business.aggregation.dao.mapper.MemberConfigMapper;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.dao.entity.ContentExtend;
-import com.upupor.service.dao.entity.Member;
-import com.upupor.service.dao.entity.MemberConfig;
-import com.upupor.service.dao.mapper.MemberConfigMapper;
-import com.upupor.service.spi.req.AddContentDetailReq;
+import com.upupor.service.outer.req.AddContentDetailReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.Asserts;

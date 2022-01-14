@@ -33,7 +33,7 @@ import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.common.ListMessageDto;
-import com.upupor.service.spi.req.ListMessageReq;
+import com.upupor.service.outer.req.ListMessageReq;
 import com.upupor.service.types.MessageStatus;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.stereotype.Component;

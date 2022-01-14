@@ -27,13 +27,13 @@
 
 package com.upupor.service.business.profile;
 
+import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.dao.entity.Member;
-import com.upupor.service.dao.entity.Tag;
 import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.utils.CcUtils;

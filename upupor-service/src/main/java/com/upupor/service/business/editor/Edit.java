@@ -28,12 +28,12 @@
 package com.upupor.service.business.editor;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.dao.entity.ContentEditReason;
+import com.upupor.service.business.aggregation.dao.mapper.ContentEditReasonMapper;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.dao.entity.ContentEditReason;
-import com.upupor.service.dao.mapper.ContentEditReasonMapper;
-import com.upupor.service.spi.req.UpdateContentReq;
+import com.upupor.service.outer.req.UpdateContentReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.OriginType;

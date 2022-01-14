@@ -35,7 +35,7 @@ import com.upupor.service.common.*;
 import com.upupor.service.dao.entity.File;
 import com.upupor.service.dao.entity.Member;
 import com.upupor.service.listener.event.MemberRegisterEvent;
-import com.upupor.service.spi.req.*;
+import com.upupor.service.outer.req.*;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;

@@ -37,7 +37,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dao.mapper.ContentMapper;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

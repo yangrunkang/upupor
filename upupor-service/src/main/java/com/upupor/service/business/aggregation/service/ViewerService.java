@@ -28,7 +28,7 @@
 package com.upupor.service.business.aggregation.service;
 
 
-import com.upupor.service.dao.entity.Viewer;
+import com.upupor.service.business.aggregation.dao.entity.Viewer;
 import com.upupor.service.dto.page.common.ListViewHistoryDto;
 import com.upupor.service.types.ViewTargetType;
 

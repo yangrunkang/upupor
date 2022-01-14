@@ -35,7 +35,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
-import com.upupor.service.spi.req.GetMemberIntegralReq;
+import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.types.CollectType;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ViewTargetType;

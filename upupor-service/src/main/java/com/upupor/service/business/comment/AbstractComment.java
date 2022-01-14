@@ -27,8 +27,8 @@
 
 package com.upupor.service.business.comment;
 
+import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.dao.entity.Member;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.utils.CcUtils;
 

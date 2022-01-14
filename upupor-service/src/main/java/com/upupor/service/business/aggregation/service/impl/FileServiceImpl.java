@@ -28,9 +28,9 @@
 package com.upupor.service.business.aggregation.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.upupor.service.business.aggregation.dao.entity.File;
+import com.upupor.service.business.aggregation.dao.mapper.FileMapper;
 import com.upupor.service.business.aggregation.service.FileService;
-import com.upupor.service.dao.entity.File;
-import com.upupor.service.dao.mapper.FileMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

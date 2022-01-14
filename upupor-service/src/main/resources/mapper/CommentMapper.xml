@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021-2022 yangrunkang
+  ~
+  ~ Author: yangrunkang
+  ~ Email: yangrunkang53@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.business.aggregation.dao.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.upupor.service.business.aggregation.dao.entity.Comment">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="comment_id" jdbcType="VARCHAR" property="commentId"/>
+        <result column="target_id" jdbcType="VARCHAR" property="targetId"/>
+        <result column="comment_source" jdbcType="INTEGER" property="commentSource"/>
+        <result column="comment_content" jdbcType="VARCHAR" property="commentContent"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="agree" jdbcType="INTEGER" property="agree"/>
+        <result column="like_num" jdbcType="INTEGER" property="likeNum"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, comment_id, target_id, comment_source, status, agree, like_num, create_time,
+        sys_update_time,comment_content
+    </sql>
+
+    <sql id="Base_Column_Alias_List">
+        ct.id, ct.user_id, ct.comment_id, ct.target_id, ct.comment_source, ct.status, ct.agree, ct.like_num, ct.create_time,
+        ct.sys_update_time,ct.comment_content
+    </sql>
+
+
+    <select id="total" resultType="java.lang.Integer">
+        select
+        count(*)
+        from comment
+        where status = 0
+    </select>
+
+    <select id="countByTargetId" resultType="java.lang.Integer">
+        select
+        count(*)
+        from comment
+        where status = 0 and target_id = #{targetId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByCommentIdList" resultType="com.upupor.service.dto.dao.CommentNumDto">
+        select
+        target_id contentId,
+        count(comment_id) total
+        from comment
+        where status = 0 and target_id in
+        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+        group by contentId
+    </select>
+
+
+    <select id="list" parameterType="com.upupor.service.outer.req.ListCommentReq" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from comment
+        where 1=1
+        <if test="status != null">
+            and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="commentId != null">
+            and comment_id = #{commentId,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="targetId != null">
+            and target_id = #{targetId,jdbcType=VARCHAR}
+        </if>
+        <if test="commentSource != null">
+            and comment_source = #{commentSource,jdbcType=INTEGER}
+        </if>
+        order by create_time asc
+    </select>
+
+    <select id="listManage" parameterType="com.upupor.service.outer.req.ListCommentReq" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_Alias_List"/>
+        from comment ct
+        where ct.status in (0,2)
+        <if test="status != null">
+            and ct.status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="commentId != null">
+            and ct.comment_id = #{commentId,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null">
+            and ct.user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="targetId != null">
+            and ct.target_id = #{targetId,jdbcType=VARCHAR}
+        </if>
+        order by ct.create_time desc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    update comment set status = 1
+    where comment_id = #{commentId,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

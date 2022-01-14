@@ -36,7 +36,7 @@ import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.dto.page.common.TagDto;
-import com.upupor.service.spi.req.ListContentReq;
+import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.types.ContentStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

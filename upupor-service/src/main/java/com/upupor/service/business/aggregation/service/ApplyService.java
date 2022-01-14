@@ -27,10 +27,10 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.dao.entity.Apply;
-import com.upupor.service.spi.req.AddApplyDocumentReq;
-import com.upupor.service.spi.req.DelApplyReq;
-import com.upupor.service.spi.req.UpdateApplyReq;
+import com.upupor.service.business.aggregation.dao.entity.Apply;
+import com.upupor.service.outer.req.AddApplyDocumentReq;
+import com.upupor.service.outer.req.DelApplyReq;
+import com.upupor.service.outer.req.UpdateApplyReq;
 
 import java.io.IOException;
 

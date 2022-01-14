@@ -38,7 +38,7 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.mapper.AttentionMapper;
 import com.upupor.service.dao.mapper.FansMapper;
 import com.upupor.service.dto.page.common.ListFansDto;
-import com.upupor.service.spi.req.DelFanReq;
+import com.upupor.service.outer.req.DelFanReq;
 import com.upupor.service.types.FansStatus;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;

@@ -27,10 +27,10 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.common.CcResponse;
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.spi.req.SetKeywordsReq;
+import com.upupor.service.outer.req.SetKeywordsReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

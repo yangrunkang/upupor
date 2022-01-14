@@ -27,9 +27,9 @@
 
 package com.upupor.service.business.aggregation.service.impl;
 
+import com.upupor.service.business.aggregation.dao.entity.BuriedPointData;
+import com.upupor.service.business.aggregation.dao.mapper.BuriedPointDataMapper;
 import com.upupor.service.business.aggregation.service.BuriedPointDataService;
-import com.upupor.service.dao.entity.BuriedPointData;
-import com.upupor.service.dao.mapper.BuriedPointDataMapper;
 import com.upupor.service.dto.dao.PageVisitData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

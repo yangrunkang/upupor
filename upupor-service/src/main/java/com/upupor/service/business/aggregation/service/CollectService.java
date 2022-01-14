@@ -28,7 +28,7 @@
 package com.upupor.service.business.aggregation.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.service.dao.entity.Collect;
+import com.upupor.service.business.aggregation.dao.entity.Collect;
 import com.upupor.service.dto.page.common.ListCollectDto;
 import com.upupor.service.types.CollectStatus;
 import com.upupor.service.types.CollectType;

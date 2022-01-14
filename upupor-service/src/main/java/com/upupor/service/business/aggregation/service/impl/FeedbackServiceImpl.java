@@ -28,14 +28,14 @@
 package com.upupor.service.business.aggregation.service.impl;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.dao.entity.Feedback;
+import com.upupor.service.business.aggregation.dao.mapper.FeedbackMapper;
 import com.upupor.service.business.aggregation.service.FeedbackService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dao.entity.Feedback;
-import com.upupor.service.dao.mapper.FeedbackMapper;
-import com.upupor.service.spi.req.AddFeedbackReq;
+import com.upupor.service.outer.req.AddFeedbackReq;
 import com.upupor.service.types.FeedBackStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;

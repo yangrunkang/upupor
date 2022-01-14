@@ -27,12 +27,12 @@
 
 package com.upupor.service.business.aggregation;
 
+import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dao.entity.Content;
-import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.types.MemberIsAdmin;

@@ -27,10 +27,10 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.service.business.aggregation.dao.entity.Apply;
 import com.upupor.service.business.aggregation.service.ApplyService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.dao.entity.Apply;
 import com.upupor.service.dto.page.common.ApplyDto;
 import com.upupor.service.utils.Asserts;
 import org.springframework.stereotype.Component;

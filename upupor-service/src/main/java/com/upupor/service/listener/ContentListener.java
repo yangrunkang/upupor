@@ -28,12 +28,12 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.dao.entity.*;
+import com.upupor.service.business.aggregation.dao.mapper.ViewHistoryMapper;
+import com.upupor.service.business.aggregation.dao.mapper.ViewerMapper;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.CcConstant;
 import com.upupor.service.common.IntegralEnum;
-import com.upupor.service.dao.entity.*;
-import com.upupor.service.dao.mapper.ViewHistoryMapper;
-import com.upupor.service.dao.mapper.ViewerMapper;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.listener.event.PublishContentEvent;

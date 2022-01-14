@@ -29,9 +29,9 @@ package com.upupor.service.business.aggregation.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.upupor.service.business.aggregation.dao.entity.Banner;
+import com.upupor.service.business.aggregation.dao.mapper.BannerMapper;
 import com.upupor.service.business.aggregation.service.BannerService;
-import com.upupor.service.dao.entity.Banner;
-import com.upupor.service.dao.mapper.BannerMapper;
 import com.upupor.service.dto.page.common.ListBannerDto;
 import com.upupor.service.types.BannerStatus;
 import lombok.RequiredArgsConstructor;

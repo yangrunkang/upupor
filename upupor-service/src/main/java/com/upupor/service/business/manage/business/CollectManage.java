@@ -27,12 +27,12 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.service.business.aggregation.dao.entity.Collect;
+import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.CollectService;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.dao.entity.Collect;
-import com.upupor.service.dao.entity.Content;
 import com.upupor.service.dto.page.common.ListCollectDto;
 import com.upupor.service.types.CollectType;
 import org.springframework.stereotype.Component;

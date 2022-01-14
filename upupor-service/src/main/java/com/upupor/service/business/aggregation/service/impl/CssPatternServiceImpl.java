@@ -28,9 +28,9 @@
 package com.upupor.service.business.aggregation.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.upupor.service.business.aggregation.dao.entity.CssPattern;
+import com.upupor.service.business.aggregation.dao.mapper.CssPatternMapper;
 import com.upupor.service.business.aggregation.service.CssPatternService;
-import com.upupor.service.dao.entity.CssPattern;
-import com.upupor.service.dao.mapper.CssPatternMapper;
 import com.upupor.service.dto.page.common.ListCssPatternDto;
 import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;

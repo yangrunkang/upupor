@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.dao.entity.Todo;
+import com.upupor.service.business.aggregation.dao.entity.Todo;
 import com.upupor.service.dto.page.common.ListTodoDto;
 
 /**

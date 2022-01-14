@@ -29,8 +29,8 @@ package com.upupor.web.controller;
 
 import com.upupor.service.business.aggregation.service.AttentionService;
 import com.upupor.service.common.CcResponse;
-import com.upupor.service.spi.req.AddAttentionReq;
-import com.upupor.service.spi.req.DelAttentionReq;
+import com.upupor.service.outer.req.AddAttentionReq;
+import com.upupor.service.outer.req.DelAttentionReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

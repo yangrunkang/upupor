@@ -35,7 +35,7 @@ import com.upupor.service.dao.entity.Member;
 import com.upupor.service.dao.mapper.ContentExtendMapper;
 import com.upupor.service.dao.mapper.ContentMapper;
 import com.upupor.service.listener.event.PublishContentEvent;
-import com.upupor.service.spi.req.content.BaseContentReq;
+import com.upupor.service.outer.req.content.BaseContentReq;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
 

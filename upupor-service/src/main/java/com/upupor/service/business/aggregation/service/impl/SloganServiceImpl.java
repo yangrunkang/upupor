@@ -27,10 +27,10 @@
 
 package com.upupor.service.business.aggregation.service.impl;
 
+import com.upupor.service.business.aggregation.dao.entity.Slogan;
+import com.upupor.service.business.aggregation.dao.mapper.SloganMapper;
+import com.upupor.service.business.aggregation.dao.mapper.SloganPathMapper;
 import com.upupor.service.business.aggregation.service.SloganService;
-import com.upupor.service.dao.entity.Slogan;
-import com.upupor.service.dao.mapper.SloganMapper;
-import com.upupor.service.dao.mapper.SloganPathMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;

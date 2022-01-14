@@ -28,8 +28,8 @@
 package com.upupor.service.business.aggregation.service.impl;
 
 import com.upupor.service.business.aggregation.service.MemberExtendService;
-import com.upupor.service.dao.entity.MemberExtend;
-import com.upupor.service.dao.mapper.MemberExtendMapper;
+import com.upupor.service.business.aggregation.dao.entity.MemberExtend;
+import com.upupor.service.business.aggregation.dao.mapper.MemberExtendMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

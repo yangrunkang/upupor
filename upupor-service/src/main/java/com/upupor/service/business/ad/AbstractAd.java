@@ -27,8 +27,8 @@
 
 package com.upupor.service.business.ad;
 
+import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.common.CcConstant;
-import com.upupor.service.dao.entity.*;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;

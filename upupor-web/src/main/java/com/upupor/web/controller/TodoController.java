@@ -28,14 +28,14 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.dao.entity.Todo;
+import com.upupor.service.business.aggregation.dao.entity.TodoDetail;
 import com.upupor.service.business.aggregation.service.TodoService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dao.entity.Todo;
-import com.upupor.service.dao.entity.TodoDetail;
-import com.upupor.service.spi.req.AddTodoReq;
-import com.upupor.service.spi.req.UpdateTodoDoneStatus;
+import com.upupor.service.outer.req.AddTodoReq;
+import com.upupor.service.outer.req.UpdateTodoDoneStatus;
 import com.upupor.service.types.TodoStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;

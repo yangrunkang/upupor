@@ -27,7 +27,7 @@
 
 package com.upupor.service.utils;
 
-import com.upupor.service.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.Member;
 import org.springframework.util.DigestUtils;
 
 /**

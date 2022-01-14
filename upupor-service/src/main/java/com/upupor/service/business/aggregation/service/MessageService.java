@@ -27,10 +27,10 @@
 
 package com.upupor.service.business.aggregation.service;
 
-import com.upupor.service.dao.entity.Message;
+import com.upupor.service.business.aggregation.dao.entity.Message;
 import com.upupor.service.dto.page.common.ListMessageDto;
-import com.upupor.service.spi.req.ListMessageReq;
-import com.upupor.service.spi.req.UpdateMessageReq;
+import com.upupor.service.outer.req.ListMessageReq;
+import com.upupor.service.outer.req.UpdateMessageReq;
 import com.upupor.service.types.MessageType;
 
 /**

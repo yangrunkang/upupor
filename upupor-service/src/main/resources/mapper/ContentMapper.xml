@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021-2022 yangrunkang
+  ~
+  ~ Author: yangrunkang
+  ~ Email: yangrunkang53@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.upupor.service.business.aggregation.dao.mapper.ContentMapper">
+    <resultMap id="BaseResultMap" type="com.upupor.service.business.aggregation.dao.entity.Content">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="content_id" jdbcType="VARCHAR" property="contentId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="short_content" jdbcType="VARCHAR" property="shortContent"/>
+        <result column="keywords" jdbcType="VARCHAR" property="keywords"/>
+        <result column="picture" jdbcType="VARCHAR" property="picture"/>
+        <result column="content_type" jdbcType="INTEGER" property="contentType"/>
+        <result column="tag_ids" jdbcType="INTEGER" property="tagIds"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="is_initial_status" jdbcType="VARCHAR" property="isInitialStatus"/>
+        <result column="edit_times" jdbcType="INTEGER" property="editTimes"/>
+        <result column="pinned_status" jdbcType="INTEGER" property="pinnedStatus"/>
+        <result column="origin_type" jdbcType="INTEGER" property="originType"/>
+        <result column="none_origin_link" jdbcType="VARCHAR" property="noneOriginLink"/>
+        <result column="statement_id" jdbcType="INTEGER" property="statementId"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="latest_comment_time" jdbcType="BIGINT" property="latestCommentTime"/>
+        <result column="latest_comment_user_id" jdbcType="VARCHAR" property="latestCommentUserId"/>
+        <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, content_id, user_id, latest_comment_user_id, title,is_initial_status,statement_id, short_content,keywords,pinned_status, edit_times, origin_type, none_origin_link, content_type, tag_ids, status, create_time,latest_comment_time,
+    sys_update_time,picture
+  </sql>
+    <sql id="Base_Column_List_Alias">
+      ct.id, ct.content_id, ct.user_id,ct.latest_comment_user_id, ct.title, ct.statement_id, ct.short_content, ct.keywords, ct.is_initial_status, ct.content_type, ct.origin_type, ct.none_origin_link, ct.edit_times, ct.tag_ids, ct.status, ct.create_time,ct.latest_comment_time,
+    ct.sys_update_time,ct.picture
+  </sql>
+
+    <select id="selectById" parameterType="java.lang.Long" resultType="com.upupor.service.dto.dao.ContentIdAndTitle">
+        select
+        content_id as contentId,title as title,latest_comment_time as latestCommentTime
+        from content
+        where id = #{id,jdbcType=BIGINT} and status = 0
+    </select>
+
+
+    <select id="listByContentIdList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from content
+        where content_id in
+        <foreach collection="contentIdList" close=")" open="(" separator="," item="contentId">
+            ${contentId}
+        </foreach>
+    </select>
+
+    <select id="latestContentList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from content
+        where status = 0 order by create_time desc
+    </select>
+
+    <!--最多收藏-->
+    <select id="moreCollectList" resultType="com.upupor.service.dto.dao.MoreCollectDto">
+    select
+    count(co.collect_value) total,
+    ct.content_id contentId
+    from content ct left join collect co on ct.content_id = co.collect_value
+    where ct.status = 0 and co.collect_type = 0 and co.status = 0 group by contentId order by total desc
+  </select>
+
+  <!--最多评论-->
+  <select id="moreCommentList" resultType="com.upupor.service.dto.dao.MoreCommentDto">
+    select
+    count(co.target_id) total,
+    ct.content_id contentId
+    from content ct left join comment co on ct.content_id = co.target_id
+    where ct.status = 0 and co.status = 0 group by contentId order by total desc
+  </select>
+
+
+    <select id="listAllByUserId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from content
+        where user_id = #{userId,jdbcType=VARCHAR} and status = 0
+        order by create_time desc
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from content
+        where status = 0
+        order by create_time desc
+    </select>
+
+    <select id="listAll" resultType="com.upupor.service.dto.page.common.CountTagDto">
+        select tag_ids tagId,count(*) count from content where tag_ids != '' and status = 0 GROUP BY tagId having count > 0
+    </select>
+
+    <select id="latestContent" resultType="com.upupor.service.business.aggregation.dao.entity.Content">
+        select
+        <include refid="Base_Column_List"/>
+        from content
+        where user_id = #{userId,jdbcType=VARCHAR}
+        and status in (0,1,6)
+        order by sys_update_time desc limit 1
+    </select>
+
+    <select id="lastAndNextContent" parameterType="java.lang.String" resultType="java.lang.Long">
+        select * from (
+        select id as nextId from content where `status` = 0
+        and latest_comment_time <![CDATA[ > ]]> (select latest_comment_time from content where status = 0 and content_id = #{contentId,jdbcType=VARCHAR})
+        order by latest_comment_time asc limit 1
+        ) as t
+        UNION ALl
+        select * from (
+        select id as lastId from content where `status` = 0
+        and latest_comment_time <![CDATA[ < ]]> (select latest_comment_time from content where status = 0 and content_id = #{contentId,jdbcType=VARCHAR})
+        order by latest_comment_time desc limit 1
+        ) as c
+    </select>
+
+    <select id="checkStatusIsOk" resultType="java.lang.Integer">
+    select
+    count(*)
+    from content
+    where content_id = #{contentId,jdbcType=VARCHAR} and status = 0
+  </select>
+
+    <select id="getTotalByContentType" resultType="java.lang.Integer">
+    select
+    count(*)
+    from content
+    where content_type = #{contentType,jdbcType=INTEGER} and status = 0
+  </select>
+
+    <select id="listContent" parameterType="com.upupor.service.outer.req.ListContentReq" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from content
+        where 1=1
+        <if test="listContentReq.status != null">
+            and status = #{listContentReq.status,jdbcType=INTEGER}
+        </if>
+        <if test="listContentReq.userId != null">
+            and user_id = #{listContentReq.userId,jdbcType=VARCHAR}
+        </if>
+        <if test="listContentReq.contentId != null">
+            and content_id = #{listContentReq.contentId,jdbcType=VARCHAR}
+        </if>
+        <if test="listContentReq.searchTitle != null">
+            and title like concat('%',#{listContentReq.searchTitle,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="listContentReq.navbarSearch != null">
+            and (
+            title like concat('%',#{listContentReq.navbarSearch,jdbcType=VARCHAR},'%')
+            or
+            short_content like concat('%',#{listContentReq.navbarSearch,jdbcType=VARCHAR},'%')
+            )
+        </if>
+        <if test="listContentReq.tagIdList != null and listContentReq.tagIdList.size() > 0">
+            and tag_ids in
+            <foreach close=")" collection="listContentReq.tagIdList" index="index" item="item" open="(" separator=",">
+                #{item}
+            </foreach>
+
+        </if>
+        order by create_time desc
+    </select>
+
+
+    <select id="total" resultType="java.lang.Integer">
+    select
+    count(*)
+    from content
+    where status = 0
+  </select>
+    <select id="totalByUserId" resultType="java.lang.Integer">
+    select
+    count(*)
+    from content
+    where status = 0 and user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+    <select id="countDraft" resultType="java.lang.Integer">
+    select
+    count(*)
+    from content
+    where status = 1 and user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+    <select id="listContentByContentType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from content
+        where status = 0
+        <if test="contentType != null">
+            and content_type = #{contentType,jdbcType=INTEGER}
+        </if>
+        <if test="tag != null">
+            and tag_ids = #{tag,jdbcType=VARCHAR}
+        </if>
+        order by latest_comment_time desc
+    </select>
+
+    <select id="randomContent" resultType="java.lang.String" parameterType="java.lang.String">
+        select distinct content_id from content where status = 0 and user_id != #{notUserId,jdbcType=VARCHAR} order by rand() limit 10
+    </select>
+
+</mapper>

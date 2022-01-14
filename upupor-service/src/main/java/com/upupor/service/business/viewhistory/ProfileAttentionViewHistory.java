@@ -28,9 +28,9 @@
 package com.upupor.service.business.viewhistory;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.service.dao.entity.Member;
-import com.upupor.service.dao.entity.ViewHistory;
-import com.upupor.service.dao.mapper.MemberMapper;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.ViewHistory;
+import com.upupor.service.business.aggregation.dao.mapper.MemberMapper;
 import com.upupor.service.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
