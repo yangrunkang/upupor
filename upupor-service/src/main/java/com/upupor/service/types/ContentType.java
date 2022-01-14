@@ -77,7 +77,7 @@ public enum ContentType {
     /**
      * 短内容
      */
-    SHORT_CONTENT(6, "短内容", "/topic", "发布短内容", OSS_URL + "icons/system/topic.png", "创建 > 短内容"),
+    TOPIC(6, "短内容", "/topic", "发布短内容", OSS_URL + "icons/system/topic.png", "创建 > 短内容"),
 
     /**
      * 留言
@@ -181,7 +181,7 @@ public enum ContentType {
         contentTypeList.add(SHARE);
         contentTypeList.add(WORKPLACE);
         contentTypeList.add(RECORD);
-        contentTypeList.add(SHORT_CONTENT);
+        contentTypeList.add(TOPIC);
         return contentTypeList;
     }
 

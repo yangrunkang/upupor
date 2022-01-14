@@ -70,7 +70,7 @@ public class TagServiceImpl implements TagService {
         if (Objects.isNull(tagType)) {
             return new ArrayList<>();
         }
-        if (tagType.equals(ContentType.SHORT_CONTENT)) {
+        if (tagType.equals(ContentType.TOPIC)) {
             return tagMapper.getAll();
         }
 

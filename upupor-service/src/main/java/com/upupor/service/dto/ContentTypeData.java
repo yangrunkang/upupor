@@ -70,8 +70,7 @@ public class ContentTypeData {
                     value.getWebText(),
                     value.getIcon(),
                     value.getTips(),
-                    value.name().toLowerCase()
-            ));
+                    value.name().toLowerCase()));
         }
         return list;
     }

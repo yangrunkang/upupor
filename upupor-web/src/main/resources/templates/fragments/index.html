@@ -129,7 +129,7 @@
     <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/share" title="分享" th:if="${content.contentType.name()} == 'SHARE'">分享</a>
     <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/workplace" title="职场" th:if="${content.contentType.name()} == 'WORKPLACE'">职场</a>
     <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/record" title="记录" th:if="${content.contentType.name()} == 'RECORD'">记录</a>
-    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/topic" title="短内容" th:if="${content.contentType.name()} == 'SHORT_CONTENT'">短内容</a>
+    <a class="cv-link badge rounded-pill fw-normal lh-sm bg-warning text-dark" href="/topic" title="短内容" th:if="${content.contentType.name()} == 'TOPIC'">短内容</a>
 </span>
 
 
@@ -276,8 +276,8 @@ fromProfile: 是否来自Profile页面
 <!--主页菜单-->
 <div th:fragment="page_menu">
     <ul class="nav nav-pills">
-        <li class="nav-item me-1" th:each="type : ${contentTypeList}">
         <li class="nav-item me-1"><a class="nav-link cv-link small all" href="/" title="全部"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/all.png}" /> 全部</a></li>
+        <li class="nav-item me-1" th:each="type : ${contentTypeList}">
             <a th:class="'nav-link cv-link small ' + ${type.cssClass}" th:href="${type.url}" th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}" /> [[${type.name}]]</a>
         </li>
     </ul>

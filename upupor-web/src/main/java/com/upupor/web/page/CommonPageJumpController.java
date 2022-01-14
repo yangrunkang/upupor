@@ -81,7 +81,7 @@ public class CommonPageJumpController {
     @GetMapping("/topic")
     public ModelAndView topic(Integer pageNum, Integer pageSize) {
         GetCommonReq commonReq =
-                GetCommonReq.create(null, null, pageNum, pageSize, ContentType.SHORT_CONTENT);
+                GetCommonReq.create(null, null, pageNum, pageSize, ContentType.TOPIC);
         return contentList(commonReq);
     }
 

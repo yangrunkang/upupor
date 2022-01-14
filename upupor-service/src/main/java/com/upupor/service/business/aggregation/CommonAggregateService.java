@@ -93,7 +93,7 @@ public class CommonAggregateService {
 
         // 获取左边菜单栏list
         List<Tag> tagList = new ArrayList<>();
-        if (Objects.nonNull(getCommonReq.getContentType()) && !ContentType.SHORT_CONTENT.equals(getCommonReq.getContentType())) {
+        if (Objects.nonNull(getCommonReq.getContentType()) && !ContentType.TOPIC.equals(getCommonReq.getContentType())) {
             tagList = tagService.getTagsByType(getCommonReq.getContentType());
         }
 

@@ -253,14 +253,11 @@
                         <ol class="breadcrumb mb-0">
                             <li th:each="type : ${contentTypeList}"
                                 th:if="${contentIndexDto.content.contentType.name() == type.typeName}"
-                                class="breadcrumb-item"><a class="cv-link text-black-50" th:href="${type.url}">[[${type.name}]]</a></li>
-                            <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'TECH'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/tech/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'QA'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/qa/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'SHARE'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/share/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'WORKPLACE'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/workplace/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'RECORD'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/record/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                                <a class="cv-link text-black-50" th:if="${contentIndexDto.content.contentType.name()} == 'SHORT_CONTENT'" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/topic/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                                class="breadcrumb-item">
+                                <a class="cv-link text-black-50" th:href="${type.url}">[[${type.name}]]</a>
+                            </li>
+                            <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)} and ${contentIndexDto.content.contentType.name() != 'TOPIC'}">
+                                <a class="cv-link text-black-50" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/'+${#strings.toLowerCase(contentIndexDto.content.contentType.name())}+'/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
                             </li>
                         </ol>
                     </nav>
