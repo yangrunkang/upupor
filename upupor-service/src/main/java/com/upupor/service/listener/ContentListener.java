@@ -209,7 +209,7 @@ public class ContentListener {
         String message = "您的文章《" +
                 String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle()) + "》被 " +
                 String.format(PROFILE_INNER_MSG, member.getUserId(), msgId, member.getUserName()) +
-                " 在" + CcDateUtil.snsFormat(CcDateUtil.getCurrentTime()) + "点赞了";
+                " 在" + CcDateUtil.timeStamp2DateOnly(CcDateUtil.getCurrentTime()) + "点赞了";
         messageService.addMessage(content.getUserId(), message, MessageType.SYSTEM, msgId);
     }
 

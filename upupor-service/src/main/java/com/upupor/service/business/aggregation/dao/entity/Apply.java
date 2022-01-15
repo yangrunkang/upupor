@@ -85,7 +85,7 @@ public class Apply extends BaseEntity {
 
     @JSONField(serialize = false)
     public String getCreateDateDiff() {
-        return CcDateUtil.snsFormat(createTime);
+        return CcDateUtil.timeStamp2DateOnly(createTime);
     }
 
     public ApplyContentDto getApplyContentDto() {

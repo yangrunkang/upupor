@@ -96,7 +96,7 @@ public class Comment extends BaseEntity {
         if(Objects.isNull(createTime)){
             return Strings.EMPTY;
         }
-        return CcDateUtil.snsFormat(createTime);
+        return CcDateUtil.timeStamp2DateOnly(createTime);
     }
 
 

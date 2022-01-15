@@ -28,6 +28,9 @@
 package com.upupor.framework.utils;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -40,10 +43,9 @@ import java.util.Date;
 public class CcDateUtil {
 
     private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final String FORMAT_HH_MM = "HH:mm";
     private static final String FORMAT_SHORT = "yyyy-MM-dd";
     private static final SimpleDateFormat SDF = new SimpleDateFormat(FORMAT);
-    private static final SimpleDateFormat SDF_HH_MM = new SimpleDateFormat(FORMAT_HH_MM);
+    private static final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT);
     private static final long zero = 0L;
     private static final long one = 1L;
     private static final long minute = 60L;
@@ -61,12 +63,9 @@ public class CcDateUtil {
         return get(seconds);
     }
 
-    public static synchronized String timeStamp2DateOnly(Long seconds) {
-        return SDF.format(new Date(seconds * 1000));
-    }
-
-    public static synchronized String snsFormat(long createTime) {
-        return SDF.format(new Date(createTime * 1000));
+    public static synchronized String timeStamp2DateOnly(long seconds) {
+        LocalDateTime localDateTime = LocalDateTime.ofEpochSecond(seconds, 0, ZoneOffset.ofHours(8));
+        return formatter.format(localDateTime);
     }
 
     /**

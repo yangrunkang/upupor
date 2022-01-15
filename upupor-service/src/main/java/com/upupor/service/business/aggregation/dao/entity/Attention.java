@@ -72,7 +72,7 @@ public class Attention extends BaseEntity {
 
     @JSONField(serialize = false)
     public String getCreateDateDiff() {
-        return CcDateUtil.snsFormat(createTime);
+        return CcDateUtil.timeStamp2DateOnly(createTime);
     }
 
     public static Attention init(){

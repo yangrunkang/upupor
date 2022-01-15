@@ -96,6 +96,6 @@ public class ViewHistory extends BaseEntity {
     private String createDate;
 
     public String getCreateDate() {
-        return CcDateUtil.snsFormat(createTime);
+        return CcDateUtil.timeStamp2DateOnly(createTime);
     }
 }
