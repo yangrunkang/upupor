@@ -30,17 +30,16 @@ $(function () {
     $.cvLoadShowImg();
 });
 
-
 function cancel() {
     let commentContent = $.cvGetEditorData();
     if (cvIsNull(commentContent)) {
-        $.cvWarn("评论内容为空");
+        $.cvWarn("内容为空,无需清空");
         return;
     }
 
     swal({
-        title: '确定取消评论?',
-        text: "当前评论内容将会被清空",
+        title: '确定清空内容?',
+        text: "当前输入内容将会被清除",
         icon: "warning",
         buttons: [{
             text: "确认",

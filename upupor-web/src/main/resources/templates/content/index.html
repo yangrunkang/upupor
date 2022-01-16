@@ -117,11 +117,7 @@
                 <!--评论框-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div id="comment_area">
-                        <div th:include="fragments/comment::comment_box"></div>
-                        <div id="comment_btn_group" style="display: none">
-                            <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${contentIndexDto.content.contentId}]],[[${contentIndexDto.content.contentType.name()}]])">评论</button>
-                            <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">取消</button>
-                        </div>
+                        <div th:include="fragments/comment::comment_box(${contentIndexDto.content.contentId},${contentIndexDto.content.contentType.name()},'评论')"></div>
                     </div>
                 </div>
                 <!--推荐文章-->

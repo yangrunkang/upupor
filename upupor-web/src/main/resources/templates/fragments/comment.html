@@ -30,7 +30,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<div th:fragment="comment_box">
+<div th:fragment="comment_box(targetId,source,text)">
     <div>
         <div class="text-center" id="comment_loading">
             <div class="spinner-grow text-primary" role="status"></div>
@@ -39,6 +39,11 @@
         <div th:replace="fragments/editor::upupor-editor-progress"></div>
         <div id="vcr_editor" style="height: 300px"></div>
         <input type="hidden" id="reply_to_user" />
+        <div id="comment_btn_group" style="display: none">
+            <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]])">[[${text}]]</button>
+            <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">清空</button>
+            <div class="btn btn-link cv-link btn-sm my-2" th:include="fragments/common::markdown"></div>
+        </div>
     </div>
 </div>
 

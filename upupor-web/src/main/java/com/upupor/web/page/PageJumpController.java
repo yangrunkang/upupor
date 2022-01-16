@@ -372,4 +372,15 @@ public class PageJumpController implements Serializable {
         return modelAndView;
     }
 
+    @ApiOperation("markdown")
+    @GetMapping("/markdown")
+    public ModelAndView markdown() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(MARKDOWN);
+        // Seo
+        modelAndView.addObject(SeoKey.TITLE, "markdown");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "markdown");
+        return modelAndView;
+    }
+
 }

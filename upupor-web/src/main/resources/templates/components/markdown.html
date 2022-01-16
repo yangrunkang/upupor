@@ -1,0 +1,140 @@
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021-2022 yangrunkang
+  ~
+  ~ Author: yangrunkang
+  ~ Email: yangrunkang53@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/plugins/before-editor.css}"/>
+<!--内容-->
+<div th:fragment="content">
+    <div class="container">
+        <div class="row card card-body shadow-sm border-0 p-2 mb-2">
+            <div class="col-lg-12 mb-2">
+                <div class="lead border-bottom mb-2">Markdown基础教程</div>
+                <ol>
+                    <li>
+                        <a target="_blank" href="https://www.markdownguide.org/basic-syntax/">markdown基础语法[En]</a>
+                    </li>
+                    <li>
+                        <a target="_blank" href="https://markdown.com.cn/basic-syntax/">markdown基础语法[Zh]</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+
+        <div class="row card card-body shadow-sm border-0 p-2 mb-2">
+            <div class="col-lg-12 mb-2">
+                <div class="lead border-bottom mb-2">Markdown额外技巧</div>
+                <div class="fs-6">· 图片对齐</div>
+                <div>
+                    标准语法: <code>![描述](图片链接地址)</code><br/>
+                    可设定图片高度宽度和对齐: <code>![描述#宽度#高度#对齐方式](图片链接地址)</code><br/>
+                    设置图片大小(相对大小&绝对大小): <code>![描述#10%#50px](图片链接地址)</code><br/>
+                    <div class="border-bottom mb-2"></div>
+                    其中，`宽度`、`高度`支持：绝对像素值（比如200px）、相对外层容器百分比（比如50%），
+                    `对齐方式`候选值有：左对齐（缺省默认）、右对齐（right）、居中（center）、悬浮左、右对齐（float-left/right）
+                </div>
+                <div class="fs-6 mt-2">· 插入目录</div>
+                使用<code>[[toc]]</code>,即可插入目录
+                <div class="fs-6 mt-2">· 插入音视频</div>
+                <div>
+                    使用 <code>!v[描述](视频链接地址)</code> 插入视频<br/>
+                    使用 <code>!v[描述](视频链接地址){poster=封面地址}</code> 插入视频并配上封面<br/>
+                    使用 <code>!audio[描述](视频链接地址)</code> 插入音频<br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="row card card-body shadow-sm border-0 p-2 mb-2">
+            <div class="col-lg-12 mb-2">
+                <div class="lead border-bottom mb-2 mt-2">快捷键</div>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>功能</th>
+                        <th>按键</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1级标题</td>
+                        <td><code>Ctrl + 1</code></td>
+                    </tr>
+                    <tr>
+                        <td>2级标题</td>
+                        <td><code>Ctrl + 2</code></td>
+                    </tr>
+                    <tr>
+                        <td>3级标题</td>
+                        <td><code>Ctrl + 3</code></td>
+                    </tr>
+                    <tr>
+                        <td>4级标题</td>
+                        <td><code>Ctrl + 4</code></td>
+                    </tr>
+                    <tr>
+                        <td>5级标题</td>
+                        <td><code>Ctrl + 5</code></td>
+                    </tr>
+                    <tr>
+                        <td>6级标题</td>
+                        <td><code>Ctrl + 6</code></td>
+                    </tr>
+                    <tr>
+                        <td>加粗</td>
+                        <td><code>Ctrl + b</code></td>
+                    </tr>
+                    <tr>
+                        <td>斜体</td>
+                        <td><code>Ctrl + i</code></td>
+                    </tr>
+                    <tr>
+                        <td>插入链接</td>
+                        <td><code>Ctrl + l</code></td>
+                    </tr>
+                    <tr>
+                        <td>插入代码块</td>
+                        <td><code>Ctrl + k</code></td>
+                    </tr>
+                    <tr>
+                        <td>插入图片</td>
+                        <td><code>Ctrl + g</code></td>
+                    </tr>
+                    <tr>
+                        <td>插入公式</td>
+                        <td><code>Ctrl + m</code></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</html>
