@@ -65,7 +65,7 @@ public class DetectUserOperationScheduled {
      * <p>
      * 每周一上午8点半
      */
-    @Scheduled(cron = "0 30 8 ? * MON")
+//    @Scheduled(cron = "0 30 8 ? * MON")
     public void detectUserNotLogin() {
         log.info("检测用户一周内未登录定时任务");
         Integer count = memberService.countUnActivityMemberList();
