@@ -368,6 +368,12 @@ public final class CcConstant {
          */
         public static final String CREATE_CONTENT_TIME_OUT = "create_content_time_out";
 
+        /**
+         * SiteMap
+         */
+        public static final String SITE_MAP = "siteMap";
+
+
 
         public static final String createContentIntervalkey(String userId){
             return CcConstant.CvCache.CREATE_CONTENT_TIME_OUT + userId;

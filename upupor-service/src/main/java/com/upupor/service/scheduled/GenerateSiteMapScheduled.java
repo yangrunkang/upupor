@@ -46,16 +46,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.upupor.service.common.CcConstant.CvCache.SITE_MAP;
 import static com.upupor.service.common.CcConstant.CvCache.TAG_COUNT;
 
 
@@ -123,11 +119,7 @@ public class GenerateSiteMapScheduled {
             return;
         }
 
-        // 写到文件 upupor-google-sitemap.xml
-        writeToFile(s);
-        // 备份
-        bakSeoData(s);
-
+        RedisUtil.set(SITE_MAP, s);
     }
 
     private void generateRadio(List<GoogleSeoDto> googleSeoDtoList, SimpleDateFormat sdf) {
@@ -314,62 +306,6 @@ public class GenerateSiteMapScheduled {
 
     }
 
-
-    private void writeToFile(String s) {
-        BufferedWriter out = null;
-        try {
-            // 这个文件是写到了打包后的classes目录下的文件,开发环境看不到
-            File file = ResourceUtils.getFile("classpath:static/upupor-google-sitemap.xml");
-            if (!file.exists()) {
-                boolean newFile = file.createNewFile();
-                if (!newFile) {
-                    log.error("upupor-google-sitemap.xml文件创建失败");
-                }
-            }
-            out = new BufferedWriter(new FileWriter(file));
-            out.write(s);
-            out.flush();
-            out.close();
-            log.info("Google站点地图生成完毕");
-        } catch (Exception e) {
-            log.error("写入站点地图失败,{}", e.getMessage());
-        } finally {
-            try {
-                if (Objects.nonNull(out)) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void bakSeoData(String s) {
-        try {
-            // 生成Google站点地图
-            Seo google = seoService.getBySeoId("google");
-            if (Objects.isNull(google)) {
-                Seo seo = new Seo();
-                seo.setSeoId("google");
-                seo.setCreateTime(CcDateUtil.getCurrentTime());
-                seo.setSeoStatus(SeoStatus.NORMAL);
-                seo.setSysUpdateTime(new Date());
-                seo.setSeoContent(s);
-                Boolean addSeo = seoService.addSeo(seo);
-                if (!addSeo) {
-                    log.error("添加Google Seo信息失败");
-                }
-            } else {
-                google.setSeoContent(s);
-                Boolean update = seoService.updateSeo(google);
-                if (!update) {
-                    log.error("更新Google Seo信息失败");
-                }
-            }
-        } catch (Exception e) {
-
-        }
-    }
 
     private void generateContentSiteMap(List<GoogleSeoDto> googleSeoDtoList, SimpleDateFormat sdf) {
         // 文章总数
