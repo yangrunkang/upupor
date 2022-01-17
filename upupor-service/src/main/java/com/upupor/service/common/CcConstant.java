@@ -155,7 +155,6 @@ public final class CcConstant {
     public static final String USER_MANAGE_EDIT_USER_INFO = "user/manage/edit-user-info";
     public static final String USER_MANAGE_BG_STYLE_SETTINGS = "user/manage/bg-style-settings";
     public static final String USER_MANAGE_UPLOAD_PROFILE_PHOTO = "user/manage/upload-profile-photo";
-    public static final String USER_MANAGE_COMMENT = "user/manage/comment";
     public static final String USER_MANAGE_ATTENTION = "user/manage/attention";
     public static final String USER_MANAGE_FAN = "user/manage/fans";
     public static final String USER_MANAGE_INTEGRAL = "user/manage/integral";

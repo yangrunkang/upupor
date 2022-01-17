@@ -74,7 +74,6 @@ public class MemberManageJumpController {
     private final MessageManage messageManage;
     private final ProfilePhotoManage profilePhotoManage;
     private final RadioManage radioManage;
-    private final CommentManage commentManage;
     private final MemberManage memberManage;
 
     @ApiOperation("个人中心-内容管理")
@@ -176,28 +175,6 @@ public class MemberManageJumpController {
         modelAndView.addObject(collectManage.getData(build));
         modelAndView.addObject(SeoKey.TITLE, "收藏夹");
         modelAndView.addObject(SeoKey.DESCRIPTION, "收藏夹");
-        return modelAndView;
-    }
-
-    @ApiOperation("个人中心-评论")
-    @GetMapping("/user/manage/comment")
-    public ModelAndView userManageComment(Integer pageNum, Integer pageSize) {
-        if (Objects.isNull(pageNum)) {
-            pageNum = Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = Page.SIZE;
-        }
-        ManageDto build = ManageDto.builder()
-                .pageSize(pageSize)
-                .pageNum(pageNum)
-                .userId(ServletUtils.getUserId())
-                .build();
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(USER_MANAGE_COMMENT);
-        modelAndView.addObject(commentManage.getData(build));
-        modelAndView.addObject(SeoKey.TITLE, "评论");
-        modelAndView.addObject(SeoKey.DESCRIPTION, "评论");
         return modelAndView;
     }
 
