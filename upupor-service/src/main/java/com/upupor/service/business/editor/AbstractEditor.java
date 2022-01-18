@@ -92,16 +92,8 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
         UPDATE_STATUS,
     }
 
-    /**
-     * 用户信息
-     */
-    protected Member member;
-
     public Member getMember() {
-        if (Objects.isNull(member)) {
-            member = memberService.memberInfo(ServletUtils.getUserId());
-        }
-        return member;
+        return memberService.memberInfo(ServletUtils.getUserId());
     }
 
     /**

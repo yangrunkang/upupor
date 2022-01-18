@@ -79,9 +79,10 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
 
     private Content createNewContent() {
         AddContentDetailReq addContentDetailReq = getReq();
+        Member member = getMember();
         Content content = Content.create();
         generateContentId(content);
-        content.setUserId(getMember().getUserId());
+        content.setUserId(member.getUserId());
         content.setTitle(addContentDetailReq.getTitle());
         content.setContentType(addContentDetailReq.getContentType());
         content.setShortContent(addContentDetailReq.getShortContent());

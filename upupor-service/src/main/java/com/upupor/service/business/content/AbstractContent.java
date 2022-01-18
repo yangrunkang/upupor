@@ -61,10 +61,6 @@ public abstract class AbstractContent {
     private ContentService contentService;
     @Resource
     private TagService tagService;
-    @Resource
-    private CollectService collectService;
-    @Resource
-    private MemberIntegralService memberIntegralService;
     @Getter
     private final ContentIndexDto contentIndexDto = new ContentIndexDto();
     @Getter
