@@ -60,7 +60,7 @@
             <div class="list-group list-group-flush">
                 <div class="d-flex align-items-top list-group-item p-1 mt-1" th:if="${comment.commentId != 'google-ad-feed'}" th:each="comment : ${commentList}">
                     <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
-                        <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-1 mb-1 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
+                        <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-1 mb-1 cv-icon-50 img rounded" th:alt="${comment.member.userName}"/>
                     </a>
                     <div class="flex-grow-1" style="overflow:hidden;">
                         <div class="mt-0">

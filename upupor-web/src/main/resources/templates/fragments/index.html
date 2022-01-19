@@ -163,7 +163,7 @@ fromProfile: 是否来自Profile页面
                     <div th:if="${radio.radioId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
                 </div>
                 <a th:if="${!fromProfile && radio.radioId != 'google-ad-feed'}" class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radio.member.userId}"  th:title="${radio.member.userName}">
-                    <img class="lazyload img rounded rounded-right cv-icon-60" th:data-src="${radio.member.via}" th:alt="${radio.member.userName}">
+                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${radio.member.via}" th:alt="${radio.member.userName}">
                 </a>
             </div>
         </li>
@@ -222,7 +222,7 @@ fromProfile: 是否来自Profile页面
 
 <div th:fragment="content_profile_via">
     <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}"  th:title="${content.member.userName}">
-        <img class="lazyload img rounded rounded-right cv-icon-60" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
+        <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
     </a>
 </div>
 
@@ -579,7 +579,7 @@ fromProfile: 是否来自Profile页面
         <li class="list-group-item p-0" th:each="member,ite : ${userList}">
             <div th:if="${member.userId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
             <div th:if="${member.userId != 'google-ad-feed'}" class="d-flex align-items-center my-1 ">
-                <img class="lazyload me-3 img rounded cv-icon-60 me-2"
+                <img class="lazyload img rounded cv-icon-50 me-1"
                      th:if="!${#strings.isEmpty(member.via)}"
                      th:data-src="${member.via}"
                      th:alt="${member.userName}"
