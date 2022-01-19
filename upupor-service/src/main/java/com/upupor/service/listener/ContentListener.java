@@ -32,7 +32,7 @@ import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.business.aggregation.dao.mapper.ViewHistoryMapper;
 import com.upupor.service.business.aggregation.dao.mapper.ViewerMapper;
 import com.upupor.service.business.aggregation.service.*;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
@@ -55,7 +55,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.MsgTemplate.*;
+import static com.upupor.framework.CcConstant.MsgTemplate.*;
 import static com.upupor.service.utils.CcUtils.sleep2s;
 
 /**

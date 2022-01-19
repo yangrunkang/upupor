@@ -97,35 +97,36 @@ upupor:
   corePoolSize: 10
   maxPoolSize: 30
   keepAliveSeconds: 120
+  queueCapacity: 10
  # 压缩后的图片输出地址
  thumbnails:
   # 压缩质量
-  output-quality: ${ALLOW_UPLOAD_PIC_QUALITY}
+  outputQuality: ${ALLOW_UPLOAD_PIC_QUALITY}
   # 允许哪些后缀的文件上传
   allows: ${ALLOW_UPLOAD_PIC_SUFFIX}
  #邮件配置
  email:
   # 是否开启邮件推送 0-关闭 -1开启
-  on-off: ${EMAIL_ON}
+  onOff: ${EMAIL_ON}
   # 发件人昵称
-  sender-nick-name: ${EMAIL_SENDER_NICK_NAME}
+  senderNickName: ${EMAIL_SENDER_NICK_NAME}
   # 控制台创建的发信地址
-  sender-account-name: ${EMAIL_SENDER_ACCOUNT}
-  accesskey-id: ${EMAIL_ACCESS_KEY}
-  accesskey-secret: ${EMAIL_ACCESS_SECRET}
+  senderAccountName: ${EMAIL_SENDER_ACCOUNT}
+  accessKeyId: ${EMAIL_ACCESS_KEY}
+  accessKeySecret: ${EMAIL_ACCESS_SECRET}
  website: ${WEBSITE}
  # 是否开启广告等推广 0-开启 1-关闭
- ad-switch: ${AD_SWITCH}
+ adSwitch: ${AD_SWITCH}
  # 右侧广告是否开启
- ad-switch.right: ${AD_SWITCH_RIGHT}
+ adSwitchRight: ${AD_SWITCH_RIGHT}
  # 分析开关
- analyze-switch: ${ANALYZE_SWITCH}
+ analyzeSwitch: ${ANALYZE_SWITCH}
  # 文件存储服务
  oss:
   # oss 名称
-  bucket-name: ${OSS_BUCKET_NAME}
+  bucketName: ${OSS_BUCKET_NAME}
   # oss 文件存储地址
-  file-host: ${OSS_FILE_HOST}
+  fileHost: ${OSS_FILE_HOST}
  ossStatic: ${OSS_STATIC}
  env: ${UPUPOR_ENV}
  # 不需要登录的接口

@@ -30,13 +30,12 @@ package com.upupor.service.utils;
 import com.github.houbb.segment.support.segment.result.impl.SegmentResultHandlers;
 import com.github.houbb.segment.util.SegmentHelper;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.algorithm.SnowFlake;
+import com.upupor.framework.config.UpuporConfig;
 import joptsimple.internal.Strings;
 import lombok.Data;
-import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.util.ArrayUtils;
@@ -48,13 +47,16 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.upupor.service.common.CcConstant.*;
+import static com.upupor.framework.CcConstant.*;
 
 /**
  * @author: YangRunkang(cruise)
  * @created: 2019/12/24 02:21
  */
+@Component
 public class CcUtils {
+
+
     private static final SimpleDateFormat SDF;
 
     /**
@@ -154,19 +156,9 @@ public class CcUtils {
         return list;
     }
 
-
-    public static String getProperty(String key) {
-        Environment env = SpringContextUtils.getBean(Environment.class);
-        String value = env.getProperty(key);
-        if (StringUtils.isEmpty(value)) {
-            throw new BusinessException(ErrorCode.LESS_CONFIG);
-        }
-        return value;
-    }
-
     public static Boolean checkEnvIsDev() {
-        String property = getProperty("upupor.env");
-        return "dev".equals(property);
+        UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
+        return "dev".equals(upuporConfig.getEnv());
     }
 
     /**

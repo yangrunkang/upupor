@@ -25,29 +25,52 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.config;
+package com.upupor.framework.config;
 
-import org.springframework.boot.web.server.ErrorPage;
-import org.springframework.boot.web.server.ErrorPageRegistrar;
-import org.springframework.boot.web.server.ErrorPageRegistry;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
-import static com.upupor.service.common.CcConstant.URL_404;
-import static com.upupor.service.common.CcConstant.URL_500;
+import java.util.List;
 
 /**
- * @author YangRunkang(cruise)
- * @date 2020/05/01 00:02
+ * @author Yang Runkang (cruise)
+ * @date 2021年12月12日 22:37
  */
+@Data
 @Configuration
-public class ErrorPageConfig implements ErrorPageRegistrar {
+@ConfigurationProperties(prefix = "upupor")
+public class UpuporConfig {
+    private Pool pool;
+    private Thumbnails thumbnails;
+    private Email email;
+    private String website;
+    private Integer adSwitch;
+    private String adSwitchRight;
+    private String analyzeSwitch;
+    private Oss oss;
+    private String ossStatic;
+    private String env;
+    /**
+     * 不用校验是否登录的url
+     */
+    private List<String> interfaceWhiteUrlList;
+    /**
+     * 页面需要校验登录的url
+     */
+    private List<String> pageCheckUrlList;
+    private GoogleAd googleAd;
 
-    @Override
-    public void registerErrorPages(ErrorPageRegistry registry) {
-        // 错误页面映射到真正的 Controller url
-        ErrorPage error404 = new ErrorPage(HttpStatus.NOT_FOUND, URL_404);
-        ErrorPage error500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, URL_500);
-        registry.addErrorPages(error404, error500);
-    }
+    private String googleTagId;
+
+
+
+
+
+
 }

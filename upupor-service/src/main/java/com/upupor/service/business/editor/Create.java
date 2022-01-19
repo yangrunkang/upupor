@@ -49,7 +49,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.CvCache.createContentIntervalkey;
+import static com.upupor.framework.CcConstant.CvCache.createContentIntervalkey;
 import static com.upupor.service.common.ErrorCode.CONTENT_NOT_EXISTS;
 import static com.upupor.service.common.ErrorCode.MEMBER_CONFIG_LESS;
 

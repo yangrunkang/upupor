@@ -25,31 +25,28 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.config;
+package com.upupor.framework.config;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.upupor.framework.CcConstant;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
+import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 
-import java.util.List;
 
 /**
- * @author Yang Runkang (cruise)
- * @date 2021年12月12日 22:37
+ * @author YangRunkang(cruise)
+ * @date 2020/05/01 00:02
  */
-@Data
 @Configuration
-@ConfigurationProperties(prefix = "upupor")
-public class UpuporConfig {
-    /**
-     * 不用校验是否登录的url
-     */
-    private List<String> interfaceWhiteUrlList;
+public class ErrorPageConfig implements ErrorPageRegistrar {
 
-    /**
-     * 页面需要校验登录的url
-     */
-    private List<String> pageCheckUrlList;
-
-
+    @Override
+    public void registerErrorPages(ErrorPageRegistry registry) {
+        // 错误页面映射到真正的 Controller url
+        ErrorPage error404 = new ErrorPage(HttpStatus.NOT_FOUND, CcConstant.URL_404);
+        ErrorPage error500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, CcConstant.URL_500);
+        registry.addErrorPages(error404, error500);
+    }
 }

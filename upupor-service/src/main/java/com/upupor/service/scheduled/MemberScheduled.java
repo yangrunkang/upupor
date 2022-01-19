@@ -41,7 +41,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.upupor.service.common.CcConstant.CvCache.ACTIVE_USER_LIST;
+import static com.upupor.framework.CcConstant.CvCache.ACTIVE_USER_LIST;
 
 
 /**

@@ -34,7 +34,7 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.business.aggregation.dao.entity.Comment;
 import com.upupor.service.business.aggregation.dao.entity.Content;

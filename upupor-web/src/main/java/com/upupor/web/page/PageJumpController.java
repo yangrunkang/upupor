@@ -32,7 +32,7 @@ import com.upupor.service.business.aggregation.SearchAggregateService;
 import com.upupor.service.business.aggregation.TagAggregateService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.ViewerService;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;
 import com.upupor.service.utils.ServletUtils;
@@ -47,7 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.Serializable;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.*;
+import static com.upupor.framework.CcConstant.*;
 
 
 /**

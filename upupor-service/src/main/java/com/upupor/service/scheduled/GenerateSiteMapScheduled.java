@@ -28,11 +28,11 @@
 package com.upupor.service.scheduled;
 
 import com.alibaba.fastjson.JSON;
-import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.business.aggregation.service.*;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.CcTemplateConstant;
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.dto.page.common.ListRadioDto;
@@ -42,7 +42,6 @@ import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.service.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -51,8 +50,8 @@ import org.springframework.util.StringUtils;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.upupor.service.common.CcConstant.CvCache.SITE_MAP;
-import static com.upupor.service.common.CcConstant.CvCache.TAG_COUNT;
+import static com.upupor.framework.CcConstant.CvCache.SITE_MAP;
+import static com.upupor.framework.CcConstant.CvCache.TAG_COUNT;
 
 
 /**
@@ -71,10 +70,7 @@ public class GenerateSiteMapScheduled {
     private final MemberService memberService;
     private final TagService tagService;
     private final RadioService radioService;
-
-    @Value("${upupor.website}")
-    private String webSite;
-
+    private final UpuporConfig upuporConfig;
     /**
      * 每5分钟
      */
@@ -148,7 +144,7 @@ public class GenerateSiteMapScheduled {
             if (radio.getStatus().equals(RadioStatus.NORMAL)) {
                 GoogleSeoDto googleSeoDto = new GoogleSeoDto();
                 // 按照参数顺序依次是 来源、内容Id
-                String contentUrl = webSite + "/r/%s";
+                String contentUrl = upuporConfig.getWebsite() + "/r/%s";
                 contentUrl = String.format(contentUrl, radio.getRadioId());
 
                 googleSeoDto.setLoc(contentUrl);
@@ -170,7 +166,7 @@ public class GenerateSiteMapScheduled {
 
         for (CountTagDto countTagDto : list) {
             GoogleSeoDto googleSeoDto = new GoogleSeoDto();
-            googleSeoDto.setLoc(webSite + "/tag/" + countTagDto.getTagName());
+            googleSeoDto.setLoc(upuporConfig.getWebsite() + "/tag/" + countTagDto.getTagName());
             googleSeoDto.setChangeFreq("hourly");
             googleSeoDto.setLastmod(sdf.format(new Date()));
             googleSeoDto.setPriority("0.5");// 默认值
@@ -231,7 +227,7 @@ public class GenerateSiteMapScheduled {
     private void renderSeo(List<GoogleSeoDto> googleSeoDtoList, List<Tag> tagList, SimpleDateFormat sdf, String source) {
         tagList.forEach(tag -> {
             GoogleSeoDto tagSeo = new GoogleSeoDto();
-            String tagUrl = webSite + "/" + source + "/%s";
+            String tagUrl = upuporConfig.getWebsite() + "/" + source + "/%s";
             tagUrl = String.format(tagUrl, tag.getTagId());
             tagSeo.setLoc(tagUrl);
             tagSeo.setChangeFreq("hourly");
@@ -265,6 +261,7 @@ public class GenerateSiteMapScheduled {
         }
         memberList.forEach(member -> {
             if (member.getStatus().equals(MemberStatus.NORMAL)) {
+                String webSite = upuporConfig.getWebsite();
                 // 用户首页
                 GoogleSeoDto memberProfile = new GoogleSeoDto();
                 String memberProfileUrl = webSite + "/profile/%s";
@@ -329,6 +326,7 @@ public class GenerateSiteMapScheduled {
         contentList.forEach(content -> {
             if (content.getStatus().equals(ContentStatus.NORMAL)) {
                 GoogleSeoDto googleSeoDto = new GoogleSeoDto();
+                String webSite = upuporConfig.getWebsite();
                 // 按照参数顺序依次是 来源、内容Id
                 String contentUrl = webSite + "/u/%s";
                 contentUrl = String.format(contentUrl, content.getContentId());

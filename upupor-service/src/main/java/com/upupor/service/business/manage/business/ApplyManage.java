@@ -31,7 +31,7 @@ import com.alibaba.fastjson.JSON;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ApplyManageService;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.dto.page.apply.ApplyContentDto;
 import com.upupor.service.dto.page.common.ListApplyDto;
 import com.upupor.service.outer.req.AddTagReq;

@@ -39,8 +39,9 @@ import com.upupor.service.business.aggregation.service.ApplyService;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.outer.req.AddApplyDocumentReq;
 import com.upupor.service.outer.req.DelApplyReq;
 import com.upupor.service.outer.req.UpdateApplyReq;
@@ -50,14 +51,13 @@ import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 
 /**
  * 申请服务
@@ -73,8 +73,8 @@ public class ApplyServiceImpl implements ApplyService {
     private final FileService fileService;
     private final ApplyDocumentMapper applyDocumentMapper;
     private final MessageService messageService;
-    @Value("${upupor.oss.file-host}")
-    private String ossFileHost;
+    private final UpuporConfig upuporConfig;
+
 
     @Override
     public Integer addApply(Apply apply) {
@@ -138,7 +138,7 @@ public class ApplyServiceImpl implements ApplyService {
                 String fileName = "apply_" + CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
                 String folderName = "apply/" + fileName;
                 OssUtils.uploadAnyFile(addApplyDocumentReq.getFile(), folderName);
-                fileUrl = ossFileHost + folderName;
+                fileUrl = upuporConfig.getOss().getFileHost() + folderName;
                 // 文件入库
                 try {
                     File upuporFile = UpuporFileUtils.getUpuporFile(md5, fileUrl, userId);

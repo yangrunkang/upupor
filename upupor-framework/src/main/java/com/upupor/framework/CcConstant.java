@@ -25,9 +25,10 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.common;
+package com.upupor.framework;
 
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.framework.config.UpuporConfig;
 
 /**
  * Cv常量
@@ -298,7 +299,7 @@ public final class CcConstant {
      * 消息模板
      */
     public static final class MsgTemplate {
-        private static final String WEBSITE = CcUtils.getProperty("upupor.website");
+        private static final String WEBSITE =SpringContextUtils.getBean(UpuporConfig.class).getWebsite();
         /**
          * 个人主页
          * userId,userName

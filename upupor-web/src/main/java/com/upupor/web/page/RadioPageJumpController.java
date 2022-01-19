@@ -31,7 +31,7 @@ import com.upupor.service.business.aggregation.RadioAggregateService;
 import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.aggregation.service.ViewerService;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.dto.page.RadioIndexDto;
 import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.utils.PageUtils;
@@ -45,8 +45,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.Page.SIZE_COMMENT;
-import static com.upupor.service.common.CcConstant.*;
+import static com.upupor.framework.CcConstant.Page.SIZE_COMMENT;
+import static com.upupor.framework.CcConstant.*;
 
 
 /**

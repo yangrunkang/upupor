@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.OSS_URL;
+import static com.upupor.framework.CcConstant.OSS_URL;
 
 
 /**

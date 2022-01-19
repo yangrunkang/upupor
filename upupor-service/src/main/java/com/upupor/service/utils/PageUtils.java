@@ -28,7 +28,7 @@
 package com.upupor.service.utils;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import joptsimple.internal.Strings;
 
 import java.util.Objects;

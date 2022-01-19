@@ -113,7 +113,11 @@
                 </div>
                 <!--未登录提示-->
                 <div th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
-                <div th:if="${contentIndexDto.content.status.name()} == 'NORMAL'" th:include="fragments/comment::commentList(${contentIndexDto.content.listCommentDto.commentList},${contentIndexDto.content.listCommentDto.paginationHtml},${contentIndexDto.content.listCommentDto.total},false)"></div>
+                <div th:if="${contentIndexDto.content.status.name()} == 'NORMAL'" th:include="fragments/comment::commentList(${contentIndexDto.content.listCommentDto.commentList},
+                                                                                                                            ${contentIndexDto.content.listCommentDto.paginationHtml},
+                                                                                                                            ${contentIndexDto.content.listCommentDto.total},
+                                                                                                                            false,
+                                                                                                                            ${contentIndexDto.content.userId})"></div>
                 <!--评论框-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div id="comment_area">

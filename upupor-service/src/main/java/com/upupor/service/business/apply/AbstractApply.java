@@ -30,11 +30,11 @@ package com.upupor.service.business.apply;
 import com.upupor.service.business.aggregation.dao.entity.Apply;
 import com.upupor.service.business.aggregation.service.ApplyService;
 import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 
 import javax.annotation.Resource;
 
-import static com.upupor.service.common.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 
 /**
  * 抽象申请

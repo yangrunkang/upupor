@@ -28,7 +28,7 @@
 package com.upupor.web.page;
 
 import com.upupor.service.business.aggregation.TodoAggregateService;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,8 +39,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.SeoKey;
-import static com.upupor.service.common.CcConstant.TODO_INDEX;
+import static com.upupor.framework.CcConstant.SeoKey;
+import static com.upupor.framework.CcConstant.TODO_INDEX;
 
 
 /**

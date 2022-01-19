@@ -32,7 +32,7 @@ import com.upupor.service.business.aggregation.CommonAggregateService;
 import com.upupor.service.business.aggregation.EditorAggregateService;
 import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.ContentExtend;
@@ -58,7 +58,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.*;
+import static com.upupor.framework.CcConstant.*;
 
 
 /**

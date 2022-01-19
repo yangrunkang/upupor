@@ -31,7 +31,7 @@ import com.alibaba.fastjson.JSON;
 import com.upupor.service.business.aggregation.service.BannerService;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.TagService;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.dto.cache.CacheMemberDto;
 import com.upupor.service.dto.page.CommonPageIndexDto;
@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.CvCache.ACTIVE_USER_LIST;
+import static com.upupor.framework.CcConstant.CvCache.ACTIVE_USER_LIST;
 
 /**
  * 公共服务

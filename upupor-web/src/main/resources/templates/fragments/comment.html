@@ -40,7 +40,7 @@
         <div id="vcr_editor" style="height: 300px"></div>
         <input type="hidden" id="reply_to_user" />
         <div id="comment_btn_group" style="display: none">
-            <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]])">[[${text}]]</button>
+            <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]],[[${text}]])">[[${text}]]</button>
             <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">清空</button>
             <div class="btn btn-link cv-link btn-sm my-2" th:include="fragments/common::markdown"></div>
         </div>
@@ -48,7 +48,7 @@
 </div>
 
 
-<div th:fragment="commentList(commentList,paginationHtml,total,fromProfile)">
+<div th:fragment="commentList(commentList,paginationHtml,total,fromProfile,targetUserId)">
     <div th:class="${fromProfile}?'':'card card-body shadow-sm border-0 p-2 my-2'">
         <div th:if="${#lists.isEmpty(commentList)}" >
             <div th:include="fragments/index::empty_content"></div>
@@ -60,12 +60,12 @@
             <div class="list-group list-group-flush">
                 <div class="d-flex align-items-top list-group-item p-1 mt-1" th:if="${comment.commentId != 'google-ad-feed'}" th:each="comment : ${commentList}">
                     <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
-                        <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-3 mb-2 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
+                        <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-1 mb-1 cv-icon-60 img rounded" th:alt="${comment.member.userName}"/>
                     </a>
                     <div class="flex-grow-1" style="overflow:hidden;">
                         <div class="mt-0">
                             <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
-                                [[${comment.member.userName}]]
+                                [[${comment.member.userName}]] <span class="badge rounded-pill bg-primary small" th:if="${comment.member.userId == targetUserId}">main</span>
                             </a>
                             <div class="float-end text-black-50 small">
                                 <span class="d-none d-sm-block float-start text-black-50 ">[[${comment.createDateDiff}]]&nbsp;·&nbsp;</span>

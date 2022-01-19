@@ -32,7 +32,9 @@ package com.upupor.service.utils;
  * @date 2021/01/22 21:57
  */
 
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.config.UpuporConfig;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
@@ -45,7 +47,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Random;
 
-import static com.upupor.service.common.CcConstant.DEFAULT_PROFILE_PHOTO;
+import static com.upupor.framework.CcConstant.DEFAULT_PROFILE_PHOTO;
 import static com.upupor.service.utils.CcUtils.checkEnvIsDev;
 
 public class AvatarHelper {
@@ -59,7 +61,8 @@ public class AvatarHelper {
                 return DEFAULT_PROFILE_PHOTO;
             }
             OssUtils.uploadToOss(fileName, create(hashCode));
-            url = CcUtils.getProperty("upupor.oss.file-host") + fileName;
+            String fileHost = SpringContextUtils.getBean(UpuporConfig.class).getOss().getFileHost();
+            url = fileHost + fileName;
         } catch (Exception e) {
             url = DEFAULT_PROFILE_PHOTO;
         }

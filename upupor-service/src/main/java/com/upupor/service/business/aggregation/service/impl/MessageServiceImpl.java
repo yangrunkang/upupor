@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.upupor.service.common.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 
 /**
  * 消息服务

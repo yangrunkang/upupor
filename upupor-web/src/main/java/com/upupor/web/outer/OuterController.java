@@ -28,9 +28,6 @@
 package com.upupor.web.outer;
 
 import com.alibaba.druid.util.StringUtils;
-import com.upupor.service.business.aggregation.dao.entity.Seo;
-import com.upupor.service.business.aggregation.service.SeoService;
-import com.upupor.service.common.CcConstant;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.utils.RedisUtil;
 import io.swagger.annotations.Api;
@@ -38,9 +35,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
-import static com.upupor.service.common.CcConstant.CvCache.SITE_MAP;
+import static com.upupor.framework.CcConstant.CvCache.SITE_MAP;
 
 
 /**

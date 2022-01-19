@@ -27,6 +27,7 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.aggregation.service.MemberService;
@@ -34,6 +35,7 @@ import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.common.*;
 import com.upupor.service.business.aggregation.dao.entity.File;
 import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.*;
 import com.upupor.service.utils.CcUtils;
@@ -43,7 +45,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +52,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 
 
 /**
@@ -74,11 +75,7 @@ public class MemberController {
     private final String register = "register";
     private final String forgetPassword = "forgetPassword";
     private final ApplicationEventPublisher eventPublisher;
-    /**
-     * 当前激活的环境
-     */
-    @Value("${upupor.env}")
-    private String activeEnv;
+    private final UpuporConfig upuporConfig;
 
     @ApiOperation("用户登录")
     @PostMapping("get")
@@ -265,7 +262,7 @@ public class MemberController {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "发送验证码来源信息错误");
         }
 
-        if ("dev".equals(activeEnv)) {
+        if ("dev".equals(upuporConfig.getEnv())) {
             log.info("开发环境验证码:{}", verifyCode);
         }
 

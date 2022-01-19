@@ -41,8 +41,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.MsgTemplate.PROFILE_INNER_MSG;
-import static com.upupor.service.common.CcConstant.MsgTemplate.RADIO_INNER_MSG;
+import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_INNER_MSG;
+import static com.upupor.framework.CcConstant.MsgTemplate.RADIO_INNER_MSG;
 
 /**
  * @author Yang Runkang (cruise)

@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.MsgTemplate.*;
+import static com.upupor.framework.CcConstant.MsgTemplate.*;
 
 /**
  * 留言板评论

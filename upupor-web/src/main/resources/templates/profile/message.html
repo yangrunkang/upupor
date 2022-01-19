@@ -56,7 +56,11 @@
                     </nav>
                     <!--未登录提示-->
                     <div th:if="!${session?.cv_user_id}"  th:include="fragments/index::login_tips"></div>
-                    <div th:include="fragments/comment::commentList(${memberIndexDto.listCommentDto.commentList},${memberIndexDto.listCommentDto.paginationHtml},${memberIndexDto.listCommentDto.total},true)"></div>
+                    <div th:include="fragments/comment::commentList(${memberIndexDto.listCommentDto.commentList},
+                                                                    ${memberIndexDto.listCommentDto.paginationHtml},
+                                                                    ${memberIndexDto.listCommentDto.total},
+                                                                    true,
+                                                                    ${memberIndexDto.member.userId})"></div>
                     <div class="my-2" th:if="${session?.cv_user_id}">
                         <div id="comment_area">
                             <div th:include="fragments/comment::comment_box(${memberIndexDto.member.userId},'MESSAGE','留言')"></div>

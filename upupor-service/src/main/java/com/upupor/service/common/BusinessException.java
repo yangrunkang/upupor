@@ -27,6 +27,8 @@
 
 package com.upupor.service.common;
 
+import com.upupor.framework.CcConstant;
+
 /**
  * @author: YangRunkang(cruise)
  * @created: 2019/12/20 03:02

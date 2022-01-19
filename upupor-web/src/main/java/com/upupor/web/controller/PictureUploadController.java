@@ -33,9 +33,10 @@ import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
@@ -43,7 +44,6 @@ import com.upupor.service.utils.UpuporFileUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,10 +71,7 @@ public class PictureUploadController {
 
     private final MemberService memberService;
     private final FileService fileService;
-    @Value("${upupor.thumbnails.allows}")
-    private String allowsFilesSuffix;
-    @Value("${upupor.oss.file-host}")
-    private String ossFileHost;
+    private final UpuporConfig upuporConfig;
 
     @ApiOperation("上传头像")
     @PostMapping(value = "/uploadFile", consumes = "multipart/form-data")
@@ -108,6 +105,7 @@ public class PictureUploadController {
             assert originalFilename != null;
             String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
 
+            String allowsFilesSuffix = upuporConfig.getThumbnails().getAllows();
             // 判定是否是允许上传文件后缀
             if (StringUtils.isEmpty(allowsFilesSuffix)) {
                 throw new BusinessException(ErrorCode.LESS_CONFIG);
@@ -126,6 +124,7 @@ public class PictureUploadController {
                 folderFileName = "profile/" + fileName;
                 OssUtils.uploadImgFile(file, folderFileName, 1d);
 
+                String ossFileHost = upuporConfig.getOss().getFileHost();
                 picUrl = ossFileHost + folderFileName;
 
 
@@ -190,7 +189,7 @@ public class PictureUploadController {
             String originalFilename = file.getOriginalFilename();
             assert originalFilename != null;
             String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
-
+            String allowsFilesSuffix = upuporConfig.getThumbnails().getAllows();
             // 判定是否是允许上传文件后缀
             if (StringUtils.isEmpty(allowsFilesSuffix)) {
                 throw new BusinessException(ErrorCode.LESS_CONFIG);
@@ -208,7 +207,7 @@ public class PictureUploadController {
             try {
                 folderFileName = "content/" + fileName;
                 OssUtils.uploadImgFile(file, folderFileName, null);
-
+                String ossFileHost = upuporConfig.getOss().getFileHost();
                 pictureUrl = ossFileHost + folderFileName;
 
                 // 文件入库

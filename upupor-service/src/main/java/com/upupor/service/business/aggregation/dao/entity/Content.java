@@ -31,7 +31,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.google.common.collect.Lists;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.dto.dao.LastAndNextContentDto;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.dto.page.common.TagDto;

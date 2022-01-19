@@ -30,7 +30,7 @@ package com.upupor.web.page;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.business.*;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.utils.ServletUtils;
@@ -48,7 +48,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.*;
+import static com.upupor.framework.CcConstant.*;
 
 
 /**

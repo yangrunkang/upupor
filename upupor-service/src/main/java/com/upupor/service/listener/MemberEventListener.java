@@ -43,18 +43,19 @@ import com.upupor.service.types.MessageType;
 import com.upupor.service.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.MsgTemplate.PROFILE_EMAIL;
-import static com.upupor.service.common.CcConstant.MsgTemplate.PROFILE_INNER_MSG;
+import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_EMAIL;
+import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_INNER_MSG;
+
 
 /**
  * 用户事件监听器
@@ -188,7 +189,7 @@ public class MemberEventListener {
     @Async
     public void registerInnerMessage(MemberRegisterEvent memberRegisterEvent) {
         // 添加站内信
-        String msg = "<div class='text-info' style='font-size: 16px;'>愿景: 让每个人享受分享</div>" +
+        String msg = "<div class='text-primary' style='font-size: 16px;'>愿景: 让每个人享受分享</div>" +
                 "<div>欢迎使用Upupor</div>" +
                 "<div>官方微信公众号: <a class='cv-link' data-toggle='modal' data-target='#wechat'>Upupor</a></div>" +
                 "<div>官方微博: <a class='cv-link' data-toggle='modal' data-target='#weibo'>UpuporCom</a></div>";

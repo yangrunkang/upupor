@@ -29,7 +29,7 @@ package com.upupor.service.business.aggregation.dao.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.types.ViewerDeleteStatus;
 import lombok.Data;

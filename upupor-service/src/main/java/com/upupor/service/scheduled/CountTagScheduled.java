@@ -39,7 +39,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
-import static com.upupor.service.common.CcConstant.CvCache.TAG_COUNT;
+import static com.upupor.framework.CcConstant.CvCache.TAG_COUNT;
 
 
 /**

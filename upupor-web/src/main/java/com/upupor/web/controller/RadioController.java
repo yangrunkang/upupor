@@ -38,9 +38,10 @@ import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.RadioService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
 import com.upupor.service.types.RadioStatus;
@@ -54,7 +55,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,15 +81,10 @@ import static com.upupor.framework.thread.UpuporThreadPoolInit.UPUPOR_THREAD_POO
 public class RadioController {
 
     private final MemberService memberService;
-
     private final FileService fileService;
-
     private final RadioService radioService;
-
     private final ContentService contentService;
-
-    @Value("${upupor.oss.file-host}")
-    private String ossFileHost;
+    private final UpuporConfig upuporConfig;
 
     @ApiOperation("删除音频")
     @PostMapping(value = "/delete")
@@ -162,7 +157,8 @@ public class RadioController {
                 e.printStackTrace();
                 throw new BusinessException(ErrorCode.UPLOAD_ERROR);
             }
-            radioUrl = ossFileHost + folderFileName;
+
+            radioUrl = upuporConfig.getOss().getFileHost() + folderFileName;
 
             // 文件入库
             try {

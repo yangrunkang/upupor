@@ -27,6 +27,7 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.common.*;
@@ -55,7 +56,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.MsgTemplate.CONTENT_INTEGRAL;
+import static com.upupor.framework.CcConstant.MsgTemplate.CONTENT_INTEGRAL;
 import static com.upupor.service.common.ErrorCode.FORBIDDEN_LIKE_SELF_CONTENT;
 
 

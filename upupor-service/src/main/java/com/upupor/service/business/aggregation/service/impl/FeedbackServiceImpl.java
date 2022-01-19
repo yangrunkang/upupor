@@ -33,7 +33,7 @@ import com.upupor.service.business.aggregation.dao.mapper.FeedbackMapper;
 import com.upupor.service.business.aggregation.service.FeedbackService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.outer.req.AddFeedbackReq;
 import com.upupor.service.types.FeedBackStatus;
@@ -45,7 +45,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
-import static com.upupor.service.common.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 
 /**
  * 反馈服务

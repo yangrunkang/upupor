@@ -29,6 +29,10 @@ package com.upupor.service.utils;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
+import com.upupor.framework.config.Email;
+import com.upupor.framework.config.Oss;
+import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.framework.config.UpuporConfig;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +44,6 @@ import java.io.InputStream;
 import java.util.Objects;
 
 import static com.upupor.service.utils.CcUtils.checkEnvIsDev;
-import static com.upupor.service.utils.CcUtils.getProperty;
 
 /**
  * Oss工具类
@@ -56,8 +59,7 @@ public class OssUtils {
         double outputQuality;
         if (Objects.isNull(quality)) {
             // 获取压缩后输出图片的质量
-            String outputQualityKey = "upupor.thumbnails.output-quality";
-            outputQuality = Double.parseDouble(getProperty(outputQualityKey));
+            outputQuality = SpringContextUtils.getBean(UpuporConfig.class).getThumbnails().getOutputQuality();
         } else {
             outputQuality = quality;
         }
@@ -91,9 +93,14 @@ public class OssUtils {
             // Endpoint以杭州为例，其它Region请按实际情况填写。
             String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
             // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建。
-            String accessKeyId = CcUtils.getProperty("upupor.email.accesskey-id");
-            String accessKeySecret = CcUtils.getProperty("upupor.email.accesskey-secret");
-            String bucketName = CcUtils.getProperty("upupor.oss.bucket-name");
+            UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
+            Email email = upuporConfig.getEmail();
+            Oss oss = upuporConfig.getOss();
+
+            String accessKeyId = email.getAccessKeyId();
+            String accessKeySecret = email.getAccessKeySecret();
+            String bucketName = oss.getBucketName();
+
             ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
             ossClient.putObject(bucketName, folderName, inputStream);
             ossClient.shutdown();

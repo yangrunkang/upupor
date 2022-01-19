@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.upupor.service.common.CcConstant.MsgTemplate.PROFILE_INTEGRAL;
+import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_INTEGRAL;
 
 /**
  * 关注服务

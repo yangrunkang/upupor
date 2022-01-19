@@ -30,7 +30,7 @@ package com.upupor.web.page;
 import com.upupor.service.business.aggregation.CommonAggregateService;
 import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.business.aggregation.service.TagService;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.outer.req.GetCommonReq;
 import com.upupor.service.types.ContentType;
 import io.swagger.annotations.Api;
@@ -46,8 +46,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.CONTENT_LIST;
-import static com.upupor.service.common.CcConstant.RIGHT_ARROW;
+import static com.upupor.framework.CcConstant.CONTENT_LIST;
+import static com.upupor.framework.CcConstant.RIGHT_ARROW;
 
 
 /**

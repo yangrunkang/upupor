@@ -32,7 +32,8 @@ $(function () {
 
 function cancel() {
     let commentContent = $.cvGetEditorData();
-    if (cvIsNull(commentContent)) {
+    let mdCommentContent = $.cvGetEditorDataMd();
+    if (cvIsNull(commentContent) || cvIsNull(mdCommentContent)) {
         $.cvWarn("内容为空,无需清空");
         return;
     }
@@ -65,20 +66,20 @@ function cancel() {
  * @param contentId 目标Id
  * @param commentSource 评论来源
  */
-function comment(contentId,commentSource) {
+function comment(contentId,commentSource,desc) {
     if (cvIsNull(contentId)) {
-        $.cvWarn("文章唯一Id缺失,禁止评论");
+        $.cvWarn(desc+"目标为空,禁止"+desc);
         return;
     }
     if (cvIsNull(commentSource)) {
-        $.cvWarn("文章类型异常,禁止评论");
+        $.cvWarn("来源异常,禁止"+desc);
         return;
     }
 
     let commentContent = $.cvGetEditorData();
     let mdCommentContent = $.cvGetEditorDataMd();
-    if (cvIsNull(commentContent)) {
-        $.cvWarn("评论内容为空");
+    if (cvIsNull(commentContent) || cvIsNull(mdCommentContent)) {
+        $.cvWarn(desc+"内容为空");
         return;
     }
     let userId = $("#reply_to_user").val();
@@ -92,12 +93,12 @@ function comment(contentId,commentSource) {
 
     $.cvPost('/comment/add', comment, function (data) {
         if (respSuccess(data)) {
-            $.cvSuccess("评论成功");
+            $.cvSuccess(desc+"成功");
             setTimeout(function () {
                 history.go()
             }, 1500);
         } else {
-            $.cvError("评论失败")
+            $.cvError(desc+"失败")
         }
     });
 }

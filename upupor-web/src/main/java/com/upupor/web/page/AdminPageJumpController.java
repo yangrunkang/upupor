@@ -28,7 +28,7 @@
 package com.upupor.web.page;
 
 import com.upupor.service.business.aggregation.AdminAggregateService;
-import com.upupor.service.common.CcConstant;
+import com.upupor.framework.CcConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;
 
-import static com.upupor.service.common.CcConstant.*;
+import static com.upupor.framework.CcConstant.*;
 
 /**
  * 用户页面跳转控制器

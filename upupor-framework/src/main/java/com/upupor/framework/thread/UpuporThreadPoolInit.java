@@ -27,6 +27,7 @@
 
 package com.upupor.framework.thread;
 
+import com.upupor.framework.config.UpuporConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -43,23 +44,22 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @date 2020.01.18 11:24
  */
 @Configuration
-@EnableConfigurationProperties({ThreadPoolConfig.class})
 @RequiredArgsConstructor
 public class UpuporThreadPoolInit {
     public static final String UPUPOR_THREAD_POOL = "upuporThreadPool";
-    private final ThreadPoolConfig eventPoolConfig;
+    private final UpuporConfig upuporConfig;
 
     @Bean(UPUPOR_THREAD_POOL)
     public Executor eventThreadPool() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         // 核心线程池大小
-        executor.setCorePoolSize(eventPoolConfig.getCorePoolSize());
+        executor.setCorePoolSize(upuporConfig.getPool().getCorePoolSize());
         // 最大线程数
-        executor.setMaxPoolSize(eventPoolConfig.getMaxPoolSize());
+        executor.setMaxPoolSize(upuporConfig.getPool().getMaxPoolSize());
         // 队列容量
-        executor.setQueueCapacity(eventPoolConfig.getQueueCapacity());
+        executor.setQueueCapacity(upuporConfig.getPool().getQueueCapacity());
         // 活跃时间
-        executor.setKeepAliveSeconds(eventPoolConfig.getKeepAliveSeconds());
+        executor.setKeepAliveSeconds(upuporConfig.getPool().getKeepAliveSeconds());
         // 线程名字前缀
         executor.setThreadNamePrefix(UPUPOR_THREAD_POOL);
         // 线程池对拒绝任务(无线程可用)的处理策略 ThreadPoolExecutor.CallerRunsPolicy策略 ,调用者的线程会执行该任务,如果执行器已关闭,则丢弃
