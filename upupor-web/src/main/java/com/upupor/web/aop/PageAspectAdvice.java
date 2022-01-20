@@ -112,25 +112,7 @@ public class PageAspectAdvice {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-
-            ModelAndView exceptionView = new ModelAndView();
-            exceptionView.setViewName(CcConstant.PAGE_500);
-            setViewData(exceptionView, servletPath, startTime);
-            if (exception instanceof BusinessException) {
-                BusinessException businessException = (BusinessException) exception;
-                exceptionView.addObject(CcConstant.GLOBAL_EXCEPTION, businessException.getMessage());
-                // 如果是用户未登录要跳转至登录页
-                if (businessException.getCode().equals(ErrorCode.USER_NOT_LOGIN.getCode())) {
-                    String tips = "请登录";
-                    exceptionView.addObject(CcConstant.TIPS_OPERATION_SHOULD_LOGIN, tips);
-                    exceptionView.setViewName(CcConstant.USER_LOGIN);
-                }
-            } else {
-                exceptionView.addObject(CcConstant.GLOBAL_EXCEPTION, exception.getMessage());
-            }
-
-            // 返回值要和你拦截的方法一致
-            return exceptionView;
+            return exceptionView(startTime, servletPath, exception);
         }
 
         // 执行业务后
@@ -139,6 +121,34 @@ public class PageAspectAdvice {
         log.info(format);
 
         return result;
+    }
+
+    /**
+     * 异常视图
+     * @param startTime
+     * @param servletPath
+     * @param exception
+     * @return
+     */
+    private ModelAndView exceptionView(long startTime, String servletPath, Exception exception) {
+        ModelAndView exceptionView = new ModelAndView();
+        exceptionView.setViewName(CcConstant.PAGE_500);
+        setViewData(exceptionView, servletPath, startTime);
+        if (exception instanceof BusinessException) {
+            BusinessException businessException = (BusinessException) exception;
+            exceptionView.addObject(CcConstant.GLOBAL_EXCEPTION, businessException.getMessage());
+            // 如果是用户未登录要跳转至登录页
+            if (businessException.getCode().equals(ErrorCode.USER_NOT_LOGIN.getCode())) {
+                String tips = "请登录";
+                exceptionView.addObject(CcConstant.TIPS_OPERATION_SHOULD_LOGIN, tips);
+                exceptionView.setViewName(CcConstant.USER_LOGIN);
+            }
+        } else {
+            exceptionView.addObject(CcConstant.GLOBAL_EXCEPTION, exception.getMessage());
+        }
+
+        // 返回值要和你拦截的方法一致
+        return exceptionView;
     }
 
 
