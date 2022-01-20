@@ -1,4 +1,4 @@
-package com.upupor.web.aop.view_data;
+package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.utils.RedisUtil;
@@ -20,7 +20,8 @@ import static com.upupor.framework.CcConstant.CONTENT_IS_DONE;
 @Order(7)
 public class CheckContentIsDone implements PrepareData{
     @Override
-    public void prepare(ModelAndView modelAndView) {
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
         try {
             String cacheContentKey = CcConstant.CvCache.CONTENT_CACHE_KEY + ServletUtils.getUserId();
             String content = RedisUtil.get(cacheContentKey);

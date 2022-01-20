@@ -1,10 +1,7 @@
-package com.upupor.web.aop.view_data;
+package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.outer.req.ListMessageReq;
-import com.upupor.service.types.MessageStatus;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -12,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * 草稿数量
@@ -25,7 +21,8 @@ import java.util.Objects;
 public class DraftCount implements PrepareData {
     private final ContentService contentService;
     @Override
-    public void prepare(ModelAndView modelAndView) {
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
         try {
             String userId = ServletUtils.getUserId();
             Integer draftCount = contentService.countDraft(userId);

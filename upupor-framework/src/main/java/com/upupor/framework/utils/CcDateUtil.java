@@ -155,5 +155,7 @@ public class CcDateUtil {
 
     }
 
-
+    public static long getResponseTime(Long startTime) {
+        return System.currentTimeMillis() - startTime;
+    }
 }

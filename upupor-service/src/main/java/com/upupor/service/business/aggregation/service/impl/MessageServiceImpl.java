@@ -101,9 +101,9 @@ public class MessageServiceImpl implements MessageService {
             return;
         }
 
-        // SKIP_SUBSCRIBE_EMAIL_CHECK 是跳过是否订阅邮件配置校验
+        // 跳过配置检查,主要用于一些无用户邮件,例如反馈邮件通知
         if (!SKIP_SUBSCRIBE_EMAIL_CHECK.equals(userId)) {
-            // 如果没有开启邮件订阅,则不发送邮件
+            // 如果不允许直接跳过,则检查用户是否开始了邮件
             Boolean openEmail = memberService.isOpenEmail(userId);
             if (!openEmail) {
                 log.warn("用户:{}未开启邮件", userId);
@@ -133,8 +133,7 @@ public class MessageServiceImpl implements MessageService {
         }
 
         // 所有消息已读
-        LambdaQueryWrapper<Message> query = new LambdaQueryWrapper<Message>()
-                .eq(Message::getUserId, updateMessageReq.getUserId());
+        LambdaQueryWrapper<Message> query = new LambdaQueryWrapper<Message>().eq(Message::getUserId, updateMessageReq.getUserId());
         List<Message> messages = messageMapper.selectList(query);
         AtomicInteger updateCount = new AtomicInteger();
         messages.forEach(message -> {
@@ -146,13 +145,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public ListMessageDto listMessage(ListMessageReq listMessageReq) {
-        LambdaQueryWrapper<Message> query = new LambdaQueryWrapper<Message>()
-                .eq(Message::getUserId, listMessageReq.getUserId())
-                .in(Message::getStatus,MessageStatus.all())
-                .orderByDesc(Message::getCreateTime)
-                ;
-        if(Objects.nonNull(listMessageReq.getStatus())){
-            query.eq(Message::getStatus,listMessageReq.getStatus());
+        LambdaQueryWrapper<Message> query = new LambdaQueryWrapper<Message>().eq(Message::getUserId, listMessageReq.getUserId()).in(Message::getStatus, MessageStatus.all()).orderByDesc(Message::getCreateTime);
+        if (Objects.nonNull(listMessageReq.getStatus())) {
+            query.eq(Message::getStatus, listMessageReq.getStatus());
         }
 
         PageHelper.startPage(listMessageReq.getPageNum(), listMessageReq.getPageSize());
@@ -166,8 +161,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message getMessage(String messageId) {
-        LambdaQueryWrapper<Message> query = new LambdaQueryWrapper<Message>()
-                .eq(Message::getMessageId, messageId);
+        LambdaQueryWrapper<Message> query = new LambdaQueryWrapper<Message>().eq(Message::getMessageId, messageId);
         return messageMapper.selectOne(query);
     }
 
@@ -187,8 +181,7 @@ public class MessageServiceImpl implements MessageService {
             return 0;
         }
 
-        if (MessageStatus.READ.equals(message.getStatus())
-                || MessageStatus.DELETED.equals(message.getStatus())) {
+        if (MessageStatus.READ.equals(message.getStatus()) || MessageStatus.DELETED.equals(message.getStatus())) {
             return 0;
         }
         message.setStatus(MessageStatus.READ);

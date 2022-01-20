@@ -1,4 +1,4 @@
-package com.upupor.web.aop.view_data;
+package com.upupor.web.aop.view;
 
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.dto.ContentTypeData;
@@ -22,7 +22,8 @@ public class SetUpuporConfig implements PrepareData {
     private final UpuporConfig upuporConfig;
 
     @Override
-    public void prepare(ModelAndView modelAndView) {
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
         // 切入当前环境
         modelAndView.addObject(ACTIVE_ENV, upuporConfig.getEnv());
         modelAndView.addObject(OSS_STATIC, upuporConfig.getOssStatic());

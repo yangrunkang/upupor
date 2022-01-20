@@ -1,4 +1,4 @@
-package com.upupor.web.aop.view_data;
+package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.MessageService;
@@ -24,7 +24,8 @@ import java.util.Objects;
 public class UnReadMessageCount implements PrepareData {
     private final MessageService messageService;
     @Override
-    public void prepare(ModelAndView modelAndView) {
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
         try {
             ListMessageReq listMessageReq = new ListMessageReq();
             listMessageReq.setUserId(ServletUtils.getUserId());

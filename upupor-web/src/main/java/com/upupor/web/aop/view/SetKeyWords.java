@@ -1,4 +1,4 @@
-package com.upupor.web.aop.view_data;
+package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.utils.CcUtils;
@@ -20,7 +20,8 @@ import java.util.Objects;
 @Order(6)
 public class SetKeyWords implements PrepareData {
     @Override
-    public void prepare(ModelAndView modelAndView) {
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
         Map<String, Object> model = modelAndView.getModel();
         if (!CollectionUtils.isEmpty(model)) {
             Object o = model.get(CcConstant.SeoKey.DESCRIPTION);

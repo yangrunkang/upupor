@@ -1,4 +1,4 @@
-package com.upupor.web.aop.view_data;
+package com.upupor.web.aop.view;
 
 import com.upupor.service.business.aggregation.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,8 @@ import static com.upupor.framework.CcConstant.DAILY_POINTS;
 public class IsDailyPoints implements PrepareData {
     private final MemberService memberService;
     @Override
-    public void prepare(ModelAndView modelAndView) {
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
         // 今日是否签到
         modelAndView.addObject(DAILY_POINTS, memberService.checkIsGetDailyPoints());
     }

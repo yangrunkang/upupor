@@ -1,4 +1,4 @@
-package com.upupor.web.aop.view_data;
+package com.upupor.web.aop.view;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.service.scheduled.CountTagScheduled;
@@ -24,7 +24,8 @@ import static com.upupor.framework.CcConstant.CvCache.TAG_COUNT;
 public class TagCountFromRedis implements PrepareData{
     private final CountTagScheduled countTagScheduled;
     @Override
-    public void prepare(ModelAndView modelAndView) {
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
         String s = RedisUtil.get(TAG_COUNT);
         Object result = JSON.parseObject(s, Object.class);
         if (Objects.isNull(result)) {

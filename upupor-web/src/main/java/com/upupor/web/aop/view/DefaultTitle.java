@@ -1,4 +1,4 @@
-package com.upupor.web.aop.view_data;
+package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
 import org.springframework.core.annotation.Order;
@@ -16,7 +16,8 @@ import java.util.Objects;
 @Order(1)
 public class DefaultTitle implements PrepareData{
     @Override
-    public void prepare(ModelAndView modelAndView) {
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
         // 将维度消息数显示在title
         Object title = modelAndView.getModelMap().getAttribute(CcConstant.SeoKey.TITLE);
         if (Objects.isNull(title)) {
