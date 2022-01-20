@@ -25,7 +25,11 @@ upupor用 thymeleaf 的原因是为了做SEO,目前所有页面均采用服务�
 ### upupor页面加载性能如何?
 下面是Google PageSpeed Insights桌面版的测试结果
 ![PageSpeed Insights性能测试](docs/insight.png)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fyangrunkang%2Fupupor.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fyangrunkang%2Fupupor?ref=badge_shield)
 
 ## 联系方式
 - Email: yangrunkang53@gmail.com
 - wechat: Bla277225635
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fyangrunkang%2Fupupor.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fyangrunkang%2Fupupor?ref=badge_large)
