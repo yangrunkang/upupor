@@ -65,7 +65,7 @@
                         </div>
                         <div th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
                             <a th:each="tag : ${contentIndexDto.tagDtoList}"
-                               class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link"
+                               class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark cv-link"
                                th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
                         </div>
                         <div th:replace="fragments/index::content_data_show(${contentIndexDto.content.userId},
@@ -93,7 +93,7 @@
                             <span class="text-black-50 small">
                                 本文链接:<span id="content_url" class="text-black-50 text-wrap user-select-all" th:text="'https://www.upupor.com/u/'+${contentIndexDto.content.contentId}"></span>
                             </span>
-                            <code id="btn_copy_url_code" style="cursor: pointer" class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark copy-url" data-clipboard-target="#content_url" onclick="copyContentUrl()">复制</code>
+                            <code id="btn_copy_url_code" style="cursor: pointer" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark copy-url" data-clipboard-target="#content_url" onclick="copyContentUrl()">复制</code>
                         </div>
                     </div><!--card-->
                 </div>
@@ -157,12 +157,12 @@
                         <div th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
                             <div>
                                 <span class="me-3">
-                                    <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.contentData.likeNum}"></span>
+                                    <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${contentIndexDto.content.contentData.likeNum}"></span>
                                     <span class="text-black-50 m-1">个</span>
                                     <img th:data-src="${ossStatic} + @{/icons/system/zan.png}" class="lazyload cv-icon-item"/>
                                 </span>
                                 <span>
-                                    <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.collectNum}"></span>
+                                    <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${contentIndexDto.content.collectNum}"></span>
                                     <span class="text-black-50 m-1">个</span>
                                     <img th:data-src="${ossStatic} + @{/icons/system/collection.png}" class="lazyload cv-icon-item"/>
                                 </span>
@@ -172,13 +172,13 @@
                             <!--点赞按钮-->
                             <a class="btn rounded-3 bg-gradient btn-sm btn-outline-warning text-dark" id="like_btn" th:onclick="like([[${contentIndexDto.content.contentId}]])">
                                 <img th:data-src="${ossStatic} + @{/icons/system/zan.png}" class="lazyload cv-icon-item"/>
-                                <span id="like_text" th:text="${contentIndexDto.currUserIsClickLike} == false ? '点赞':'已点赞'" >点赞</span>  <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" id="like_badge" th:text="${contentIndexDto.content.contentData.likeNum}">集赞数</span>
+                                <span id="like_text" th:text="${contentIndexDto.currUserIsClickLike} == false ? '点赞':'已点赞'" >点赞</span>  <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" id="like_badge" th:text="${contentIndexDto.content.contentData.likeNum}">集赞数</span>
                             </a>
                             <!--点赞按钮..end-->
                             <!--收藏按钮-->
                             <a class="btn rounded-3 bg-gradient btn-sm btn-outline-warning text-dark" th:onclick="collect([[${contentIndexDto.content.contentId}]])">
                                 <img th:data-src="${ossStatic} + @{/icons/system/collection.png}" class="lazyload cv-icon-item"/>
-                                <span id="collect_span_text" th:text="${contentIndexDto.currUserIsCollect} == false ? '收藏':'已收藏'"></span>  <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" id="collect_badge" th:text="${contentIndexDto.content.collectNum}">收藏数</span>
+                                <span id="collect_span_text" th:text="${contentIndexDto.currUserIsCollect} == false ? '收藏':'已收藏'"></span>  <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" id="collect_badge" th:text="${contentIndexDto.content.collectNum}">收藏数</span>
                             </a>
                         </div>
                     </div>

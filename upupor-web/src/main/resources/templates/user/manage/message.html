@@ -76,8 +76,8 @@
                                             <div class="text-wrap" th:utext="${message.message}"></div>
                                         </td>
                                         <td style="text-align: center">
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:if="${message.messageType.name()} == 'SYSTEM'">系统消息</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-success" th:if="${message.messageType.name()} == 'USER_REPLAY'">用户消息</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${message.messageType.name()} == 'SYSTEM'">系统消息</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${message.messageType.name()} == 'USER_REPLAY'">用户消息</span>
                                         </td>
                                         <td class="hidden-xs" th:text="${message.createDate}">创建时间</td>
                                         <td style="text-align: center">

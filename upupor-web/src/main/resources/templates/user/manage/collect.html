@@ -62,9 +62,9 @@
                                                th:href="@{'/u/'+${collect?.content?.contentId}}"></a>
                                         </td>
                                         <td style="text-align: center">
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${collect.status.name()} == 'NORMAL'">正常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${collect.status.name()} == 'ONLY_SELF_SEE'">仅自己可见</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:if="${collect.status.name()} == 'DELETE'">删除</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-success" th:if="${collect.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark" th:if="${collect.status.name()} == 'ONLY_SELF_SEE'">仅自己可见</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${collect.status.name()} == 'DELETE'">删除</span>
                                         </td>
                                         <td class="hidden-xs" th:text="${collect.createDate}">创建时间</td>
                                         <td style="text-align: center">

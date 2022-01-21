@@ -41,7 +41,7 @@
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <nav class="mb-2">
                         <div class="nav nav-tabs">
-                            <a class="nav-item nav-link cv-link active" href="/user/manage/content">文章管理<span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-1" th:text="${memberIndexDto.listContentDto.total}"></span></a>
+                            <a class="nav-item nav-link cv-link active" href="/user/manage/content">文章管理<span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark ms-1" th:text="${memberIndexDto.listContentDto.total}"></span></a>
                             <a class="nav-item nav-link cv-link" href="/user/manage/radio">电台管理</a>
                             <a class="nav-item nav-link cv-link text-danger" href="/user/manage/draft">草稿箱</a>
                         </div>
@@ -93,17 +93,17 @@
                                             <span th:include="fragments/index::content_type"></span>
                                         </td>
                                         <td style="text-align: center">
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'DRAFT'">草稿</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'Applying'">审核中</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status.name()} == 'EXCEPTION'">异常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status.name()} == 'DELETED'">删除</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'DRAFT'">草稿</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'Applying'">审核中</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-danger" th:if="${content.status.name()} == 'EXCEPTION'">异常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-danger" th:if="${content.status.name()} == 'DELETED'">删除</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
                                         </td>
                                         <td>
                                             <span th:each="tagDto : ${content.tagDtoList}" style="float: left">
-                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
+                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
                                             </span>
                                             <span th:if="${#lists.isEmpty(content.tagDtoList)}">
                                                 无

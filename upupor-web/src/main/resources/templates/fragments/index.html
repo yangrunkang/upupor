@@ -53,10 +53,10 @@
                     <div class="border-bottom my-2"></div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <a class="cv-link" href="/user/manage/pay-attention/num/fan" title="粉丝数"><img th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
+                            <a class="cv-link" href="/user/manage/pay-attention/num/fan" title="粉丝数"><img th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
                         </div>
                         <div class="col-lg-6">
-                            <a class="cv-link" href="/user/manage/pay-attention/num/attention" title="关注数"><img th:src="${ossStatic} + @{/icons/system/attention.png}" class="cv-icon-item" alt=""/> 关注 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${memberIndexDto.member.attentionNum}">42</span></a>
+                            <a class="cv-link" href="/user/manage/pay-attention/num/attention" title="关注数"><img th:src="${ossStatic} + @{/icons/system/attention.png}" class="cv-icon-item" alt=""/> 关注 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md" th:text="${memberIndexDto.member.attentionNum}">42</span></a>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
             <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
-            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
+            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
             <a class="nav-link cv-link profile_message" th:href="'/profile-message/' + ${session?.cv_user_id}" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
             <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
             <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo" href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="设置"/> 设置</a>
@@ -117,19 +117,19 @@
     <div th:if="!${#lists.isEmpty(cvTagList)}" class="card card-body shadow-sm border-0 p-2">
         <div class="lead">网站标签</div>
         <div>
-            <a th:each="tag : ${cvTagList}" class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark ms-1 cv-link" th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}+'('+${tag.count}+')'" th:title="${tag.tagName}"></a>
+            <a th:each="tag : ${cvTagList}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1 cv-link" th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}+'('+${tag.count}+')'" th:title="${tag.tagName}"></a>
         </div>
         <div class="text-black-50 small">* 数据可能会延迟,标签更新时间为每天凌晨一点</div>
     </div>
 </div>
 <!--文章类型-->
 <span th:fragment="content_type">
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal lh-sm bg-warning text-dark" href="/tech" title="技术" th:if="${content.contentType.name()} == 'TECH'">技术</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal lh-sm bg-warning text-dark" href="/qa" title="问答" th:if="${content.contentType.name()} == 'QA'">问答</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal lh-sm bg-warning text-dark" href="/share" title="分享" th:if="${content.contentType.name()} == 'SHARE'">分享</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal lh-sm bg-warning text-dark" href="/workplace" title="职场" th:if="${content.contentType.name()} == 'WORKPLACE'">职场</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal lh-sm bg-warning text-dark" href="/record" title="记录" th:if="${content.contentType.name()} == 'RECORD'">记录</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal lh-sm bg-warning text-dark" href="/topic" title="短内容" th:if="${content.contentType.name()} == 'TOPIC'">短内容</a>
+    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/tech" title="技术" th:if="${content.contentType.name()} == 'TECH'">技术</a>
+    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/qa" title="问答" th:if="${content.contentType.name()} == 'QA'">问答</a>
+    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/share" title="分享" th:if="${content.contentType.name()} == 'SHARE'">分享</a>
+    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/workplace" title="职场" th:if="${content.contentType.name()} == 'WORKPLACE'">职场</a>
+    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/record" title="记录" th:if="${content.contentType.name()} == 'RECORD'">记录</a>
+    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/topic" title="短内容" th:if="${content.contentType.name()} == 'TOPIC'">短内容</a>
 </span>
 
 
@@ -236,7 +236,7 @@ fromProfile: 是否来自Profile页面
             </div>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
         </div>
-        <a href="/pinned" title="置顶" th:if="${content.pinnedStatus.name() == 'PINNED'}"><span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark pull-right">置顶</span></a>
+        <a href="/pinned" title="置顶" th:if="${content.pinnedStatus.name() == 'PINNED'}"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark pull-right">置顶</span></a>
     </div>
 </div>
 
@@ -338,10 +338,10 @@ fromProfile: 是否来自Profile页面
             </a>
             <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
                 <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱</span>
-                <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
+                <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${draftCount}">23</span>
             </a>
             <!--                        <a th:if="${unReadMegCount} != null and ${unReadMegCount} >= 1" class="nav-link cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">-->
-            <!--                            <img class="cv-icon" th:src="${ossStatic} + @{/icons/system/message.svg}" /> 未读消息 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${unReadMegCount}">23</span>-->
+            <!--                            <img class="cv-icon" th:src="${ossStatic} + @{/icons/system/message.svg}" /> 未读消息 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${unReadMegCount}">23</span>-->
             <!--                        </a>-->
             <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
                 <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
@@ -458,12 +458,12 @@ fromProfile: 是否来自Profile页面
                 <img class="lazyload img rounded" th:data-src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;"/>
             </div>
             <div>
-                <div class="mt-2">拥有 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝</div>
-                <div class="mt-2">关注 <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者</div>
-                <div class="mt-2">一共写了 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}"><span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章</div>
-                <div class="mt-2">于 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭</div>
-                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">最近活跃: <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span></div>
-                <div class="mt-2 mb-1" th:inline="text">积分: <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span></div>
+                <div class="mt-2">拥有 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝</div>
+                <div class="mt-2">关注 <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者</div>
+                <div class="mt-2">一共写了 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章</div>
+                <div class="mt-2">于 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭</div>
+                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">最近活跃: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span></div>
+                <div class="mt-2 mb-1" th:inline="text">积分: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span></div>
             </div>
             <!--关注按钮-->
             <div th:if="${session?.cv_user_id != memberIndexDto.member.userId} and !${memberIndexDto.currUserIsAttention}" class="mb-1">
@@ -484,7 +484,7 @@ fromProfile: 是否来自Profile页面
         <div >
             <a th:if="!${#lists.isEmpty(memberIndexDto.tagList)}"
                th:each="tag : ${memberIndexDto.tagList}"
-               class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark cv-link ms-1"
+               class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link ms-1"
                th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
         </div>
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>

@@ -63,7 +63,7 @@
                             <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="navbarDropdown">
                                 <a class="cv-link dropdown-item small" href="/before-editor" th:if="${cv_content_done}"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/undo.svg}" alt="继续上次编辑" /> 继续上次编辑</a>
                                 <a th:if="${draftCount} != null and ${draftCount} >= 1" class="cv-link dropdown-item small" href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                                    <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
+                                    <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${draftCount}">23</span>
                                 </a>
                                 <div class="dropdown-divider" th:if="(${draftCount} != null and ${draftCount} >= 1) or (${cv_content_done})"></div>
                                     <a class="cv-link dropdown-item small" th:href="'/editor?type=' + ${type.typeName}" th:each="type : ${contentTypeList}"
@@ -75,7 +75,7 @@
                         </li>
                         <li class="nav-item d-none d-xl-block" th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
                             <a  class="nav-link message cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">
-                                <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/message.svg}" /> <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-danger" th:text="${unReadMegCount}">23</span>
+                                <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/message.svg}" /> <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:text="${unReadMegCount}">23</span>
                             </a>
                         </li>
                         <li class="nav-item register" th:if="!${session?.cv_user_id}">
@@ -113,7 +113,7 @@
         <div class="container d-xl-none" th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
             <ul class="list-group list-group-horizontal shadow-sm border-0 mb-2">
                 <a class="list-group-item cv-link flex-grow-1 text-danger" href="/user/manage/message/un-read" title="未读消息">
-                    您有<span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-danger mx-2" th:text="${unReadMegCount}">23</span> 条未读消息
+                    您有<span class="badge bg-gradient rounded-3 fw-normal bg-danger mx-2" th:text="${unReadMegCount}">23</span> 条未读消息
                 </a>
             </ul>
         </div>
