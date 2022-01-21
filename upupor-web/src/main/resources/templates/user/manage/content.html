@@ -41,7 +41,7 @@
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <nav class="mb-2">
                         <div class="nav nav-tabs">
-                            <a class="nav-item nav-link cv-link active" href="/user/manage/content">文章管理<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listContentDto.total}"></span></a>
+                            <a class="nav-item nav-link cv-link active" href="/user/manage/content">文章管理<span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listContentDto.total}"></span></a>
                             <a class="nav-item nav-link cv-link" href="/user/manage/radio">电台管理</a>
                             <a class="nav-item nav-link cv-link text-danger" href="/user/manage/draft">草稿箱</a>
                         </div>
@@ -60,7 +60,7 @@
                             搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
                             <br />
                             根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${memberIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
                     <div>
@@ -93,17 +93,17 @@
                                             <span th:include="fragments/index::content_type"></span>
                                         </td>
                                         <td style="text-align: center">
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'DRAFT'">草稿</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'Applying'">审核中</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status.name()} == 'EXCEPTION'">异常</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status.name()} == 'DELETED'">删除</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
-                                            <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'DRAFT'">草稿</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'Applying'">审核中</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status.name()} == 'EXCEPTION'">异常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-danger" th:if="${content.status.name()} == 'DELETED'">删除</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
                                         </td>
                                         <td>
                                             <span th:each="tagDto : ${content.tagDtoList}" style="float: left">
-                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
+                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
                                             </span>
                                             <span th:if="${#lists.isEmpty(content.tagDtoList)}">
                                                 无
@@ -111,8 +111,8 @@
                                         </td>
                                         <td th:text="${content.createDate}">创建时间</td>
                                         <td style="text-align: center">
-                                            <div class="btn-group" role="group" aria-label="Second group">
-                                                <button id="operation-message" type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div class="btn rounded-3 bg-gradient-group" role="group" aria-label="Second group">
+                                                <button id="operation-message" type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     操作
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">

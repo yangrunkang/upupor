@@ -40,9 +40,9 @@
         <div id="vcr_editor" style="height: 300px"></div>
         <input type="hidden" id="reply_to_user" />
         <div id="comment_btn_group" style="display: none">
-            <button class="btn btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]],[[${text}]])">[[${text}]]</button>
-            <button class="btn btn-secondary btn-sm my-2" th:onclick="cancel()">清空</button>
-            <div class="btn btn-link cv-link btn-sm my-2" th:include="fragments/common::markdown"></div>
+            <button class="btn rounded-3 bg-gradient btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]],[[${text}]])">[[${text}]]</button>
+            <button class="btn rounded-3 bg-gradient btn-secondary btn-sm my-2" th:onclick="cancel()">清空</button>
+            <div class="btn rounded-3 bg-gradient btn-link cv-link btn-sm my-2" th:include="fragments/common::markdown"></div>
         </div>
     </div>
 </div>
@@ -55,7 +55,7 @@
         </div>
         <div th:if="!${#lists.isEmpty(commentList)}">
             <div class="border-bottom mb-2" th:if="!${fromProfile}">
-                <span class="lead">评论<span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark ms-2" th:text="${total}"></span></span>
+                <span class="lead">评论<span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1" th:text="${total}"></span></span>
             </div>
             <div class="list-group list-group-flush">
                 <div class="d-flex align-items-top list-group-item p-1 mt-1" th:if="${comment.commentId != 'google-ad-feed'}" th:each="comment : ${commentList}">
@@ -65,12 +65,12 @@
                     <div class="flex-grow-1" style="overflow:hidden;">
                         <div class="mt-0">
                             <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
-                                [[${comment.member.userName}]] <span class="badge rounded-pill bg-primary small" th:if="${comment.member.userId == targetUserId}">main</span>
+                                [[${comment.member.userName}]] <span class="badge bg-gradient rounded-3 fw-normal bg-primary text-light" th:if="${comment.member.userId == targetUserId}">maker</span>
                             </a>
                             <div class="float-end text-black-50 small">
                                 <span class="d-none d-sm-block float-start text-black-50 ">[[${comment.createDateDiff}]]&nbsp;·&nbsp;</span>
                                 <span style="cursor: pointer" th:onclick="renderReplayUserName([[${comment.member.userName}]],[[${comment.member.userId}]])">回复</span>
-                                ·&nbsp;<span class="badge bg-light text-black-50" th:text="${comment.floorNum} + '#'"></span>
+                                ·&nbsp;<span class="badge bg-gradient bg-light text-black-50" th:text="${comment.floorNum} + '#'"></span>
                             </div>
                         </div>
                         <div class="cherry-markdown" th:utext="${comment.commentContent}">评论内容</div>

@@ -59,7 +59,7 @@
 
                         <label class="label d-block text-center mt-3" data-bs-toggle="tooltip" title="更换头像">
                             <input type="file" class="sr-only" style="display: none" id="input" name="image" accept="image/*">
-                            <div class="btn btn-outline-secondary btn-sm">更换头像</div>
+                            <div class="btn rounded-3 bg-gradient btn-outline-secondary btn-sm">更换头像</div>
                         </label>
                         <div class="alert" role="alert"></div>
                         <div class="modal fade" id="modal"
@@ -74,7 +74,7 @@
                                 <div class="modal-content border-0 shadow-lg">
                                     <div class="modal-header">
                                         <h5 class="crop-title">裁剪头像</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="modal" aria-label="Close">
 
                                         </button>
                                     </div>
@@ -84,8 +84,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                        <button type="button" class="btn btn-primary" id="crop">上传</button>
+                                        <button type="button" class="btn rounded-3 bg-gradient btn-secondary" data-bs-dismiss="modal">取消</button>
+                                        <button type="button" class="btn rounded-3 bg-gradient btn-primary" id="crop">上传</button>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                         <div style="display: inline-block" class="border-0 shadow-sm rounded m-2 px-2 pt-2 pb-1" th:each="historyVia : ${memberIndexDto.member.historyViaList}">
                             <img class="lazyload rounded" style="width: 90px;height: 90px" th:data-src="${historyVia}" />
                             <div class="text-center">
-                                <button class="btn btn-outline-secondary btn-sm mt-1" th:onclick="selectVia([[${historyVia}]])">选择</button>
+                                <button class="btn rounded-3 bg-gradient btn-outline-secondary btn-sm mt-1" th:onclick="selectVia([[${historyVia}]])">选择</button>
                             </div>
                         </div>
 

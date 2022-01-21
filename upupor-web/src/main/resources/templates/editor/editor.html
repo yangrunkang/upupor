@@ -99,20 +99,20 @@
                     </div>
                     <!--保存按钮-->
                     <div>
-                        <button type="button" class="btn btn-primary" th:if="!${edit}"
+                        <button type="button" class="btn rounded-3 bg-gradient btn-primary" th:if="!${edit}"
                                 onclick="saveContent(null)">发布
                         </button>
-                        <button type="button" class="btn btn-secondary" th:if="!${edit}"
+                        <button type="button" class="btn rounded-3 bg-gradient btn-secondary" th:if="!${edit}"
                                 onclick="saveContent('temp')">草稿
                         </button>
                     </div>
                     <!--编辑按钮-->
                     <div th:if="${edit}">
-                        <button type="button" class="btn btn-success" th:if="${editorIndexDto.content.status.name() != 'NORMAL'}"
+                        <button type="button" class="btn rounded-3 bg-gradient btn-success" th:if="${editorIndexDto.content.status.name() != 'NORMAL'}"
                                 th:onclick="updateContentPublic([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]])">
                             发布
                         </button>
-                        <button type="button" class="btn btn-primary"
+                        <button type="button" class="btn rounded-3 bg-gradient btn-primary"
                                 th:onclick="updateContent([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]])">
                             编辑完成
                         </button>
@@ -127,7 +127,7 @@
 <!--                    </div>-->
 <!--                </div>-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
-                    <div class="btn-group" style="width: 100%">
+                    <div class="btn rounded-3 bg-gradient-group" style="width: 100%">
                         <input type="radio" name="original" class="align-self-center original_radio" value="ORIGIN" th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'">&nbsp;原创
                         <span class="me-2"></span>
                         <input type="radio" name="original" class="align-self-center original_radio" value="NONE_ORIGIN" th:checked="${editorIndexDto.content.originType.name() == 'NONE_ORIGIN'}?'checked'">&nbsp;转载

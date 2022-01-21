@@ -43,7 +43,7 @@
                         <div class="nav nav-tabs">
                             <a class="nav-item nav-link cv-link" href="/user/manage/content">文章管理</a>
                             <a class="nav-item nav-link cv-link" href="/user/manage/radio">电台管理</a>
-                            <a class="nav-item nav-link cv-link text-danger active" href="/user/manage/draft">草稿箱 <span class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-danger ms-2" th:text="${memberIndexDto.listContentDto.total}"></span></a>
+                            <a class="nav-item nav-link cv-link text-danger active" href="/user/manage/draft">草稿箱 <span class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-danger ms-2" th:text="${memberIndexDto.listContentDto.total}"></span></a>
                         </div>
                     </nav>
                     <div class="mb-2">
@@ -59,7 +59,7 @@
                             搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
                             <br />
                             根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${memberIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
                     <div>
@@ -91,7 +91,7 @@
                                         </td>
                                         <td>
                                             <span th:each="tagDto : ${content.tagDtoList}" style="float: left">
-                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark">[[${tagDto.tagName}]]</a>
+                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark">[[${tagDto.tagName}]]</a>
                                             </span>
                                             <span th:if="${#lists.isEmpty(content.tagDtoList)}">
                                                 无
@@ -99,8 +99,8 @@
                                         </td>
                                         <td style="text-align: center" th:text="${content.createDate}">创建时间</td>
                                         <td style="text-align: center">
-                                            <div class="btn-group" role="group" aria-label="Second group">
-                                                <button id="operation-message" type="button" class="btn btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <div class="btn rounded-3 bg-gradient-group" role="group" aria-label="Second group">
+                                                <button id="operation-message" type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     操作
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">

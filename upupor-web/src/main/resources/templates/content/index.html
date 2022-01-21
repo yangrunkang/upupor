@@ -65,7 +65,7 @@
                         </div>
                         <div th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
                             <a th:each="tag : ${contentIndexDto.tagDtoList}"
-                               class="badge rounded-pill fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link"
+                               class="badge bg-gradient rounded-3 fw-normal lh-sm fw-normal lh-sm bg-warning text-dark cv-link"
                                th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
                         </div>
                         <div th:replace="fragments/index::content_data_show(${contentIndexDto.content.userId},
@@ -93,7 +93,7 @@
                             <span class="text-black-50 small">
                                 本文链接:<span id="content_url" class="text-black-50 text-wrap user-select-all" th:text="'https://www.upupor.com/u/'+${contentIndexDto.content.contentId}"></span>
                             </span>
-                            <code id="btn_copy_url_code" style="cursor: pointer" class="badge rounded-pill fw-normal lh-sm bg-warning text-dark copy-url fw-normal" data-clipboard-target="#content_url" onclick="copyContentUrl()">复制</code>
+                            <code id="btn_copy_url_code" style="cursor: pointer" class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark copy-url" data-clipboard-target="#content_url" onclick="copyContentUrl()">复制</code>
                         </div>
                     </div><!--card-->
                 </div>
@@ -141,28 +141,28 @@
                 <div th:if="${session?.is_admin}" class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">管理员专有权限</div>
                     <div class="media-right media-middle ms-1">
-                        <a class="btn btn-sm btn-danger" th:href="'/user/admin/content/' + ${contentIndexDto.content.contentId}">管理文章</a>
+                        <a class="btn rounded-3 bg-gradient btn-sm btn-danger" th:href="'/user/admin/content/' + ${contentIndexDto.content.contentId}">管理文章</a>
                     </div>
                 </div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">操作</div>
                     <div class="media-right media-middle ms-1">
-                        <a class="btn btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType.name()}+'&contentId='+${contentIndexDto.content.contentId}+'&edit=true'}">修改文章</a>
+                        <a class="btn rounded-3 bg-gradient btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType.name()}+'&contentId='+${contentIndexDto.content.contentId}+'&edit=true'}">修改文章</a>
                     </div>
                 </div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id != contentIndexDto.content.userId}">点赞<span class="fw-bold mx-1">·</span>收藏</div>
                     <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">本文收到的 点赞数 和 收藏数</div>
-                    <div class="btn-group w-100">
+                    <div class="btn rounded-3 bg-gradient-group w-100">
                         <div th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
                             <div>
                                 <span class="me-3">
-                                    <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.contentData.likeNum}"></span>
+                                    <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.contentData.likeNum}"></span>
                                     <span class="text-black-50 m-1">个</span>
                                     <img th:data-src="${ossStatic} + @{/icons/system/zan.png}" class="lazyload cv-icon-item"/>
                                 </span>
                                 <span>
-                                    <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.collectNum}"></span>
+                                    <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${contentIndexDto.content.collectNum}"></span>
                                     <span class="text-black-50 m-1">个</span>
                                     <img th:data-src="${ossStatic} + @{/icons/system/collection.png}" class="lazyload cv-icon-item"/>
                                 </span>
@@ -170,15 +170,15 @@
                         </div>
                         <div th:if="${session?.cv_user_id != contentIndexDto.content.userId}">
                             <!--点赞按钮-->
-                            <a class="btn btn-sm btn-outline-warning text-dark" id="like_btn" th:onclick="like([[${contentIndexDto.content.contentId}]])">
+                            <a class="btn rounded-3 bg-gradient btn-sm btn-outline-warning text-dark" id="like_btn" th:onclick="like([[${contentIndexDto.content.contentId}]])">
                                 <img th:data-src="${ossStatic} + @{/icons/system/zan.png}" class="lazyload cv-icon-item"/>
-                                <span id="like_text" th:text="${contentIndexDto.currUserIsClickLike} == false ? '点赞':'已点赞'" >点赞</span>  <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" id="like_badge" th:text="${contentIndexDto.content.contentData.likeNum}">集赞数</span>
+                                <span id="like_text" th:text="${contentIndexDto.currUserIsClickLike} == false ? '点赞':'已点赞'" >点赞</span>  <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" id="like_badge" th:text="${contentIndexDto.content.contentData.likeNum}">集赞数</span>
                             </a>
                             <!--点赞按钮..end-->
                             <!--收藏按钮-->
-                            <a class="btn btn-sm btn-outline-warning text-dark" th:onclick="collect([[${contentIndexDto.content.contentId}]])">
+                            <a class="btn rounded-3 bg-gradient btn-sm btn-outline-warning text-dark" th:onclick="collect([[${contentIndexDto.content.contentId}]])">
                                 <img th:data-src="${ossStatic} + @{/icons/system/collection.png}" class="lazyload cv-icon-item"/>
-                                <span id="collect_span_text" th:text="${contentIndexDto.currUserIsCollect} == false ? '收藏':'已收藏'"></span>  <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" id="collect_badge" th:text="${contentIndexDto.content.collectNum}">收藏数</span>
+                                <span id="collect_span_text" th:text="${contentIndexDto.currUserIsCollect} == false ? '收藏':'已收藏'"></span>  <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" id="collect_badge" th:text="${contentIndexDto.content.collectNum}">收藏数</span>
                             </a>
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                             <p style="text-align: center" class="text-black-50 small" th:if="!${#strings.isEmpty(contentIndexDto.content.member.lastLoginDate)}" th:inline="text">最近活跃: [[${contentIndexDto.content.member.lastLoginDate}]]</p>
                         </div>
                         <!--关注按钮-->
-                        <button th:if="${session?.cv_user_id != contentIndexDto.content.userId} and !${contentIndexDto.currUserIsAttention}" class="btn btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${contentIndexDto.content.userId}]])" id="attention_btn">
+                        <button th:if="${session?.cv_user_id != contentIndexDto.content.userId} and !${contentIndexDto.currUserIsAttention}" class="btn rounded-3 bg-gradient btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${contentIndexDto.content.userId}]])" id="attention_btn">
                             <span th:text="${contentIndexDto.currUserIsAttention} == false ? '关注作者':'已关注作者'" id="attention_tips"></span>
                         </button>
                         <!--关注按钮..end-->

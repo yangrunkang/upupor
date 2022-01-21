@@ -40,7 +40,7 @@
         <div class="card card-body shadow-sm border-0 p-2 mb-2">
             <h5 class="text-info">设置关键字</h5>
             <input class="form-control" type="text" id="keywords" th:value="${contentIndexDto.content.keywords}"/>
-            <button class="btn btn-primary mt-2" th:onclick="setKeywords([[${contentIndexDto.content.contentId}]])">设置</button>
+            <button class="btn rounded-3 bg-gradient btn-primary mt-2" th:onclick="setKeywords([[${contentIndexDto.content.contentId}]])">设置</button>
         </div>
     </div>
 </div>

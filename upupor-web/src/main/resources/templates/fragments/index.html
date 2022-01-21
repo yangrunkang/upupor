@@ -53,10 +53,10 @@
                     <div class="border-bottom my-2"></div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <a class="cv-link" href="/user/manage/pay-attention/num/fan" title="粉丝数"><img th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
+                            <a class="cv-link" href="/user/manage/pay-attention/num/fan" title="粉丝数"><img th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
                         </div>
                         <div class="col-lg-6">
-                            <a class="cv-link" href="/user/manage/pay-attention/num/attention" title="关注数"><img th:src="${ossStatic} + @{/icons/system/attention.png}" class="cv-icon-item" alt=""/> 关注 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${memberIndexDto.member.attentionNum}">42</span></a>
+                            <a class="cv-link" href="/user/manage/pay-attention/num/attention" title="关注数"><img th:src="${ossStatic} + @{/icons/system/attention.png}" class="cv-icon-item" alt=""/> 关注 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark hidden-md" th:text="${memberIndexDto.member.attentionNum}">42</span></a>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
             <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
-            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
+            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
             <a class="nav-link cv-link profile_message" th:href="'/profile-message/' + ${session?.cv_user_id}" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
             <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
             <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo" href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="设置"/> 设置</a>
@@ -94,7 +94,7 @@
     <!--未登录提示-->
     <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="!${session?.cv_user_id}">
         您还未登录,请前往登录页面<a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="登录">登录</a>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
@@ -117,7 +117,7 @@
     <div th:if="!${#lists.isEmpty(cvTagList)}" class="card card-body shadow-sm border-0 p-2">
         <div class="lead">网站标签</div>
         <div>
-            <a th:each="tag : ${cvTagList}" class="badge rounded-pill fw-normal lh-sm bg-warning text-dark ms-1 cv-link" th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}+'('+${tag.count}+')'" th:title="${tag.tagName}"></a>
+            <a th:each="tag : ${cvTagList}" class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark ms-1 cv-link" th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}+'('+${tag.count}+')'" th:title="${tag.tagName}"></a>
         </div>
         <div class="text-black-50 small">* 数据可能会延迟,标签更新时间为每天凌晨一点</div>
     </div>
@@ -212,7 +212,7 @@ fromProfile: 是否来自Profile页面
         <div class="flex-grow-1">
             <div class="mt-0">
                 <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${content.title}" th:text="${content.title}"></a>
-<!--                <span class="badge bg-light text-dark float-end" th:text="${content.contentTypeDesc}"></span>-->
+<!--                <span class="badge bg-gradient bg-light text-dark float-end" th:text="${content.contentTypeDesc}"></span>-->
             </div>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
         </div>
@@ -236,7 +236,7 @@ fromProfile: 是否来自Profile页面
             </div>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
         </div>
-        <a href="/pinned" title="置顶" th:if="${content.pinnedStatus.name() == 'PINNED'}"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark pull-right">置顶</span></a>
+        <a href="/pinned" title="置顶" th:if="${content.pinnedStatus.name() == 'PINNED'}"><span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark pull-right">置顶</span></a>
     </div>
 </div>
 
@@ -338,10 +338,10 @@ fromProfile: 是否来自Profile页面
             </a>
             <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
                 <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱</span>
-                <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
+                <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${draftCount}">23</span>
             </a>
             <!--                        <a th:if="${unReadMegCount} != null and ${unReadMegCount} >= 1" class="nav-link cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">-->
-            <!--                            <img class="cv-icon" th:src="${ossStatic} + @{/icons/system/message.svg}" /> 未读消息 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${unReadMegCount}">23</span>-->
+            <!--                            <img class="cv-icon" th:src="${ossStatic} + @{/icons/system/message.svg}" /> 未读消息 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${unReadMegCount}">23</span>-->
             <!--                        </a>-->
             <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
                 <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
@@ -366,7 +366,7 @@ fromProfile: 是否来自Profile页面
     <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="${contentIndexDto.content.statement} != null">
         <strong th:text="${contentIndexDto.content.statement.title}" style="font-size:17px"></strong>
         <span th:text="${contentIndexDto.content.statement.statement}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
@@ -374,21 +374,21 @@ fromProfile: 是否来自Profile页面
     <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="${memberIndexDto.member.statement} != null">
         <strong th:text="${memberIndexDto.member.statement.title}" style="font-size:17px"></strong>
         <span th:text="${memberIndexDto.member.statement.statement}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
 <div th:fragment="login_tips">
     <div class="alert alert-danger alert-dismissible mb-2 mt-2" th:if="!${session?.cv_user_id}" role="alert">
         <a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="登录后方可进行内容发布、评论、留言等操作">登录</a>后方可进行内容发布、评论、留言等操作
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
 <div th:fragment="un_login_radio">
     <div class="alert alert-danger alert-dismissible mb-2" th:if="!${session?.cv_user_id}" role="alert">
         您还未<a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="您还未登录">登录</a>,登录后方可以发布电台
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
@@ -458,16 +458,16 @@ fromProfile: 是否来自Profile页面
                 <img class="lazyload img rounded" th:data-src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;"/>
             </div>
             <div>
-                <div class="mt-2">拥有 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝</div>
-                <div class="mt-2">关注 <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者</div>
-                <div class="mt-2">一共写了 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}"><span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章</div>
-                <div class="mt-2">于 <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭</div>
-                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">最近活跃: <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span></div>
-                <div class="mt-2 mb-1" th:inline="text">积分: <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span></div>
+                <div class="mt-2">拥有 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝</div>
+                <div class="mt-2">关注 <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者</div>
+                <div class="mt-2">一共写了 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}"><span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章</div>
+                <div class="mt-2">于 <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭</div>
+                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">最近活跃: <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span></div>
+                <div class="mt-2 mb-1" th:inline="text">积分: <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span></div>
             </div>
             <!--关注按钮-->
             <div th:if="${session?.cv_user_id != memberIndexDto.member.userId} and !${memberIndexDto.currUserIsAttention}" class="mb-1">
-                <button class="btn btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${memberIndexDto.member.userId}]])" id="attention_btn">
+                <button class="btn rounded-3 bg-gradient btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${memberIndexDto.member.userId}]])" id="attention_btn">
                     <span th:text="${memberIndexDto.currUserIsAttention} == false ? '关注作者':'已关注作者'" id="attention_tips"></span>
                 </button>
             </div>
@@ -484,7 +484,7 @@ fromProfile: 是否来自Profile页面
         <div >
             <a th:if="!${#lists.isEmpty(memberIndexDto.tagList)}"
                th:each="tag : ${memberIndexDto.tagList}"
-               class="badge rounded-pill fw-normal lh-sm bg-warning text-dark cv-link ms-1"
+               class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark cv-link ms-1"
                th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
         </div>
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
@@ -592,7 +592,7 @@ fromProfile: 是否来自Profile页面
                     <div class="text-black-50" th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">内容简介</div>
                 </div>
                 <span class="text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}" th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
-                <a class="btn btn-warning btn-sm" th:href="'/profile-message/' + ${member.userId}" th:inline="text">
+                <a class="btn rounded-3 bg-gradient btn-warning btn-sm" th:href="'/profile-message/' + ${member.userId}" th:inline="text">
                     <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item" alt="留言"/>  留言
                 </a>
             </div>

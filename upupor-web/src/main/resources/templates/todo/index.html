@@ -47,7 +47,7 @@
                             <input type="text" class="form-control" id="todoDetail">
                             <label for="todoDetail">明细 <small class="text-black-50">选填</small></label>
                         </div>-->
-                        <button type="submit" class="btn btn-primary">添加</button>
+                        <button type="submit" class="btn rounded-3 bg-gradient btn-primary">添加</button>
                     </form>
                 </div>
                 <!--待办列表-->
@@ -71,7 +71,7 @@
                                     th:class="${todo.status.name() == 'UN_DO'} ?'btn btn-danger btn-sm text-decoration-none float-end invisible': 'btn btn-danger btn-sm text-decoration-none float-end'"
                                     th:onclick="deleteTodo([[${todo.todoId}]])">永久删除</button>
                                 </span>
-                                <span class="badge rounded-pill bg-secondary ms-2" th:inline="text">[[${todo.createDate}]]</span>
+                                <span class="badge bg-gradient rounded-3 bg-secondary ms-2" th:inline="text">[[${todo.createDate}]]</span>
                             </span>
 
                         </li>
@@ -81,7 +81,7 @@
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div class="lead border-bottom mb-2">待办</div>
-                    <div><span class="badge bg-success">写下</span>待办,然后你需要做的就是<span class="badge bg-success">完成它</span>!</div>
+                    <div><span class="badge bg-gradient bg-success">写下</span>待办,然后你需要做的就是<span class="badge bg-gradient bg-success">完成它</span>!</div>
                 </div>
                 <div class="card card-body shadow-sm border-0 p-2 mt-2">
                     <div class="text-sm-left border-0"><img class="lazyload cv-icon-small" th:data-src="${ossStatic} + @{/icons/v.svg}" /> 当你开始行动的时候,你已经比90%的人优秀了</div>

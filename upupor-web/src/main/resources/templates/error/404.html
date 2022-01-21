@@ -45,7 +45,7 @@
                         <div class="alert alert-danger alert-dismissible" th:switch="${ cvException != null }">
                             <div th:case="true" th:utext="${cvException}" class="text-wrap"></div>
                             <div th:case="false" class="text-wrap">访问地址有误或该功能已下线</div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
                     <div class="card-footer">

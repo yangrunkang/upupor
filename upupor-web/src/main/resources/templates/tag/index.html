@@ -40,7 +40,7 @@
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div class="d-block text-center my-2">
-                        <span class="badge rounded-pill fw-normal lh-sm bg-warning text-dark" style="font-size: 30px"><a class="cv-link" th:href="@{'/tag/'+${tagIndexDto.tagName}}">[[${tagIndexDto.tagName}]]</a></span>
+                        <span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark" style="font-size: 30px"><a class="cv-link" th:href="@{'/tag/'+${tagIndexDto.tagName}}">[[${tagIndexDto.tagName}]]</a></span>
                     </div>
                     <div style="width: 100%;" class="text-center" th:if="${#lists.isEmpty(tagIndexDto.listContentDto.contentList)}">
                         <h1 style="font-weight: lighter">
