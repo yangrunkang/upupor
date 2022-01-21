@@ -43,7 +43,7 @@
                     <nav class="mb-2">
                         <div class="nav nav-tabs">
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}">文章</a>
-                            <a class="nav-item nav-link cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台<span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark ms-2" th:text="${memberIndexDto.listRadioDto.total}"></span></a>
+                            <a class="nav-item nav-link cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/radio'">电台<span class="badge bg-gradient rounded-3 fw-normal lh-sm bg-warning text-dark ms-1" th:text="${memberIndexDto.listRadioDto.total}"></span></a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile-message/'+${memberIndexDto.member.userId}">留言板</a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'">关注</a>
                             <a class="nav-item nav-link cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'">粉丝</a>

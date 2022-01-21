@@ -153,7 +153,7 @@
                 <div class="card card-body shadow-sm border-0 p-2 mb-2" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id != contentIndexDto.content.userId}">点赞<span class="fw-bold mx-1">·</span>收藏</div>
                     <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">本文收到的 点赞数 和 收藏数</div>
-                    <div class="btn rounded-3 bg-gradient-group w-100">
+                    <div class="btn-group rounded-3 bg-gradient w-100">
                         <div th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
                             <div>
                                 <span class="me-3">

@@ -71,7 +71,7 @@
                                     th:class="${todo.status.name() == 'UN_DO'} ?'btn btn-danger btn-sm text-decoration-none float-end invisible': 'btn btn-danger btn-sm text-decoration-none float-end'"
                                     th:onclick="deleteTodo([[${todo.todoId}]])">永久删除</button>
                                 </span>
-                                <span class="badge bg-gradient rounded-3 bg-secondary ms-2" th:inline="text">[[${todo.createDate}]]</span>
+                                <span class="badge bg-gradient rounded-3 bg-secondary ms-1" th:inline="text">[[${todo.createDate}]]</span>
                             </span>
 
                         </li>
