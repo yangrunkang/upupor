@@ -191,7 +191,7 @@ function loadBootstrapRichText(isComment) {
  * 获取编辑器数据
  */
 function getEditorData() {
-    return window.editor.getHtml();
+    return window.editor.engine.makeHtml(window.editor.getMarkdown())
 }
 
 /**
