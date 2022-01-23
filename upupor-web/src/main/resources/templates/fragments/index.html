@@ -124,12 +124,11 @@
 </div>
 <!--文章类型-->
 <span th:fragment="content_type">
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/tech" title="技术" th:if="${content.contentType.name()} == 'TECH'">技术</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/qa" title="问答" th:if="${content.contentType.name()} == 'QA'">问答</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/share" title="分享" th:if="${content.contentType.name()} == 'SHARE'">分享</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/workplace" title="职场" th:if="${content.contentType.name()} == 'WORKPLACE'">职场</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/record" title="记录" th:if="${content.contentType.name()} == 'RECORD'">记录</a>
-    <a class="cv-link badge rounded-pill bg-gradient fw-normal bg-warning text-dark" href="/topic" title="短内容" th:if="${content.contentType.name()} == 'TOPIC'">短内容</a>
+    <a class="cv-link badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+       th:each="type : ${contentTypeList}"
+       th:href="${type.url}"
+       th:title="${type.name}"
+       th:if="${content.contentType.name() == type.typeName}">[[${type.name}]]</a>
 </span>
 
 
