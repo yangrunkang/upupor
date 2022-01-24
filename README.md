@@ -4,6 +4,10 @@
 ## 网站
 https://www.upupor.com
 
+## Upupor开发进度
+#### [开发进度面板](https://github.com/users/yangrunkang/projects/1)
+
+
 ## 部署文档
 - [Docker部署](docs/deploy/docker部署文档.md)
 - [常规部署文档](docs/deploy/常规部署文档.md)
