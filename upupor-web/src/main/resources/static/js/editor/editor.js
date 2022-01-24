@@ -38,9 +38,13 @@ $(function () {
     });
 
     setInterval(function () {
-        let cookie = getCookie("isOpenEditor");
-        if(cvIsNull(cookie)){
-            document.cookie="isOpenEditor=yes;max-age=1";
+        try {
+            let cookie = getCookie("isOpenEditor");
+            if(cvIsNull(cookie)){
+                document.cookie="isOpenEditor=yes;max-age=1";
+            }
+        }catch (e) {
+            
         }
     }, 500);
 
