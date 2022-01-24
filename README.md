@@ -5,7 +5,7 @@
 https://www.upupor.com
 
 ## Upupor开发进度
-#### [开发进度面板](https://github.com/users/yangrunkang/projects/1)
+[面板](https://github.com/users/yangrunkang/projects/1)
 
 
 ## 部署文档
