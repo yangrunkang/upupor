@@ -43,11 +43,12 @@ $(function () {
             document.cookie="isOpenEditor=yes;max-age=1";
         }
     }, 500);
+
+    $.cvLoadBootstrapRichText();
 });
 
 let autoSaveInterval;
 $(window).on('load', function() {
-    $.cvLoadBootstrapRichText();
     // 开启提示
     // $('[data-toggle="tooltip"]').tooltip();
     // 自动保存 10秒执行一次
