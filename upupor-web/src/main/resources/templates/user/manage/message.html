@@ -83,9 +83,9 @@
                                         <td style="text-align: center">
                                             <div class="btn-group rounded-3 bg-gradient" role="group">
                                                 <!--状态是未读时显示已读和删除-->
-                                                <button class="btn rounded-3 bg-gradient btn-sm btn-outline-success" th:if="${message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('READ',[[${message.messageId}]],[[${message.userId}]])">已读</button>
-                                                <button class="btn rounded-3 bg-gradient btn-sm btn-outline-danger" th:if="${message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('DELETED',[[${message.messageId}]],[[${message.userId}]])">删除</button>
-                                                <button class="btn rounded-3 bg-gradient btn-sm btn-outline-danger" th:if="${message.status.name()} == 'READ'" th:onclick="changeMessageStatus('DELETED',[[${message.messageId}]],[[${message.userId}]])">删除</button>
+                                                <button class="btn bg-gradient btn-sm btn-outline-success" th:if="${message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('READ',[[${message.messageId}]],[[${message.userId}]])">已读</button>
+                                                <button class="btn bg-gradient btn-sm btn-outline-danger" th:if="${message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('DELETED',[[${message.messageId}]],[[${message.userId}]])">删除</button>
+                                                <button class="btn bg-gradient btn-sm btn-outline-danger" th:if="${message.status.name()} == 'READ'" th:onclick="changeMessageStatus('DELETED',[[${message.messageId}]],[[${message.userId}]])">删除</button>
                                             </div>
                                         </td>
                                     </tr>
