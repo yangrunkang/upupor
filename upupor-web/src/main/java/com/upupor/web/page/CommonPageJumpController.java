@@ -69,8 +69,9 @@ public class CommonPageJumpController {
     @GetMapping("/")
     public ModelAndView index(Integer pageNum, Integer pageSize) {
         ModelAndView modelAndView = new ModelAndView();
+        // 默认首页展示技术
         GetCommonReq commonReq =
-                GetCommonReq.create(null, null, pageNum, pageSize, null);
+                GetCommonReq.create(null, null, pageNum, pageSize, ContentType.TECH);
         modelAndView.addObject(commonAggregateService.index(commonReq));
         modelAndView.setViewName(CONTENT_LIST);
         return modelAndView;

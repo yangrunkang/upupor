@@ -275,7 +275,6 @@ fromProfile: 是否来自Profile页面
 <!--主页菜单-->
 <div th:fragment="page_menu">
     <ul class="nav nav-pills">
-        <li class="nav-item me-1"><a class="nav-link cv-link small all" href="/" title="全部"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/all.png}" /> 全部</a></li>
         <li class="nav-item me-1" th:each="type : ${contentTypeList}">
             <a th:class="'nav-link cv-link small ' + ${type.cssClass}" th:href="${type.url}" th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}" /> [[${type.name}]]</a>
         </li>

@@ -38,7 +38,7 @@ function leftMenuActive() {
     // 如果直接访问首页,则将技术标签设置为默认标签
     let urlArr = url.split('/');
     if (cvIsNull(urlArr[1])) {
-        $(".all").addClass("active");
+        $(".tech").addClass("active");
     }
     // 激活一级标签
     if(!cvIsNull(urlArr[1])){
