@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Collect;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.CollectService;
@@ -69,7 +70,6 @@ public class CollectManage extends AbstractManageInfoGet {
 
     }
 
-
     private void handleCollectContent(ListCollectDto listCollectDto) {
         if (Objects.isNull(listCollectDto)) {
             return;
@@ -96,5 +96,15 @@ public class CollectManage extends AbstractManageInfoGet {
                 }
             });
         });
+    }
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_COLLECTION;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "收藏夹";
     }
 }

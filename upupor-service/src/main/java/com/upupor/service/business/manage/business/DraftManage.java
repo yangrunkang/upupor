@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.CommonService;
 import com.upupor.service.business.manage.ManageDto;
@@ -78,4 +79,14 @@ public class DraftManage extends AbstractManageInfoGet {
 
     }
 
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_DRAFT;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "草稿箱";
+    }
 }

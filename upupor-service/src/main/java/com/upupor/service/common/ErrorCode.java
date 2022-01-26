@@ -141,6 +141,7 @@ public enum ErrorCode {
 
 
     //占位 兜底异常
+    NONE_PAGE(-998, "页面不存在"),
     UNKNOWN_EXCEPTION(-999, "未知异常,请联系并协助技术部排查问题"),
     ;
 

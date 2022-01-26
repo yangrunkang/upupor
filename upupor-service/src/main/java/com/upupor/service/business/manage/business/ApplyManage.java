@@ -105,4 +105,14 @@ public class ApplyManage extends AbstractManageInfoGet {
         });
 
     }
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_APPLY;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "申请管理";
+    }
 }

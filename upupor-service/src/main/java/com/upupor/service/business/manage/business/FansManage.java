@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.FanService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
@@ -51,6 +52,17 @@ public class FansManage extends AbstractManageInfoGet {
         Integer pageSize = manageDto.getPageSize();
         ListFansDto listFansDto = fanService.getFans(userId, pageNum, pageSize);
         getMemberIndexDto().setListFansDto(listFansDto);
+    }
+
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_FAN;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "您的粉丝";
     }
 
 }

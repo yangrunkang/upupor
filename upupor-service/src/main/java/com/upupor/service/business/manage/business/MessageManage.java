@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
@@ -82,5 +83,15 @@ public class MessageManage extends AbstractManageInfoGet {
         ListMessageDto listMessageDto = messageService.listMessage(listMessageReq);
         getMemberIndexDto().setListMessageDto(listMessageDto);
 
+    }
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_MESSAGE;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "个人消息";
     }
 }

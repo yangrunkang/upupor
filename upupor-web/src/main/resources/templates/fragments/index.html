@@ -79,7 +79,7 @@
     <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id}">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
-            <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
+            <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio user_manage_content-settings" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
             <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
             <a class="nav-link cv-link profile_message" th:href="'/profile-message/' + ${session?.cv_user_id}" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
             <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>

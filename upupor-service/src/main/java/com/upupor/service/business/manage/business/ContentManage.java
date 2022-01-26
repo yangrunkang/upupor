@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.CommonService;
@@ -87,6 +88,15 @@ public class ContentManage extends AbstractManageInfoGet {
         commonService.handListContentDtoTagName(listContentDto);
         contentService.handlePinnedContent(listContentDto, userId);
         getMemberIndexDto().setListContentDto(listContentDto);
+    }
 
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_CONTENT;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "内容管理";
     }
 }

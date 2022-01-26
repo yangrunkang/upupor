@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
@@ -53,6 +54,16 @@ public class IntegraManage extends AbstractManageInfoGet {
 
         ListIntegralDto listIntegralDto = memberIntegralService.list(userId, pageNum, pageSize);
         getMemberIndexDto().setListIntegralDto(listIntegralDto);
+    }
 
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_INTEGRAL;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "积分记录";
     }
 }

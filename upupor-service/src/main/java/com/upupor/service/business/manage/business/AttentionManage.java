@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.AttentionService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
@@ -53,5 +54,15 @@ public class AttentionManage extends AbstractManageInfoGet {
 
         ListAttentionDto listAttentionDto = attentionService.getAttentions(userId, pageNum, pageSize);
         getMemberIndexDto().setListAttentionDto(listAttentionDto);
+    }
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_ATTENTION;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "您的关注";
     }
 }

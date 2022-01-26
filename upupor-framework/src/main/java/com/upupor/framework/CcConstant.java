@@ -149,25 +149,11 @@ public final class CcConstant {
     public static final String FORGET_PASSWORD = "user/forget-password";
     public static final String SEARCH_INDEX = "search/index";
     public static final String TAG_INDEX = "tag/index";
-    public static final String USER_MANAGE_COLLECTION = "user/manage/collect";
-    public static final String USER_MANAGE_CONTENT = "user/manage/content";
-    public static final String USER_MANAGE_DRAFT = "user/manage/draft";
-    public static final String USER_MANAGE_RADIO = "user/manage/radio";
-    public static final String USER_MANAGE_EDIT_USER_INFO = "user/manage/edit-user-info";
-    public static final String USER_MANAGE_BG_STYLE_SETTINGS = "user/manage/bg-style-settings";
-    public static final String USER_MANAGE_UPLOAD_PROFILE_PHOTO = "user/manage/upload-profile-photo";
-    public static final String USER_MANAGE_ATTENTION = "user/manage/attention";
-    public static final String USER_MANAGE_FAN = "user/manage/fans";
-    public static final String USER_MANAGE_INTEGRAL = "user/manage/integral";
     public static final String EDITOR = "editor/editor";
     public static final String BEFORE_EDITOR = "components/before-editor";
     public static final String CONTENT_INDEX = "content/index";
-    public static final String EDIT_USER_MANAGE_APPLY = "user/manage/apply";
     public static final String EDIT_USER_MANAGE_ADMIN = "user/admin/admin";
     public static final String EDIT_USER_MANAGE_CONTENT = "user/admin/content";
-    public static final String EDIT_USER_MANAGE_APPLY_COMMIT = "user/manage/apply-commit";
-    public static final String EDIT_USER_MANAGE_FEEDBACK = "user/manage/feedback";
-    public static final String EDIT_USER_MANAGE_MESSAGE = "user/manage/message";
     public static final String AUTHOR_PROFILE = "profile/index";
     public static final String AUTHOR_ATTENTION = "profile/attention";
     public static final String AUTHOR_FANS = "profile/fans";
@@ -222,6 +208,30 @@ public final class CcConstant {
      * 来自个人中心的标识
      */
     public static final String FROM_USER_MANAGE = "manage";
+
+
+    public static final class UserManageView {
+        // 基础Path
+        public static final String BASE_PATH = "user/manage/";
+
+        // 各个页面的View名
+        public static final String USER_MANAGE_COLLECTION = BASE_PATH + "collect";
+        public static final String USER_MANAGE_CONTENT = BASE_PATH + "content";
+        public static final String USER_MANAGE_DRAFT = BASE_PATH + "draft";
+        public static final String USER_MANAGE_RADIO = BASE_PATH + "radio";
+        public static final String USER_MANAGE_CONTENT_SETTINGS = BASE_PATH + "content-settings";
+        public static final String USER_MANAGE_EDIT_USER_INFO = BASE_PATH + "edit-user-info";
+        public static final String USER_MANAGE_BG_STYLE_SETTINGS = BASE_PATH + "bg-style-settings";
+        public static final String USER_MANAGE_UPLOAD_PROFILE_PHOTO = BASE_PATH + "upload-profile-photo";
+        public static final String USER_MANAGE_ATTENTION = BASE_PATH + "attention";
+        public static final String USER_MANAGE_FAN = BASE_PATH + "fans";
+        public static final String USER_MANAGE_INTEGRAL = BASE_PATH + "integral-record";
+        public static final String USER_MANAGE_APPLY_COMMIT = BASE_PATH + "apply-commit";
+        public static final String USER_MANAGE_FEEDBACK = BASE_PATH + "feedback";
+        public static final String USER_MANAGE_MESSAGE = BASE_PATH + "message";
+        public static final String USER_MANAGE_APPLY = BASE_PATH + "apply";
+    }
+
 
     /**
      * SEO Key
@@ -299,7 +309,7 @@ public final class CcConstant {
      * 消息模板
      */
     public static final class MsgTemplate {
-        private static final String WEBSITE =SpringContextUtils.getBean(UpuporConfig.class).getWebsite();
+        private static final String WEBSITE = SpringContextUtils.getBean(UpuporConfig.class).getWebsite();
         /**
          * 个人主页
          * userId,userName
@@ -374,8 +384,7 @@ public final class CcConstant {
         public static final String SITE_MAP = "siteMap";
 
 
-
-        public static final String createContentIntervalkey(String userId){
+        public static final String createContentIntervalkey(String userId) {
             return CcConstant.CvCache.CREATE_CONTENT_TIME_OUT + userId;
         }
     }

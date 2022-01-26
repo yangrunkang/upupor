@@ -79,6 +79,18 @@ public abstract class AbstractManageInfoGet {
     protected abstract void specifyDtoHandle(ManageDto manageDto);
 
     /**
+     * 路径
+     * @return
+     */
+    public abstract String viewName();
+
+    /**
+     * 页面描述
+     * @return
+     */
+    public abstract String viewDesc();
+
+    /**
      * 暴露出去
      *
      * @return

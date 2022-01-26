@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberService;
@@ -63,5 +64,16 @@ public class ProfilePhotoManage extends AbstractManageInfoGet {
         }
         getMemberIndexDto().setMember(member);
 
+    }
+
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_UPLOAD_PROFILE_PHOTO;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "上传头像";
     }
 }

@@ -27,18 +27,35 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
 import org.springframework.stereotype.Component;
 
+
 /**
- * @author cruise
- * @createTime 2021-12-24 18:01
+ * 内容设置
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月27日 00:30
+ * @email: yangrunkang53@gmail.com
  */
 @Component
-public class MemberManage extends AbstractManageInfoGet {
+public class ContentSettings extends AbstractManageInfoGet {
+
+
     @Override
     protected void specifyDtoHandle(ManageDto manageDto) {
 
     }
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_CONTENT_SETTINGS;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "内容设置";
+    }
+
 }

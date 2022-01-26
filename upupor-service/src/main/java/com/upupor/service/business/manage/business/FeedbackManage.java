@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
@@ -49,5 +50,16 @@ public class FeedbackManage extends AbstractManageInfoGet {
 
         getMemberIndexDto().setMember(memberService.memberInfoData(manageDto.getUserId()));
 
+    }
+
+
+    @Override
+    public String viewName() {
+        return CcConstant.UserManageView.USER_MANAGE_FEEDBACK;
+    }
+
+    @Override
+    public String viewDesc() {
+        return "反馈管理";
     }
 }

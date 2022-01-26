@@ -28,42 +28,28 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.RadioService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.dto.page.common.ListRadioDto;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * @author cruise
- * @createTime 2021-12-24 18:03
+ * @createTime 2021-12-24 18:01
  */
 @Component
-public class RadioManage extends AbstractManageInfoGet {
-    @Resource
-    private RadioService radioService;
-
+public class EditUserInfoManage extends AbstractManageInfoGet {
     @Override
     protected void specifyDtoHandle(ManageDto manageDto) {
 
-        Integer pageNum = manageDto.getPageNum();
-        Integer pageSize = manageDto.getPageSize();
-        String userId = manageDto.getUserId();
-        String searchTitle = manageDto.getSearchTitle();
-        ListRadioDto listRadioDto = radioService.listRadioByUserId(pageNum, pageSize, userId, searchTitle);
-        getMemberIndexDto().setListRadioDto(listRadioDto);
     }
-
 
     @Override
     public String viewName() {
-        return CcConstant.UserManageView.USER_MANAGE_RADIO;
+        return CcConstant.UserManageView.USER_MANAGE_EDIT_USER_INFO;
     }
 
     @Override
     public String viewDesc() {
-        return "电台管理";
+        return "完善个人信息";
     }
 }
