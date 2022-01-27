@@ -28,8 +28,12 @@
 package com.upupor.service.business.aggregation.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.service.business.aggregation.dao.entity.Seo;
+import com.upupor.service.business.aggregation.dao.entity.BusinessConfig;
 
-public interface SeoMapper extends BaseMapper<Seo> {
-
+/**
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月27日 23:14
+ * @email: yangrunkang53@gmail.com
+ */
+public interface BusinessConfigMapper extends BaseMapper<BusinessConfig> {
 }

@@ -25,29 +25,23 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.types;
+package com.upupor.service.business.aggregation.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import lombok.Getter;
+import com.upupor.service.types.BusinessConfigStatus;
+import com.upupor.service.types.BusinessConfigType;
+import lombok.Data;
 
 /**
- * @author cruise
- * @createTime 2021-12-31 18:03
+ * 业务配置表
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月27日 23:08
+ * @email: yangrunkang53@gmail.com
  */
-@Getter
-public enum SeoStatus {
-    /**
-     *
-     */
-    NORMAL(0, "正常"),
-    ;
-    @EnumValue
-    private final Integer status;
-    private final String name;
-
-    SeoStatus(Integer status, String name) {
-        this.status = status;
-        this.name = name;
-    }
+@Data
+public class BusinessConfig extends BaseEntity{
+    private String businessId;
+    private String value;
+    private String userId;
+    private BusinessConfigStatus status;
+    private BusinessConfigType type;
 }
-

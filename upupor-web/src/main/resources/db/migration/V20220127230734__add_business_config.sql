@@ -24,26 +24,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package com.upupor.service.business.aggregation.dao.entity;
-
-import com.upupor.service.types.SeoStatus;
-import lombok.Data;
-
-/**
- * Seo
- */
-@Data
-public class Seo extends BaseEntity {
-
-    private String seoId;
-
-    private SeoStatus seoStatus;
-
-    private Long createTime;
-
-
-
-    private String seoContent;
-
-}
+CREATE TABLE `business_config` (
+   `id` bigint(32) NOT NULL AUTO_INCREMENT,
+   `business_id` varchar(256) DEFAULT NULL COMMENT '业务id',
+   `user_id` varchar(256) DEFAULT NULL COMMENT '用户Id',
+   `value` varchar(1024) DEFAULT NULL COMMENT '业务值',
+   `status` int(2) DEFAULT NULL COMMENT '状态',
+   `type` int(2) DEFAULT NULL COMMENT '业务类型',
+   `sys_update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '系统更新时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 comment '业务配置表';

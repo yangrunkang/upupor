@@ -25,43 +25,29 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.types;
 
-import com.upupor.service.business.aggregation.dao.entity.Seo;
-
-import java.util.List;
+import lombok.Getter;
 
 /**
- * Seo服务
- *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 04:50
+ * 业务配置状态
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月27日 23:10
+ * @email: yangrunkang53@gmail.com
  */
-public interface SeoService {
-
+@Getter
+public enum BusinessConfigStatus {
     /**
-     * 根据seo id获取 Seo对象
      *
-     * @param seoId
-     * @return
      */
-    Seo getBySeoId(String seoId);
+    NORMAL(0, "正常"),
+    DELETED(1, "删除"),
+    ;
+    private final Integer status;
+    private final String name;
 
-    /**
-     * 添加Seo
-     *
-     * @param seo
-     * @return
-     */
-    Boolean addSeo(Seo seo);
-
-    /**
-     * 更新Seo
-     *
-     * @param seo
-     * @return
-     */
-    Boolean updateSeo(Seo seo);
-
-    List<Seo> listAll();
+    BusinessConfigStatus(Integer status, String name) {
+        this.status = status;
+        this.name = name;
+    }
 }

@@ -40,6 +40,16 @@
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div th:replace="fragments/manage::nav_content(0,'content-settins')"></div>
+                    <div class="lead fs-6">选择您喜欢的内容</div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" th:inline="text"
+                            th:each="type : ${contentTypeList}"
+                        >
+                            <input class="form-check-input me-1" type="checkbox">
+                            <input class="form-check-input me-1" type="checkbox" checked>
+                            <a th:class="'nav-link cv-link small ' + ${type.cssClass}" th:href="${type.url}" th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}" /> [[${type.name}]]</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <!--左列-用户信息-->

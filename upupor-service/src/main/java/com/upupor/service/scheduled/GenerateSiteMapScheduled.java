@@ -28,7 +28,9 @@
 package com.upupor.service.scheduled;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.service.business.aggregation.dao.entity.*;
+import com.upupor.service.business.aggregation.dao.mapper.BusinessConfigMapper;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.common.CcTemplateConstant;
@@ -66,11 +68,12 @@ import static com.upupor.framework.CcConstant.CvCache.TAG_COUNT;
 public class GenerateSiteMapScheduled {
 
     private final ContentService contentService;
-    private final SeoService seoService;
     private final MemberService memberService;
     private final TagService tagService;
     private final RadioService radioService;
     private final UpuporConfig upuporConfig;
+    private final BusinessConfigService businessConfigService;
+
     /**
      * 每5分钟
      */
@@ -287,14 +290,14 @@ public class GenerateSiteMapScheduled {
     }
 
     private void generatePageSiteMap(List<GoogleSeoDto> googleSeoDtoList, SimpleDateFormat sdf) {
-        List<Seo> seoList = seoService.listAll();
+        List<BusinessConfig> seoList = businessConfigService.listByBusinessConfigType(BusinessConfigType.SEO);
         if (CollectionUtils.isEmpty(seoList)) {
             return;
         }
 
         seoList.forEach(seo -> {
             GoogleSeoDto googleSeoDto = new GoogleSeoDto();
-            googleSeoDto.setLoc(seo.getSeoContent());
+            googleSeoDto.setLoc(seo.getValue());
             googleSeoDto.setChangeFreq("hourly");
             googleSeoDto.setLastmod(sdf.format(seo.getSysUpdateTime()));
             googleSeoDto.setPriority("0.5");// 默认值

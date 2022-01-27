@@ -25,48 +25,26 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service.impl;
+package com.upupor.service.types;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.service.business.aggregation.dao.entity.Seo;
-import com.upupor.service.business.aggregation.dao.mapper.SeoMapper;
-import com.upupor.service.business.aggregation.service.SeoService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
+import lombok.Getter;
 
 /**
- * Seo服务
- *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 04:51
+ * 业务配置类型
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月27日 23:10
+ * @email: yangrunkang53@gmail.com
  */
-@Service
-@RequiredArgsConstructor
-public class SeoServiceImpl implements SeoService {
+@Getter
+public enum BusinessConfigType {
+    SEO(0, "SEO配置"),
 
-    private final SeoMapper seoMapper;
+    ;
+    private final Integer status;
+    private final String name;
 
-    @Override
-    public Seo getBySeoId(String seoId) {
-        LambdaQueryWrapper<Seo> query = new LambdaQueryWrapper<Seo>()
-                .eq(Seo::getSeoId, seoId);
-        return seoMapper.selectOne(query);
-    }
-
-    @Override
-    public Boolean addSeo(Seo seo) {
-        return seoMapper.insert(seo) > 0;
-    }
-
-    @Override
-    public Boolean updateSeo(Seo seo) {
-        return seoMapper.updateById(seo) > 0;
-    }
-
-    @Override
-    public List<Seo> listAll() {
-        return seoMapper.selectList(new LambdaQueryWrapper<>());
+    BusinessConfigType(Integer status, String name) {
+        this.status = status;
+        this.name = name;
     }
 }

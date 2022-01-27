@@ -54,11 +54,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Component
 public class UpuporListener {
-
-    private final BuriedPointDataService buriedPointDataService;
-
     private final GenerateSiteMapScheduled generateSiteMapScheduled;
-
     private final MemberService memberService;
 
     /**
