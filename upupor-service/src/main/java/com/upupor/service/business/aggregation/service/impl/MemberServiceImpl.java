@@ -41,9 +41,7 @@ import com.upupor.service.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.listener.event.MemberLoginEvent;
 import com.upupor.service.outer.req.*;
-import com.upupor.service.types.MemberIsAdmin;
-import com.upupor.service.types.MemberStatus;
-import com.upupor.service.types.OpenEmail;
+import com.upupor.service.types.*;
 import com.upupor.service.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -77,10 +75,10 @@ public class MemberServiceImpl implements MemberService {
     @Resource
     private FanService fanService;
     private final StatementMapper statementMapper;
-    private final CssPatternService cssPatternService;
     private final MemberConfigMapper memberConfigMapper;
     private final FileService fileService;
     private final ApplicationEventPublisher eventPublisher;
+    private final BusinessConfigService businessConfigService;
 
     @Override
     public Member register(AddMemberReq addMemberReq) {
@@ -135,9 +133,7 @@ public class MemberServiceImpl implements MemberService {
         toCheck(memberList);
 
         if (!StringUtils.isEmpty(addMemberReq.getPhone())) {
-            LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
-                    .eq(Member::getPhone, addMemberReq.getPhone())
-                    .eq(Member::getStatus,MemberStatus.NORMAL);
+            LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>().eq(Member::getPhone, addMemberReq.getPhone()).eq(Member::getStatus, MemberStatus.NORMAL);
             memberList = memberMapper.selectList(query);
         }
         toCheck(memberList);
@@ -201,9 +197,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private List<Member> selectByEmail(String email) {
-        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
-                .eq(Member::getEmail, email)
-                .eq(Member::getStatus,MemberStatus.NORMAL);
+        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>().eq(Member::getEmail, email).eq(Member::getStatus, MemberStatus.NORMAL);
         List<Member> members = memberMapper.selectList(query);
         return members;
     }
@@ -233,17 +227,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private MemberExtend getMemberExtend(String userId) {
-        LambdaQueryWrapper<MemberExtend> queryMemberExtend = new LambdaQueryWrapper<MemberExtend>()
-                .eq(MemberExtend::getUserId, userId);
+        LambdaQueryWrapper<MemberExtend> queryMemberExtend = new LambdaQueryWrapper<MemberExtend>().eq(MemberExtend::getUserId, userId);
         MemberExtend memberExtend = memberExtendMapper.selectOne(queryMemberExtend);
         Asserts.notNull(memberExtend, ErrorCode.MEMBER_NOT_EXISTS);
         return memberExtend;
     }
 
     private Member getMember(String userId) {
-        LambdaQueryWrapper<Member> queryMember = new LambdaQueryWrapper<Member>()
-                .eq(Member::getUserId, userId)
-                .eq(Member::getStatus, MemberStatus.NORMAL);
+        LambdaQueryWrapper<Member> queryMember = new LambdaQueryWrapper<Member>().eq(Member::getUserId, userId).eq(Member::getStatus, MemberStatus.NORMAL);
         Member member = memberMapper.selectOne(queryMember);
         Asserts.notNull(member, ErrorCode.MEMBER_NOT_EXISTS);
         return member;
@@ -293,10 +284,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private MemberConfig getMemberConfig(String userId) {
-        LambdaQueryWrapper<MemberConfig> querConfig = new LambdaQueryWrapper<MemberConfig>()
-                .eq(MemberConfig::getUserId, userId);
-        MemberConfig memberConfig = memberConfigMapper.selectOne(querConfig);
-        return memberConfig;
+        LambdaQueryWrapper<MemberConfig> querConfig = new LambdaQueryWrapper<MemberConfig>().eq(MemberConfig::getUserId, userId);
+        return memberConfigMapper.selectOne(querConfig);
     }
 
     @Override
@@ -307,22 +296,23 @@ public class MemberServiceImpl implements MemberService {
 
         // 如果不为空则是自定义的样式
         if (!StringUtils.isEmpty(updateCssReq.getSelfDefineCss())) {
-            CssPattern cssPattern = cssPatternService.getByUserId(updateCssReq.getUserId());
+            BusinessConfig cssPattern = businessConfigService.getUserDefinedBgStyle(updateCssReq.getUserId());
             if (Objects.isNull(cssPattern)) {
-                CssPattern newCss = new CssPattern();
+                BusinessConfig newCss = new BusinessConfig();
                 newCss.setUserId(updateCssReq.getUserId());
-                newCss.setCssPatternId(CcUtils.getUuId());
-                newCss.setCssPatternName("用户自定义");
-                newCss.setPatternContent(updateCssReq.getSelfDefineCss());
-                Boolean add = cssPatternService.add(newCss);
+                newCss.setName("用户自定义");
+                newCss.setValue(updateCssReq.getSelfDefineCss());
+                newCss.setType(BusinessConfigType.CSS_BG);
+                newCss.setStatus(BusinessConfigStatus.NORMAL);
+                Boolean add = businessConfigService.add(newCss);
                 if (add) {
-                    memberExtend.setBgImg(updateCssReq.getSelfDefineCss());
+                    memberExtend.setBgImg(newCss.getValue());
                 }
             } else {
-                cssPattern.setPatternContent(updateCssReq.getSelfDefineCss());
-                Boolean update = cssPatternService.updateByUserId(cssPattern);
+                cssPattern.setValue(updateCssReq.getSelfDefineCss());
+                Boolean update = businessConfigService.update(cssPattern);
                 if (update) {
-                    memberExtend.setBgImg(updateCssReq.getSelfDefineCss());
+                    memberExtend.setBgImg(cssPattern.getValue());
                 }
             }
 
@@ -336,7 +326,7 @@ public class MemberServiceImpl implements MemberService {
         boolean result = total > 0;
         if (result) {
             if (!StringUtils.isEmpty(memberExtend.getBgImg())) {
-                ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
+                 ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
             }
         }
 
@@ -408,8 +398,7 @@ public class MemberServiceImpl implements MemberService {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
 
-        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
-                .eq(Member::getEmail, email);
+        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>().eq(Member::getEmail, email);
         List<Member> memberList = memberMapper.selectList(query);
 
         if (CollectionUtils.isEmpty(memberList)) {

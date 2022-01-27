@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage;
 
 import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.CssPatternService;
+import com.upupor.service.business.aggregation.service.BusinessConfigService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.utils.ServletUtils;
@@ -46,9 +46,6 @@ public abstract class AbstractManageInfoGet {
     @Resource
     private MemberService memberService;
 
-    @Resource
-    private CssPatternService cssPatternService;
-
     /**
      * 管理统一返回的IndexDto
      */
@@ -63,7 +60,6 @@ public abstract class AbstractManageInfoGet {
         Member member = memberService.memberInfoData(userId);
         member.setMemberConfig(member.getMemberConfig());
         memberIndexDto.setMember(member);
-        memberIndexDto.setListCssPatternDto(cssPatternService.getAll(userId));
         return memberIndexDto;
     }
 

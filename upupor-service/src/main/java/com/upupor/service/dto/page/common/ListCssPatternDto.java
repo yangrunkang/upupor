@@ -28,7 +28,7 @@
 package com.upupor.service.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.service.business.aggregation.dao.entity.CssPattern;
+import com.upupor.service.business.aggregation.dao.entity.BusinessConfig;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
@@ -46,9 +46,9 @@ public class ListCssPatternDto extends BaseListDto {
     /**
      * Css模式集合
      */
-    private List<CssPattern> patternList;
+    private List<BusinessConfig> patternList;
 
-    private CssPattern userDefinedCss;
+    private BusinessConfig userDefinedCss;
 
     public ListCssPatternDto(PageInfo pageInfo) {
         super(pageInfo);
@@ -59,7 +59,7 @@ public class ListCssPatternDto extends BaseListDto {
         this.patternList = new ArrayList<>();
     }
 
-    public List<CssPattern> getPatternList() {
+    public List<BusinessConfig> getPatternList() {
         if (CollectionUtils.isEmpty(patternList)) {
             return new ArrayList<>();
         }

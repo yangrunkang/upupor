@@ -38,6 +38,7 @@ import lombok.Getter;
 @Getter
 public enum BusinessConfigType {
     SEO(0, "SEO配置"),
+    CSS_BG(1, "CSS自定义背景"),
 
     ;
     private final Integer status;

@@ -28,9 +28,12 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.service.business.aggregation.service.BusinessConfigService;
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * @author Yang Runkang (cruise)
@@ -40,10 +43,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class BgStyleManage  extends AbstractManageInfoGet {
 
+    @Resource
+    private BusinessConfigService businessConfigService;
 
     @Override
     protected void specifyDtoHandle(ManageDto manageDto) {
-
+        getMemberIndexDto().setListCssPatternDto(businessConfigService.getAll(manageDto.getUserId()));
     }
 
     @Override

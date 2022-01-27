@@ -248,12 +248,6 @@ fromProfile: 是否来自Profile页面
     </div>
 </div>
 
-<!--页面Slogan-->
-<div th:fragment="page_slogan">
-    <div class="card card-body shadow-sm border-0 p-2 mb-2 p-2" th:if="!${#strings.isEmpty(cv_slogan?.sloganText)}">
-        <div th:utext="${cv_slogan?.sloganText}"></div>
-    </div>
-</div>
 
 <!--页面Slogan-->
 <div th:fragment="page_banner">

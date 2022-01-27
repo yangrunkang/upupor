@@ -25,26 +25,44 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.web.aop.view;
 
-import com.upupor.service.business.aggregation.dao.entity.CssPattern;
-import com.upupor.service.dto.page.common.ListCssPatternDto;
+
+import com.upupor.service.business.aggregation.dao.entity.BusinessConfig;
+import com.upupor.service.utils.ServletUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Objects;
+
+import static com.upupor.framework.CcConstant.*;
+import static com.upupor.framework.CcConstant.Session.USER_BG_IMG;
 
 /**
- * CssPattern模式
- *
- * @author YangRunkang(cruise)
- * @date 2020/10/02 21:24
+ * 设置背景图
+ * @author cruise
+ * @createTime 2022-01-19 18:01
  */
-public interface CssPatternService {
+@RequiredArgsConstructor
+@Service
+@Order(9)
+public class SettingBgStyle implements PrepareData {
+
+    @Override
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
+        modelAndView.addObject(USER_BG_IMG, getBgImg());
+    }
 
 
-    ListCssPatternDto getAll(String userId);
-
-    CssPattern getByUserId(String userId);
-
-    Boolean add(CssPattern newCss);
-
-    Boolean updateByUserId(CssPattern updateCss);
+    private String getBgImg() {
+        Object bgImg = ServletUtils.getSession().getAttribute(USER_BG_IMG);
+        if (Objects.isNull(bgImg)) {
+            return null;
+        }
+        return bgImg.toString();
+    }
 
 }

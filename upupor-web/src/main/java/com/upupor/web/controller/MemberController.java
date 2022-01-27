@@ -197,7 +197,7 @@ public class MemberController {
         updateCssReq.setUserId(userId);
         Boolean editSuccess = memberService.editMemberBgStyle(updateCssReq);
         if (!editSuccess) {
-            throw new BusinessException(ErrorCode.REGISTER_FAILED);
+            throw new BusinessException(ErrorCode.SETTING_BG_FAILED);
         }
         cc.setData(true);
         return cc;

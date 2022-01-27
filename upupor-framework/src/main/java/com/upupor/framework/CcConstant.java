@@ -86,10 +86,6 @@ public final class CcConstant {
      */
     public static final String RESPONSE_TIME = "responseTime";
     /**
-     * 页面标语
-     */
-    public static final String SLOGAN = "cv_slogan";
-    /**
      * 检查是否有未完的文章
      */
     public static final String CONTENT_IS_DONE = "cv_content_done";

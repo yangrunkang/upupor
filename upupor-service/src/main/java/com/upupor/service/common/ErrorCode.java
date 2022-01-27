@@ -138,6 +138,8 @@ public enum ErrorCode {
     COLLECT_VIA_NOT_EXISTS(168, "收藏不存在"),
     MEMBER_CONFIG_LESS(169, "缺少用户配置"),
     FIRST_CANCEL_PINNED(170, "文章置顶中,请优先取消指定"),
+    CSS_BG_CONFIG_MORE(171, "用户自定义背景只能有一个"),
+    SETTING_BG_FAILED(172, "背景设置失败"),
 
 
     //占位 兜底异常

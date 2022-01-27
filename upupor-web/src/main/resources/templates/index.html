@@ -27,7 +27,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org" lang="zh-Hans">
 <head th:include="layout/head.html :: head"></head>
-<body th:style="${#strings.isEmpty(cv_slogan?.bgStyle)} ?  'background: #f0f2f5':${cv_slogan?.bgStyle}">
+<body th:style="${#strings.isEmpty(cv_user_bg_img)} ?  'background: #f0f2f5':${cv_user_bg_img}">
     <!--导航栏-->
     <div th:include="layout/navbar.html :: navbar" ></div>
     <!--内容-->

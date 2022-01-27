@@ -52,7 +52,7 @@
                                 <div class="col float-start">
                                     <div class="text-start">
                                         <input type="radio" name="pattern_select" class="css_pattern_radio"
-                                               th:checked="${cv_slogan?.bgStyle == memberIndexDto.listCssPatternDto?.userDefinedCss?.patternContent}?'checked'"
+                                               th:checked="${cv_user_bg_img == memberIndexDto.listCssPatternDto?.userDefinedCss?.value}?'checked'"
                                                th:value="self-define"
                                         >
                                         自定义
@@ -65,9 +65,9 @@
                                                 (
                                                     session?.cv_user_id == memberIndexDto.listCssPatternDto?.userDefinedCss?.userId
                                                     and
-                                                    !#strings.isEmpty(memberIndexDto.listCssPatternDto?.userDefinedCss?.patternContent)
+                                                    !#strings.isEmpty(memberIndexDto.listCssPatternDto?.userDefinedCss?.value)
                                                 )?
-                                                memberIndexDto.listCssPatternDto?.userDefinedCss?.patternContent:''
+                                                memberIndexDto.listCssPatternDto?.userDefinedCss?.value:''
                                               }"
                                     ></textarea>
                                 </div>
@@ -86,13 +86,13 @@
                                         <div class="col float-start">
                                             <div class="text-start">
                                                 <input type="radio" name="pattern_select" class="css_pattern_radio"
-                                                       th:checked="${memberIndexDto?.member?.memberExtend?.bgImg == pattern?.patternContent}?'checked'"
-                                                       th:value="${pattern.patternContent}">
-                                                [[${pattern.cssPatternName}]]
+                                                       th:checked="${memberIndexDto?.member?.memberExtend?.bgImg == pattern?.value}?'checked'"
+                                                       th:value="${pattern.value}">
+                                                [[${pattern.name}]]
                                             </div>
                                         </div>
                                         <div class="col float-start">
-                                            <div class="w-100 h-100 rounded" th:style="${pattern.patternContent}"></div>
+                                            <div class="w-100 h-100 rounded" th:style="${pattern.value}"></div>
                                         </div>
                                     </div>
                                 </div>

@@ -40,6 +40,7 @@ import lombok.Data;
 @Data
 public class BusinessConfig extends BaseEntity{
     private String businessId;
+    private String name;
     private String value;
     private String userId;
     private BusinessConfigStatus status;

@@ -30,12 +30,20 @@ package com.upupor.service.business.aggregation.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.service.business.aggregation.dao.entity.BusinessConfig;
 import com.upupor.service.business.aggregation.dao.mapper.BusinessConfigMapper;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.ErrorCode;
+import com.upupor.service.dto.page.common.ListCssPatternDto;
 import com.upupor.service.types.BusinessConfigStatus;
 import com.upupor.service.types.BusinessConfigType;
+import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Yang Runkang (cruise)
@@ -49,15 +57,61 @@ public class BusinessConfigService {
     private final BusinessConfigMapper businessConfigMapper;
 
 
-
-    public List<BusinessConfig> listByBusinessConfigType(BusinessConfigType type){
+    public List<BusinessConfig> listByBusinessConfigType(BusinessConfigType type) {
         LambdaQueryWrapper<BusinessConfig> query = new LambdaQueryWrapper<BusinessConfig>()
-                .eq(BusinessConfig::getType,type)
+                .eq(BusinessConfig::getType, type)
                 .eq(BusinessConfig::getStatus, BusinessConfigStatus.NORMAL)
+                .isNull(BusinessConfig::getUserId)
                 ;
-
         return businessConfigMapper.selectList(query);
-
     }
 
+
+    public BusinessConfig getUserDefinedBgStyle(String userId) {
+        LambdaQueryWrapper<BusinessConfig> query = new LambdaQueryWrapper<BusinessConfig>()
+                .eq(BusinessConfig::getType, BusinessConfigType.CSS_BG)
+                .eq(BusinessConfig::getUserId, userId)
+                .eq(BusinessConfig::getStatus, BusinessConfigStatus.NORMAL);
+        List<BusinessConfig> businessConfigList = businessConfigMapper.selectList(query);
+
+        if(CollectionUtils.isEmpty(businessConfigList)){
+            return null;
+        }
+
+        if (businessConfigList.size() > 1) {
+            throw new BusinessException(ErrorCode.CSS_BG_CONFIG_MORE);
+        }
+
+        return businessConfigList.get(0);
+    }
+
+    public Boolean add(BusinessConfig entity) {
+        return businessConfigMapper.insert(entity) > 0;
+    }
+
+    public Boolean update(BusinessConfig entity) {
+        return businessConfigMapper.updateById(entity) > 0;
+    }
+
+
+    public ListCssPatternDto getAll(String userId) {
+        List<BusinessConfig> cssPatternList = listByBusinessConfigType(BusinessConfigType.CSS_BG);
+        if (CollectionUtils.isEmpty(cssPatternList)) {
+            return new ListCssPatternDto();
+        }
+
+        ListCssPatternDto listCssPatternDto = new ListCssPatternDto();
+        listCssPatternDto.setPatternList(cssPatternList);
+        listCssPatternDto.setTotal((long) cssPatternList.size());
+        listCssPatternDto.setPaginationHtml(Strings.EMPTY);
+
+        if (!StringUtils.isEmpty(userId)) {
+            BusinessConfig userDefinedBgStyle = getUserDefinedBgStyle(userId);
+            if(Objects.nonNull(userDefinedBgStyle)){
+                listCssPatternDto.setUserDefinedCss(userDefinedBgStyle);
+            }
+        }
+
+        return listCssPatternDto;
+    }
 }

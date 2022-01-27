@@ -24,21 +24,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+alter table business_config modify column
+`value` text DEFAULT NULL COMMENT '业务值';
 
-package com.upupor.service.business.aggregation.dao.entity;
 
-import lombok.Data;
-
-/**
- * Css模式
- */
-@Data
-public class CssPattern extends BaseEntity {
-
-    private String userId;
-
-    private String cssPatternId;
-    private String cssPatternName;
-
-    private String patternContent;
-}
+insert into business_config
+(user_id, `value`, `status`, `type`,`name`)
+select user_id,pattern_content, 0, 1,css_pattern_name from css_pattern;

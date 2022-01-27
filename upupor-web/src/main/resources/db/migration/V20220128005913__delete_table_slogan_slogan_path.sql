@@ -25,10 +25,5 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.dao.mapper;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.service.business.aggregation.dao.entity.CssPattern;
-
-public interface CssPatternMapper extends BaseMapper<CssPattern> {
-}
+DROP table IF exists slogan;
+DROP table IF exists slogan_path;
