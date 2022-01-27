@@ -37,6 +37,9 @@ import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import static com.upupor.framework.CcConstant.ProfileView.PROFILE_ATTENTION;
+import static com.upupor.framework.CcConstant.ProfileView.PROFILE_MESSAGE;
+
 /**
  * @author Yang Runkang (cruise)
  * @date 2021年12月27日 21:08
@@ -69,6 +72,11 @@ public class MessageProfile extends AbstractProfile {
     protected void addAd() {
         ListCommentDto listCommentDto = getMemberIndexDto().getListCommentDto();
         AbstractAd.ad(listCommentDto.getCommentList());
+    }
+
+    @Override
+    public String viewName() {
+        return PROFILE_MESSAGE;
     }
 
 }

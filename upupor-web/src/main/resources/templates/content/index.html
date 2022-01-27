@@ -185,7 +185,7 @@
                     <div id="sync_like_area" th:if="!${#lists.isEmpty(contentIndexDto.content.likesMemberList)}" th:fragment="sync_like_area">
                         <div class="border-0 mt-2 small text-black-50">以下用户觉得很赞:</div>
                         <span th:each="member : ${contentIndexDto.content.likesMemberList}">
-                            <a class="cv-link" th:href="'/profile/'+${member.userId}">
+                            <a class="cv-link" th:href="'/profile/'+${member.userId}+'/content'">
                                 <span th:if="!${#strings.isEmpty(member.via)}"><img data-bs-toggle="popover" th:data-bs-content="${member.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${member.via}" th:alt="${member.userName}" /></span>
                             </a>
                         </span>
@@ -199,25 +199,25 @@
                 </div>
                 <!--跳转到作者的留言板-->
                 <div class="card card-body shadow-sm border-0 p-2 mb-2"  th:inline="text">
-                    <a class="cv-link text-black-50" th:href="'/profile-message/'+${contentIndexDto?.content?.userId}"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/goutong.png}">  [[${contentIndexDto.content.member.userName}]]的留言板</a>
+                    <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto?.content?.userId}+'/message'"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/goutong.png}">  [[${contentIndexDto.content.member.userName}]]的留言板</a>
                 </div>
                 <div th:include="fragments/index::google_right_ad"></div>
                 <!--社交模板-->
                 <div th:include="fragments/social::social_box('u/','文章',${contentIndexDto.content.contentId},${contentIndexDto.content.title})" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}"></div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div>
-                        <p style="text-align: center" th:if="!${#strings.isEmpty(contentIndexDto.content.member.via)}">
-                            <a th:href="'/profile/'+${contentIndexDto.content.member.userId}">
+                        <p style="text-align: center" class="m-0 p-1" th:if="!${#strings.isEmpty(contentIndexDto.content.member.via)}">
+                            <a th:href="'/profile/'+${contentIndexDto.content.member.userId}+'/content'">
                                 <img class="lazyload img rounded" th:data-src="${contentIndexDto.content.member.via}" style="width: 90px;height: 90px;"/>
                             </a>
                         </p>
-                        <p style="text-align: center">
-                            <a th:inline="text" th:href="'/profile/' + ${contentIndexDto.content.userId}" class="text-black-50 cv-link" style="font-size: 14px">
+                        <p style="text-align: center" class="m-0 p-1">
+                            <a th:inline="text" th:href="'/profile/' + ${contentIndexDto.content.userId}+'/content'" class="text-black-50 cv-link" style="font-size: 14px">
                                 [[${contentIndexDto.content.member.userName}]]
                             </a>
                         </p>
                         <div>
-                            <p style="text-align: center" class="text-black-50 small" th:if="!${#strings.isEmpty(contentIndexDto.content.member.lastLoginDate)}" th:inline="text">最近活跃: [[${contentIndexDto.content.member.lastLoginDate}]]</p>
+                            <p style="text-align: center" class="text-black-50 small m-0 p-1" th:if="!${#strings.isEmpty(contentIndexDto.content.member.lastLoginDate)}" th:inline="text">最近活跃: [[${contentIndexDto.content.member.lastLoginDate}]]</p>
                         </div>
                         <!--关注按钮-->
                         <button th:if="${session?.cv_user_id != contentIndexDto.content.userId} and !${contentIndexDto.currUserIsAttention}" class="btn rounded-3 bg-gradient btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${contentIndexDto.content.userId}]])" id="attention_btn">
@@ -242,7 +242,7 @@
                                    th:title="${c.title}"></a>
                             </div>
                             <div>
-                                <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto.content.userId}"><span th:include="fragments/icon::more"></span>更多</a>
+                                <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto.content.userId}+'/content'"><span th:include="fragments/icon::more"></span>更多</a>
                             </div>
                         </div>
                     </div>

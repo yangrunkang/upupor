@@ -34,6 +34,9 @@ import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import static com.upupor.framework.CcConstant.ProfileView.PROFILE_ATTENTION;
+import static com.upupor.framework.CcConstant.ProfileView.PROFILE_RADIO;
+
 /**
  * @author Yang Runkang (cruise)
  * @date 2021年12月27日 21:01
@@ -61,4 +64,10 @@ public class RadioProfile extends AbstractProfile {
         ListRadioDto listRadioDto = getMemberIndexDto().getListRadioDto();
         AbstractAd.ad(listRadioDto.getRadioList());
     }
+
+    @Override
+    public String viewName() {
+        return PROFILE_RADIO;
+    }
+
 }

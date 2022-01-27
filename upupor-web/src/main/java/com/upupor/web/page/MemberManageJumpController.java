@@ -38,6 +38,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -85,7 +86,7 @@ public class MemberManageJumpController {
 
         for (AbstractManageInfoGet abstractManageInfoGet : abstractManageInfoGetList) {
             ManageDto build = ManageDto.builder().pageSize(pageSize).pageNum(pageNum).userId(ServletUtils.getUserId()).searchTitle(searchTitle).messageStatus(messageStatus).select(select).build();
-            if (abstractManageInfoGet.viewName().replace(BASE_PATH, "").equals(path)) {
+            if (abstractManageInfoGet.viewName().replace(BASE_PATH, Strings.EMPTY).equals(path)) {
                 ModelAndView modelAndView = new ModelAndView();
                 modelAndView.setViewName(abstractManageInfoGet.viewName());
                 modelAndView.addObject(abstractManageInfoGet.getData(build));

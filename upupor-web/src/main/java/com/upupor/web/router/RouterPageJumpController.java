@@ -116,4 +116,23 @@ public class RouterPageJumpController {
         return modelAndView;
     }
 
+    /**
+     * 留言板路由兼容
+     */
+    @GetMapping("/profile-message/{userId}")
+    public ModelAndView profileMessage(@PathVariable("userId") String userId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/profile/" + userId + "/message");
+        return modelAndView;
+    }
+   /**
+     * 个人主页文章
+     */
+   @GetMapping("/profile/{userId}")
+    public ModelAndView profileContent(@PathVariable("userId") String userId) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/profile/" + userId + "/content");
+        return modelAndView;
+    }
+
 }

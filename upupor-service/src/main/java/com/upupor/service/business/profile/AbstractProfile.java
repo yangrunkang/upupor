@@ -144,6 +144,12 @@ public abstract class AbstractProfile {
     public abstract ViewTargetType viewTargetType();
 
     /**
+     * 视图
+     * @return
+     */
+    public abstract String viewName();
+
+    /**
      * 获取数据
      *
      * @param userId

@@ -152,11 +152,6 @@ public final class CcConstant {
     public static final String CONTENT_INDEX = "content/index";
     public static final String EDIT_USER_MANAGE_ADMIN = "user/admin/admin";
     public static final String EDIT_USER_MANAGE_CONTENT = "user/admin/content";
-    public static final String AUTHOR_PROFILE = "profile/index";
-    public static final String AUTHOR_ATTENTION = "profile/attention";
-    public static final String AUTHOR_FANS = "profile/fans";
-    public static final String AUTHOR_RADIO = "profile/radio";
-    public static final String AUTHOR_MESSAGE = "profile/message";
     public static final String FEEDBACK_INDEX = "feedback/index";
     public static final String INTEGRAL_INDEX = "integral/index";
     public static final String PINNED_INDEX = "foot/pinned";
@@ -228,6 +223,18 @@ public final class CcConstant {
         public static final String USER_MANAGE_FEEDBACK = BASE_PATH + "feedback";
         public static final String USER_MANAGE_MESSAGE = BASE_PATH + "message";
         public static final String USER_MANAGE_APPLY = BASE_PATH + "apply";
+    }
+    public static final class ProfileView {
+
+        // 基础Path
+        public static final String BASE_PATH = "profile/";
+
+        public static final String PROFILE_CONTENT = BASE_PATH + "content";
+        public static final String PROFILE_ATTENTION = BASE_PATH + "attention";
+        public static final String PROFILE_FANS = BASE_PATH + "fans";
+        public static final String PROFILE_RADIO = BASE_PATH + "radio";
+        public static final String PROFILE_MESSAGE = BASE_PATH + "message";
+
     }
 
 
@@ -312,9 +319,9 @@ public final class CcConstant {
          * 个人主页
          * userId,userName
          */
-        public static final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile/%s?source=inner-message&msgId=%s'> %s </a>";
-        public static final String PROFILE_INTEGRAL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile/%s?source=integral&msgId=%s'> %s </a>";
-        public static final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile/%s?source=email&msgId=%s'> %s </a>";
+        public static final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile/%s/content?source=inner-message&msgId=%s'> %s </a>";
+        public static final String PROFILE_INTEGRAL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile/%s/content?source=integral&msgId=%s'> %s </a>";
+        public static final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile/%s/content?source=email&msgId=%s'> %s </a>";
 
         /**
          * 文章
@@ -335,8 +342,8 @@ public final class CcConstant {
         /**
          * 留言
          */
-        public static final String MESSAGE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile-message/%s?source=email&msgId=%s'>%s</a>";
-        public static final String MESSAGE_INTEGRAL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile-message/%s?source=integral&msgId=%s'>%s</a>";
+        public static final String MESSAGE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile/%s/message?source=email&msgId=%s'>%s</a>";
+        public static final String MESSAGE_INTEGRAL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + WEBSITE + "/profile/%s/message?source=integral&msgId=%s'>%s</a>";
 
 
     }

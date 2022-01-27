@@ -34,6 +34,8 @@ import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import static com.upupor.framework.CcConstant.ProfileView.PROFILE_ATTENTION;
+
 /**
  * @author Yang Runkang (cruise)
  * @date 2021年12月27日 21:02
@@ -60,4 +62,10 @@ public class AttentionProfile extends AbstractProfile {
         ListAttentionDto listAttentionDto = getMemberIndexDto().getListAttentionDto();
         AbstractAd.ad(listAttentionDto.getMemberList());
     }
+
+    @Override
+    public String viewName() {
+        return PROFILE_ATTENTION;
+    }
+
 }

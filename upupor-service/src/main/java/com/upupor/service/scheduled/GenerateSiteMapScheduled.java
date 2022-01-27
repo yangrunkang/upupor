@@ -264,7 +264,7 @@ public class GenerateSiteMapScheduled {
                 String webSite = upuporConfig.getWebsite();
                 // 用户首页
                 GoogleSeoDto memberProfile = new GoogleSeoDto();
-                String memberProfileUrl = webSite + "/profile/%s";
+                String memberProfileUrl = webSite + "/profile/%s/content";
                 memberProfileUrl = String.format(memberProfileUrl, member.getUserId());
                 memberProfile.setLoc(memberProfileUrl);
                 memberProfile.setChangeFreq("hourly");
@@ -274,7 +274,7 @@ public class GenerateSiteMapScheduled {
 
                 // 用户留言页
                 GoogleSeoDto memberProfileMessage = new GoogleSeoDto();
-                String memberProfileMessageUrl = webSite + "/profile-message/%s";
+                String memberProfileMessageUrl = webSite + "/profile/%s/message";
                 memberProfileMessageUrl = String.format(memberProfileMessageUrl, member.getUserId());
                 memberProfileMessage.setLoc(memberProfileMessageUrl);
                 memberProfileMessage.setChangeFreq("hourly");

@@ -27,22 +27,15 @@
 
 package com.upupor.web.page;
 
-import com.upupor.service.business.aggregation.MemberAggregateService;
-import com.upupor.service.business.aggregation.service.CommentService;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.aggregation.service.MessageService;
-import com.upupor.service.business.profile.service.ProfileAggregateService;
 import com.upupor.framework.CcConstant;
-import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.types.ViewTargetType;
-import com.upupor.service.utils.PageUtils;
+import com.upupor.service.business.aggregation.MemberAggregateService;
+import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,7 +43,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.*;
-import static com.upupor.framework.CcConstant.Page.SIZE_COMMENT;
 
 
 /**
@@ -66,9 +58,6 @@ import static com.upupor.framework.CcConstant.Page.SIZE_COMMENT;
 public class MemberPageJumpController {
 
     private final MemberAggregateService memberAggregateService;
-    private final ProfileAggregateService profileAggregateService;
-    private final MessageService messageService;
-    private final CommentService commentService;
     private final MemberService memberService;
 
 
@@ -126,124 +115,7 @@ public class MemberPageJumpController {
         return modelAndView;
     }
 
-    @ApiOperation("作者主页-文章")
-    @GetMapping("/profile/{userId}")
-    public ModelAndView index(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize, String msgId) {
-        if (Objects.isNull(pageNum)) {
-            pageNum = CcConstant.Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE;
-        }
 
-        if (Objects.nonNull(msgId)) {
-            messageService.tagMsgRead(msgId);
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(AUTHOR_PROFILE);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_CONTENT);
-        modelAndView.addObject(memberIndexDto);
-        modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName());
-        modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
-        return modelAndView;
-    }
-
-    @ApiOperation("作者主页-关注")
-    @GetMapping("/profile/{userId}/attention")
-    public ModelAndView attetion(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize, String msgId) {
-        if (Objects.isNull(pageNum)) {
-            pageNum = CcConstant.Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE;
-        }
-
-        if (Objects.nonNull(msgId)) {
-            messageService.tagMsgRead(msgId);
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(AUTHOR_ATTENTION);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_ATTENTION);
-        modelAndView.addObject(memberIndexDto);
-        modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName() + "的关注");
-        modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
-        return modelAndView;
-    }
-
-
-    @ApiOperation("作者主页-粉丝")
-    @GetMapping("/profile/{userId}/fans")
-    public ModelAndView fans(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize, String msgId) {
-        if (Objects.isNull(pageNum)) {
-            pageNum = CcConstant.Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE;
-        }
-
-        if (Objects.nonNull(msgId)) {
-            messageService.tagMsgRead(msgId);
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(AUTHOR_FANS);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_FANS);
-        modelAndView.addObject(memberIndexDto);
-        modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName() + "的粉丝");
-        modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
-        return modelAndView;
-    }
-
-    @ApiOperation("作者主页-电台")
-    @GetMapping("/profile/{userId}/radio")
-    public ModelAndView indexRadio(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize, String msgId) {
-        if (Objects.isNull(pageNum)) {
-            pageNum = CcConstant.Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE;
-        }
-
-        if (Objects.nonNull(msgId)) {
-            messageService.tagMsgRead(msgId);
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(AUTHOR_RADIO);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_RADIO);
-        modelAndView.addObject(memberIndexDto);
-        modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName());
-        modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
-        return modelAndView;
-    }
-
-    @ApiOperation("作者主页-留言板")
-    @GetMapping("/profile-message/{userId}")
-    public ModelAndView profileMessage(@PathVariable("userId") String userId, Integer pageNum, Integer pageSize, String msgId) {
-        if (Objects.isNull(pageNum)) {
-            // 获取最新的评论
-            Integer count = commentService.countByTargetId(userId);
-            pageNum = PageUtils.calcMaxPage(count, SIZE_COMMENT);
-        }
-
-        if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE_COMMENT;
-        }
-
-        if (Objects.nonNull(msgId)) {
-            messageService.tagMsgRead(msgId);
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(AUTHOR_MESSAGE);
-        MemberIndexDto memberIndexDto = profileAggregateService.index(userId, pageNum, pageSize, ViewTargetType.PROFILE_MESSAGE);
-        modelAndView.addObject(memberIndexDto);
-        modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName() + "留言板");
-        modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
-        return modelAndView;
-    }
 
     @ApiOperation("退订邮件")
     @GetMapping("unsubscribe-mail")

@@ -56,7 +56,7 @@
                                         th:each="fan,ite : ${memberIndexDto.listFansDto.fansList}">
                                         <td th:text="${ite.count}" style="text-align: center"></td>
                                         <td>
-                                            <a class="cv-link" th:href="'/profile/'+${fan?.member?.userId}" th:title="${fan?.member?.userName}" th:inline="text">
+                                            <a class="cv-link" th:href="'/profile/'+${fan?.member?.userId}+'/content'" th:title="${fan?.member?.userName}" th:inline="text">
                                                 <img class="lazyload cv-icon img rounded" th:data-src="${fan?.member?.via}" /> [[${fan?.member?.userName}]]
                                             </a>
                                         </td>

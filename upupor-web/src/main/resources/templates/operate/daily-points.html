@@ -100,7 +100,7 @@
                     <a class="cv-link"
                         th:each="member,ite : ${listDailyPointsMemberDto.memberList}"
                        th:inline="text"
-                       th:href="${'/profile/'+ member.userId}">
+                       th:href="${'/profile/'+ member.userId}+'/content'">
                         [[${ite.count} +'. ']]<img th:data-src="${member.via}" class="lazyload cv-icon img rounded" th:alt="${member.userName}" /> [[${member.userName}]]
                         <br />
                     </a>

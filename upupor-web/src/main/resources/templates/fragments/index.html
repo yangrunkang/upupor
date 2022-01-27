@@ -43,7 +43,7 @@
                     </div>
                 </p>
                 <div>
-                    <p><img th:src="${ossStatic} + @{/icons/system/nickname.png}" class="cv-icon-item" alt="昵称"/> 昵称: <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}" th:text="${memberIndexDto.member.userName}" th:title="${memberIndexDto.member.userName}"></a></p>
+                    <p><img th:src="${ossStatic} + @{/icons/system/nickname.png}" class="cv-icon-item" alt="昵称"/> 昵称: <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'" th:text="${memberIndexDto.member.userName}" th:title="${memberIndexDto.member.userName}"></a></p>
                     <p><span><img th:src="${ossStatic} + @{/icons/system/register-time.png}" class="cv-icon-item" alt="注册时间"/> 注册时间: </span><span th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
                     <div class="row">
                         <div class="col-lg-12">
@@ -66,7 +66,7 @@
     <div th:replace="fragments/index::user_manage_fragment(false)"></div>
     <div class="card card-body shadow-sm border-0 p-2 my-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}" title="我的主页"><img th:src="${ossStatic} + @{/icons/system/profile.svg}" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
+            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}+'/content'" title="我的主页"><img th:src="${ossStatic} + @{/icons/system/profile.svg}" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
             <a class="nav-link cv-link user_manage_apply" href="/user/manage/apply" title="申请管理"><img th:src="${ossStatic} + @{/icons/system/apply.png}" class="cv-icon-item" alt="申请管理"/> 申请管理</a>
         </div>
     </div>
@@ -81,7 +81,7 @@
             <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
             <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio user_manage_content-settings" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
             <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
-            <a class="nav-link cv-link profile_message" th:href="'/profile-message/' + ${session?.cv_user_id}" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
+            <a class="nav-link cv-link profile_message" th:href="'/profile/' + ${session?.cv_user_id}+'/message'" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
             <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
             <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo" href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="设置"/> 设置</a>
         </div>
@@ -106,7 +106,7 @@
         <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.createDate}"></span>
         <span th:if="${content?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold text-black-50">·&nbsp;</span>最后回复:</span>
-            <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${content?.latestCommentUserId}" th:inline="text">[[${content?.latestCommentUserName}]]</a>
+            <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${content?.latestCommentUserId}+'/content'" th:inline="text">[[${content?.latestCommentUserName}]]</a>
             <span class="fw-bold text-black-50">&nbsp;·&nbsp;</span>
             <span class="text-black-50 small" th:text="${content?.latestCommentDate}"></span>
         </span>
@@ -161,7 +161,7 @@ fromProfile: 是否来自Profile页面
                     <div th:if="${radio.radioId != 'google-ad-feed'}" th:include="fragments/index::radio-item"></div>
                     <div th:if="${radio.radioId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
                 </div>
-                <a th:if="${!fromProfile && radio.radioId != 'google-ad-feed'}" class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radio.member.userId}"  th:title="${radio.member.userName}">
+                <a th:if="${!fromProfile && radio.radioId != 'google-ad-feed'}" class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radio.member.userId}+'/content'"  th:title="${radio.member.userName}">
                     <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${radio.member.via}" th:alt="${radio.member.userName}">
                 </a>
             </div>
@@ -174,7 +174,7 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="content_data_show(userId,userName,via,viewNum,commentNum,createDate,editTimes)">
     <div class="my-1 d-inline-flex text-black-50 small">
         <div class="me-1">
-            <a th:inline="text" th:href="'/profile/' + ${userId}" class="cv-link text-black-50">
+            <a th:inline="text" th:href="'/profile/' + ${userId}+'/content'" class="cv-link text-black-50">
                 <img th:data-src="${via}" class="lazyload cv-icon-small img rounded" /> [[${userName}]]
             </a>
             <span class="fw-bold">·</span>
@@ -220,7 +220,7 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="content_profile_via">
-    <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}"  th:title="${content.member.userName}">
+    <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}+'/content'"  th:title="${content.member.userName}">
         <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
     </a>
 </div>
@@ -319,12 +319,12 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="global_member_info">
     <div class="card card-body shadow-sm border-0 p-2 mb-2 p-2" th:if="${session?.cv_user_id}">
         <div style="text-align: center" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
-            <a th:href="'/profile/' + ${session?.cv_user_id}">
+            <a th:href="'/profile/' + ${session?.cv_user_id}+'/content'">
                 <img class="img rounded " th:src="${session?.cv_user_via}" style="width: 90px;height: 90px;"/>
             </a>
         </div>
         <a style="text-align: center;font-size: 14px" th:if="!${#strings.isEmpty(session?.cv_user_via)}"
-           th:inline="text" th:href="'/profile/' + ${session?.cv_user_id}" class="text-black-50 cv-link">
+           th:inline="text" th:href="'/profile/' + ${session?.cv_user_id}+'/content'" class="text-black-50 cv-link">
             [[${session?.cv_user_name}]]
         </a>
         <div class="border-bottom my-2" th:if="!${#strings.isEmpty(session?.cv_user_via)}"></div>
@@ -441,7 +441,7 @@ fromProfile: 是否来自Profile页面
     <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(list)}">
         <div class="small text-black-50">以下用户访问过:</div>
         <span>
-            <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}">
+            <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}+'/content'">
                 <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover" th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}" />
             </a>
         </span>
@@ -458,7 +458,7 @@ fromProfile: 是否来自Profile页面
             <div>
                 <div class="mt-2">拥有 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝</div>
                 <div class="mt-2">关注 <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者</div>
-                <div class="mt-2">一共写了 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章</div>
+                <div class="mt-2">一共写了 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章</div>
                 <div class="mt-2">于 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭</div>
                 <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">最近活跃: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span></div>
                 <div class="mt-2 mb-1" th:inline="text">积分: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span></div>
@@ -543,7 +543,7 @@ fromProfile: 是否来自Profile页面
         <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.createDate}"></span>
         <span th:if="${radio?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold">·&nbsp;</span>最后回复:</span>
-            <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${radio?.latestCommentUserId}" th:inline="text">[[${radio?.latestCommentUserName}]]</a>
+            <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${radio?.latestCommentUserId}+'/content'" th:inline="text">[[${radio?.latestCommentUserName}]]</a>
             <span class="fw-bold text-black-50">·</span>
             <span class="text-black-50 small" th:text="${radio?.latestCommentDate}"></span>
         </span>
@@ -583,14 +583,14 @@ fromProfile: 是否来自Profile页面
                      th:alt="${member.userName}"
                 />
                 <div class="flex-grow-1">
-                    <a th:href="@{'/profile/'+${member.userId}}" class="cv-link fs-6 fst-normal"
+                    <a th:href="@{'/profile/'+${member.userId}+'/content'}" class="cv-link fs-6 fst-normal"
                        th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
                         <span th:text="${member.userName}">标题</span>
                     </a>
                     <div class="text-black-50" th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">内容简介</div>
                 </div>
                 <span class="text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}" th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
-                <a class="btn rounded-3 bg-gradient btn-warning btn-sm" th:href="'/profile-message/' + ${member.userId}" th:inline="text">
+                <a class="btn rounded-3 bg-gradient btn-warning btn-sm" th:href="'/profile/' + ${member.userId}+'/message'" th:inline="text">
                     <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item" alt="留言"/>  留言
                 </a>
             </div>

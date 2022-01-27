@@ -59,12 +59,12 @@
             </div>
             <div class="list-group list-group-flush">
                 <div class="d-flex align-items-top list-group-item p-1 mt-1" th:if="${comment.commentId != 'google-ad-feed'}" th:each="comment : ${commentList}">
-                    <a class="cv-link" th:href="'/profile/'+${comment.member.userId}">
+                    <a class="cv-link" th:href="'/profile/'+${comment.member.userId}+'/content'">
                         <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-1 mb-1 cv-icon-50 img rounded" th:alt="${comment.member.userName}"/>
                     </a>
                     <div class="flex-grow-1" style="overflow:hidden;">
                         <div class="mt-0">
-                            <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}">
+                            <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}+'/content'">
                                 [[${comment.member.userName}]] <span class="badge bg-gradient rounded-3 fw-normal bg-primary text-light" th:if="${comment.member.userId == targetUserId}">maker</span>
                             </a>
                             <div class="float-end text-black-50 small">

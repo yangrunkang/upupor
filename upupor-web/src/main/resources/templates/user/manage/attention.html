@@ -56,7 +56,7 @@
                                         th:each="attention,ite : ${memberIndexDto.listAttentionDto.attentionList}">
                                         <td th:text="${ite.count}" style="text-align: center"></td>
                                         <td>
-                                            <a class="cv-link" th:href="'/profile/'+${attention?.member?.userId}" th:title="${attention?.member?.userName}" th:inline="text">
+                                            <a class="cv-link" th:href="'/profile/'+${attention?.member?.userId}+'/content'" th:title="${attention?.member?.userName}" th:inline="text">
                                                 <img class="lazyload cv-icon img rounded" th:data-src="${attention?.member?.via}" /> [[${attention?.member?.userName}]]
                                             </a>
                                         </td>

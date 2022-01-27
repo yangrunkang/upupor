@@ -72,7 +72,7 @@
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
                     <div class="fw-normal border-bottom mb-2 text-black-50">活跃用户Top10</div>
                     <div class="nav flex-column nav-pills" aria-orientation="vertical" th:if="!${#lists.isEmpty(commonPageIndexDto.memberList)}">
-                        <a class="d-flex align-items-center my-1 mb-2 cv-link" th:each="member,ite : ${commonPageIndexDto.memberList}" th:href="@{'/profile/'+${member.userId}}" th:title="${member.userName}">
+                        <a class="d-flex align-items-center my-1 mb-2 cv-link" th:each="member,ite : ${commonPageIndexDto.memberList}" th:href="@{'/profile/'+${member.userId}+'/content'}" th:title="${member.userName}">
                             <img class="align-self-center me-1 img rounded" style="width: 20px;height: 20px" th:src="${member.via}" th:alt="${member.userName}">
                             <div class="flex-grow-1 ms-1">
                                 <div class="mt-0" th:text="${member.userName}" ></div>

@@ -80,23 +80,23 @@
             <div class="col-lg-3">
                 <div th:include="fragments/index::create_radio"></div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
-                    <p style="text-align: center" th:if="!${#strings.isEmpty(radioIndexDto.radio.member.via)}">
-                        <a th:href="'/profile/'+${radioIndexDto.radio.member.userId}">
+                    <p style="text-align: center" class="m-0 p-1" th:if="!${#strings.isEmpty(radioIndexDto.radio.member.via)}">
+                        <a th:href="'/profile/'+${radioIndexDto.radio.member.userId}+'/content'">
                             <img class="lazyload img rounded" th:data-src="${radioIndexDto.radio.member.via}" style="width: 90px;height: 90px;"/>
                         </a>
                     </p>
-                    <p style="text-align: center">
-                        <a th:inline="text" th:href="'/profile/' + ${radioIndexDto.radio.userId}" class="text-black-50 cv-link" style="font-size: 14px">
+                    <p style="text-align: center" class="m-0 p-1">
+                        <a th:inline="text" th:href="'/profile/' + ${radioIndexDto.radio.userId}+'/content'" class="text-black-50 cv-link" style="font-size: 14px">
                             [[${radioIndexDto.radio.member.userName}]]
                         </a>
                     </p>
                     <div>
-                        <p style="text-align: center">
-                            <a class="cv-link text-black-50 small" th:inline="text" th:href="'/profile-message/'+${radioIndexDto.radio.member.userId}"><img style=" width: 20px;height: 20px" class="lazyload" th:data-src="${ossStatic} + @{/icons/system/goutong.png}"> 和作者沟通</a>
+                        <p style="text-align: center" class="m-0 p-1">
+                            <a class="cv-link text-black-50 small" th:inline="text" th:href="'/profile/'+${radioIndexDto.radio.member.userId}+'/message'"><img style=" width: 20px;height: 20px" class="lazyload" th:data-src="${ossStatic} + @{/icons/system/goutong.png}"> 和作者沟通</a>
                         </p>
                     </div>
                     <div>
-                        <p style="text-align: center" class="text-black-50 small" th:if="!${#strings.isEmpty(radioIndexDto.radio.member.lastLoginDate)}" th:inline="text">最近活跃: [[${radioIndexDto.radio.member.lastLoginDate}]]</p>
+                        <p style="text-align: center" class="text-black-50 small m-0 p-1" th:if="!${#strings.isEmpty(radioIndexDto.radio.member.lastLoginDate)}" th:inline="text">最近活跃: [[${radioIndexDto.radio.member.lastLoginDate}]]</p>
                     </div>
                 </div>
                 <!--访问者-->
