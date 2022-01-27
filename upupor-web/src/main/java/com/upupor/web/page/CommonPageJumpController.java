@@ -34,7 +34,6 @@ import com.upupor.framework.CcConstant;
 import com.upupor.service.outer.req.GetCommonReq;
 import com.upupor.service.types.ContentType;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +41,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -60,122 +60,55 @@ import static com.upupor.framework.CcConstant.RIGHT_ARROW;
 @RestController
 @RequiredArgsConstructor
 public class CommonPageJumpController {
-
     private final TagService tagService;
-
     private final CommonAggregateService commonAggregateService;
 
-    @ApiOperation("首页")
-    @GetMapping("/")
-    public ModelAndView index(Integer pageNum, Integer pageSize) {
+    @GetMapping(value = {
+            "/",
+            "/qa", "/qa/{tagId}", "/qa/{tagId}/{tagInId}",
+            "/topic",
+            "/record", "/record/{tagId}",
+            "/share", "/share/{tagId}", "/share/{tagId}/{tagInId}",
+            "/tech", "/tech/{tagId}", "/tech/{tagId}/{tagInId}",
+            "/workplace", "/workplace/{tagId}"
+    })
+    public ModelAndView qa(Integer pageNum, Integer pageSize,
+                           @PathVariable(value = "tagId", required = false) String tagId,
+                           @PathVariable(value = "tagInId", required = false) String tagInId,
+                           HttpServletRequest request) {
+        String servletPath = request.getServletPath();
+
+        ContentType contentType = ContentType.getByStartUrl(servletPath);
+        if (Objects.isNull(contentType)) {
+            contentType = ContentType.TECH;
+        }
+
         ModelAndView modelAndView = new ModelAndView();
-        // 默认首页展示技术
-        GetCommonReq commonReq =
-                GetCommonReq.create(null, null, pageNum, pageSize, ContentType.TECH);
-        modelAndView.addObject(commonAggregateService.index(commonReq));
+        modelAndView.addObject(commonAggregateService.index(GetCommonReq.create(tagId, tagInId, pageNum, pageSize, contentType)));
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, ContentType.getName(contentType));
         modelAndView.setViewName(CONTENT_LIST);
+        // 绑定一级文章标题
+        setViewTitle(tagId, modelAndView);
+
         return modelAndView;
     }
 
 
-    @ApiOperation("短内容页面")
-    @GetMapping("/topic")
-    public ModelAndView topic(Integer pageNum, Integer pageSize) {
-        GetCommonReq commonReq =
-                GetCommonReq.create(null, null, pageNum, pageSize, ContentType.TOPIC);
-        return contentList(commonReq);
-    }
-
-    @ApiOperation("问答")
-    @GetMapping(value = {"/qa", "/qa/{tagId}", "/qa/{tagId}/{tagInId}"})
-    public ModelAndView qa(Integer pageNum, Integer pageSize,
-                           @PathVariable(value = "tagId", required = false) String tagId,
-                           @PathVariable(value = "tagInId", required = false) String tagInId) {
-        GetCommonReq commonReq =
-                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, ContentType.QA);
-        return getModelAndView(commonReq);
-    }
-
-    @ApiOperation("记录")
-    @GetMapping(value = {"/record", "/record/{tagId}"})
-    public ModelAndView record(Integer pageNum, Integer pageSize,
-                               @PathVariable(value = "tagId", required = false) String tagId
-    ) {
-        GetCommonReq commonReq =
-                GetCommonReq.create(tagId, null, pageNum, pageSize, ContentType.RECORD);
-        return getModelAndView(commonReq);
-    }
-
-    @ApiOperation("分享")
-    @GetMapping(value = {"/share", "/share/{tagId}", "/share/{tagId}/{tagInId}"})
-    public ModelAndView share(Integer pageNum, Integer pageSize,
-                              @PathVariable(value = "tagId", required = false) String tagId,
-                              @PathVariable(value = "tagInId", required = false) String tagInId) {
-        GetCommonReq commonReq =
-                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, ContentType.SHARE);
-        return getModelAndView(commonReq);
-    }
-
-    @ApiOperation("技术")
-    @GetMapping(value = {"/tech", "/tech/{tagId}", "/tech/{tagId}/{tagInId}"})
-    public ModelAndView tagInChild(Integer pageNum, Integer pageSize,
-                                   @PathVariable(value = "tagId", required = false) String tagId,
-                                   @PathVariable(value = "tagInId", required = false) String tagInId) {
-        GetCommonReq commonReq =
-                GetCommonReq.create(tagId, tagInId, pageNum, pageSize, ContentType.TECH);
-
-        return getModelAndView(commonReq);
-    }
-
-
-    @ApiOperation("职场")
-    @GetMapping(value = {"/workplace", "/workplace/{tagId}"})
-    public ModelAndView workMenu(Integer pageNum, Integer pageSize,
-                                 @PathVariable(value = "tagId", required = false) String tagId) {
-        GetCommonReq commonReq =
-                GetCommonReq.create(tagId, null, pageNum, pageSize, ContentType.WORKPLACE);
-        return getModelAndView(commonReq);
-    }
-
-
-    private ModelAndView getModelAndView(GetCommonReq commonReq) {
-
-        ModelAndView mv = contentList(commonReq);
-        // 绑定一级文章标题
-        bindingFirstTitle(commonReq.getTagId(), mv);
-
-        return mv;
-    }
-
-    private boolean bindingFirstTitle(String tagId, ModelAndView mv) {
+    private void setViewTitle(String tagId, ModelAndView mv) {
         List<Tag> tagList = tagService.listByTagIdList(Collections.singletonList(tagId));
         if (CollectionUtils.isEmpty(tagList)) {
-            return true;
+            return;
         }
 
         Object title = mv.getModelMap().getAttribute(CcConstant.SeoKey.TITLE);
         if (Objects.isNull(title)) {
-            return true;
+            return;
         }
 
         title = title + RIGHT_ARROW + tagList.get(0).getTagName();
         mv.addObject(CcConstant.SeoKey.TITLE, title);
         mv.addObject(CcConstant.SeoKey.DESCRIPTION, title);
-        return false;
     }
 
-    /**
-     * 绑定文章列表
-     *
-     * @param commonReq
-     * @return
-     */
-    private ModelAndView contentList(GetCommonReq commonReq) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(commonAggregateService.index(commonReq));
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, ContentType.getName(commonReq.getContentType()));
-        modelAndView.setViewName(CONTENT_LIST);
-        return modelAndView;
-    }
 
 }

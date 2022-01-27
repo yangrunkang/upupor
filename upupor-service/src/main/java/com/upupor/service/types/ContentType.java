@@ -34,6 +34,7 @@ package com.upupor.service.types;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,14 +143,14 @@ public enum ContentType {
     }
 
 
-    public static String getWebText(Integer contentType) {
-        if (Objects.isNull(contentType)) {
-            return null;
-        }
-        ContentType[] values = values();
-        for (ContentType tmp : values) {
-            if (tmp.getType().equals(contentType)) {
-                return tmp.getWebText();
+    public static ContentType getByStartUrl(String url) {
+        for (ContentType contentType : values()) {
+            if(StringUtils.isEmpty(contentType.getUrl())){
+                continue;
+            }
+
+            if (url.startsWith(contentType.getUrl())) {
+                return contentType;
             }
         }
         return null;
