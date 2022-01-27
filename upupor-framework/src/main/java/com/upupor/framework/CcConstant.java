@@ -47,8 +47,6 @@ public final class CcConstant {
     /**
      * 业务标识
      */
-    public static final String USER_FANS = "fan";
-    public static final String USER_ATTENTIONS = "attention";
     public static final String UPUPOR_EMAIL = "yangrunkang53@gmail.com";
     /**
      * 未读消息计数
@@ -224,7 +222,7 @@ public final class CcConstant {
         public static final String USER_MANAGE_BG_STYLE_SETTINGS = BASE_PATH + "bg-style-settings";
         public static final String USER_MANAGE_UPLOAD_PROFILE_PHOTO = BASE_PATH + "upload-profile-photo";
         public static final String USER_MANAGE_ATTENTION = BASE_PATH + "attention";
-        public static final String USER_MANAGE_FAN = BASE_PATH + "fans";
+        public static final String USER_MANAGE_FAN = BASE_PATH + "fan";
         public static final String USER_MANAGE_INTEGRAL = BASE_PATH + "integral-record";
         public static final String USER_MANAGE_APPLY_COMMIT = BASE_PATH + "apply-commit";
         public static final String USER_MANAGE_FEEDBACK = BASE_PATH + "feedback";

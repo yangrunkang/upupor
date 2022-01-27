@@ -65,8 +65,6 @@ import static com.upupor.framework.CcConstant.UserManageView.*;
 public class MemberManageJumpController {
 
     private final List<AbstractManageInfoGet> abstractManageInfoGetList;
-    private final AttentionManage attentionManage;
-    private final FansManage fansManage;
     private final ApplyCommitManage applyCommitManage;
 
     @ApiOperation("个人中心-内容管理")
@@ -87,7 +85,6 @@ public class MemberManageJumpController {
 
         for (AbstractManageInfoGet abstractManageInfoGet : abstractManageInfoGetList) {
             ManageDto build = ManageDto.builder().pageSize(pageSize).pageNum(pageNum).userId(ServletUtils.getUserId()).searchTitle(searchTitle).messageStatus(messageStatus).select(select).build();
-
             if (abstractManageInfoGet.viewName().replace(BASE_PATH, "").equals(path)) {
                 ModelAndView modelAndView = new ModelAndView();
                 modelAndView.setViewName(abstractManageInfoGet.viewName());
@@ -100,42 +97,12 @@ public class MemberManageJumpController {
 
         throw new BusinessException(ErrorCode.NONE_PAGE);
     }
+
+
     @ApiOperation("个人中心-消息")
     @GetMapping("/user/manage/{path}/{messageStatus}")
     public ModelAndView message(@PathVariable(value = "path") String path, @PathVariable(value = "messageStatus", required = false) String messageStatus, Integer pageNum, Integer pageSize) {
        return userManagePage(path,messageStatus,pageNum,pageSize,null,null);
-    }
-
-
-    @ApiOperation("关注数和粉丝数")
-    @GetMapping("/user/manage/pay-attention/num/{source}")
-    public ModelAndView payAttentionNum(@PathVariable("source") String source, Integer pageNum, Integer pageSize) {
-        if (Objects.isNull(pageNum)) {
-            pageNum = Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = Page.SIZE;
-        }
-
-        List<String> sourceList = Arrays.asList(CcConstant.USER_FANS, CcConstant.USER_ATTENTIONS);
-        if (!sourceList.contains(source)) {
-            throw new BusinessException(ErrorCode.PATH_ERROR);
-        }
-        ManageDto build = ManageDto.builder().pageSize(pageSize).userId(ServletUtils.getUserId()).pageNum(pageNum).build();
-        ModelAndView modelAndView = new ModelAndView();
-
-        if (source.equals(USER_ATTENTIONS)) {
-            modelAndView.addObject(attentionManage.getData(build));
-            modelAndView.setViewName(attentionManage.viewName());
-            modelAndView.addObject(SeoKey.TITLE, attentionManage.viewDesc());
-            modelAndView.addObject(SeoKey.DESCRIPTION, attentionManage.viewDesc());
-        } else if (source.equals(USER_FANS)) {
-            modelAndView.addObject(fansManage.getData(build));
-            modelAndView.setViewName(fansManage.viewName());
-            modelAndView.addObject(SeoKey.TITLE, fansManage.viewDesc());
-            modelAndView.addObject(SeoKey.DESCRIPTION, fansManage.viewDesc());
-        }
-        return modelAndView;
     }
 
 
