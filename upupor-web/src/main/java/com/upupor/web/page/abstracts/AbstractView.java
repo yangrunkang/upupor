@@ -25,39 +25,52 @@
  * SOFTWARE.
  */
 
-package com.upupor.web;
+package com.upupor.web.page.abstracts;
 
-import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Upupor启动类
- *
- * @author runkangyang
+ * 抽象视图
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月28日 11:06
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
-@MapperScan("com.upupor.service.business.aggregation.dao.mapper")
-@ComponentScan("com.upupor")
-@SpringBootApplication
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400)
-@EnableAsync
-public class UpuporWebApplication {
-    public static final String STATIC_SOURCE_VERSION;
+public abstract class AbstractView {
 
-    static {
-        System.setProperty("druid.mysql.usePingMethod", "false");
-        STATIC_SOURCE_VERSION = LocalDateTime.now(ZoneId.of("Asia/Shanghai")).toString();
+    protected ModelAndView modelAndView;
+
+    /**
+     * 视图名
+     * @return
+     */
+    public abstract String viewName();
+
+    /**
+     * SEO信息
+     */
+    protected abstract void seoInfo();
+
+    /**
+     * 获取数据
+     */
+    protected void fetchData(){
+
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(UpuporWebApplication.class, args);
+    /**
+     * 做业务的方法
+     * @return
+     */
+    public ModelAndView doBusiness() {
+        modelAndView = new ModelAndView();
+        // 设置viewName
+        modelAndView.setViewName(viewName());
+        // 设置seo信息
+        seoInfo();
+
+        return modelAndView;
     }
+
+
+
 }

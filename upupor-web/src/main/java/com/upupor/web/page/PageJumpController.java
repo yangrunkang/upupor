@@ -216,18 +216,6 @@ public class PageJumpController implements Serializable {
         return modelAndView;
     }
 
-
-    @ApiOperation("忘记密码")
-    @GetMapping("/forget-password")
-    public ModelAndView forgetPassword() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(FORGET_PASSWORD);
-        // Seo
-        modelAndView.addObject(SeoKey.TITLE, "忘记密码");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "忘记密码");
-        return modelAndView;
-    }
-
     @ApiOperation("搜索")
     @GetMapping("/search")
     public ModelAndView search(String keyword, Integer pageNum, Integer pageSize) {

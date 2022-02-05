@@ -138,9 +138,16 @@ public final class CcConstant {
     public static final String CONTENT_LIST = "content/list";
     public static final String USER_LIST = "user/list";
     public static final String USER_LOGIN = "user/login";
-    public static final String USER_LOGOUT = "user/logout";
-    public static final String USER_REGISTER = "user/register";
-    public static final String FORGET_PASSWORD = "user/forget-password";
+
+
+    public static final class UserView {
+        public static final String BASE_PATH = "user";
+        public static final String USER_LOGOUT = BASE_PATH + "/logout";
+        public static final String USER_REGISTER = BASE_PATH + "/register";
+        public static final String FORGET_PASSWORD = BASE_PATH + "/forget-password";
+    }
+
+
     public static final String SEARCH_INDEX = "search/index";
     public static final String TAG_INDEX = "tag/index";
     public static final String EDITOR = "editor/editor";
@@ -220,6 +227,7 @@ public final class CcConstant {
         public static final String USER_MANAGE_MESSAGE = BASE_PATH + "message";
         public static final String USER_MANAGE_APPLY = BASE_PATH + "apply";
     }
+
     public static final class ProfileView {
 
         // 基础Path

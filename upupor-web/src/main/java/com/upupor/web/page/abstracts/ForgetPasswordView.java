@@ -25,39 +25,29 @@
  * SOFTWARE.
  */
 
-package com.upupor.web;
+package com.upupor.web.page.abstracts;
 
-import lombok.extern.slf4j.Slf4j;
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import com.upupor.framework.CcConstant;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import static com.upupor.framework.CcConstant.UserView.FORGET_PASSWORD;
 
 /**
- * Upupor启动类
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月05日 23:40
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
-@MapperScan("com.upupor.service.business.aggregation.dao.mapper")
-@ComponentScan("com.upupor")
-@SpringBootApplication
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400)
-@EnableAsync
-public class UpuporWebApplication {
-    public static final String STATIC_SOURCE_VERSION;
+@Component
+public class ForgetPasswordView extends AbstractView {
 
-    static {
-        System.setProperty("druid.mysql.usePingMethod", "false");
-        STATIC_SOURCE_VERSION = LocalDateTime.now(ZoneId.of("Asia/Shanghai")).toString();
+    @Override
+    public String viewName() {
+        return FORGET_PASSWORD;
     }
 
-    public static void main(String[] args) {
-        SpringApplication.run(UpuporWebApplication.class, args);
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "忘记密码");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "忘记密码");
     }
 }

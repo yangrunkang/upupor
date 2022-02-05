@@ -30,9 +30,13 @@ package com.upupor.web.page;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.MemberAggregateService;
 import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.ErrorCode;
 import com.upupor.service.utils.ServletUtils;
+import com.upupor.web.page.abstracts.AbstractView;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +44,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.*;
@@ -59,7 +65,22 @@ public class MemberPageJumpController {
 
     private final MemberAggregateService memberAggregateService;
     private final MemberService memberService;
+    private final List<AbstractView> abstractViewList;
 
+    @GetMapping({
+            "/logout", // 登出
+            "/register", // 注册
+            "/forget-password", // 忘记密码
+    })
+    public ModelAndView all(HttpServletRequest request){
+        String servletPath = request.getServletPath();
+        for (AbstractView abstractView : abstractViewList) {
+            if(abstractView.viewName().replace(UserView.BASE_PATH, Strings.EMPTY).equals(servletPath)){
+                return abstractView.doBusiness();
+            }
+        }
+        throw new BusinessException(ErrorCode.NONE_PAGE);
+    }
 
     @ApiOperation("列出所有用户")
     @GetMapping("/list-user")
@@ -91,29 +112,7 @@ public class MemberPageJumpController {
         return modelAndView;
     }
 
-    @ApiOperation("注册")
-    @GetMapping("/register")
-    public ModelAndView register() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(USER_REGISTER);
 
-        // Seo
-        modelAndView.addObject(SeoKey.TITLE, "注册");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "注册");
-        return modelAndView;
-    }
-
-    @ApiOperation("退出登录")
-    @GetMapping("/logout")
-    public ModelAndView logout() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(USER_LOGOUT);
-
-        // Seo
-        modelAndView.addObject(SeoKey.TITLE, "退出登录");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "退出登录");
-        return modelAndView;
-    }
 
 
 
@@ -121,11 +120,13 @@ public class MemberPageJumpController {
     @GetMapping("unsubscribe-mail")
     @ResponseBody
     public ModelAndView unSubscribeMail() {
-        String result = "result";
         ModelAndView modelAndView = new ModelAndView();
+
         String userId = ServletUtils.getUserId();
+        String result = "result";
         Boolean success = memberService.unSubscribeMail(userId);
         modelAndView.addObject(result, success);
+
         modelAndView.setViewName(UNSUBSCRIBE_MAIL);
         modelAndView.addObject(SeoKey.TITLE, "退订邮件通知");
         modelAndView.addObject(SeoKey.DESCRIPTION, "退订,邮件");
