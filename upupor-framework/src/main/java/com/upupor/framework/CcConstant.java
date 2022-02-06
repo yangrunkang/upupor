@@ -27,8 +27,8 @@
 
 package com.upupor.framework;
 
-import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.utils.SpringContextUtils;
 
 /**
  * Cv常量
@@ -144,6 +144,7 @@ public final class CcConstant {
         public static final String FORGET_PASSWORD = BASE_PATH + "/forget-password";
         public static final String USER_LIST = BASE_PATH + "/list";
         public static final String USER_LOGIN = BASE_PATH + "/login";
+        public static final String UNSUBSCRIBE_MAIL = BASE_PATH + "/unsubscribe-mail";
     }
 
 
@@ -163,7 +164,7 @@ public final class CcConstant {
     public static final String RADIO_STATION_RECORD = "radio-station/record";
     public static final String RADIO_STATION_INDEX = "radio-station/index";
     public static final String REPORTER_ACCESS = "report/goaccess";
-    public static final String UNSUBSCRIBE_MAIL = "user/unsubscribe-mail";
+
     public static final String TODO_INDEX = "todo/index";
     public static final String LOG_INDEX = "log/index";
     public static final String VIEW_HISTORY = "view/index";

@@ -27,9 +27,9 @@
 
 package com.upupor.service.business.ad;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Comment;
 import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.framework.CcConstant;
 
 import java.util.List;
 

@@ -29,7 +29,6 @@ package com.upupor.framework.thread;
 
 import com.upupor.framework.config.UpuporConfig;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;

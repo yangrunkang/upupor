@@ -28,7 +28,6 @@
 package com.upupor.web.aop.view;
 
 
-import com.upupor.service.business.aggregation.dao.entity.BusinessConfig;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -37,7 +36,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.*;
 import static com.upupor.framework.CcConstant.Session.USER_BG_IMG;
 
 /**

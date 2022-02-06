@@ -34,7 +34,6 @@ import com.upupor.service.business.profile.AbstractProfile;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,10 +48,10 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.*;
 import static com.upupor.framework.CcConstant.Page.SIZE_COMMENT;
 import static com.upupor.framework.CcConstant.ProfileView.BASE_PATH;
 import static com.upupor.framework.CcConstant.ProfileView.PROFILE_MESSAGE;
+import static com.upupor.framework.CcConstant.SeoKey;
 
 /**
  * 个人主页

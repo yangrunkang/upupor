@@ -27,11 +27,11 @@
 
 package com.upupor.web.page;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.content.ContentAggregateService;
-import com.upupor.framework.CcConstant;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.PageUtils;

@@ -28,12 +28,12 @@
 package com.upupor.service.business.editor;
 
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.dao.mapper.ContentExtendMapper;
 import com.upupor.service.business.aggregation.dao.mapper.ContentMapper;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.outer.req.content.BaseContentReq;
 import com.upupor.service.utils.ServletUtils;
@@ -41,7 +41,6 @@ import org.springframework.context.ApplicationEventPublisher;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 编辑抽象

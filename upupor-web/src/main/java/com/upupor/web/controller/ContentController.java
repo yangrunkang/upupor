@@ -28,13 +28,16 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.business.aggregation.service.MemberIntegralService;
-import com.upupor.service.common.*;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.ContentData;
 import com.upupor.service.business.aggregation.dao.entity.MemberIntegral;
 import com.upupor.service.business.aggregation.dao.mapper.MemberIntegralMapper;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.MemberIntegralService;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcResponse;
+import com.upupor.service.common.ErrorCode;
+import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.outer.req.*;
 import com.upupor.service.types.ContentStatus;

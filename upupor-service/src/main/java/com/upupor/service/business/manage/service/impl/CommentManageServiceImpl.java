@@ -29,11 +29,11 @@ package com.upupor.service.business.manage.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.upupor.service.business.aggregation.dao.entity.Comment;
+import com.upupor.service.business.aggregation.dao.mapper.CommentMapper;
 import com.upupor.service.business.manage.service.CommentManageService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.business.aggregation.dao.entity.Comment;
-import com.upupor.service.business.aggregation.dao.mapper.CommentMapper;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.outer.req.ListCommentReq;
 import com.upupor.service.utils.CcUtils;

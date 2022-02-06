@@ -36,13 +36,13 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.Email;
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.common.BusinessException;
-import com.upupor.framework.CcConstant;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.dto.email.SendEmailEvent;
 import lombok.extern.slf4j.Slf4j;
 

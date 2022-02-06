@@ -27,11 +27,11 @@
 
 package com.upupor.service.business.aggregation;
 
+import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.dto.page.EditorIndexDto;
 import com.upupor.service.outer.req.GetEditorReq;
 import com.upupor.service.utils.ServletUtils;

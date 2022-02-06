@@ -32,9 +32,9 @@ package com.upupor.service.utils;
  * @date 2021/01/22 21:57
  */
 
-import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.utils.SpringContextUtils;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;

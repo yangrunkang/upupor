@@ -25,10 +25,9 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page;
+package com.upupor.web.page.member;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.MemberAggregateService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
@@ -40,15 +39,12 @@ import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.*;
 
 
 /**
@@ -63,8 +59,6 @@ import static com.upupor.framework.CcConstant.*;
 @RequiredArgsConstructor
 public class MemberPageJumpController {
 
-
-    private final MemberService memberService;
     private final List<AbstractView> abstractViewList;
 
     public final static String LIST_USER = "/list-user";
@@ -75,6 +69,7 @@ public class MemberPageJumpController {
             "/forget-password", // 忘记密码
             LIST_USER, // 列出所有用户
             "/login", // 登录
+            "/unsubscribe-mail", // 退订邮件
     })
     public ModelAndView all(HttpServletRequest request, Integer pageNum, Integer pageSize) {
         if (Objects.isNull(pageNum)) {
@@ -101,23 +96,6 @@ public class MemberPageJumpController {
             }
         }
         throw new BusinessException(ErrorCode.NONE_PAGE);
-    }
-
-    @ApiOperation("退订邮件")
-    @GetMapping("unsubscribe-mail")
-    @ResponseBody
-    public ModelAndView unSubscribeMail() {
-        ModelAndView modelAndView = new ModelAndView();
-
-        String userId = ServletUtils.getUserId();
-        String result = "result";
-        Boolean success = memberService.unSubscribeMail(userId);
-        modelAndView.addObject(result, success);
-
-        modelAndView.setViewName(UNSUBSCRIBE_MAIL);
-        modelAndView.addObject(SeoKey.TITLE, "退订邮件通知");
-        modelAndView.addObject(SeoKey.DESCRIPTION, "退订,邮件");
-        return modelAndView;
     }
 
 

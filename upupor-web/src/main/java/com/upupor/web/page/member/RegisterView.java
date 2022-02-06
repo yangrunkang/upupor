@@ -25,29 +25,36 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.abstracts;
+package com.upupor.web.page.member;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.web.page.abstracts.AbstractView;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.UserView.FORGET_PASSWORD;
+import static com.upupor.framework.CcConstant.UserView.USER_REGISTER;
+
 
 /**
+ * 注册
  * @author Yang Runkang (cruise)
- * @date 2022年02月05日 23:40
+ * @date 2022年01月28日 11:09
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ForgetPasswordView extends AbstractView {
-
+public class RegisterView  extends AbstractView {
     @Override
     public String viewName() {
-        return FORGET_PASSWORD;
+        return USER_REGISTER;
     }
 
     @Override
     protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "忘记密码");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "忘记密码");
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "注册");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "注册");
+    }
+
+    @Override
+    public String prefix() {
+        return CcConstant.UserView.BASE_PATH;
     }
 }

@@ -27,10 +27,10 @@
 
 package com.upupor.service.business.content;
 
-import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.dto.page.common.TagDto;

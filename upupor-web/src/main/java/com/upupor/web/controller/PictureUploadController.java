@@ -27,16 +27,16 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.FileUtils;
 import com.upupor.service.business.aggregation.dao.entity.File;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
-import com.upupor.framework.CcConstant;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;

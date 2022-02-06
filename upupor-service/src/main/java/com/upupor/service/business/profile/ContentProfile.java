@@ -36,7 +36,6 @@ import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.ProfileView.PROFILE_ATTENTION;
 import static com.upupor.framework.CcConstant.ProfileView.PROFILE_CONTENT;
 
 /**

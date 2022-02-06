@@ -30,8 +30,6 @@ package com.upupor.web.page.abstracts;
 import com.upupor.framework.CcConstant;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.upupor.web.page.MemberPageJumpController.LIST_USER;
-
 /**
  * 抽象视图
  * @author Yang Runkang (cruise)
@@ -54,9 +52,7 @@ public abstract class AbstractView {
      * 前缀
      * @return
      */
-    public String prefix(){
-        return CcConstant.UserView.BASE_PATH;
-    }
+    public abstract String prefix();
 
     /**
      * 适配ServletPath到View视图

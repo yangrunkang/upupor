@@ -29,9 +29,9 @@ package com.upupor.service.business.apply;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.dao.entity.Apply;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.business.aggregation.dao.entity.Apply;
 import com.upupor.service.dto.page.apply.ApplyContentDto;
 import com.upupor.service.outer.req.AddApplyReq;
 import com.upupor.service.types.ApplyStatus;

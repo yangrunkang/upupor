@@ -29,10 +29,10 @@ package com.upupor.service.utils;
 
 import com.github.houbb.segment.support.segment.result.impl.SegmentResultHandlers;
 import com.github.houbb.segment.util.SegmentHelper;
-import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.framework.CcConstant;
-import com.upupor.service.common.algorithm.SnowFlake;
 import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.service.common.algorithm.SnowFlake;
 import joptsimple.internal.Strings;
 import lombok.Data;
 import org.springframework.stereotype.Component;

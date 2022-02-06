@@ -25,47 +25,36 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.abstracts;
+package com.upupor.web.page.member;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.MemberAggregateService;
-import lombok.RequiredArgsConstructor;
+import com.upupor.web.page.abstracts.AbstractView;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.UserView.USER_LIST;
-import static com.upupor.web.page.MemberPageJumpController.LIST_USER;
+import static com.upupor.framework.CcConstant.UserView.FORGET_PASSWORD;
 
 /**
+ * 忘记密码
  * @author Yang Runkang (cruise)
- * @date 2022年02月06日 10:32
+ * @date 2022年02月05日 23:40
  * @email: yangrunkang53@gmail.com
  */
-@RequiredArgsConstructor
 @Component
-public class UserListView extends AbstractView{
-    private final MemberAggregateService memberAggregateService;
+public class ForgetPasswordView extends AbstractView {
 
     @Override
     public String viewName() {
-        return USER_LIST;
+        return FORGET_PASSWORD;
     }
 
     @Override
     protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "所有用户");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "所有用户");
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "忘记密码");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "忘记密码");
     }
 
     @Override
-    protected void fetchData() {
-        modelAndView.addObject(memberAggregateService.userList(pageNum, pageSize));
-    }
-
-    @Override
-    public String adapterUrlToViewName(String servletPath) {
-        if(servletPath.equals(LIST_USER)){
-            return viewName();
-        }
-        return servletPath;
+    public String prefix() {
+        return CcConstant.UserView.BASE_PATH;
     }
 }

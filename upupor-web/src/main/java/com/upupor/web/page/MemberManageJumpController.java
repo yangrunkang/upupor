@@ -29,9 +29,8 @@ package com.upupor.web.page;
 
 import com.upupor.service.business.manage.AbstractManageInfoGet;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.business.manage.business.*;
+import com.upupor.service.business.manage.business.ApplyCommitManage;
 import com.upupor.service.common.BusinessException;
-import com.upupor.framework.CcConstant;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
@@ -45,12 +44,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.*;
-import static com.upupor.framework.CcConstant.UserManageView.*;
+import static com.upupor.framework.CcConstant.Page;
+import static com.upupor.framework.CcConstant.SeoKey;
 
 
 /**

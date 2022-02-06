@@ -25,14 +25,14 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page;
+package com.upupor.web.page.jump;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.MemberAggregateService;
 import com.upupor.service.business.aggregation.SearchAggregateService;
 import com.upupor.service.business.aggregation.TagAggregateService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.ViewerService;
-import com.upupor.framework.CcConstant;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;
 import com.upupor.service.utils.ServletUtils;
@@ -90,8 +90,7 @@ public class PageJumpController implements Serializable {
             modelAndView.addObject(new ListIntegralDto());
         }
         modelAndView.setViewName(EVERY_DAILY_POINTS);
-        modelAndView.addObject(SeoKey.TITLE, "每日签到");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "每日签到");
+
         return modelAndView;
     }
 

@@ -29,11 +29,11 @@ package com.upupor.service.business.content;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
-import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.types.CollectType;

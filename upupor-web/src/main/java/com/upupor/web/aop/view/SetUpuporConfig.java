@@ -36,7 +36,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import static com.upupor.framework.CcConstant.*;
-import static com.upupor.framework.CcConstant.ANALYZE_SWITCH;
 
 /**
  * @author cruise
