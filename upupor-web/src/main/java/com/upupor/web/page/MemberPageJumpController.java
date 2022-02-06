@@ -63,28 +63,20 @@ import static com.upupor.framework.CcConstant.*;
 @RequiredArgsConstructor
 public class MemberPageJumpController {
 
-    private final MemberAggregateService memberAggregateService;
+
     private final MemberService memberService;
     private final List<AbstractView> abstractViewList;
+
+    public final static String LIST_USER = "/list-user";
 
     @GetMapping({
             "/logout", // 登出
             "/register", // 注册
             "/forget-password", // 忘记密码
+            LIST_USER, // 列出所有用户
+            "/login", // 登录
     })
-    public ModelAndView all(HttpServletRequest request){
-        String servletPath = request.getServletPath();
-        for (AbstractView abstractView : abstractViewList) {
-            if(abstractView.viewName().replace(UserView.BASE_PATH, Strings.EMPTY).equals(servletPath)){
-                return abstractView.doBusiness();
-            }
-        }
-        throw new BusinessException(ErrorCode.NONE_PAGE);
-    }
-
-    @ApiOperation("列出所有用户")
-    @GetMapping("/list-user")
-    public ModelAndView userList(Integer pageNum, Integer pageSize) {
+    public ModelAndView all(HttpServletRequest request, Integer pageNum, Integer pageSize) {
         if (Objects.isNull(pageNum)) {
             pageNum = CcConstant.Page.NUM;
         }
@@ -92,29 +84,24 @@ public class MemberPageJumpController {
             pageSize = CcConstant.Page.SIZE;
         }
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(USER_LIST);
-        modelAndView.addObject(memberAggregateService.userList(pageNum, pageSize));
-        modelAndView.addObject(SeoKey.TITLE, "所有用户");
-        modelAndView.addObject(SeoKey.DESCRIPTION, "所有用户");
-        return modelAndView;
+        String servletPath = request.getServletPath();
+        for (AbstractView abstractView : abstractViewList) {
+            String convertServletPath = abstractView.adapterUrlToViewName(servletPath);
+
+            String viewName;
+            // 如果不相等,就是适配完成后的,
+            if (!convertServletPath.equals(servletPath)) {
+                viewName = convertServletPath;
+            } else {
+                viewName = abstractView.viewName().replace(abstractView.prefix(), Strings.EMPTY);
+            }
+
+            if (viewName.equals(convertServletPath)) {
+                return abstractView.doBusiness(pageNum, pageSize);
+            }
+        }
+        throw new BusinessException(ErrorCode.NONE_PAGE);
     }
-
-
-    @ApiOperation("登录")
-    @GetMapping("/login")
-    public ModelAndView login() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(USER_LOGIN);
-
-        modelAndView.addObject(SeoKey.TITLE, "登录");
-        modelAndView.addObject(SeoKey.DESCRIPTION, "登录");
-        return modelAndView;
-    }
-
-
-
-
 
     @ApiOperation("退订邮件")
     @GetMapping("unsubscribe-mail")

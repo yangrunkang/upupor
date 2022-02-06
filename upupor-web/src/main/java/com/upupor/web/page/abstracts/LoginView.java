@@ -28,79 +28,26 @@
 package com.upupor.web.page.abstracts;
 
 import com.upupor.framework.CcConstant;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.stereotype.Component;
 
-import static com.upupor.web.page.MemberPageJumpController.LIST_USER;
+import static com.upupor.framework.CcConstant.UserView.USER_LOGIN;
 
 /**
- * 抽象视图
  * @author Yang Runkang (cruise)
- * @date 2022年01月28日 11:06
+ * @date 2022年02月06日 10:36
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractView {
+@Component
+public class LoginView  extends AbstractView {
 
-    protected ModelAndView modelAndView;
-    protected Integer pageNum;
-    protected Integer pageSize;
-
-    /**
-     * 视图名
-     * @return
-     */
-    public abstract String viewName();
-
-    /**
-     * 前缀
-     * @return
-     */
-    public String prefix(){
-        return CcConstant.UserView.BASE_PATH;
+    @Override
+    public String viewName() {
+        return USER_LOGIN;
     }
 
-    /**
-     * 适配ServletPath到View视图
-     * @param servletPath
-     * @return
-     */
-    public String adapterUrlToViewName(String servletPath){
-        return servletPath;
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "登录");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "登录");
     }
-
-    /**
-     * SEO信息
-     */
-    protected abstract void seoInfo();
-
-    /**
-     * 获取数据
-     */
-    protected void fetchData(){
-
-    }
-
-    /**
-     * 做业务的方法
-     * @return
-     */
-    public ModelAndView doBusiness(Integer pageNum, Integer pageSize) {
-        // 数据初始化
-        this.pageNum = pageNum;
-        this.pageSize = pageSize;
-
-        modelAndView = new ModelAndView();
-        // 设置viewName
-        modelAndView.setViewName(viewName());
-
-        //获取信息
-        fetchData();
-
-        // 设置seo信息
-        seoInfo();
-
-        return modelAndView;
-    }
-
-
-
 }

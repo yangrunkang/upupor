@@ -51,6 +51,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.upupor.framework.CcConstant.UserView.USER_LOGIN;
 import static com.upupor.framework.utils.CcDateUtil.getResponseTime;
 
 /**
@@ -141,7 +142,7 @@ public class PageAspectAdvice {
             if (businessException.getCode().equals(ErrorCode.USER_NOT_LOGIN.getCode())) {
                 String tips = "请登录";
                 exceptionView.addObject(CcConstant.TIPS_OPERATION_SHOULD_LOGIN, tips);
-                exceptionView.setViewName(CcConstant.USER_LOGIN);
+                exceptionView.setViewName(USER_LOGIN);
             }
         } else {
             exceptionView.addObject(CcConstant.GLOBAL_EXCEPTION, exception.getMessage());

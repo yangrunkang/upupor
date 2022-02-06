@@ -136,15 +136,14 @@ public final class CcConstant {
     public static final String CV_OFF = "0";
     public static final String CV_ON = "1";
     public static final String CONTENT_LIST = "content/list";
-    public static final String USER_LIST = "user/list";
-    public static final String USER_LOGIN = "user/login";
-
 
     public static final class UserView {
         public static final String BASE_PATH = "user";
         public static final String USER_LOGOUT = BASE_PATH + "/logout";
         public static final String USER_REGISTER = BASE_PATH + "/register";
         public static final String FORGET_PASSWORD = BASE_PATH + "/forget-password";
+        public static final String USER_LIST = BASE_PATH + "/list";
+        public static final String USER_LOGIN = BASE_PATH + "/login";
     }
 
 

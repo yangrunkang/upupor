@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.manage;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.BusinessConfigService;
 import com.upupor.service.business.aggregation.service.MemberService;
@@ -79,6 +80,14 @@ public abstract class AbstractManageInfoGet {
      * @return
      */
     public abstract String viewName();
+
+    /**
+     * 前缀
+     * @return
+     */
+    public String prefix(){
+        return CcConstant.UserManageView.BASE_PATH;
+    }
 
     /**
      * 页面描述

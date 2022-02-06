@@ -86,7 +86,7 @@ public class MemberManageJumpController {
 
         for (AbstractManageInfoGet abstractManageInfoGet : abstractManageInfoGetList) {
             ManageDto build = ManageDto.builder().pageSize(pageSize).pageNum(pageNum).userId(ServletUtils.getUserId()).searchTitle(searchTitle).messageStatus(messageStatus).select(select).build();
-            if (abstractManageInfoGet.viewName().replace(BASE_PATH, Strings.EMPTY).equals(path)) {
+            if (abstractManageInfoGet.viewName().replace(abstractManageInfoGet.prefix(), Strings.EMPTY).equals(path)) {
                 ModelAndView modelAndView = new ModelAndView();
                 modelAndView.setViewName(abstractManageInfoGet.viewName());
                 modelAndView.addObject(abstractManageInfoGet.getData(build));

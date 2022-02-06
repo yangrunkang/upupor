@@ -28,79 +28,44 @@
 package com.upupor.web.page.abstracts;
 
 import com.upupor.framework.CcConstant;
-import org.springframework.web.servlet.ModelAndView;
+import com.upupor.service.business.aggregation.MemberAggregateService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+import static com.upupor.framework.CcConstant.UserView.USER_LIST;
 import static com.upupor.web.page.MemberPageJumpController.LIST_USER;
 
 /**
- * 抽象视图
  * @author Yang Runkang (cruise)
- * @date 2022年01月28日 11:06
+ * @date 2022年02月06日 10:32
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractView {
+@RequiredArgsConstructor
+@Component
+public class UserListView extends AbstractView{
+    private final MemberAggregateService memberAggregateService;
 
-    protected ModelAndView modelAndView;
-    protected Integer pageNum;
-    protected Integer pageSize;
-
-    /**
-     * 视图名
-     * @return
-     */
-    public abstract String viewName();
-
-    /**
-     * 前缀
-     * @return
-     */
-    public String prefix(){
-        return CcConstant.UserView.BASE_PATH;
+    @Override
+    public String viewName() {
+        return USER_LIST;
     }
 
-    /**
-     * 适配ServletPath到View视图
-     * @param servletPath
-     * @return
-     */
-    public String adapterUrlToViewName(String servletPath){
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "所有用户");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "所有用户");
+    }
+
+    @Override
+    protected void fetchData() {
+        modelAndView.addObject(memberAggregateService.userList(pageNum, pageSize));
+    }
+
+    @Override
+    public String adapterUrlToViewName(String servletPath) {
+        if(servletPath.equals(LIST_USER)){
+            return viewName();
+        }
         return servletPath;
     }
-
-    /**
-     * SEO信息
-     */
-    protected abstract void seoInfo();
-
-    /**
-     * 获取数据
-     */
-    protected void fetchData(){
-
-    }
-
-    /**
-     * 做业务的方法
-     * @return
-     */
-    public ModelAndView doBusiness(Integer pageNum, Integer pageSize) {
-        // 数据初始化
-        this.pageNum = pageNum;
-        this.pageSize = pageSize;
-
-        modelAndView = new ModelAndView();
-        // 设置viewName
-        modelAndView.setViewName(viewName());
-
-        //获取信息
-        fetchData();
-
-        // 设置seo信息
-        seoInfo();
-
-        return modelAndView;
-    }
-
-
-
 }
