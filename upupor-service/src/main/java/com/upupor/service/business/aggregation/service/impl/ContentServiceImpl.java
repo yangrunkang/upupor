@@ -622,7 +622,7 @@ public class ContentServiceImpl implements ContentService {
         if (Objects.isNull(content)) {
             return;
         }
-        List<Long> idList = contentMapper.lastAndNextContent(content.getContentId());
+        List<Long> idList = contentMapper.lastAndNextContent(content.getContentId(),content.getTagIds(),content.getContentType().getType());
         if (CollectionUtils.isEmpty(idList)) {
             return;
         }

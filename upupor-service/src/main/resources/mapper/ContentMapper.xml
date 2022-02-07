@@ -132,16 +132,30 @@
         order by sys_update_time desc limit 1
     </select>
 
+    <sql id="lastCommon">
+        and content_type = #{contentType}
+        <if test="tagIds != null and tagIds != ''">
+            and tag_ids = #{tagIds}
+        </if>
+    </sql>
     <select id="lastAndNextContent" parameterType="java.lang.String" resultType="java.lang.Long">
         select * from (
         select id as nextId from content where `status` = 0
-        and latest_comment_time <![CDATA[ > ]]> (select latest_comment_time from content where status = 0 and content_id = #{contentId,jdbcType=VARCHAR})
+        <include refid="lastCommon"/>
+        and latest_comment_time <![CDATA[ > ]]> (select latest_comment_time from content where `status` = 0
+                                                                                                and content_id = #{contentId,jdbcType=VARCHAR}
+                                                                                                <include refid="lastCommon"/>
+            )
         order by latest_comment_time asc limit 1
         ) as t
         UNION ALl
         select * from (
         select id as lastId from content where `status` = 0
-        and latest_comment_time <![CDATA[ < ]]> (select latest_comment_time from content where status = 0 and content_id = #{contentId,jdbcType=VARCHAR})
+        <include refid="lastCommon"/>
+        and latest_comment_time <![CDATA[ < ]]> (select latest_comment_time from content where status = 0
+                                                                                               and content_id = #{contentId,jdbcType=VARCHAR}
+                                                                                               <include refid="lastCommon"/>
+            )
         order by latest_comment_time desc limit 1
         ) as c
     </select>

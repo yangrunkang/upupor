@@ -132,7 +132,7 @@ public interface ContentMapper extends BaseMapper<Content> {
      * @param contentId
      * @return
      */
-    List<Long> lastAndNextContent(@Param("contentId") String contentId);
+    List<Long> lastAndNextContent(@Param("contentId") String contentId,@Param("tagIds")String tagIds,@Param("contentType") Integer contentType);
 
     /**
      * 统计草稿数目
