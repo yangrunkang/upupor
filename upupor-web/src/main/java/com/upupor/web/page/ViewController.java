@@ -25,16 +25,16 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.member;
+package com.upupor.web.page;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
-import com.upupor.service.utils.ServletUtils;
 import com.upupor.web.page.abstracts.AbstractView;
+import com.upupor.web.page.footer.BusinessCooperationView;
+import com.upupor.web.page.history.HistoryView;
+import com.upupor.web.page.member.UserListView;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,39 +46,39 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
-
 /**
- * 用户页面跳转控制器
- *
- * @author YangRunkang(cruise)
- * @date 2020/01/19 12:16
+ * 公共的View Controller
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月08日 23:21
+ * @email: yangrunkang53@gmail.com
  */
 @Slf4j
-@Api(tags = "用户页面跳转控制器")
+@Api(tags = "公共的View Controller")
 @RestController
 @RequiredArgsConstructor
-public class MemberPageJumpController {
-
+public class ViewController {
     private final List<AbstractView> abstractViewList;
 
-    public final static String LIST_USER = "/list-user";
+
 
     @GetMapping({
             "/logout", // 登出
             "/register", // 注册
             "/forget-password", // 忘记密码
-            LIST_USER, // 列出所有用户
+            UserListView.URL, // 列出所有用户
             "/login", // 登录
             "/unsubscribe-mail", // 退订邮件
+            HistoryView.URL, // 浏览记录
+            BusinessCooperationView.URL, // 商务合作
     })
-    public ModelAndView all(HttpServletRequest request, Integer pageNum, Integer pageSize) {
+    public ModelAndView one(HttpServletRequest request, Integer pageNum, Integer pageSize) {
         if (Objects.isNull(pageNum)) {
             pageNum = CcConstant.Page.NUM;
         }
         if (Objects.isNull(pageSize)) {
             pageSize = CcConstant.Page.SIZE;
         }
-
+        // 通用业务逻辑
         String servletPath = request.getServletPath();
         for (AbstractView abstractView : abstractViewList) {
             String convertServletPath = abstractView.adapterUrlToViewName(servletPath);

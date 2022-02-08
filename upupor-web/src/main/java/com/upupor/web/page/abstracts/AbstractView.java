@@ -27,7 +27,7 @@
 
 package com.upupor.web.page.abstracts;
 
-import com.upupor.framework.CcConstant;
+import joptsimple.internal.Strings;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -52,15 +52,19 @@ public abstract class AbstractView {
      * 前缀
      * @return
      */
-    public abstract String prefix();
+    public String prefix(){
+        return Strings.EMPTY;
+    }
 
     /**
      * 适配ServletPath到View视图
-     * @param servletPath
+     * @param pageUrl
      * @return
+     * @note: pageUrl可能会根据运营需求来变更,但是视图名是不长变的,所以需要这个适配
      */
-    public String adapterUrlToViewName(String servletPath){
-        return servletPath;
+    public String adapterUrlToViewName(String pageUrl){
+        // 默认 pageUrl 和视图命名是一致的,即不用适配
+        return pageUrl;
     }
 
     /**

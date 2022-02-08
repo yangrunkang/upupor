@@ -25,42 +25,34 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.member;
+package com.upupor.web.page.history;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.MemberAggregateService;
+import com.upupor.service.business.aggregation.service.ViewerService;
+import com.upupor.service.utils.ServletUtils;
 import com.upupor.web.page.abstracts.AbstractView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.UserView.USER_LIST;
+
 
 /**
- * 用户列表
+ * 浏览记录
  * @author Yang Runkang (cruise)
- * @date 2022年02月06日 10:32
+ * @date 2022年02月08日 23:11
  * @email: yangrunkang53@gmail.com
  */
 @RequiredArgsConstructor
 @Component
-public class UserListView extends AbstractView {
-    private final MemberAggregateService memberAggregateService;
-    public final static String URL = "/list-user";
+public class HistoryView extends AbstractView {
+
+    private final ViewerService viewerService;
+
+    public final static String URL = "/view/history";
 
     @Override
     public String viewName() {
-        return USER_LIST;
-    }
-
-    @Override
-    protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "所有用户");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "所有用户");
-    }
-
-    @Override
-    protected void fetchData() {
-        modelAndView.addObject(memberAggregateService.userList(pageNum, pageSize));
+        return CcConstant.VIEW_HISTORY;
     }
 
     @Override
@@ -72,7 +64,13 @@ public class UserListView extends AbstractView {
     }
 
     @Override
-    public String prefix() {
-        return CcConstant.UserView.BASE_PATH;
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "浏览记录");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "浏览记录");
+    }
+
+    @Override
+    protected void fetchData() {
+        modelAndView.addObject(viewerService.listViewHistoryByUserId(ServletUtils.getUserId(), pageNum,pageSize ));
     }
 }

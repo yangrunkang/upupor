@@ -55,6 +55,13 @@ public class RouterPageJumpController {
 
     private final ContentService contentService;
 
+
+    private final static String INDEX = "redirect:/";
+    private final static String PUBLIC_CONTENT = "redirect:/u/";
+    private final static String DRAFT_CONTENT = "redirect:/m/";
+    private final static String PROFILE = "redirect:/profile/";
+
+
     @ApiOperation("跳转到当前用户最新的文章详情")
     @GetMapping("/router/jump/content")
     public ModelAndView contentList() {
@@ -65,20 +72,20 @@ public class RouterPageJumpController {
 
         // 文章为空默认到首页
         if (Objects.isNull(content)) {
-            modelAndView.setViewName("redirect:/");
+            modelAndView.setViewName(INDEX);
             return modelAndView;
         }
 
         if (ContentStatus.NORMAL.equals(content.getStatus())) {
-            modelAndView.setViewName("redirect:/u/" + content.getContentId());
+            modelAndView.setViewName(PUBLIC_CONTENT + content.getContentId());
             return modelAndView;
         } else if (ContentStatus.DRAFT.equals(content.getStatus()) || ContentStatus.ONLY_SELF_CAN_SEE.equals(content.getStatus())) {
-            modelAndView.setViewName("redirect:/m/" + content.getContentId());
+            modelAndView.setViewName(DRAFT_CONTENT + content.getContentId());
             return modelAndView;
         }
 
         // 当条件匹配不上,默认到首页
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName(INDEX);
         return modelAndView;
     }
 
@@ -92,7 +99,7 @@ public class RouterPageJumpController {
     @GetMapping("/{source}/content/view/{contentId}")
     public ModelAndView historyUrlContent(@PathVariable("source") String source, @PathVariable("contentId") String contentId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/u/" + contentId);
+        modelAndView.setViewName(PUBLIC_CONTENT + contentId);
         return modelAndView;
     }
 
@@ -102,7 +109,7 @@ public class RouterPageJumpController {
     @GetMapping("/topic/{contentId}")
     public ModelAndView topicRouter(@PathVariable("contentId") String contentId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/u/" + contentId);
+        modelAndView.setViewName(PUBLIC_CONTENT + contentId);
         return modelAndView;
     }
 
@@ -112,7 +119,7 @@ public class RouterPageJumpController {
     @GetMapping("/topic/m/{contentId}")
     public ModelAndView topicManagerRouter(@PathVariable("contentId") String contentId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/m/" + contentId);
+        modelAndView.setViewName(DRAFT_CONTENT + contentId);
         return modelAndView;
     }
 
@@ -122,16 +129,17 @@ public class RouterPageJumpController {
     @GetMapping("/profile-message/{userId}")
     public ModelAndView profileMessage(@PathVariable("userId") String userId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/profile/" + userId + "/message");
+        modelAndView.setViewName(PROFILE + userId + "/message");
         return modelAndView;
     }
-   /**
+
+    /**
      * 个人主页文章
      */
-   @GetMapping("/profile/{userId}")
+    @GetMapping("/profile/{userId}")
     public ModelAndView profileContent(@PathVariable("userId") String userId) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/profile/" + userId + "/content");
+        modelAndView.setViewName(PROFILE + userId + "/content");
         return modelAndView;
     }
 

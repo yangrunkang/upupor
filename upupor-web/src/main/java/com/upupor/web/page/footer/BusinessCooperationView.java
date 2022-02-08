@@ -25,42 +25,27 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.member;
+package com.upupor.web.page.footer;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.MemberAggregateService;
 import com.upupor.web.page.abstracts.AbstractView;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.UserView.USER_LIST;
+import static com.upupor.framework.CcConstant.BUSINESS_COOPERATION;
 
 /**
- * 用户列表
+ * 商务合作
  * @author Yang Runkang (cruise)
- * @date 2022年02月06日 10:32
+ * @date 2022年02月08日 23:31
  * @email: yangrunkang53@gmail.com
  */
-@RequiredArgsConstructor
 @Component
-public class UserListView extends AbstractView {
-    private final MemberAggregateService memberAggregateService;
-    public final static String URL = "/list-user";
+public class BusinessCooperationView extends AbstractView {
+    public static final String URL = "/business-cooperation";
 
     @Override
     public String viewName() {
-        return USER_LIST;
-    }
-
-    @Override
-    protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "所有用户");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "所有用户");
-    }
-
-    @Override
-    protected void fetchData() {
-        modelAndView.addObject(memberAggregateService.userList(pageNum, pageSize));
+        return BUSINESS_COOPERATION;
     }
 
     @Override
@@ -72,7 +57,13 @@ public class UserListView extends AbstractView {
     }
 
     @Override
-    public String prefix() {
-        return CcConstant.UserView.BASE_PATH;
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "商务合作");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "Upupor商务合作项目包括广告服务,咨询服务,课程推广");
+    }
+
+    @Override
+    protected void fetchData() {
+        super.fetchData();
     }
 }

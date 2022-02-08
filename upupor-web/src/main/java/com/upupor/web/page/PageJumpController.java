@@ -25,17 +25,15 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.jump;
+package com.upupor.web.page;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.MemberAggregateService;
 import com.upupor.service.business.aggregation.SearchAggregateService;
 import com.upupor.service.business.aggregation.TagAggregateService;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.aggregation.service.ViewerService;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;
-import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +66,6 @@ public class PageJumpController implements Serializable {
     private final TagAggregateService tagAggregateService;
     private final MemberAggregateService memberAggregateService;
     private final MemberService memberService;
-    private final ViewerService viewerService;
 
     @ApiOperation("每日签到")
     @GetMapping("/daily-points")
@@ -93,18 +90,6 @@ public class PageJumpController implements Serializable {
 
         return modelAndView;
     }
-
-    @ApiOperation("商务合作")
-    @GetMapping("/business-cooperation")
-    public ModelAndView businessCooperation() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(BUSINESS_COOPERATION);
-        // Seo
-        modelAndView.addObject(SeoKey.TITLE, "商务合作");
-        modelAndView.addObject(SeoKey.DESCRIPTION, "Upupor商务合作项目包括广告服务,咨询服务,课程推广");
-        return modelAndView;
-    }
-
     @ApiOperation("愿景")
     @GetMapping("/vision")
     public ModelAndView vision() {
@@ -329,24 +314,6 @@ public class PageJumpController implements Serializable {
         return modelAndView;
     }
 
-    @ApiOperation("浏览记录")
-    @GetMapping("/view/history")
-    public ModelAndView viewHistory(Integer pageNum, Integer pageSize) {
-        if (Objects.isNull(pageNum)) {
-            pageNum = Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = Page.SIZE;
-        }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(VIEW_HISTORY);
-        modelAndView.addObject(viewerService.listViewHistoryByUserId(ServletUtils.getUserId(), pageNum,pageSize ));
-        // Seo
-        modelAndView.addObject(SeoKey.TITLE, "浏览记录");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "浏览记录");
-        return modelAndView;
-    }
 
     @ApiOperation("开源")
     @GetMapping("/open")
