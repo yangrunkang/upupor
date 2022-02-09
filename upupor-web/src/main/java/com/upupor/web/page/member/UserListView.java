@@ -60,7 +60,7 @@ public class UserListView extends AbstractView {
 
     @Override
     protected void fetchData() {
-        modelAndView.addObject(memberAggregateService.userList(pageNum, pageSize));
+        modelAndView.addObject(memberAggregateService.userList(query.getPageNum(),query.getPageSize()));
     }
 
     @Override

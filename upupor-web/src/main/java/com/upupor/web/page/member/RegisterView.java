@@ -42,6 +42,9 @@ import static com.upupor.framework.CcConstant.UserView.USER_REGISTER;
  */
 @Component
 public class RegisterView  extends AbstractView {
+
+    public static final String URL = "/register";
+
     @Override
     public String viewName() {
         return USER_REGISTER;

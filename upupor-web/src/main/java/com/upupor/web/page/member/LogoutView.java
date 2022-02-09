@@ -42,6 +42,7 @@ import static com.upupor.framework.CcConstant.UserView.USER_LOGOUT;
  */
 @Component
 public class LogoutView extends AbstractView {
+    public static final String URL = "/logout";
 
     @Override
     public String viewName() {

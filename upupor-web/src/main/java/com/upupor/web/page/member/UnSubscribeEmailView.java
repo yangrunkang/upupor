@@ -31,7 +31,6 @@ import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.web.page.abstracts.AbstractView;
-import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +47,8 @@ import static com.upupor.framework.CcConstant.UserView.UNSUBSCRIBE_MAIL;
 @Component
 public class UnSubscribeEmailView extends AbstractView {
     private final MemberService memberService;
+
+    public static final String URL = "/unsubscribe-mail";
 
     @Override
     public String viewName() {

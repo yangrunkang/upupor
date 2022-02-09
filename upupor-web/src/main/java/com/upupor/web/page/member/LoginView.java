@@ -42,6 +42,8 @@ import static com.upupor.framework.CcConstant.UserView.USER_LOGIN;
 @Component
 public class LoginView  extends AbstractView {
 
+    public static final String URL = "/login";
+
     @Override
     public String viewName() {
         return USER_LOGIN;

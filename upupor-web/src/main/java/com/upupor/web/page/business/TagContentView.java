@@ -25,37 +25,51 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.member;
+package com.upupor.web.page.business;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.service.business.aggregation.TagAggregateService;
 import com.upupor.web.page.abstracts.AbstractView;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.UserView.FORGET_PASSWORD;
+import static com.upupor.framework.CcConstant.TAG_INDEX;
 
 /**
- * 忘记密码
  * @author Yang Runkang (cruise)
- * @date 2022年02月05日 23:40
+ * @date 2022年02月09日 12:41
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ForgetPasswordView extends AbstractView {
-    public static final String URL = "/forget-password";
+@RequiredArgsConstructor
+public class TagContentView extends AbstractView {
+    public static final String URL = "/tag/{tagName}";
+    private final TagAggregateService tagAggregateService;
 
     @Override
     public String viewName() {
-        return FORGET_PASSWORD;
+        return TAG_INDEX;
+    }
+
+    @Override
+    public String adapterUrlToViewName(String pageUrl) {
+        if(pageUrl.equals(URL)){
+            return viewName();
+        }
+        return pageUrl;
     }
 
     @Override
     protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "忘记密码");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "忘记密码");
+        // Seo
+        String tagName = query.getTagName();
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "标签-" + tagName);
+        modelAndView.addObject(CcConstant.SeoKey.KEYWORDS, tagName);
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "标签:" + tagName);
     }
 
     @Override
-    public String prefix() {
-        return CcConstant.UserView.BASE_PATH;
+    protected void fetchData() {
+        modelAndView.addObject(tagAggregateService.index(query.getTagName(), query.getPageNum(), query.getPageSize()));
     }
 }

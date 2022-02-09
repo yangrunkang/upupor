@@ -39,8 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 public abstract class AbstractView {
 
     protected ModelAndView modelAndView;
-    protected Integer pageNum;
-    protected Integer pageSize;
+    protected Query query;
 
     /**
      * 视图名
@@ -83,10 +82,8 @@ public abstract class AbstractView {
      * 做业务的方法
      * @return
      */
-    public ModelAndView doBusiness(Integer pageNum, Integer pageSize) {
-        // 数据初始化
-        this.pageNum = pageNum;
-        this.pageSize = pageSize;
+    public ModelAndView doBusiness(Query query) {
+        this.query = query;
 
         modelAndView = new ModelAndView();
         // 设置viewName

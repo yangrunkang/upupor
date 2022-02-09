@@ -31,14 +31,18 @@ import com.upupor.framework.CcConstant;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.web.page.abstracts.AbstractView;
-import com.upupor.web.page.footer.BusinessCooperationView;
+import com.upupor.web.page.abstracts.Query;
+import com.upupor.web.page.business.*;
+import com.upupor.web.page.footer.*;
 import com.upupor.web.page.history.HistoryView;
-import com.upupor.web.page.member.UserListView;
+import com.upupor.web.page.member.*;
+import com.upupor.web.page.views.MarkdownView;
 import io.swagger.annotations.Api;
 import joptsimple.internal.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,6 +52,7 @@ import java.util.Objects;
 
 /**
  * 公共的View Controller
+ *
  * @author Yang Runkang (cruise)
  * @date 2022年02月08日 23:21
  * @email: yangrunkang53@gmail.com
@@ -60,18 +65,43 @@ public class ViewController {
     private final List<AbstractView> abstractViewList;
 
 
-
     @GetMapping({
-            "/logout", // 登出
-            "/register", // 注册
-            "/forget-password", // 忘记密码
+            LogoutView.URL, // 登出
+            RegisterView.URL, // 注册
+            ForgetPasswordView.URL, // 忘记密码
             UserListView.URL, // 列出所有用户
-            "/login", // 登录
-            "/unsubscribe-mail", // 退订邮件
+            LoginView.URL, // 登录
+            UnSubscribeEmailView.URL, // 退订邮件
             HistoryView.URL, // 浏览记录
             BusinessCooperationView.URL, // 商务合作
+            VisionView.URL, // 愿景
+            ThanksView.URL, // 感谢
+            BrandStoryView.URL, // 品牌故事
+            AboutAdView.URL, // 关于广告
+            TeamView.URL, // 团队
+            ApplyAdView.URL, // 申请广告
+            ApplyConsultantView.URL, // 咨询服务申请
+            OpenSourceView.URL, // 开源
+            MarkdownView.URL, // markdown教程
+            PinnedView.URL, // 置顶
+            IntegralRulesView.URL, // 积分规则
+            LogoDesignView.URL, // logo设计
+            FeedbackView.URL, // 反馈
+            TagContentView.URL, // 标签
+            SearchView.URL, // 搜索
+            DailyPoints.URL, // 每日签到
+            ApplyTagView.URL, // 标签申请
     })
-    public ModelAndView one(HttpServletRequest request, Integer pageNum, Integer pageSize) {
+    public ModelAndView one(HttpServletRequest request,
+                            Integer pageNum,
+                            Integer pageSize,
+                            // 标签名
+                            @PathVariable(value = "tagName", required = false) String tagName,
+                            // 检索
+                            String keyword
+    ) {
+
+
         if (Objects.isNull(pageNum)) {
             pageNum = CcConstant.Page.NUM;
         }
@@ -92,7 +122,13 @@ public class ViewController {
             }
 
             if (viewName.equals(convertServletPath)) {
-                return abstractView.doBusiness(pageNum, pageSize);
+                Query query = Query.builder()
+                        .pageSize(pageSize)
+                        .tagName(tagName)
+                        .pageNum(pageNum)
+                        .keyword(keyword)
+                        .build();
+                return abstractView.doBusiness(query);
             }
         }
         throw new BusinessException(ErrorCode.NONE_PAGE);

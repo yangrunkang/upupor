@@ -25,37 +25,62 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.member;
+package com.upupor.web.page.business;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.service.business.aggregation.MemberAggregateService;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.dto.page.common.ListIntegralDto;
 import com.upupor.web.page.abstracts.AbstractView;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.UserView.FORGET_PASSWORD;
+import static com.upupor.framework.CcConstant.DAILY_POINTS;
+import static com.upupor.framework.CcConstant.EVERY_DAILY_POINTS;
 
 /**
- * 忘记密码
  * @author Yang Runkang (cruise)
- * @date 2022年02月05日 23:40
+ * @date 2022年02月09日 12:53
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ForgetPasswordView extends AbstractView {
-    public static final String URL = "/forget-password";
+@RequiredArgsConstructor
+public class DailyPoints extends AbstractView {
+
+    private final MemberAggregateService memberAggregateService;
+    private final MemberService memberService;
+
+
+    public static final String URL = "/daily-points";
 
     @Override
     public String viewName() {
-        return FORGET_PASSWORD;
+        return EVERY_DAILY_POINTS;
+    }
+
+    @Override
+    public String adapterUrlToViewName(String pageUrl) {
+        if (pageUrl.equals(URL)) {
+            return viewName();
+        }
+        return pageUrl;
     }
 
     @Override
     protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "忘记密码");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "忘记密码");
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "咨询服务申请");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "咨询服务申请");
     }
 
     @Override
-    public String prefix() {
-        return CcConstant.UserView.BASE_PATH;
+    protected void fetchData() {
+        modelAndView.addObject(memberService.dailyPointsMemberList());
+        modelAndView.addObject(DAILY_POINTS, Boolean.FALSE);
+        try {
+            modelAndView.addObject(memberAggregateService.integralRecord(IntegralEnum.DAILY_POINTS.getRuleId(), query.getPageNum(), query.getPageSize()));
+        } catch (Exception ignored) {
+            modelAndView.addObject(new ListIntegralDto());
+        }
     }
 }

@@ -71,6 +71,6 @@ public class HistoryView extends AbstractView {
 
     @Override
     protected void fetchData() {
-        modelAndView.addObject(viewerService.listViewHistoryByUserId(ServletUtils.getUserId(), pageNum,pageSize ));
+        modelAndView.addObject(viewerService.listViewHistoryByUserId(ServletUtils.getUserId(), query.getPageNum(),query.getPageSize() ));
     }
 }

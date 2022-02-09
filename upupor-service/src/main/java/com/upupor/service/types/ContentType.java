@@ -178,11 +178,11 @@ public enum ContentType {
     public static List<ContentType> contentSource() {
         List<ContentType> contentTypeList = new ArrayList<>();
         contentTypeList.add(TECH);
-        contentTypeList.add(QA);
-        contentTypeList.add(SHARE);
-        contentTypeList.add(WORKPLACE);
-        contentTypeList.add(RECORD);
         contentTypeList.add(TOPIC);
+        contentTypeList.add(SHARE);
+        contentTypeList.add(RECORD);
+        contentTypeList.add(WORKPLACE);
+        contentTypeList.add(QA);
         return contentTypeList;
     }
 
