@@ -27,11 +27,16 @@
 
 package com.upupor.web.page.abstracts;
 
+import com.upupor.framework.CcConstant;
+import com.upupor.web.page.content.ContentDetailView;
 import joptsimple.internal.Strings;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Objects;
+
 /**
  * 抽象视图
+ *
  * @author Yang Runkang (cruise)
  * @date 2022年01月28日 11:06
  * @email: yangrunkang53@gmail.com
@@ -43,25 +48,28 @@ public abstract class AbstractView {
 
     /**
      * 视图名
+     *
      * @return
      */
     public abstract String viewName();
 
     /**
      * 前缀
+     *
      * @return
      */
-    public String prefix(){
+    public String prefix() {
         return Strings.EMPTY;
     }
 
     /**
      * 适配ServletPath到View视图
+     *
      * @param pageUrl
      * @return
-     * @note: pageUrl可能会根据运营需求来变更,但是视图名是不长变的,所以需要这个适配
+     * @note: pageUrl可能会根据运营需求来变更, 但是视图名是不长变的, 所以需要这个适配
      */
-    public String adapterUrlToViewName(String pageUrl){
+    public String adapterUrlToViewName(String pageUrl) {
         // 默认 pageUrl 和视图命名是一致的,即不用适配
         return pageUrl;
     }
@@ -74,16 +82,25 @@ public abstract class AbstractView {
     /**
      * 获取数据
      */
-    protected void fetchData(){
+    protected void fetchData() {
+
+    }
+
+    /**
+     * 处理分页参数
+     */
+    protected void specifyPage() {
 
     }
 
     /**
      * 做业务的方法
+     *
      * @return
      */
     public ModelAndView doBusiness(Query query) {
-        this.query = query;
+        initData(query);
+
 
         modelAndView = new ModelAndView();
         // 设置viewName
@@ -98,6 +115,28 @@ public abstract class AbstractView {
         return modelAndView;
     }
 
+    /**
+     * 初始化
+     *
+     * @param query
+     */
+    private void initData(Query query) {
+        this.query = query;
 
+        // 优先使用个性化分页参数
+        if (this instanceof ContentDetailView) {
+            specifyPage();
+        } else {
+            // 默认分页参数
+            Integer pageNum = query.getPageNum();
+            Integer pageSize = query.getPageSize();
+            if (Objects.isNull(pageNum)) {
+                query.setPageNum(CcConstant.Page.NUM);
+            }
+            if (Objects.isNull(pageSize)) {
+                query.setPageSize(CcConstant.Page.SIZE);
+            }
+        }
+    }
 
 }

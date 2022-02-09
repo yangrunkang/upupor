@@ -27,15 +27,18 @@
 
 package com.upupor.web.page;
 
-import com.upupor.framework.CcConstant;
+import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.web.page.abstracts.AbstractView;
 import com.upupor.web.page.abstracts.Query;
 import com.upupor.web.page.business.*;
+import com.upupor.web.page.content.ContentDetailView;
+import com.upupor.web.page.content.DraftContentDetailView;
 import com.upupor.web.page.footer.*;
 import com.upupor.web.page.history.HistoryView;
 import com.upupor.web.page.member.*;
+import com.upupor.web.page.todo.TodoListView;
 import com.upupor.web.page.views.MarkdownView;
 import io.swagger.annotations.Api;
 import joptsimple.internal.Strings;
@@ -50,6 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
+
 /**
  * 公共的View Controller
  *
@@ -63,7 +67,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class ViewController {
     private final List<AbstractView> abstractViewList;
-
+    private final MessageService messageService;
 
     @GetMapping({
             LogoutView.URL, // 登出
@@ -91,6 +95,9 @@ public class ViewController {
             SearchView.URL, // 搜索
             DailyPoints.URL, // 每日签到
             ApplyTagView.URL, // 标签申请
+            TodoListView.URL, // 待办
+            ContentDetailView.URL, // 内容详情-公开
+            DraftContentDetailView.URL, // 内容详情-非公开
     })
     public ModelAndView one(HttpServletRequest request,
                             Integer pageNum,
@@ -98,15 +105,14 @@ public class ViewController {
                             // 标签名
                             @PathVariable(value = "tagName", required = false) String tagName,
                             // 检索
-                            String keyword
+                            String keyword,
+                            // 内容Id
+                            @PathVariable(value = "contentId",required = false) String contentId,
+                            // 消息Id
+                            String msgId
     ) {
-
-
-        if (Objects.isNull(pageNum)) {
-            pageNum = CcConstant.Page.NUM;
-        }
-        if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE;
+        if (Objects.nonNull(msgId)) {
+            messageService.tagMsgRead(msgId);
         }
         // 通用业务逻辑
         String servletPath = request.getServletPath();
@@ -124,9 +130,11 @@ public class ViewController {
             if (viewName.equals(convertServletPath)) {
                 Query query = Query.builder()
                         .pageSize(pageSize)
-                        .tagName(tagName)
                         .pageNum(pageNum)
+                        .tagName(tagName)
                         .keyword(keyword)
+                        .contentId(contentId)
+                        .msgId(msgId)
                         .build();
                 return abstractView.doBusiness(query);
             }

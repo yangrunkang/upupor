@@ -42,4 +42,7 @@ public class Query {
     private Integer pageSize;
     private String tagName;
     private String keyword;
+    private String contentId;
+    // 消息Id
+    private String msgId;
 }
