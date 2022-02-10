@@ -29,6 +29,7 @@ package com.upupor.web.page.abstracts;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.web.page.content.ContentDetailView;
+import com.upupor.web.page.radio.RadioDetailView;
 import joptsimple.internal.Strings;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -101,8 +102,6 @@ public abstract class AbstractView {
     public ModelAndView doBusiness(Query query) {
         initData(query);
 
-
-        modelAndView = new ModelAndView();
         // 设置viewName
         modelAndView.setViewName(viewName());
 
@@ -122,9 +121,10 @@ public abstract class AbstractView {
      */
     private void initData(Query query) {
         this.query = query;
+        modelAndView = new ModelAndView();
 
         // 优先使用个性化分页参数
-        if (this instanceof ContentDetailView) {
+        if ((this instanceof ContentDetailView) || (this instanceof RadioDetailView)) {
             specifyPage();
         } else {
             // 默认分页参数

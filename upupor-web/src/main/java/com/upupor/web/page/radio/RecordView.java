@@ -25,25 +25,41 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.abstracts;
+package com.upupor.web.page.radio;
 
-import lombok.Builder;
-import lombok.Data;
+import com.upupor.framework.CcConstant;
+import com.upupor.web.page.abstracts.AbstractView;
+import org.springframework.stereotype.Component;
+
+import static com.upupor.framework.CcConstant.RADIO_STATION_RECORD;
 
 /**
  * @author Yang Runkang (cruise)
- * @date 2022年02月09日 12:45
+ * @date 2022年02月10日 17:01
  * @email: yangrunkang53@gmail.com
  */
-@Data
-@Builder
-public class Query {
-    private Integer pageNum;
-    private Integer pageSize;
-    private String tagName;
-    private String keyword;
-    private String contentId;
-    private String radioId;
-    // 消息Id
-    private String msgId;
+@Component
+public class RecordView extends AbstractView {
+    public static final String URL = "/radio-station/record";
+
+    @Override
+    public String viewName() {
+        return RADIO_STATION_RECORD;
+    }
+
+    @Override
+    public String adapterUrlToViewName(String pageUrl) {
+        if (pageUrl.equals(URL)) {
+            return viewName();
+        }
+        return pageUrl;
+    }
+
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "录制声音");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "电台,节目,分享,独立思考");
+    }
+
 }
+

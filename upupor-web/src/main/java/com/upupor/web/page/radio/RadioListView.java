@@ -25,25 +25,50 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.page.abstracts;
+package com.upupor.web.page.radio;
 
-import lombok.Builder;
-import lombok.Data;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.business.aggregation.RadioAggregateService;
+import com.upupor.web.page.abstracts.AbstractView;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import static com.upupor.framework.CcConstant.RADIO_STATION_LIST;
 
 /**
  * @author Yang Runkang (cruise)
- * @date 2022年02月09日 12:45
+ * @date 2022年02月10日 17:00
  * @email: yangrunkang53@gmail.com
  */
-@Data
-@Builder
-public class Query {
-    private Integer pageNum;
-    private Integer pageSize;
-    private String tagName;
-    private String keyword;
-    private String contentId;
-    private String radioId;
-    // 消息Id
-    private String msgId;
+@Component
+@RequiredArgsConstructor
+public class RadioListView  extends AbstractView {
+
+    private final RadioAggregateService radioAggregateService;
+
+    public static final String URL = "/radio-station";
+
+    @Override
+    public String viewName() {
+        return RADIO_STATION_LIST;
+    }
+
+    @Override
+    public String adapterUrlToViewName(String pageUrl) {
+        if(pageUrl.equals(URL)){
+            return viewName();
+        }
+        return pageUrl;
+    }
+
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "电台列表");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "电台,节目,分享,独立思考");
+    }
+
+    @Override
+    protected void fetchData() {
+        modelAndView.addObject(radioAggregateService.index(query.getPageNum(), query.getPageSize()));
+    }
 }

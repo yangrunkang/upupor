@@ -38,6 +38,10 @@ import com.upupor.web.page.content.DraftContentDetailView;
 import com.upupor.web.page.footer.*;
 import com.upupor.web.page.history.HistoryView;
 import com.upupor.web.page.member.*;
+import com.upupor.web.page.radio.CreateRadioView;
+import com.upupor.web.page.radio.RadioDetailView;
+import com.upupor.web.page.radio.RadioListView;
+import com.upupor.web.page.radio.RecordView;
 import com.upupor.web.page.todo.TodoListView;
 import com.upupor.web.page.views.MarkdownView;
 import io.swagger.annotations.Api;
@@ -98,6 +102,10 @@ public class ViewController {
             TodoListView.URL, // 待办
             ContentDetailView.URL, // 内容详情-公开
             DraftContentDetailView.URL, // 内容详情-非公开
+            RadioListView.URL, // 电台列表
+            CreateRadioView.URL, // 创建电台
+            RecordView.URL, // 在线录制电台
+            RadioDetailView.URL, // 电台详情
     })
     public ModelAndView one(HttpServletRequest request,
                             Integer pageNum,
@@ -109,7 +117,9 @@ public class ViewController {
                             // 内容Id
                             @PathVariable(value = "contentId",required = false) String contentId,
                             // 消息Id
-                            String msgId
+                            String msgId,
+                            // 电台id
+                            @PathVariable(value = "radioId",required = false) String radioId
     ) {
         if (Objects.nonNull(msgId)) {
             messageService.tagMsgRead(msgId);
@@ -134,6 +144,7 @@ public class ViewController {
                         .tagName(tagName)
                         .keyword(keyword)
                         .contentId(contentId)
+                        .radioId(radioId)
                         .msgId(msgId)
                         .build();
                 return abstractView.doBusiness(query);
