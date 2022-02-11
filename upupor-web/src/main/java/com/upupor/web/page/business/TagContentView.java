@@ -53,7 +53,7 @@ public class TagContentView extends AbstractView {
 
     @Override
     public String adapterUrlToViewName(String pageUrl) {
-        if(pageUrl.equals(URL)){
+        if(pageUrl.startsWith("/tag/")){
             return viewName();
         }
         return pageUrl;
