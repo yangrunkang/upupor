@@ -44,13 +44,7 @@
             <!--右列-->
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
-                    <nav class="mb-3">
-                        <div class="nav nav-tabs">
-                            <a class="nav-item nav-link cv-link" href="/user/manage/edit-user-info">完善用户信息</a>
-                            <a class="nav-item nav-link cv-link" href="/user/manage/bg-style-settings">背景设置</a>
-                            <a class="nav-item nav-link cv-link active" href="/user/manage/upload-profile-photo">用户头像</a>
-                        </div>
-                    </nav>
+                    <div th:replace="fragments/manage::user_settings('uploadUserVia')"></div>
                     <div class="container mb-3">
                         <div th:if="!${#strings.isEmpty(memberIndexDto.member.via)}" class="d-block text-center">
                             <img class="lazyload rounded" style="width: 90px;height: 90px" id="avatar" th:data-src="${memberIndexDto.member.via}" alt="avatar">

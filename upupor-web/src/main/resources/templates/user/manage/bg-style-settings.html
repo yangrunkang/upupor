@@ -39,13 +39,7 @@
             <!--右列-->
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
-                    <nav class="mb-3">
-                        <div class="nav nav-tabs">
-                            <a class="nav-item nav-link cv-link" href="/user/manage/edit-user-info">完善用户信息</a>
-                            <a class="nav-item nav-link cv-link active" href="/user/manage/bg-style-settings">背景设置</a>
-                            <a class="nav-item nav-link cv-link" href="/user/manage/upload-profile-photo">用户头像</a>
-                        </div>
-                    </nav>
+                    <div th:replace="fragments/manage::user_settings('bgStyleSettings')"></div>
                     <form>
                         <div class="border rounded my-2 p-1">
                             <div class="row container my-1" style="min-height: 60px">
