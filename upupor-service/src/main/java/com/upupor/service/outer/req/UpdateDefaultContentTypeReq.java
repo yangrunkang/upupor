@@ -25,37 +25,15 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.dao.entity;
+package com.upupor.service.outer.req;
 
-import com.upupor.service.types.OpenEmail;
 import lombok.Data;
 
 /**
- * 用户配置
- *
- * @author runkangyang
+ * @author YangRunkang(cruise)
+ * @date 2020/10/02 23:21
  */
 @Data
-public class MemberConfig extends BaseEntity {
-
-    private String configId;
-
-    private String userId;
-
-    private String bgImg;
-
-    private Long intervalTimeCreateContent;
-
-    private Long createTime;
-
-    /**
-     * 是否开启邮件通知 0-开启 1-关闭
-     */
-    private OpenEmail openEmail;
-
-    /**
-     * 默认的文章类型
-     */
-    private String defaultContentType;
-
+public class UpdateDefaultContentTypeReq {
+    private String selectedContentType;
 }

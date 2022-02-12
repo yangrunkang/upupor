@@ -25,37 +25,4 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.dao.entity;
-
-import com.upupor.service.types.OpenEmail;
-import lombok.Data;
-
-/**
- * 用户配置
- *
- * @author runkangyang
- */
-@Data
-public class MemberConfig extends BaseEntity {
-
-    private String configId;
-
-    private String userId;
-
-    private String bgImg;
-
-    private Long intervalTimeCreateContent;
-
-    private Long createTime;
-
-    /**
-     * 是否开启邮件通知 0-开启 1-关闭
-     */
-    private OpenEmail openEmail;
-
-    /**
-     * 默认的文章类型
-     */
-    private String defaultContentType;
-
-}
+alter table member_config add column `default_content_type` varchar(255) default null COMMENT '用户自己设置喜爱的内容类型';

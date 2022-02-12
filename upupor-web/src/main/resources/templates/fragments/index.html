@@ -83,7 +83,7 @@
             <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
             <a class="nav-link cv-link profile_message" th:href="'/profile/' + ${session?.cv_user_id}+'/message'" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
             <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
-            <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo" href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="设置"/> 设置</a>
+            <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo user_manage_default-content-setting" href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="设置"/> 设置</a>
         </div>
     </div>
 </div>
@@ -338,6 +338,10 @@ fromProfile: 是否来自Profile页面
             <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
                 <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
                 <span>签到领积分</span>
+            </a>
+            <a th:if="!${isSettingDefaultContent}" class="nav-link cv-link" href="/user/manage/default-content-setting" title="内容喜好设置">
+                <span><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="内容喜好设置"/></span>
+                <span>内容喜好设置</span>
             </a>
         </div>
     </div>

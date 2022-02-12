@@ -50,7 +50,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
+import static com.upupor.framework.CcConstant.IS_DEFAULT_CONTENT_TYPE;
 import static com.upupor.framework.CcConstant.UserView.USER_LOGIN;
 import static com.upupor.framework.utils.CcDateUtil.getResponseTime;
 
@@ -108,6 +110,11 @@ public class PageAspectAdvice {
             // 调用业务方法之后
             if (result instanceof ModelAndView) {
                 ModelAndView modelAndView = (ModelAndView) result;
+                Object isDefaultContentType = modelAndView.getModel().get(IS_DEFAULT_CONTENT_TYPE);
+                if(Objects.nonNull(isDefaultContentType) && ((Boolean)isDefaultContentType)){
+                    modelAndView.getModelMap().clear();
+                    return modelAndView;
+                }
                 setViewData(modelAndView, servletPath, startTime);
             }
 

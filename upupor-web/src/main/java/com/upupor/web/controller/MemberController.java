@@ -31,6 +31,8 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.business.aggregation.dao.entity.File;
 import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.MemberConfig;
+import com.upupor.service.business.aggregation.dao.mapper.MemberConfigMapper;
 import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.aggregation.service.MemberService;
@@ -79,6 +81,7 @@ public class MemberController {
     private final String forgetPassword = "forgetPassword";
     private final ApplicationEventPublisher eventPublisher;
     private final UpuporConfig upuporConfig;
+    private final MemberConfigMapper memberConfigMapper;
 
     @ApiOperation("用户登录")
     @PostMapping("get")
@@ -201,6 +204,30 @@ public class MemberController {
         Boolean editSuccess = memberService.editMemberBgStyle(updateCssReq);
         if (!editSuccess) {
             throw new BusinessException(ErrorCode.SETTING_BG_FAILED);
+        }
+        cc.setData(true);
+        return cc;
+    }
+
+    @ApiOperation("设置用户喜爱的文章类型")
+    @PostMapping("edit/default-content-type-settings")
+    @ResponseBody
+    public CcResponse defaultContentTypeSetting(UpdateDefaultContentTypeReq updateCssReq) throws Exception {
+        CcResponse cc = new CcResponse();
+        String userId = ServletUtils.getUserId();
+        if (StringUtils.isEmpty(userId)) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
+        }
+
+        Member member = memberService.memberInfo(userId);
+        MemberConfig memberConfig = member.getMemberConfig();
+        if(Objects.isNull(memberConfig)){
+            throw new BusinessException(ErrorCode.MEMBER_CONFIG_LESS);
+        }
+        memberConfig.setDefaultContentType(updateCssReq.getSelectedContentType());
+        int result = memberConfigMapper.updateById(memberConfig);
+        if(result <= 0 ){
+            throw new BusinessException(ErrorCode.SETTING_DEFAULT_CONTENT_TYPE_FAILED);
         }
         cc.setData(true);
         return cc;

@@ -28,7 +28,6 @@
 package com.upupor.web.aop.view;
 
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.dto.ContentTypeData;
 import com.upupor.web.UpuporWebApplication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -55,7 +54,6 @@ public class SetUpuporConfig implements PrepareData {
         modelAndView.addObject(OSS_STATIC, upuporConfig.getOssStatic());
         modelAndView.addObject(STATIC_SOURCE_VERSION, UpuporWebApplication.STATIC_SOURCE_VERSION);
         modelAndView.addObject(AD_SWITCH, upuporConfig.getAdSwitch());
-        modelAndView.addObject(SUPPORT_CONTENT_TYPE_LIST, new ContentTypeData().contentTypeDataList());
         modelAndView.addObject(AD_SWITCH_RIGHT, upuporConfig.getAdSwitchRight());
         modelAndView.addObject(GOOGLE_TAG_ID, upuporConfig.getGoogleTagId());
         // 谷歌广告信息
@@ -65,4 +63,6 @@ public class SetUpuporConfig implements PrepareData {
         // 分析开关
         modelAndView.addObject(ANALYZE_SWITCH, upuporConfig.getAnalyzeSwitch());
     }
+
+
 }

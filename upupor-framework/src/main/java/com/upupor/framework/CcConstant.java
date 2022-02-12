@@ -61,6 +61,10 @@ public final class CcConstant {
      */
     public static final String TIPS_OPERATION_SHOULD_LOGIN = "loginTips";
     /**
+     * 是否有默认内容类型
+     */
+    public static final String IS_DEFAULT_CONTENT_TYPE = "isDefaultContentType";
+    /**
      * 当前环境
      */
     public static final String ACTIVE_ENV = "activeEnv";
@@ -102,6 +106,11 @@ public final class CcConstant {
      * 系统支持的内容类型
      */
     public static final String SUPPORT_CONTENT_TYPE_LIST = "contentTypeList";
+
+    /**
+     * 用户是否设置内容喜好
+     */
+    public static final String USER_SETTING_DEFAULT_CONTENT = "isSettingDefaultContent";
 
     /**
      * 静态资源版本
@@ -219,6 +228,7 @@ public final class CcConstant {
         public static final String USER_MANAGE_EDIT_USER_INFO = BASE_PATH + "edit-user-info";
         public static final String USER_MANAGE_BG_STYLE_SETTINGS = BASE_PATH + "bg-style-settings";
         public static final String USER_MANAGE_UPLOAD_PROFILE_PHOTO = BASE_PATH + "upload-profile-photo";
+        public static final String USER_MANAGE_DEFAULT_CONTENT_TYPE = BASE_PATH + "default-content-setting";
         public static final String USER_MANAGE_ATTENTION = BASE_PATH + "attention";
         public static final String USER_MANAGE_FAN = BASE_PATH + "fan";
         public static final String USER_MANAGE_INTEGRAL = BASE_PATH + "integral-record";

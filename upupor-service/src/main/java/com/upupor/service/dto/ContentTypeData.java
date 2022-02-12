@@ -37,7 +37,11 @@ import java.util.List;
  * @author cruise
  */
 @Data
-public class ContentTypeData {
+public class ContentTypeData{
+
+    public static final Integer DEFAULT_SORTED = 0; // 默认排序
+    public static final Integer FIRST = -1; // 排在第一位
+
     private String typeName;
     private String name;
     private String url;
@@ -45,11 +49,13 @@ public class ContentTypeData {
     private String icon;
     private String tips;
     private String cssClass;
+    // 排序
+    private Integer sorted;
 
     public ContentTypeData() {
     }
 
-    public ContentTypeData(String typeName, String name, String url, String webText, String icon, String tips,String cssClass) {
+    public ContentTypeData(String typeName, String name, String url, String webText, String icon, String tips, String cssClass) {
         this.typeName = typeName;
         this.name = name;
         this.url = url;
@@ -57,10 +63,10 @@ public class ContentTypeData {
         this.icon = icon;
         this.tips = tips;
         this.cssClass = cssClass;
+        this.sorted = DEFAULT_SORTED;
     }
 
-
-    public List<ContentTypeData> contentTypeDataList(){
+    public List<ContentTypeData> contentTypeDataList() {
         List<ContentTypeData> list = new ArrayList<>();
         for (ContentType value : ContentType.contentSource()) {
             list.add(new ContentTypeData(

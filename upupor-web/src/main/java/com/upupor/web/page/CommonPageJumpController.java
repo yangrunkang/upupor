@@ -29,12 +29,19 @@ package com.upupor.web.page;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.MemberConfig;
 import com.upupor.service.business.aggregation.dao.entity.Tag;
+import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.TagService;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.ErrorCode;
 import com.upupor.service.outer.req.GetCommonReq;
 import com.upupor.service.types.ContentType;
+import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,8 +53,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.CONTENT_LIST;
-import static com.upupor.framework.CcConstant.RIGHT_ARROW;
+import static com.upupor.framework.CcConstant.*;
 
 
 /**
@@ -62,9 +68,12 @@ import static com.upupor.framework.CcConstant.RIGHT_ARROW;
 public class CommonPageJumpController {
     private final TagService tagService;
     private final CommonAggregateService commonAggregateService;
+    private final MemberService memberService;
+
+    public static final String WEB_INDEX = "/";
 
     @GetMapping(value = {
-            "/",
+            WEB_INDEX,
             "/qa", "/qa/{tagId}", "/qa/{tagId}/{tagInId}",
             "/topic",
             "/record", "/record/{tagId}",
@@ -72,25 +81,52 @@ public class CommonPageJumpController {
             "/tech", "/tech/{tagId}", "/tech/{tagId}/{tagInId}",
             "/workplace", "/workplace/{tagId}"
     })
-    public ModelAndView qa(Integer pageNum, Integer pageSize,
-                           @PathVariable(value = "tagId", required = false) String tagId,
-                           @PathVariable(value = "tagInId", required = false) String tagInId,
-                           HttpServletRequest request) {
+    public ModelAndView contentList(Integer pageNum, Integer pageSize,
+                                    @PathVariable(value = "tagId", required = false) String tagId,
+                                    @PathVariable(value = "tagInId", required = false) String tagInId,
+                                    HttpServletRequest request) {
         String servletPath = request.getServletPath();
 
+        // 只有跳转到首页才需要走这个逻辑
+        if (servletPath.equals(WEB_INDEX)) {
+            try {
+                String userId = ServletUtils.getUserId();
+
+                Member member = memberService.memberInfo(userId);
+                MemberConfig memberConfig = member.getMemberConfig();
+                if (Objects.isNull(memberConfig)) {
+                    throw new BusinessException(ErrorCode.MEMBER_CONFIG_LESS);
+                }
+                String defaultContentType = memberConfig.getDefaultContentType();
+                if (StringUtils.isNotEmpty(defaultContentType)) {
+                    ModelAndView modelAndView = new ModelAndView();
+                    modelAndView.setViewName("redirect:" + defaultContentType);
+                    modelAndView.addObject(IS_DEFAULT_CONTENT_TYPE,true);
+                    return modelAndView;
+                }
+            } catch (Exception ignored) {
+
+            }
+        }
+
+        // 默认的逻辑
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(CONTENT_LIST);
+        setViewTitle(tagId, modelAndView);
+
+        ContentType contentType = getContentIndexContentType(servletPath);
+        modelAndView.addObject(commonAggregateService.index(GetCommonReq.create(tagId, tagInId, pageNum, pageSize, contentType)));
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, ContentType.getName(contentType));
+        return modelAndView;
+    }
+
+
+    private ContentType getContentIndexContentType(String servletPath) {
         ContentType contentType = ContentType.getByStartUrl(servletPath);
         if (Objects.isNull(contentType)) {
             contentType = ContentType.TECH;
         }
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject(commonAggregateService.index(GetCommonReq.create(tagId, tagInId, pageNum, pageSize, contentType)));
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, ContentType.getName(contentType));
-        modelAndView.setViewName(CONTENT_LIST);
-        // 绑定一级文章标题
-        setViewTitle(tagId, modelAndView);
-
-        return modelAndView;
+        return contentType;
     }
 
 

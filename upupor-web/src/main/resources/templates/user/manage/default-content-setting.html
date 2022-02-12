@@ -1,0 +1,70 @@
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021-2022 yangrunkang
+  ~
+  ~ Author: yangrunkang
+  ~ Email: yangrunkang53@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="index">
+<!--css-->
+<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/user/manage/default-content-setting.css}"/>
+<!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/default-content-setting.js}"></script>
+<div th:fragment="content">
+    <!--内容管理-->
+    <div class="container">
+        <div class="row">
+            <!--右列-->
+            <div class="col-lg-9 mb-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div th:replace="fragments/manage::user_settings('userDefaultContent')"></div>
+                    <div class="text-black-50 mb-2">选择您感兴趣的内容分类:</div>
+                    <!--设置用户默认的文章类型,用于登录跳转-->
+                    <select class="form-select" id="selected_content_type">
+                        <option value="">无</option>
+                        <option th:each="type : ${contentTypeList}"
+                                th:value="${type.url}"
+                                th:selected="${memberIndexDto?.member?.memberConfig.defaultContentType == type.url}"
+                        >
+                            [[${type.name}]]
+                        </option>
+                    </select>
+                    <div class="row mt-3">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <button type="button" onclick="submitDefaultSelectContentType()" class="btn rounded-3 bg-gradient btn-primary">设置</button>
+                            <button type="button" class="btn rounded-3 bg-gradient btn-secondary">取消</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--左列-用户信息-->
+            <div class="col-lg-3">
+                <div th:include="fragments/index::user_index_left"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

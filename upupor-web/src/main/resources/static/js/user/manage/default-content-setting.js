@@ -25,37 +25,37 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.dao.entity;
+$(function () {
+    // 激活右边内容按钮
+    userLeftContentBtnActive();
+});
 
-import com.upupor.service.types.OpenEmail;
-import lombok.Data;
+function userLeftContentBtnActive(){
+    let path_name = window.location.pathname;
+    $("." + path_name.split("/").slice(1).join("_")).addClass('active');
+}
 
 /**
- * 用户配置
- *
- * @author runkangyang
+ * 获取选中的选项值
+ * @returns {null}
  */
-@Data
-public class MemberConfig extends BaseEntity {
-
-    private String configId;
-
-    private String userId;
-
-    private String bgImg;
-
-    private Long intervalTimeCreateContent;
-
-    private Long createTime;
-
-    /**
-     * 是否开启邮件通知 0-开启 1-关闭
-     */
-    private OpenEmail openEmail;
-
-    /**
-     * 默认的文章类型
-     */
-    private String defaultContentType;
-
+function getSelectedContentType() {
+    return $("#selected_content_type").val();
 }
+
+
+function submitDefaultSelectContentType() {
+    let selectedContentType = getSelectedContentType();
+
+    $.cvPost('/member/edit/default-content-type-settings', {selectedContentType}, function (data) {
+        if (respSuccess(data)) {
+            $.cvSuccess("设置成功,即将跳转至首页");
+            setTimeout(function () {
+                window.location.href = '/';
+            }, 2800)
+        } else {
+            $.cvError("设置失败")
+        }
+    });
+}
+
