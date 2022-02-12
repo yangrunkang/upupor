@@ -28,8 +28,6 @@
 package com.upupor.web.page.abstracts;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.web.page.content.ContentDetailView;
-import com.upupor.web.page.radio.RadioDetailView;
 import joptsimple.internal.Strings;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -114,6 +112,10 @@ public abstract class AbstractView {
         return modelAndView;
     }
 
+    protected Boolean isNeedSpecifyPage(){
+        return Boolean.FALSE;
+    }
+
     /**
      * 初始化
      *
@@ -124,7 +126,7 @@ public abstract class AbstractView {
         modelAndView = new ModelAndView();
 
         // 优先使用个性化分页参数
-        if ((this instanceof ContentDetailView) || (this instanceof RadioDetailView)) {
+        if(isNeedSpecifyPage()){
             specifyPage();
         } else {
             // 默认分页参数

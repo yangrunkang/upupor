@@ -116,4 +116,9 @@ public class ContentDetailView extends AbstractView {
             query.setPageSize(pageSize);
         }
     }
+
+    @Override
+    protected Boolean isNeedSpecifyPage() {
+        return Boolean.TRUE;
+    }
 }
