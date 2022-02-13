@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.manage.AbstractManageInfoGet;
+import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.CommonService;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ContentManageService;
@@ -45,7 +45,7 @@ import static com.upupor.service.common.ErrorCode.CONTENT_NOT_EXISTS;
  * @createTime 2021-12-24 18:03
  */
 @Component
-public class DraftManage extends AbstractManageInfoGet {
+public class DraftManage extends AbstractManage {
 
     @Resource
     private ContentManageService contentManageService;

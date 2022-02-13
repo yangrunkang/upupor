@@ -29,7 +29,7 @@ package com.upupor.service.business.manage.business;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.manage.AbstractManageInfoGet;
+import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ApplyManageService;
 import com.upupor.service.dto.page.apply.ApplyContentDto;
@@ -48,7 +48,7 @@ import java.util.Objects;
  * @createTime 2021-12-24 18:03
  */
 @Component
-public class ApplyManage extends AbstractManageInfoGet {
+public class ApplyManage extends AbstractManage {
 
     @Resource
     private ApplyManageService applyManageService;

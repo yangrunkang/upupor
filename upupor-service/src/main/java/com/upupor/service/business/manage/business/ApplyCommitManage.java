@@ -30,7 +30,7 @@ package com.upupor.service.business.manage.business;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Apply;
 import com.upupor.service.business.aggregation.service.ApplyService;
-import com.upupor.service.business.manage.AbstractManageInfoGet;
+import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.dto.page.common.ApplyDto;
 import com.upupor.service.utils.Asserts;
@@ -45,7 +45,7 @@ import static com.upupor.service.common.ErrorCode.NOT_EXISTS_APPLY;
  * @createTime 2021-12-24 18:03
  */
 @Component
-public class ApplyCommitManage extends AbstractManageInfoGet {
+public class ApplyCommitManage extends AbstractManage {
     @Resource
     private ApplyService applyService;
 

@@ -25,55 +25,52 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.manage.business;
+package com.upupor.service.business.pages.history;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.FileService;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.manage.AbstractManage;
-import com.upupor.service.business.manage.ManageDto;
+import com.upupor.service.business.aggregation.service.ViewerService;
+import com.upupor.service.business.pages.AbstractView;
+import com.upupor.service.utils.ServletUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
-import java.util.List;
+
 
 /**
- * @author cruise
- * @createTime 2021-12-24 18:03
+ * 浏览记录
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月08日 23:11
+ * @email: yangrunkang53@gmail.com
  */
+@RequiredArgsConstructor
 @Component
-public class ProfilePhotoManage extends AbstractManage {
+public class HistoryView extends AbstractView {
 
-    @Resource
-    private MemberService memberService;
+    private final ViewerService viewerService;
 
-    @Resource
-    private FileService fileService;
-
-    @Override
-    protected void specifyDtoHandle(ManageDto manageDto) {
-        String userId = manageDto.getUserId();
-
-        Member member = memberService.memberInfoData(userId);
-        // 获取用户历史头像
-        List<String> userHistoryViaList = fileService.getUserHistoryViaList(member.getUserId());
-        if (!CollectionUtils.isEmpty(userHistoryViaList)) {
-            member.setHistoryViaList(userHistoryViaList);
-        }
-        getMemberIndexDto().setMember(member);
-
-    }
-
+    public final static String URL = "/view/history";
 
     @Override
     public String viewName() {
-        return CcConstant.UserManageView.USER_MANAGE_UPLOAD_PROFILE_PHOTO;
+        return CcConstant.VIEW_HISTORY;
     }
 
     @Override
-    public String viewDesc() {
-        return "上传头像";
+    public String adapterUrlToViewName(String pageUrl) {
+        if(pageUrl.equals(URL)){
+            return viewName();
+        }
+        return pageUrl;
+    }
+
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "浏览记录");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "浏览记录");
+    }
+
+    @Override
+    protected void fetchData() {
+        modelAndView.addObject(viewerService.listViewHistoryByUserId(ServletUtils.getUserId(), query.getPageNum(),query.getPageSize() ));
     }
 }

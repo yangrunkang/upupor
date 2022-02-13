@@ -25,55 +25,85 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.manage.business;
+package com.upupor.service.business.manage;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.manage.AbstractManage;
-import com.upupor.service.business.manage.ManageDto;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
+import com.upupor.service.dto.page.MemberIndexDto;
+import com.upupor.service.utils.ServletUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
+ * 抽象管理
+ *
  * @author cruise
  * @createTime 2021-12-24 18:03
  */
-@Component
-public class ProfilePhotoManage extends AbstractManage {
+public abstract class AbstractManage {
 
     @Resource
     private MemberService memberService;
 
-    @Resource
-    private FileService fileService;
+    /**
+     * 管理统一返回的IndexDto
+     */
+    private MemberIndexDto memberIndexDto = new MemberIndexDto();
 
-    @Override
-    protected void specifyDtoHandle(ManageDto manageDto) {
-        String userId = manageDto.getUserId();
-
+    /**
+     * 获取用户信息
+     */
+    public MemberIndexDto initMemberInfo() {
+        memberIndexDto = new MemberIndexDto();
+        String userId =ServletUtils.getUserId();
         Member member = memberService.memberInfoData(userId);
-        // 获取用户历史头像
-        List<String> userHistoryViaList = fileService.getUserHistoryViaList(member.getUserId());
-        if (!CollectionUtils.isEmpty(userHistoryViaList)) {
-            member.setHistoryViaList(userHistoryViaList);
-        }
-        getMemberIndexDto().setMember(member);
+        member.setMemberConfig(member.getMemberConfig());
+        memberIndexDto.setMember(member);
+        return memberIndexDto;
+    }
 
+    protected MemberIndexDto getMemberIndexDto() {
+        return memberIndexDto;
+    }
+
+    /**
+     * 指定Dto处理
+     *
+     * @param manageDto
+     */
+    protected abstract void specifyDtoHandle(ManageDto manageDto);
+
+    /**
+     * 路径
+     * @return
+     */
+    public abstract String viewName();
+
+    /**
+     * 前缀
+     * @return
+     */
+    public String prefix(){
+        return CcConstant.UserManageView.BASE_PATH;
+    }
+
+    /**
+     * 页面描述
+     * @return
+     */
+    public abstract String viewDesc();
+
+    /**
+     * 暴露出去
+     *
+     * @return
+     */
+    public MemberIndexDto getData(ManageDto manageDto) {
+        initMemberInfo();
+        specifyDtoHandle(manageDto);
+        return memberIndexDto;
     }
 
 
-    @Override
-    public String viewName() {
-        return CcConstant.UserManageView.USER_MANAGE_UPLOAD_PROFILE_PHOTO;
-    }
-
-    @Override
-    public String viewDesc() {
-        return "上传头像";
-    }
 }

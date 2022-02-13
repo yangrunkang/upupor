@@ -25,55 +25,37 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.manage.business;
+package com.upupor.service.business.pages.member;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.FileService;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.manage.AbstractManage;
-import com.upupor.service.business.manage.ManageDto;
+import com.upupor.service.business.pages.AbstractView;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
-import java.util.List;
+import static com.upupor.framework.CcConstant.UserView.FORGET_PASSWORD;
 
 /**
- * @author cruise
- * @createTime 2021-12-24 18:03
+ * 忘记密码
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月05日 23:40
+ * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ProfilePhotoManage extends AbstractManage {
-
-    @Resource
-    private MemberService memberService;
-
-    @Resource
-    private FileService fileService;
-
-    @Override
-    protected void specifyDtoHandle(ManageDto manageDto) {
-        String userId = manageDto.getUserId();
-
-        Member member = memberService.memberInfoData(userId);
-        // 获取用户历史头像
-        List<String> userHistoryViaList = fileService.getUserHistoryViaList(member.getUserId());
-        if (!CollectionUtils.isEmpty(userHistoryViaList)) {
-            member.setHistoryViaList(userHistoryViaList);
-        }
-        getMemberIndexDto().setMember(member);
-
-    }
-
+public class ForgetPasswordView extends AbstractView {
+    public static final String URL = "/forget-password";
 
     @Override
     public String viewName() {
-        return CcConstant.UserManageView.USER_MANAGE_UPLOAD_PROFILE_PHOTO;
+        return FORGET_PASSWORD;
     }
 
     @Override
-    public String viewDesc() {
-        return "上传头像";
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "忘记密码");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "忘记密码");
+    }
+
+    @Override
+    public String prefix() {
+        return CcConstant.UserView.BASE_PATH;
     }
 }

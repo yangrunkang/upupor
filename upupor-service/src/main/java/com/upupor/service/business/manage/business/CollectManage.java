@@ -32,7 +32,7 @@ import com.upupor.service.business.aggregation.dao.entity.Collect;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.CollectService;
 import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.business.manage.AbstractManageInfoGet;
+import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.dto.page.common.ListCollectDto;
 import com.upupor.service.types.CollectType;
@@ -49,7 +49,7 @@ import java.util.stream.Collectors;
  * @createTime 2021-12-24 18:03
  */
 @Component
-public class CollectManage extends AbstractManageInfoGet {
+public class CollectManage extends AbstractManage {
     @Resource
     private CollectService collectService;
     @Resource

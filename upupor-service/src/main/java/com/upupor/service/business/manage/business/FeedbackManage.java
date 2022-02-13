@@ -29,7 +29,7 @@ package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.manage.AbstractManageInfoGet;
+import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,7 @@ import javax.annotation.Resource;
  * @createTime 2021-12-24 18:03
  */
 @Component
-public class FeedbackManage extends AbstractManageInfoGet {
+public class FeedbackManage extends AbstractManage {
 
     @Resource
     private MemberService memberService;

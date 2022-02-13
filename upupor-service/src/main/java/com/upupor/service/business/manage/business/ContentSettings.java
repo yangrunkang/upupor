@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.manage.AbstractManageInfoGet;
+import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ContentSettings extends AbstractManageInfoGet {
+public class ContentSettings extends AbstractManage {
 
 
     @Override

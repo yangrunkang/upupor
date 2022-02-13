@@ -25,55 +25,45 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.manage.business;
+package com.upupor.service.business.pages.footer;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.FileService;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.manage.AbstractManage;
-import com.upupor.service.business.manage.ManageDto;
+import com.upupor.service.business.pages.AbstractView;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
-import java.util.List;
+import static com.upupor.framework.CcConstant.BUSINESS_COOPERATION;
 
 /**
- * @author cruise
- * @createTime 2021-12-24 18:03
+ * 商务合作
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月08日 23:31
+ * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ProfilePhotoManage extends AbstractManage {
-
-    @Resource
-    private MemberService memberService;
-
-    @Resource
-    private FileService fileService;
-
-    @Override
-    protected void specifyDtoHandle(ManageDto manageDto) {
-        String userId = manageDto.getUserId();
-
-        Member member = memberService.memberInfoData(userId);
-        // 获取用户历史头像
-        List<String> userHistoryViaList = fileService.getUserHistoryViaList(member.getUserId());
-        if (!CollectionUtils.isEmpty(userHistoryViaList)) {
-            member.setHistoryViaList(userHistoryViaList);
-        }
-        getMemberIndexDto().setMember(member);
-
-    }
-
+public class BusinessCooperationView extends AbstractView {
+    public static final String URL = "/business-cooperation";
 
     @Override
     public String viewName() {
-        return CcConstant.UserManageView.USER_MANAGE_UPLOAD_PROFILE_PHOTO;
+        return BUSINESS_COOPERATION;
     }
 
     @Override
-    public String viewDesc() {
-        return "上传头像";
+    public String adapterUrlToViewName(String pageUrl) {
+        if(pageUrl.equals(URL)){
+            return viewName();
+        }
+        return pageUrl;
+    }
+
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "商务合作");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "Upupor商务合作项目包括广告服务,咨询服务,课程推广");
+    }
+
+    @Override
+    protected void fetchData() {
+        super.fetchData();
     }
 }

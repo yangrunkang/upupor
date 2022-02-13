@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.manage.AbstractManageInfoGet;
+import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
  * @createTime 2021-12-24 18:03
  */
 @Component
-public class DefaultContentTypeManage extends AbstractManageInfoGet {
+public class DefaultContentTypeManage extends AbstractManage {
 
     @Override
     protected void specifyDtoHandle(ManageDto manageDto) {

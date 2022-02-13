@@ -25,45 +25,25 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.manage.business;
+package com.upupor.service.business.pages;
 
-import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.MemberIntegralService;
-import com.upupor.service.business.manage.AbstractManage;
-import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.dto.page.common.ListIntegralDto;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
+import lombok.Builder;
+import lombok.Data;
 
 /**
- * @author cruise
- * @createTime 2021-12-24 18:03
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月09日 12:45
+ * @email: yangrunkang53@gmail.com
  */
-@Component
-public class IntegraManage extends AbstractManage {
-    @Resource
-    private MemberIntegralService memberIntegralService;
-
-    @Override
-    protected void specifyDtoHandle(ManageDto manageDto) {
-
-        Integer pageNum = manageDto.getPageNum();
-        Integer pageSize = manageDto.getPageSize();
-        String userId = manageDto.getUserId();
-
-        ListIntegralDto listIntegralDto = memberIntegralService.list(userId, pageNum, pageSize);
-        getMemberIndexDto().setListIntegralDto(listIntegralDto);
-    }
-
-
-    @Override
-    public String viewName() {
-        return CcConstant.UserManageView.USER_MANAGE_INTEGRAL;
-    }
-
-    @Override
-    public String viewDesc() {
-        return "积分记录";
-    }
+@Data
+@Builder
+public class Query {
+    private Integer pageNum;
+    private Integer pageSize;
+    private String tagName;
+    private String keyword;
+    private String contentId;
+    private String radioId;
+    // 消息Id
+    private String msgId;
 }

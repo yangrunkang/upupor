@@ -27,7 +27,7 @@
 
 package com.upupor.web.page;
 
-import com.upupor.service.business.manage.AbstractManageInfoGet;
+import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.business.ApplyCommitManage;
 import com.upupor.service.common.BusinessException;
@@ -63,7 +63,7 @@ import static com.upupor.framework.CcConstant.SeoKey;
 @RequiredArgsConstructor
 public class MemberManageJumpController {
 
-    private final List<AbstractManageInfoGet> abstractManageInfoGetList;
+    private final List<AbstractManage> abstractManageList;
     private final ApplyCommitManage applyCommitManage;
 
     @ApiOperation("个人中心-内容管理")
@@ -82,14 +82,14 @@ public class MemberManageJumpController {
             }
         }
 
-        for (AbstractManageInfoGet abstractManageInfoGet : abstractManageInfoGetList) {
+        for (AbstractManage abstractManage : abstractManageList) {
             ManageDto build = ManageDto.builder().pageSize(pageSize).pageNum(pageNum).userId(ServletUtils.getUserId()).searchTitle(searchTitle).messageStatus(messageStatus).select(select).build();
-            if (abstractManageInfoGet.viewName().replace(abstractManageInfoGet.prefix(), Strings.EMPTY).equals(path)) {
+            if (abstractManage.viewName().replace(abstractManage.prefix(), Strings.EMPTY).equals(path)) {
                 ModelAndView modelAndView = new ModelAndView();
-                modelAndView.setViewName(abstractManageInfoGet.viewName());
-                modelAndView.addObject(abstractManageInfoGet.getData(build));
-                modelAndView.addObject(SeoKey.TITLE, abstractManageInfoGet.viewDesc());
-                modelAndView.addObject(SeoKey.DESCRIPTION, abstractManageInfoGet.viewDesc());
+                modelAndView.setViewName(abstractManage.viewName());
+                modelAndView.addObject(abstractManage.getData(build));
+                modelAndView.addObject(SeoKey.TITLE, abstractManage.viewDesc());
+                modelAndView.addObject(SeoKey.DESCRIPTION, abstractManage.viewDesc());
                 return modelAndView;
             }
         }
