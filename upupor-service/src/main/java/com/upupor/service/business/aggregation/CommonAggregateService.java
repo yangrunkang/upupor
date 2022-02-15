@@ -29,6 +29,7 @@ package com.upupor.service.business.aggregation;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.CcConstant;
+import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.business.aggregation.service.BannerService;
 import com.upupor.service.business.aggregation.service.ContentService;
@@ -104,6 +105,10 @@ public class CommonAggregateService {
             cacheMemberDto = JSON.parseObject(activeUserListJson, CacheMemberDto.class);
         }
 
+        // 最近一周新增的文章
+        List<Content> latestContentList = contentService.latestContentList();
+
+
         // 获取Banner栏
         ListBannerDto listBannerDto = bannerService.listBannerByStatus(BannerStatus.NORMAL, CcConstant.Page.NUM, CcConstant.Page.SIZE);
 
@@ -114,6 +119,7 @@ public class CommonAggregateService {
         commonPageIndexDto.setListBannerDto(listBannerDto);
         commonPageIndexDto.setCurrentRootUrl(ContentType.getUrl(getCommonReq.getContentType()));
         commonPageIndexDto.setCreateContentDesc(getCreateContentInfo(getCommonReq.getContentType(), tag));
+        commonPageIndexDto.setLatestContentList(latestContentList);
         return commonPageIndexDto;
     }
 

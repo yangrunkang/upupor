@@ -61,20 +61,40 @@
                         </a>
                     </div>
                 </div>
-
                 <!--全局个人信息卡片-->
                 <div th:include="fragments/index::global_member_info"></div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
-                <!--全局搜索-->
-                <div th:include="fragments/index::global_search"></div>
+                <!--最近一周新增文章-->
+                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                    <div class="fw-normal border-bottom mb-2 text-black-50">最新文章</div>
+                    <table class="table table-borderless mb-0">
+                        <tbody>
+                        <tr th:if="!${#lists.isEmpty(commonPageIndexDto.latestContentList)}"
+                            th:each="content,ite : ${commonPageIndexDto.latestContentList}"
+                        >
+                            <td>
+                                <span th:replace="fragments/index::content_manage(${content})"></span>
+                            </td>
+
+                            <td style="text-align: right">
+<!--                                <span th:include="fragments/index::content_type"></span>-->
+                                <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.member.userId}+'/content'"  th:title="${content.member.userName}">
+                                    <img class="lazyload aalign-self-center me-1 img rounded" style="width: 20px;height: 20px" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <!--活跃用户-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
-                    <div class="fw-normal border-bottom mb-2 text-black-50">活跃用户Top10</div>
+                    <div class="fw-normal border-bottom mb-2 text-black-50">最近登录的用户</div>
                     <div class="nav flex-column nav-pills" aria-orientation="vertical" th:if="!${#lists.isEmpty(commonPageIndexDto.memberList)}">
                         <a class="d-flex align-items-center my-1 mb-2 cv-link" th:each="member,ite : ${commonPageIndexDto.memberList}" th:href="@{'/profile/'+${member.userId}+'/content'}" th:title="${member.userName}">
                             <img class="align-self-center me-1 img rounded" style="width: 20px;height: 20px" th:src="${member.via}" th:alt="${member.userName}">
                             <div class="flex-grow-1 ms-1">
-                                <div class="mt-0" th:text="${member.userName}" ></div>
+                                <span class="mt-0" th:text="${member.userName}" ></span>
+                                <span th:include="fragments/profile::memberActive(${member.active})"></span>
                             </div>
                         </a>
                         <a class="d-flex align-items-center my-1 mb-2 cv-link" href="/list-user">
@@ -88,10 +108,13 @@
                         <div th:include="fragments/index::empty_content"></div>
                     </div>
                 </div>
+
                 <div th:include="fragments/index::google_right_ad"></div>
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
                     <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>浏览记录</a>
                 </div>
+                <!--全局搜索-->
+                <div th:include="fragments/index::global_search"></div>
         </div>
         </div>
     </div>

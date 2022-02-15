@@ -581,6 +581,7 @@ fromProfile: 是否来自Profile页面
                     <a th:href="@{'/profile/'+${member.userId}+'/content'}" class="cv-link fs-6 fst-normal"
                        th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
                         <span th:text="${member.userName}">标题</span>
+                        <span th:include="fragments/profile::memberActive(${member.active})"></span>
                     </a>
                     <div class="text-black-50" th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">内容简介</div>
                 </div>

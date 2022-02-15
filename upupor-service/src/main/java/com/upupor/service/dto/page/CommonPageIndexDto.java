@@ -29,6 +29,7 @@ package com.upupor.service.dto.page;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.dto.page.common.ListBannerDto;
@@ -67,6 +68,11 @@ public class CommonPageIndexDto {
     private List<Member> memberList;
 
     /**
+     * 最近一周新增文章
+     */
+    private List<Content> latestContentList;
+
+    /**
      * 是否领取过今天积分
      */
     private Boolean isGetDailyPoints;
@@ -84,6 +90,7 @@ public class CommonPageIndexDto {
     public CommonPageIndexDto() {
         this.listContentDto = new ListContentDto();
         this.tagList = new ArrayList<>();
+        this.latestContentList = new ArrayList<>();
     }
 
     public ListContentDto getListContentDto() {

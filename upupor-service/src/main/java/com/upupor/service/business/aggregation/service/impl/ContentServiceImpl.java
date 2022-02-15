@@ -31,6 +31,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.business.aggregation.dao.mapper.*;
 import com.upupor.service.business.aggregation.service.*;
@@ -665,5 +666,18 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public void updateContentData(ContentData contentData) {
         contentDataMapper.updateById(contentData);
+    }
+
+    @Override
+    public List<Content> latestContentList() {
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
+                .eq(Content::getStatus,ContentStatus.NORMAL)
+                .ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - 7*24*60*60)
+                .orderByDesc(Content::getCreateTime)
+                ;
+
+        List<Content> contentList = contentMapper.selectList(query);
+        this.bindContentMember(contentList);
+        return contentList;
     }
 }

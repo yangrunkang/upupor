@@ -320,4 +320,12 @@ public interface ContentService {
     Integer getUserTotalContentNum(String userId);
 
     void updateContentData(ContentData contentData);
+
+    /**
+     * 最近一周新增的文章
+     * @return
+     */
+    List<Content> latestContentList();
+
+
 }

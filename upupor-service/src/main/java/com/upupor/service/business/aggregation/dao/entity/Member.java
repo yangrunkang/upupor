@@ -133,6 +133,11 @@ public class Member extends BaseEntity {
     @TableField(exist = false)
     private Statement statement;
 
+
+    @TableField(exist = false)
+    private Boolean active = false;
+
+
     /**
      * 感谢点赞的html
      */
@@ -178,4 +183,11 @@ public class Member extends BaseEntity {
         return via;
     }
 
+    public Boolean getActive() {
+        if(Objects.isNull(lastLoginTime)){
+            return active;
+        }
+        // 1小时以内都算活跃用户
+        return CcDateUtil.getCurrentTime() - lastLoginTime <= 1*60*60;
+    }
 }
