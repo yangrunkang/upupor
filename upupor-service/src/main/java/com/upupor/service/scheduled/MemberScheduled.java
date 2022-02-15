@@ -61,7 +61,7 @@ public class MemberScheduled {
      * 每 6 分钟更新一次缓存
      */
     @Scheduled(cron = "0 0/6 * * * ? ")
-    public void globalContent() {
+    public void refreshActiveMember() {
         log.info("统计活跃用户任务启动");
         List<Member> memberList = memberService.activeMember();
         if (CollectionUtils.isEmpty(memberList)) {

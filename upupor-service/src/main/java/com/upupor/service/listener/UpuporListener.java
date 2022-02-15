@@ -32,6 +32,7 @@ import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
+import com.upupor.service.scheduled.MemberScheduled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -55,6 +56,7 @@ import java.util.Objects;
 public class UpuporListener {
     private final GenerateSiteMapScheduled generateSiteMapScheduled;
     private final MemberService memberService;
+    private final MemberScheduled memberScheduled;
 
     /**
      * 埋点
@@ -83,6 +85,8 @@ public class UpuporListener {
         //检测是否是userId
         if (org.apache.commons.lang3.StringUtils.isNumeric(userId)) {
             memberService.updateActiveTime(userId);
+            // 立即刷新最近登录的用户
+            memberScheduled.refreshActiveMember();
         }
 
     }
