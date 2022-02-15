@@ -77,9 +77,8 @@
                             </td>
 
                             <td class="p-1" style="text-align: right">
-<!--                                <span th:include="fragments/index::content_type"></span>-->
                                 <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.member.userId}+'/content'"  th:title="${content.member.userName}">
-                                    <img class="lazyload aalign-self-center me-1 img rounded" style="width: 20px;height: 20px" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
+                                    <img class="me-1 img rounded" style="width: 20px;height: 20px" th:src="${content.member.via}" th:alt="${content.member.userName}">
                                 </a>
                             </td>
                         </tr>
