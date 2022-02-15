@@ -258,11 +258,13 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateContent(UpdateContentReq updateContentReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.EDIT, updateContentReq);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateContentStatus(UpdateContentReq updateContentReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.UPDATE_STATUS, updateContentReq);
     }
