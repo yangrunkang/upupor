@@ -67,16 +67,16 @@
                 <!--最近一周新增文章-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
                     <div class="fw-normal border-bottom mb-2 text-black-50">最新文章</div>
-                    <table class="table table-borderless mb-0">
+                    <table class="table table-sm table-borderless mb-0">
                         <tbody>
                         <tr th:if="!${#lists.isEmpty(commonPageIndexDto.latestContentList)}"
                             th:each="content,ite : ${commonPageIndexDto.latestContentList}"
                         >
-                            <td>
+                            <td class="p-1">
                                 <span th:replace="fragments/index::content_manage(${content})"></span>
                             </td>
 
-                            <td style="text-align: right">
+                            <td class="p-1" style="text-align: right">
 <!--                                <span th:include="fragments/index::content_type"></span>-->
                                 <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.member.userId}+'/content'"  th:title="${content.member.userName}">
                                     <img class="lazyload aalign-self-center me-1 img rounded" style="width: 20px;height: 20px" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
