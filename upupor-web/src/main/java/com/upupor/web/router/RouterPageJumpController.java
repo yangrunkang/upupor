@@ -29,6 +29,7 @@ package com.upupor.web.router;
 
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.pages.footer.DeveloperView;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
@@ -56,10 +57,11 @@ public class RouterPageJumpController {
     private final ContentService contentService;
 
 
-    private final static String INDEX = "redirect:/";
-    private final static String PUBLIC_CONTENT = "redirect:/u/";
-    private final static String DRAFT_CONTENT = "redirect:/m/";
-    private final static String PROFILE = "redirect:/profile/";
+    private final static String REDIRECT = "redirect:";
+    private final static String INDEX = REDIRECT + "/";
+    private final static String PUBLIC_CONTENT = REDIRECT + "/u/";
+    private final static String DRAFT_CONTENT = REDIRECT + "/m/";
+    private final static String PROFILE = REDIRECT + "/profile/";
 
 
     @ApiOperation("跳转到当前用户最新的文章详情")
@@ -140,6 +142,16 @@ public class RouterPageJumpController {
     public ModelAndView profileContent(@PathVariable("userId") String userId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(PROFILE + userId + "/content");
+        return modelAndView;
+    }
+
+    /**
+     * 团队链接转开发者
+     */
+    @GetMapping("/team")
+    public ModelAndView developer() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(REDIRECT + DeveloperView.URL);
         return modelAndView;
     }
 

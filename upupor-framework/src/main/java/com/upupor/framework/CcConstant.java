@@ -188,7 +188,7 @@ public final class CcConstant {
      */
     public static final String BUSINESS_COOPERATION = "foot/business-cooperation";
     public static final String VISION = "foot/vision";
-    public static final String TEAM = "foot/team";
+    public static final String DEVELOPER = "foot/developer";
     public static final String THANKS = "foot/thanks";
     public static final String BRAND_STORY = "foot/brand-story";
     public static final String CHECK_INFO = "foot/check";

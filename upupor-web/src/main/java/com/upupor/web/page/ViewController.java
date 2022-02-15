@@ -86,7 +86,7 @@ public class ViewController {
             ThanksView.URL, // 感谢
             BrandStoryView.URL, // 品牌故事
             AboutAdView.URL, // 关于广告
-            TeamView.URL, // 团队
+            DeveloperView.URL, // 团队
             ApplyAdView.URL, // 申请广告
             ApplyConsultantView.URL, // 咨询服务申请
             OpenSourceView.URL, // 开源

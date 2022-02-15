@@ -549,13 +549,10 @@ fromProfile: 是否来自Profile页面
 </div>
 
 
-
-
-
 <div th:fragment="foot_left(target)">
     <a th:class="${target == 'vision'?'nav-link cv-link active':'nav-link cv-link'}" href="/vision" title="愿景"><img th:data-src="${ossStatic} + @{/icons/system/footer/vision.svg}" class="lazyload cv-icon" />  愿景</a>
     <a th:class="${target == 'brand-story'?'nav-link cv-link active':'nav-link cv-link'}" href="/brand-story" title="品牌故事"><img th:data-src="${ossStatic} + @{/icons/system/footer/brand-story.svg}" class="lazyload cv-icon" />  品牌故事</a>
-    <a th:class="${target == 'team'?'nav-link cv-link active':'nav-link cv-link'}" href="/team" title="技术"><img th:data-src="${ossStatic} + @{/icons/system/footer/teamwork.svg}" class="lazyload cv-icon" />  技术</a>
+    <a th:class="${target == 'team'?'nav-link cv-link active':'nav-link cv-link'}" href="/developer" title="技术"><img th:data-src="${ossStatic} + @{/icons/system/footer/teamwork.svg}" class="lazyload cv-icon" />  开发者</a>
     <a th:class="${target == 'thanks'?'nav-link cv-link active':'nav-link cv-link'}" href="/thanks" title="致谢"><img th:data-src="${ossStatic} + @{/icons/system/footer/thanks.svg}" class="lazyload cv-icon" />  致谢</a>
     <a th:class="${target == 'logo-design'?'nav-link cv-link active':'nav-link cv-link'}" href="/logo-design" title="logo设计"><img th:data-src="${ossStatic} + @{/icons/system/footer/design.svg}" class="lazyload cv-icon" />  logo设计</a>
     <a th:class="${target == 'business-cooperation'?'nav-link cv-link active':'nav-link cv-link'}" href="/business-cooperation" title="商务合作"><img th:data-src="${ossStatic} + @{/icons/system/footer/business-co.svg}" class="lazyload cv-icon" />  商务合作</a>

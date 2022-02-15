@@ -31,21 +31,21 @@ import com.upupor.framework.CcConstant;
 import com.upupor.service.business.pages.AbstractView;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.TEAM;
+import static com.upupor.framework.CcConstant.DEVELOPER;
 
 /**
- * 团队
+ * 开发者
  * @author Yang Runkang (cruise)
  * @date 2022年02月09日 12:14
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class TeamView extends AbstractView {
-    public static final String URL = "/team";
+public class DeveloperView extends AbstractView {
+    public static final String URL = "/developer";
 
     @Override
     public String viewName() {
-        return TEAM;
+        return DEVELOPER;
     }
 
     @Override
