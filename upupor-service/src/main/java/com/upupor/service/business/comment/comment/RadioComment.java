@@ -80,8 +80,6 @@ public class RadioComment extends AbstractComment<Radio> {
             return;
         }
 
-
-
         // 站内信通知对方收到新的留言
         String msg = "您收到了新的电台评论,点击<strong>《" + String.format(RADIO_INTEGRAL, radio.getRadioId(), msgId, radioName) + "》</strong>查看,评论来自"
                 + String.format(PROFILE_INNER_MSG, commenterUserId, msgId, commenterUserName);

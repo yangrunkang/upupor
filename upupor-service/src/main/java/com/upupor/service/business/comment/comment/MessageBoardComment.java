@@ -28,7 +28,6 @@
 package com.upupor.service.business.comment.comment;
 
 import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.MessageService;
@@ -59,7 +58,7 @@ public class MessageBoardComment extends AbstractComment<Member> {
     @Resource
     private MemberIntegralService memberIntegralService;
 
-    public MessageBoardComment(CommentService commentService, MemberService memberService) {
+    public MessageBoardComment(MemberService memberService) {
         super(memberService);
     }
 

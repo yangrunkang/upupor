@@ -30,7 +30,10 @@ package com.upupor.service.business.comment.comment;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.*;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.MemberIntegralService;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.types.ContentType;
@@ -59,7 +62,7 @@ public class ContentComment extends AbstractComment<Content> {
     @Resource
     private MemberIntegralService memberIntegralService;
 
-    public ContentComment(CommentService commentService, MemberService memberService) {
+    public ContentComment(MemberService memberService) {
         super(memberService);
     }
 

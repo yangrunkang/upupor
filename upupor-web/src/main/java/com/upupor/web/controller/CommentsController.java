@@ -29,9 +29,7 @@ package com.upupor.web.controller;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Comment;
-import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.dao.entity.Radio;
 import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberService;
@@ -45,7 +43,6 @@ import com.upupor.service.outer.req.AddCommentReq;
 import com.upupor.service.outer.req.ListCommentReq;
 import com.upupor.service.outer.req.UpdateCommentReq;
 import com.upupor.service.types.CommentStatus;
-import com.upupor.service.types.ContentType;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -100,8 +97,7 @@ public class CommentsController {
             Member currentUser = memberService.memberInfo(ServletUtils.getUserId());
             if (StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {
                 // 常规的评论
-                String creatorUserId = getCreatorUserId(addCommentReq);
-                normalCommentEvent(addCommentReq.getTargetId(), comment, creatorUserId);
+                normalCommentEvent(addCommentReq.getTargetId(), comment);
             } else {
                 // 处理回复某一条评论的逻辑
                 replayCommentEvent(addCommentReq, comment, currentUser);
@@ -126,38 +122,7 @@ public class CommentsController {
         }
     }
 
-    /**
-     * // 创作者的用户Id
-     *
-     * @param addCommentReq
-     * @return
-     */
-    private String getCreatorUserId(AddCommentReq addCommentReq) {
-        // 创作者的用户Id
-        String creatorUserId = null;
-        // 目前只有文章和短内容的评论
-        if (ContentType.contentSource().contains(addCommentReq.getCommentSource())) {
-            Content content = contentService.getNormalContent(addCommentReq.getTargetId());
-            creatorUserId = content.getUserId();
-        } else if (ContentType.MESSAGE.equals(addCommentReq.getCommentSource())) {
-            creatorUserId = addCommentReq.getTargetId();
-        } else if (ContentType.RADIO.equals(addCommentReq.getCommentSource())) {
-            Radio radio = radioService.getByRadioId(addCommentReq.getTargetId());
-            creatorUserId = radio.getUserId();
-        }
-
-        if (Objects.isNull(creatorUserId)) {
-            throw new BusinessException(ErrorCode.COMMENT_SOURCE_NULL);
-        }
-        return creatorUserId;
-    }
-
-    private void normalCommentEvent(String targetId, Comment comment, String belongUserId) {
-        // 只有被评论的对象不是自己,才发消息
-        if (belongUserId.equals(ServletUtils.getUserId())) {
-            return;
-        }
-
+    private void normalCommentEvent(String targetId, Comment comment) {
         // 添加消息
         ToCommentSuccessEvent event = ToCommentSuccessEvent.builder()
                 .commenterUserId(comment.getUserId())
