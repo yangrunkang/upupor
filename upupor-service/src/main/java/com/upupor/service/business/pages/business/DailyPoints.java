@@ -69,8 +69,8 @@ public class DailyPoints extends AbstractView {
 
     @Override
     protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "咨询服务申请");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "咨询服务申请");
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "每日签到");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "每日签到");
     }
 
     @Override
