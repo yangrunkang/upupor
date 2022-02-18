@@ -210,6 +210,15 @@ function setEditorContent(t) {
 }
 
 /**
+ * 上传失败
+ */
+function uploadFailed(){
+    $.cvError("上传失败");
+    $(".upload-progress-bar").attr('style', 'width:0%');
+    $(".upload-progress-bar-div").hide();
+}
+
+/**
  * 加载不同的编辑器js,初始化是同一个
  */
 function initEditor(isComment){
@@ -280,20 +289,20 @@ function initEditor(isComment){
                        callback(res.data.data);
                        $(".upload-progress-bar").attr('style', 'width:0%');
                        $(".upload-progress-bar-div").hide();
+                   }else{
+                       uploadFailed()
                    }
                 },
 
                 error: function (e) {
-                    $.cvError("上传失败");
-                    $(".upload-progress-bar").attr('style', 'width:0%');
-                    $(".upload-progress-bar-div").hide();
+                    uploadFailed()
                 }
             });
         },
         callback: {
             /** 编辑器内容改变并完成渲染后触发 */
             afterChange: function(){
-                console.log("内容变更")
+                // console.log("内容变更")
             },
             /** 编辑器完成初次渲染后触发 */
             afterInit: function(){
