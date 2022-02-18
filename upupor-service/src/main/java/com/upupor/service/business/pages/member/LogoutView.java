@@ -59,4 +59,9 @@ public class LogoutView extends AbstractView {
     public String prefix() {
         return CcConstant.UserView.BASE_PATH;
     }
+
+    @Override
+    protected String pageUrl() {
+        return URL;
+    }
 }

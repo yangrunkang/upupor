@@ -61,6 +61,10 @@ public class UnSubscribeEmailView extends AbstractView {
     }
 
     @Override
+    protected String pageUrl() {
+        return URL;
+    }
+    @Override
     protected void seoInfo() {
         modelAndView.addObject(CcConstant.SeoKey.TITLE, "退订邮件通知");
         modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "退订,邮件");

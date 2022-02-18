@@ -64,6 +64,10 @@ public class RadioDetailView  extends AbstractView {
     }
 
     @Override
+    protected String pageUrl() {
+        return URL;
+    }
+    @Override
     public String adapterUrlToViewName(String pageUrl) {
         if (pageUrl.startsWith("/r/")) {
             return viewName();

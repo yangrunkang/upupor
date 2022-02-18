@@ -47,13 +47,9 @@ public class PinnedView extends AbstractView {
         return PINNED_INDEX;
     }
 
-
     @Override
-    public String adapterUrlToViewName(String pageUrl) {
-        if(pageUrl.equals(URL)){
-            return viewName();
-        }
-        return pageUrl;
+    protected String pageUrl() {
+        return URL;
     }
 
     @Override

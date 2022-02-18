@@ -62,6 +62,12 @@ public abstract class AbstractView {
     }
 
     /**
+     * 页面Url
+     * @return
+     */
+    protected abstract String pageUrl();
+
+    /**
      * 适配ServletPath到View视图
      *
      * @param pageUrl
@@ -69,6 +75,9 @@ public abstract class AbstractView {
      * @note: pageUrl可能会根据运营需求来变更, 但是视图名是不长变的, 所以需要这个适配
      */
     public String adapterUrlToViewName(String pageUrl) {
+        if(pageUrl.equals(pageUrl())){
+            return viewName();
+        }
         // 默认 pageUrl 和视图命名是一致的,即不用适配
         return pageUrl;
     }

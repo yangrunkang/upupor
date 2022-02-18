@@ -53,6 +53,10 @@ public class DraftContentDetailView extends AbstractView {
     }
 
     @Override
+    protected String pageUrl() {
+        return URL;
+    }
+    @Override
     public String adapterUrlToViewName(String pageUrl) {
         if (pageUrl.startsWith("/m/")) {
             return viewName();

@@ -62,6 +62,10 @@ public class ContentDetailView extends AbstractView {
     }
 
     @Override
+    protected String pageUrl() {
+        return URL;
+    }
+    @Override
     public String adapterUrlToViewName(String pageUrl) {
         if (pageUrl.startsWith("/u/")) {
             return viewName();

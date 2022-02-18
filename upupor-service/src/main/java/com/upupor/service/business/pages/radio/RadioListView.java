@@ -54,11 +54,8 @@ public class RadioListView  extends AbstractView {
     }
 
     @Override
-    public String adapterUrlToViewName(String pageUrl) {
-        if(pageUrl.equals(URL)){
-            return viewName();
-        }
-        return pageUrl;
+    protected String pageUrl() {
+        return URL;
     }
 
     @Override

@@ -63,16 +63,14 @@ public class UserListView extends AbstractView {
         modelAndView.addObject(memberAggregateService.userList(query.getPageNum(),query.getPageSize()));
     }
 
-    @Override
-    public String adapterUrlToViewName(String pageUrl) {
-        if(pageUrl.equals(URL)){
-            return viewName();
-        }
-        return pageUrl;
-    }
 
     @Override
     public String prefix() {
         return CcConstant.UserView.BASE_PATH;
+    }
+
+    @Override
+    protected String pageUrl() {
+        return URL;
     }
 }
