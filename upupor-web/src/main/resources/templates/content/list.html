@@ -64,7 +64,7 @@
                         <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
                             <div th:include="fragments/index::empty_content"></div>
                         </div>
-                        <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
+                        <div class="card card-body shadow-sm border-0 p-1 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
                             <div th:replace="fragments/index::content_list(${commonPageIndexDto.listContentDto.contentList},false)"></div>
                             <div>
                                 <div class="mt-2 float-end"
