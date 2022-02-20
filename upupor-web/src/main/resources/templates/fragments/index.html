@@ -273,8 +273,8 @@ fromProfile: 是否来自Profile页面
             <a th:class="'nav-link cv-link small ' + ${type.cssClass}" th:href="${type.url}" th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}" /> [[${type.name}]]</a>
         </li>
     </ul>
-    <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}" class="border-bottom my-1"></div>
-    <div th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
+    <div class="d-xl-none" th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
+        <div class="border-bottom my-1"></div>
         <ul class="nav nav-pills">
             <!--如果以后涵盖子类，可以使用展开按钮-->
             <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">

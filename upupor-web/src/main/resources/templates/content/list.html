@@ -41,15 +41,37 @@
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div th:include="fragments/index::page_menu"></div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
-                    <div th:include="fragments/index::empty_content"></div>
-                </div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
-                    <div th:replace="fragments/index::content_list(${commonPageIndexDto.listContentDto.contentList},false)"></div>
-                    <div>
-                        <div class="mt-2 float-end"
-                             th:if="!${#strings.isEmpty(commonPageIndexDto.listContentDto.paginationHtml)}"
-                             th:utext="${commonPageIndexDto.listContentDto.paginationHtml}"> </div>
+                <div class="row">
+                    <div class="col-lg-3 d-md-none d-none d-xl-block" th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
+                        <div class="card card-body shadow-sm border-0 p-2 my-2">
+                            <div class="fw-normal border-bottom mb-2 text-black-50">分类</div>
+                            <ul class="nav nav-pills flex-column">
+                                <!--如果以后涵盖子类，可以使用展开按钮-->
+                                <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">
+                                    <a th:class="'nav-link cv-link small ' + ${menu.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}" th:inline="text">
+                                        <img th:data-src="${menu.icon}" class="lazyload cv-icon" />
+                                        [[${menu.tagName}]]
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card card-body shadow-sm border-0 p-2 my-2" th:include="fragments/index::apply_tag"></div>
+                        <div class="card card-body shadow-sm border-0 p-2 my-2">
+                            <div th:replace="fragments/business::business_cooperation"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
+                            <div th:include="fragments/index::empty_content"></div>
+                        </div>
+                        <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
+                            <div th:replace="fragments/index::content_list(${commonPageIndexDto.listContentDto.contentList},false)"></div>
+                            <div>
+                                <div class="mt-2 float-end"
+                                     th:if="!${#strings.isEmpty(commonPageIndexDto.listContentDto.paginationHtml)}"
+                                     th:utext="${commonPageIndexDto.listContentDto.paginationHtml}"> </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,11 +133,11 @@
                 </div>
 
                 <div th:include="fragments/index::google_right_ad"></div>
+                <!--全局搜索-->
+                <div th:include="fragments/index::global_search"></div>
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
                     <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>浏览记录</a>
                 </div>
-                <!--全局搜索-->
-                <div th:include="fragments/index::global_search"></div>
         </div>
         </div>
     </div>
