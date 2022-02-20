@@ -69,7 +69,8 @@
                             </a>
                             <div class="float-end text-black-50 small">
                                 <span class="d-none d-sm-block float-start text-black-50 ">[[${comment.createDateDiff}]]&nbsp;·&nbsp;</span>
-                                <span style="cursor: pointer" th:onclick="renderReplayUserName([[${comment.member.userName}]],[[${comment.member.userId}]])"><i class="bi bi-reply-fill"></i>回复</span>
+                                <span style="cursor: pointer" th:if="${session?.cv_user_id}" th:onclick="renderReplayUserName([[${comment.member.userName}]],[[${comment.member.userId}]])">回复<i class="bi bi-reply-fill"></i></span>
+                                <span style="cursor: pointer" th:if="!${session?.cv_user_id}" th:onclick="window.location.href='/login?back=' + window.location.pathname">回复<i class="bi bi-reply-fill"></i></span>
                                 ·&nbsp;<span class="badge bg-gradient bg-light text-black-50" th:text="${comment.floorNum} + '#'"></span>
                             </div>
                         </div>
