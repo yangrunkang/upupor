@@ -47,6 +47,14 @@ import java.util.List;
  */
 @Data
 public class CommonPageIndexDto {
+
+    /**
+     * 默认加载广告
+     */
+    private Boolean isLoadAd = Boolean.TRUE;
+
+
+
     /**
      * 左边的栏目
      */
@@ -88,13 +96,24 @@ public class CommonPageIndexDto {
     private CommonAggregateService.HrefDesc createContentDesc;
 
     public CommonPageIndexDto() {
+        init();
+    }
+
+    private void init() {
         this.listContentDto = new ListContentDto();
         this.tagList = new ArrayList<>();
         this.latestContentList = new ArrayList<>();
     }
 
+    public CommonPageIndexDto(Boolean isLoadAd) {
+        init();
+        this.isLoadAd = isLoadAd;
+    }
+
     public ListContentDto getListContentDto() {
-        AbstractAd.ad(listContentDto.getContentList());
+        if(this.isLoadAd){
+            AbstractAd.ad(listContentDto.getContentList());
+        }
         return listContentDto;
     }
 
