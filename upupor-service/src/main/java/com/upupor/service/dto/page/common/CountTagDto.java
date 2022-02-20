@@ -37,5 +37,5 @@ import lombok.Data;
 public class CountTagDto {
     private String tagId;
     private String tagName;
-    private String count;
+    private Integer count;
 }

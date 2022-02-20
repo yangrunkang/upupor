@@ -36,6 +36,7 @@ import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.TagService;
 import com.upupor.service.dto.cache.CacheMemberDto;
 import com.upupor.service.dto.page.CommonPageIndexDto;
+import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListBannerDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.GetCommonReq;
@@ -47,11 +48,13 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.upupor.framework.CcConstant.CvCache.ACTIVE_USER_LIST;
 
@@ -96,6 +99,15 @@ public class CommonAggregateService {
         List<Tag> tagList = new ArrayList<>();
         if (Objects.nonNull(getCommonReq.getContentType()) && !ContentType.TOPIC.equals(getCommonReq.getContentType())) {
             tagList = tagService.getTagsByType(getCommonReq.getContentType());
+        }
+        if(!CollectionUtils.isEmpty(tagList)){
+            List<String> tagIdList = tagList.stream().map(Tag::getTagId).collect(Collectors.toList());
+            List<CountTagDto> countTagDtos = contentService.listCountByTagIds(tagIdList);
+            tagList.forEach(tagItem -> countTagDtos.forEach(countTagDto -> {
+                if(tagItem.getTagId().equals(countTagDto.getTagId())){
+                    tagItem.setCount(countTagDto.getCount());
+                }
+            }));
         }
 
         // 活跃用户

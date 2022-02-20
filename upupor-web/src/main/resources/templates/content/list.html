@@ -50,7 +50,7 @@
                                 <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">
                                     <a th:class="'nav-link cv-link small ' + ${menu.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}" th:inline="text">
                                         <img th:data-src="${menu.icon}" class="lazyload cv-icon" />
-                                        [[${menu.tagName}]]
+                                        [[${menu.tagName}]] <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark d-inline-flex float-end">[[${menu.count}]]</span>
                                     </a>
                                 </li>
                             </ul>

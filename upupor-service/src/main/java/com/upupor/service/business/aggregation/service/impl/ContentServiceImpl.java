@@ -578,6 +578,14 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public List<CountTagDto> listCountByTagIds(List<String> tagIdList) {
+        if (CollectionUtils.isEmpty(tagIdList)) {
+            return new ArrayList<>();
+        }
+        return contentMapper.listCountByTagIds(tagIdList);
+    }
+
+    @Override
     public void bindContentStatement(Content content) {
         if (Objects.isNull(content.getStatementId())) {
             return;

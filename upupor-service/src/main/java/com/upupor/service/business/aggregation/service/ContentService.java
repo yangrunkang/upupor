@@ -271,6 +271,8 @@ public interface ContentService {
      */
     List<CountTagDto> listAllTag();
 
+    List<CountTagDto> listCountByTagIds(List<String> tagIdList);
+
     /**
      * 绑定点赞的人
      *
@@ -326,6 +328,8 @@ public interface ContentService {
      * @return
      */
     List<Content> latestContentList();
+
+
 
 
 }

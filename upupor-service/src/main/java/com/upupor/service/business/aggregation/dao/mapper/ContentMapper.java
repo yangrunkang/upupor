@@ -117,6 +117,7 @@ public interface ContentMapper extends BaseMapper<Content> {
 
 
     List<CountTagDto> listAll();
+    List<CountTagDto> listCountByTagIds(@Param("list") List<String> tagIdList);
 
     /**
      * 用户最新的文章

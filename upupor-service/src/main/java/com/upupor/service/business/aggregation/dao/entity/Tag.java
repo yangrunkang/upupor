@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.aggregation.dao.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 
@@ -58,7 +59,9 @@ public class Tag extends BaseEntity {
 
     private Long createTime;
 
-
-
     private String icon;
+
+    @TableField(exist = false)
+    private Integer count = 0;
+
 }
