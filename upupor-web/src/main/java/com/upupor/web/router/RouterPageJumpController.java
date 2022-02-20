@@ -106,26 +106,6 @@ public class RouterPageJumpController {
     }
 
     /**
-     * 兼容短内容
-     */
-    @GetMapping("/topic/{contentId}")
-    public ModelAndView topicRouter(@PathVariable("contentId") String contentId) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(PUBLIC_CONTENT + contentId);
-        return modelAndView;
-    }
-
-    /**
-     * 兼容短内容
-     */
-    @GetMapping("/topic/m/{contentId}")
-    public ModelAndView topicManagerRouter(@PathVariable("contentId") String contentId) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(DRAFT_CONTENT + contentId);
-        return modelAndView;
-    }
-
-    /**
      * 留言板路由兼容
      */
     @GetMapping("/profile-message/{userId}")

@@ -70,9 +70,6 @@ public class TagServiceImpl implements TagService {
         if (Objects.isNull(tagType)) {
             return new ArrayList<>();
         }
-        if (tagType.equals(ContentType.TOPIC)) {
-            return tagMapper.getAll();
-        }
 
         List<Tag> tags = tagMapper.listByTagType(tagType.getType());
         if (CollectionUtils.isEmpty(tags)) {

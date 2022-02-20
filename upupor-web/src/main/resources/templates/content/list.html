@@ -44,7 +44,7 @@
                 <div class="row">
                     <div class="col-lg-3 d-md-none d-none d-xl-block">
                         <div class="card card-body shadow-sm border-0 p-2 my-2">
-                            <div class="fw-normal border-bottom mb-2 text-black-50">分类</div>
+                            <div class="fw-normal border-bottom mb-2 text-black-50">分类 <a class="cv-link text-black-50 float-end" th:href="${commonPageIndexDto.currentRootUrl}"><i class="bi bi-balloon"></i>全部</a></div>
                             <div th:if="${#lists.isEmpty(commonPageIndexDto.tagList)}" th:include="fragments/index::empty_content"></div>
                             <ul class="nav nav-pills flex-column" th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
                                 <!--如果以后涵盖子类，可以使用展开按钮-->

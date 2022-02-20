@@ -75,7 +75,7 @@ public class CommonPageJumpController {
     @GetMapping(value = {
             WEB_INDEX,
             "/qa", "/qa/{tagId}", "/qa/{tagId}/{tagInId}",
-            "/topic",
+            "/topic","/topic/{tagId}",
             "/record", "/record/{tagId}",
             "/share", "/share/{tagId}", "/share/{tagId}/{tagInId}",
             "/tech", "/tech/{tagId}", "/tech/{tagId}/{tagInId}",
