@@ -60,7 +60,7 @@
                             <div th:replace="fragments/business::business_cooperation"></div>
                         </div>
                     </div>
-                    <div class="col col-lg-9">
+                    <div th:class="${#request.servletPath} == '/topic'?'col':'col-lg-9'" >
                         <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
                             <div th:include="fragments/index::empty_content"></div>
                         </div>
