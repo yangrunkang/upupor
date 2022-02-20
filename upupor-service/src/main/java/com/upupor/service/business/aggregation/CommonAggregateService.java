@@ -124,7 +124,7 @@ public class CommonAggregateService {
         // 获取Banner栏
         ListBannerDto listBannerDto = bannerService.listBannerByStatus(BannerStatus.NORMAL, CcConstant.Page.NUM, CcConstant.Page.SIZE);
 
-        CommonPageIndexDto commonPageIndexDto = new CommonPageIndexDto(Boolean.FALSE);
+        CommonPageIndexDto commonPageIndexDto = new CommonPageIndexDto();
         commonPageIndexDto.setTagList(tagList);
         commonPageIndexDto.setMemberList(cacheMemberDto.getMemberList());
         commonPageIndexDto.setListContentDto(listContentDto);
