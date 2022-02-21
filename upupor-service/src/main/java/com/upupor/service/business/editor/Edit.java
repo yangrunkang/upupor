@@ -83,8 +83,10 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
     @Override
     protected Boolean doBusiness() {
 
-        // 记录变更次数
-        updateEditTimes(editContent);
+        // 只在文章状态正常的情况下,记录变更次数
+        if(ContentStatus.NORMAL.equals(editContent.getStatus())){
+            updateEditTimes(editContent);
+        }
 
         UpdateContentReq updateContentReq = getReq();
 
