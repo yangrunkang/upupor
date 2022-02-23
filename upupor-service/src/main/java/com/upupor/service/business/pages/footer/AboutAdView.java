@@ -40,7 +40,7 @@ import static com.upupor.framework.CcConstant.CHECK_INFO;
  */
 @Component
 public class AboutAdView extends AbstractView {
-    public static final String URL = "/check-info";
+    public static final String URL = "/about-ad";
 
     @Override
     public String viewName() {

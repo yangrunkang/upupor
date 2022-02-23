@@ -191,7 +191,7 @@ public final class CcConstant {
     public static final String DEVELOPER = "foot/developer";
     public static final String THANKS = "foot/thanks";
     public static final String BRAND_STORY = "foot/brand-story";
-    public static final String CHECK_INFO = "foot/check";
+    public static final String CHECK_INFO = "foot/about-ad";
     public static final String VERSION = "foot/version";
     public static final String SITEMAP = "foot/sitemap";
     public static final String LOGO_DESIGN = "foot/logo-design";

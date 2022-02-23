@@ -29,6 +29,7 @@ package com.upupor.web.router;
 
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.pages.footer.AboutAdView;
 import com.upupor.service.business.pages.footer.DeveloperView;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.ServletUtils;
@@ -132,6 +133,16 @@ public class RouterPageJumpController {
     public ModelAndView developer() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(REDIRECT + DeveloperView.URL);
+        return modelAndView;
+    }
+
+    /**
+     * 关于广告 /check-info更改为/about-ad
+     */
+    @GetMapping("/check-info")
+    public ModelAndView aboutAd() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(REDIRECT + AboutAdView.URL);
         return modelAndView;
     }
 

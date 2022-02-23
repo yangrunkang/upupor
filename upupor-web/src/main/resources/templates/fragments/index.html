@@ -495,21 +495,32 @@ fromProfile: 是否来自Profile页面
 
 <!--文章详情-右侧-纵向广告-->
 <div th:fragment="google_right_ad">
-    <div class="card card-body shadow-sm border-0 p-2 mb-2 float-ads-vertical" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1' and ${adSwitchRight} == '0'">
+    <div class="card mb-2" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1' and ${adSwitchRight} == '1'">
+        <div class="card-body border-0 p-0 float-ads-vertical" >
+        </div>
+        <div class="card-footer shadow-sm border-0 p-1">
+            <a href="/about-ad" class="text-black-50 small">关于广告</a>
+        </div>
     </div>
-    <div class="card card-body shadow-sm border-0 p-0 mb-2 float-ads-vertical" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0' and ${adSwitchRight} == '0'">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <!-- 文章详情-右侧-纵向广告 -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             th:data-ad-client="${googleClient}"
-             th:data-ad-slot="${googleRightSlot}"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+    <div class="card mb-2" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0' and ${adSwitchRight} == '0'">
+        <div class="card-body border-0 p-0 float-ads-vertical" >
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- 文章详情-右侧-纵向广告 -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 th:data-ad-client="${googleClient}"
+                 th:data-ad-slot="${googleRightSlot}"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        <div class="card-footer shadow-sm border-0 p-1">
+            <a href="/about-ad" class="text-black-50 small">关于广告</a>
+        </div>
     </div>
+
 </div>
 
 
@@ -556,7 +567,7 @@ fromProfile: 是否来自Profile页面
     <a th:class="${target == 'thanks'?'nav-link cv-link active':'nav-link cv-link'}" href="/thanks" title="致谢"><img th:data-src="${ossStatic} + @{/icons/system/footer/thanks.svg}" class="lazyload cv-icon" />  致谢</a>
     <a th:class="${target == 'logo-design'?'nav-link cv-link active':'nav-link cv-link'}" href="/logo-design" title="logo设计"><img th:data-src="${ossStatic} + @{/icons/system/footer/design.svg}" class="lazyload cv-icon" />  logo设计</a>
     <a th:class="${target == 'business-cooperation'?'nav-link cv-link active':'nav-link cv-link'}" href="/business-cooperation" title="商务合作"><img th:data-src="${ossStatic} + @{/icons/system/footer/business-co.svg}" class="lazyload cv-icon" />  商务合作</a>
-    <a th:class="${target == 'check-info'?'nav-link cv-link active':'nav-link cv-link'}" href="/check-info" title="关于广告"><img th:data-src="${ossStatic} + @{/icons/system/footer/ad.svg}" class="lazyload cv-icon" />  关于广告</a>
+    <a th:class="${target == 'check-info'?'nav-link cv-link active':'nav-link cv-link'}" href="/about-ad" title="关于广告"><img th:data-src="${ossStatic} + @{/icons/system/footer/ad.svg}" class="lazyload cv-icon" />  关于广告</a>
     <a th:class="${target == 'pinned'?'nav-link cv-link active':'nav-link cv-link'}" href="/pinned" title="关于置顶"><img th:data-src="${ossStatic} + @{/icons/system/footer/zhiding.svg}" class="lazyload cv-icon" />  关于置顶</a>
 </div>
 
