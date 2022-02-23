@@ -486,11 +486,11 @@ fromProfile: 是否来自Profile页面
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
     </div>
     <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" th:include="fragments/index::user_manage_fragment(true)"></div>
-    <div th:include="fragments/index::google_right_ad"></div>
     <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" class="card card-body shadow-sm border-0 p-2 my-2">
         <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>我的浏览记录</a>
     </div>
     <div th:include="fragments/social::social_box('profile/','主页',${memberIndexDto.member.userId},${memberIndexDto.member.userName})"></div>
+    <div th:include="fragments/index::google_right_ad"></div>
 </div>
 
 <!--文章详情-右侧-纵向广告-->

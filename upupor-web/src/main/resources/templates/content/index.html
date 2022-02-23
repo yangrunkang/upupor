@@ -201,7 +201,6 @@
                 <div class="card card-body shadow-sm border-0 p-2 mb-2"  th:inline="text">
                     <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto?.content?.userId}+'/message'"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/goutong.png}">  [[${contentIndexDto.content.member.userName}]]的留言板</a>
                 </div>
-                <div th:include="fragments/index::google_right_ad"></div>
                 <!--社交模板-->
                 <div th:include="fragments/social::social_box('u/','文章',${contentIndexDto.content.contentId},${contentIndexDto.content.title})" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}"></div>
                 <div class="card card-body shadow-sm border-0 p-2 mb-2">
@@ -263,6 +262,7 @@
                     </nav>
                 </div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
+                <div th:include="fragments/index::google_right_ad"></div>
             </div>
         </div>
     </div>
