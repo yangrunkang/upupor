@@ -210,9 +210,10 @@ fromProfile: 是否来自Profile页面
     <div class="d-flex align-items-center">
         <div class="flex-grow-1">
             <div class="mt-0">
-                <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${content.title}" th:text="${content.title}"></a>
+                <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${content.title}">[[${content.title}]]</a>
 <!--                <span class="badge bg-gradient bg-light text-dark float-end" th:text="${content.contentTypeDesc}"></span>-->
             </div>
+            <span th:if="${content.hasLatestEdit}" class="badge bg-gradient bg-success rounded-3 fw-light small">最近内容有更新</span>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
         </div>
         <div th:if="${!fromProfile}" th:include="fragments/index::content_profile_via"></div>
@@ -223,20 +224,6 @@ fromProfile: 是否来自Profile页面
     <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}+'/content'"  th:title="${content.member.userName}">
         <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
     </a>
-</div>
-
-<div th:fragment="content_media_profile">
-    <div class="d-flex align-items-center my-1">
-        <div class="flex-grow-1">
-            <div class="mt-0">
-                <h5 >
-                    <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow" th:title="${content.title}" th:text="${content.title}"></a>
-                </h5>
-            </div>
-            <div class="mb-0" th:include="fragments/index::content_data"></div>
-        </div>
-        <a href="/pinned" title="置顶" th:if="${content.pinnedStatus.name() == 'PINNED'}"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark pull-right">置顶</span></a>
-    </div>
 </div>
 
 <!--无内容-->

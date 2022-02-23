@@ -89,6 +89,10 @@ public class Content extends BaseEntity {
      * 编辑次数
      */
     private Integer editTimes;
+    /**
+     * 编辑时间
+     */
+    private Long editTime;
 
 
     private OriginType originType;
@@ -269,5 +273,19 @@ public class Content extends BaseEntity {
             return "内容";
         }
         return byContentType.getName();
+    }
+
+    /**
+     * 最近是否更新过
+     */
+    @TableField(exist = false)
+    private Boolean hasLatestEdit = Boolean.FALSE;
+
+    public Boolean getHasLatestEdit() {
+        if(Objects.isNull(editTime)){
+            return hasLatestEdit;
+        }
+        // 在一天内更新都算最新更新过
+        return CcDateUtil.getCurrentTime() - editTime <= 24 * 60 * 60;
     }
 }

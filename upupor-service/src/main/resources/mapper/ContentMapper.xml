@@ -52,7 +52,7 @@
     </resultMap>
     <sql id="Base_Column_List">
     id, content_id, user_id, latest_comment_user_id, title,is_initial_status,statement_id, short_content,keywords,pinned_status, edit_times, origin_type, none_origin_link, content_type, tag_ids, status, create_time,latest_comment_time,
-    sys_update_time,picture
+    sys_update_time,picture,edit_time
   </sql>
     <sql id="Base_Column_List_Alias">
       ct.id, ct.content_id, ct.user_id,ct.latest_comment_user_id, ct.title, ct.statement_id, ct.short_content, ct.keywords, ct.is_initial_status, ct.content_type, ct.origin_type, ct.none_origin_link, ct.edit_times, ct.tag_ids, ct.status, ct.create_time,ct.latest_comment_time,

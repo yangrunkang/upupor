@@ -153,6 +153,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
             }
             editTimes = editTimes + 1;
             editContent.setEditTimes(editTimes);
+            editContent.setEditTime(CcDateUtil.getCurrentTime());
             // 记录变更原因
             if (!StringUtils.isEmpty(updateContentReq.getEditReason())) {
                 ContentEditReason contentEditReason = new ContentEditReason();
