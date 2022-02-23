@@ -113,18 +113,13 @@
                 </div>
                 <!--活跃用户-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
-                    <div class="fw-normal border-bottom mb-2 text-black-50">最近登录的用户</div>
+                    <div class="fw-normal border-bottom mb-2 text-black-50">最近登录的用户<a class="cv-link text-black-50 float-end" href="/list-user"><i class="bi bi-balloon"></i>全部</a></div>
                     <div class="nav flex-column nav-pills" aria-orientation="vertical" th:if="!${#lists.isEmpty(commonPageIndexDto.memberList)}">
                         <a class="d-flex align-items-center my-1 mb-2 cv-link" th:each="member,ite : ${commonPageIndexDto.memberList}" th:href="@{'/profile/'+${member.userId}+'/content'}" th:title="${member.userName}">
                             <img class="align-self-center me-1 img rounded" style="width: 20px;height: 20px" th:src="${member.via}" th:alt="${member.userName}">
                             <div class="flex-grow-1 ms-1">
                                 <span class="mt-0" th:text="${member.userName}" ></span>
                                 <span th:include="fragments/profile::memberActive(${member.active})"></span>
-                            </div>
-                        </a>
-                        <a class="d-flex align-items-center my-1 mb-2 cv-link" href="/list-user">
-                            <div class="flex-grow-1">
-                                <div class="mt-0 text-black-50" ><i class="bi bi-three-dots-vertical"></i>所有用户</div>
                             </div>
                         </a>
                     </div>
