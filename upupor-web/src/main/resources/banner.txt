@@ -1,5 +1,4 @@
 ${AnsiColor.BLUE}
-
 ooooo     ooo                                                           oooooo   oooooo     oooo            .o8
 `888'     `8'                                                            `888.    `888.     .8'            "888
  888       8  oo.ooooo.  oooo  oooo  oo.ooooo.   .ooooo.  oooo d8b        `888.   .8888.   .8'    .ooooo.   888oooo.
@@ -9,7 +8,9 @@ ooooo     ooo                                                           oooooo  
    `YbodP'     888bod8P'  `V88V"V8P'  888bod8P' `Y8bod8P' d888b               `8'      `8'       `Y8bod8P'  `Y8bod8P'
                888                    888
               o888o                  o888o
-
-
 ${AnsiColor.BRIGHT_YELLOW}
 ::: Spring-Boot ${spring-boot.version}     ::: ${application.name} (version:${application.version})
+::: 开源地址(OpenSource): https://github.com/yangrunkang/upupor
+::: 邮箱(Email): yangrunkang53@gmail
+::: 手机(Phone): 13955196045 / 17607675610
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
