@@ -147,6 +147,8 @@ public class Content extends BaseEntity {
     private String latestCommentDate;
     @TableField(exist = false)
     private String createDateDiff;
+    @TableField(exist = false)
+    private String editDate;
 
     /**
      * 页面冗余字段
@@ -247,6 +249,13 @@ public class Content extends BaseEntity {
             return createDate;
         }
         return CcDateUtil.timeStamp2Date(createTime);
+    }
+
+    public String getEditDate() {
+        if (Objects.isNull(editTime)) {
+            return editDate;
+        }
+        return CcDateUtil.timeStamp2Date(editTime);
     }
 
     public String getLatestCommentDate() {

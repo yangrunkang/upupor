@@ -213,7 +213,7 @@ fromProfile: 是否来自Profile页面
                 <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${content.title}">[[${content.title}]]</a>
 <!--                <span class="badge bg-gradient bg-light text-dark float-end" th:text="${content.contentTypeDesc}"></span>-->
             </div>
-            <span th:if="${content.hasLatestEdit}" class="badge bg-gradient bg-success rounded-3 fw-light small">最近内容有更新</span>
+            <span th:if="${content.hasLatestEdit}" class="badge bg-gradient bg-success rounded-3 fw-light small">内容有更新 · [[${content.editDate}]]</span>
             <div class="mb-0" th:include="fragments/index::content_data"></div>
         </div>
         <div th:if="${!fromProfile}" th:include="fragments/index::content_profile_via"></div>
