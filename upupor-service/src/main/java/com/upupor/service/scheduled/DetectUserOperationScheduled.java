@@ -80,7 +80,7 @@ public class DetectUserOperationScheduled {
             }
             memberList.forEach(member -> {
                 String title = "亲爱的 " + member.getUserName() + " :";
-                String content = "<a class='cv-link' target='_blank' href = 'https://www.upupor.com?source=email'>最近一周Upupor更新了很多内容,立即访问</a>";
+                String content = "<a class='cv-link' target='_blank' href = 'https://upupor.com?source=email'>最近一周Upupor更新了很多内容,立即访问</a>";
                 messageService.sendEmail(member.getEmail(), title, content, member.getUserId());
                 log.info("检测用户一周内未登录定时任务邮件内容:{}-{}-{}", member.getEmail(), title, content);
                 sleep2s();
