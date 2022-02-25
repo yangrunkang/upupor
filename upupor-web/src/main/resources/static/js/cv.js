@@ -242,8 +242,6 @@ function initEditor(isComment){
             toolbar : ['bold', 'italic', 'strikethrough','color', 'header','size', 'list', 'quote',{
                 insert: [
                     'image',
-                    'audio',
-                    'video',
                     'link',
                     'hr',
                     'br',
