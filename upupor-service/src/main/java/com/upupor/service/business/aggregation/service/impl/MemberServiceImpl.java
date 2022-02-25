@@ -79,7 +79,6 @@ public class MemberServiceImpl implements MemberService {
     private FanService fanService;
     private final StatementMapper statementMapper;
     private final MemberConfigMapper memberConfigMapper;
-    private final FileService fileService;
     private final ApplicationEventPublisher eventPublisher;
     private final BusinessConfigService businessConfigService;
 
@@ -352,10 +351,6 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.total();
     }
 
-    @Override
-    public Integer viewTotal() {
-        return contentDataMapper.viewTotal();
-    }
 
     @Override
     public List<Member> listByUserIdList(List<String> userIdList) {

@@ -35,13 +35,6 @@ import java.util.List;
 
 public interface ApplyMapper extends BaseMapper<Apply> {
 
-    /**
-     * 根据用户id获取申请列表
-     *
-     * @param userId
-     * @return
-     */
-    List<Apply> listApplyListByUserId(@Param("userId") String userId);
 
     List<Apply> listApplyListByUserIdManage(@Param("userId") String userId);
 }

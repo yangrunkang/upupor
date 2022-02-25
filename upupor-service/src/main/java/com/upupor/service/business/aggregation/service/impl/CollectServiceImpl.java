@@ -36,7 +36,6 @@ import com.upupor.service.business.aggregation.service.CollectService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.common.ListCollectDto;
-import com.upupor.service.types.CollectStatus;
 import com.upupor.service.types.CollectType;
 import com.upupor.service.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
@@ -57,17 +56,6 @@ public class CollectServiceImpl implements CollectService {
     private final CollectMapper collectMapper;
 
     @Override
-    public ListCollectDto listByUserId(String userId, Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<Collect> hottestContentIdList = collectMapper.listByUserId(userId);
-        PageInfo<Collect> pageInfo = new PageInfo<>(hottestContentIdList);
-
-        ListCollectDto listCollectDto = new ListCollectDto(pageInfo);
-        listCollectDto.setCollectList(pageInfo.getList());
-        return listCollectDto;
-    }
-
-    @Override
     public ListCollectDto listByUserIdManage(String userId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Collect> hottestContentIdList = collectMapper.listByUserIdManage(userId);
@@ -78,23 +66,12 @@ public class CollectServiceImpl implements CollectService {
         return listCollectDto;
     }
 
-
     @Override
     public Boolean existsCollectContent(String contentId, String userId) {
         if (CcUtils.isAllEmpty(contentId, userId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
         return collectMapper.existsCollectContent(contentId, userId) > 0;
-    }
-
-    @Override
-    public Boolean existsCollectContent(String contentId, CollectStatus collectStatus, String userId) {
-        return collectMapper.getByContentIdAndCollectStatus(contentId, collectStatus, userId) > 0;
-    }
-
-    @Override
-    public Collect getCollect(String contentId, CollectStatus collectStatus, String userId) {
-        return collectMapper.getCollect(contentId, collectStatus, userId);
     }
 
     @Override

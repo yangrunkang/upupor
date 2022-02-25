@@ -35,16 +35,6 @@ import java.util.List;
 
 public interface AttentionMapper extends BaseMapper<Attention> {
 
-    /**
-     * 检查是否存在重复关注
-     *
-     * @param attentionUserId
-     * @param userId
-     * @return
-     */
-    int checkExists(@Param("attentionUserId") String attentionUserId, @Param("userId") String userId);
-
-
 
     int getAttentionNum(@Param("userId") String userId);
 

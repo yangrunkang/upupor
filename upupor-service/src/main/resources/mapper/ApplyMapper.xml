@@ -49,13 +49,7 @@
     id, apply_id, user_id, apply_source, apply_status, apply_user_name, apply_user_phone, 
     apply_user_email, apply_user_qq, apply_user_wechat, create_time, sys_update_time,apply_content,reply_content
   </sql>
-  <select id="listApplyListByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from apply
-    where user_id = #{userId,jdbcType=VARCHAR} and apply_status != 5
-    order by create_time desc
-  </select>
+
   
   <select id="listApplyListByUserIdManage" parameterType="java.lang.String" resultMap="BaseResultMap">
     select

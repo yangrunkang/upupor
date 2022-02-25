@@ -114,12 +114,6 @@ public interface MemberService {
      */
     Integer total();
 
-    /**
-     * 文章浏览总数
-     *
-     * @return
-     */
-    Integer viewTotal();
 
     /**
      * 批量根据用户id获取用户名

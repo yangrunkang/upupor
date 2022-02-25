@@ -42,15 +42,6 @@ import java.util.List;
 public interface TagService {
 
     /**
-     * 获取所有标签
-     * <p>
-     * 不用获取子标签
-     *
-     * @return
-     */
-    List<Tag> getTags();
-
-    /**
      * 根据标签id获取标签
      *
      * @param tagIdList

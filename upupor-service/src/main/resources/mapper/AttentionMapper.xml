@@ -41,13 +41,6 @@
     id, attention_id, user_id, attention_user_id, attention_status, create_time, sys_update_time
   </sql>
 
-
-  <select id="checkExists" resultType="java.lang.Integer">
-    select count(*) from attention where attention_status = 0
-    and user_id = #{userId,jdbcType=VARCHAR}
-    and attention_user_id = #{attentionUserId,jdbcType=VARCHAR}
-  </select>
-
   <!--获取我的关注数-->
   <select id="getAttentionNum" resultType="java.lang.Integer">
     select count(*) from attention where attention_status = 0

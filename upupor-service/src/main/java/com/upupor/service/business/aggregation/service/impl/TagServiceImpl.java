@@ -52,10 +52,6 @@ public class TagServiceImpl implements TagService {
 
     private final TagMapper tagMapper;
 
-    @Override
-    public List<Tag> getTags() {
-        return tagMapper.getAll();
-    }
 
     @Override
     public List<Tag> listByTagIdList(List<String> tagIdList) {

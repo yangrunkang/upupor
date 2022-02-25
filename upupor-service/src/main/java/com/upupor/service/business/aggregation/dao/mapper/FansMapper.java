@@ -39,5 +39,4 @@ public interface FansMapper extends BaseMapper<Fans> {
 
     List<Fans> getFans(@Param("userId") String userId);
 
-    Fans getFanByFanId(String fanId);
 }

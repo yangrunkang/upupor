@@ -30,7 +30,6 @@ package com.upupor.service.business.aggregation.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.service.business.aggregation.dao.entity.Collect;
 import com.upupor.service.dto.page.common.ListCollectDto;
-import com.upupor.service.types.CollectStatus;
 import com.upupor.service.types.CollectType;
 
 /**
@@ -41,13 +40,6 @@ import com.upupor.service.types.CollectType;
  */
 public interface CollectService {
 
-    /**
-     * 根据用户id获取收藏内容
-     *
-     * @param userId
-     * @return
-     */
-    ListCollectDto listByUserId(String userId, Integer pageNum, Integer pageSize);
 
     ListCollectDto listByUserIdManage(String userId, Integer pageNum, Integer pageSize);
 
@@ -58,10 +50,6 @@ public interface CollectService {
      * @param userId
      */
     Boolean existsCollectContent(String contentId, String userId);
-
-    Boolean existsCollectContent(String contentId, CollectStatus collectStatus, String userId);
-
-    Collect getCollect(String contentId, CollectStatus collectStatus, String userId);
 
     /**
      * 添加收藏
