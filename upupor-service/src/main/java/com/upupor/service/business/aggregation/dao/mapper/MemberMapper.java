@@ -38,11 +38,7 @@ public interface MemberMapper extends BaseMapper<Member> {
 
     Member select(GetMemberReq getMemberReq);
 
-
-
     Integer total();
-
-    Integer totalNormal();
 
     /**
      * 批量根据用户id获取用户名

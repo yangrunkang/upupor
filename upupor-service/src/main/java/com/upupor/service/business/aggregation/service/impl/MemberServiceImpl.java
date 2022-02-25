@@ -346,31 +346,10 @@ public class MemberServiceImpl implements MemberService {
         return total > 0;
     }
 
-    @Override
-    public Boolean completeMemberInfo(CompleteMemberInfoReq completeMemberInfoReq) {
-        Member member = memberInfo(completeMemberInfoReq.getUserId());
-
-        member.setVia(completeMemberInfoReq.getVia());
-        member.setPhone(completeMemberInfoReq.getPhone());
-
-        MemberExtend memberExtend = member.getMemberExtend();
-        memberExtend.setAge(completeMemberInfoReq.getAge());
-        memberExtend.setBirthday(completeMemberInfoReq.getBirthday());
-        memberExtend.setEmergencyCode(completeMemberInfoReq.getEmergencyCode());
-        memberExtend.setIntroduce(completeMemberInfoReq.getIntroduce());
-        int count = memberMapper.updateById(member);
-        int total = memberExtendMapper.updateById(memberExtend) + count;
-        return total > 0;
-    }
 
     @Override
     public Integer total() {
         return memberMapper.total();
-    }
-
-    @Override
-    public Integer totalNormal() {
-        return memberMapper.totalNormal();
     }
 
     @Override
@@ -645,22 +624,6 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return OpenEmail.SUBSCRIBE_EMAIL.equals(memberConfig.getOpenEmail());
-    }
-
-
-    /**
-     * 历史头像
-     *
-     * @param userId
-     */
-    @Override
-    public List<String> historyVia(String userId) {
-        Member member = getMember(userId);
-        if (Objects.isNull(member)) {
-            return new ArrayList<>();
-        }
-
-        return fileService.getUserHistoryViaList(userId);
     }
 
     /**

@@ -454,20 +454,6 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public Boolean checkStatusIsOk(String contentId) {
-        if (StringUtils.isEmpty(contentId)) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR);
-        }
-        return contentMapper.checkStatusIsOk(contentId) > 0;
-    }
-
-
-    @Override
-    public Integer getTotalByContentType(Integer contentType) {
-        return contentMapper.getTotalByContentType(contentType);
-    }
-
-    @Override
     public Boolean currentUserIsAttentionAuthor(String contentUserId) {
         boolean currentUserIsAttention = false;
         try {
@@ -612,9 +598,7 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
         // 渲染喜欢html
-        memberList.forEach(member -> {
-            memberService.renderCardHtml(member);
-        });
+        memberList.forEach(memberService::renderCardHtml);
         content.setLikesMemberList(memberList);
     }
 

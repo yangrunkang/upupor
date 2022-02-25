@@ -108,24 +108,11 @@ public interface MemberService {
     Boolean resetPassword(UpdatePasswordReq updatePasswordReq);
 
     /**
-     * 完善个人信息
-     *
-     * @param completeMemberInfoReq
-     * @return
-     */
-    Boolean completeMemberInfo(CompleteMemberInfoReq completeMemberInfoReq);
-
-    /**
      * 注册数(包含已经注销的用户)
      *
      * @return
      */
     Integer total();
-
-    /**
-     * 正常的用户总数
-     */
-    Integer totalNormal();
 
     /**
      * 文章浏览总数
@@ -229,7 +216,6 @@ public interface MemberService {
 
     Integer sumIntegral(String userId);
 
-
     void renderCardHtml(Member member);
 
     void bindRadioMember(Radio radio);
@@ -255,14 +241,6 @@ public interface MemberService {
      * @param userId
      */
     Boolean isOpenEmail(String userId);
-
-
-    /**
-     * 历史头像
-     *
-     * @param userId
-     */
-    List<String> historyVia(String userId);
 
     /**
      * 初始化用户配置

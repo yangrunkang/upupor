@@ -187,20 +187,6 @@ public class ContentController {
         contentData.setLikeNum(likeNum - 1);
     }
 
-
-    @PostMapping("/check")
-    @ResponseBody
-    @ApiOperation("检查文章状态是否正常")
-    public CcResponse check(GetContentStatusReq getContentStatusReq) {
-        CcResponse cc = new CcResponse();
-
-        String contentId = getContentStatusReq.getContentId();
-
-        Boolean isOk = contentService.checkStatusIsOk(contentId);
-        cc.setData(isOk);
-        return cc;
-    }
-
     @PostMapping("/pinned")
     @ResponseBody
     @ApiOperation("文章置顶")

@@ -52,12 +52,6 @@
         count(*)
         from member where status = 0
     </select>
-    <select id="totalNormal" resultType="java.lang.Integer">
-        select
-        count(*)
-        from member
-        where status = 0
-    </select>
 
     <select id="listByUserIdList" parameterType="java.util.List" resultMap="BaseResultMap">
         select
@@ -104,12 +98,11 @@
         from member where status = 0
         and <include refid="unActivityMemberCondition"/>
     </select>
+
     <select id="listUnActivityMemberList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from member where status = 0
         and <include refid="unActivityMemberCondition"/>
     </select>
-
-
 </mapper>

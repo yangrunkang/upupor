@@ -77,32 +77,6 @@
         </foreach>
     </select>
 
-    <select id="latestContentList" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from content
-        where status = 0 order by create_time desc
-    </select>
-
-    <!--最多收藏-->
-    <select id="moreCollectList" resultType="com.upupor.service.dto.dao.MoreCollectDto">
-    select
-    count(co.collect_value) total,
-    ct.content_id contentId
-    from content ct left join collect co on ct.content_id = co.collect_value
-    where ct.status = 0 and co.collect_type = 0 and co.status = 0 group by contentId order by total desc
-  </select>
-
-  <!--最多评论-->
-  <select id="moreCommentList" resultType="com.upupor.service.dto.dao.MoreCommentDto">
-    select
-    count(co.target_id) total,
-    ct.content_id contentId
-    from content ct left join comment co on ct.content_id = co.target_id
-    where ct.status = 0 and co.status = 0 group by contentId order by total desc
-  </select>
-
-
     <select id="listAllByUserId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -168,20 +142,6 @@
         ) as c
     </select>
 
-    <select id="checkStatusIsOk" resultType="java.lang.Integer">
-    select
-    count(*)
-    from content
-    where content_id = #{contentId,jdbcType=VARCHAR} and status = 0
-  </select>
-
-    <select id="getTotalByContentType" resultType="java.lang.Integer">
-    select
-    count(*)
-    from content
-    where content_type = #{contentType,jdbcType=INTEGER} and status = 0
-  </select>
-
     <select id="total" resultType="java.lang.Integer">
     select
     count(*)
@@ -202,19 +162,6 @@
     where status = 1 and user_id = #{userId,jdbcType=VARCHAR}
   </select>
 
-    <select id="listContentByContentType" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from content
-        where status = 0
-        <if test="contentType != null">
-            and content_type = #{contentType,jdbcType=INTEGER}
-        </if>
-        <if test="tag != null">
-            and tag_ids = #{tag,jdbcType=VARCHAR}
-        </if>
-        order by latest_comment_time desc
-    </select>
 
     <select id="randomContent" resultType="java.lang.String" parameterType="java.lang.String">
         select distinct content_id from content where status = 0 and user_id != #{notUserId,jdbcType=VARCHAR} order by rand() limit 10

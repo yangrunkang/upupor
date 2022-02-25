@@ -191,21 +191,6 @@ public interface ContentService {
      */
     void bindContentMember(List<Content> contentList);
 
-    /**
-     * 检查内容状态是否正常
-     *
-     * @param contentId
-     * @return true: 正常   false: 非正常
-     */
-    Boolean checkStatusIsOk(String contentId);
-
-    /**
-     * 根据类型获取文章总数
-     *
-     * @param contentType
-     * @return
-     */
-    Integer getTotalByContentType(Integer contentType);
 
     Boolean currentUserIsAttentionAuthor(String contentUserId);
 
