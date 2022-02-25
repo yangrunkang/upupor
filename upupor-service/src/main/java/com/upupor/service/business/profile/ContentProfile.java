@@ -62,8 +62,6 @@ public class ContentProfile extends AbstractProfile {
         listContentReq.setPageNum(pageNum);
         listContentReq.setPageSize(pageSize);
         ListContentDto listContentDto = contentService.listContent(listContentReq);
-        // 绑定文章数据
-        contentService.bindContentData(listContentDto);
         getMemberIndexDto().setListContentDto(listContentDto);
     }
 

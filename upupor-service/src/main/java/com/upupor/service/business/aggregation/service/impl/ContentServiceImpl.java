@@ -56,7 +56,6 @@ import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -144,12 +143,25 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public ListContentDto listContent(ListContentReq listContentReq) {
-        // 如果有用户id 说明是管理后台或者个人主页过来的
-        if (Strings.isEmpty(listContentReq.getUserId())) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
-        }
-        ListContentDto listContentDto = getListContentDto(listContentReq);
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
+                .eq(Objects.nonNull(listContentReq.getStatus()), Content::getStatus, listContentReq.getStatus())
+                .eq(Objects.nonNull(listContentReq.getUserId()), Content::getUserId, listContentReq.getUserId())
+                .eq(Objects.nonNull(listContentReq.getContentId()), Content::getContentId, listContentReq.getContentId())
+                .like(Objects.nonNull(listContentReq.getSearchTitle()), Content::getTitle, listContentReq.getSearchTitle())
+                .like(Objects.nonNull(listContentReq.getNavbarSearch()), Content::getTitle, listContentReq.getNavbarSearch())
+                .in(!CollectionUtils.isEmpty(listContentReq.getTagIdList()), Content::getTagIds, listContentReq.getTagIdList())
+                .orderByDesc(Content::getCreateTime);
 
+        PageHelper.startPage(listContentReq.getPageNum(), listContentReq.getPageSize());
+        List<Content> contents = contentMapper.selectList(query);
+        PageInfo<Content> pageInfo = new PageInfo<>(contents);
+
+        this.bindContentMember(contents);
+        ListContentDto listContentDto = new ListContentDto(pageInfo);
+        listContentDto.setContentList(pageInfo.getList());
+
+        // 绑定文章数据
+        this.bindContentData(listContentDto.getContentList());
         // 处理文章置顶
         handlePinnedContent(listContentDto, listContentReq.getUserId());
 
@@ -174,6 +186,7 @@ public class ContentServiceImpl implements ContentService {
         if (CollectionUtils.isEmpty(pinnedContentList)) {
             return;
         }
+        this.bindContentData(pinnedContentList);
 
         List<Content> contentList = listContentDto.getContentList();
         Iterator<Content> iterator = contentList.iterator();
@@ -193,24 +206,6 @@ public class ContentServiceImpl implements ContentService {
         listContentDto.setContentList(newContentList);
     }
 
-    @Override
-    public ListContentDto listContents(ListContentReq listContentReq) {
-        ListContentDto listContentDto = getListContentDto(listContentReq);
-        this.bindContentData(listContentDto.getContentList());
-        return listContentDto;
-    }
-
-    private ListContentDto getListContentDto(ListContentReq listContentReq) {
-        PageHelper.startPage(listContentReq.getPageNum(), listContentReq.getPageSize());
-        List<Content> contents = contentMapper.listContent(listContentReq);
-        PageInfo<Content> pageInfo = new PageInfo<>(contents);
-
-        this.bindContentMember(contents);
-
-        ListContentDto listContentDto = new ListContentDto(pageInfo);
-        listContentDto.setContentList(pageInfo.getList());
-        return listContentDto;
-    }
 
 
     @Override
@@ -386,7 +381,7 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public ListContentDto listContentByTitleAndShortContent(ListContentReq listContentReq) {
         listContentReq.setStatus(ContentStatus.NORMAL);
-        return getListContentDto(listContentReq);
+        return listContent(listContentReq);
     }
 
     @Override
@@ -633,7 +628,7 @@ public class ContentServiceImpl implements ContentService {
         if (Objects.isNull(content)) {
             return;
         }
-        List<Long> idList = contentMapper.lastAndNextContent(content.getContentId(),content.getTagIds(),content.getContentType().getType());
+        List<Long> idList = contentMapper.lastAndNextContent(content.getContentId(), content.getTagIds(), content.getContentType().getType());
         if (CollectionUtils.isEmpty(idList)) {
             return;
         }
@@ -679,10 +674,9 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public List<Content> latestContentList() {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getStatus,ContentStatus.NORMAL)
-                .ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - 7*24*60*60)
-                .orderByDesc(Content::getCreateTime)
-                ;
+                .eq(Content::getStatus, ContentStatus.NORMAL)
+                .ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - 7 * 24 * 60 * 60)
+                .orderByDesc(Content::getCreateTime);
 
         List<Content> contentList = contentMapper.selectList(query);
         this.bindContentMember(contentList);

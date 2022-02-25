@@ -80,17 +80,11 @@ public class ContentManageServiceImpl implements ContentManageService {
 
         LambdaQueryWrapper<Content> listQuery = new LambdaQueryWrapper<Content>()
                 .notIn(Content::getStatus, ContentStatus.notIn())
+                .eq(StringUtils.isNotEmpty(listContentReq.getUserId()),Content::getUserId, listContentReq.getUserId())
+                .eq(StringUtils.isNotEmpty(listContentReq.getContentId()),Content::getContentId, listContentReq.getContentId())
+                .eq(Objects.nonNull(listContentReq.getSelect()) && "ONLY_SELF_SEE".equals(listContentReq.getSelect()),Content::getStatus, ContentStatus.ONLY_SELF_CAN_SEE)
+                .like(StringUtils.isNotEmpty(listContentReq.getSearchTitle()),Content::getTitle, listContentReq.getSearchTitle())
                 .orderByDesc(Content::getCreateTime);
-        if (StringUtils.isNotEmpty(listContentReq.getUserId())) {
-            listQuery.eq(Content::getUserId, listContentReq.getUserId());
-        }
-        if (StringUtils.isNotEmpty(listContentReq.getContentId())) {
-            listQuery.eq(Content::getContentId, listContentReq.getContentId());
-        }
-        bindSearchTitle(listContentReq.getSearchTitle(), listQuery);
-        if (Objects.nonNull(listContentReq.getSelect()) && "ONLY_SELF_SEE".equals(listContentReq.getSelect())) {
-            listQuery.eq(Content::getStatus, ContentStatus.ONLY_SELF_CAN_SEE);
-        }
 
         PageHelper.startPage(listContentReq.getPageNum(), listContentReq.getPageSize());
         List<Content> contents = contentMapper.selectList(listQuery);
@@ -103,18 +97,12 @@ public class ContentManageServiceImpl implements ContentManageService {
         return listContentDto;
     }
 
-    private void bindSearchTitle(String searchTitle, LambdaQueryWrapper<Content> listQuery) {
-        if (StringUtils.isNotEmpty(searchTitle)) {
-            listQuery.like(Content::getTitle, searchTitle);
-        }
-    }
-
     private ListContentDto getListContentDtoDraft(Integer pageNum, Integer pageSize, String userId, String searchTitle) {
         LambdaQueryWrapper<Content> listQuery = new LambdaQueryWrapper<Content>()
                 .eq(Content::getStatus, ContentStatus.DRAFT)
                 .eq(Content::getUserId, userId)
+                .like(StringUtils.isNotEmpty(searchTitle),Content::getTitle, searchTitle)
                 .orderByDesc(Content::getCreateTime);
-        bindSearchTitle(searchTitle, listQuery);
 
         PageHelper.startPage(pageNum, pageSize);
         List<Content> contents = contentMapper.selectList(listQuery);

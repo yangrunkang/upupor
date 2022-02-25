@@ -75,13 +75,6 @@ public interface ContentService {
      */
     ListContentDto listContent(ListContentReq listContentReq);
 
-    /**
-     * 文章列表
-     *
-     * @param listContentReq
-     * @return
-     */
-    ListContentDto listContents(ListContentReq listContentReq);
 
     /**
      * 根据标题搜索

@@ -182,41 +182,6 @@
     where content_type = #{contentType,jdbcType=INTEGER} and status = 0
   </select>
 
-    <select id="listContent" parameterType="com.upupor.service.outer.req.ListContentReq" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from content
-        where 1=1
-        <if test="listContentReq.status != null">
-            and status = #{listContentReq.status,jdbcType=INTEGER}
-        </if>
-        <if test="listContentReq.userId != null">
-            and user_id = #{listContentReq.userId,jdbcType=VARCHAR}
-        </if>
-        <if test="listContentReq.contentId != null">
-            and content_id = #{listContentReq.contentId,jdbcType=VARCHAR}
-        </if>
-        <if test="listContentReq.searchTitle != null">
-            and title like concat('%',#{listContentReq.searchTitle,jdbcType=VARCHAR},'%')
-        </if>
-        <if test="listContentReq.navbarSearch != null">
-            and (
-            title like concat('%',#{listContentReq.navbarSearch,jdbcType=VARCHAR},'%')
-            or
-            short_content like concat('%',#{listContentReq.navbarSearch,jdbcType=VARCHAR},'%')
-            )
-        </if>
-        <if test="listContentReq.tagIdList != null and listContentReq.tagIdList.size() > 0">
-            and tag_ids in
-            <foreach close=")" collection="listContentReq.tagIdList" index="index" item="item" open="(" separator=",">
-                #{item}
-            </foreach>
-
-        </if>
-        order by create_time desc
-    </select>
-
-
     <select id="total" resultType="java.lang.Integer">
     select
     count(*)
