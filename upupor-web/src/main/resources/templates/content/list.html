@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div th:replace="fragments/index::common_page_index_dto(${commonPageIndexDto})"></div>
+                        <div class="card card-body shadow-sm border-0 p-2 my-2" th:include="fragments/index::list_content_dto(${commonPageIndexDto.listContentDto},false)"></div>
                     </div>
                 </div>
             </div>

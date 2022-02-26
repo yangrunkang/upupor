@@ -42,20 +42,8 @@
                     <div class="d-block text-center my-2">
                         <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" style="font-size: 30px"><a class="cv-link" th:href="@{'/tag/'+${tagIndexDto.tagName}}">[[${tagIndexDto.tagName}]]</a></span>
                     </div>
-                    <div style="width: 100%;" class="text-center" th:if="${#lists.isEmpty(tagIndexDto.listContentDto.contentList)}">
-                        <h1 style="font-weight: lighter">
-                            该标签下,无内容
-                        </h1>
-                    </div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2" th:if="!${#lists.isEmpty(tagIndexDto.listContentDto.contentList)}">
-                    <div th:replace="fragments/index::content_list(${tagIndexDto.listContentDto.contentList},false)"></div>
-                    <div>
-                        <div class="mt-2 float-end"
-                             th:if="!${#strings.isEmpty(tagIndexDto.listContentDto.paginationHtml)}"
-                             th:utext="${tagIndexDto.listContentDto.paginationHtml}"> </div>
-                    </div>
-                </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:include="fragments/index::list_content_dto(${tagIndexDto.listContentDto},false)"></div>
             </div>
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-0 p-2 text-black-50 mb-2">

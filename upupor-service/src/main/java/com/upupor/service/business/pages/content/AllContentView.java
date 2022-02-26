@@ -28,9 +28,8 @@
 package com.upupor.service.business.pages.content;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.CommonAggregateService;
+import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.pages.AbstractView;
-import com.upupor.service.outer.req.GetCommonReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +44,7 @@ import static com.upupor.framework.CcConstant.CONTENT_ALL;
 @RequiredArgsConstructor
 public class AllContentView extends AbstractView {
     public static final String URL = "/content/all";
-    private final CommonAggregateService commonAggregateService;
+    private final ContentService contentService;
 
     @Override
     public String viewName() {
@@ -67,7 +66,7 @@ public class AllContentView extends AbstractView {
     protected void fetchData() {
         Integer pageNum = query.getPageNum();
         Integer pageSize = query.getPageSize();
-        modelAndView.addObject(commonAggregateService.index(GetCommonReq.create( pageNum, pageSize)));
+        modelAndView.addObject(contentService.listContentByContentType(null, pageNum, pageSize, null));
     }
 
 }

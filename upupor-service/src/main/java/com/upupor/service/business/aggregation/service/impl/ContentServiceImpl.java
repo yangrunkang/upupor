@@ -156,12 +156,13 @@ public class ContentServiceImpl implements ContentService {
         List<Content> contents = contentMapper.selectList(query);
         PageInfo<Content> pageInfo = new PageInfo<>(contents);
 
-        this.bindContentMember(contents);
         ListContentDto listContentDto = new ListContentDto(pageInfo);
         listContentDto.setContentList(pageInfo.getList());
 
         // 绑定文章数据
         this.bindContentData(listContentDto.getContentList());
+        // 绑定用户信息
+        this.bindContentMember(listContentDto.getContentList());
         // 处理文章置顶
         handlePinnedContent(listContentDto, listContentReq.getUserId());
 
@@ -187,6 +188,7 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
         this.bindContentData(pinnedContentList);
+        this.bindContentMember(pinnedContentList);
 
         List<Content> contentList = listContentDto.getContentList();
         Iterator<Content> iterator = contentList.iterator();

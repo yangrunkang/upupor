@@ -50,19 +50,10 @@
                         <div style="font-size: 30px;color: #00a8c6" id="navbar_search_keyword"></div>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2">
-                    <div>
-                        <div style="width: 100%;" class="text-center" th:if="${#lists.isEmpty(searchIndexDto.listContentDto.contentList)}">
-                            <h1 style="font-weight: lighter">
-                                搜索结果为空
-                            </h1>
-                        </div>
-                        <div>
-                            <input type="hidden" id="content_more_alert_value" th:value="${searchIndexDto.listContentDto.total}"/>
-                        </div>
-                        <div th:replace="fragments/index::content_list(${searchIndexDto.listContentDto.contentList},false)"></div>
-                    </div>
+                <div>
+                    <input type="hidden" id="content_more_alert_value" th:value="${searchIndexDto.listContentDto.total}"/>
                 </div>
+                <div class="card card-body shadow-sm border-0 p-2 my-2" th:include="fragments/index::list_content_dto(${searchIndexDto.listContentDto},false)"></div>
             </div>
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-0 p-2">

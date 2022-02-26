@@ -131,17 +131,17 @@
        th:if="${content.contentType.name() == type.typeName}">[[${type.name}]]</a>
 </span>
 
-<!--通用页面对象-->
-<div th:fragment="common_page_index_dto(commonPageIndexDto)">
-    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
+<!--ListContentDto通用渲染模板-->
+<div th:fragment="list_content_dto(listContentDto,fromProfile)">
+    <div th:if="${#lists.isEmpty(listContentDto.contentList)}">
         <div th:include="fragments/index::empty_content"></div>
     </div>
-    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
-        <div th:replace="fragments/index::content_list(${commonPageIndexDto.listContentDto.contentList},false)"></div>
+    <div th:if="!${#lists.isEmpty(listContentDto.contentList)}">
+        <div th:replace="fragments/index::content_list(${listContentDto.contentList},${fromProfile})"></div>
         <div>
             <div class="mt-2 float-end"
-                 th:if="!${#strings.isEmpty(commonPageIndexDto.listContentDto.paginationHtml)}"
-                 th:utext="${commonPageIndexDto.listContentDto.paginationHtml}"> </div>
+                 th:if="!${#strings.isEmpty(listContentDto.paginationHtml)}"
+                 th:utext="${listContentDto.paginationHtml}"> </div>
         </div>
     </div>
 </div>

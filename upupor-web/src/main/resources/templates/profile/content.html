@@ -41,15 +41,7 @@
                 <div th:include="fragments/index::profile_common"></div>
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div th:replace="fragments/profile::nav_profile(${memberIndexDto.listContentDto.total},'content')"></div>
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
-                    <div th:replace="fragments/index::content_list(${memberIndexDto.listContentDto.contentList},true)"></div>
-                    <div>
-                        <div class="mt-2 float-end"
-                         th:if="!${#strings.isEmpty(memberIndexDto.listContentDto.paginationHtml)}"
-                         th:utext="${memberIndexDto.listContentDto.paginationHtml}"> </div>
-                    </div>
+                    <div th:replace="fragments/index::list_content_dto(${memberIndexDto.listContentDto},true)"></div>
                 </div>
             </div>
             <div class="col-lg-3">
