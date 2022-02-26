@@ -31,6 +31,7 @@ import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.business.pages.Query;
 import com.upupor.service.business.pages.business.*;
+import com.upupor.service.business.pages.content.AllContentView;
 import com.upupor.service.business.pages.content.ContentDetailView;
 import com.upupor.service.business.pages.content.DraftContentDetailView;
 import com.upupor.service.business.pages.footer.*;
@@ -106,6 +107,7 @@ public class ViewController {
             CreateRadioView.URL, // 创建电台
             RecordView.URL, // 在线录制电台
             RadioDetailView.URL, // 电台详情
+            AllContentView.URL, // 所有文章
     })
     public ModelAndView one(HttpServletRequest request,
                             Integer pageNum,

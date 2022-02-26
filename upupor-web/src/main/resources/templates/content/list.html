@@ -61,18 +61,8 @@
                             <div th:replace="fragments/business::business_cooperation"></div>
                         </div>
                     </div>
-                    <div class="col" >
-                        <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
-                            <div th:include="fragments/index::empty_content"></div>
-                        </div>
-                        <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.listContentDto.contentList)}">
-                            <div th:replace="fragments/index::content_list(${commonPageIndexDto.listContentDto.contentList},false)"></div>
-                            <div>
-                                <div class="mt-2 float-end"
-                                     th:if="!${#strings.isEmpty(commonPageIndexDto.listContentDto.paginationHtml)}"
-                                     th:utext="${commonPageIndexDto.listContentDto.paginationHtml}"> </div>
-                            </div>
-                        </div>
+                    <div class="col">
+                        <div th:replace="fragments/index::common_page_index_dto(${commonPageIndexDto})"></div>
                     </div>
                 </div>
             </div>
@@ -89,7 +79,7 @@
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <!--最近一周新增文章-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
-                    <div class="fw-normal border-bottom mb-2 text-black-50">最新文章</div>
+                    <div class="fw-normal border-bottom mb-2 text-black-50">最新文章<a class="cv-link text-black-50 float-end" href="/content/all"><i class="bi bi-balloon"></i>全部</a></div>
                     <table class="table table-sm table-borderless mb-0">
                         <tbody>
                         <tr th:if="!${#lists.isEmpty(commonPageIndexDto.latestContentList)}"

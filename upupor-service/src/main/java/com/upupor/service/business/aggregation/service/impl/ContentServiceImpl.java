@@ -210,13 +210,11 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public ListContentDto listContentByContentType(ContentType contentType, Integer pageNum, Integer pageSize, String tag) {
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getStatus, ContentStatus.NORMAL).orderByDesc(Content::getLatestCommentTime);
-        if (Objects.nonNull(contentType)) {
-            query.eq(Content::getContentType, contentType);
-        }
-        if (Objects.nonNull(tag)) {
-            query.eq(Content::getTagIds, tag);
-        }
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
+                .eq(Content::getStatus, ContentStatus.NORMAL)
+                .eq(Objects.nonNull(contentType),Content::getContentType, contentType)
+                .eq(Objects.nonNull(tag),Content::getTagIds, tag)
+                .orderByDesc(Content::getLatestCommentTime);
 
         // 分页查询
         PageHelper.startPage(pageNum, pageSize);

@@ -145,6 +145,7 @@ public final class CcConstant {
     public static final String CV_OFF = "0";
     public static final String CV_ON = "1";
     public static final String CONTENT_LIST = "content/list";
+    public static final String CONTENT_ALL = "content/all";
 
     public static final class UserView {
         public static final String BASE_PATH = "user";
