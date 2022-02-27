@@ -32,7 +32,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * 添加活动请求
+ * 设置关键字
  *
  * @author YangRunkang(cruise)
  * @date 2020/02/05 00:14

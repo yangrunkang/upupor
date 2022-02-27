@@ -25,8 +25,28 @@
  * SOFTWARE.
  */
 
-iframe {
-    width:100% ;
-    height:100% ;
-    border:none ;
+package com.upupor.service.outer.req;
+
+import com.upupor.service.types.ContentStatus;
+import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+/**
+ * 设置内容状态
+ *
+ * @author YangRunkang(cruise)
+ * @date 2020/02/05 00:14
+ */
+@Data
+public class SetContentStatusReq {
+
+    @NotEmpty(message = "文章Id不能为空")
+    private String contentId;
+
+    @NotNull(message = "状态不能为空")
+    private ContentStatus status;
+
+
 }

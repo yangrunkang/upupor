@@ -91,7 +91,7 @@ public enum ContentStatus {
     }
 
     public static List<ContentStatus> notIn(){
-        List<ContentStatus> statusList = new ArrayList<ContentStatus>();
+        List<ContentStatus> statusList = new ArrayList<>();
         statusList.add(ContentStatus.DRAFT);
         statusList.add(ContentStatus.DELETED);
         return statusList;

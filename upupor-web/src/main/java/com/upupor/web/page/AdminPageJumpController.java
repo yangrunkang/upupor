@@ -29,6 +29,7 @@ package com.upupor.web.page;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.AdminAggregateService;
+import com.upupor.service.types.ContentStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -88,6 +89,7 @@ public class AdminPageJumpController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName(EDIT_USER_MANAGE_CONTENT);
         modelAndView.addObject(adminAggregateService.adminContent(pageNum, pageSize, contentId));
+        modelAndView.addObject("contentStatusList", ContentStatus.values());
         modelAndView.addObject(SeoKey.TITLE, "管理员");
         modelAndView.addObject(SeoKey.DESCRIPTION, "管理员");
         return modelAndView;

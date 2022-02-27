@@ -30,10 +30,14 @@ package com.upupor.web.controller;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.common.CcResponse;
+import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
+import com.upupor.service.outer.req.SetContentStatusReq;
 import com.upupor.service.outer.req.SetKeywordsReq;
+import com.upupor.service.types.ContentStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,11 +56,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin")
 public class AdminController {
     private final ContentService contentService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @ApiOperation("设置关键字")
     @PostMapping(value = "/content/keywords")
     @ResponseBody
-    public CcResponse add(SetKeywordsReq setKeywordsReq) {
+    public CcResponse setKeywords(SetKeywordsReq setKeywordsReq) {
 
         String contentId = setKeywordsReq.getContentId();
         String keywords = setKeywordsReq.getKeywords();
@@ -64,6 +69,28 @@ public class AdminController {
         content.setKeywords(keywords);
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(contentService.updateContent(content));
+        return ccResponse;
+    }
+
+    @ApiOperation("设置状态")
+    @PostMapping(value = "/content/status")
+    @ResponseBody
+    public CcResponse setContentStatus(SetContentStatusReq setContentStatusReq) {
+
+        String contentId = setContentStatusReq.getContentId();
+        ContentStatus status = setContentStatusReq.getStatus();
+
+        Content content = contentService.getContentByContentIdNoStatus(contentId);
+        content.setStatus(status);
+
+        Boolean result = contentService.updateContent(content);
+        if (result) {
+            // 重新生成站点地图
+            eventPublisher.publishEvent(new GenerateGoogleSiteMapEvent());
+        }
+
+        CcResponse ccResponse = new CcResponse();
+        ccResponse.setData(result);
         return ccResponse;
     }
 

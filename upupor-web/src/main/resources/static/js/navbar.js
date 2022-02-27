@@ -47,14 +47,17 @@ function switchNav() {
         if (cvIsNull(currentMenuId)) {
             currentMenuId = "home";
         }
-        // 检测二级菜单
-        let second = location.split('/')[3];
-        if(!cvIsNull(second)){
-            if(second === 'message'){
-                currentMenuId = second;
+        // message是管理页,如果是个人主页的留言板则不处理
+        if(currentMenuId !== 'profile') {
+            // 检测二级菜单
+            let second = location.split('/')[3];
+            if(!cvIsNull(second)){
+                if(second === 'message'){
+                    currentMenuId = second;
+                }
             }
+            $("." + currentMenuId).addClass("cv-active");
         }
-        $("." + currentMenuId).addClass("cv-active");
     } catch (e) {
         console.error("cv.js switchNav error" + e)
     }

@@ -41,3 +41,20 @@ function setKeywords(contentId) {
         }
     });
 }
+
+function setContentStatus(contentId) {
+    let status = $("#admin_set_content_status").val();
+    $.cvPost('/admin/content/status',{
+        contentId,
+        status
+    },function (res) {
+        if (respSuccess(res)) {
+            $.cvSuccess("设置状态成功");
+            setTimeout(function () {
+                history.go(0);
+            }, 1600)
+        } else {
+            $.cvError("设置状态失败")
+        }
+    });
+}

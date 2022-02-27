@@ -186,7 +186,7 @@ public class MemberServiceImpl implements MemberService {
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_ID, member.getUserId());
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_NAME, member.getUserName());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.IS_ADMIN, member.getIsAdmin());
+        ServletUtils.getSession().setAttribute(CcConstant.Session.IS_ADMIN, MemberIsAdmin.ADMIN.equals(member.getIsAdmin()));
         if (!StringUtils.isEmpty(memberExtend.getBgImg())) {
             ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
         }

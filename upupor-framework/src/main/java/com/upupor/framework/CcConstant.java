@@ -173,10 +173,7 @@ public final class CcConstant {
     public static final String RADIO_STATION_CREATE = "radio-station/create";
     public static final String RADIO_STATION_RECORD = "radio-station/record";
     public static final String RADIO_STATION_INDEX = "radio-station/index";
-    public static final String REPORTER_ACCESS = "report/goaccess";
-
     public static final String TODO_INDEX = "todo/index";
-    public static final String LOG_INDEX = "log/index";
     public static final String VIEW_HISTORY = "view/index";
     public static final String OPEN = "foot/opensource";
     public static final String MARKDOWN = "components/markdown";
@@ -379,11 +376,6 @@ public final class CcConstant {
         public static final String CACHE_CONTENT_DATA = "cacheContent";
 
         /**
-         * 缓存全局推广文章内容
-         */
-        public static final String GLOBAL_CONTENT = "cvGlobalContent";
-
-        /**
          * 缓存活跃用户
          */
         public static final String ACTIVE_USER_LIST = "activeUserList";
@@ -404,7 +396,7 @@ public final class CcConstant {
         public static final String SITE_MAP = "siteMap";
 
 
-        public static final String createContentIntervalkey(String userId) {
+        public static String createContentIntervalkey(String userId) {
             return CcConstant.CvCache.CREATE_CONTENT_TIME_OUT + userId;
         }
     }
