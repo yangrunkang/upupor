@@ -5,9 +5,11 @@ export default class ParagraphBase extends SyntaxBase {
         needCache: boolean;
         defaultCache?: {};
     });
-    cacheState: boolean;
+    needCache: boolean;
+    sign: string;
     cache: {};
     cacheKey: string;
+    toHtml(str: any, sentenceMakeFunc: any): any;
     isContainsCache(str: any, fullMatch: any): boolean;
     /**
      *
@@ -46,8 +48,13 @@ export default class ParagraphBase extends SyntaxBase {
      */
     pushCache(str: string, sign?: string, lineCount?: number): string;
     popCache(sign: any): any;
-    resetCache(defaultCache: any): void;
+    resetCache(): void;
     restoreCache(html: any): any;
+    /**
+     *
+     * @param {string} wholeMatch whole match
+     */
+    checkCache(wholeMatch: string, sentenceMakeFunc: any, lineCount?: number): any;
     signWithCache(html: any): boolean;
 }
 import SyntaxBase from "./SyntaxBase";

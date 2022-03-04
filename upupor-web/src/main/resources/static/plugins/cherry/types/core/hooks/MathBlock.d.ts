@@ -10,6 +10,5 @@ export default class MathBlock extends ParagraphBase {
     engine: 'katex' | 'MathJax' | 'node';
     katex: any;
     MathJax: any;
-    toHtml(wholeMatch: any, lineSpace: any, content: any): string;
 }
 import ParagraphBase from "@/core/ParagraphBase";

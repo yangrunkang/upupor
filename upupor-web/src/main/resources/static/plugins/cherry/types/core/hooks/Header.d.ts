@@ -6,6 +6,7 @@ export default class Header extends ParagraphBase {
     strict: boolean;
     headerIDCache: any[];
     headerIDCounter: {};
+    config: any;
     $parseTitleText(html?: string): string;
     /**
      * refer:
@@ -22,5 +23,6 @@ export default class Header extends ParagraphBase {
         html: string;
         sign: string;
     };
+    $getAnchor(anchorID: any): string;
 }
 import ParagraphBase from "@/core/ParagraphBase";

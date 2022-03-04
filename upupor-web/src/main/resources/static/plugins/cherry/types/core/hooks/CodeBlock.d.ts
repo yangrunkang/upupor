@@ -9,6 +9,7 @@ export default class CodeBlock extends ParagraphBase {
     customParser: any;
     wrap: any;
     lineNumber: any;
+    indentedCodeBlock: any;
     customHighlighter: any;
     $codeCache(sign: any, str: any): any;
     parseCustomLanguage(lang: any, codeSrc: any, props: any): string | false;
@@ -49,6 +50,22 @@ export default class CodeBlock extends ParagraphBase {
      * @param {number} lines
      */
     renderCodeBlock($code: string, $lang: string, sign: string, lines: number): string;
+    /**
+     * 获取缩进代码块语法的正则
+     */
+    $getIndentedCodeReg(): RegExp;
+    /**
+     * 生成缩进代码块（没有行号、没有代码高亮）
+     */
+    $getIndentCodeBlock(str: any): any;
+    /**
+     * 预处理缩进代码块，将缩进代码块里的高亮代码块和行内代码进行占位处理
+     */
+    $replaceCodeInIndent(str: any): any;
+    /**
+     * 恢复预处理的内容
+     */
+    $recoverCodeInIndent(str: any): any;
     $replaceSpecialChar(str: any): any;
 }
 import ParagraphBase from "@/core/ParagraphBase";

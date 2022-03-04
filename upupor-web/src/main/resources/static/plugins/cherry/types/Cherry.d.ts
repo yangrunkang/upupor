@@ -31,8 +31,15 @@ export default class Cherry extends CherryStatic {
      * @private
      */
     private init;
+    cherryDom: HTMLElement;
     toolbar: any;
     sidebar: any;
+    /**
+     *  监听 cherry 高度变化，高度改变触发 codemirror 内容刷新
+     * @private
+     */
+    private cherryDomResize;
+    cherryDomReiszeObserver: ResizeObserver;
     /**
      * 切换编辑模式
      * @param {'edit&preview'|'editOnly'|'previewOnly'} model 模式类型
@@ -179,8 +186,7 @@ export default class Cherry extends CherryStatic {
     public export(type?: string): void;
 }
 export type CherryOptions = import('~types/cherry').CherryOptions;
-import { CherryStatic } from "./CherryStatic";
+import {CherryStatic} from "./CherryStatic";
 import Previewer from "./Previewer";
 import FloatMenu from "./toolbars/FloatMenu";
 import Bubble from "./toolbars/Bubble";
-import Editor_1 from "./Editor";

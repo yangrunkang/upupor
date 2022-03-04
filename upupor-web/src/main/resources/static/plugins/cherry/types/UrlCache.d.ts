@@ -25,6 +25,11 @@ export default class UrlCache {
      */
     static replace(innerUrl: string, newUrl: string): string;
     /**
+     * 替换所有内部链接为原始的真实地址
+     * @param {string} html 包含 cherry-inner 协议地址的 html 文本
+     */
+    static restoreAll(html: string): string;
+    /**
      * 清空缓存
      */
     static clear(): void;

@@ -10,6 +10,5 @@ export default class InlineMath extends ParagraphBase {
     engine: 'katex' | 'MathJax' | 'node';
     katex: any;
     MathJax: any;
-    toHtml(wholeMatch: any, m1: any): any;
 }
 import ParagraphBase from "@/core/ParagraphBase";
