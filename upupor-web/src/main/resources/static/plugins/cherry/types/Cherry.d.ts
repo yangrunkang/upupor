@@ -186,7 +186,8 @@ export default class Cherry extends CherryStatic {
     public export(type?: string): void;
 }
 export type CherryOptions = import('~types/cherry').CherryOptions;
-import {CherryStatic} from "./CherryStatic";
+import { CherryStatic } from "./CherryStatic";
 import Previewer from "./Previewer";
 import FloatMenu from "./toolbars/FloatMenu";
 import Bubble from "./toolbars/Bubble";
+import Editor_1 from "./Editor";
