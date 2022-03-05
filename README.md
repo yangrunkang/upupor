@@ -6,20 +6,19 @@
 ## 网站
 https://upupor.com
 
-## 网站markdown编辑器
-> markdown编辑器fork了腾讯的cherry-markdown进行了微改动以适配upupor网站业务及风格
-
-地址:
-https://github.com/upupor/cherry-markdown
-
 ## Upupor开发进度
 ### [面板](https://github.com/users/yangrunkang/projects/1)
-
 
 ## 部署文档
 - [Docker部署](docs/deploy/docker部署文档.md)
 - [常规部署文档](docs/deploy/常规部署文档.md)
 - [开发环境配置文档](docs/deploy/开发环境配置文档.md)
+
+## markdown编辑器
+> markdown编辑器fork了腾讯的cherry-markdown进行了微改动以适配upupor网站业务及风格
+
+地址:
+https://github.com/upupor/cherry-markdown
 
 ## QA
 ### 为什么采用 thymeleaf 建站?
