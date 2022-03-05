@@ -6,6 +6,12 @@
 ## 网站
 https://upupor.com
 
+## 网站markdown编辑器
+> markdown编辑器fork了腾讯的cherry-markdown进行了微改动以适配upupor网站业务及风格
+
+地址:
+https://github.com/upupor/cherry-markdown
+
 ## Upupor开发进度
 ### [面板](https://github.com/users/yangrunkang/projects/1)
 
