@@ -51,14 +51,6 @@
         ct.sys_update_time,ct.comment_content
     </sql>
 
-
-    <select id="total" resultType="java.lang.Integer">
-        select
-        count(*)
-        from comment
-        where status = 0
-    </select>
-
     <select id="countByTargetId" resultType="java.lang.Integer">
         select
         count(*)

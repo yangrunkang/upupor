@@ -44,13 +44,7 @@
     <sql id="Base_Column_ALIAS_List">
     ct.id,ct.collect_id, ct.user_id, ct.collect_value, ct.collect_type, ct.status, ct.create_time, ct.sys_update_time
   </sql>
-    <select id="listByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from collect
-        where user_id = #{userId,jdbcType=VARCHAR}
-        order by create_time desc
-    </select>
+
     <select id="listByUserIdManage" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_ALIAS_List"/>
@@ -67,23 +61,6 @@
     and ct.collect_value = #{contentId,jdbcType=VARCHAR}
     and ct.status = 0 and co.status = 0
   </select>
-
-    <select id="getByContentIdAndCollectStatus" resultType="java.lang.Integer">
-    select count(*) from collect ct left join content co on ct.collect_value = co.content_id
-    where
-    ct.user_id = #{userId,jdbcType=VARCHAR} and ct.collect_type = 0
-    and ct.collect_value = #{contentId,jdbcType=VARCHAR}
-    and ct.status = #{collectStatus,jdbcType=INTEGER} and co.status = 0
-  </select>
-
-    <select id="getCollect"  resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from collect
-        where user_id = #{userId,jdbcType=VARCHAR} and collect_type = 0
-        and collect_value = #{contentId,jdbcType=VARCHAR}
-        and status = #{collectStatus,jdbcType=INTEGER}
-    </select>
 
     <select id="collectNum"  resultType="java.lang.Integer">
         select

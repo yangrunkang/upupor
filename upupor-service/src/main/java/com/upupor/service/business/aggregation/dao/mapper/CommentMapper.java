@@ -42,8 +42,6 @@ public interface CommentMapper extends BaseMapper<Comment> {
 
     List<Comment> listManage(ListCommentReq listCommentReq);
 
-    Integer total();
-
     List<CommentNumDto> selectByCommentIdList(@Param("list") List<String> commentIdList);
 
     Integer countByTargetId(@Param("targetId") String targetId);

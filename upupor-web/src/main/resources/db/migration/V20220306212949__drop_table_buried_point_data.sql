@@ -25,33 +25,4 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.dao.entity;
-
-import lombok.Data;
-
-@Data
-public class BuriedPointData extends BaseEntity {
-
-    private String pointId;
-
-    private String sessionId;
-
-    private String userId;
-
-    private Integer pointType;
-
-    private String requestMethod;
-
-    private String ip;
-
-    private Long port;
-
-    private String servletPath;
-
-    private String parameters;
-
-    private Long createTime;
-
-
-
-}
+drop table if exists buried_point_data;

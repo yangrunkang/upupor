@@ -142,10 +142,6 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
-    @Override
-    public Integer total() {
-        return commentMapper.total();
-    }
 
     @Override
     public void bindCommentUser(List<Comment> commentList) {

@@ -77,13 +77,6 @@ public interface CommentService {
     Comment getCommentByCommentId(String commentId);
 
     /**
-     * 评论总数
-     *
-     * @return
-     */
-    Integer total();
-
-    /**
      * 绑定评论的用户名
      *
      * @param commentList
