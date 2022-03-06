@@ -41,7 +41,8 @@ upupor用 thymeleaf 的原因是为了做SEO,目前所有页面均采用服务�
 ## 联系方式
 - Email: yangrunkang53@gmail.com
 - wechat: Bla277225635
-> ![扫码](docs/wechat.jpg)
+
+<img src="docs/wechat.jpg" width="250px" height="250px" alt="微信">
 
 ## Stargazers over time
 [![Stargazers over time](https://starchart.cc/yangrunkang/upupor.svg)](https://starchart.cc/yangrunkang/upupor)
