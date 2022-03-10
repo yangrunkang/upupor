@@ -97,16 +97,11 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div th:if="${#lists.isEmpty(memberIndexDto.listRadioDto.radioList)}">
-                            <div th:include="fragments/index::empty_content"></div>
-                        </div>
-                        <div>
+                        <div th:if="${#lists.isEmpty(memberIndexDto.listRadioDto.radioList)}" th:include="fragments/index::empty_content"></div>
                         <div class="mt-2 float-end"
                              th:if="!${#strings.isEmpty(memberIndexDto.listRadioDto.paginationHtml)}"
                              th:utext="${memberIndexDto.listRadioDto.paginationHtml}"> </div>
                     </div>
-                    </div>
-
                 </div>
             </div>
             <!--左列-用户信息-->

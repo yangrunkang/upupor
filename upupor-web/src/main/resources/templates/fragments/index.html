@@ -133,9 +133,7 @@
 
 <!--ListContentDto通用渲染模板-->
 <div th:fragment="list_content_dto(listContentDto,fromProfile)">
-    <div th:if="${#lists.isEmpty(listContentDto.contentList)}">
-        <div th:include="fragments/index::empty_content"></div>
-    </div>
+    <div th:if="${#lists.isEmpty(listContentDto.contentList)}" th:include="fragments/index::empty_content"></div>
     <div th:if="!${#lists.isEmpty(listContentDto.contentList)}">
         <div th:replace="fragments/index::content_list(${listContentDto.contentList},${fromProfile})"></div>
         <div>
@@ -242,7 +240,7 @@ fromProfile: 是否来自Profile页面
 
 <!--无内容-->
 <div th:fragment="empty_content">
-    <div class="text-center">
+    <div class="text-center m-2">
         <img th:data-src="${ossStatic} + @{/system/empty.png}" class="lazyload"
              style="width: 128px;height: 128px"/>
         <p class="text-black-50 lead">无内容</p>
@@ -475,9 +473,7 @@ fromProfile: 是否来自Profile页面
     <!---->
     <div class="card card-body shadow-sm border-0 p-2 my-2">
         <div class="lead mb-1">内容标签</div>
-        <div th:if="${#lists.isEmpty(memberIndexDto.tagList)}">
-            <div th:include="fragments/index::empty_content"></div>
-        </div>
+        <div th:if="${#lists.isEmpty(memberIndexDto.tagList)}" th:include="fragments/index::empty_content"></div>
         <div >
             <a th:if="!${#lists.isEmpty(memberIndexDto.tagList)}"
                th:each="tag : ${memberIndexDto.tagList}"
@@ -604,9 +600,7 @@ fromProfile: 是否来自Profile页面
             </div>
         </li>
     </ul>
-    <div th:if="${#lists.isEmpty(userList)}">
-        <div th:include="fragments/index::empty_content"></div>
-    </div>
+    <div th:if="${#lists.isEmpty(userList)}" th:include="fragments/index::empty_content"></div>
 </div>
 
 </body>

@@ -97,9 +97,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div th:if="${#lists.isEmpty(commonPageIndexDto.latestContentList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
+                    <div th:if="${#lists.isEmpty(commonPageIndexDto.latestContentList)}" th:include="fragments/index::empty_content"></div>
                 </div>
                 <!--活跃用户-->
                 <div class="card card-body shadow-sm border-0 p-2 my-2">
@@ -113,9 +111,7 @@
                             </div>
                         </a>
                     </div>
-                    <div th:if="${#lists.isEmpty(commonPageIndexDto.memberList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
+                    <div th:if="${#lists.isEmpty(commonPageIndexDto.memberList)}" th:include="fragments/index::empty_content"></div>
                 </div>
                 <!--全局搜索-->
                 <div th:include="fragments/index::global_search"></div>

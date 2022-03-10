@@ -53,9 +53,7 @@
                 <!--待办列表-->
                 <div class="card card-body shadow-sm border-0 p-2 mt-2">
                     <div class="lead border-bottom mb-2">我的待办</div>
-                    <div th:if="${#lists.isEmpty(todoIndexDto.listTodoDto.todoList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
+                    <div th:if="${#lists.isEmpty(todoIndexDto.listTodoDto.todoList)}" th:include="fragments/index::empty_content"></div>
                     <ul class="list-group list-group-flush">
                         <li th:class="${todo.status.name() == 'UN_DO'} ? 'list-group-item' : 'list-group-item text-decoration-line-through text-black-50'" th:inline="text"
                                th:if="!${#lists.isEmpty(todoIndexDto.listTodoDto.todoList)}"

@@ -92,9 +92,7 @@
                             	</tbody>
                             </table>
                         </div>
-                        <div th:if="${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}">
-                            <div th:include="fragments/index::empty_content"></div>
-                        </div>
+                        <div th:if="${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}" th:include="fragments/index::empty_content"></div>
                         <div>
                         <div class="mt-2 float-end"
                              th:if="!${#strings.isEmpty(memberIndexDto.listMessageDto.paginationHtml)}"

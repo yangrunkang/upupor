@@ -69,9 +69,7 @@
                             </table>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listFansDto.fansList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listFansDto.fansList)}" th:include="fragments/index::empty_content"></div>
                     <div>
                         <div class="mt-2 float-end"
                          th:if="!${#strings.isEmpty(memberIndexDto.listFansDto.paginationHtml)}"

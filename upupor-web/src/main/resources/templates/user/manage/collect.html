@@ -84,9 +84,7 @@
                             </table>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listCollectDto.collectList)}">
-                        <div th:include="fragments/index::empty_content"></div>
-                    </div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listCollectDto.collectList)}" th:include="fragments/index::empty_content"></div>
 
                     <div>
                         <div class="mt-2 float-end"

@@ -39,8 +39,8 @@
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div class="lead border-bottom">浏览记录</div>
                     <div class="card card-body border-0 p-2 my-2"
-                         th:if="${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}">
-                        <div th:include="fragments/index::empty_content"></div>
+                         th:if="${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}"
+                         th:include="fragments/index::empty_content">
                     </div>
 
                     <ul class="mt-2 list-group list-group-flush"
