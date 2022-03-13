@@ -25,44 +25,51 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.dao.entity;
+package com.upupor.service.scheduled.sitemap;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.service.types.ContentType;
-import lombok.Data;
+import com.upupor.service.dto.seo.GoogleSeoDto;
+import lombok.Getter;
+import org.springframework.util.CollectionUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
- * 标签
- *
- * @author runkangyang (cruise)
- * @date 2020.01.08 02:23
+ * @author Yang Runkang (cruise)
+ * @date 2022年03月13日 21:24
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class Tag extends BaseEntity {
+public abstract class AbstractSiteMap<T> {
+
+    @Getter
+    List<GoogleSeoDto> googleSeoDtoList = new ArrayList<>();
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     /**
-     * 标签Id
+     * 检查数据
+     * @return
      */
-    private String tagId;
+    protected abstract Boolean dataCheck();
+
+
+    protected abstract List<T> getSiteMapData();
 
     /**
-     * 标签类型
+     * 渲染SiteMap
      */
-    private ContentType tagType;
+    protected abstract void renderSiteMap(List<T> tList);
 
-    /**
-     * 状态 0-正常
-     */
-    private Integer status;
 
-    private String tagName;
-
-    private Long createTime;
-
-    private String icon;
-
-    @TableField(exist = false)
-    private Integer count = 0;
+    public void doBusiness(){
+        if(dataCheck()){
+            List<T> siteMapDataList = getSiteMapData();
+            if(CollectionUtils.isEmpty(siteMapDataList)){
+                return;
+            }
+            renderSiteMap(siteMapDataList);
+        }
+    }
 
 }
