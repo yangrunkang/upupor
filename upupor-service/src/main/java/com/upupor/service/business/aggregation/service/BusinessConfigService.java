@@ -35,7 +35,7 @@ import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.common.ListCssPatternDto;
 import com.upupor.service.types.BusinessConfigStatus;
 import com.upupor.service.types.BusinessConfigType;
-import joptsimple.internal.Strings;
+import org.apache.logging.log4j.util.Strings;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

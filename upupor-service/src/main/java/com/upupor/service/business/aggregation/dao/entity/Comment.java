@@ -33,8 +33,8 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.CommentAgree;
 import com.upupor.service.types.CommentStatus;
 import com.upupor.service.types.ContentType;
-import joptsimple.internal.Strings;
 import lombok.Data;
+import org.apache.logging.log4j.util.Strings;
 
 import java.util.Objects;
 

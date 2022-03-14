@@ -29,7 +29,7 @@ package com.upupor.service.utils;
 
 import com.github.pagehelper.PageInfo;
 import com.upupor.framework.CcConstant;
-import joptsimple.internal.Strings;
+import org.apache.logging.log4j.util.Strings;
 
 import java.util.Objects;
 

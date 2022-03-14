@@ -33,8 +33,8 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.common.algorithm.SnowFlake;
-import joptsimple.internal.Strings;
 import lombok.Data;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -190,7 +190,7 @@ public class CcUtils {
                     .filter(s -> !s.equals(DE))
                     .collect(Collectors.toList());
             if (!CollectionUtils.isEmpty(collect)) {
-                return Strings.join(collect, COMMA);
+                return Strings.join(collect, COMMA_CHAR);
             }
         }
         return null;

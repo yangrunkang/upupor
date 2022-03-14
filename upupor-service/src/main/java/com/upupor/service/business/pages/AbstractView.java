@@ -28,7 +28,7 @@
 package com.upupor.service.business.pages;
 
 import com.upupor.framework.CcConstant;
-import joptsimple.internal.Strings;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;

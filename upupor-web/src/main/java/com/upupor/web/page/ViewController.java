@@ -46,7 +46,7 @@ import com.upupor.service.business.pages.views.MarkdownView;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import io.swagger.annotations.Api;
-import joptsimple.internal.Strings;
+import org.apache.logging.log4j.util.Strings;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -128,6 +128,7 @@ public final class CcConstant {
     public static final String GLOBAL_EXCEPTION = "cvException";
     public static final String EMPTY_STR = "";
     public static final String COMMA = ",";
+    public static final char COMMA_CHAR = ',';
     public static final String COMMA_ZH = "，";
     public static final String BLANK = "_";
     public static final String ONE_DOTS = ".";

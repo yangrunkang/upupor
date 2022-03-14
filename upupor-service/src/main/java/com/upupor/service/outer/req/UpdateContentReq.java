@@ -31,7 +31,7 @@ import com.upupor.service.outer.req.content.BaseContentReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.OriginType;
-import joptsimple.internal.Strings;
+import org.apache.logging.log4j.util.Strings;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
