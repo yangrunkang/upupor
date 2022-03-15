@@ -390,6 +390,7 @@ public final class CcConstant {
          * 文章发布间隔
          */
         public static final String CREATE_CONTENT_TIME_OUT = "create_content_time_out";
+        public static final String REFRESH_KEY = "refresh_key";
 
         /**
          * SiteMap
@@ -400,7 +401,19 @@ public final class CcConstant {
         public static String createContentIntervalkey(String userId) {
             return CcConstant.CvCache.CREATE_CONTENT_TIME_OUT + userId;
         }
+
+        public static String refreshKey(String userId) {
+            return CcConstant.CvCache.REFRESH_KEY + userId;
+        }
     }
+
+    public static final class Time {
+        // 用户只要活跃一次,维持活跃状态的时间
+        public static final long MEMBER_ACTIVE_TIME = 60 * 60L;
+        // 文章只要编辑过,维持更新标识的时间
+        public static final long CONTENT_UPDATE_TIME = 24 * 60 * 60L;
+    }
+
 
     /**
      * 缓存常量

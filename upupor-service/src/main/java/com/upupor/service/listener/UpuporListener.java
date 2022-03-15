@@ -33,6 +33,7 @@ import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.scheduled.MemberScheduled;
+import com.upupor.service.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -43,6 +44,9 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
+
+import static com.upupor.framework.CcConstant.CvCache.refreshKey;
+import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
 
 /**
  * Upupor 监听器
@@ -70,25 +74,27 @@ public class UpuporListener {
         HttpSession session = request.getSession();
 
         Object userIdAttribute = session.getAttribute(CcConstant.Session.USER_ID);
-        String userId;
-        if (!Objects.isNull(userIdAttribute)) {
-            userId = String.valueOf(userIdAttribute);
-        } else {
-            String requestedSessionId = request.getRequestedSessionId();
-            if (StringUtils.isEmpty(requestedSessionId)) {
-                userId = "Start";
-            } else {
-                userId = requestedSessionId;
-            }
+        if (Objects.isNull(userIdAttribute)) {
+            return;
         }
 
+        String userId = String.valueOf(userIdAttribute);
         //检测是否是userId
         if (org.apache.commons.lang3.StringUtils.isNumeric(userId)) {
+            // 更新用户时间
             memberService.updateActiveTime(userId);
-            // 立即刷新最近登录的用户
-            memberScheduled.refreshActiveMember();
+            // 刷新最近登录的用户
+            refreshActiveMember(userId);
         }
+    }
 
+    private void refreshActiveMember(String userId) {
+        String refreshKey = refreshKey(userId);
+        if (RedisUtil.exists(refreshKey)) {
+            return;
+        }
+        RedisUtil.set(refreshKey, refreshKey, MEMBER_ACTIVE_TIME);
+        memberScheduled.refreshActiveMember();
     }
 
     @EventListener

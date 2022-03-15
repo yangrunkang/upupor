@@ -41,6 +41,8 @@ import lombok.Data;
 import java.util.List;
 import java.util.Objects;
 
+import static com.upupor.framework.CcConstant.Time.CONTENT_UPDATE_TIME;
+
 /**
  * 内容
  *
@@ -295,6 +297,6 @@ public class Content extends BaseEntity {
             return hasLatestEdit;
         }
         // 在一天内更新都算最新更新过
-        return CcDateUtil.getCurrentTime() - editTime <= 24 * 60 * 60;
+        return CcDateUtil.getCurrentTime() - editTime <= CONTENT_UPDATE_TIME;
     }
 }

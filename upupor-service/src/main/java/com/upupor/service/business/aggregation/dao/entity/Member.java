@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
+
 @Data
 public class Member extends BaseEntity {
 
@@ -188,6 +190,6 @@ public class Member extends BaseEntity {
             return active;
         }
         // 1小时以内都算活跃用户
-        return CcDateUtil.getCurrentTime() - lastLoginTime <= 1*60*60;
+        return CcDateUtil.getCurrentTime() - lastLoginTime <= MEMBER_ACTIVE_TIME;
     }
 }

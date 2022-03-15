@@ -139,6 +139,21 @@
                         </a>
                     </div>
                 </div>
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                    <div class="text-black-50 border-bottom mb-2 pt-0">文章导航</div>
+                    <nav aria-label="breadcrumb mb-0">
+                        <ol class="breadcrumb mb-0">
+                            <li th:each="type : ${contentTypeList}"
+                                th:if="${contentIndexDto.content.contentType.name() == type.typeName}"
+                                class="breadcrumb-item">
+                                <a class="cv-link text-black-50" th:href="${type.url}">[[${type.name}]]</a>
+                            </li>
+                            <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)} and ${contentIndexDto.content.contentType.name() != 'TOPIC'}">
+                                <a class="cv-link text-black-50" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/'+${#strings.toLowerCase(contentIndexDto.content.contentType.name())}+'/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
                 <div th:if="${session?.is_admin}" class="card card-body shadow-sm border-0 p-2 mb-2">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">管理员专有权限</div>
                     <div class="media-right media-middle ms-1">
@@ -241,21 +256,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card card-body shadow-sm border-0 p-2 mb-2">
-                    <div class="text-black-50 border-bottom mb-2 pt-0">文章导航</div>
-                    <nav aria-label="breadcrumb mb-0">
-                        <ol class="breadcrumb mb-0">
-                            <li th:each="type : ${contentTypeList}"
-                                th:if="${contentIndexDto.content.contentType.name() == type.typeName}"
-                                class="breadcrumb-item">
-                                <a class="cv-link text-black-50" th:href="${type.url}">[[${type.name}]]</a>
-                            </li>
-                            <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)} and ${contentIndexDto.content.contentType.name() != 'TOPIC'}">
-                                <a class="cv-link text-black-50" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/'+${#strings.toLowerCase(contentIndexDto.content.contentType.name())}+'/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
-                            </li>
-                        </ol>
-                    </nav>
                 </div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <div th:include="fragments/index::google_right_ad"></div>

@@ -32,13 +32,13 @@
     <parent>
         <artifactId>upupor</artifactId>
         <groupId>com.upupor.parent</groupId>
-        <version>4.2.0-1</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.upupor.framework</groupId>
     <artifactId>upupor-framework</artifactId>
-    <version>4.2.0-1</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
 

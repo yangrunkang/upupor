@@ -42,7 +42,7 @@
     </parent>
     <groupId>com.upupor.parent</groupId>
     <artifactId>upupor</artifactId>
-    <version>4.2.0-1</version>
+    <version>1.0.0</version>
     <name>upupor</name>
     <packaging>pom</packaging>
 
