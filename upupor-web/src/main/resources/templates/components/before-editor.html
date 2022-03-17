@@ -36,17 +36,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-0 p-2">
-                    <a class="cv-link text-secondary" href="/editor?type=TOPIC" title="创建短内容"><img class="lazyload" style="width:21px;height: 21px" th:data-src="${ossStatic} + @{/icons/system/topic.png}" alt="创建短内容"> 创建短内容</a>
-                    <p class="fw-lighter border-top mt-1">如果简短的文字可以描述清楚的话,建议尝试创造短内容</p>
-                </div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2">
+                <div class="card card-body shadow-sm border-0 p-2 mb-2">
                     <ul class="list-unstyled mb-0">
-                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=TECH" title="技术"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-tech.png}" alt="技术" /> 技术</a></li>
-                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=QA" title="问答"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-qa.png}" alt="提问"/> 提问</a></li>
-                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=SHARE" title="分享"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-share.png}" alt="分享"/> 分享</a></li>
-                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=WORKPLACE" title="职场"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-work.png}" alt="职场"/> 职场</a></li>
-                        <li class="write-new-ul-li"><a class="cv-link text-secondary" href="/editor?type=RECORD" title="记录"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-record.png}" alt="记录"/> 记录</a></li>
+                        <li class="write-new-ul-li" th:each="type : ${contentTypeList}">
+                            <a class="cv-link text-secondary" th:href="'/editor?type=' + ${type.typeName}" th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="@{${type.icon}}" th:alt="${type.name}"/> [[${type.name}]]</a>
+                        </li>
                     </ul>
                     <p class="fw-lighter border-top mt-1">叙述或者阐述一件事情</p>
                 </div>
