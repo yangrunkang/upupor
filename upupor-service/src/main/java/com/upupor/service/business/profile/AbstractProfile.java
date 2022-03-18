@@ -32,6 +32,7 @@ import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.business.aggregation.service.*;
+import com.upupor.service.business.profile.dto.Query;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.MemberIndexDto;
@@ -76,9 +77,10 @@ public abstract class AbstractProfile {
         return memberIndexDto;
     }
 
-    public MemberIndexDto getBusinessData(String userId, Integer pageNum, Integer pageSize) {
+    public MemberIndexDto getBusinessData(Query query) {
+        String userId = query.getUserId();
         setMember(userId);
-        setSpecifyData(userId, pageNum, pageSize);
+        setSpecifyData(query);
         recordViewer(userId);
         addAd();
         return memberIndexDto;
@@ -152,12 +154,10 @@ public abstract class AbstractProfile {
     /**
      * 获取数据
      *
-     * @param userId
-     * @param pageNum
-     * @param pageSize
-     * @return
+     *
+     * @param query@return
      */
-    protected abstract void setSpecifyData(String userId, Integer pageNum, Integer pageSize);
+    protected abstract void setSpecifyData(Query query);
 
 
     private List<Tag> getUserTagList(String userId) {

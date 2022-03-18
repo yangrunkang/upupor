@@ -31,6 +31,7 @@ import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.CommentService;
 import com.upupor.service.business.aggregation.service.MessageService;
 import com.upupor.service.business.profile.AbstractProfile;
+import com.upupor.service.business.profile.dto.Query;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.page.MemberIndexDto;
@@ -70,8 +71,15 @@ public class MemberProfilePageJumpController {
     private final CommentService commentService;
 
     @ApiOperation("作者主页-文章")
-    @GetMapping("/profile/{userId}/{path}")
-    public ModelAndView profile(@PathVariable("userId") String userId, @PathVariable("path") String path, Integer pageNum, Integer pageSize, String msgId) {
+    @GetMapping({
+            "/profile/{userId}/{path}",
+            "/profile/{userId}/{path}/{tagName}"
+    })
+    public ModelAndView profile(@PathVariable("userId") String userId,
+                                @PathVariable("path") String path,
+                                @PathVariable(value="tagName",required = false) String tagName,
+                                Integer pageNum, Integer pageSize,
+                                String msgId) {
         if (Objects.isNull(pageNum)) {
             pageNum = CcConstant.Page.NUM;
         }
@@ -95,7 +103,14 @@ public class MemberProfilePageJumpController {
                     pageNum = PageUtils.calcMaxPage(count, SIZE_COMMENT);
                     pageSize = CcConstant.Page.SIZE_COMMENT;
                 }
-                MemberIndexDto memberIndexDto = abstractProfile.getBusinessData(userId, pageNum, pageSize);
+
+                Query build = Query.builder()
+                        .pageNum(pageNum)
+                        .pageSize(pageSize)
+                        .userId(userId)
+                        .tagName(tagName)
+                        .build();
+                MemberIndexDto memberIndexDto = abstractProfile.getBusinessData(build);
                 modelAndView.addObject(memberIndexDto);
                 modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName());
                 modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());

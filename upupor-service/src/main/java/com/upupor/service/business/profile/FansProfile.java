@@ -29,6 +29,7 @@ package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.FanService;
+import com.upupor.service.business.profile.dto.Query;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,13 @@ public class FansProfile extends AbstractProfile {
     }
 
     @Override
-    protected void setSpecifyData(String userId, Integer pageNum, Integer pageSize) {
+    protected void setSpecifyData(Query query) {
+        String userId = query.getUserId();
+        Integer pageNum = query.getPageNum();
+        Integer pageSize = query.getPageSize();
+
+
+
         ListFansDto listFansDto = fanService.getFans(userId, pageNum, pageSize);
         getMemberIndexDto().setListFansDto(listFansDto);
     }

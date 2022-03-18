@@ -29,12 +29,17 @@ package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.TagService;
+import com.upupor.service.business.profile.dto.Query;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static com.upupor.framework.CcConstant.ProfileView.PROFILE_CONTENT;
 
@@ -47,6 +52,7 @@ import static com.upupor.framework.CcConstant.ProfileView.PROFILE_CONTENT;
 @RequiredArgsConstructor
 public class ContentProfile extends AbstractProfile {
     private final ContentService contentService;
+    private final TagService tagService;
 
     @Override
     public ViewTargetType viewTargetType() {
@@ -54,14 +60,26 @@ public class ContentProfile extends AbstractProfile {
     }
 
     @Override
-    protected void setSpecifyData(String userId, Integer pageNum, Integer pageSize) {
+    protected void setSpecifyData(Query query) {
+        String userId = query.getUserId();
+        Integer pageNum = query.getPageNum();
+        Integer pageSize = query.getPageSize();
+        String tagName = query.getTagName();
 
         ListContentReq listContentReq = new ListContentReq();
         listContentReq.setUserId(userId);
         listContentReq.setStatus(ContentStatus.NORMAL);
         listContentReq.setPageNum(pageNum);
         listContentReq.setPageSize(pageSize);
+
+        if(StringUtils.isNotEmpty(tagName)){
+            List<String> tagIdList = tagService.getTagListByName(tagName);
+            listContentReq.setTagIdList(tagIdList);
+        }
+
         ListContentDto listContentDto = contentService.listContent(listContentReq);
+        listContentDto.setTagName(tagName);
+
         getMemberIndexDto().setListContentDto(listContentDto);
     }
 

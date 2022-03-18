@@ -29,6 +29,7 @@ package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.CommentService;
+import com.upupor.service.business.profile.dto.Query;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.outer.req.ListCommentReq;
 import com.upupor.service.types.CommentStatus;
@@ -55,7 +56,11 @@ public class MessageProfile extends AbstractProfile {
     }
 
     @Override
-    protected void setSpecifyData(String userId, Integer pageNum, Integer pageSize) {
+    protected void setSpecifyData(Query query) {
+        String userId = query.getUserId();
+        Integer pageNum = query.getPageNum();
+        Integer pageSize = query.getPageSize();
+
         ListCommentReq listCommentReq = new ListCommentReq();
         listCommentReq.setPageNum(pageNum);
         listCommentReq.setPageSize(pageSize);

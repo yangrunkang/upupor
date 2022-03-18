@@ -41,6 +41,15 @@
                 <div th:include="fragments/index::profile_common"></div>
                 <div class="card card-body shadow-sm border-0 p-2">
                     <div th:replace="fragments/profile::nav_profile(${memberIndexDto.listContentDto.total},'content')"></div>
+                    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-1" th:if="!${#strings.isEmpty(memberIndexDto.listContentDto.tagName)}">
+                        <div class="d-block text-secondary">
+                            筛选:
+                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">
+                                [[${memberIndexDto.listContentDto.tagName}]]
+                            </span>
+                            <a class="cv-link text-black-50 float-end" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'"><i class="bi bi-x-circle"></i>清除</a>
+                        </div>
+                    </div>
                     <div th:replace="fragments/index::list_content_dto(${memberIndexDto.listContentDto},true)"></div>
                 </div>
             </div>
