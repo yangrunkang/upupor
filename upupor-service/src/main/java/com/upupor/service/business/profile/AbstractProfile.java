@@ -71,7 +71,7 @@ public abstract class AbstractProfile {
     @Resource
     private TagService tagService;
 
-    private final MemberIndexDto memberIndexDto = new MemberIndexDto();
+    protected MemberIndexDto memberIndexDto = new MemberIndexDto();
 
     public MemberIndexDto getMemberIndexDto() {
         return memberIndexDto;

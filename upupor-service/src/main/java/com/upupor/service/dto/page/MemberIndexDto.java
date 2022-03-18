@@ -121,6 +121,11 @@ public class MemberIndexDto {
      */
     private List<Viewer> viewerList;
 
+    /**
+     * 标签名
+     */
+    private String tagName;
+
     public MemberIndexDto() {
         this.member = new Member();
         this.listContentDto = new ListContentDto();

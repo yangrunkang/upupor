@@ -49,12 +49,6 @@ public class ListContentDto extends BaseListDto {
      */
     private List<Content> contentList;
 
-    /**
-     * 标签名称
-     */
-    private String tagName;
-
-
     public ListContentDto(PageInfo pageInfo) {
         super(pageInfo);
         this.contentList = new ArrayList();
