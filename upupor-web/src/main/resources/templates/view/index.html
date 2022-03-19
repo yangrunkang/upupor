@@ -36,12 +36,9 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-0 p-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
                     <div class="lead border-bottom">浏览记录</div>
-                    <div class="card card-body border-0 p-2 my-2"
-                         th:if="${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}"
-                         th:include="fragments/index::empty_content">
-                    </div>
+                    <div th:if="${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}" th:include="fragments/index::empty_content"></div>
 
                     <ul class="mt-2 list-group list-group-flush"
                         th:if="!${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}">
@@ -68,7 +65,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-0 p-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
                     <div class="text-black-50"><span th:include="fragments/icon::view_record"></span>浏览记录</div>
                 </div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>

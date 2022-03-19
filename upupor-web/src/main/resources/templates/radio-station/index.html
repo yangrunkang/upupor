@@ -41,16 +41,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-0 p-2" th:inline="text">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2" th:inline="text">
                     <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOADED'">
                         <audio style="width: 100%" th:src="${radioIndexDto.radio.radioUrl}" preload="auto" controls></audio>
                     </div>
                     <h5 class="mt-2">[[${radioIndexDto.radio.radioIntro}]]</h5>
-                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOADING'" class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-warning">
+                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOADING'" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 alert alert-warning">
                         为了不影响您的使用体验,电台文件技术上做了异步上传。<br/>
                         所以此时此刻,您的电台文件正在努力的上传中,请耐心等待~
                     </div>
-                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOAD_FAILED'" class="card card-body shadow-sm border-0 p-2 mb-2 alert alert-danger">
+                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOAD_FAILED'" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 alert alert-danger">
                         电台上传失败
                     </div>
                     <div th:replace="fragments/index::content_data_show(${radioIndexDto.radio.userId},
@@ -70,7 +70,7 @@
                                                                     ${radioIndexDto.radio.listCommentDto.total},
                                                                     false,
                                                                     ${radioIndexDto.radio.userId})"></div>
-                    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status.name() == 'NORMAL'}">
+                    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status.name() == 'NORMAL'}">
                         <div id="comment_area">
                             <div th:include="fragments/comment::comment_box(${radioIndexDto.radio.radioId},'RADIO','评论')"></div>
                         </div>
@@ -79,7 +79,7 @@
             </div>
             <div class="col-lg-3">
                 <div th:include="fragments/index::create_radio"></div>
-                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <p style="text-align: center" class="m-0 p-1" th:if="!${#strings.isEmpty(radioIndexDto.radio.member.via)}">
                         <a th:href="'/profile/'+${radioIndexDto.radio.member.userId}+'/content'">
                             <img class="lazyload img rounded" th:data-src="${radioIndexDto.radio.member.via}" style="width: 90px;height: 90px;"/>

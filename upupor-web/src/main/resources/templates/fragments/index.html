@@ -31,7 +31,7 @@
 <body>
 <!--用户中心页面左边部分-->
 <div th:fragment="user_index_left">
-    <div class="card card-body shadow-sm border-0 p-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
         <div>
             <div th:if="${memberIndexDto} != null and ${memberIndexDto.member} != null">
                 <p style="text-align: center" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
@@ -64,7 +64,7 @@
         </div>
     </div>
     <div th:replace="fragments/index::user_manage_fragment(false)"></div>
-    <div class="card card-body shadow-sm border-0 p-2 my-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}+'/content'" title="我的主页"><img th:src="${ossStatic} + @{/icons/system/profile.svg}" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
             <a class="nav-link cv-link user_manage_apply" href="/user/manage/apply" title="申请管理"><img th:src="${ossStatic} + @{/icons/system/apply.png}" class="cv-icon-item" alt="申请管理"/> 申请管理</a>
@@ -76,7 +76,7 @@
 
 <!--用户设置管理-->
 <div th:fragment="user_manage_fragment(show)">
-    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="${session?.cv_user_id}">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:if="${session?.cv_user_id}">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
             <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio user_manage_content-settings" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
@@ -114,7 +114,7 @@
 </div>
 
 <div th:fragment="tag_cloud">
-    <div th:if="!${#lists.isEmpty(cvTagList)}" class="card card-body shadow-sm border-0 p-2">
+    <div th:if="!${#lists.isEmpty(cvTagList)}" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
         <div class="lead">网站标签</div>
         <div>
             <a th:each="tag : ${cvTagList}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1 cv-link" th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}+'('+${tag.count}+')'" th:title="${tag.tagName}"></a>
@@ -250,7 +250,7 @@ fromProfile: 是否来自Profile页面
 
 <!--页面Slogan-->
 <div th:fragment="page_banner">
-    <div class="card card-body shadow-sm border-0 p-2 mb-2"
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2"
          th:if="!${#lists.isEmpty(commonPageIndexDto.listBannerDto.bannerList)}">
         <div class="border-bottom text-secondary mb-2">
             <img th:data-src="${ossStatic} + @{/icons/system/recommand.png}" class="lazyload cv-icon-item" alt="广而告之"/> 广而告之
@@ -288,7 +288,7 @@ fromProfile: 是否来自Profile页面
 
 <!--创建短内容的初衷-->
 <div th:fragment="why_create_topic">
-    <div class="card card-body shadow-sm border-0 p-2 my-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <strong>创建短内容的初衷</strong>
         <div>有时候您可能不想写很长很长的内容,只想写一句话或者几句话</div>
     </div>
@@ -310,7 +310,7 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="global_member_info">
-    <div class="card card-body shadow-sm border-0 p-2 mb-2 p-2" th:if="${session?.cv_user_id}">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 p-2" th:if="${session?.cv_user_id}">
         <div style="text-align: center" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
             <a th:href="'/profile/' + ${session?.cv_user_id}+'/content'">
                 <img class="img rounded " th:src="${session?.cv_user_via}" style="width: 90px;height: 90px;"/>
@@ -347,7 +347,7 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="global_search">
-    <div class="card card-body shadow-sm border-0 p-2 mb-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
         <div class="fw-normal border-bottom mb-2 text-black-50">全局搜索</div>
         <div th:include="fragments/index::global_search_clean"></div>
     </div>
@@ -399,7 +399,7 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="create_radio">
-    <div class="card card-body shadow-sm border-0 p-0 mb-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-0 mb-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <a  class="nav-link cv-link" style="font-size: 16px" href="/radio-station/record" title="在线录制电台">
                 <img class="lazyload cv-icon img" th:data-src="${ossStatic} + @{/icons/record.svg}"> 在线录制电台
@@ -413,7 +413,7 @@ fromProfile: 是否来自Profile页面
 
 
 <div th:fragment="can_not_receive_email">
-    <div class="card card-body shadow-sm border-0 p-2 my-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <a class="text-danger fw-normal cv-link" href="/feedback">接收不到邮件?</a>
         <div class="border-bottom"></div>
         <div class="text-black-50 cv-font-sm">* 声明: 我们使用的是阿里的邮件服务,原则上被拦截的可能很小</div>
@@ -425,7 +425,7 @@ fromProfile: 是否来自Profile页面
 <!--个人中心公共部分-->
 <div th:fragment="profile_common">
     <div th:if="${memberIndexDto.member.statement} != null" th:include="fragments/index::member_statement"></div>
-    <div class="card card-body shadow-sm border-0 p-2 mb-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
         <div style="font-size: 40px;font-weight: bold;" class="text-wrap" th:text="${memberIndexDto.member.userName}"></div>
         <div th:switch="${memberIndexDto.member.memberExtend.introduce != null && memberIndexDto.member.memberExtend.introduce != ''}">
             <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="true" th:text="${memberIndexDto.member.memberExtend.introduce}"></div>
@@ -435,7 +435,7 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="viewList(list)">
-    <div class="card card-body shadow-sm border-0 p-2 my-2" th:if="!${#lists.isEmpty(list)}">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:if="!${#lists.isEmpty(list)}">
         <div class="small text-black-50">以下用户访问过:</div>
         <span>
             <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}+'/content'">
@@ -447,7 +447,7 @@ fromProfile: 是否来自Profile页面
 
 <!--个人中心公共部分-->
 <div th:fragment="profile_right">
-    <div class="card card-body shadow-sm border-0 p-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
         <div>
             <div style="text-align: center" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
                 <img class="lazyload img rounded" th:data-src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;"/>
@@ -471,7 +471,7 @@ fromProfile: 是否来自Profile页面
     <!--访问者-->
     <div th:include="fragments/index::viewList(${memberIndexDto.viewerList})"></div>
     <!---->
-    <div class="card card-body shadow-sm border-0 p-2 my-2">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <div class="lead mb-1">内容标签</div>
         <div th:if="${#lists.isEmpty(memberIndexDto.tagList)}" th:include="fragments/index::empty_content"></div>
         <div >
@@ -483,7 +483,7 @@ fromProfile: 是否来自Profile页面
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
     </div>
     <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" th:include="fragments/index::user_manage_fragment(true)"></div>
-    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" class="card card-body shadow-sm border-0 p-2 my-2">
+    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>我的浏览记录</a>
     </div>
     <div th:include="fragments/social::social_box('profile/','主页',${memberIndexDto.member.userId},${memberIndexDto.member.userName})"></div>
@@ -492,14 +492,14 @@ fromProfile: 是否来自Profile页面
 
 <!--文章详情-右侧-纵向广告-->
 <div th:fragment="google_right_ad">
-    <div class="card mb-2" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1' and ${adSwitchRight} == '1'">
+    <div class="card shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mb-2" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1' and ${adSwitchRight} == '1'">
         <div class="card-body border-0 p-0 float-ads-vertical" >
         </div>
         <div class="card-footer shadow-sm border-0 p-1">
             <a href="/about-ad" class="text-black-50 small">关于广告</a>
         </div>
     </div>
-    <div class="card mb-2" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0' and ${adSwitchRight} == '0'">
+    <div class="card shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mb-2" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0' and ${adSwitchRight} == '0'">
         <div class="card-body border-0 p-0 float-ads-vertical" >
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- 文章详情-右侧-纵向广告 -->

@@ -43,7 +43,7 @@
         <div class="row">
             <!--右列-->
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div th:replace="fragments/manage::user_settings('uploadUserVia')"></div>
                     <div class="container mb-3">
                         <div th:if="!${#strings.isEmpty(memberIndexDto.member.via)}" class="d-block text-center">

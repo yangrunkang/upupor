@@ -38,15 +38,15 @@
 
         <div class="row">
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="d-block text-center my-2">
                         <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" style="font-size: 30px"><a class="cv-link" th:href="@{'/tag/'+${tagIndexDto.tagName}}">[[${tagIndexDto.tagName}]]</a></span>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2" th:include="fragments/index::list_content_dto(${tagIndexDto.listContentDto},false)"></div>
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:include="fragments/index::list_content_dto(${tagIndexDto.listContentDto},false)"></div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-0 p-2 text-black-50 mb-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 text-black-50 mb-2">
                     标签云
                 </div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>

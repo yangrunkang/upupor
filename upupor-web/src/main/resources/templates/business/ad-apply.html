@@ -40,7 +40,7 @@
         <div class="row">
             <div class="col-lg-9 mb-2">
                 <!--广告位置展示-->
-                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="lead border-bottom mb-2">广告合作</div>
                     <form>
                         <div class="align-content-center">
@@ -208,12 +208,12 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="nav flex-column nav-pills" aria-orientation="vertical">
                         <div th:replace="fragments/index::apply('apply-ad')"></div>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 mb-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <a class="nav-link cv-link" href="/about-ad" title="关于广告"><img th:data-src="${ossStatic} + @{/icons/system/footer/ad.svg}" class="lazyload cv-icon" />  关于广告</a>
                 </div>
                 <div class="my-2" th:include="fragments/index::google_right_ad"></div>

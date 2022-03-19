@@ -37,7 +37,7 @@
         <div class="row">
             <div class="col-lg-9 mb-2">
                 <!--添加待办-->
-                <div class="card card-body shadow-sm border-0 p-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
                     <form>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="todo">
@@ -51,7 +51,7 @@
                     </form>
                 </div>
                 <!--待办列表-->
-                <div class="card card-body shadow-sm border-0 p-2 mt-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mt-2">
                     <div class="lead border-bottom mb-2">我的待办</div>
                     <div th:if="${#lists.isEmpty(todoIndexDto.listTodoDto.todoList)}" th:include="fragments/index::empty_content"></div>
                     <ul class="list-group list-group-flush">
@@ -77,11 +77,11 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-0 p-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
                     <div class="lead border-bottom mb-2">待办</div>
                     <div><span class="badge bg-gradient bg-success">写下</span>待办,然后您需要做的就是<span class="badge bg-gradient bg-success">完成它</span>!</div>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 mt-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mt-2">
                     <div class="text-sm-left border-0"><img class="lazyload cv-icon-small" th:data-src="${ossStatic} + @{/icons/v.svg}" /> 当您开始行动的时候,您已经比90%的人优秀了</div>
                 </div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>

@@ -44,7 +44,7 @@
                     根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${searchIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
                     <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <div style="width: 100%;" class="card card-body border-0 text-center">
+                <div style="width: 100%;" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 border-0 text-center">
                     <h2 style="font-weight: lighter">关键字</h2>
                     <div>
                         <div style="font-size: 30px;color: #00a8c6" id="navbar_search_keyword"></div>
@@ -53,10 +53,10 @@
                 <div>
                     <input type="hidden" id="content_more_alert_value" th:value="${searchIndexDto.listContentDto.total}"/>
                 </div>
-                <div class="card card-body shadow-sm border-0 p-2 my-2" th:include="fragments/index::list_content_dto(${searchIndexDto.listContentDto},false)"></div>
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:include="fragments/index::list_content_dto(${searchIndexDto.listContentDto},false)"></div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-0 p-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
                     <div class="fw-normal">搜索结果</div>
                     <div class="border-bottom my-2"></div>
                     <div>一共搜到了<span style="color: #00a8c6" th:text="${searchIndexDto.listContentDto.total}"></span>条相关数据</div>

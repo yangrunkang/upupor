@@ -34,13 +34,13 @@
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/admin/content.js}"></script>
 <div th:fragment="content">
     <div class="container">
-        <div class="card card-body shadow-sm border-0 p-2 mb-2">
+        <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
             <div class="lead border-bottom mb-2">文章管理</div>
             <div class="mb-1">标题:</div>
             <h3> [[${contentIndexDto.content.title}]]</h3>
         </div>
 
-        <div class="card card-body shadow-sm border-0 p-2 mb-2">
+        <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
             <h5 class="lead  border-bottom mb-2">设置关键字</h5>
             <div class="row">
                 <div class="col-1">
@@ -55,7 +55,7 @@
 
         </div>
 
-        <div class="card card-body shadow-sm border-0 p-2 mb-2">
+        <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
             <h5 class="lead border-bottom mb-2">处理无效内容</h5>
             <div class="row">
                 <div class="col-1">
