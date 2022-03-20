@@ -145,14 +145,28 @@
 </div>
 
 <!--
+置顶
+-->
+<div th:fragment="top_content(pinnedContnet,fromProfile)">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2" th:if="${pinnedContnet != null}">
+        <div class="border-bottom pb-1 text-black-50">
+            <span th:include="fragments/icon::top"></span> 置顶文章
+            <span class="text-sm-end border p-1 rounded-2" style="cursor: pointer" th:if="!${fromProfile}" th:onclick="pinned([[${pinnedContnet.contentId}]],'cancel')">取消</span>
+        </div>
+        <div th:include="fragments/index::content_media(${pinnedContnet},true)"></div>
+    </div>
+</div>
+
+
+<!--
 文章列表渲染
 list: 文章列表
 fromProfile: 是否来自Profile页面
 -->
 <div th:fragment="content_list(list,fromProfile)">
     <ul class="list-group list-group-flush">
-        <li th:class="${!fromProfile} ? 'list-group-item p-1' : (${content.pinnedStatus.name()} == 'PINNED' ?'list-group-item p-1 mb-1 border border-info shadow-sm rounded' : 'list-group-item p-1')" th:each="content,ite : ${list}">
-            <div th:if="${content.contentId != 'google-ad-feed'}" th:include="fragments/index::content_media"></div>
+        <li class="list-group-item p-1" th:each="content,ite : ${list}">
+            <div th:if="${content.contentId != 'google-ad-feed'}" th:include="fragments/index::content_media(${content},${fromProfile})"></div>
             <div th:if="${content.contentId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
         </li>
     </ul>
@@ -213,20 +227,19 @@ fromProfile: 是否来自Profile页面
     </div>
 </div>
 
-
 <div th:fragment="content_manage(content)">
     <a th:if="${content.status.name()} == 'NORMAL'" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
     <a th:if="${content.status.name()} != 'NORMAL'" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
 </div>
-<div th:fragment="content_media">
+
+<div th:fragment="content_media(content,fromProfile)">
     <div class="d-flex align-items-center">
         <div class="flex-grow-1">
             <div class="mt-0">
                 <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${content.title}">[[${content.title}]]</a>
-<!--                <span class="badge bg-gradient bg-light text-dark float-end" th:text="${content.contentTypeDesc}"></span>-->
             </div>
             <span th:if="${content.hasLatestEdit}" class="badge bg-gradient bg-success rounded-3 fw-light small">内容有更新 · [[${content.editDate}]]</span>
-            <div class="mb-0" th:include="fragments/index::content_data"></div>
+            <div class="mb-0" th:if="${content.contentData != null}" th:include="fragments/index::content_data"></div>
         </div>
         <div th:if="${!fromProfile}" th:include="fragments/index::content_profile_via"></div>
     </div>
@@ -565,7 +578,7 @@ fromProfile: 是否来自Profile页面
     <a th:class="${target == 'logo-design'?'nav-link cv-link active':'nav-link cv-link'}" href="/logo-design" title="logo设计"><img th:data-src="${ossStatic} + @{/icons/system/footer/design.svg}" class="lazyload cv-icon" />  logo设计</a>
     <a th:class="${target == 'business-cooperation'?'nav-link cv-link active':'nav-link cv-link'}" href="/business-cooperation" title="商务合作"><img th:data-src="${ossStatic} + @{/icons/system/footer/business-co.svg}" class="lazyload cv-icon" />  商务合作</a>
     <a th:class="${target == 'check-info'?'nav-link cv-link active':'nav-link cv-link'}" href="/about-ad" title="关于广告"><img th:data-src="${ossStatic} + @{/icons/system/footer/ad.svg}" class="lazyload cv-icon" />  关于广告</a>
-    <a th:class="${target == 'pinned'?'nav-link cv-link active':'nav-link cv-link'}" href="/pinned" title="关于置顶"><img th:data-src="${ossStatic} + @{/icons/system/footer/zhiding.svg}" class="lazyload cv-icon" />  关于置顶</a>
+    <a th:class="${target == 'pinned'?'nav-link cv-link active':'nav-link cv-link'}" href="/pinned" title="关于置顶"><span th:include="fragments/icon::top"></span> 关于置顶</a>
 </div>
 
 

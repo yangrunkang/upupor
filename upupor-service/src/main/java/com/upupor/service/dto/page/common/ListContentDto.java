@@ -49,6 +49,11 @@ public class ListContentDto extends BaseListDto {
      */
     private List<Content> contentList;
 
+    /**
+     * 置顶的文章
+     */
+    private Content pinnedContent;
+
     public ListContentDto(PageInfo pageInfo) {
         super(pageInfo);
         this.contentList = new ArrayList();

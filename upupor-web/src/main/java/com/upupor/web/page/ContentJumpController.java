@@ -65,7 +65,7 @@ import static com.upupor.framework.CcConstant.*;
 @Api(tags = "公共页面跳转")
 @RestController
 @RequiredArgsConstructor
-public class CommonPageJumpController {
+public class ContentJumpController {
     private final TagService tagService;
     private final CommonAggregateService commonAggregateService;
     private final MemberService memberService;

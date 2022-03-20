@@ -189,23 +189,7 @@ public class ContentServiceImpl implements ContentService {
         }
         this.bindContentData(pinnedContentList);
         this.bindContentMember(pinnedContentList);
-
-        List<Content> contentList = listContentDto.getContentList();
-        Iterator<Content> iterator = contentList.iterator();
-        while (iterator.hasNext()) {
-            Content content = iterator.next();
-            pinnedContentList.forEach(c -> {
-                if (c.getContentId().equals(content.getContentId())) {
-                    iterator.remove();
-                }
-            });
-        }
-
-        listContentDto.setContentList(null);
-        List<Content> newContentList = new ArrayList<>();
-        newContentList.addAll(pinnedContentList);
-        newContentList.addAll(contentList);
-        listContentDto.setContentList(newContentList);
+        listContentDto.setPinnedContent(pinnedContentList.get(0));
     }
 
 
