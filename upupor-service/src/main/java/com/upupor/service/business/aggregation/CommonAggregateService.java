@@ -73,11 +73,18 @@ public class CommonAggregateService {
     private final TagService tagService;
     private final BannerService bannerService;
 
+    public static HrefDesc getCreateContentInfo(ContentType contentType, String tag,String tagName) {
+        if (Objects.isNull(contentType)) {
+            return null;
+        }
+        return new HrefDesc(Objects.requireNonNull(contentType), tag, tagName);
+    }
+
     public static HrefDesc getCreateContentInfo(ContentType contentType, String tag) {
         if (Objects.isNull(contentType)) {
             return null;
         }
-        return new HrefDesc(Objects.requireNonNull(contentType), tag);
+        return new HrefDesc(Objects.requireNonNull(contentType), tag,null);
     }
 
     public CommonPageIndexDto index(GetCommonReq getCommonReq) {
@@ -130,7 +137,8 @@ public class CommonAggregateService {
         commonPageIndexDto.setListContentDto(listContentDto);
         commonPageIndexDto.setListBannerDto(listBannerDto);
         commonPageIndexDto.setCurrentRootUrl(ContentType.getUrl(getCommonReq.getContentType()));
-        commonPageIndexDto.setCreateContentDesc(getCreateContentInfo(getCommonReq.getContentType(), tag));
+        String tagName = tagService.getNameById(tag);
+        commonPageIndexDto.setCreateContentDesc(getCreateContentInfo(getCommonReq.getContentType(), tag,tagName));
         commonPageIndexDto.setLatestContentList(latestContentList);
         return commonPageIndexDto;
     }
@@ -155,14 +163,17 @@ public class CommonAggregateService {
         private String icon;
         private String tips;
 
-        public HrefDesc(ContentType contentType, String tag) {
-            this.desc = contentType.getWebText();
+        public HrefDesc(ContentType contentType, String tag,String tagName) {
+            this.desc = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
             this.icon = contentType.getIcon();
             this.tips = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
             if (!StringUtils.isEmpty(tag)) {
                 this.href = this.getHref() + "&tag=" + tag;
+            }
+            if (!StringUtils.isEmpty(tagName)) {
+                this.desc = contentType.getTips() + " >> "  + tagName;
             }
         }
 
