@@ -54,53 +54,7 @@
                         <p class="text-black-50 small">* 我们在尽量减少广告位置对网页浏览所造成的影响</p>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div>
-                        <div class="lead border-bottom mb-2">赞助</div>
-                        <div class="accordion accordion-flush" id="accordionFlushExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                        微信赞助
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        <p style="text-align: center">
-                                            <img src="asserts/pay/weixin.png" class="zanzhu" />
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                        支付宝赞助
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        <p style="text-align: center">
-                                            <img src="/asserts/pay/zhifubao.png" class="zanzhu" />
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-                                        Paypal赞助
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">
-                                        <a class="link-primary fw-bold display-4" href="https://paypal.me/yangrunkang?country.x=C2&locale.x=zh_XC">Paypal.me</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div th:replace="fragments/business::upupor_business"></div>
             </div>
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">

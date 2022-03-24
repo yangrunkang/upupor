@@ -55,7 +55,7 @@ public class DeveloperView extends AbstractView {
 
     @Override
     protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "团队");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "团队");
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "网站开发者");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "网站开发者");
     }
 }

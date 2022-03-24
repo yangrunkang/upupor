@@ -37,31 +37,79 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div>
-                        <div class="lead border-bottom mb-2">网站开发者</div>
+                <div>
+                    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mb-2 p-0">
+                        <div class="lead border-bottom mb-2 p-2">网站开发者</div>
                         <div class="d-block text-center">
-                            <img th:data-src="${ossStatic} + @{/asserts/team.jpeg}" class="lazyload img-rounded img-thumbnail img-responsive"  alt="one person team"/>
+                            <img th:data-src="${ossStatic} + @{/asserts/team.jpeg}" class="lazyload img-rounded img-thumbnail img-responsive border-0 rounded"  alt="one person team"/>
                         </div>
-                        <div class="lead border-top my-2">简介</div>
-                        <div style="font-size: 17px;color: #7D8B99" class="text-wrap">
-                            <div>姓名: 杨润康</div>
-                            <div class="my-2"></div>
-                            <div><a href="/u/20030823116659687424" class="cv-link" style="font-size: 17px;color: #7D8B99">电台《程序员的生活记录》</a>原创者</div>
-                            <div><a href="/" class="cv-link" style="font-size: 17px;color: #7D8B99">upupor.com</a> 网站开发者</div>
-                        </div>
-
-                        <div class="lead my-4">如何联系</div>
-                        <div style="font-size: 17px;color: #7D8B99" class="text-wrap text-center">
-                            <div>微信</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item bg-secondary bg-gradient text-white fs-6">
+                                简介
+                            </li>
+                            <li class="list-group-item">
+                                <p class="lead fs-5">杨润康</p>
+                                <ul>
+                                    <li>upupor网站开发者</li>
+                                    <li>电台《程序员生活记录》创作者</li>
+                                    <li>Github主页: <a href="https://github.com/yangrunkang">https://github.com/yangrunkang</a></li>
+                                </ul>
+                                <p class="lead fs-5 mt-3">基础技能树</p>
+                                <ul>
+                                    <li>熟悉的编程语言: Java <span class="small fw-light text-secondary">(注: 主要靠这个吃饭生活的)</span></li>
+                                    <li>Java后端框架: SpringBoot、Spring、SpringMVC</li>
+                                    <li>分布式服务框架: Spring Cloud、Dubbo</li>
+                                    <li>分布式事务框架: seata</li>
+                                    <li>分布式配置中心: disconf、apolloconfig</li>
+                                    <li>缓存中间件: Redis</li>
+                                    <li>消息队列: Kafka、RabbitMQ</li>
+                                    <li>Java持久化框架: MyBatis、Spring Data JPA</li>
+                                    <li>MySQL binlog 增量订阅&消费组件: canal</li>
+                                    <li>容器: Docker</li>
+                                    <li>数据分片: sharding-jdbc</li>
+                                    <li>平时用来写脚本的编程语言: Python、C</li>
+                                    <li>数据库: MySQL</li>
+                                    <li>ETL工具: kettle</li>
+                                    <li>服务器: Linux</li>
+                                    <li>核心开发工具: IntelliJ IDEA、Visual Studio Code、GitLab、Nexus、Maven、Gradle</li>
+                                    <li>持续集成工具: Jenkins</li>
+                                    <li>数据仓库(基于Hadoop框架及其相关项目): Hadoop、MapReduce、Apache Hive、Apache HBase、Hadoop分布式文件系统（HDFS）、Sqoop、DataX</li>
+                                    <li>数据可视化: metabase</li>
+                                    <li>协同工具: Confluence、Jira</li>
+                                    <li>前端框架: Vue、Angular</li>
+                                    <li>前端UI框架: iView、Element-UI</li>
+                                    <li>前端基础: HTML、CSS、Javascript <span class="small fw-light text-secondary">(注: 不是很熟,但也不是很陌生,这个网站就是用这些写的)</span></li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item bg-secondary bg-gradient text-white fs-6">
+                                电台 ·《程序员生活记录》· 以下平台可以收听
+                            </li>
+                            <li class="list-group-item">
+                                <a href="https://music.163.com/#/djradio?id=341445058" target="_blank">网易云电台</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="https://www.lizhi.fm/1353231" target="_blank">荔枝Fm</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="https://www.ximalaya.com/renwen/21813802" target="_blank">喜马拉雅</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card card-body fs-6 shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-0 mb-2">
+                        <div class="lead border-bottom border-1 p-2">如何联系</div>
+                        <div class="text-wrap p-2">
+                            <div>邮箱: <a href="mailto:yangrunkang53@gmail.com" target="_blank">yangrunkang53@gmail.com</a></div>
+                            <div>手机: 17607675610<span class="small fw-light text-secondary">(深圳号)</span></div>
+                            <div>微信: Bla277225635</div>
                             <div>
-                                <img class="lazyload img img-thumbnail" style="height: 256px;width: 256px"
+                                <img class="lazyload img img-thumbnail border-0" style="height: 256px;width: 256px"
                                      th:data-src="${ossStatic} + @{/icons/system/footer/3361607101759_.pic_hd.jpg}"
                                      alt='公众号: www-upupor-com'/>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div th:include="fragments/business::upupor_business"></div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mt-2 p-0">
                     <span th:include="fragments/icon::tech_stack"></span>
                 </div>
