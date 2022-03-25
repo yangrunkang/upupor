@@ -88,7 +88,7 @@
                     <div th:if="!${#lists.isEmpty(memberIndexDto.member.historyViaList)}">
                         <div class="border-bottom"></div>
                         <div class="lead mb-2 text-black-50">历史头像</div>
-                        <div style="display: inline-block" class="border-0 shadow-sm rounded m-2 px-2 pt-2 pb-1" th:each="historyVia : ${memberIndexDto.member.historyViaList}">
+                        <div style="display: inline-block" class="border-0 shadow-sm rounded m-2 px-2 pt-2 pb-1 border-bottom border-2 border-top-0 border-start border-end-0" th:each="historyVia : ${memberIndexDto.member.historyViaList}">
                             <img class="lazyload rounded" style="width: 90px;height: 90px" th:data-src="${historyVia}" />
                             <div class="text-center">
                                 <button class="btn rounded-3 bg-gradient btn-outline-secondary btn-sm mt-1" th:onclick="selectVia([[${historyVia}]])">选择</button>
