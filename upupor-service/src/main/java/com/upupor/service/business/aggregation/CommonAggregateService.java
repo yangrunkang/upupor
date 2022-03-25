@@ -73,7 +73,7 @@ public class CommonAggregateService {
     private final TagService tagService;
     private final BannerService bannerService;
 
-    public static HrefDesc getCreateContentInfo(ContentType contentType, String tag,String tagName) {
+    public static HrefDesc getCreateContentInfo(ContentType contentType, String tag, String tagName) {
         if (Objects.isNull(contentType)) {
             return null;
         }
@@ -84,7 +84,7 @@ public class CommonAggregateService {
         if (Objects.isNull(contentType)) {
             return null;
         }
-        return new HrefDesc(Objects.requireNonNull(contentType), tag,null);
+        return new HrefDesc(Objects.requireNonNull(contentType), tag, null);
     }
 
     public CommonPageIndexDto index(GetCommonReq getCommonReq) {
@@ -107,11 +107,11 @@ public class CommonAggregateService {
         if (Objects.nonNull(getCommonReq.getContentType())) {
             tagList = tagService.getTagsByType(getCommonReq.getContentType());
         }
-        if(!CollectionUtils.isEmpty(tagList)){
+        if (!CollectionUtils.isEmpty(tagList)) {
             List<String> tagIdList = tagList.stream().map(Tag::getTagId).collect(Collectors.toList());
             List<CountTagDto> countTagDtos = contentService.listCountByTagIds(tagIdList);
             tagList.forEach(tagItem -> countTagDtos.forEach(countTagDto -> {
-                if(tagItem.getTagId().equals(countTagDto.getTagId())){
+                if (tagItem.getTagId().equals(countTagDto.getTagId())) {
                     tagItem.setCount(countTagDto.getCount());
                 }
             }));
@@ -137,8 +137,7 @@ public class CommonAggregateService {
         commonPageIndexDto.setListContentDto(listContentDto);
         commonPageIndexDto.setListBannerDto(listBannerDto);
         commonPageIndexDto.setCurrentRootUrl(ContentType.getUrl(getCommonReq.getContentType()));
-        String tagName = tagService.getNameById(tag);
-        commonPageIndexDto.setCreateContentDesc(getCreateContentInfo(getCommonReq.getContentType(), tag,tagName));
+        commonPageIndexDto.setCreateContentDesc(getCreateContentInfo(getCommonReq.getContentType(), tag, tagService.getNameById(tag)));
         commonPageIndexDto.setLatestContentList(latestContentList);
         return commonPageIndexDto;
     }
@@ -163,7 +162,7 @@ public class CommonAggregateService {
         private String icon;
         private String tips;
 
-        public HrefDesc(ContentType contentType, String tag,String tagName) {
+        public HrefDesc(ContentType contentType, String tag, String tagName) {
             this.desc = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
             this.icon = contentType.getIcon();
@@ -173,7 +172,7 @@ public class CommonAggregateService {
                 this.href = this.getHref() + "&tag=" + tag;
             }
             if (!StringUtils.isEmpty(tagName)) {
-                this.desc = contentType.getTips() + " >> "  + tagName;
+                this.desc = contentType.getTips() + " >> " + tagName;
             }
         }
 

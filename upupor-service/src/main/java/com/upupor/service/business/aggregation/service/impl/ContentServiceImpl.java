@@ -32,6 +32,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.business.aggregation.dao.mapper.*;
 import com.upupor.service.business.aggregation.service.*;
@@ -210,10 +211,12 @@ public class ContentServiceImpl implements ContentService {
         // 封装文章数据
         this.bindContentData(pageInfo.getList());
         this.bindContentMember(contents);
+        // 添加广告
+        AbstractAd.ad(pageInfo.getList());
+
         // 数据组装
         ListContentDto listContentDto = new ListContentDto(pageInfo);
         listContentDto.setContentList(pageInfo.getList());
-
         return listContentDto;
     }
 
