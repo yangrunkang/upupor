@@ -28,8 +28,10 @@
 package com.upupor.service.business.pages.content;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.pages.AbstractView;
+import com.upupor.service.dto.page.common.ListContentDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -66,7 +68,9 @@ public class AllContentView extends AbstractView {
     protected void fetchData() {
         Integer pageNum = query.getPageNum();
         Integer pageSize = query.getPageSize();
-        modelAndView.addObject(contentService.listContentByContentType(null, pageNum, pageSize, null));
+        ListContentDto listContentDto = contentService.listContentByContentType(null, pageNum, pageSize, null);
+        AbstractAd.ad(listContentDto.getContentList());
+        modelAndView.addObject(listContentDto);
     }
 
 }
