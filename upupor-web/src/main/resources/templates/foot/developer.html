@@ -39,7 +39,7 @@
             <div class="col-lg-9 mb-2">
                 <div>
                     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mb-2 p-0">
-                        <div class="lead border-bottom mb-2 p-2">网站开发者</div>
+                        <div class="lead border-bottom mb-2 p-2"><i class="bi bi-code-square"></i> 网站开发者</div>
                         <div class="d-block text-center">
                             <img th:data-src="${ossStatic} + @{/asserts/team.jpeg}" class="lazyload img-rounded img-thumbnail img-responsive border-0 rounded mb-2"  alt="one person team"/>
                         </div>
@@ -115,11 +115,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <div th:replace="fragments/index::foot_left('team')"></div>
-                    </div>
-                </div>
+                <div th:replace="fragments/index::foot_left('team')"></div>
                 <div class="mt-2" th:include="fragments/index::google_right_ad"></div>
             </div>
         </div>
