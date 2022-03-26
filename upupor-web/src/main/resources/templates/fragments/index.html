@@ -45,13 +45,13 @@
                     </p>
                     <p><img th:src="${ossStatic} + @{/icons/system/nickname.png}" class="cv-icon-item" alt="昵称"/> 昵称: <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'" th:text="${memberIndexDto.member.userName}" th:title="${memberIndexDto.member.userName}"></a></p>
                     <p><span><img th:src="${ossStatic} + @{/icons/system/register-time.png}" class="cv-icon-item" alt="注册时间"/> 注册时间: </span><span th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
-                    <div class="row">
+                    <div class="row g-2">
                         <div class="col-lg-12">
                             <img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="积分数"/> <a href="/user/manage/integral-record" class="cv-link" title="积分数">积分数: <span th:text="${memberIndexDto.member.totalIntegral}">2019.1.2</span></a>
                         </div>
                     </div>
                     <div class="border-bottom my-2"></div>
-                    <div class="row">
+                    <div class="row g-2">
                         <div class="col-lg-6">
                             <a class="cv-link" href="/user/manage/fan" title="粉丝"><img th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
                         </div>

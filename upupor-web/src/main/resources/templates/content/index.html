@@ -49,7 +49,7 @@
             <div th:if="${contentIndexDto.content.status.name()} == 'ONLY_SELF_CAN_SEE'" class="fw-bold">预览·该页内容仅您自己可见</div>
             <div th:include="fragments/index::content_not_public_tips"></div>
         </div>
-        <div class="row">
+        <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div th:if="${contentIndexDto.content?.originType.name()} == 'NONE_ORIGIN'"
                      class="p-1 mb-2 text-black-50 rounded border border-light rounded-start rounded-3 shadow-sm bg-white small"><strong class="fw-bolder text-black-50">·</strong> 本文为转载内容

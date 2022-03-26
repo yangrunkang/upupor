@@ -34,7 +34,7 @@
     <footer th:fragment="footer">
         <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
             <div class="container">
-                <div class="row">
+                <div class="row g-2">
                     <div class="col">
                         <ul class="list-inline m-0">
                             <li class="list-inline-item me-1"><div th:replace="fragments/business::business_cooperation"></div></li>
@@ -75,7 +75,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row g-2">
                     <div class="col w-100 text-black-50 border-top">
                         <span class="text-black-50 small" th:if="${responseTime} != null and ${responseTime} > 0" th:text="'响应时间: ' + ${responseTime}+'ms'"></span> ·
                         <span class="text-black-50 small">版本:[[${staticSourceVersion}]]</span> ·

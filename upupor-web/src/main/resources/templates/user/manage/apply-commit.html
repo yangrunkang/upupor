@@ -34,14 +34,14 @@
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/user/manage/apply-commit.js}"></script>
 <div th:fragment="content">
     <div class="container">
-        <div class="row">
+        <div class="row g-2">
             <!--提示-->
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="lead border-bottom mb-2">申请管理-资料提交</div>
                     <form class="form-horizontal">
                         <div class="form-group mb-3">
-                            <div class="row">
+                            <div class="row g-2">
                                 <div class="col-lg-4 text-end">
                                     <label for="apply-commit-target" class="control-label">材料文件上传</label>
                                     <input type="hidden" id="apply-commit-target" th:value="${memberIndexDto.applyDto.apply.applyId}"/>
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <div class="row">
+                            <div class="row g-2">
                                 <div class="col-lg-4 text-end">
                                     <!--使用adText就显示不出来..换个名字就好了-->
                                     <label for="applyAdText" class="control-label">广告文案</label>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                         <div class="form-group mb-3">
-                            <div class="row">
+                            <div class="row g-2">
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4">
                                     <button type="submit" class="btn rounded-3 bg-gradient btn-primary">提交材料</button>

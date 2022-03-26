@@ -36,7 +36,7 @@
 <!--内容-->
 <div th:fragment="content">
     <div class="container">
-        <div class="row">
+        <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div th:include="fragments/index::profile_common"></div>
                 <div th:replace="fragments/index::top_content(${memberIndexDto.listContentDto.pinnedContent},true)"></div>
