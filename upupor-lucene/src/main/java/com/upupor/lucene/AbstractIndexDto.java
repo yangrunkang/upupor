@@ -25,53 +25,13 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.lucene;
-
-import java.util.List;
+package com.upupor.lucene;
 
 /**
- * 抽象全文检索
- *
+ * 抽象索引Dto
  * @author Yang Runkang (cruise)
- * @date 2022年03月27日 01:53
+ * @date 2022年03月27日 01:55
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractLucene {
-
-    /**
-     * 添加索引
-     *
-     * @param addIndexDto
-     */
-    protected Boolean addIndex(AbstractIndexDto addIndexDto) {
-        return Boolean.FALSE;
-    }
-
-    /**
-     * 查询索引
-     *
-     * @param queryIndexDto
-     * @return
-     */
-    protected abstract List<AbstractIndexDto> list(AbstractIndexDto queryIndexDto);
-
-
-    /**
-     * 更新索引
-     * @param updateIndexDto
-     * @return
-     */
-    protected Boolean updateIndex(AbstractIndexDto updateIndexDto) {
-        return Boolean.FALSE;
-    }
-
-    /**
-     * 删除索引
-     * @param deleteIndexDto
-     * @return
-     */
-    protected Boolean deleteIndex(AbstractIndexDto deleteIndexDto) {
-        return Boolean.FALSE;
-    }
-
+public abstract class AbstractIndexDto {
 }

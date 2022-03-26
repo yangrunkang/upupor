@@ -33,6 +33,7 @@
         <module>upupor-web</module>
         <module>upupor-service</module>
         <module>upupor-framework</module>
+        <module>upupor-lucene</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -217,6 +218,8 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.3.4</version>
         </dependency>
+
+
 
     </dependencies>
 

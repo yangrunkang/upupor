@@ -26,8 +26,8 @@
   ~ SOFTWARE.
   -->
 
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>upupor</artifactId>
@@ -36,34 +36,49 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.upupor.framework</groupId>
-    <artifactId>upupor-framework</artifactId>
+    <groupId>com.upupor.lucene</groupId>
+    <artifactId>upupor-lucene</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
 
     <dependencies>
-        <!-- google guava doc:https://github.com/google/guava/wiki -->
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>[24.1.1,)</version>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>8.11.1</version>
         </dependency>
-        <!--压缩图片-->
-        <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
-        <!--github 地址 https://github.com/coobird/thumbnailator-->
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common -->
         <dependency>
-            <groupId>net.coobird</groupId>
-            <artifactId>thumbnailator</artifactId>
-            <version>0.4.14</version>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-common</artifactId>
+            <version>8.11.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.tika/tika-core -->
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-highlighter -->
         <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>1.24.1</version>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-highlighter</artifactId>
+            <version>8.11.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queryparser -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>8.11.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queries -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queries</artifactId>
+            <version>8.11.1</version>
+        </dependency>
+
     </dependencies>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
 </project>
