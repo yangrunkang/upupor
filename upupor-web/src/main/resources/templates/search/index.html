@@ -56,9 +56,8 @@
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:include="fragments/index::list_content_dto(${searchIndexDto.listContentDto},false)"></div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div class="fw-normal">搜索结果</div>
-                    <div class="border-bottom my-2"></div>
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
+                    <div class="fw-normal border-bottom mb-2 text-black-50">搜索结果</div>
                     <div>一共搜到了<span style="color: #00a8c6" th:text="${searchIndexDto.listContentDto.total}"></span>条相关数据</div>
                 </div>
                 <div th:include="fragments/index::global_search"></div>

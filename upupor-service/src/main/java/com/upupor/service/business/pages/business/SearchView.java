@@ -30,7 +30,10 @@ package com.upupor.service.business.pages.business;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.SearchAggregateService;
 import com.upupor.service.business.pages.AbstractView;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import static com.upupor.framework.CcConstant.SEARCH_INDEX;
@@ -67,6 +70,9 @@ public class SearchView extends AbstractView {
 
     @Override
     protected void fetchData() {
+        if (StringUtils.isEmpty(query.getKeyword())) {
+            throw new BusinessException(ErrorCode.KEYWORDS_EMPTY);
+        }
         modelAndView.addObject(searchAggregateService.index(query.getKeyword(), query.getPageNum(), CcConstant.Page.MAX_SIZE));
     }
 }

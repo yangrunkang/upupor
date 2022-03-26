@@ -141,6 +141,7 @@ public enum ErrorCode {
     CSS_BG_CONFIG_MORE(171, "用户自定义背景只能有一个"),
     SETTING_BG_FAILED(172, "背景设置失败"),
     SETTING_DEFAULT_CONTENT_TYPE_FAILED(173, "设置喜爱的文章类型失败"),
+    KEYWORDS_EMPTY(174, "请输入关键字"),
 
 
     //占位 兜底异常
