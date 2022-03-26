@@ -49,11 +49,11 @@
                     </div>
                     <div>
                         <input type="hidden" id="content_more_alert_value" th:value="${memberIndexDto.listContentDto.total}"/>
-                        <div id="content_more_alert" class="alert alert-danger alert-dismissible mb-2" role="alert" style="display: none">
+                        <div id="content_more_alert" class="alert alert-danger alert-dismissible fade show mb-2" role="alert" style="display: none">
                             搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
                             <br />
                             根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${memberIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
-                            <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
                     <div>

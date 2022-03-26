@@ -92,9 +92,9 @@
 <!--用户未登录提示-->
 <div th:fragment="user_not_login">
     <!--未登录提示-->
-    <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="!${session?.cv_user_id}">
+    <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert" th:if="!${session?.cv_user_id}">
         您还未登录,请前往登录页面<a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="登录">登录</a>
-        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
@@ -372,32 +372,32 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="statement">
-    <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="${contentIndexDto.content.statement} != null">
+    <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert" th:if="${contentIndexDto.content.statement} != null">
         <strong th:text="${contentIndexDto.content.statement.title}" style="font-size:17px"></strong>
         <span th:text="${contentIndexDto.content.statement.statement}"></span>
-        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
 <div th:fragment="member_statement">
-    <div class="alert alert-danger alert-dismissible mb-2" role="alert" th:if="${memberIndexDto.member.statement} != null">
+    <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert" th:if="${memberIndexDto.member.statement} != null">
         <strong th:text="${memberIndexDto.member.statement.title}" style="font-size:17px"></strong>
         <span th:text="${memberIndexDto.member.statement.statement}"></span>
-        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
 <div th:fragment="login_tips">
-    <div class="alert alert-danger alert-dismissible mb-2 mt-2" th:if="!${session?.cv_user_id}" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show mb-2 mt-2" th:if="!${session?.cv_user_id}" role="alert">
         <a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="登录后方可进行内容发布、评论、留言等操作">登录</a>后方可进行内容发布、评论、留言等操作
-        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 
 <div th:fragment="un_login_radio">
-    <div class="alert alert-danger alert-dismissible mb-2" th:if="!${session?.cv_user_id}" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show mb-2" th:if="!${session?.cv_user_id}" role="alert">
         您还未<a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="您还未登录">登录</a>,登录后方可以发布电台
-        <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </div>
 

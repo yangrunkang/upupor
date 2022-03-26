@@ -42,9 +42,10 @@
                         <div class="lead text-danger border-bottom border-1 fw-bold">资源消失了</div>
                     </div>
                     <div class="mb-2">
-                        <div class="alert alert-danger alert-dismissible m-0" th:switch="${ cvException != null }">
+                        <div class="alert alert-danger alert-dismissible fade show m-0" th:switch="${ cvException != null }">
                             <div th:case="true" th:utext="${cvException}" class="text-wrap"></div>
                             <div th:case="false" class="text-wrap">访问地址有误或该功能已下线</div>
+                            <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     </div>
                     <div class="card-footer">
