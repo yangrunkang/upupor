@@ -622,5 +622,17 @@ fromProfile: 是否来自Profile页面
     <div th:if="${#lists.isEmpty(userList)}" th:include="fragments/index::empty_content"></div>
 </div>
 
+<!--创建文章的URL组件-->
+<div th:fragment="create_content_url(createContentDesc)">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-1 mb-2" th:if="${createContentDesc != null}">
+        <div class="nav flex-column nav-pills" aria-orientation="vertical">
+            <a class="nav-link cv-link text-secondary" th:href="${createContentDesc.href}">
+                <img class="lazyload cv-icon" th:src="${createContentDesc.icon}" /> [[${createContentDesc.desc}]]
+            </a>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>

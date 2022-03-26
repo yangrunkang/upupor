@@ -65,6 +65,8 @@ public class PublishedContent extends AbstractContent {
     private RadioService radioService;
     @Resource
     private MemberIntegralService memberIntegralService;
+    @Resource
+    private TagService tagService;
 
     @Override
     protected Content queryContent() {
@@ -120,7 +122,7 @@ public class PublishedContent extends AbstractContent {
         settingIsCollect(contentIndexDto,content);
 
         // 创建文章
-        contentIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(content.getContentType(), null));
+        contentIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(content.getContentType(), content.getTagIds(),tagService.getNameById(content.getTagIds())));
     }
 
 

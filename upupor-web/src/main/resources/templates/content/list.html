@@ -70,13 +70,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-1 mb-2" th:if="${commonPageIndexDto.createContentDesc != null}">
-                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <a class="nav-link cv-link text-secondary" th:href="${commonPageIndexDto.createContentDesc.href}">
-                            <img class="lazyload cv-icon" th:src="${commonPageIndexDto.createContentDesc.icon}" /> [[${commonPageIndexDto.createContentDesc.desc}]]
-                        </a>
-                    </div>
-                </div>
+                <div th:if="${commonPageIndexDto.createContentDesc != null}" th:include="fragments/index::create_content_url(${commonPageIndexDto.createContentDesc})"></div>
                 <!--全局搜索-->
                 <div th:include="fragments/index::global_search"></div>
                 <!--全局个人信息卡片-->

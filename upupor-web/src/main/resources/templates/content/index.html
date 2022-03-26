@@ -132,13 +132,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-0 mb-2" th:if="${contentIndexDto.createContentDesc != null}">
-                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <a  class="nav-link cv-link" style="font-size: 16px" th:href="${contentIndexDto.createContentDesc.href}">
-                            <img class="lazyload cv-icon" th:src="${contentIndexDto.createContentDesc.icon}" /> [[${contentIndexDto.createContentDesc.desc}]]
-                        </a>
-                    </div>
-                </div>
+                <div th:if="${contentIndexDto.createContentDesc != null}" th:include="fragments/index::create_content_url(${contentIndexDto.createContentDesc})"></div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="text-black-50 border-bottom mb-2 pt-0">文章导航</div>
                     <nav aria-label="breadcrumb mb-0">
@@ -148,7 +142,7 @@
                                 class="breadcrumb-item">
                                 <a class="cv-link text-black-50" th:href="${type.url}">[[${type.name}]]</a>
                             </li>
-                            <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)} and ${contentIndexDto.content.contentType.name() != 'TOPIC'}">
+                            <li class="breadcrumb-item" th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
                                 <a class="cv-link text-black-50" th:each="tagDto : ${contentIndexDto.tagDtoList}" th:href="@{'/'+${#strings.toLowerCase(contentIndexDto.content.contentType.name())}+'/'+${tagDto.tagId}}" th:text="${tagDto.tagName}" th:title="${tagDto.tagName}"></a>
                             </li>
                         </ol>
