@@ -37,14 +37,14 @@
 <!--                <div class="mb-1">-->
 <!--                    &lt;!&ndash;分享到linkedin&ndash;&gt;-->
 <!--                    <a  class="cv-link"-->
-<!--                        th:href="'https://www.linkedin.com/shareArticle?mini=true&url=https://upupor.com/'+ ${url} +${targetId}" target="_blank" rel="noopener">-->
+<!--                        th:href="'https://www.linkedin.com/shareArticle?mini=true&url=https://www.upupor.com/'+ ${url} +${targetId}" target="_blank" rel="noopener">-->
 <!--                        <img th:data-src="${ossStatic} + @{/system/LinkedIn.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 领英-->
 <!--                    </a>-->
 <!--                </div>-->
                 <div class="mb-1">
                     <!--分享到weibo-->
                     <a class="cv-link"
-                       th:href="'http://service.weibo.com/share/share.php?url=https://upupor.com/' + ${url}
+                       th:href="'http://service.weibo.com/share/share.php?url=https://www.upupor.com/' + ${url}
                                     +${targetId}+'&title='+${title}+'&appkey=2178125307&ralateUid=7389727164'"
                        target="_blank" rel="noopener">
                         <img th:data-src="${ossStatic} + @{/system/weibo.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 微博
@@ -53,7 +53,7 @@
                 <div class="mb-1">
                     <!--分享到 QQ 空间-->
                     <a class="cv-link"
-                       th:href="'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://upupor.com/'+ ${url}
+                       th:href="'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://www.upupor.com/'+ ${url}
                                     +${targetId}+'&title='+${title}"
                        target="_blank" rel="noopener">
                         <img th:data-src="${ossStatic} + @{/system/qq_zone.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 QQ空间
@@ -63,13 +63,13 @@
                     <!--分享到facebook-->
                     <a class="cv-link" th:href="'https://www.facebook.com/sharer.php?title='
                                     +${title}
-                                    +'&u=https://upupor.com/'+ ${url}+${targetId}" target="_blank">
+                                    +'&u=https://www.upupor.com/'+ ${url}+${targetId}" target="_blank">
                         <img th:data-src="${ossStatic} + @{/system/facebook.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Facebook
                     </a>
                 </div>
                 <div class="mb-1">
                     <!--分享到twitter-->
-                    <a class="cv-link" th:href="'https://twitter.com/share?text=' + ${title} + '&url=https://upupor.com/'+ ${url} + ${targetId}" target="_blank" rel="noopener">
+                    <a class="cv-link" th:href="'https://twitter.com/share?text=' + ${title} + '&url=https://www.upupor.com/'+ ${url} + ${targetId}" target="_blank" rel="noopener">
                         <img th:data-src="${ossStatic} + @{/system/twitter.png}" style="width: 20px; height: 20px" class="lazyload" /> 分享到 Twitter
                     </a>
                 </div>
