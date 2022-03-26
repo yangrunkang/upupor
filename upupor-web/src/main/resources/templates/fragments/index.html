@@ -34,15 +34,15 @@
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
         <div>
             <div th:if="${memberIndexDto} != null and ${memberIndexDto.member} != null">
-                <p style="text-align: center" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
+                <figure class="figure text-center mb-1 d-block" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
                     <a href="/user/manage/upload-profile-photo" title="我的">
                         <img class="img rounded" th:src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;" alt="头像"/>
                     </a>
-                    <div>
-                        <img th:src="${ossStatic} + @{/icons/system/email.png}" class="cv-icon-item" alt="邮箱"/></span> <span th:text="${memberIndexDto.member.email}">yangrunkang@qq.com</span>
-                    </div>
-                </p>
+                </figure>
                 <div>
+                    <p>
+                        <img th:src="${ossStatic} + @{/icons/system/email.png}" class="cv-icon-item" alt="邮箱"/></span> <span th:text="${memberIndexDto.member.email}">yangrunkang@qq.com</span>
+                    </p>
                     <p><img th:src="${ossStatic} + @{/icons/system/nickname.png}" class="cv-icon-item" alt="昵称"/> 昵称: <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'" th:text="${memberIndexDto.member.userName}" th:title="${memberIndexDto.member.userName}"></a></p>
                     <p><span><img th:src="${ossStatic} + @{/icons/system/register-time.png}" class="cv-icon-item" alt="注册时间"/> 注册时间: </span><span th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
                     <div class="row">
@@ -324,16 +324,17 @@ fromProfile: 是否来自Profile页面
 
 <div th:fragment="global_member_info">
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 p-2" th:if="${session?.cv_user_id}">
-        <div style="text-align: center" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
+        <figure class="figure text-center mb-0">
             <a th:href="'/profile/' + ${session?.cv_user_id}+'/content'">
                 <img class="img rounded " th:src="${session?.cv_user_via}" style="width: 90px;height: 90px;"/>
             </a>
-        </div>
-        <a style="text-align: center;font-size: 14px" th:if="!${#strings.isEmpty(session?.cv_user_via)}"
-           th:inline="text" th:href="'/profile/' + ${session?.cv_user_id}+'/content'" class="text-black-50 cv-link">
-            [[${session?.cv_user_name}]]
-        </a>
-        <div class="border-bottom my-2" th:if="!${#strings.isEmpty(session?.cv_user_via)}"></div>
+            <figcaption class="figure-caption">
+                <a style="text-align: center;font-size: 14px" th:href="'/profile/' + ${session?.cv_user_id}+'/content'" class="text-black-50 cv-link">
+                    [[${session?.cv_user_name}]]
+                </a>
+            </figcaption>
+        </figure>
+        <div class="border-bottom my-2"></div>
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <a th:if="${cv_content_done}" class="nav-link cv-link" href="/before-editor">
                 <span>
@@ -462,9 +463,9 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="profile_right">
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
         <div>
-            <div style="text-align: center" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
+            <figure class="figure text-center mb-0 d-block" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
                 <img class="lazyload img rounded" th:data-src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;"/>
-            </div>
+            </figure>
             <div>
                 <div class="mt-2">拥有 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝</div>
                 <div class="mt-2">关注 <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者</div>
