@@ -39,7 +39,6 @@
     <groupId>com.upupor.lucene</groupId>
     <artifactId>upupor-lucene</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
 
     <properties>
         <upupor.lucene.version>8.11.1</upupor.lucene.version>
@@ -77,11 +76,13 @@
             <version>${upupor.lucene.version}</version>
         </dependency>
 
-    </dependencies>
+        <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-smartcn -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-smartcn</artifactId>
+            <version>${upupor.lucene.version}</version>
+        </dependency>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    </dependencies>
 
 </project>

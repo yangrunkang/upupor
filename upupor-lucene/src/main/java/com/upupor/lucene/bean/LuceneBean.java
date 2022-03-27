@@ -25,13 +25,43 @@
  * SOFTWARE.
  */
 
-package com.upupor.lucene;
+package com.upupor.lucene.bean;
+
+//import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.store.ByteBuffersDirectory;
+import org.apache.lucene.store.Directory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 /**
- * 抽象索引Dto
+ * Lucene配置
+ *
  * @author Yang Runkang (cruise)
- * @date 2022年03月27日 01:55
+ * @date 2022年03月27日 10:01
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractIndexDto {
+@Component
+public class LuceneBean {
+    public static final StandardAnalyzer analyzer = new StandardAnalyzer();
+
+
+    @Bean
+    public IndexWriter getBean() {
+        IndexWriter indexWriter;
+        try {
+            // 模式使用内存
+            Directory index = new ByteBuffersDirectory();
+            IndexWriterConfig config = new IndexWriterConfig(analyzer);
+            indexWriter = new IndexWriter(index, config);
+        } catch (Exception e) {
+            throw new RuntimeException("初始化索引失败");
+        }
+        return indexWriter;
+    }
+
 }

@@ -25,15 +25,41 @@
  * SOFTWARE.
  */
 
-package com.upupor.lucene.config;
+package com.upupor.test;
+
+import com.upupor.lucene.UpuporLuceneService;
+import com.upupor.lucene.dto.LucenuQueryResultDto;
+import com.upupor.web.UpuporWebApplication;
+import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.annotation.Resource;
 
 /**
- * Lucene配置
  * @author Yang Runkang (cruise)
- * @date 2022年03月27日 10:01
+ * @date 2022年03月27日 23:47
  * @email: yangrunkang53@gmail.com
  */
 
-public class LuceneConfig {
-    private static final String LUCENE_INDEX_PATH = "src/main/resources/lucene_index";
+@SpringBootTest(classes = UpuporWebApplication.class)
+@RequiredArgsConstructor
+public class UpuporLuceneTest {
+
+    @Resource
+    private UpuporLuceneService upuporLuceneService;
+
+
+    @Test
+    public void testInit() {
+        upuporLuceneService.addDocument("asdf", "ff");
+        upuporLuceneService.addDocument("123", "ff123");
+        upuporLuceneService.addDocument("2r", "rrr");
+
+//        LucenuQueryResultDto search = upuporLuceneService.search("123");// 精确匹配
+//        LucenuQueryResultDto search = upuporLuceneService.search("2*");// 模糊搜索-支持后缀模糊查询
+        LucenuQueryResultDto search = upuporLuceneService.search("2");// 模糊搜索-支持后缀模糊查询
+        System.out.println(search);
+    }
+
 }

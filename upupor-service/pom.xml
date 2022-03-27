@@ -43,6 +43,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.upupor.lucene</groupId>
+            <artifactId>upupor-lucene</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>com.upupor.framework</groupId>
             <artifactId>upupor-framework</artifactId>
             <version>1.0.0</version>
