@@ -537,9 +537,9 @@ fromProfile: 是否来自Profile页面
 
 <!--列表信息流广告-->
 <div th:fragment="google_feed_ad">
-    <div class="card card-body border-0 p-2 mb-2 float-ads-feed overflow-hidden" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1'">
+    <div class="card card-body border-0 p-2 mb-2 float-ads-feed" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1'">
     </div>
-    <div class="float-ads-feed overflow-hidden" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0'">
+    <div class="float-ads-feed" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0'">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
              style="display:block"

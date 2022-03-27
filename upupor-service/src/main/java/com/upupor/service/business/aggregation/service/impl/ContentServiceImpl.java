@@ -212,7 +212,7 @@ public class ContentServiceImpl implements ContentService {
         this.bindContentData(pageInfo.getList());
         this.bindContentMember(contents);
         // 不能添加广告,会引起首页文章列表布局紊乱问题
-        AbstractAd.ad(pageInfo.getList());
+//        AbstractAd.ad(pageInfo.getList());
 
         // 数据组装
         ListContentDto listContentDto = new ListContentDto(pageInfo);
