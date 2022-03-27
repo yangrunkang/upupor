@@ -41,37 +41,40 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <upupor.lucene.version>8.11.1</upupor.lucene.version>
+    </properties>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
-            <version>8.11.1</version>
+            <version>${upupor.lucene.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers-common</artifactId>
-            <version>8.11.1</version>
+            <version>${upupor.lucene.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-highlighter -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-highlighter</artifactId>
-            <version>8.11.1</version>
+            <version>${upupor.lucene.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queryparser -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-queryparser</artifactId>
-            <version>8.11.1</version>
+            <version>${upupor.lucene.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-queries -->
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-queries</artifactId>
-            <version>8.11.1</version>
+            <version>${upupor.lucene.version}</version>
         </dependency>
 
     </dependencies>
