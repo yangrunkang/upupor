@@ -72,7 +72,7 @@ function cvNavbarSearch(){
         $.cvWarn("您未输入任何内容,无法搜索");
         return;
     }
-
+    $(".global-search-tips").show();
     window.location.href = '/search?keyword='+searchInput;
 }
 

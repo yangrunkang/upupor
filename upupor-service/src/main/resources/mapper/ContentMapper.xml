@@ -75,6 +75,7 @@
         <foreach collection="contentIdList" close=")" open="(" separator="," item="contentId">
             ${contentId}
         </foreach>
+        order by create_time desc
     </select>
 
     <select id="listAllByUserId" resultMap="BaseResultMap">
