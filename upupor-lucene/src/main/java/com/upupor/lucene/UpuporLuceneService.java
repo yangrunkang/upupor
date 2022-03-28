@@ -30,18 +30,16 @@ package com.upupor.lucene;
 import com.upupor.lucene.bean.LuceneBean;
 import com.upupor.lucene.dto.LucenuQueryResultDto;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.StringField;
-import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,6 +47,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.upupor.lucene.dto.ContentFieldAndSearchDto.CONTENT_ID;
+import static com.upupor.lucene.dto.ContentFieldAndSearchDto.TITLE;
 
 /**
  * 抽象全文检索
@@ -63,20 +64,25 @@ public class UpuporLuceneService {
     @Resource
     private IndexWriter indexWriter;
 
-    private static final String TITLE = "title";
-    private static final String CONTENT_ID = "content_id";
-
     /**
      * 检索
-     * @param title
+     *
+     * @param searchField 检索字段
+     * @param keyword     关键字
+     * @param searchType  检索类型
      * @return
      */
-    public LucenuQueryResultDto search(String title) {
-        LucenuQueryResultDto lucenuQueryResultDto = new LucenuQueryResultDto();
-
+    public LucenuQueryResultDto searchTitle(String searchField, String keyword, SearchType searchType) {
         IndexReader reader = null;
         try {
-            Query query = new QueryParser(TITLE, LuceneBean.analyzer).parse(title);
+            Query query;
+            if (searchType.equals(SearchType.LIKE)) {
+                query = new WildcardQuery(new Term(searchField, "*" + keyword.toLowerCase() + "*")); // 模糊查询
+            } else if (searchType.equals(SearchType.EXACT)) {
+                query = new QueryParser(searchField, LuceneBean.analyzer).parse(keyword); // 精确查询
+            } else {
+                throw new RuntimeException("请输入检索类型");
+            }
 
             int hitsPerPage = 300; // 默认300
             reader = DirectoryReader.open(indexWriter);
@@ -84,7 +90,7 @@ public class UpuporLuceneService {
             TopDocs docs = searcher.search(query, hitsPerPage);
             // 命中结果
             ScoreDoc[] hits = docs.scoreDocs;
-
+            LucenuQueryResultDto lucenuQueryResultDto = new LucenuQueryResultDto();
             if (ArrayUtils.isEmpty(hits)) {
                 return lucenuQueryResultDto;
             }
@@ -93,10 +99,7 @@ public class UpuporLuceneService {
             for (ScoreDoc hit : hits) {
                 int docId = hit.doc;
                 Document d = searcher.doc(docId);
-                resultList.add(LucenuQueryResultDto.Data.builder()
-                        .title(d.get(TITLE))
-                        .contentId(d.get(CONTENT_ID))
-                        .build());
+                resultList.add(LucenuQueryResultDto.Data.builder().title(d.get(TITLE)).contentId(d.get(CONTENT_ID)).build());
             }
 
             lucenuQueryResultDto.setTotal((long) hits.length);
@@ -104,7 +107,7 @@ public class UpuporLuceneService {
             return lucenuQueryResultDto;
 
         } catch (Exception e) {
-            throw new RuntimeException("查询失败",e);
+            throw new RuntimeException("查询失败", e);
         } finally {
             try {
                 if (Objects.nonNull(reader)) {
@@ -117,30 +120,51 @@ public class UpuporLuceneService {
     }
 
     /**
-     * 添加文档
+     * 删除
      *
-     * @param title
      * @param contentId
      */
+    public void deleteDocumentByContentId(String contentId) {
+        try {
+            Query query = new QueryParser(CONTENT_ID, LuceneBean.analyzer).parse(contentId); // 精确查询
+            indexWriter.deleteDocuments(query);
+        } catch (Exception e) {
+            throw new RuntimeException("删除文档失败");
+        }
+    }
+
+    /**
+     * 添加文档
+     *
+     * @param title     文章标题
+     * @param contentId 文章Id
+     */
     public void addDocument(String title, String contentId) {
+        if (StringUtils.isEmpty(title)) {
+            throw new RuntimeException("标题为空,不能创建索引");
+        }
+
         if (Objects.isNull(indexWriter)) {
             throw new RuntimeException("系统暂时索引");
         }
 
         if (!indexWriter.isOpen()) {
-            throw new RuntimeException("系统未开启");
+            throw new RuntimeException("系统索引未开启");
         }
 
         try {
             Document doc = new Document();
-            doc.add(new StringField(TITLE, title, Field.Store.YES));
+            doc.add(new StringField(TITLE, title.toLowerCase(), Field.Store.YES));
             doc.add(new StringField(CONTENT_ID, contentId, Field.Store.YES));
             indexWriter.addDocument(doc);
         } catch (Exception e) {
             throw new RuntimeException("添加文档异常");
-        }/*finally {
+        } /*finally {
             // 添加完后关闭
-            indexWriter.close();
+            try {
+                indexWriter.close();
+            } catch (IOException ignored) {
+            }
         }*/
 
     }

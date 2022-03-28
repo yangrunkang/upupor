@@ -28,6 +28,7 @@
 package com.upupor.service.listener;
 
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
+import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,6 +72,9 @@ public class UpuporEventListener implements ApplicationListener {
             printUrl();
             // 生成站点地图
             eventPublisher.publishEvent(new GenerateGoogleSiteMapEvent());
+            // 生成索引
+            eventPublisher.publishEvent(new InitLuceneIndexEvent());
+
         }
 
         // 程序已经关闭

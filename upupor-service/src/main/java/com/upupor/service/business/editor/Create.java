@@ -40,6 +40,7 @@ import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -59,6 +60,7 @@ import static com.upupor.service.common.ErrorCode.MEMBER_CONFIG_LESS;
  * @date 2022年01月09日 11:20
  * @email: yangrunkang53@gmail.com
  */
+@Slf4j
 @Component
 public class Create extends AbstractEditor<AddContentDetailReq> {
     @Resource
@@ -114,6 +116,8 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
             if (Objects.nonNull(limitedInterval)) {
                 RedisUtil.set(createContentIntervalkey(getMember().getUserId()), content.getContentId(), limitedInterval);
             }
+            // 更新索引
+            updateIndex(content);
         }
         return addSuccess;
     }
@@ -197,6 +201,18 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
             } else {
                 throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
             }
+        }
+    }
+
+    @Override
+    protected void updateIndex(Content content) {
+        try {
+            if (ContentStatus.NORMAL.equals(content.getStatus())) {
+                upuporLuceneService.addDocument(content.getTitle(), content.getContentId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("创建文章,添加索引失败,contentId:" + content.getContentId() + ",文章标题:" + content.getTitle());
         }
     }
 }

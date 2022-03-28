@@ -27,6 +27,11 @@
 
 package com.upupor.service.business.aggregation;
 
+import com.upupor.lucene.SearchType;
+import com.upupor.lucene.UpuporLuceneService;
+import com.upupor.lucene.dto.ContentFieldAndSearchDto;
+import com.upupor.lucene.dto.LucenuQueryResultDto;
+import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.dto.page.SearchIndexDto;
@@ -36,7 +41,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.upupor.service.common.ErrorCode.CONTENT_NOT_EXISTS;
 
@@ -51,37 +58,39 @@ import static com.upupor.service.common.ErrorCode.CONTENT_NOT_EXISTS;
 public class SearchAggregateService {
 
     private final ContentService contentService;
+    private final UpuporLuceneService upuporLuceneService;
 
-    public SearchIndexDto index(String keyword, Integer pageNum, Integer pageSize) {
+
+
+    public SearchIndexDto index(String keyword) {
         SearchIndexDto searchIndexDto = new SearchIndexDto();
+        ListContentDto listContentDto = new ListContentDto();
 
-        ListContentReq listContentReq = new ListContentReq();
-        listContentReq.setNavbarSearch(keyword);
-        listContentReq.setPageNum(pageNum);
-        listContentReq.setPageSize(pageSize);
+        LucenuQueryResultDto lucenuQueryResultDto = upuporLuceneService.searchTitle(ContentFieldAndSearchDto.TITLE, keyword, SearchType.LIKE);
 
-        ListContentDto listContentDto = null;
-        try {
-            listContentDto = contentService.listContentByTitleAndShortContent(listContentReq);
-        } catch (Exception e) {
-            if (e instanceof BusinessException) {
-                BusinessException businessException = (BusinessException) e;
-                if (businessException.getCode().equals(CONTENT_NOT_EXISTS.getCode())) {
-                    listContentDto = new ListContentDto();
-                }
-            } else {
-                e.printStackTrace();
-            }
+        List<LucenuQueryResultDto.Data> resultList = lucenuQueryResultDto.getResultList();
+
+        if(CollectionUtils.isEmpty(resultList)){
+            searchIndexDto.setListContentDto(listContentDto);
+            return searchIndexDto;
         }
 
-        if (Objects.nonNull(listContentDto)) {
-            if (!CollectionUtils.isEmpty(listContentDto.getContentList())) {
-                contentService.bindContentData(listContentDto.getContentList());
-            }
+        List<String> contentIdList = resultList.stream().map(LucenuQueryResultDto.Data::getContentId).distinct().collect(Collectors.toList());
+        List<Content> contentList = contentService.listByContentIdList(contentIdList);
+        if (!CollectionUtils.isEmpty(contentList)) {
+            contentService.bindContentData(contentList);
+            // 绑定文章数据
+            contentService.bindContentData(contentList);
+            // 绑定用户信息
+            contentService.bindContentMember(contentList);
         }
 
+
+        listContentDto.setContentList(contentList);
+        listContentDto.setTotal(lucenuQueryResultDto.getTotal());
         searchIndexDto.setListContentDto(listContentDto);
         return searchIndexDto;
     }
+
 
 }

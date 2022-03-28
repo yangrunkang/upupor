@@ -228,8 +228,8 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="content_manage(content)">
-    <a th:if="${content.status.name()} == 'NORMAL'" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
-    <a th:if="${content.status.name()} != 'NORMAL'" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow" th:title="${content.title}"></a>
+    <a th:if="${content.status.name()} == 'NORMAL'" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow text-break" th:title="${content.title}"></a>
+    <a th:if="${content.status.name()} != 'NORMAL'" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow text-break" th:title="${content.title}"></a>
 </div>
 
 <div th:fragment="content_media(content,fromProfile)">

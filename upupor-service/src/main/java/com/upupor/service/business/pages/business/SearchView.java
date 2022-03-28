@@ -73,6 +73,6 @@ public class SearchView extends AbstractView {
         if (StringUtils.isEmpty(query.getKeyword())) {
             throw new BusinessException(ErrorCode.KEYWORDS_EMPTY);
         }
-        modelAndView.addObject(searchAggregateService.index(query.getKeyword(), query.getPageNum(), CcConstant.Page.MAX_SIZE));
+        modelAndView.addObject(searchAggregateService.index(query.getKeyword()));
     }
 }

@@ -40,6 +40,7 @@ import com.upupor.service.types.OriginType;
 import com.upupor.service.types.PinnedStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -55,6 +56,7 @@ import java.util.Objects;
  * @date 2022年01月09日 11:20
  * @email: yangrunkang53@gmail.com
  */
+@Slf4j
 @Component
 public class Edit extends AbstractEditor<UpdateContentReq> {
 
@@ -84,7 +86,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
     protected Boolean doBusiness() {
 
         // 只在文章状态正常的情况下,记录变更次数
-        if(ContentStatus.NORMAL.equals(editContent.getStatus())){
+        if (ContentStatus.NORMAL.equals(editContent.getStatus())) {
             updateEditTimes(editContent);
         }
 
@@ -127,8 +129,11 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         }
 
         if (updateCount > 0 && isSendCreateContentMessage) {
+            // 发布文章时间
             publishContentEvent(editContent);
         }
+        // 更新索引
+        updateIndex(editContent);
         return Boolean.TRUE;
     }
 
@@ -166,5 +171,15 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         }
     }
 
+    @Override
+    protected void updateIndex(Content content) {
+        try {
+            upuporLuceneService.deleteDocumentByContentId(content.getContentId());
+            upuporLuceneService.addDocument(content.getTitle(), content.getContentId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("编辑文章,更新索引失败,contentId:" + content.getContentId() + ",文章标题:" + content.getTitle());
+        }
+    }
 
 }

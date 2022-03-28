@@ -33,6 +33,7 @@ import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Radio;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.dto.seo.GoogleSeoDto;
+import com.upupor.service.scheduled.ScheduledCommonService;
 import com.upupor.service.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -51,6 +52,7 @@ import java.util.List;
 public class ContentSiteMap extends AbstractSiteMap<Content> {
     private final ContentService contentService;
     private final UpuporConfig upuporConfig;
+    private final ScheduledCommonService scheduledCommonService;
 
     @Override
     protected Boolean dataCheck() {
@@ -59,16 +61,7 @@ public class ContentSiteMap extends AbstractSiteMap<Content> {
 
     @Override
     protected List<Content> getSiteMapData() {
-        Integer total = contentService.total();
-
-        int pageNum = total % CcConstant.Page.SIZE == 0 ? total / CcConstant.Page.SIZE : total / CcConstant.Page.SIZE + 1;
-        List<Content> contentList = new ArrayList<>();
-        for (int i = 0; i < pageNum; i++) {
-            List<Content> contents = contentService.list(i + 1, CcConstant.Page.SIZE);
-            contentList.addAll(contents);
-        }
-
-        return contentList;
+        return scheduledCommonService.contentList();
     }
 
     @Override

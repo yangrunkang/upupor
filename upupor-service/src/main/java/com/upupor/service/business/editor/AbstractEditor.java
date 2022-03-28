@@ -28,6 +28,7 @@
 package com.upupor.service.business.editor;
 
 import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.dao.mapper.ContentExtendMapper;
@@ -64,6 +65,9 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
 
     @Resource
     protected ApplicationEventPublisher eventPublisher;
+
+    @Resource
+    protected UpuporLuceneService upuporLuceneService;
 
     protected T req;
 
@@ -112,6 +116,14 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
      * 执行业务
      */
     protected abstract Boolean doBusiness();
+
+    /**
+     * 更新索引
+     *
+     * @return
+     * @param content
+     */
+    protected abstract void updateIndex(Content content);
 
 
     /**

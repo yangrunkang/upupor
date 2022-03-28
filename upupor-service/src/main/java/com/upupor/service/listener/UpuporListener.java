@@ -31,7 +31,9 @@ import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
+import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
+import com.upupor.service.scheduled.InitLuceneService;
 import com.upupor.service.scheduled.MemberScheduled;
 import com.upupor.service.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +63,7 @@ public class UpuporListener {
     private final GenerateSiteMapScheduled generateSiteMapScheduled;
     private final MemberService memberService;
     private final MemberScheduled memberScheduled;
+    private final InitLuceneService initLuceneService;
 
     /**
      * 埋点
@@ -102,6 +105,15 @@ public class UpuporListener {
     public void generateGoogleSiteMapEvent(GenerateGoogleSiteMapEvent event) {
         log.info("程序启动完毕,Event Bus事件,开始生成Google站点地图");
         generateSiteMapScheduled.googleSitemap();
+    }
+
+
+    @EventListener
+    @Async
+    public void initLuceneIndexEvent(InitLuceneIndexEvent event) {
+        // 采用的是内存存储,目的是尽量的减少依赖包括文件依赖;不使用ES,原因是ES太重
+        log.info("开始初始胡Lucene索引....");
+        initLuceneService.init();
     }
 
 }

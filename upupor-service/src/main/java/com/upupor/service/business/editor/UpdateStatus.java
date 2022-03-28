@@ -35,6 +35,7 @@ import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.PinnedStatus;
 import com.upupor.service.utils.ServletUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -47,6 +48,7 @@ import static com.upupor.service.common.ErrorCode.FIRST_CANCEL_PINNED;
  * @date 2022年01月09日 11:52
  * @email: yangrunkang53@gmail.com
  */
+@Slf4j
 @Component
 public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
     @Override
@@ -90,8 +92,27 @@ public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
         boolean result = contentMapper.updateById(editContent) > 0;
 
         if (result && isSendCreateContentMessage) {
+            // 发布文章事件
             publishContentEvent(editContent);
         }
+        // 更新索引
+        updateIndex(editContent);
         return result;
+    }
+
+
+    @Override
+    protected void updateIndex(Content content) {
+        try {
+            if (ContentStatus.NORMAL.equals(content.getStatus())) {
+                upuporLuceneService.deleteDocumentByContentId(content.getContentId());
+                upuporLuceneService.addDocument(content.getTitle(), content.getContentId());
+            } else {
+                upuporLuceneService.deleteDocumentByContentId(content.getContentId());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("更新文章状态,更新索引失败,contentId:" + content.getContentId() + ",文章标题:" + content.getTitle());
+        }
     }
 }
