@@ -127,14 +127,12 @@ function packagingToastSuccess(message) {
  * @param okFunc
  */
 function packagingAjaxPost(url, data, okFunc) {
-    $(".global-loading-nav-tips-main").hide();
     $(".global-loading-nav-tips-slave").show();
     $.ajax({
         url: url,
         type: "POST",
         data: data,
         success: function (data) {
-            $(".global-loading-nav-tips-main").show();
             $(".global-loading-nav-tips-slave").hide();
             // console.log('///////');
             // console.log(data);
@@ -153,7 +151,6 @@ function packagingAjaxPost(url, data, okFunc) {
             }
         },
         error: function (data) {
-            $(".global-loading-nav-tips-main").show();
             $(".global-loading-nav-tips-slave").hide();
             console.log(data.data);
         }
