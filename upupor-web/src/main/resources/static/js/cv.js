@@ -31,6 +31,7 @@ $(function () {
     $.support.transition = true;
     // 封装AjaxPost请求
     jQuery.cvPost = packagingAjaxPost;
+    jQuery.cvPostUnder = packagingAjaxPostUnder;
     jQuery.cvGet = packagingAjaxGet;
 
     // 封装提示插件
@@ -154,6 +155,37 @@ function packagingAjaxPost(url, data, okFunc) {
         error: function (data) {
             $(".global-loading-nav-tips-main").show();
             $(".global-loading-nav-tips-slave").hide();
+            console.log(data.data);
+        }
+    });
+}
+
+/**
+ * 不加载请求动画
+ * @param url
+ * @param data
+ * @param okFunc
+ */
+function packagingAjaxPostUnder(url, data, okFunc) {
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: data,
+        success: function (data) {
+            // 请求正常响应
+            if (data.code === 0) {
+                // 业务正常
+                okFunc(data.data);
+            } else {
+                // 处理特定状态码跳转
+                if(data.code === 115){ // 未登录直接调整到登录页
+                    window.location.href = '/login?back=' + window.location.pathname + window.location.search;
+                }else{
+                    $.cvError(data.data);
+                }
+            }
+        },
+        error: function (data) {
             console.log(data.data);
         }
     });

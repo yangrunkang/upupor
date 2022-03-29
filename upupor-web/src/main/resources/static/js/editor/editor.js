@@ -70,7 +70,7 @@ function autoSave() {
         content.edit = getQueryVariable("edit");
         content.contentId = $(".hide-content-content-id").val();
         content.userId = $(".hide-content-user-id").val();
-        $.cvPost('/cache/add', content, function (data) {
+        $.cvPostUnder('/cache/add', content, function (data) {
             if (respCodeOk(data)) {
                 $(".auto-save-card").fadeIn();
                 $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
