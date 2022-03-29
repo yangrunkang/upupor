@@ -133,6 +133,7 @@
             </div>
             <div class="col-lg-3">
                 <div th:if="${contentIndexDto.createContentDesc != null}" th:include="fragments/index::create_content_url(${contentIndexDto.createContentDesc})"></div>
+                <div th:include="fragments/index::global_search"></div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="text-black-50 border-bottom mb-2 pt-0">文章导航</div>
                     <nav aria-label="breadcrumb mb-0">

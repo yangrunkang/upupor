@@ -31,7 +31,7 @@
 <body>
     <!--导航栏-->
     <div th:fragment="navbar">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white mb-2 shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand fw-bold pt-0" href="/">
                     <span style="color: #4285F4">U</span><span style="color: #EA4335">p</span><span style="color: #FBBC04">u</span><span style="color: #4285F4">p</span><span style="color: #34A853">o</span><span style="color: #EA4335">r</span>
@@ -94,8 +94,8 @@
                 </div>
             </div>
         </nav>
-        <div class="container d-xl-none">
-            <ul class="list-group list-group-horizontal shadow-sm border-0 mb-2">
+        <div class="d-xl-none">
+            <ul class="list-group list-group-horizontal shadow-sm border-0">
                 <a class="list-group-item cv-link flex-grow-1" href="/" title="文章">
                     <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}" /> 文章
                 </a>
@@ -109,11 +109,9 @@
                     <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-content.png}" /> 创作
                 </a>
             </ul>
-        </div>
-        <div class="container d-xl-none" th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
-            <ul class="list-group list-group-horizontal shadow-sm border-0 mb-2">
+            <ul class="list-group list-group-horizontal shadow-sm border-0 mb-2" th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
                 <a class="list-group-item cv-link flex-grow-1 text-danger" href="/user/manage/message/un-read" title="未读消息">
-                    您有<span class="badge bg-gradient rounded-3 fw-normal bg-danger mx-2" th:text="${unReadMegCount}">23</span> 条未读消息
+                    您有<span class="badge bg-gradient rounded-3 fw-normal bg-danger mx-2">[[${unReadMegCount}]]</span> 条未读消息
                 </a>
             </ul>
         </div>
