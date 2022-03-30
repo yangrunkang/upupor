@@ -32,7 +32,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.business.aggregation.dao.mapper.*;
 import com.upupor.service.business.aggregation.service.*;
@@ -66,6 +65,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.upupor.framework.CcConstant.Time.NEW_CONTENT_TIME;
 import static com.upupor.service.common.ErrorCode.*;
 
 /**
@@ -646,7 +646,7 @@ public class ContentServiceImpl implements ContentService {
     public List<Content> latestContentList() {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
                 .eq(Content::getStatus, ContentStatus.NORMAL)
-                .ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - 7 * 24 * 60 * 60)
+                .ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - NEW_CONTENT_TIME)
                 .orderByDesc(Content::getCreateTime);
 
         List<Content> contentList = contentMapper.selectList(query);

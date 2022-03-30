@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.Time.CONTENT_UPDATE_TIME;
+import static com.upupor.framework.CcConstant.Time.NEW_CONTENT_TIME;
 
 /**
  * 内容
@@ -298,5 +299,17 @@ public class Content extends BaseEntity {
         }
         // 在一天内更新都算最新更新过
         return CcDateUtil.getCurrentTime() - editTime <= CONTENT_UPDATE_TIME;
+    }
+
+    /**
+     * 是否是最近的新文章
+     */
+    @TableField(exist = false)
+    private Boolean newContent = Boolean.FALSE;
+    public Boolean getNewContent() {
+        if(Objects.isNull(createTime)){
+            return newContent;
+        }
+        return CcDateUtil.getCurrentTime() - createTime <= NEW_CONTENT_TIME;
     }
 }
