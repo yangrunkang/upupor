@@ -63,11 +63,12 @@
                                 <h5 class="text-wrap m-0" th:text="${contentIndexDto.content.title}"></h5>
                             </div>
                         </div>
-                        <div th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
+                        <span th:if="!${#lists.isEmpty(contentIndexDto.tagDtoList)}">
                             <a th:each="tag : ${contentIndexDto.tagDtoList}"
                                class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark cv-link"
                                th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
-                        </div>
+                        </span>
+                        <span th:include="fragments/index::contet_tag(${contentIndexDto.content})"></span>
                         <div th:replace="fragments/index::content_data_show(${contentIndexDto.content.userId},
                                                                             ${contentIndexDto.content.member.userName},
                                                                             ${contentIndexDto.content.member.via},
