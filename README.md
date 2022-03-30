@@ -22,8 +22,8 @@ https://github.com/upupor/cherry-markdown
 
 ## QA
 ### 0. 数据库建表语句在哪里?
-upupor使用了flyway,因此数据SQL文件维护在upupor-web/src/main/resources/db/migration目录,只需要配置好DB然后启动程序,就会创建相应的表及执行相应的SQL.
-后续如果想新增表或者执行SQL可以直接在migration目录按照规则新建migration文件即可,程序启动时就会执行
+upupor使用了flyway,因此数据库SQL文件维护在upupor-web/src/main/resources/db/migration目录,只需要配置好DB然后启动程序,就会创建相应的表以及执行相应的SQL.
+后续如果想新增表或者执行SQL可以直接在migration目录按照规则新建migration文件即可,程序启动时会自动执行.
 
 ### 1.为什么采用 thymeleaf 建站?
 upupor用 thymeleaf 的原因是为了做SEO,目前所有页面均采用服务端渲染。在做upupor网站的初期(2019年)前端框架SSR还不成熟,所以没有采用前端SSR.
@@ -41,7 +41,7 @@ upupor用 thymeleaf 的原因是为了做SEO,目前所有页面均采用服务�
 ### 4.程序启动时图片不显示怎么处理?
 因为有防盗链,只允许localhost、*.upupor.com两个域访问。解决方法:
 - 本机环境使用[http://localhost:2020](http://localhost:2020)访问
-- 将系统默认的图片的地址修改为您本地的图片地址或者您可访问的远程图片地址
+- 将系统默认的图片地址修改为您本地的图片地址或者您可访问的远程图片地址
 
 ### 5.upupor页面加载性能如何?
 下面是Google PageSpeed Insights桌面版的测试结果
