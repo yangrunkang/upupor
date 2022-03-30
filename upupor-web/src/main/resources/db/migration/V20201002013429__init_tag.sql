@@ -24,8 +24,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-/*BEGIN;
 INSERT INTO `tag` VALUES (1, 'back-end', 1, '后端', 0, 'https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/background.png', 1582824705, '2020-04-15 11:35:19');
 INSERT INTO `tag` VALUES (2, 'front-end', 1, '前端', 0, 'https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/web.png', 1582824706, '2020-04-15 11:35:58');
 INSERT INTO `tag` VALUES (3, 'linux', 1, 'Linux', 0, 'https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/linux.png', 1582824707, '2020-04-15 11:35:28');
@@ -48,4 +46,3 @@ INSERT INTO `tag` VALUES (19, 'speech', 3, '演讲', 0, 'https://upupor-img.oss-
 INSERT INTO `tag` VALUES (20, 'poetry', 3, '诗和歌', 0, 'https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/shihege.png', 1582824714, '2020-05-22 18:09:52');
 INSERT INTO `tag` VALUES (21, 'movie', 3, '电影', 0, 'https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/movie.svg', 1582824714, '2020-06-14 16:51:03');
 INSERT INTO `tag` VALUES (22, 'work-note', 5, '工作笔记', 0, 'https://upupor-img.oss-cn-hangzhou.aliyuncs.com/icons/work_note.svg', 1582824714, '2020-06-16 10:33:13');
-COMMIT;*/
