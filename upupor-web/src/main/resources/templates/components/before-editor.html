@@ -50,9 +50,11 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div class="lead fw-light">创建文章</div>
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
+                    创建文章
                 </div>
+                <div th:include="fragments/index::global_search"></div>
+                <div th:replace="fragments/index::user_manage_fragment(true)"></div>
             </div>
         </div>
     </div>

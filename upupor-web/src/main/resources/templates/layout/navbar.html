@@ -36,14 +36,15 @@
             <div class="container">
                 <a class="navbar-brand fw-bold pt-0 position-relative" href="/">
                     <span><span style="color: #4285F4">U</span><span style="color: #EA4335">p</span><span style="color: #FBBC04">u</span><span style="color: #4285F4">p</span><span style="color: #34A853">o</span><span style="color: #EA4335">r</span></span>
-                    <div class="position-absolute top-0 start-100 spinner-border spinner-border-sm text-success global-loading-nav-tips-slave" role="status" aria-hidden="true" style="display: none"></div>
+                    <div class="position-absolute top-0 start-100 spinner-border spinner-border-sm text-success global-loading-nav-tips-slave"
+                         role="status" aria-hidden="true" style="display: none;margin-top: 11px;margin-left: 2px;"></div>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse ms-1" id="navbarSupportedContent">
-                    <div class="nav-item d-md-none d-none d-xl-block">
-                        <a class="nav-link cv-link home topic tech share workplace record qa me-1" href="/" title="文章">
+                    <div class="nav-item home topic tech share workplace record qa d-md-none d-none d-xl-block">
+                        <a class="nav-link cv-link me-1" href="/" title="文章">
                             <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}" /> 文章
                         </a>
                     </div>
@@ -100,22 +101,22 @@
             <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top shadow-sm">
                 <div class="container">
                     <div class="nav-item">
-                        <a class="nav-link cv-link" href="/" title="文章">
+                        <a class="nav-link cv-link home topic tech share workplace record qa" href="/" title="文章">
                             <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}" /> 文章
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a class="nav-link cv-link" href="/todo-list" title="待办">
-                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}" /> 待办
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a class="nav-link cv-link" href="/radio-station" title="电台">
+                        <a class="nav-link cv-link radio-station" href="/radio-station" title="电台">
                             <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}" /> 电台
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a class="nav-link cv-link" href="/before-editor" title="创作">
+                        <a class="nav-link cv-link todo-list" href="/todo-list" title="待办">
+                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}" /> 待办
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link cv-link before-editor" href="/before-editor" title="创作">
                             <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-content.png}" /> 创作
                         </a>
                     </div>

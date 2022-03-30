@@ -37,7 +37,7 @@
     <div class="container">
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
                     <!--未登录提示-->
                     <div th:include="fragments/index::user_not_login"></div>
                     <!--签到-->
@@ -46,9 +46,7 @@
                             立即签到
                         </a>
                     </div>
-                    <p th:if="${dailyPoints}" style="text-align: center;margin-bottom: 0;color: #7D8B99">已签到<span style="color: #399242;font-size:50px;" th:text="${listIntegralDto.total}"></span>天</p>
-                </div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
+                    <p th:if="${dailyPoints}" style="text-align: center;margin-bottom: 0;color: #7D8B99">已签到<span style="color: #399242;font-size:60px;" th:text="${listIntegralDto.total}"></span>天</p>
                     <div>
                         <div class="table-responsive fixed-table-body">
                             <table class="table table-hover">
@@ -82,6 +80,16 @@
                 </div>
             </div>
             <div class="col-lg-3">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2" th:if="!${#lists.isEmpty(listDailyPointsMemberDto.memberList)}">
+                    <div class="border-bottom mb-2">今天签到用户</div>
+                    <a class="cv-link"
+                       th:each="member,ite : ${listDailyPointsMemberDto.memberList}"
+                       th:inline="text"
+                       th:href="${'/profile/'+ member.userId}+'/content'">
+                        [[${ite.count} +'. ']]<img th:data-src="${member.via}" class="lazyload cv-icon img rounded" th:alt="${member.userName}" /> [[${member.userName}]]
+                        <br />
+                    </a>
+                </div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="nav flex-column nav-pills">
                         <a class="nav-link cv-link" href="/user/manage/integral-record">
@@ -93,16 +101,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2" th:if="!${#lists.isEmpty(listDailyPointsMemberDto.memberList)}">
-                    <div class="border-bottom mb-2">今天签到用户</div>
-                    <a class="cv-link"
-                        th:each="member,ite : ${listDailyPointsMemberDto.memberList}"
-                       th:inline="text"
-                       th:href="${'/profile/'+ member.userId}+'/content'">
-                        [[${ite.count} +'. ']]<img th:data-src="${member.via}" class="lazyload cv-icon img rounded" th:alt="${member.userName}" /> [[${member.userName}]]
-                        <br />
-                    </a>
-                </div>
+                <div th:include="fragments/index::global_search"></div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <div th:include="fragments/index::google_right_ad"></div>
             </div>
