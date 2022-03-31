@@ -252,98 +252,103 @@ function uploadFailed(){
     $(".upload-progress-bar").attr('style', 'width:0%');
     $(".upload-progress-bar-div").hide();
 }
+// cherry默认模式以及高度
+let _height = '800px';
+let _defaultModel = 'editOnly';
+
+// cherry配置
+let cherryConfig = {
+    id: 'vcr_editor',
+    value: '',
+    editor: {
+        theme: 'default',
+        defaultModel: _defaultModel,
+        height: _height,
+    },
+    toolbars:{
+        theme: 'light', // light or dark
+        toolbar : ['bold', 'italic', 'strikethrough','color', 'header','size', 'list', 'quote',{
+            insert: [
+                'image',
+                'link',
+                'hr',
+                'br',
+                'code',
+                'formula',
+                // 'toc',
+                'table',
+                // 'line-table',
+                // 'bar-table',
+                // 'pdf',
+                // 'word',
+            ],
+        }, 'graph', 'switchModel'],
+        bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup',  'size'], // array or false
+        float : ['h1', 'h2', 'h3',  'checklist', 'quote', 'quickTable', 'code'], // array or false
+        customMenu: {
+        },
+    },
+    fileUpload(file, callback) {
+
+        let formData = new FormData();
+        formData.append('file', file);
+        $.ajax('/pic/uploadFile/editor', {
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            xhr: function () {
+                myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) { // check if upload property exists
+                    $(".upload-progress-bar-div").show();
+                    myXhr.upload.addEventListener('progress', function (e) {
+                        let loaded = e.loaded;//已经上传大小情况
+                        let tot = e.total;//附件总大小
+                        let per = ((loaded / tot) * 100).toFixed(2);
+                        $(".upload-progress-bar").attr('style', 'width:' + per + '%');
+                    }, false); // for handling the progress of the upload
+                }
+                return myXhr;
+            },
+            success: function (res) {
+                if(respCodeOk(res)){
+                    callback(res.data.data);
+                    $(".upload-progress-bar").attr('style', 'width:0%');
+                    $(".upload-progress-bar-div").hide();
+                }else{
+                    uploadFailed()
+                }
+            },
+
+            error: function (e) {
+                uploadFailed()
+            }
+        });
+    },
+    callback: {
+        /** 编辑器内容改变并完成渲染后触发 */
+        afterChange: function(){
+            // console.log("内容变更")
+        },
+        /** 编辑器完成初次渲染后触发 */
+        afterInit: function(){
+            $("#comment_btn_group").show();
+            $("#comment_loading").hide();
+        },
+    }
+}
 
 /**
  * 加载不同的编辑器js,初始化是同一个
  */
 function initEditor(isComment){
-
-    let _height = '800px';
-    let _defaultModel = 'editOnly';
     if(isComment){
         _height = '400px';
         _defaultModel = 'editOnly';
     }
-    window.editor = new Cherry({
-        id: 'vcr_editor',
-        value: '',
-        editor: {
-            theme: 'default',
-            defaultModel: _defaultModel,
-            height: _height,
-        },
-        toolbars:{
-            theme: 'light', // light or dark
-            toolbar : ['bold', 'italic', 'strikethrough','color', 'header','size', 'list', 'quote',{
-                insert: [
-                    'image',
-                    'link',
-                    'hr',
-                    'br',
-                    'code',
-                    'formula',
-                    // 'toc',
-                    'table',
-                    // 'line-table',
-                    // 'bar-table',
-                    // 'pdf',
-                    // 'word',
-                ],
-            }, 'graph', 'switchModel'],
-            bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup',  'size'], // array or false
-            float : ['h1', 'h2', 'h3',  'checklist', 'quote', 'quickTable', 'code'], // array or false
-            customMenu: {
-            },
-        },
-        fileUpload(file, callback) {
 
-            let formData = new FormData();
-            formData.append('file', file);
-            $.ajax('/pic/uploadFile/editor', {
-                method: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                xhr: function () {
-                    myXhr = $.ajaxSettings.xhr();
-                    if (myXhr.upload) { // check if upload property exists
-                        $(".upload-progress-bar-div").show();
-                        myXhr.upload.addEventListener('progress', function (e) {
-                            let loaded = e.loaded;//已经上传大小情况
-                            let tot = e.total;//附件总大小
-                            let per = ((loaded / tot) * 100).toFixed(2);
-                            $(".upload-progress-bar").attr('style', 'width:' + per + '%');
-                        }, false); // for handling the progress of the upload
-                    }
-                    return myXhr;
-                },
-                success: function (res) {
-                   if(respCodeOk(res)){
-                       callback(res.data.data);
-                       $(".upload-progress-bar").attr('style', 'width:0%');
-                       $(".upload-progress-bar-div").hide();
-                   }else{
-                       uploadFailed()
-                   }
-                },
-
-                error: function (e) {
-                    uploadFailed()
-                }
-            });
-        },
-        callback: {
-            /** 编辑器内容改变并完成渲染后触发 */
-            afterChange: function(){
-                // console.log("内容变更")
-            },
-            /** 编辑器完成初次渲染后触发 */
-            afterInit: function(){
-                $("#comment_btn_group").show();
-                $("#comment_loading").hide();
-            },
-        }
-    });
+    let config = Object.assign({}, cherryConfig);
+    window.editor = new Cherry(config);
 
     let mdValue = getElementValue("md_value");
     let htmlValue = getElementValue("html_value");

@@ -49,7 +49,7 @@
                         <a class="btn rounded-3 bg-gradient btn-primary continue-edit-draft" style="display: none" th:href="'/editor?type='+${cacheContent.contentType.name()}+'&opt=continue-edit-draft'" data-bs-toggle="tooltip" data-bs-placement="top" th:title="'提示:会擦除未完成的内容《'+${cacheContent.title}+'》'">继续编辑个人中心文章</a>
                     </div>
                     <p class="alert alert-secondary mt-3">上次未完成的内容:</p>
-                    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
+                    <div>
                         <div class="card-title">
                             <div class="text-black-50" th:if="!${#strings.isEmpty(cacheContent.title)}">标题:</div>
                             <div class="text-wrap cv-font" style="font-size: 30px" th:if="!${#strings.isEmpty(cacheContent.title)}" th:text="${cacheContent.title}"></div>

@@ -45,10 +45,10 @@
                         </div>
 
                         <div class="btn-group me-2" role="group" aria-label="Second group" th:if="!${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}">
-                            <button id="operation-message" type="button" class="btn btn-outline-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="btn btn-outline-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 操作
                             </button>
-                            <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
+                            <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg">
                                 <a class="cv-link dropdown-item small" th:if="${unReadMegCount != 0}" th:onclick="readAll([[${memberIndexDto.member.userId}]])">全部标记为已读</a>
                                 <a class="cv-link dropdown-item small" th:onclick="clearAll([[${memberIndexDto.member.userId}]],[[${memberIndexDto.listMessageDto.total}]])" >清除所有消息</a>
                             </div>

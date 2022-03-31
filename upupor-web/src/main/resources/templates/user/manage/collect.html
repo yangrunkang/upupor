@@ -69,10 +69,10 @@
                                         <td class="hidden-xs" th:text="${collect.createDate}">创建时间</td>
                                         <td style="text-align: center">
                                             <div class="btn-group rounded-3 bg-gradient" role="group" aria-label="Second group">
-                                                <button id="operation-message" type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     状态
                                                 </button>
-                                                <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="operation-message">
+                                                <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg">
                                                     <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('NORMAL',[[${collect.collectId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
 <!--                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('ONLY_SELF_SEE',[[${collect.collectId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>-->
                                                     <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('DELETE',[[${collect.collectId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
