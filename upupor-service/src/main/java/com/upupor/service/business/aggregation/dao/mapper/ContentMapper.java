@@ -68,14 +68,6 @@ public interface ContentMapper extends BaseMapper<Content> {
     List<CountTagDto> listCountByTagIds(@Param("list") List<String> tagIdList);
 
     /**
-     * 用户最新的文章
-     *
-     * @param userId
-     * @return
-     */
-    Content latestContent(String userId);
-
-    /**
      * 目标文章的上一篇及下一篇文章
      *
      * @param contentId

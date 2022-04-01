@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.editor;
 
+import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.service.business.aggregation.dao.entity.Content;
@@ -35,8 +36,12 @@ import com.upupor.service.business.aggregation.dao.mapper.ContentExtendMapper;
 import com.upupor.service.business.aggregation.dao.mapper.ContentMapper;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.ErrorCode;
+import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.outer.req.content.BaseContentReq;
+import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -115,13 +120,13 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
     /**
      * 执行业务
      */
-    protected abstract Boolean doBusiness();
+    protected abstract OperateContentDto doBusiness();
 
     /**
      * 更新索引
      *
-     * @return
      * @param content
+     * @return
      */
     protected abstract void updateIndex(Content content);
 
@@ -129,17 +134,23 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
     /**
      * 执行业务
      */
-    public static Boolean execute(List<AbstractEditor> abstractEditorList, EditorType editorType, BaseContentReq t) {
+    public static OperateContentDto execute(List<AbstractEditor> abstractEditorList, EditorType editorType, BaseContentReq t) {
         for (AbstractEditor abstractEditor : abstractEditorList) {
             if (abstractEditor.editorType().equals(editorType)) {
                 abstractEditor.contentService = SpringContextUtils.getBean(ContentService.class);
                 abstractEditor.req = t;
                 abstractEditor.check();
-                return abstractEditor.doBusiness();
+                OperateContentDto operateContentDto = abstractEditor.doBusiness();
+                if (operateContentDto.getSuccess()) {
+                    // 操作成功清除定时保存的文章内容
+                    RedisUtil.remove(CcConstant.CvCache.CONTENT_CACHE_KEY + ServletUtils.getUserId());
+                }
+                return operateContentDto;
             }
         }
-        return false;
+        throw new BusinessException(ErrorCode.NOT_EXISTS_ABSTRACT_EDITOR_IMPLEMENTS);
     }
+
 
     /**
      * 发布文章事件

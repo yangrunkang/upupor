@@ -25,30 +25,22 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.dao.entity;
+package com.upupor.service.dto;
 
+import com.upupor.service.types.ContentStatus;
+import lombok.Builder;
 import lombok.Data;
 
 /**
- * 文章数据
+ * 操作内容Dto
+ * @author Yang Runkang (cruise)
+ * @date 2022年04月01日 22:54
+ * @email: yangrunkang53@gmail.com
  */
+@Builder
 @Data
-public class ContentData extends BaseEntity {
-
-    private Integer viewNum;
-
-    private Integer likeNum;
-
+public class OperateContentDto {
     private String contentId;
-
-    private Integer commentNum;
-
-    public void incrementLikeNum(){
-        this.likeNum = this.likeNum + 1;
-    }
-
-    public void minusLikeNum(){
-        this.likeNum = this.likeNum - 1;
-    }
-
+    private Boolean success;
+    private ContentStatus status;
 }

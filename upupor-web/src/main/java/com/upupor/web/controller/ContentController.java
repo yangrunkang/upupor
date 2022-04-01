@@ -38,6 +38,7 @@ import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.outer.req.*;
 import com.upupor.service.types.ContentStatus;
@@ -85,13 +86,8 @@ public class ContentController {
     @ApiOperation("创建内容")
     public CcResponse add(AddContentDetailReq addContentDetailReq) {
         CcResponse cc = new CcResponse();
-
-        Boolean addSuccess = contentService.addContent(addContentDetailReq);
-        if (addSuccess) {
-            // 发布成功,清除Key
-            RedisUtil.remove(CcConstant.CvCache.CONTENT_CACHE_KEY + ServletUtils.getUserId());
-        }
-        cc.setData(addSuccess);
+        OperateContentDto operateContentDto = contentService.addContent(addContentDetailReq);
+        cc.setData(operateContentDto);
         return cc;
     }
 
@@ -101,12 +97,9 @@ public class ContentController {
     public CcResponse edit(UpdateContentReq updateContentReq) {
         ServletUtils.checkOperatePermission(updateContentReq.getUserId());
         CcResponse cc = new CcResponse();
-        Boolean editSuccess = contentService.updateContent(updateContentReq);
-        if (editSuccess) {
-            // 发布成功,清除Key
-            RedisUtil.remove(CcConstant.CvCache.CONTENT_CACHE_KEY + ServletUtils.getUserId());
-        }
-        cc.setData(editSuccess);
+        OperateContentDto operateContentDto = contentService.updateContent(updateContentReq);
+
+        cc.setData(operateContentDto);
         return cc;
     }
 
@@ -116,12 +109,8 @@ public class ContentController {
     @ApiOperation("更新内容状态")
     public CcResponse status(UpdateContentReq updateContentReq) {
         CcResponse cc = new CcResponse();
-        Boolean editSuccess = contentService.updateContentStatus(updateContentReq);
-        if (editSuccess) {
-            // 发布成功,清除Key
-            RedisUtil.remove(CcConstant.CvCache.CONTENT_CACHE_KEY + ServletUtils.getUserId());
-        }
-        cc.setData(editSuccess);
+        OperateContentDto operateContentDto = contentService.updateContentStatus(updateContentReq);
+        cc.setData(operateContentDto);
         return cc;
     }
 
@@ -151,7 +140,7 @@ public class ContentController {
             int count = 0;
             for (MemberIntegral memberIntegral : memberIntegralList) {
                 count = count + memberIntegralMapper.deleteById(memberIntegral);
-                minusLikeNum(contentData);
+                contentData.minusLikeNum();
             }
             cc.setData(count > 0);
         } else {
@@ -163,7 +152,7 @@ public class ContentController {
             String text = String.format("您点赞了《%s》,赠送积分", String.format(CONTENT_INTEGRAL, content.getContentId(), CcUtils.getUuId(), content.getTitle()));
             memberIntegralService.addIntegral(IntegralEnum.CLICK_LIKE, text, clickUserId, contentId);
             // 增加点赞数
-            addLikeNum(contentData);
+            contentData.incrementLikeNum();
             // 通知作者有点赞消息
             ContentLikeEvent contentLikeEvent = new ContentLikeEvent();
             contentLikeEvent.setContent(content);
@@ -174,17 +163,6 @@ public class ContentController {
         contentService.updateContentData(contentData);
         cc.setData(true);
         return cc;
-    }
-
-    private void addLikeNum(ContentData contentData) {
-        Integer likeNum = contentData.getLikeNum();
-        contentData.setLikeNum(likeNum + 1);
-    }
-
-
-    private void minusLikeNum(ContentData contentData) {
-        Integer likeNum = contentData.getLikeNum();
-        contentData.setLikeNum(likeNum - 1);
     }
 
     @PostMapping("/pinned")

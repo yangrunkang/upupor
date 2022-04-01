@@ -39,6 +39,7 @@ import com.upupor.service.business.editor.AbstractEditor;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.dto.dao.CommentNumDto;
 import com.upupor.service.dto.dao.ContentIdAndTitle;
 import com.upupor.service.dto.dao.LastAndNextContentDto;
@@ -235,20 +236,20 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean addContent(AddContentDetailReq addContentDetailReq) {
+    public OperateContentDto addContent(AddContentDetailReq addContentDetailReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.CREATE, addContentDetailReq);
     }
 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateContent(UpdateContentReq updateContentReq) {
+    public OperateContentDto updateContent(UpdateContentReq updateContentReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.EDIT, updateContentReq);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean updateContentStatus(UpdateContentReq updateContentReq) {
+    public OperateContentDto updateContentStatus(UpdateContentReq updateContentReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.UPDATE_STATUS, updateContentReq);
     }
 
@@ -587,11 +588,6 @@ public class ContentServiceImpl implements ContentService {
         // 渲染喜欢html
         memberList.forEach(memberService::renderCardHtml);
         content.setLikesMemberList(memberList);
-    }
-
-    @Override
-    public Content latestContent(String userId) {
-        return contentMapper.latestContent(userId);
     }
 
     @Override

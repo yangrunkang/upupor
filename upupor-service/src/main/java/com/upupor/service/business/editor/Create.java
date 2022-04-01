@@ -34,6 +34,7 @@ import com.upupor.service.business.aggregation.dao.entity.MemberConfig;
 import com.upupor.service.business.aggregation.dao.mapper.MemberConfigMapper;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
+import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.AddContentDetailReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
@@ -102,7 +103,7 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
     }
 
     @Override
-    protected Boolean doBusiness() {
+    protected OperateContentDto doBusiness() {
         Content content = createNewContent();
         int count = contentMapper.insert(content);
         int total = contentExtendMapper.insert(content.getContentExtend()) + count;
@@ -119,7 +120,13 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
             // 更新索引
             updateIndex(content);
         }
-        return addSuccess;
+
+
+        return OperateContentDto.builder()
+                .contentId(content.getContentId())
+                .success(addSuccess)
+                .status(content.getStatus())
+                .build();
     }
 
     /**

@@ -31,6 +31,7 @@ import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.ContentData;
 import com.upupor.service.business.aggregation.dao.entity.ContentEditReason;
 import com.upupor.service.business.aggregation.dao.entity.Radio;
+import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.AddContentDetailReq;
@@ -101,7 +102,7 @@ public interface ContentService {
      * @param addContentDetailReq
      * @return
      */
-    Boolean addContent(AddContentDetailReq addContentDetailReq);
+    OperateContentDto addContent(AddContentDetailReq addContentDetailReq);
 
 
     /**
@@ -110,7 +111,7 @@ public interface ContentService {
      * @param updateContentReq
      * @return
      */
-    Boolean updateContent(UpdateContentReq updateContentReq);
+    OperateContentDto updateContent(UpdateContentReq updateContentReq);
 
     /**
      * 更新内容
@@ -259,14 +260,6 @@ public interface ContentService {
     void bindLikesMember(Content content);
 
     /**
-     * 用户最新的文章
-     *
-     * @param userId
-     * @return
-     */
-    Content latestContent(String userId);
-
-    /**
      * 上一篇、下一篇
      *
      * @return
@@ -274,7 +267,7 @@ public interface ContentService {
     void lastAndNextContent(Content content);
 
 
-    Boolean updateContentStatus(UpdateContentReq updateContentReq);
+    OperateContentDto updateContentStatus(UpdateContentReq updateContentReq);
 
     /**
      * 草稿总数

@@ -186,7 +186,7 @@ function changeContentStatus(status,contentId) {
                 status: status,
             };
             $.cvPost('/content/status', updateContent, function (data) {
-                if (respSuccess(data)) {
+                if (data.data.success) {
                     history.go();
                 } else {
                     $.cvError("状态变更失败")

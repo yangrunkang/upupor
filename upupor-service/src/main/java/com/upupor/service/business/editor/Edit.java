@@ -33,6 +33,7 @@ import com.upupor.service.business.aggregation.dao.entity.ContentEditReason;
 import com.upupor.service.business.aggregation.dao.mapper.ContentEditReasonMapper;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
+import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.UpdateContentReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
@@ -83,7 +84,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
     }
 
     @Override
-    protected Boolean doBusiness() {
+    protected OperateContentDto doBusiness() {
 
         // 只在文章状态正常的情况下,记录变更次数
         if (ContentStatus.NORMAL.equals(editContent.getStatus())) {
@@ -117,7 +118,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         }
 
         editContent.setSysUpdateTime(new Date());
-        int updateCount = contentMapper.updateById(editContent);
+        int totalUpdateCount = contentMapper.updateById(editContent);
 
         // 内容不等时再变更
         String markdownContent = editContent.getContentExtend().getMarkdownContent();
@@ -125,16 +126,22 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
             editContent.getContentExtend().setDetailContent(updateContentReq.getContent());
             editContent.getContentExtend().setMarkdownContent(updateContentReq.getMdContent());
             editContent.getContentExtend().setSysUpdateTime(new Date());
-            updateCount = updateCount + contentExtendMapper.updateById(editContent.getContentExtend());
+            totalUpdateCount = totalUpdateCount + contentExtendMapper.updateById(editContent.getContentExtend());
         }
-
-        if (updateCount > 0 && isSendCreateContentMessage) {
+        boolean updateSuccess = totalUpdateCount > 0;
+        if (updateSuccess && isSendCreateContentMessage) {
             // 发布文章时间
             publishContentEvent(editContent);
         }
+
         // 更新索引
         updateIndex(editContent);
-        return Boolean.TRUE;
+
+        return OperateContentDto.builder()
+                .contentId(editContent.getContentId())
+                .success(updateSuccess)
+                .status(editContent.getStatus())
+                .build();
     }
 
     private void pinnedContentCheck(Content editContent) {

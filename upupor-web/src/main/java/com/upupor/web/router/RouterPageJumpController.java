@@ -55,42 +55,11 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class RouterPageJumpController {
 
-    private final ContentService contentService;
-
-
     private final static String REDIRECT = "redirect:";
     private final static String INDEX = REDIRECT + "/";
     private final static String PUBLIC_CONTENT = REDIRECT + "/u/";
     private final static String DRAFT_CONTENT = REDIRECT + "/m/";
     private final static String PROFILE = REDIRECT + "/profile/";
-
-
-    @ApiOperation("跳转到当前用户最新的文章详情")
-    @GetMapping("/router/jump/content")
-    public ModelAndView contentList() {
-        ModelAndView modelAndView = new ModelAndView();
-
-        String userId = ServletUtils.getUserId();
-        Content content = contentService.latestContent(userId);
-
-        // 文章为空默认到首页
-        if (Objects.isNull(content)) {
-            modelAndView.setViewName(INDEX);
-            return modelAndView;
-        }
-
-        if (ContentStatus.NORMAL.equals(content.getStatus())) {
-            modelAndView.setViewName(PUBLIC_CONTENT + content.getContentId());
-            return modelAndView;
-        } else if (ContentStatus.DRAFT.equals(content.getStatus()) || ContentStatus.ONLY_SELF_CAN_SEE.equals(content.getStatus())) {
-            modelAndView.setViewName(DRAFT_CONTENT + content.getContentId());
-            return modelAndView;
-        }
-
-        // 当条件匹配不上,默认到首页
-        modelAndView.setViewName(INDEX);
-        return modelAndView;
-    }
 
     /**
      * 兼容之前的文章url

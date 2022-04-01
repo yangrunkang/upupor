@@ -30,6 +30,7 @@ package com.upupor.service.business.editor;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.common.BusinessException;
+import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.UpdateContentReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
@@ -73,7 +74,7 @@ public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
     }
 
     @Override
-    protected Boolean doBusiness() {
+    protected OperateContentDto doBusiness() {
         UpdateContentReq updateContentReq = getReq();
         // 如果只是单纯的在控制中心更改状态
         boolean isSendCreateContentMessage = false;
@@ -97,7 +98,12 @@ public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
         }
         // 更新索引
         updateIndex(editContent);
-        return result;
+
+        return OperateContentDto.builder()
+                .contentId(editContent.getContentId())
+                .success(result)
+                .status(editContent.getStatus())
+                .build();
     }
 
 

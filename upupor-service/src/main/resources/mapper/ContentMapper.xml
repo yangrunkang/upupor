@@ -106,15 +106,6 @@
          and status = 0 GROUP BY tagId
     </select>
 
-    <select id="latestContent" resultType="com.upupor.service.business.aggregation.dao.entity.Content">
-        select
-        <include refid="Base_Column_List"/>
-        from content
-        where user_id = #{userId,jdbcType=VARCHAR}
-        and status in (0,1,6)
-        order by sys_update_time desc limit 1
-    </select>
-
     <sql id="lastCommon">
         and content_type = #{contentType}
         <if test="tagIds != null and tagIds != ''">
