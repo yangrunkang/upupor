@@ -586,6 +586,12 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="foot_left(target)">
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
+            <a class="cv-link text-black-50" href="/our-home"><span th:include="fragments/icon::earth"></span>暗淡蓝点</a>
+        </div>
+    </div>
+
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
+        <div class="nav flex-column nav-pills" aria-orientation="vertical">
 <!--            <a th:class="${target == 'business-cooperation'?'nav-link cv-link active':'nav-link cv-link'}" href="/business-cooperation" title="商务合作"><i class="bi bi-briefcase" style="color:#ce7900"></i> 商务合作</a>-->
             <a th:class="${target == 'apply-ad'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-ad" title="广告位"><i class="bi bi-badge-ad" style="color:#ce7900"></i> 广告位</a>
             <a th:class="${target == 'apply-consultant'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-consultant" title="咨询申请"><i class="bi bi-people-fill" style="color:#ce7900"></i> 咨询服务</a>

@@ -178,6 +178,7 @@ public final class CcConstant {
     public static final String VIEW_HISTORY = "view/index";
     public static final String OPEN = "foot/opensource";
     public static final String MARKDOWN = "components/markdown";
+    public static final String OUR_HOME = "components/our-home";
     /**
      * 运营活动
      */

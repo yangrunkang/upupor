@@ -37,6 +37,7 @@ import com.upupor.service.business.pages.content.DraftContentDetailView;
 import com.upupor.service.business.pages.footer.*;
 import com.upupor.service.business.pages.history.HistoryView;
 import com.upupor.service.business.pages.member.*;
+import com.upupor.service.business.pages.ourhome.Earth;
 import com.upupor.service.business.pages.radio.CreateRadioView;
 import com.upupor.service.business.pages.radio.RadioDetailView;
 import com.upupor.service.business.pages.radio.RadioListView;
@@ -108,6 +109,7 @@ public class ViewController {
             RecordView.URL, // 在线录制电台
             RadioDetailView.URL, // 电台详情
             AllContentView.URL, // 所有文章
+            Earth.URL, // 我们的家·地球
     })
     public ModelAndView one(HttpServletRequest request,
                             Integer pageNum,
