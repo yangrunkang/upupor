@@ -112,7 +112,7 @@ function renderReplayUserName(userName,userId) {
         $.cvSetEditorContent(replayUser);
         $("#reply_to_user").val(userId);
         //滚动到锚点位置
-        $('html,body').animate({scrollTop: $(".btn-cv-comment").offset().top - 240}, 800);
+        $('html,body').animate({scrollTop: $(".btn-cv-comment").offset().top - 440}, 200);
     } catch (e) {
         window.location.href = '/login';
     }

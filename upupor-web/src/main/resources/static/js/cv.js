@@ -267,7 +267,9 @@ let cherryConfig = {
     },
     toolbars:{
         theme: 'light', // light or dark
-        toolbar : ['bold', 'italic', 'strikethrough','color', 'header','size', 'list', 'quote',{
+        // 'size' 字体大小
+        // ,
+        toolbar : ['bold', 'italic', 'strikethrough','color', 'header', 'list', 'quote',{
             insert: [
                 'image',
                 'link',
@@ -282,9 +284,9 @@ let cherryConfig = {
                 // 'pdf',
                 // 'word',
             ],
-        }, 'graph', 'switchModel'],
+        },  'switchModel'],
         bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup',  'size'], // array or false
-        float : ['h1', 'h2', 'h3',  'checklist', 'quote', 'quickTable', 'code'], // array or false
+        float : ['h1', 'h2', 'h3',  'checklist', 'quote', 'quickTable', 'code','graph'], // array or false
         customMenu: {
         },
     },
