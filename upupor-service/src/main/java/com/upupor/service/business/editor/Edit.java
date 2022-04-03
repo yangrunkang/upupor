@@ -137,10 +137,11 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         // 更新索引
         updateIndex(editContent);
 
+        Content reGet = contentService.getContentByContentIdNoStatus(updateContentReq.getContentId());
         return OperateContentDto.builder()
                 .contentId(editContent.getContentId())
                 .success(updateSuccess)
-                .status(editContent.getStatus())
+                .status(reGet.getStatus())
                 .build();
     }
 
