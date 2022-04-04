@@ -64,7 +64,7 @@
                                     <div class="mt-0">
                                         <a th:if="${searchData.dataType.name()} == 'CONTENT'" th:href="@{'/u/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
                                         <a th:if="${searchData.dataType.name()} == 'RADIO'" th:href="@{'/r/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
-                                        <a th:if="${searchData.dataType.name()} == 'MEMBER'" th:href="@{'/profile/'+${searchData.resultId}+'/content'}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <a th:if="${searchData.dataType.name()} == 'MEMBER'" th:href="@{'/profile/'+${searchData.resultId}+'/content'}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}"><img class="lazyload cv-icon-item img rounded me-1" th:data-src="${searchData.member.via}" th:alt="${searchData.member.userName}">[[${searchData.resultTitle}]]</a>
                                     </div>
                                     <div class="text-black-50">
                                         <span th:if="${searchData.dataType.name()} == 'CONTENT'" class="badge bg-gradient bg-warning text-dark fw-light rounded-3 small">文章</span>
