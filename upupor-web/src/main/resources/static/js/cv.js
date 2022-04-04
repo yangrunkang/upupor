@@ -269,7 +269,7 @@ let cherryConfig = {
         theme: 'light', // light or dark
         // 'size' 字体大小
         // ,
-        toolbar : ['bold', 'italic', 'strikethrough','color', 'header', 'list', 'quote',{
+        toolbar : ['bold', 'header', 'list', 'quote',{
             insert: [
                 'image',
                 'link',
@@ -285,7 +285,7 @@ let cherryConfig = {
                 // 'word',
             ],
         },  'switchModel'],
-        bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup',  'size'], // array or false
+        bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup',  'size','color'], // array or false
         float : ['h1', 'h2', 'h3',  'checklist', 'quote', 'quickTable', 'code','graph'], // array or false
         customMenu: {
         },

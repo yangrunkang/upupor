@@ -25,61 +25,43 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.scheduled.sitemap;
+package com.upupor.service.business.flush_lucene;
 
-import com.upupor.framework.CcConstant;
-import com.upupor.framework.config.UpuporConfig;
+import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.service.business.aggregation.dao.entity.Radio;
 import com.upupor.service.business.aggregation.service.RadioService;
-import com.upupor.service.dto.page.common.ListRadioDto;
-import com.upupor.service.dto.seo.GoogleSeoDto;
-import com.upupor.service.scheduled.ScheduledCommonService;
-import com.upupor.service.types.RadioStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Yang Runkang (cruise)
- * @date 2022年03月13日 21:30
+ * @date 2022年04月04日 14:15
  * @email: yangrunkang53@gmail.com
  */
 @Component
 @RequiredArgsConstructor
-public class RadioSiteMap extends AbstractSiteMap<Radio> {
+public class FlushRadio extends AbstractFlush<Radio> {
 
     private final RadioService radioService;
-    private final UpuporConfig upuporConfig;
-    private final ScheduledCommonService scheduledCommonService;
+    private Radio radio;
 
     @Override
-    protected Boolean dataCheck() {
-        return radioService.total() > 0;
+    protected void add() {
+        getUpuporLuceneService().addDocument(radio.getRadioIntro(), radio.getRadioId(), runDataType());
     }
 
     @Override
-    protected List<Radio> getSiteMapData() {
-      return scheduledCommonService.radioList();
+    protected void delete() {
+        getUpuporLuceneService().deleteDocumentByTargetId(radio.getRadioId());
     }
 
     @Override
-    protected void renderSiteMap(List<Radio> radioList) {
-        radioList.forEach(radio -> {
-            if (radio.getStatus().equals(RadioStatus.NORMAL)) {
-                GoogleSeoDto googleSeoDto = new GoogleSeoDto();
-                // 按照参数顺序依次是 来源、内容Id
-                String contentUrl = upuporConfig.getWebsite() + "/r/%s";
-                contentUrl = String.format(contentUrl, radio.getRadioId());
+    protected void initTargetObject() {
+        this.radio = radioService.getByRadioId(event.getTargetId());
+    }
 
-                googleSeoDto.setLoc(contentUrl);
-                googleSeoDto.setChangeFreq("hourly");
-                googleSeoDto.setLastmod(sdf.format(radio.getSysUpdateTime()));
-                googleSeoDto.setPriority("0.5");// 默认值
-                googleSeoDtoList.add(googleSeoDto);
-            }
-        });
+    @Override
+    public LuceneDataType runDataType() {
+        return LuceneDataType.RADIO;
     }
 }

@@ -29,6 +29,9 @@ package com.upupor.web.controller;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.lucene.enums.LuceneOperationType;
+import com.upupor.lucene.UpuporLucene;
 import com.upupor.service.business.aggregation.dao.entity.File;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.dao.entity.MemberConfig;
@@ -41,6 +44,8 @@ import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcResponse;
 import com.upupor.service.common.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.dto.OperateContentDto;
+import com.upupor.service.dto.OperateMemberDto;
 import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.*;
 import com.upupor.service.utils.CcUtils;
@@ -100,6 +105,7 @@ public class MemberController {
     @ApiOperation("用户注册")
     @PostMapping("add")
     @ResponseBody
+    @UpuporLucene(dataType = LuceneDataType.MEMBER, operationType = LuceneOperationType.ADD)
     public CcResponse add(AddMemberReq addMemberReq) {
 
         CcResponse cc = new CcResponse();
@@ -141,7 +147,12 @@ public class MemberController {
         memberRegisterEvent.setUserId(member.getUserId());
         eventPublisher.publishEvent(memberRegisterEvent);
 
-        cc.setData(true);
+        OperateMemberDto operateMemberDto = new OperateMemberDto();
+        operateMemberDto.setMemberId(member.getUserId());
+        operateMemberDto.setSuccess(Boolean.TRUE);
+        operateMemberDto.setStatus(member.getStatus());
+
+        cc.setData(operateMemberDto);
         return cc;
     }
 
@@ -159,6 +170,7 @@ public class MemberController {
     @ApiOperation("编辑用户")
     @PostMapping("edit")
     @ResponseBody
+    @UpuporLucene(dataType = LuceneDataType.MEMBER, operationType = LuceneOperationType.UPDATE)
     public CcResponse edit(UpdateMemberReq updateMemberReq) throws Exception {
         CcResponse cc = new CcResponse();
 
@@ -180,7 +192,14 @@ public class MemberController {
         }
         // 变更用户名
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_NAME, updateMemberReq.getUserName());
-        cc.setData(true);
+
+        Member reGet = memberService.memberInfo(userId);
+
+        OperateMemberDto operateMemberDto = new OperateMemberDto();
+        operateMemberDto.setMemberId(reGet.getUserId());
+        operateMemberDto.setSuccess(Boolean.TRUE);
+        operateMemberDto.setStatus(reGet.getStatus());
+        cc.setData(operateMemberDto);
         return cc;
     }
 
@@ -221,12 +240,12 @@ public class MemberController {
 
         Member member = memberService.memberInfo(userId);
         MemberConfig memberConfig = member.getMemberConfig();
-        if(Objects.isNull(memberConfig)){
+        if (Objects.isNull(memberConfig)) {
             throw new BusinessException(ErrorCode.MEMBER_CONFIG_LESS);
         }
         memberConfig.setDefaultContentType(updateCssReq.getSelectedContentType());
         int result = memberConfigMapper.updateById(memberConfig);
-        if(result <= 0 ){
+        if (result <= 0) {
             throw new BusinessException(ErrorCode.SETTING_DEFAULT_CONTENT_TYPE_FAILED);
         }
         cc.setData(true);

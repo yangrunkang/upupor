@@ -105,7 +105,7 @@ function deleteRadio(radioId) {
                 radioId: radioId
             };
             $.cvPost('/radio/delete', deleteRadio, function (data) {
-                if (respSuccess(data)) {
+                if (data.data.success) {
                     history.go();
                 } else {
                     $.cvError("删除音频失败")

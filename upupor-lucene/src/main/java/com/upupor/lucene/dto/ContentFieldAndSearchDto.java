@@ -34,5 +34,6 @@ package com.upupor.lucene.dto;
  */
 public class ContentFieldAndSearchDto {
     public static final String TITLE = "title";
-    public static final String CONTENT_ID = "content_id";
+    public static final String TARGET_ID = "target_id";
+    public static final String LUCENE_DATA_TYPE = "lucene_data_type";
 }

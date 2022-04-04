@@ -25,43 +25,56 @@
  * SOFTWARE.
  */
 
-package com.upupor.lucene.dto;
+package com.upupor.service.business.flush_lucene;
 
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.lucene.enums.LuceneOperationType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.types.ContentStatus;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 /**
- * Lucene查询结果总数
  * @author Yang Runkang (cruise)
- * @date 2022年03月27日 23:19
+ * @date 2022年04月04日 14:15
  * @email: yangrunkang53@gmail.com
  */
-@Data
-public class LucenuQueryResultDto {
+@Component
+@RequiredArgsConstructor
+public class FlushContent extends AbstractFlush<Content> {
 
-    private Long total;
-    List<Data> resultList;
+    private final ContentService contentService;
 
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    @lombok.Data
-    public static class Data {
-        private String title;
-        private String target;
-        private LuceneDataType luceneDataType;
+    private Content content;
+
+    @Override
+    protected void add() {
+        getUpuporLuceneService().addDocument(content.getTitle(),content.getContentId(), runDataType());
     }
 
+    @Override
+    protected void delete() {
+        getUpuporLuceneService().deleteDocumentByTargetId(content.getContentId());
+    }
 
-    public LucenuQueryResultDto() {
-        this.total = 0L;
-        resultList = new ArrayList<>();
+    @Override
+    protected void initTargetObject() {
+        String targetId = event.getTargetId();
+        this.content = contentService.getContentByContentIdNoStatus(targetId);
+    }
+
+    @Override
+    public LuceneDataType runDataType() {
+        return LuceneDataType.CONTENT;
+    }
+
+    @Override
+    protected void update() {
+        if(!ContentStatus.NORMAL.equals(this.content.getStatus())) {
+            delete();
+        }else {
+            delete();
+            add();
+        }
     }
 }

@@ -122,14 +122,6 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
      */
     protected abstract OperateContentDto doBusiness();
 
-    /**
-     * 更新索引
-     *
-     * @param content
-     * @return
-     */
-    protected abstract void updateIndex(Content content);
-
 
     /**
      * 执行业务

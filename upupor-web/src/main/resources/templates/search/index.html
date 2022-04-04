@@ -41,7 +41,7 @@
                 <div id="content_more_alert" class="alert alert-danger alert-dismissible fade show mb-2" role="alert" style="display: none">
                     搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
                     <br />
-                    根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${searchIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
+                    根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${searchIndexDto.total}"></span>条数据,只显示了最新的300条
                     <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <div style="width: 100%;" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 border-0 text-center">
@@ -51,14 +51,39 @@
                     </div>
                 </div>
                 <div>
-                    <input type="hidden" id="content_more_alert_value" th:value="${searchIndexDto.listContentDto.total}"/>
+                    <input type="hidden" id="content_more_alert_value" th:value="${searchIndexDto.total}"/>
                 </div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:include="fragments/index::list_content_dto(${searchIndexDto.listContentDto},false)"></div>
+
+
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
+                    <div th:if="${#lists.isEmpty(searchIndexDto.searchDataDtoList)}" th:include="fragments/index::empty_content"></div>
+                    <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(searchIndexDto.searchDataDtoList)}">
+                        <li class="list-group-item p-1" th:each="searchData,ite : ${searchIndexDto.searchDataDtoList}">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <div class="mt-0">
+                                        <a th:if="${searchData.dataType.name()} == 'CONTENT'" th:href="@{'/u/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <a th:if="${searchData.dataType.name()} == 'RADIO'" th:href="@{'/r/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <a th:if="${searchData.dataType.name()} == 'MEMBER'" th:href="@{'/profile/'+${searchData.resultId}+'/content'}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                    </div>
+                                    <div class="text-black-50">
+                                        <span th:if="${searchData.dataType.name()} == 'CONTENT'" class="badge bg-gradient bg-warning text-dark fw-light rounded-3 small">文章</span>
+                                        <span th:if="${searchData.dataType.name()} == 'RADIO'" class="badge bg-gradient bg-primary fw-light rounded-3 small">电台</span>
+                                        <span th:if="${searchData.dataType.name()} == 'MEMBER'" class="badge bg-gradient bg-success fw-light rounded-3 small">用户</span>
+                                        <a th:if="${searchData.dataType.name()} != 'MEMBER'" class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${searchData.member.userId}+'/content'"  th:title="${searchData.member.userName}">
+                                            · <img class="lazyload cv-icon-small img rounded" th:data-src="${searchData.member.via}" th:alt="${searchData.member.userName}"> [[${searchData.member.userName}]]
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="col-lg-3">
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="fw-normal border-bottom mb-2 text-black-50">搜索结果</div>
-                    <div>一共搜到了<span style="color: #00a8c6" th:text="${searchIndexDto.listContentDto.total}"></span>条相关数据</div>
+                    <div>一共搜到了<span style="color: #00a8c6" th:text="${searchIndexDto.total}"></span>条相关数据</div>
                 </div>
                 <div th:include="fragments/index::global_search"></div>
                 <div th:include="fragments/index::google_right_ad"></div>

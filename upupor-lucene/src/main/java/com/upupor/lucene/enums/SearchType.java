@@ -25,47 +25,21 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
-
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
-
-import java.util.List;
+package com.upupor.lucene.enums;
 
 /**
- * 音频服务
- *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * 检索类型
+ * @author Yang Runkang (cruise)
+ * @date 2022年03月27日 08:10
+ * @email: yangrunkang53@gmail.com
  */
-public interface RadioService {
-
-    Boolean addRadio(Radio radio);
-
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
-
+public enum SearchType {
     /**
-     * 根据 RadioId 获取集合
-     * @param radioIdList
-     * @return
+     * 精准搜索
      */
-    List<Radio> listByRadioId(List<String> radioIdList);
-
-    void bindRadioMember(List<Radio> radioList);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
-
+    EXACT,
     /**
-     * 文章作者是否有电台
-     *
-     * @param userId
+     * 模糊搜索
      */
-    Boolean userHasRadio(String userId);
-
+    LIKE
 }

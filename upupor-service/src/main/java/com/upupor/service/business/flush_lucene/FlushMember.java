@@ -25,47 +25,44 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.business.flush_lucene;
 
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
-
-import java.util.List;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 /**
- * 音频服务
- *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author Yang Runkang (cruise)
+ * @date 2022年04月04日 14:15
+ * @email: yangrunkang53@gmail.com
  */
-public interface RadioService {
+@Component
+@RequiredArgsConstructor
+public class FlushMember extends AbstractFlush<Member> {
 
-    Boolean addRadio(Radio radio);
+    private final MemberService memberService;
+    private Member member;
 
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
+    @Override
+    protected void add() {
+        getUpuporLuceneService().addDocument(member.getUserName(), member.getUserId(), runDataType());
+    }
 
-    Radio getByRadioId(String radioId);
+    @Override
+    protected void delete() {
+        getUpuporLuceneService().deleteDocumentByTargetId(member.getUserId());
+    }
 
-    /**
-     * 根据 RadioId 获取集合
-     * @param radioIdList
-     * @return
-     */
-    List<Radio> listByRadioId(List<String> radioIdList);
+    @Override
+    protected void initTargetObject() {
+        this.member = memberService.memberInfo(event.getTargetId());
+    }
 
-    void bindRadioMember(List<Radio> radioList);
 
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
-
-    /**
-     * 文章作者是否有电台
-     *
-     * @param userId
-     */
-    Boolean userHasRadio(String userId);
-
+    @Override
+    public LuceneDataType runDataType() {
+        return LuceneDataType.MEMBER;
+    }
 }

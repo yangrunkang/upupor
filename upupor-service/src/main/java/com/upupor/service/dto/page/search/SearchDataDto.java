@@ -25,47 +25,40 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.dto.page.search;
 
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
-
-import java.util.List;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import lombok.Data;
 
 /**
- * 音频服务
+ * 搜索数据Dto
  *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author Yang Runkang (cruise)
+ * @date 2022年04月04日 14:46
+ * @email: yangrunkang53@gmail.com
  */
-public interface RadioService {
-
-    Boolean addRadio(Radio radio);
-
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
+@Data
+public class SearchDataDto {
 
     /**
-     * 根据 RadioId 获取集合
-     * @param radioIdList
-     * @return
+     * 搜索结果类型
      */
-    List<Radio> listByRadioId(List<String> radioIdList);
-
-    void bindRadioMember(List<Radio> radioList);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
+    private LuceneDataType dataType;
 
     /**
-     * 文章作者是否有电台
-     *
-     * @param userId
+     * 搜索结果标题
      */
-    Boolean userHasRadio(String userId);
+    private String resultTitle;
+
+    /**
+     * 搜索结果Id
+     */
+    private String resultId;
+
+    /**
+     * 结果所属用户对象绑定
+     */
+    private Member member;
 
 }

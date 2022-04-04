@@ -28,7 +28,10 @@
 package com.upupor.service.scheduled;
 
 import com.upupor.lucene.UpuporLuceneService;
+import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.Radio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,16 +57,49 @@ public class InitLuceneService {
     private UpuporLuceneService upuporLuceneService;
 
     public void init() {
+        initContentLucene();
+        initRadioLucene();
+        initMemberLucene();
+    }
+
+    private void initMemberLucene() {
+        List<Member> memberList = scheduledCommonService.memberList();
+        if (CollectionUtils.isEmpty(memberList)) {
+            return;
+        }
+
+        for (Member member : memberList) {
+            upuporLuceneService.addDocument(member.getUserName(), member.getUserId(), LuceneDataType.MEMBER);
+        }
+
+        log.info("初始化用户索引完成...........");
+    }
+
+    private void initRadioLucene() {
+        List<Radio> radioList = scheduledCommonService.radioList();
+        if (CollectionUtils.isEmpty(radioList)) {
+            return;
+        }
+        for (Radio radio : radioList) {
+            upuporLuceneService.addDocument(radio.getRadioIntro(), radio.getRadioId(), LuceneDataType.RADIO);
+        }
+
+        log.info("初始化电台索引完成...........");
+
+
+    }
+
+    private void initContentLucene() {
         List<Content> contentList = scheduledCommonService.contentList();
         if (CollectionUtils.isEmpty(contentList)) {
             return;
         }
 
         for (Content content : contentList) {
-            upuporLuceneService.addDocument(content.getTitle(), content.getContentId());
+            upuporLuceneService.addDocument(content.getTitle(), content.getContentId(), LuceneDataType.CONTENT);
         }
 
-        log.info("初始化索引完成...........");
+        log.info("初始化文章内容索引完成...........");
     }
 
 }

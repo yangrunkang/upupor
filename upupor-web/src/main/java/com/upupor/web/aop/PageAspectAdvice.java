@@ -57,6 +57,7 @@ import static com.upupor.framework.CcConstant.UserView.USER_LOGIN;
 import static com.upupor.framework.utils.CcDateUtil.getResponseTime;
 
 /**
+ * 页面接口切面
  * @author: YangRunkang(cruise)
  * @created: 2019/12/23 02:29
  */

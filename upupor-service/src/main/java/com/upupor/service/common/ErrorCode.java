@@ -143,6 +143,8 @@ public enum ErrorCode {
     SETTING_DEFAULT_CONTENT_TYPE_FAILED(173, "设置喜爱的文章类型失败"),
     KEYWORDS_EMPTY(174, "请输入关键字"),
     NOT_EXISTS_ABSTRACT_EDITOR_IMPLEMENTS(175, "编辑器操作抽象未找到相关实现"),
+    WITHOUT_OPERATION_ID(176, "未找到操作ID"),
+    LUCENE_FLUSH_SOURCE_404(177, "刷新Lucene时未获取到资源"),
 
 
     //占位 兜底异常

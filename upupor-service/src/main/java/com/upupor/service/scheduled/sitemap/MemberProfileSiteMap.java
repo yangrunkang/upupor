@@ -34,6 +34,7 @@ import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.dto.seo.GoogleSeoDto;
+import com.upupor.service.scheduled.ScheduledCommonService;
 import com.upupor.service.types.MemberStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -53,6 +54,7 @@ public class MemberProfileSiteMap extends AbstractSiteMap<Member> {
 
     private final MemberService memberService;
     private final UpuporConfig upuporConfig;
+    private final ScheduledCommonService scheduledCommonService;
 
     @Override
     protected Boolean dataCheck() {
@@ -61,18 +63,7 @@ public class MemberProfileSiteMap extends AbstractSiteMap<Member> {
 
     @Override
     protected List<Member> getSiteMapData() {
-        Integer total = memberService.total();
-        int pageNum = total % CcConstant.Page.SIZE == 0 ? total / CcConstant.Page.SIZE : total / CcConstant.Page.SIZE + 1;
-        List<Member> memberList = new ArrayList<>();
-        for (int i = 0; i < pageNum; i++) {
-            ListMemberDto listMemberDto = memberService.list(i + 1, CcConstant.Page.SIZE);
-            if (CollectionUtils.isEmpty(listMemberDto.getMemberList())) {
-                continue;
-            }
-            memberList.addAll(listMemberDto.getMemberList());
-        }
-
-        return memberList;
+        return scheduledCommonService.memberList();
     }
 
     @Override

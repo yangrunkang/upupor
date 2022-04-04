@@ -72,7 +72,6 @@ public class OssUtils {
                 .toOutputStream(os);
         ByteArrayInputStream swapStream = new ByteArrayInputStream(os.toByteArray());
 
-
         uploadToOss(folderName, swapStream);
     }
 

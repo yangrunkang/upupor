@@ -96,8 +96,6 @@ public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
             // 发布文章事件
             publishContentEvent(editContent);
         }
-        // 更新索引
-        updateIndex(editContent);
 
         return OperateContentDto.builder()
                 .contentId(editContent.getContentId())
@@ -106,19 +104,4 @@ public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
                 .build();
     }
 
-
-    @Override
-    protected void updateIndex(Content content) {
-        try {
-            if (ContentStatus.NORMAL.equals(content.getStatus())) {
-                upuporLuceneService.deleteDocumentByContentId(content.getContentId());
-                upuporLuceneService.addDocument(content.getTitle(), content.getContentId());
-            } else {
-                upuporLuceneService.deleteDocumentByContentId(content.getContentId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("更新文章状态,更新索引失败,contentId:" + content.getContentId() + ",文章标题:" + content.getTitle());
-        }
-    }
 }

@@ -25,47 +25,47 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.service.listener;
 
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.lucene.LuceneEvent;
+import com.upupor.service.business.flush_lucene.AbstractFlush;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- * 音频服务
+ * 刷新Lucene
  *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author Yang Runkang (cruise)
+ * @date 2022年04月04日 13:50
+ * @email: yangrunkang53@gmail.com
  */
-public interface RadioService {
+@Slf4j
+@RequiredArgsConstructor
+@Component
+public class LuceneListener {
 
-    Boolean addRadio(Radio radio);
+    private final List<AbstractFlush> abstractFlushList;
 
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
+    @EventListener
+    @Async
+    public void flushLucene(LuceneEvent luceneEvent) {
+        if (StringUtils.isEmpty(luceneEvent.getTargetId())) {
+            return;
+        }
 
-    Radio getByRadioId(String radioId);
+        for (AbstractFlush abstractFlush : abstractFlushList) {
+            if (abstractFlush.runDataType().equals(luceneEvent.getDataType())) {
+                abstractFlush.flush(luceneEvent);
+                break;
+            }
+        }
+    }
 
-    /**
-     * 根据 RadioId 获取集合
-     * @param radioIdList
-     * @return
-     */
-    List<Radio> listByRadioId(List<String> radioIdList);
-
-    void bindRadioMember(List<Radio> radioList);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
-
-    /**
-     * 文章作者是否有电台
-     *
-     * @param userId
-     */
-    Boolean userHasRadio(String userId);
 
 }

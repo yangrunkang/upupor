@@ -25,47 +25,26 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
-
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
-
-import java.util.List;
+package com.upupor.lucene;
 
 /**
- * 音频服务
+ * 抽象Lucene全文检索获取目标Id
  *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author Yang Runkang (cruise)
+ * @date 2022年04月04日 11:37
+ * @email: yangrunkang53@gmail.com
  */
-public interface RadioService {
+public abstract class AbstractGetTargetId {
 
-    Boolean addRadio(Radio radio);
+    protected Object sourceData;
 
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
+    public void init( Object sourceData) {
+        this.sourceData = sourceData;
+    }
 
     /**
-     * 根据 RadioId 获取集合
-     * @param radioIdList
+     * 获取目标ID
      * @return
      */
-    List<Radio> listByRadioId(List<String> radioIdList);
-
-    void bindRadioMember(List<Radio> radioList);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
-
-    /**
-     * 文章作者是否有电台
-     *
-     * @param userId
-     */
-    Boolean userHasRadio(String userId);
-
+    public abstract String targetId();
 }

@@ -27,9 +27,10 @@
 
 package com.upupor.test;
 
-import com.upupor.lucene.SearchType;
 import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.lucene.dto.LucenuQueryResultDto;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.lucene.enums.SearchType;
 import com.upupor.web.UpuporWebApplication;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
-import static com.upupor.lucene.dto.ContentFieldAndSearchDto.CONTENT_ID;
+import static com.upupor.lucene.dto.ContentFieldAndSearchDto.TARGET_ID;
 import static com.upupor.lucene.dto.ContentFieldAndSearchDto.TITLE;
 
 /**
@@ -56,9 +57,9 @@ public class UpuporLuceneTest {
 
     @Test
     public void testInit() {
-        upuporLuceneService.addDocument("asdf", "ff");
-        upuporLuceneService.addDocument("123", "ff123");
-        upuporLuceneService.addDocument("2r", "rrr");
+        upuporLuceneService.addDocument("asdf", "ff", LuceneDataType.CONTENT);
+        upuporLuceneService.addDocument("123", "ff123", LuceneDataType.CONTENT);
+        upuporLuceneService.addDocument("2r", "rrr", LuceneDataType.CONTENT);
 
 //        LucenuQueryResultDto search1 = upuporLuceneService.search("123");// 精确匹配
         LucenuQueryResultDto search = upuporLuceneService.searchTitle(TITLE, "*2*", SearchType.LIKE);// 模糊搜索-支持后缀模糊查询
@@ -70,16 +71,16 @@ public class UpuporLuceneTest {
 
     @Test
     public void testDelete() {
-        upuporLuceneService.addDocument("asdf", "ff");
-        upuporLuceneService.addDocument("123", "ff123");
-        upuporLuceneService.addDocument("2r", "rrr");
+        upuporLuceneService.addDocument("asdf", "ff", LuceneDataType.CONTENT);
+        upuporLuceneService.addDocument("123", "ff123", LuceneDataType.CONTENT);
+        upuporLuceneService.addDocument("2r", "rrr", LuceneDataType.CONTENT);
 
-        LucenuQueryResultDto search = upuporLuceneService.searchTitle(CONTENT_ID, "ff123", SearchType.EXACT);// 模糊搜索-支持后缀模糊查询
+        LucenuQueryResultDto search = upuporLuceneService.searchTitle(TARGET_ID, "ff123", SearchType.EXACT);// 模糊搜索-支持后缀模糊查询
 
         search.getResultList().forEach(result -> {
-            upuporLuceneService.deleteDocumentByContentId("ff123");
+            upuporLuceneService.deleteDocumentByTargetId("ff123");
         });
-        LucenuQueryResultDto search2 = upuporLuceneService.searchTitle(CONTENT_ID, "ff123", SearchType.EXACT);// 模糊搜索-支持后缀模糊查询
+        LucenuQueryResultDto search2 = upuporLuceneService.searchTitle(TARGET_ID, "ff123", SearchType.EXACT);// 模糊搜索-支持后缀模糊查询
         System.out.println();
 
     }

@@ -27,8 +27,10 @@
 
 package com.upupor.service.dto.page;
 
-import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.service.dto.page.search.SearchDataDto;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * 搜索首页
@@ -39,6 +41,7 @@ import lombok.Data;
 @Data
 public class SearchIndexDto {
 
-    private ListContentDto listContentDto;
+    private List<SearchDataDto> searchDataDtoList;
+    private Long total = 0L;
 
 }

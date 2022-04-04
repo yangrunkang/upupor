@@ -39,6 +39,7 @@ import java.util.Objects;
 import static com.upupor.service.utils.ServletUtils.getSession;
 
 /**
+ * 白名单服务
  * @author Yang Runkang (cruise)
  * @date 2021年12月12日 23:16
  */

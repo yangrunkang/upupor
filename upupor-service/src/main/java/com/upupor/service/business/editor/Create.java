@@ -117,8 +117,6 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
             if (Objects.nonNull(limitedInterval)) {
                 RedisUtil.set(createContentIntervalkey(getMember().getUserId()), content.getContentId(), limitedInterval);
             }
-            // 更新索引
-            updateIndex(content);
         }
 
 
@@ -211,15 +209,4 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
         }
     }
 
-    @Override
-    protected void updateIndex(Content content) {
-        try {
-            if (ContentStatus.NORMAL.equals(content.getStatus())) {
-                upuporLuceneService.addDocument(content.getTitle(), content.getContentId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("创建文章,添加索引失败,contentId:" + content.getContentId() + ",文章标题:" + content.getTitle());
-        }
-    }
 }

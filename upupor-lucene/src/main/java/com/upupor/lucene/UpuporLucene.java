@@ -25,47 +25,38 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.service;
+package com.upupor.lucene;
 
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.lucene.enums.LuceneOperationType;
 
-import java.util.List;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * 音频服务
+ * UpuporLucene注解
  *
- * @author YangRunkang(cruise)
- * @date 2020/11/15 20:31
+ * @author Yang Runkang (cruise)
+ * @date 2022年04月04日 09:51
+ * @email: yangrunkang53@gmail.com
  */
-public interface RadioService {
-
-    Boolean addRadio(Radio radio);
-
-    ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
-
-    Radio getByRadioId(String radioId);
-
+@Retention(RetentionPolicy.RUNTIME)
+@Target(value = {ElementType.TYPE, ElementType.METHOD})
+public @interface UpuporLucene {
     /**
-     * 根据 RadioId 获取集合
-     * @param radioIdList
+     * 索引数据类型
+     *
      * @return
      */
-    List<Radio> listByRadioId(List<String> radioIdList);
-
-    void bindRadioMember(List<Radio> radioList);
-
-    Integer updateRadio(Radio radio);
-
-    ListRadioDto list(Integer pageNum, Integer pageSize);
-
-    Integer total();
+    LuceneDataType dataType();
 
     /**
-     * 文章作者是否有电台
+     * 操作类型
      *
-     * @param userId
+     * @return
      */
-    Boolean userHasRadio(String userId);
+    LuceneOperationType operationType();
 
 }

@@ -43,37 +43,19 @@ function editUserInfo() {
         let introduce = $("#introduce").val();
         let openEmail = $("#openEmail").val();
 
-        let formData = new FormData();
-        formData.append('userName', userName);
-        formData.append('introduce', introduce);
-        formData.append('openEmail', openEmail);
+        let editData = {
+            userName:userName,
+            introduce:introduce,
+            openEmail:openEmail,
+        }
 
-        $.ajax({
-            url: '/member/edit',
-            type: 'post',
-            async: false,
-            data: formData,
-            processData: false,// 告诉jQuery不要去处理发送的数据
-            contentType: false,// 告诉jQuery不要去设置Content-Type请求头
-            beforeSend: function () {//过程...
-                console.log('正在进行，请稍候')
-            },
-            success: function (res) {
-                console.log(res);
-                if (res.code === 0) {
-                    if (respSuccess(res.data)) {
-                        $.cvSuccess("更新个人资料成功");
-                        setTimeout(function () {
-                            window.location.href = '/user/manage/edit-user-info';
-                        }, 1600)
-                    } else {
-                        $.cvError(res.data);
-                    }
-                } else {
-                    $.cvError(res.data);
-                }
-            },
-            error: function () {
+        $.cvPost('/member/edit', editData, function (data) {
+            if (data.data.success) {
+                $.cvSuccess("更新个人资料成功");
+                setTimeout(function () {
+                    history.go(0)
+                }, 1600)
+            } else {
                 console.log('更新失败')
             }
         });

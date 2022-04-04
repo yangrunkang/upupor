@@ -49,6 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
+ * restful 接口切面
  * @author: YangRunkang(cruise)
  * @created: 2019/12/23 02:29
  */
@@ -64,7 +65,7 @@ public class ControllerAspectAdvice {
      * 以 controller 包下定义的所有请求为切入点
      */
     @Pointcut("execution(public * com.upupor.web.controller..*.*(..))")
-    public void controllerLog() {
+    public void controller() {
     }
 
     /**
@@ -74,7 +75,7 @@ public class ControllerAspectAdvice {
      * @return
      * @throws Throwable
      */
-    @Around("controllerLog()")
+    @Around("controller()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         CcResponse ccResponse = new CcResponse();

@@ -84,7 +84,7 @@ public class RadioServiceImpl implements RadioService {
                 .eq(Radio::getStatus, RadioStatus.NORMAL)
                 .orderByDesc(Radio::getCreateTime);
 
-        if(!StringUtils.isEmpty(searchTitle)){
+        if (!StringUtils.isEmpty(searchTitle)) {
             query.like(Radio::getRadioIntro, searchTitle);
         }
 
@@ -97,7 +97,7 @@ public class RadioServiceImpl implements RadioService {
         listRadioDto.setRadioList(pageInfo.getList());
 
         // 绑定电台用户
-        bindRadioMember(listRadioDto);
+        bindRadioMember(listRadioDto.getRadioList());
         // 绑定数据
         contentService.bindRadioContentData(listRadioDto.getRadioList());
 
@@ -109,10 +109,16 @@ public class RadioServiceImpl implements RadioService {
         LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
                 .eq(Radio::getRadioId, radioId);
         Radio radio = radioMapper.selectOne(query);
-        Asserts.notNull(radio,ErrorCode.RADIO_NOT_EXISTS);
+        Asserts.notNull(radio, ErrorCode.RADIO_NOT_EXISTS);
         return radio;
     }
 
+    @Override
+    public List<Radio> listByRadioId(List<String> radioIdList) {
+        LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
+                .in(Radio::getRadioId, radioIdList);
+        return radioMapper.selectList(query);
+    }
 
     @Override
     public Integer updateRadio(Radio radio) {
@@ -139,7 +145,7 @@ public class RadioServiceImpl implements RadioService {
         listRadioDto.setRadioList(pageInfo.getList());
 
         // 绑定电台用户
-        bindRadioMember(listRadioDto);
+        bindRadioMember(listRadioDto.getRadioList());
 
         // 绑定数据
         contentService.bindRadioContentData(listRadioDto.getRadioList());
@@ -148,35 +154,40 @@ public class RadioServiceImpl implements RadioService {
     }
 
 
-    private void bindRadioMember(ListRadioDto listRadioDto) {
-        if (Objects.nonNull(listRadioDto) && !CollectionUtils.isEmpty(listRadioDto.getRadioList())) {
-            // 绑定用户
-            Set<String> userIdList = listRadioDto.getRadioList().stream().map(Radio::getUserId).collect(Collectors.toSet());
-            List<String> latestCommentUserId = listRadioDto.getRadioList().stream().map(Radio::getLatestCommentUserId).filter(Objects::nonNull)
-                    .distinct().collect(Collectors.toList());
-
-            if (!CollectionUtils.isEmpty(latestCommentUserId)) {
-                userIdList.addAll(latestCommentUserId);
-            }
-            List<String> userIdDistinct = userIdList.stream().distinct().collect(Collectors.toList());
-
-
-            List<Member> memberList = memberService.listByUserIdList(Lists.newArrayList(userIdDistinct));
-            if (!CollectionUtils.isEmpty(memberList)) {
-                listRadioDto.getRadioList().forEach(radio -> {
-                    memberList.forEach(member -> {
-                        if (radio.getUserId().equals(member.getUserId())) {
-                            radio.setMember(member);
-                        }
-                        if (Objects.nonNull(radio.getLatestCommentTime()) && Objects.nonNull(radio.getLatestCommentUserId())) {
-                            if (radio.getLatestCommentUserId().equals(member.getUserId())) {
-                                radio.setLatestCommentUserName(member.getUserName());
-                            }
-                        }
-                    });
-                });
-            }
+    @Override
+    public void bindRadioMember(List<Radio> radioList) {
+        if (CollectionUtils.isEmpty(radioList)) {
+            return;
         }
+
+        // 绑定用户
+        Set<String> userIdList = radioList.stream().map(Radio::getUserId).collect(Collectors.toSet());
+        List<String> latestCommentUserId = radioList.stream().map(Radio::getLatestCommentUserId).filter(Objects::nonNull)
+                .distinct().collect(Collectors.toList());
+
+        if (!CollectionUtils.isEmpty(latestCommentUserId)) {
+            userIdList.addAll(latestCommentUserId);
+        }
+        List<String> userIdDistinct = userIdList.stream().distinct().collect(Collectors.toList());
+
+
+        List<Member> memberList = memberService.listByUserIdList(Lists.newArrayList(userIdDistinct));
+        if (CollectionUtils.isEmpty(memberList)) {
+            return;
+        }
+
+        radioList.forEach(radio -> {
+            memberList.forEach(member -> {
+                if (radio.getUserId().equals(member.getUserId())) {
+                    radio.setMember(member);
+                }
+                if (Objects.nonNull(radio.getLatestCommentTime()) && Objects.nonNull(radio.getLatestCommentUserId())) {
+                    if (radio.getLatestCommentUserId().equals(member.getUserId())) {
+                        radio.setLatestCommentUserName(member.getUserName());
+                    }
+                }
+            });
+        });
     }
 
     @Override

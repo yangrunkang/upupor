@@ -27,7 +27,9 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.framework.CcConstant;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.lucene.enums.LuceneOperationType;
+import com.upupor.lucene.UpuporLucene;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.ContentData;
 import com.upupor.service.business.aggregation.dao.entity.MemberIntegral;
@@ -45,7 +47,6 @@ import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.MemberIntegralStatus;
 import com.upupor.service.types.PinnedStatus;
 import com.upupor.service.utils.CcUtils;
-import com.upupor.service.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -84,6 +85,7 @@ public class ContentController {
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("创建内容")
+    @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
     public CcResponse add(AddContentDetailReq addContentDetailReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.addContent(addContentDetailReq);
@@ -93,6 +95,7 @@ public class ContentController {
 
     @PostMapping("/edit")
     @ResponseBody
+    @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
     @ApiOperation("更新内容")
     public CcResponse edit(UpdateContentReq updateContentReq) {
         ServletUtils.checkOperatePermission(updateContentReq.getUserId());
@@ -107,6 +110,7 @@ public class ContentController {
     @PostMapping("/status")
     @ResponseBody
     @ApiOperation("更新内容状态")
+    @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
     public CcResponse status(UpdateContentReq updateContentReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.updateContentStatus(updateContentReq);

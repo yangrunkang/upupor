@@ -29,6 +29,8 @@ package com.upupor.lucene;
 
 import com.upupor.lucene.bean.LuceneBean;
 import com.upupor.lucene.dto.LucenuQueryResultDto;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.lucene.enums.SearchType;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.document.Document;
@@ -48,8 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.lucene.dto.ContentFieldAndSearchDto.CONTENT_ID;
-import static com.upupor.lucene.dto.ContentFieldAndSearchDto.TITLE;
+import static com.upupor.lucene.dto.ContentFieldAndSearchDto.*;
 
 /**
  * 抽象全文检索
@@ -99,7 +100,11 @@ public class UpuporLuceneService {
             for (ScoreDoc hit : hits) {
                 int docId = hit.doc;
                 Document d = searcher.doc(docId);
-                resultList.add(LucenuQueryResultDto.Data.builder().title(d.get(TITLE)).contentId(d.get(CONTENT_ID)).build());
+                resultList.add(LucenuQueryResultDto.Data.builder()
+                        .title(d.get(TITLE))
+                        .target(d.get(TARGET_ID))
+                        .luceneDataType(LuceneDataType.getByEnumStr(d.get(LUCENE_DATA_TYPE)))
+                        .build());
             }
 
             lucenuQueryResultDto.setTotal((long) hits.length);
@@ -122,11 +127,11 @@ public class UpuporLuceneService {
     /**
      * 删除
      *
-     * @param contentId
+     * @param targetId
      */
-    public void deleteDocumentByContentId(String contentId) {
+    public void deleteDocumentByTargetId(String targetId) {
         try {
-            Query query = new QueryParser(CONTENT_ID, LuceneBean.analyzer).parse(contentId); // 精确查询
+            Query query = new QueryParser(TARGET_ID, LuceneBean.analyzer).parse(targetId); // 精确查询
             indexWriter.deleteDocuments(query);
         } catch (Exception e) {
             throw new RuntimeException("删除文档失败");
@@ -136,10 +141,10 @@ public class UpuporLuceneService {
     /**
      * 添加文档
      *
-     * @param title     文章标题
-     * @param contentId 文章Id
+     * @param title    文章标题
+     * @param targetId 文章Id
      */
-    public void addDocument(String title, String contentId) {
+    public void addDocument(String title, String targetId, LuceneDataType luceneDataType) {
         if (StringUtils.isEmpty(title)) {
             throw new RuntimeException("标题为空,不能创建索引");
         }
@@ -155,7 +160,8 @@ public class UpuporLuceneService {
         try {
             Document doc = new Document();
             doc.add(new StringField(TITLE, title.toLowerCase(), Field.Store.YES));
-            doc.add(new StringField(CONTENT_ID, contentId, Field.Store.YES));
+            doc.add(new StringField(TARGET_ID, targetId, Field.Store.YES));
+            doc.add(new StringField(LUCENE_DATA_TYPE, luceneDataType.toString(), Field.Store.YES));
             indexWriter.addDocument(doc);
         } catch (Exception e) {
             throw new RuntimeException("添加文档异常");

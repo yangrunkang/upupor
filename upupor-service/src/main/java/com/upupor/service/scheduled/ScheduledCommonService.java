@@ -29,8 +29,15 @@ package com.upupor.service.scheduled;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.dao.entity.Radio;
 import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.business.aggregation.service.RadioService;
+import com.upupor.service.dto.page.common.ListMemberDto;
+import com.upupor.service.dto.page.common.ListRadioDto;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -48,6 +55,12 @@ public class ScheduledCommonService {
     @Resource
     private ContentService contentService;
 
+    @Resource
+    private MemberService memberService;
+
+    @Resource
+    private RadioService radioService;
+
     public List<Content> contentList(){
 
         Integer total = contentService.total();
@@ -60,6 +73,37 @@ public class ScheduledCommonService {
         }
 
         return contentList;
+    }
+
+
+    public List<Member> memberList(){
+        Integer total = memberService.total();
+        int pageNum = total % CcConstant.Page.SIZE == 0 ? total / CcConstant.Page.SIZE : total / CcConstant.Page.SIZE + 1;
+        List<Member> memberList = new ArrayList<>();
+        for (int i = 0; i < pageNum; i++) {
+            ListMemberDto listMemberDto = memberService.list(i + 1, CcConstant.Page.SIZE);
+            if (CollectionUtils.isEmpty(listMemberDto.getMemberList())) {
+                continue;
+            }
+            memberList.addAll(listMemberDto.getMemberList());
+        }
+
+        return memberList;
+    }
+
+
+    public List<Radio> radioList(){
+        Integer total = radioService.total();
+        int pageNum = total % CcConstant.Page.SIZE == 0 ? total / CcConstant.Page.SIZE : total / CcConstant.Page.SIZE + 1;
+        List<Radio> radioAllList = new ArrayList<>();
+        for (int i = 0; i < pageNum; i++) {
+            ListRadioDto listRadioDto = radioService.list(i + 1, CcConstant.Page.SIZE);
+            if (CollectionUtils.isEmpty(listRadioDto.getRadioList())) {
+                break;
+            }
+            radioAllList.addAll(listRadioDto.getRadioList());
+        }
+        return radioAllList;
     }
 
 }

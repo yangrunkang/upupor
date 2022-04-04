@@ -96,24 +96,19 @@ $(function(){
         formData.append('radioIntro', radioIntro);
         formData.append('fileUrl', fileUrl);
 
-        //  这里涉及到上传文件,所以单独写一个ajax请求
-        $.ajax({
-            url: '/radio/add',
-            type: 'post',
-            data: formData,
-            processData: false,// 告诉jQuery不要去处理发送的数据
-            contentType: false,// 告诉jQuery不要去设置Content-Type请求头
-            success: function (res) {
-                if (res.code === 0) {
-                    publicSuccess();
-                } else {
-                    publicFailed();
-                }
-            },
-            error: function () {
+        let radio = {
+            radioIntro:radioIntro,
+            fileUrl:fileUrl,
+        }
+
+        $.cvPost('/radio/add', radio, function (data) {
+            if (data.data.success) {
+                publicSuccess();
+            } else {
                 publicFailed();
             }
         });
+
     }
 
 

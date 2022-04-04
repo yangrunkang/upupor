@@ -25,14 +25,29 @@
  * SOFTWARE.
  */
 
-package com.upupor.lucene;
+package com.upupor.web.aop.flush_lucene;
+
+import com.upupor.lucene.AbstractGetTargetId;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.CcResponse;
+import com.upupor.service.common.ErrorCode;
+import com.upupor.service.dto.OperateMemberDto;
 
 /**
- * 检索类型
+ * 用户处理
+ *
  * @author Yang Runkang (cruise)
- * @date 2022年03月27日 08:10
+ * @date 2022年04月04日 11:41
  * @email: yangrunkang53@gmail.com
  */
-public enum SearchType {
-    EXACT,LIKE
+public class MemberHandler extends AbstractGetTargetId {
+
+    @Override
+    public String targetId() {
+        CcResponse sourceData = (CcResponse) this.sourceData;
+        if (sourceData.getData() instanceof OperateMemberDto) {
+            return ((OperateMemberDto) sourceData.getData()).getMemberId();
+        }
+        return null;
+    }
 }

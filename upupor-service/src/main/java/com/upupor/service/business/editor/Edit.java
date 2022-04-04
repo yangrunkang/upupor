@@ -134,9 +134,6 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
             publishContentEvent(editContent);
         }
 
-        // 更新索引
-        updateIndex(editContent);
-
         Content reGet = contentService.getContentByContentIdNoStatus(updateContentReq.getContentId());
         return OperateContentDto.builder()
                 .contentId(editContent.getContentId())
@@ -179,15 +176,5 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         }
     }
 
-    @Override
-    protected void updateIndex(Content content) {
-        try {
-            upuporLuceneService.deleteDocumentByContentId(content.getContentId());
-            upuporLuceneService.addDocument(content.getTitle(), content.getContentId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("编辑文章,更新索引失败,contentId:" + content.getContentId() + ",文章标题:" + content.getTitle());
-        }
-    }
 
 }
