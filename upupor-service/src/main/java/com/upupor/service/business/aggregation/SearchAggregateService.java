@@ -27,21 +27,16 @@
 
 package com.upupor.service.business.aggregation;
 
-import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.lucene.enums.SearchType;
 import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.lucene.dto.ContentFieldAndSearchDto;
 import com.upupor.lucene.dto.LucenuQueryResultDto;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.aggregation.service.RadioService;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.lucene.enums.SearchType;
+import com.upupor.service.business.search.AbstractSearchResultRender;
 import com.upupor.service.dto.page.SearchIndexDto;
-import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.dto.page.search.SearchDataDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -60,10 +55,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SearchAggregateService {
 
-    private final ContentService contentService;
-    private final RadioService radioService;
-    private final MemberService memberService;
     private final UpuporLuceneService upuporLuceneService;
+    private final List<AbstractSearchResultRender> renderHandlerList;
 
 
     public SearchIndexDto index(String keyword) {
@@ -82,70 +75,28 @@ public class SearchAggregateService {
             return searchIndexDto;
         }
 
-        // 封装数据
-        List<Content> contentList = new ArrayList<>();
-        List<Radio> radioList = new ArrayList<>();
-        List<Member> memberList = new ArrayList<>();
-        Map<LuceneDataType, List<LucenuQueryResultDto.Data>> collect = resultList.stream().collect(Collectors.groupingBy(LucenuQueryResultDto.Data::getLuceneDataType));
-        for (LuceneDataType luceneDataType : collect.keySet()) {
-            List<String> targetIdList = collect.get(luceneDataType).stream().map(LucenuQueryResultDto.Data::getTarget).distinct().collect(Collectors.toList());
-            if (LuceneDataType.CONTENT.equals(luceneDataType)) {
-                contentList = contentService.listByContentIdList(targetIdList);
-                contentService.bindContentMember(contentList);
-            } else if (LuceneDataType.RADIO.equals(luceneDataType)) {
-                radioList = radioService.listByRadioId(targetIdList);
-                radioService.bindRadioMember(radioList);
-            } else if (LuceneDataType.MEMBER.equals(luceneDataType)) {
-                memberList = memberService.listByUserIdList(targetIdList);
+        Map<LuceneDataType, List<LucenuQueryResultDto.Data>> resultMap = resultList.stream().collect(Collectors.groupingBy(LucenuQueryResultDto.Data::getLuceneDataType));
+
+        for (AbstractSearchResultRender render : renderHandlerList) {
+            for (LuceneDataType luceneDataType : resultMap.keySet()) {
+                if(luceneDataType.equals(render.dataType())){
+                    // 初始化
+                    render.init(resultMap.get(luceneDataType));
+                    // 渲染结果
+                    render.renderSearchResult(luceneDataType);
+                    // 将结果放到集合给页面使用
+                    searchDataDtoList.addAll(render.getSearchDataDtoList());
+                    break;
+                }
             }
+
         }
 
-        // 依次组装数据
-        for (LucenuQueryResultDto.Data data : resultList) {
-            if (LuceneDataType.CONTENT.equals(data.getLuceneDataType())) {
-                for (Content content : contentList) {
-                    if(content.getContentId().equals(data.getTarget())){
-                        SearchDataDto searchDataDto = new SearchDataDto();
-                        searchDataDto.setDataType(data.getLuceneDataType());
-                        searchDataDto.setResultTitle(content.getTitle());
-                        searchDataDto.setResultId(content.getContentId());
-                        searchDataDto.setMember(content.getMember());
-                        searchDataDtoList.add(searchDataDto);
-                    }
-                }
-            } else if (LuceneDataType.RADIO.equals(data.getLuceneDataType())) {
-                for (Radio radio : radioList) {
-                    if(radio.getRadioId().equals(data.getTarget())){
-                        SearchDataDto searchDataDto = new SearchDataDto();
-                        searchDataDto.setDataType(data.getLuceneDataType());
-                        searchDataDto.setResultTitle(radio.getRadioIntro());
-                        searchDataDto.setResultId(radio.getRadioId());
-                        searchDataDto.setMember(radio.getMember());
-                        searchDataDtoList.add(searchDataDto);
-                    }
-                }
-            } else if (LuceneDataType.MEMBER.equals(data.getLuceneDataType())) {
-                for (Member member : memberList) {
-                    if(member.getUserId().equals(data.getTarget())){
-                        SearchDataDto searchDataDto = new SearchDataDto();
-                        searchDataDto.setDataType(data.getLuceneDataType());
-                        searchDataDto.setResultTitle(member.getUserName());
-                        searchDataDto.setResultId(member.getUserId());
-                        searchDataDto.setMember(member);
-                        searchDataDtoList.add(searchDataDto);
-                    }
-                }
-            }
-        }
 
         searchIndexDto.setTotal(lucenuQueryResultDto.getTotal());
         searchIndexDto.setSearchDataDtoList(searchDataDtoList);
         return searchIndexDto;
     }
 
-
-    private abstract class AbstractRenderData {
-
-    }
 
 }
