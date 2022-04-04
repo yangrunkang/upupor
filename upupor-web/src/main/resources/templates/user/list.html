@@ -47,14 +47,11 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div class="lead border-bottom mb-2 text-black-50">感谢</div>
-                    <ul class="list-inline">
-                        <li>1. 感谢您浏览并使用本网站</li>
-                        <li>2. 我们是一个初创的团队,希望可以做出一点事情,既能证明自己的价值,也能对这个社会、对这个世界做出一点贡献</li>
-                        <li>3. 我们期望可以汇集一批有创造力、有想法、对生活充满积极心态的人,大家可以积极交流分享,让生活更加美好</li>
-                    </ul>
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
+                    <div class="lead border-bottom text-black-50">感谢</div>
+                    <div>感谢您浏览并使用本网站</div>
                 </div>
+                <div th:include="fragments/index::global_search"></div>
                 <div class="mt-2" th:include="fragments/index::google_right_ad"></div>
             </div>
         </div>
