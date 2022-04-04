@@ -36,7 +36,6 @@
 <div th:fragment="content">
     <!--全局搜索-->
     <div class="container">
-        <div th:include="fragments/index::global_search"></div>
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div id="content_more_alert" class="alert alert-danger alert-dismissible fade show mb-2" role="alert" style="display: none">
@@ -101,6 +100,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
+                <div th:include="fragments/index::global_search"></div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div class="fw-normal border-bottom mb-2 text-black-50">搜索结果</div>
                     <div>一共搜到了<span style="color: #00a8c6" th:text="${searchIndexDto.total}"></span>条相关数据</div>
