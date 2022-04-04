@@ -60,22 +60,41 @@
                     <div th:if="${#lists.isEmpty(searchIndexDto.searchDataDtoList)}" th:include="fragments/index::empty_content"></div>
                     <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(searchIndexDto.searchDataDtoList)}">
                         <li class="list-group-item p-1" th:each="searchData,ite : ${searchIndexDto.searchDataDtoList}">
-                            <div class="d-flex align-items-center">
+
+                            <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'CONTENT'">
                                 <div class="flex-grow-1">
                                     <div class="mt-0">
-                                        <a th:if="${searchData.dataType.name()} == 'CONTENT'" th:href="@{'/u/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
-                                        <a th:if="${searchData.dataType.name()} == 'RADIO'" th:href="@{'/r/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
-                                        <a th:if="${searchData.dataType.name()} == 'MEMBER'" th:href="@{'/profile/'+${searchData.resultId}+'/content'}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}"><img class="lazyload cv-icon-item img rounded me-1" th:data-src="${searchData.member.via}" th:alt="${searchData.member.userName}">[[${searchData.resultTitle}]]</a>
-                                    </div>
-                                    <div class="text-black-50">
-                                        <span th:if="${searchData.dataType.name()} == 'CONTENT'" class="badge bg-gradient bg-warning text-dark fw-light rounded-3 small">文章</span>
-                                        <span th:if="${searchData.dataType.name()} == 'RADIO'" class="badge bg-gradient bg-primary fw-light rounded-3 small">电台</span>
-                                        <span th:if="${searchData.dataType.name()} == 'MEMBER'" class="badge bg-gradient bg-success fw-light rounded-3 small">用户</span>
-                                        <a th:if="${searchData.dataType.name()} != 'MEMBER'" class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${searchData.member.userId}+'/content'"  th:title="${searchData.member.userName}">
-                                            · <img class="lazyload cv-icon-small img rounded" th:data-src="${searchData.member.via}" th:alt="${searchData.member.userName}"> [[${searchData.member.userName}]]
-                                        </a>
+                                        <a th:href="@{'/u/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <span class="badge bg-gradient bg-warning text-dark fw-light rounded-3 small">文章</span>
                                     </div>
                                 </div>
+                                <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${searchData.member.userId}+'/content'"  th:title="${searchData.member.userName}">
+                                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${searchData.member.via}" th:alt="${searchData.member.userName}">
+                                </a>
+                            </div>
+
+                            <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'RADIO'">
+                                <div class="flex-grow-1">
+                                    <div class="mt-0">
+                                        <a th:href="@{'/r/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <span class="badge bg-gradient bg-primary fw-light rounded-3 small">电台</span>
+                                    </div>
+                                </div>
+                                <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${searchData.member.userId}+'/content'"  th:title="${searchData.member.userName}">
+                                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${searchData.member.via}" th:alt="${searchData.member.userName}">
+                                </a>
+                            </div>
+
+                            <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'MEMBER'">
+                                <div class="flex-grow-1">
+                                    <div class="mt-0">
+                                        <a th:href="'/profile/' + ${searchData.member.userId}+'/content'" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <span  class="badge bg-gradient bg-success fw-light rounded-3 small">用户</span>
+                                    </div>
+                                </div>
+                                <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${searchData.member.userId}+'/content'"  th:title="${searchData.member.userName}">
+                                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${searchData.member.via}" th:alt="${searchData.member.userName}">
+                                </a>
                             </div>
                         </li>
                     </ul>
