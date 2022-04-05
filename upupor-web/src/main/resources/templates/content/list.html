@@ -43,7 +43,7 @@
                 </div>
                 <div class="row g-2">
                     <div class="col-lg-3 d-md-none d-none d-xl-block">
-                        <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
+                        <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-1 my-2">
                             <div class="fw-normal border-bottom mb-2 text-black-50">分类 <a class="cv-link text-black-50 float-end" th:href="${commonPageIndexDto.currentRootUrl}"><i class="bi bi-balloon"></i>全部</a></div>
                             <div th:if="${#lists.isEmpty(commonPageIndexDto.tagList)}">
                                 <div th:include="fragments/index::empty_content"></div>
@@ -51,8 +51,8 @@
                             </div>
                             <ul class="nav nav-pills flex-column" th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
                                 <!--如果以后涵盖子类，可以使用展开按钮-->
-                                <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">
-                                    <a th:class="'nav-link cv-link small ' + ${menu.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}" th:inline="text">
+                                <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item">
+                                    <a th:class="'nav-link cv-link small p-2 ' + ${menu.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}" th:inline="text">
                                         <img th:data-src="${menu.icon}" class="lazyload cv-icon" />
                                         [[${menu.tagName}]] <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark d-inline-flex float-end">[[${menu.count}]]</span>
                                     </a>
