@@ -25,43 +25,27 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.flush_lucene;
+package com.upupor.service.business.lucene.get_id;
 
-import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.business.aggregation.service.RadioService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import com.upupor.lucene.AbstractGetTargetId;
+import com.upupor.service.common.CcResponse;
+import com.upupor.service.dto.OperateRadioDto;
 
 /**
+ * 电台处理
+ *
  * @author Yang Runkang (cruise)
- * @date 2022年04月04日 14:15
+ * @date 2022年04月04日 11:41
  * @email: yangrunkang53@gmail.com
  */
-@Component
-@RequiredArgsConstructor
-public class FlushRadio extends AbstractFlush<Radio> {
-
-    private final RadioService radioService;
-    private Radio radio;
+public class RadioHandler extends AbstractGetTargetId {
 
     @Override
-    protected void add() {
-        getUpuporLuceneService().addDocument(radio.getRadioIntro(), radio.getRadioId(), runDataType());
-    }
-
-    @Override
-    protected void delete() {
-        getUpuporLuceneService().deleteDocumentByTargetId(radio.getRadioId());
-    }
-
-    @Override
-    protected void initTargetObject() {
-        this.radio = radioService.getByRadioId(event.getTargetId());
-    }
-
-    @Override
-    public LuceneDataType runDataType() {
-        return LuceneDataType.RADIO;
+    public String targetId() {
+        CcResponse sourceData = (CcResponse) this.sourceData;
+        if(sourceData.getData() instanceof OperateRadioDto){
+            return ((OperateRadioDto) sourceData.getData()).getRadioId();
+        }
+        return null;
     }
 }

@@ -25,29 +25,45 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.aop.flush_lucene;
+package com.upupor.service.business.lucene.flush;
 
-import com.upupor.lucene.AbstractGetTargetId;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcResponse;
-import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dto.OperateRadioDto;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.lucene.AbstractFlush;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 /**
- * 电台处理
- *
  * @author Yang Runkang (cruise)
- * @date 2022年04月04日 11:41
+ * @date 2022年04月04日 14:15
  * @email: yangrunkang53@gmail.com
  */
-public class RadioHandler extends AbstractGetTargetId {
+@Component
+@RequiredArgsConstructor
+public class FlushMember extends AbstractFlush<Member> {
+
+    private final MemberService memberService;
+    private Member member;
 
     @Override
-    public String targetId() {
-        CcResponse sourceData = (CcResponse) this.sourceData;
-        if(sourceData.getData() instanceof OperateRadioDto){
-            return ((OperateRadioDto) sourceData.getData()).getRadioId();
-        }
-        return null;
+    protected void add() {
+        getUpuporLuceneService().addDocument(member.getUserName(), member.getUserId(), runDataType());
+    }
+
+    @Override
+    protected void delete() {
+        getUpuporLuceneService().deleteDocumentByTargetId(member.getUserId());
+    }
+
+    @Override
+    protected void initTargetObject() {
+        this.member = memberService.memberInfo(event.getTargetId());
+    }
+
+
+    @Override
+    public LuceneDataType runDataType() {
+        return LuceneDataType.MEMBER;
     }
 }

@@ -25,12 +25,10 @@
  * SOFTWARE.
  */
 
-package com.upupor.web.aop.flush_lucene;
+package com.upupor.service.business.lucene.get_id;
 
 import com.upupor.lucene.AbstractGetTargetId;
-import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.CcResponse;
-import com.upupor.service.common.ErrorCode;
 import com.upupor.service.dto.OperateContentDto;
 
 /**

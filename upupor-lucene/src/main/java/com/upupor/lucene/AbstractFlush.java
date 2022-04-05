@@ -25,10 +25,8 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.flush_lucene;
+package com.upupor.lucene;
 
-import com.upupor.lucene.LuceneEvent;
-import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
 import lombok.Getter;

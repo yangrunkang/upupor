@@ -28,7 +28,7 @@
 package com.upupor.service.listener;
 
 import com.upupor.lucene.LuceneEvent;
-import com.upupor.service.business.flush_lucene.AbstractFlush;
+import com.upupor.lucene.AbstractFlush;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

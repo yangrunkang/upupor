@@ -25,11 +25,12 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.flush_lucene;
+package com.upupor.service.business.lucene.flush;
 
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.business.aggregation.dao.entity.Radio;
+import com.upupor.service.business.aggregation.service.RadioService;
+import com.upupor.lucene.AbstractFlush;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -40,29 +41,28 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class FlushMember extends AbstractFlush<Member> {
+public class FlushRadio extends AbstractFlush<Radio> {
 
-    private final MemberService memberService;
-    private Member member;
+    private final RadioService radioService;
+    private Radio radio;
 
     @Override
     protected void add() {
-        getUpuporLuceneService().addDocument(member.getUserName(), member.getUserId(), runDataType());
+        getUpuporLuceneService().addDocument(radio.getRadioIntro(), radio.getRadioId(), runDataType());
     }
 
     @Override
     protected void delete() {
-        getUpuporLuceneService().deleteDocumentByTargetId(member.getUserId());
+        getUpuporLuceneService().deleteDocumentByTargetId(radio.getRadioId());
     }
 
     @Override
     protected void initTargetObject() {
-        this.member = memberService.memberInfo(event.getTargetId());
+        this.radio = radioService.getByRadioId(event.getTargetId());
     }
-
 
     @Override
     public LuceneDataType runDataType() {
-        return LuceneDataType.MEMBER;
+        return LuceneDataType.RADIO;
     }
 }

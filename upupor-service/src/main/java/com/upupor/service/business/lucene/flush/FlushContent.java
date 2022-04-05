@@ -25,11 +25,12 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.flush_lucene;
+package com.upupor.service.business.lucene.flush;
 
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.lucene.AbstractFlush;
 import com.upupor.service.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
