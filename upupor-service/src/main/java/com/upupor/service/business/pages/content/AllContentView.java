@@ -32,10 +32,11 @@ import com.upupor.service.business.ad.AbstractAd;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.service.types.SearchContentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.CONTENT_ALL;
+import static com.upupor.framework.CcConstant.ContentView.CONTENT_TYPE;
 
 /**
  * @author Yang Runkang (cruise)
@@ -50,7 +51,7 @@ public class AllContentView extends AbstractView {
 
     @Override
     public String viewName() {
-        return CONTENT_ALL;
+        return CONTENT_TYPE;
     }
 
     @Override
@@ -62,13 +63,14 @@ public class AllContentView extends AbstractView {
     protected void seoInfo() {
         modelAndView.addObject(CcConstant.SeoKey.TITLE, "全部文章");
         modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "全部文章");
+        modelAndView.addObject(CcConstant.SeoKey.BUSINESS_TITLE, "全部文章");
     }
 
     @Override
     protected void fetchData() {
         Integer pageNum = query.getPageNum();
         Integer pageSize = query.getPageSize();
-        ListContentDto listContentDto = contentService.listContentByContentType(null, pageNum, pageSize, null);
+        ListContentDto listContentDto = contentService.typeContentList(SearchContentType.getByUrl(URL), pageNum, pageSize);
         AbstractAd.ad(listContentDto.getContentList());
         modelAndView.addObject(listContentDto);
     }

@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.*;
+import static com.upupor.framework.CcConstant.ContentView.CONTENT_HISTORY;
 
 
 /**

@@ -38,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.CONTENT_INDEX;
+import static com.upupor.framework.CcConstant.ContentView.CONTENT_INDEX;
 import static com.upupor.framework.CcConstant.TWO_COLONS;
 
 

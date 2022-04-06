@@ -38,6 +38,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.upupor.framework.CcConstant.ContentView.CONTENT_INDEX;
+
 /**
  * @author cruise
  * @createTime 2022-01-19 18:01
@@ -55,7 +57,7 @@ public class SetKeyWords implements PrepareData {
             if (o instanceof String) {
                 // 视图名称是文章详情,则不设置keywords,由文章详情自己返回
                 String viewName = modelAndView.getViewName();
-                if (Objects.nonNull(viewName) && viewName.equals(CcConstant.CONTENT_INDEX)) {
+                if (Objects.nonNull(viewName) && viewName.equals(CONTENT_INDEX)) {
                     return;
                 }
 

@@ -25,34 +25,44 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.aggregation.dao.entity;
+package com.upupor.service.types;
 
-import lombok.Data;
+import com.upupor.service.business.pages.content.AllContentView;
+import com.upupor.service.business.pages.content.NewContentView;
+import com.upupor.service.business.pages.content.RecentlyEditedContentView;
+import com.upupor.service.common.BusinessException;
+import com.upupor.service.common.ErrorCode;
+import lombok.Getter;
 
 /**
- * 文章数据
+ * @author Yang Runkang (cruise)
+ * @date 2022年04月07日 01:20
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class ContentData extends BaseEntity {
+@Getter
+public enum SearchContentType {
+    // 所有文章
+    ALL(AllContentView.URL),
+    // 最近编辑过的
+    RECENTLY_EDITED(RecentlyEditedContentView.URL),
+    // 所有新文章
+    NEW(NewContentView.URL)
+    ;
 
-    private Integer viewNum;
+    private final String url;
 
-    private Integer likeNum;
-
-    private String contentId;
-
-    private Integer commentNum;
-
-    public void incrementLikeNum(){
-        this.likeNum = this.likeNum + 1;
+    SearchContentType(String url) {
+        this.url = url;
     }
 
-    public void minusLikeNum(){
-        this.likeNum = this.likeNum - 1;
-    }
 
-    public void incrementViewNum(){
-        this.viewNum = this.viewNum + 1;
+    public static SearchContentType getByUrl(String url){
+        for (SearchContentType value : values()) {
+            if(value.getUrl().equals(url)){
+                return value;
+            }
+        }
+        throw new BusinessException(ErrorCode.UNKNOWN_TYPE_CONTENT);
     }
 
 

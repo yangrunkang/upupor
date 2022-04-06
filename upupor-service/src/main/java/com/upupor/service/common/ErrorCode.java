@@ -145,6 +145,7 @@ public enum ErrorCode {
     NOT_EXISTS_ABSTRACT_EDITOR_IMPLEMENTS(175, "编辑器操作抽象未找到相关实现"),
     WITHOUT_OPERATION_ID(176, "未找到操作ID"),
     LUCENE_FLUSH_SOURCE_404(177, "刷新Lucene时未获取到资源"),
+    UNKNOWN_TYPE_CONTENT(178, "未知类型文章类型"),
 
 
     //占位 兜底异常

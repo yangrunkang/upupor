@@ -39,6 +39,7 @@ import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.outer.req.UpdateContentReq;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.PinnedStatus;
+import com.upupor.service.types.SearchContentType;
 
 import java.util.List;
 
@@ -76,16 +77,6 @@ public interface ContentService {
      */
     ListContentDto listContent(ListContentReq listContentReq);
 
-
-    /**
-     * 根据标题搜索
-     *
-     * @param listContentReq
-     * @return
-     */
-    ListContentDto listContentByTitleAndShortContent(ListContentReq listContentReq);
-
-
     /**
      * 根据文章类型来获取文章列表
      *
@@ -95,6 +86,16 @@ public interface ContentService {
      * @return
      */
     ListContentDto listContentByContentType(ContentType contentType, Integer pageNum, Integer pageSize, String tag);
+
+    /**
+     * 不同类型的文章列表
+     * @note: 全部文章、最近更新的、新内容
+     * @param searchType
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    ListContentDto typeContentList(SearchContentType searchType, Integer pageNum, Integer pageSize);
 
     /**
      * 添加内容
@@ -156,13 +157,6 @@ public interface ContentService {
      */
     void bindRadioContentData(List<Radio> radioList);
 
-
-    /**
-     * 绑定个人详情页内容数据
-     *
-     * @param listContentDto
-     */
-    void bindContentData(ListContentDto listContentDto);
 
     /**
      * 绑定文章扩展信息
@@ -296,6 +290,7 @@ public interface ContentService {
 
     /**
      * 最近一周新增的文章
+     * @note: 只显示15条
      * @return
      */
     List<Content> latestContentList();

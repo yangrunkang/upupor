@@ -38,11 +38,15 @@
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div class="lead border-bottom mb-2">全部文章</div>
+                    <div class="lead border-bottom mb-2">[[${businessTitle}]]</div>
                     <div th:include="fragments/index::list_content_dto(${listContentDto},false)"></div>
                 </div>
             </div>
             <div class="col-lg-3">
+<!--                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">-->
+<!--                    <div class="lead">文章动态</div>-->
+<!--                    <div class="text-secondary">[[${businessTitle}]]</div>-->
+<!--                </div>-->
                 <div th:include="fragments/index::global_search"></div>
                 <!--全局个人信息卡片-->
                 <div th:include="fragments/index::global_member_info"></div>

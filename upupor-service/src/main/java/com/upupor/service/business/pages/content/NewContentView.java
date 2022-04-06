@@ -28,64 +28,51 @@
 package com.upupor.service.business.pages.content;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.content.UnpublishedContent;
+import com.upupor.service.business.ad.AbstractAd;
+import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.pages.AbstractView;
-import com.upupor.service.dto.page.ContentIndexDto;
+import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.service.types.SearchContentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.upupor.framework.CcConstant.ContentView.CONTENT_INDEX;
+import static com.upupor.framework.CcConstant.ContentView.CONTENT_TYPE;
 
 /**
  * @author Yang Runkang (cruise)
- * @date 2022年02月09日 22:55
+ * @date 2022年04月07日 01:23
  * @email: yangrunkang53@gmail.com
  */
 @Component
 @RequiredArgsConstructor
-public class DraftContentDetailView extends AbstractView {
-    public static final String URL = "/m/{contentId}";
-    private final UnpublishedContent unpublishedContent;
+public class NewContentView extends AbstractView {
+    public static final String URL = "/content/new";
+    private final ContentService contentService;
+
     @Override
     public String viewName() {
-        return CONTENT_INDEX;
+        return CONTENT_TYPE;
     }
 
     @Override
     protected String pageUrl() {
         return URL;
     }
-    @Override
-    public String adapterUrlToViewName(String pageUrl) {
-        if (pageUrl.startsWith("/m/")) {
-            return viewName();
-        }
-        return pageUrl;
-    }
 
     @Override
     protected void seoInfo() {
-        for (Object value : modelAndView.getModelMap().values()) {
-            if (value instanceof ContentIndexDto) {
-                ContentIndexDto contentIndexDto = (ContentIndexDto) value;
-                Content content = contentIndexDto.getContent();
-
-                modelAndView.addObject(CcConstant.SeoKey.TITLE, content.getTitle());
-                modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, content.getTitle());
-                break;
-            }
-        }
-
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "新内容");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "新内容");
+        modelAndView.addObject(CcConstant.SeoKey.BUSINESS_TITLE, "新内容");
     }
 
     @Override
     protected void fetchData() {
         Integer pageNum = query.getPageNum();
         Integer pageSize = query.getPageSize();
-        String contentId = query.getContentId();
-
-        ContentIndexDto contentIndexDto = unpublishedContent.pageContentIndexDto(contentId, pageNum, pageSize);
-        modelAndView.addObject(contentIndexDto);
+        ListContentDto listContentDto = contentService.typeContentList(SearchContentType.getByUrl(URL), pageNum, pageSize);
+        AbstractAd.ad(listContentDto.getContentList());
+        modelAndView.addObject(listContentDto);
     }
+
 }

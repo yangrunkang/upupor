@@ -31,6 +31,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.business.aggregation.dao.mapper.*;
@@ -49,10 +50,7 @@ import com.upupor.service.outer.req.AddContentDetailReq;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.outer.req.UpdateContentReq;
-import com.upupor.service.types.ContentStatus;
-import com.upupor.service.types.ContentType;
-import com.upupor.service.types.MemberIntegralStatus;
-import com.upupor.service.types.PinnedStatus;
+import com.upupor.service.types.*;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +64,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.upupor.framework.CcConstant.Time.CONTENT_UPDATE_TIME;
 import static com.upupor.framework.CcConstant.Time.NEW_CONTENT_TIME;
 import static com.upupor.service.common.ErrorCode.*;
 
@@ -154,20 +153,9 @@ public class ContentServiceImpl implements ContentService {
                 .in(!CollectionUtils.isEmpty(listContentReq.getTagIdList()), Content::getTagIds, listContentReq.getTagIdList())
                 .orderByDesc(Content::getCreateTime);
 
-        PageHelper.startPage(listContentReq.getPageNum(), listContentReq.getPageSize());
-        List<Content> contents = contentMapper.selectList(query);
-        PageInfo<Content> pageInfo = new PageInfo<>(contents);
-
-        ListContentDto listContentDto = new ListContentDto(pageInfo);
-        listContentDto.setContentList(pageInfo.getList());
-
-        // 绑定文章数据
-        this.bindContentData(listContentDto.getContentList());
-        // 绑定用户信息
-        this.bindContentMember(listContentDto.getContentList());
+        ListContentDto listContentDto = commonListContentDtoQuery(listContentReq.getPageNum(), listContentReq.getPageSize(), query);
         // 处理文章置顶
         handlePinnedContent(listContentDto, listContentReq.getUserId());
-
         return listContentDto;
     }
 
@@ -195,15 +183,25 @@ public class ContentServiceImpl implements ContentService {
     }
 
 
-
     @Override
     public ListContentDto listContentByContentType(ContentType contentType, Integer pageNum, Integer pageSize, String tag) {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
                 .eq(Content::getStatus, ContentStatus.NORMAL)
-                .eq(Objects.nonNull(contentType),Content::getContentType, contentType)
-                .eq(Objects.nonNull(tag),Content::getTagIds, tag)
+                .eq(Objects.nonNull(contentType), Content::getContentType, contentType)
+                .eq(Objects.nonNull(tag), Content::getTagIds, tag)
                 .orderByDesc(Content::getLatestCommentTime);
+        return commonListContentDtoQuery(pageNum, pageSize, query);
+    }
 
+    /**
+     * 通用Query & 封装
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param query
+     * @return
+     */
+    private ListContentDto commonListContentDtoQuery(Integer pageNum, Integer pageSize, LambdaQueryWrapper<Content> query) {
         // 分页查询
         PageHelper.startPage(pageNum, pageSize);
         List<Content> contents = contentMapper.selectList(query);
@@ -212,13 +210,37 @@ public class ContentServiceImpl implements ContentService {
         // 封装文章数据
         this.bindContentData(pageInfo.getList());
         this.bindContentMember(contents);
-        // 不能添加广告,会引起首页文章列表布局紊乱问题
+        // 不能添加广告,会引起首页文章列表布局紊乱问题,如果需要添加广告,请在各业务外面添加
 //        AbstractAd.ad(pageInfo.getList());
 
         // 数据组装
         ListContentDto listContentDto = new ListContentDto(pageInfo);
         listContentDto.setContentList(pageInfo.getList());
         return listContentDto;
+    }
+
+    @Override
+    public ListContentDto typeContentList(SearchContentType searchType, Integer pageNum, Integer pageSize) {
+        // 默认的全部文章: SearchContentType.ALL.equals(searchType)
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
+                .eq(Content::getStatus, ContentStatus.NORMAL)
+                .orderByDesc(Content::getLatestCommentTime);
+
+        if (SearchContentType.RECENTLY_EDITED.equals(searchType)) {
+            // 最近是否更新过
+            // CcDateUtil.getCurrentTime() - editTime <= CONTENT_UPDATE_TIME;
+            // ==> CcDateUtil.getCurrentTime() -  CONTENT_UPDATE_TIME<=  editTime;
+            query.ge(Content::getEditTime, CcDateUtil.getCurrentTime() - CONTENT_UPDATE_TIME);
+        }
+
+        if (SearchContentType.NEW.equals(searchType)) {
+            // 是否是最近的新文章
+            // CcDateUtil.getCurrentTime() - createTime <= NEW_CONTENT_TIME;
+            // ==> CcDateUtil.getCurrentTime() - NEW_CONTENT_TIME <= createTime
+            query.ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - NEW_CONTENT_TIME);
+        }
+
+        return commonListContentDtoQuery(pageNum, pageSize, query);
     }
 
     /**
@@ -357,20 +379,6 @@ public class ContentServiceImpl implements ContentService {
 
     }
 
-    @Override
-    public void bindContentData(ListContentDto listContentDto) {
-        if (Objects.isNull(listContentDto)) {
-            return;
-        }
-        this.bindContentData(listContentDto.getContentList());
-        this.bindContentMember(listContentDto);
-    }
-
-    @Override
-    public ListContentDto listContentByTitleAndShortContent(ListContentReq listContentReq) {
-        listContentReq.setStatus(ContentStatus.NORMAL);
-        return listContent(listContentReq);
-    }
 
     @Override
     public List<Content> listAllByUserId(String userId) {
@@ -486,7 +494,7 @@ public class ContentServiceImpl implements ContentService {
             }
 
             ContentData contentData = contentDataList.get(0);
-            contentData.setViewNum(contentData.getViewNum() + 1);
+            contentData.incrementViewNum();
             contentDataMapper.updateById(contentData);
         } catch (Exception e) {
             e.printStackTrace();
@@ -645,7 +653,9 @@ public class ContentServiceImpl implements ContentService {
                 .ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - NEW_CONTENT_TIME)
                 .orderByDesc(Content::getCreateTime);
 
+        PageHelper.startPage(CcConstant.Page.NUM, CcConstant.Page.SIZE_HALF);
         List<Content> contentList = contentMapper.selectList(query);
+
         this.bindContentMember(contentList);
         return contentList;
     }

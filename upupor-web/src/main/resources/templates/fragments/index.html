@@ -246,8 +246,8 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="contet_tag(content)">
-    <span th:if="${content.newContent}" class="badge bg-gradient bg-danger fw-light rounded-3 small">新内容</span>
-    <span th:if="${content.hasLatestEdit}" class="badge bg-gradient bg-secondary fw-light rounded-3 small">内容有更新 · [[${content.editDate}]]</span>
+    <a th:if="${content.newContent}" class="badge bg-gradient bg-danger fw-light rounded-3 small d-inline-flex text-white" href="/content/new">新内容</a>
+    <a th:if="${content.hasLatestEdit}" class="badge bg-gradient bg-secondary fw-light rounded-3 small d-inline-flex text-white"  href="/content/recently-edited">内容有更新 · [[${content.editDate}]]</a>
 </div>
 
 <div th:fragment="content_profile_via">

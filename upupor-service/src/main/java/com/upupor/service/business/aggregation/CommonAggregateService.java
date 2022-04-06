@@ -127,7 +127,6 @@ public class CommonAggregateService {
         // 最近一周新增的文章
         List<Content> latestContentList = contentService.latestContentList();
 
-
         // 获取Banner栏
         ListBannerDto listBannerDto = bannerService.listBannerByStatus(BannerStatus.NORMAL, CcConstant.Page.NUM, CcConstant.Page.SIZE);
 

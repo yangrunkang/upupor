@@ -145,8 +145,6 @@ public final class CcConstant {
      */
     public static final String CV_OFF = "0";
     public static final String CV_ON = "1";
-    public static final String CONTENT_LIST = "content/list";
-    public static final String CONTENT_ALL = "content/all";
 
     public static final class UserView {
         public static final String BASE_PATH = "user";
@@ -163,13 +161,12 @@ public final class CcConstant {
     public static final String TAG_INDEX = "tag/index";
     public static final String EDITOR = "editor/editor";
     public static final String BEFORE_EDITOR = "components/before-editor";
-    public static final String CONTENT_INDEX = "content/index";
+
     public static final String EDIT_USER_MANAGE_ADMIN = "user/admin/admin";
     public static final String EDIT_USER_MANAGE_CONTENT = "user/admin/content";
     public static final String FEEDBACK_INDEX = "feedback/index";
     public static final String INTEGRAL_INDEX = "integral/index";
     public static final String PINNED_INDEX = "foot/pinned";
-    public static final String CONTENT_HISTORY = "content/history";
     public static final String RADIO_STATION_LIST = "radio-station/list";
     public static final String RADIO_STATION_CREATE = "radio-station/create";
     public static final String RADIO_STATION_RECORD = "radio-station/record";
@@ -179,6 +176,16 @@ public final class CcConstant {
     public static final String OPEN = "foot/opensource";
     public static final String MARKDOWN = "components/markdown";
     public static final String OUR_HOME = "components/our-home";
+    public static final class ContentView {
+        // 文章列表
+        public static final String CONTENT_LIST = "content/list";
+        // 全部文章 、 最近编辑过的
+        public static final String CONTENT_TYPE = "content/type";
+        // 文章详情
+        public static final String CONTENT_INDEX = "content/index";
+        // 临时文章
+        public static final String CONTENT_HISTORY = "content/history";
+    }
     /**
      * 运营活动
      */
@@ -259,6 +266,7 @@ public final class CcConstant {
         public static final String TITLE = "seo_title";
         public static final String DESCRIPTION = "seo_description";
         public static final String KEYWORDS = "seo_keywords";
+        public static final String BUSINESS_TITLE = "businessTitle";
     }
 
     /**
@@ -281,6 +289,7 @@ public final class CcConstant {
          * 每页条数
          */
         public static final Integer SIZE = 15;
+        public static final Integer SIZE_HALF = 7;
         public static final Integer SIZE_COMMENT = 30;
         public static final Integer SIZE_TEN = 10;
         /**

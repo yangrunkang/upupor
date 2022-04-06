@@ -40,7 +40,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.CONTENT_INDEX;
+import static com.upupor.framework.CcConstant.ContentView.CONTENT_INDEX;
 import static com.upupor.framework.CcConstant.Page.SIZE_COMMENT;
 
 /**
