@@ -65,6 +65,8 @@ public class LuceneAspectAdvice {
         abstractGetTargetIdList.add(new RadioHandler());
     }
 
+    private Object proceed;
+    private UpuporLucene annotation;
     /**
      * 以 controller 包下定义的所有请求为切入点
      */
@@ -74,7 +76,8 @@ public class LuceneAspectAdvice {
 
     @Before("upuporLuceneAspect() && @annotation(annotation)")
     public void doBefore(JoinPoint joinPoint, UpuporLucene annotation) {
-        System.out.println();
+        this.proceed = null;
+        this.annotation = null;
     }
 
     /**
@@ -86,8 +89,13 @@ public class LuceneAspectAdvice {
      */
     @Around("upuporLuceneAspect() && @annotation(annotation)")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint, UpuporLucene annotation) throws Throwable {
-        Object proceed = proceedingJoinPoint.proceed();
+        this.proceed = proceedingJoinPoint.proceed();
+        this.annotation = annotation;
+        return proceed;
+    }
 
+    @After("upuporLuceneAspect()")
+    public void doAfter() {
         LuceneEvent luceneEvent = new LuceneEvent();
         luceneEvent.setDataType(annotation.dataType());
         luceneEvent.setOperationType(annotation.operationType());
@@ -105,13 +113,6 @@ public class LuceneAspectAdvice {
         if(StringUtils.isNotEmpty(luceneEvent.getTargetId())){
             publisher.publishEvent(luceneEvent);
         }
-
-        return proceed;
-    }
-
-    @After("upuporLuceneAspect()")
-    public void doAfter() {
-
     }
 
 }
