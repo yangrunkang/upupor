@@ -61,9 +61,9 @@ public class AllContentView extends AbstractView {
 
     @Override
     protected void seoInfo() {
-        modelAndView.addObject(CcConstant.SeoKey.TITLE, "全部文章");
-        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "全部文章");
-        modelAndView.addObject(CcConstant.SeoKey.BUSINESS_TITLE, "全部文章");
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "所有内容");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "所有内容");
+        modelAndView.addObject(CcConstant.SeoKey.BUSINESS_TITLE, "所有内容");
     }
 
     @Override
