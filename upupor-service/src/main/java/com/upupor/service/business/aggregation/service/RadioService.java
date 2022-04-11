@@ -28,7 +28,10 @@
 package com.upupor.service.business.aggregation.service;
 
 import com.upupor.service.business.aggregation.dao.entity.Radio;
+import com.upupor.service.dto.OperateRadioDto;
 import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.outer.req.AddRadioReq;
+import com.upupor.service.outer.req.DelRadioReq;
 
 import java.util.List;
 
@@ -67,5 +70,9 @@ public interface RadioService {
      * @param userId
      */
     Boolean userHasRadio(String userId);
+
+    OperateRadioDto createNewRadio(AddRadioReq addRadioReq);
+
+    OperateRadioDto deleteRadio(DelRadioReq delRadioReq);
 
 }

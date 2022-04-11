@@ -27,8 +27,8 @@
 
 package com.upupor.service.listener;
 
-import com.upupor.lucene.LuceneEvent;
 import com.upupor.lucene.AbstractFlush;
+import com.upupor.lucene.LuceneEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -55,6 +55,7 @@ public class LuceneListener {
     @EventListener
     @Async
     public void flushLucene(LuceneEvent luceneEvent) {
+        log.info("触发刷新Lucene事件");
         if (StringUtils.isEmpty(luceneEvent.getTargetId())) {
             return;
         }

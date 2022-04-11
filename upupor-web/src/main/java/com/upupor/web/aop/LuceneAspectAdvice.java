@@ -40,6 +40,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ import java.util.List;
 @Aspect
 @Component
 @RequiredArgsConstructor
+@Order(2)
 public class LuceneAspectAdvice {
     private final ApplicationEventPublisher publisher;
 

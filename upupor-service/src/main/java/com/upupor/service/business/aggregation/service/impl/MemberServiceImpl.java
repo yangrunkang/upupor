@@ -50,6 +50,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -73,7 +75,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
     private final MemberExtendMapper memberExtendMapper;
     private final MemberIntegralMapper memberIntegralMapper;
-    private final ContentDataMapper contentDataMapper;
     private final MemberIntegralService memberIntegralService;
     @Resource
     private FanService fanService;
@@ -328,7 +329,7 @@ public class MemberServiceImpl implements MemberService {
         boolean result = total > 0;
         if (result) {
             if (!StringUtils.isEmpty(memberExtend.getBgImg())) {
-                 ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
+                ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
             }
         }
 

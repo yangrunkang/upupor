@@ -85,97 +85,30 @@ import static com.upupor.framework.thread.UpuporThreadPoolInit.UPUPOR_THREAD_POO
 @RequestMapping("/radio")
 public class RadioController {
 
-    private final MemberService memberService;
     private final FileService fileService;
     private final RadioService radioService;
-    private final ContentService contentService;
     private final UpuporConfig upuporConfig;
 
     @ApiOperation("删除音频")
     @PostMapping(value = "/delete")
     @UpuporLucene(dataType = LuceneDataType.RADIO, operationType = LuceneOperationType.DELETE)
     public CcResponse deleteRadio(DelRadioReq delRadioReq) {
-
-        if (Objects.isNull(delRadioReq) || StringUtils.isEmpty(delRadioReq.getRadioId())) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR);
-        }
-
-        String userId = ServletUtils.getUserId();
-
-        Radio radio = radioService.getByRadioId(delRadioReq.getRadioId());
-        if (Objects.isNull(radio)) {
-            throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
-        }
-
-        if (!radio.getUserId().equals(userId)) {
-            throw new BusinessException(ErrorCode.RADIO_NOT_BELONG_TO_YOU);
-        }
-
-        radio.setStatus(RadioStatus.DELETED);
-        radio.setSysUpdateTime(new Date());
-        Boolean success = radioService.updateRadio(radio) >0;
+        OperateRadioDto operateRadioDto = radioService.deleteRadio(delRadioReq);
 
         CcResponse ccResponse = new CcResponse();
-
-        OperateRadioDto operateRadioDto = new OperateRadioDto();
-        operateRadioDto.setRadioId(radio.getRadioId());
-        operateRadioDto.setSuccess(success);
-        operateRadioDto.setStatus(radio.getStatus());
-
         ccResponse.setData(operateRadioDto);
-
         return ccResponse;
 
     }
+
 
     @ApiOperation("添加音频记录")
     @PostMapping(value = "/add")
     @UpuporLucene(dataType = LuceneDataType.RADIO, operationType = LuceneOperationType.ADD)
     public CcResponse addRadio(AddRadioReq addRadioReq) {
+        OperateRadioDto operateRadioDto = radioService.createNewRadio(addRadioReq);
+
         CcResponse ccResponse = new CcResponse();
-        if (Objects.isNull(addRadioReq.getFileUrl())) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR, "音频文件为空");
-        }
-
-        if (Objects.isNull(addRadioReq.getRadioIntro())) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR, "音频简介为空");
-        }
-
-        // 获取用户
-        Member member = memberService.memberInfo(ServletUtils.getUserId());
-        if (Objects.isNull(member)) {
-            throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
-        }
-
-        // 检查文件是否上传成功
-        File file = fileService.selectByFileUrl(addRadioReq.getFileUrl());
-        if (Objects.isNull(file)) {
-            throw new BusinessException(ErrorCode.RADIO_NOT_EXITS_IN_DB);
-        }
-
-        Radio radio = new Radio();
-        radio.setRadioId(CcUtils.getUuId());
-        radio.setUserId(member.getUserId());
-        radio.setRadioIntro(addRadioReq.getRadioIntro());
-        radio.setRadioUrl(file.getFileUrl());
-        radio.setContentId(null);
-        radio.setStatus(RadioStatus.NORMAL);
-        radio.setCreateTime(CcDateUtil.getCurrentTime());
-        radio.setLatestCommentTime(CcDateUtil.getCurrentTime());
-        radio.setSysUpdateTime(new Date());
-
-        if (!radioService.addRadio(radio)) {
-            throw new BusinessException(ErrorCode.UPLOAD_RADIO_ERROR);
-        }
-
-        // 初始化数据
-        contentService.initContendData(radio.getRadioId());
-
-        OperateRadioDto operateRadioDto = new OperateRadioDto();
-        operateRadioDto.setRadioId(radio.getRadioId());
-        operateRadioDto.setSuccess(Boolean.TRUE);
-        operateRadioDto.setStatus(radio.getStatus());
-
         ccResponse.setData(operateRadioDto);
         return ccResponse;
     }
@@ -238,7 +171,6 @@ public class RadioController {
         ccResponse.setData(radioUrl);
         return ccResponse;
     }
-
 
 
     /**

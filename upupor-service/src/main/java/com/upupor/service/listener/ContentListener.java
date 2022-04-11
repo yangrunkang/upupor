@@ -124,9 +124,10 @@ public class ContentListener {
         viewHistoryMapper.insert(viewHistory);
     }
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @EventListener
     @Async
     public void createContent(PublishContentEvent createContentEvent) {
+        log.info("触发刷新创建新内容事件");
 
         String contentId = createContentEvent.getContentId();
         if (StringUtils.isEmpty(contentId)) {
@@ -135,6 +136,7 @@ public class ContentListener {
 
         Content content = contentService.getContentByContentIdNoStatus(contentId);
         if (Objects.isNull(content) || !content.getStatus().equals(ContentStatus.NORMAL)) {
+            log.warn("文章不存在或者状态不正常,不执行后续事件");
             return;
         }
 

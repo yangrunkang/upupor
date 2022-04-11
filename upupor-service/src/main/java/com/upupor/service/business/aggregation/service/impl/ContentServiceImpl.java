@@ -56,6 +56,7 @@ import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -257,20 +258,17 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public OperateContentDto addContent(AddContentDetailReq addContentDetailReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.CREATE, addContentDetailReq);
     }
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public OperateContentDto updateContent(UpdateContentReq updateContentReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.EDIT, updateContentReq);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public OperateContentDto updateContentStatus(UpdateContentReq updateContentReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.UPDATE_STATUS, updateContentReq);
     }

@@ -31,26 +31,33 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.aggregation.dao.entity.File;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.dao.entity.Radio;
 import com.upupor.service.business.aggregation.dao.mapper.RadioMapper;
 import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.business.aggregation.service.FileService;
 import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.RadioService;
 import com.upupor.service.common.BusinessException;
 import com.upupor.service.common.ErrorCode;
+import com.upupor.service.dto.OperateRadioDto;
 import com.upupor.service.dto.page.common.ListRadioDto;
+import com.upupor.service.outer.req.AddRadioReq;
+import com.upupor.service.outer.req.DelRadioReq;
 import com.upupor.service.types.RadioStatus;
 import com.upupor.service.utils.Asserts;
+import com.upupor.service.utils.CcUtils;
+import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -66,6 +73,8 @@ public class RadioServiceImpl implements RadioService {
     private final MemberService memberService;
 
     private final ContentService contentService;
+
+    private final FileService fileService;
 
     @Override
     public Boolean addRadio(Radio radio) {
@@ -204,4 +213,82 @@ public class RadioServiceImpl implements RadioService {
         return radioMapper.countRadioByUserId(userId) > 0;
     }
 
+    @Override
+    public OperateRadioDto createNewRadio(AddRadioReq addRadioReq) {
+        if (Objects.isNull(addRadioReq.getFileUrl())) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR, "音频文件为空");
+        }
+
+        if (Objects.isNull(addRadioReq.getRadioIntro())) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR, "音频简介为空");
+        }
+
+        // 获取用户
+        Member member = memberService.memberInfo(ServletUtils.getUserId());
+        if (Objects.isNull(member)) {
+            throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
+        }
+
+        // 检查文件是否上传成功
+        File file = fileService.selectByFileUrl(addRadioReq.getFileUrl());
+        if (Objects.isNull(file)) {
+            throw new BusinessException(ErrorCode.RADIO_NOT_EXITS_IN_DB);
+        }
+
+        Radio radio = new Radio();
+        radio.setRadioId(CcUtils.getUuId());
+        radio.setUserId(member.getUserId());
+        radio.setRadioIntro(addRadioReq.getRadioIntro());
+        radio.setRadioUrl(file.getFileUrl());
+        radio.setContentId(null);
+        radio.setStatus(RadioStatus.NORMAL);
+        radio.setCreateTime(CcDateUtil.getCurrentTime());
+        radio.setLatestCommentTime(CcDateUtil.getCurrentTime());
+        radio.setSysUpdateTime(new Date());
+
+        if (!this.addRadio(radio)) {
+            throw new BusinessException(ErrorCode.UPLOAD_RADIO_ERROR);
+        }
+
+        // 初始化数据
+        contentService.initContendData(radio.getRadioId());
+
+
+        OperateRadioDto operateRadioDto = new OperateRadioDto();
+        operateRadioDto.setRadioId(radio.getRadioId());
+        operateRadioDto.setSuccess(Boolean.TRUE);
+        operateRadioDto.setStatus(radio.getStatus());
+
+        return operateRadioDto;
+    }
+
+
+    @Override
+    public OperateRadioDto deleteRadio(DelRadioReq delRadioReq) {
+        if (Objects.isNull(delRadioReq) || StringUtils.isEmpty(delRadioReq.getRadioId())) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR);
+        }
+
+        String userId = ServletUtils.getUserId();
+
+        Radio radio = this.getByRadioId(delRadioReq.getRadioId());
+        if (Objects.isNull(radio)) {
+            throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
+        }
+
+        if (!radio.getUserId().equals(userId)) {
+            throw new BusinessException(ErrorCode.RADIO_NOT_BELONG_TO_YOU);
+        }
+
+        radio.setStatus(RadioStatus.DELETED);
+        radio.setSysUpdateTime(new Date());
+        Boolean success = this.updateRadio(radio) >0;
+
+
+        OperateRadioDto operateRadioDto = new OperateRadioDto();
+        operateRadioDto.setRadioId(radio.getRadioId());
+        operateRadioDto.setSuccess(success);
+        operateRadioDto.setStatus(radio.getStatus());
+        return operateRadioDto;
+    }
 }

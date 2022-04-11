@@ -30,6 +30,8 @@ package com.upupor.lucene;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.StopWatch;
 
 import javax.annotation.Resource;
 
@@ -40,6 +42,7 @@ import javax.annotation.Resource;
  * @date 2022年04月04日 14:13
  * @email: yangrunkang53@gmail.com
  */
+@Slf4j
 public abstract class AbstractFlush<T> {
 
     @Getter
@@ -80,6 +83,9 @@ public abstract class AbstractFlush<T> {
     public abstract LuceneDataType runDataType();
 
     public void flush(LuceneEvent event) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+
         // 初始化抽象类基础参数
         this.event = event;
         // 初始化目标对象
@@ -96,6 +102,9 @@ public abstract class AbstractFlush<T> {
         if (LuceneOperationType.DELETE.equals(this.event.getOperationType())) {
             delete();
         }
+
+        stopWatch.stop();
+        log.info("[FlushLucene][操作类型:{}][数据类型:{}][目标Id:{}][耗时:{}ms]",event.getOperationType(),event.getDataType(),event.getTargetId(),stopWatch.getTime());
     }
 
 }

@@ -71,9 +71,6 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
     @Resource
     protected ApplicationEventPublisher eventPublisher;
 
-    @Resource
-    protected UpuporLuceneService upuporLuceneService;
-
     protected T req;
 
     public T getReq() {
