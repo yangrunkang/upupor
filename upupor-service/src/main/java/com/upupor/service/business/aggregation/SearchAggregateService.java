@@ -93,7 +93,8 @@ public class SearchAggregateService {
         }
 
 
-        searchIndexDto.setTotal(lucenuQueryResultDto.getTotal());
+//        searchIndexDto.setTotal(lucenuQueryResultDto.getTotal());
+        searchIndexDto.setTotal((long) searchDataDtoList.size()); // DB处理内容会影响该数字,所以使用实际元素大小
         searchIndexDto.setSearchDataDtoList(searchDataDtoList);
         return searchIndexDto;
     }

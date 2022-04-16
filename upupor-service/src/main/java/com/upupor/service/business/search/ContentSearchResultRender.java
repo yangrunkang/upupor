@@ -31,6 +31,7 @@ import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.dto.page.search.SearchDataDto;
+import com.upupor.service.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -65,6 +66,9 @@ public class ContentSearchResultRender extends AbstractSearchResultRender<Conten
     @Override
     protected void transferToSearchDataDtoList(List<Content> contents) {
         for (Content content : contents) {
+            if (!ContentStatus.NORMAL.equals(content.getStatus())) {
+                continue;
+            }
             SearchDataDto searchDataDto = new SearchDataDto();
             searchDataDto.setDataType(dataType());
             searchDataDto.setResultTitle(content.getTitle());
