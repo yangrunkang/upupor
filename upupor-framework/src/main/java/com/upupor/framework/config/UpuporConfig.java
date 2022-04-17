@@ -62,6 +62,7 @@ public class UpuporConfig {
     private GoogleAd googleAd;
 
     private String googleTagId;
+    private String googleGa4;
 
 
 
