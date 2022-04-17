@@ -153,4 +153,5 @@ upupor:
   rightSlot: ${GOOGLE_AD_RIGHT}
   feedSlot: ${GOOGLE_AD_FEED}
  googleTagId: ${GOOGLE_TAG_ID}
+ googleGa4: ${GOOGLE_GA_4}
 

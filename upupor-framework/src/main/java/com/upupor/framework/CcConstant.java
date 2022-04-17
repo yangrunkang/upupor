@@ -121,6 +121,7 @@ public final class CcConstant {
      * Google分析ID
      */
     public static final String GOOGLE_TAG_ID = "googleTagId";
+    public static final String GOOGLE_GA_4 = "googleGA4";
 
     /**
      * 系统常量

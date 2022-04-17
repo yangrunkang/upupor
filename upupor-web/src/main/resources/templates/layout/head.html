@@ -68,14 +68,14 @@
         <!--自定义css-->
         <link th:replace="::css" />
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'" defer th:src="'https://www.googletagmanager.com/gtag/js?id=' + ${googleTagId}"></script>
-        <script th:inline="javascript" async="async" th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'">
+        <script th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'" async th:src="'https://www.googletagmanager.com/gtag/js?id='+${googleGA4}"></script>
+        <script th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'">
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', [[${googleTagId}]]);
+
+            gtag('config', '[[${googleGA4}]]');
         </script>
-        <script th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0'" defer src="https://www.googletagmanager.com/gtag/js?id=UA-163101807-1"></script>
     </head>
 </body>
 </html>

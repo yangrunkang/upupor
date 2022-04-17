@@ -56,6 +56,7 @@ public class SetUpuporConfig implements PrepareData {
         modelAndView.addObject(AD_SWITCH, upuporConfig.getAdSwitch());
         modelAndView.addObject(AD_SWITCH_RIGHT, upuporConfig.getAdSwitchRight());
         modelAndView.addObject(GOOGLE_TAG_ID, upuporConfig.getGoogleTagId());
+        modelAndView.addObject(GOOGLE_GA_4, upuporConfig.getGoogleGa4());
         // 谷歌广告信息
         modelAndView.addObject(GoogleAd.CLIENT_ID, upuporConfig.getGoogleAd().getDataAdClientId());
         modelAndView.addObject(GoogleAd.RIGHT_SLOT, upuporConfig.getGoogleAd().getRightSlot());
