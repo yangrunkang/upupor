@@ -27,27 +27,29 @@
  *   -->
  */
 
+package com.upupor.limiter.limit;
+
 /**
- * Upupor限制
+ * 处理类型
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-18 02:36
+ * @createTime 2022-04-18 02:38
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.handle.limit;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.TYPE, ElementType.METHOD})
-public @interface UpuporLimit {
-
+public enum HandleType {
     /**
-     * 处理类型
-     * @return
+     * 创建文章
      */
-    HandleType handleType();
-
+    CREATE_CONTENT,
+    /**
+     * 创建电台
+     */
+    CREATE_RADIO,
+    /**
+     * 留言
+     */
+    MESSAGE_BORAD,
+    /**
+     * 评论
+     */
+    COMMENT
 }

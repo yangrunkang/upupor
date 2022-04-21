@@ -38,8 +38,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.upupor.handle</groupId>
-    <artifactId>upupor-handle</artifactId>
+    <groupId>com.upupor.limiter</groupId>
+    <artifactId>upupor-limiter</artifactId>
     <version>1.0.0</version>
 
     <properties>

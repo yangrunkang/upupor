@@ -34,7 +34,7 @@
         <module>upupor-service</module>
         <module>upupor-framework</module>
         <module>upupor-lucene</module>
-        <module>upupor-handle</module>
+        <module>upupor-limiter</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

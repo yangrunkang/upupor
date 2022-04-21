@@ -27,7 +27,7 @@
  *   -->
  */
 
-package com.upupor.handle.limit;
+package com.upupor.limiter.limit;
 
 /**
  * 限制内容Dto
