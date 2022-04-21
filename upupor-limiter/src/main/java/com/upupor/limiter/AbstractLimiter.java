@@ -27,21 +27,49 @@
  *   -->
  */
 
-package com.upupor.limiter.limit;
+package com.upupor.limiter;
 
 /**
- * 限制内容Dto
+ * 抽象限制器
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-18 02:45
+ * @createTime 2022-04-22 00:41
  * @email: yangrunkang53@gmail.com
  */
-public class LimitDataDto {
+public abstract class AbstractLimiter {
 
     /**
-     * 开启所有限制
+     * 初始化限制器
      */
-    private Boolean isAll;
+    private void initLimiter(){
 
+    }
+
+    /**
+     * 是否达到限制
+     * @return
+     */
+    private Boolean isReachTop(){
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 使用资源
+     */
+    private void useSource(){}
+
+    /**
+     * 业务逻辑
+     * 1. 初始化,用户首次活动就初始化,后续用户活动使用该限制器
+     * 2. 是否达到限制
+     */
+
+    public void limit(){
+        initLimiter();
+        if(isReachTop()){
+           return;
+        }
+        useSource();
+    }
 
 
 }

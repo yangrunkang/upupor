@@ -27,9 +27,13 @@
  *   -->
  */
 
+package com.upupor.limiter;
+
 /**
+ * 基础限制器
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-18 02:44
+ * @createTime 2022-04-22 00:31
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.limiter.monitor;
+public class BaseLimiter {
+}

@@ -27,29 +27,13 @@
  *   -->
  */
 
-package com.upupor.limiter.limit;
+package com.upupor.limiter;
 
 /**
- * 处理类型
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-18 02:38
+ * @createTime 2022-04-22 00:49
  * @email: yangrunkang53@gmail.com
  */
-public enum HandleType {
-    /**
-     * 创建文章
-     */
-    CREATE_CONTENT,
-    /**
-     * 创建电台
-     */
-    CREATE_RADIO,
-    /**
-     * 留言
-     */
-    MESSAGE_BORAD,
-    /**
-     * 评论
-     */
-    COMMENT
+public class LimiterConstant {
+    public static final Integer INTERVAL_30S = 30;
 }
