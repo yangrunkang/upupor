@@ -28,8 +28,8 @@
 package com.upupor.service.business.aggregation.service.impl;
 
 import com.upupor.service.business.aggregation.service.RecommendService;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.page.GlobalIndexDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

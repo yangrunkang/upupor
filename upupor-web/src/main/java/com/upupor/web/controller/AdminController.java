@@ -29,7 +29,7 @@ package com.upupor.web.controller;
 
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.common.CcResponse;
+import com.upupor.framework.CcResponse;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.outer.req.SetContentStatusReq;
 import com.upupor.service.outer.req.SetKeywordsReq;

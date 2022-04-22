@@ -27,25 +27,17 @@
  *   -->
  */
 
+package com.upupor.web.aop;
+
 /**
- * Upupor限制
+ * 顺序常量
+ * 数字越小越优先执行
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-18 02:36
+ * @createTime 2022-04-23 01:33
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.limiter;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.TYPE, ElementType.METHOD})
-public @interface UpuporLimit {
-    /**
-     * 限制类型
-     * @return
-     */
-    LimitType limitType();
+public class OrderConstant {
+    public static final int LIMITER_ORDER = 0; // 限制器
+    public static final int CONTROLLER_ORDER = 1; // 接口
+    public static final int LUCENE_ORDER = 2; // 全文检索
 }

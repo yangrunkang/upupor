@@ -37,8 +37,8 @@ import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.business.aggregation.dao.mapper.*;
 import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.business.editor.AbstractEditor;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.dto.dao.CommentNumDto;
@@ -56,8 +56,6 @@ import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -67,7 +65,7 @@ import java.util.stream.Collectors;
 
 import static com.upupor.framework.CcConstant.Time.CONTENT_UPDATE_TIME;
 import static com.upupor.framework.CcConstant.Time.NEW_CONTENT_TIME;
-import static com.upupor.service.common.ErrorCode.*;
+import static com.upupor.framework.ErrorCode.*;
 
 /**
  * @author: YangRunkang(cruise)

@@ -32,15 +32,15 @@ import com.upupor.service.business.aggregation.dao.entity.ContentExtend;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.dao.entity.MemberConfig;
 import com.upupor.service.business.aggregation.dao.mapper.MemberConfigMapper;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.AddContentDetailReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.CcUtils;
-import com.upupor.service.utils.RedisUtil;
+import com.upupor.framework.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -52,8 +52,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.CvCache.createContentIntervalkey;
-import static com.upupor.service.common.ErrorCode.CONTENT_NOT_EXISTS;
-import static com.upupor.service.common.ErrorCode.MEMBER_CONFIG_LESS;
+import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
+import static com.upupor.framework.ErrorCode.MEMBER_CONFIG_LESS;
 
 
 /**

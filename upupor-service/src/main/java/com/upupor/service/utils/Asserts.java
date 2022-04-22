@@ -29,8 +29,8 @@ package com.upupor.service.utils;
 
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.ContentExtend;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 
 import java.util.Objects;
 

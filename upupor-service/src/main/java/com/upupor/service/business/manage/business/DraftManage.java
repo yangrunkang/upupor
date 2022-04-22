@@ -32,13 +32,13 @@ import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.CommonService;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ContentManageService;
-import com.upupor.service.common.BusinessException;
+import com.upupor.framework.BusinessException;
 import com.upupor.service.dto.page.common.ListContentDto;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-import static com.upupor.service.common.ErrorCode.CONTENT_NOT_EXISTS;
+import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 
 /**
  * @author cruise

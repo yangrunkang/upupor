@@ -42,7 +42,7 @@ import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.GetCommonReq;
 import com.upupor.service.types.BannerStatus;
 import com.upupor.service.types.ContentType;
-import com.upupor.service.utils.RedisUtil;
+import com.upupor.framework.utils.RedisUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

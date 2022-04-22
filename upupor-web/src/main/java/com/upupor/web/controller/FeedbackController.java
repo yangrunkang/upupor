@@ -28,7 +28,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.service.business.aggregation.service.FeedbackService;
-import com.upupor.service.common.CcResponse;
+import com.upupor.framework.CcResponse;
 import com.upupor.service.outer.req.AddFeedbackReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

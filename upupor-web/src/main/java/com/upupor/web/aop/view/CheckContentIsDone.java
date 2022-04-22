@@ -28,7 +28,7 @@
 package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.utils.RedisUtil;
+import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

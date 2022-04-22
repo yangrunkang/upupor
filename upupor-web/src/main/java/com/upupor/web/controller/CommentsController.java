@@ -27,16 +27,16 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.limiter.LimitType;
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.aggregation.dao.entity.Comment;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.CommentService;
-import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.aggregation.service.RadioService;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcResponse;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.outer.req.AddCommentReq;
@@ -70,13 +70,12 @@ import java.util.Objects;
 public class CommentsController {
     private final CommentService commentService;
     private final MemberService memberService;
-    private final ContentService contentService;
-    private final RadioService radioService;
     private final ApplicationEventPublisher eventPublisher;
 
     @ApiOperation("添加评论")
     @PostMapping("/add")
     @ResponseBody
+    @UpuporLimit(limitType = LimitType.CREATE_COMMENT)
     public CcResponse add(AddCommentReq addCommentReq) {
         CcResponse cc = new CcResponse();
         if (Objects.isNull(addCommentReq.getCommentSource())) {

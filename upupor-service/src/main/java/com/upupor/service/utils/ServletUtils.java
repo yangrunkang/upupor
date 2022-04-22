@@ -28,8 +28,8 @@
 package com.upupor.service.utils;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

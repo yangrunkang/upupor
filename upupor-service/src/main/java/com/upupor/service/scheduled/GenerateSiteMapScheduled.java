@@ -27,20 +27,11 @@
 
 package com.upupor.service.scheduled;
 
-import com.alibaba.fastjson.JSON;
-import com.upupor.framework.CcConstant;
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.aggregation.dao.entity.*;
-import com.upupor.service.business.aggregation.service.*;
 import com.upupor.service.common.CcTemplateConstant;
-import com.upupor.service.dto.page.common.CountTagDto;
-import com.upupor.service.dto.page.common.ListMemberDto;
-import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.scheduled.sitemap.AbstractSiteMap;
-import com.upupor.service.types.*;
 import com.upupor.service.utils.HtmlTemplateUtils;
-import com.upupor.service.utils.RedisUtil;
+import com.upupor.framework.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -48,11 +39,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.upupor.framework.CcConstant.CvCache.SITE_MAP;
-import static com.upupor.framework.CcConstant.CvCache.TAG_COUNT;
 
 
 /**

@@ -27,25 +27,48 @@
  *   -->
  */
 
+package com.upupor.web.aop;
+
+
+import com.upupor.limiter.AbstractLimiter;
+import com.upupor.limiter.UpuporLimit;
+import com.upupor.service.utils.ServletUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
+
+import static com.upupor.web.aop.OrderConstant.LIMITER_ORDER;
+import static org.springframework.data.redis.connection.RedisZSetCommands.Limit.limit;
+
 /**
- * Upupor限制
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-18 02:36
+ * @createTime 2022-04-23 01:32
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.limiter;
+@Aspect
+@Order(LIMITER_ORDER)
+public class LimiterAspectAdvice extends AbstractLimiter {
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.TYPE, ElementType.METHOD})
-public @interface UpuporLimit {
-    /**
-     * 限制类型
-     * @return
-     */
-    LimitType limitType();
+    @Pointcut("@annotation(com.upupor.limiter.UpuporLimit)")
+    public void upuporLimiterAspect() {
+    }
+
+    @Before("upuporLimiterAspect() && @annotation(annotation)")
+    public void doBefore(JoinPoint joinPoint, UpuporLimit annotation) {
+
+        String userId = ServletUtils.getUserId();
+        if(StringUtils.isEmpty(userId)){
+            return;
+        }
+
+        // 初始化限制器
+        initLimiter(userId,annotation.limitType());
+        // 执行限流操作
+        limit();
+    }
+
 }

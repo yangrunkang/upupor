@@ -28,7 +28,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.service.business.aggregation.service.AttentionService;
-import com.upupor.service.common.CcResponse;
+import com.upupor.framework.CcResponse;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.DelAttentionReq;
 import io.swagger.annotations.Api;

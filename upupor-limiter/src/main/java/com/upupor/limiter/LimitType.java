@@ -29,12 +29,15 @@
 
 package com.upupor.limiter;
 
+import lombok.Getter;
+
 /**
  * 限制类型
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-18 02:38
  * @email: yangrunkang53@gmail.com
  */
+@Getter
 public enum LimitType {
     /**
      * 创建文章
@@ -47,9 +50,9 @@ public enum LimitType {
     /**
      * 留言
      */
-    MESSAGE_BORAD,
+    CREATE_MESSAGE_ON_BOARD,
     /**
      * 评论
      */
-    COMMENT
+    CREATE_COMMENT
 }

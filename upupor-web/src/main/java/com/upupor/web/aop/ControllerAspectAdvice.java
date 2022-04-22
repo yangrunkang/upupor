@@ -28,9 +28,9 @@
 package com.upupor.web.aop;
 
 
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcResponse;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.types.PointType;
 import com.upupor.service.utils.ServletUtils;
@@ -49,6 +49,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+import static com.upupor.web.aop.OrderConstant.CONTROLLER_ORDER;
+
 /**
  * restful 接口切面
  * @author: YangRunkang(cruise)
@@ -58,7 +60,7 @@ import java.util.List;
 @Aspect
 @Component
 @RequiredArgsConstructor
-@Order(1)
+@Order(CONTROLLER_ORDER)
 public class ControllerAspectAdvice {
     private final ApplicationEventPublisher publisher;
     private final List<ControllerAspectChecker> controllerAspectCheckerList;

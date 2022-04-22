@@ -28,7 +28,7 @@
 package com.upupor.service.business.lucene.get_id;
 
 import com.upupor.lucene.AbstractGetTargetId;
-import com.upupor.service.common.CcResponse;
+import com.upupor.framework.CcResponse;
 import com.upupor.service.dto.OperateContentDto;
 
 /**

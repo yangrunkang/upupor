@@ -27,9 +27,9 @@
 
 package com.upupor.service.utils;
 
-import com.upupor.service.common.BusinessException;
+import com.upupor.framework.BusinessException;
 import com.upupor.service.common.CcTemplateConstant;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.ErrorCode;
 import org.springframework.util.CollectionUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

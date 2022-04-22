@@ -46,6 +46,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.upupor.web.aop.OrderConstant.LUCENE_ORDER;
+
 /**
  * @author Yang Runkang (cruise)
  * @date 2022年04月04日 10:27
@@ -55,7 +57,7 @@ import java.util.List;
 @Aspect
 @Component
 @RequiredArgsConstructor
-@Order(2)
+@Order(LUCENE_ORDER)
 public class LuceneAspectAdvice {
     private final ApplicationEventPublisher publisher;
 
@@ -69,9 +71,7 @@ public class LuceneAspectAdvice {
 
     private Object proceed;
     private UpuporLucene annotation;
-    /**
-     * 以 controller 包下定义的所有请求为切入点
-     */
+
     @Pointcut("@annotation(com.upupor.lucene.UpuporLucene)")
     public void upuporLuceneAspect() {
     }

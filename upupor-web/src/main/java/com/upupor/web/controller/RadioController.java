@@ -29,27 +29,22 @@ package com.upupor.web.controller;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.FileUtils;
 import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.limiter.LimitType;
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
 import com.upupor.lucene.UpuporLucene;
 import com.upupor.service.business.aggregation.dao.entity.File;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.dao.entity.Radio;
-import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.FileService;
-import com.upupor.service.business.aggregation.service.MemberService;
 import com.upupor.service.business.aggregation.service.RadioService;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcResponse;
-import com.upupor.service.common.ErrorCode;
-import com.upupor.service.dto.OperateMemberDto;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.OperateRadioDto;
 import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
-import com.upupor.service.types.RadioStatus;
 import com.upupor.service.types.UploadStatus;
 import com.upupor.service.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
@@ -60,7 +55,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,7 +62,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 
@@ -105,6 +98,7 @@ public class RadioController {
     @ApiOperation("添加音频记录")
     @PostMapping(value = "/add")
     @UpuporLucene(dataType = LuceneDataType.RADIO, operationType = LuceneOperationType.ADD)
+    @UpuporLimit(limitType = LimitType.CREATE_RADIO)
     public CcResponse addRadio(AddRadioReq addRadioReq) {
         OperateRadioDto operateRadioDto = radioService.createNewRadio(addRadioReq);
 

@@ -29,13 +29,13 @@ package com.upupor.service.business.content;
 
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.common.BusinessException;
+import com.upupor.framework.BusinessException;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-import static com.upupor.service.common.ErrorCode.ARTICLE_NOT_BELONG_TO_YOU;
+import static com.upupor.framework.ErrorCode.ARTICLE_NOT_BELONG_TO_YOU;
 
 /**
  * 未公开的内容

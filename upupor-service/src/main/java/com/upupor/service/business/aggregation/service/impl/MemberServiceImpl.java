@@ -32,13 +32,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.RedisUtil;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.business.aggregation.dao.entity.*;
 import com.upupor.service.business.aggregation.dao.mapper.*;
 import com.upupor.service.business.aggregation.service.*;
-import com.upupor.service.common.BusinessException;
+import com.upupor.framework.BusinessException;
 import com.upupor.service.common.CcTemplateConstant;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
@@ -50,8 +51,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -60,7 +59,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.upupor.service.common.ErrorCode.DATA_EXCEPTION;
+import static com.upupor.framework.ErrorCode.DATA_EXCEPTION;
 
 /**
  * 实现用户服务

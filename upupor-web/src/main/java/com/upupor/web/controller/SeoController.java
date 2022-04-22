@@ -27,7 +27,7 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.service.common.CcResponse;
+import com.upupor.framework.CcResponse;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;

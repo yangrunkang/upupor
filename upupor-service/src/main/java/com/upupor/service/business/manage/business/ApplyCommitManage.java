@@ -38,7 +38,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-import static com.upupor.service.common.ErrorCode.NOT_EXISTS_APPLY;
+import static com.upupor.framework.ErrorCode.NOT_EXISTS_APPLY;
 
 /**
  * @author cruise

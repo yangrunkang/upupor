@@ -27,25 +27,52 @@
  *   -->
  */
 
+package com.upupor.framework;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
- * Upupor限制
- * @author Yang Runkang (cruise)
- * @createTime 2022-04-18 02:36
- * @email: yangrunkang53@gmail.com
+ * UPUPOR响应对象
+ *
+ * @author: YangRunkang(cruise)
+ * @created: 2019/12/20 03:00
  */
-package com.upupor.limiter;
+@Data
+public class CcResponse implements Serializable {
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.TYPE, ElementType.METHOD})
-public @interface UpuporLimit {
     /**
-     * 限制类型
-     * @return
+     * 响应码
      */
-    LimitType limitType();
+    private Integer code = 0;
+
+    /**
+     * 响应对象
+     */
+    private Object data;
+
+
+    public CcResponse(Integer code, Object data) {
+        this.code = code;
+        this.data = data;
+    }
+
+    public CcResponse() {
+    }
+
+    public CcResponse(BusinessException businessException) {
+        this.code = businessException.getCode();
+        this.data = businessException.getMessage();
+    }
+
+    public CcResponse(ErrorCode errorCode) {
+        this.code = errorCode.getCode();
+        this.data = errorCode.getMessage();
+    }
+
+    public CcResponse(Object data) {
+        this.data = data;
+    }
+
 }

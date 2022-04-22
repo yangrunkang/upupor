@@ -30,8 +30,8 @@ package com.upupor.service.types;
 import com.upupor.service.business.pages.content.AllContentView;
 import com.upupor.service.business.pages.content.NewContentView;
 import com.upupor.service.business.pages.content.RecentlyEditedContentView;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import lombok.Getter;
 
 /**

@@ -35,13 +35,12 @@ import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.scheduled.InitLuceneService;
 import com.upupor.service.scheduled.MemberScheduled;
-import com.upupor.service.utils.RedisUtil;
+import com.upupor.framework.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

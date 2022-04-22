@@ -27,8 +27,8 @@
 
 package com.upupor.web.aop.checker.page;
 
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.web.aop.checker.page.dto.PageCheckDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;

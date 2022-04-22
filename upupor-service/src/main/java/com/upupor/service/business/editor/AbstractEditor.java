@@ -29,19 +29,18 @@ package com.upupor.service.business.editor;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.dao.mapper.ContentExtendMapper;
 import com.upupor.service.business.aggregation.dao.mapper.ContentMapper;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.outer.req.content.BaseContentReq;
-import com.upupor.service.utils.RedisUtil;
+import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
 

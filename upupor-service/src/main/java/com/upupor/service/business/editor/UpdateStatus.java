@@ -29,7 +29,7 @@ package com.upupor.service.business.editor;
 
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.common.BusinessException;
+import com.upupor.framework.BusinessException;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.UpdateContentReq;
 import com.upupor.service.types.ContentIsInitialStatus;
@@ -42,7 +42,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.Objects;
 
-import static com.upupor.service.common.ErrorCode.FIRST_CANCEL_PINNED;
+import static com.upupor.framework.ErrorCode.FIRST_CANCEL_PINNED;
 
 /**
  * @author Yang Runkang (cruise)

@@ -28,8 +28,8 @@
 package com.upupor.web.aop;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.types.PointType;
 import com.upupor.web.aop.checker.page.PageAspectChecker;

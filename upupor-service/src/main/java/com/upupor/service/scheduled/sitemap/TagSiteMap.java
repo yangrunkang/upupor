@@ -29,14 +29,11 @@ package com.upupor.service.scheduled.sitemap;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.dao.entity.Tag;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.seo.GoogleSeoDto;
-import com.upupor.service.utils.RedisUtil;
+import com.upupor.framework.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;

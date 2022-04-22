@@ -27,6 +27,8 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.limiter.LimitType;
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
 import com.upupor.lucene.UpuporLucene;
@@ -36,9 +38,9 @@ import com.upupor.service.business.aggregation.dao.entity.MemberIntegral;
 import com.upupor.service.business.aggregation.dao.mapper.MemberIntegralMapper;
 import com.upupor.service.business.aggregation.service.ContentService;
 import com.upupor.service.business.aggregation.service.MemberIntegralService;
-import com.upupor.service.common.BusinessException;
-import com.upupor.service.common.CcResponse;
-import com.upupor.service.common.ErrorCode;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
@@ -62,7 +64,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.CONTENT_INTEGRAL;
-import static com.upupor.service.common.ErrorCode.FORBIDDEN_LIKE_SELF_CONTENT;
+import static com.upupor.framework.ErrorCode.FORBIDDEN_LIKE_SELF_CONTENT;
 
 
 /**
@@ -86,6 +88,7 @@ public class ContentController {
     @ResponseBody
     @ApiOperation("创建内容")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
+    @UpuporLimit(limitType = LimitType.CREATE_CONTENT)
     public CcResponse add(AddContentDetailReq addContentDetailReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.addContent(addContentDetailReq);

@@ -29,7 +29,7 @@ package com.upupor.web.aop.view;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.service.scheduled.CountTagScheduled;
-import com.upupor.service.utils.RedisUtil;
+import com.upupor.framework.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;

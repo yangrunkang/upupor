@@ -30,7 +30,7 @@
 package com.upupor.limiter;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ import static com.upupor.limiter.LimiterConstant.INTERVAL_30S;
  * @email: yangrunkang53@gmail.com
  */
 @Builder
-@Data
+@Getter
 public class DefaultLimiterConfig {
 
     /**
@@ -54,48 +54,54 @@ public class DefaultLimiterConfig {
     private LimitType limitType;
 
     /**
-     * 默认资源数
+     * 请求频率
      */
-    private Integer sourceNum;
+    private Integer frequency;
 
     /**
-     * 间隔时间
+     * 在xx秒内
+     *
+     * @note: 在 withinSeconds 秒内只允许请求 frequency 次
      */
-    private Integer intervalSeconds;
+    private Integer withinSeconds;
 
-
-    private List<DefaultLimiterConfig> defaultLimiterConfigList() {
+    /**
+     * 默认的系统资源配置
+     *
+     * @return
+     */
+    public static List<DefaultLimiterConfig> defaultLimiterConfigList() {
         List<DefaultLimiterConfig> defaultLimiterConfigList = new ArrayList<>();
 
         defaultLimiterConfigList.add(
                 DefaultLimiterConfig.builder()
                         .limitType(LimitType.CREATE_CONTENT)
-                        .sourceNum(10)
-                        .intervalSeconds(INTERVAL_30S)
+                        .frequency(2)
+                        .withinSeconds(INTERVAL_30S)
                         .build()
         );
 
         defaultLimiterConfigList.add(
                 DefaultLimiterConfig.builder()
                         .limitType(LimitType.CREATE_RADIO)
-                        .sourceNum(10)
-                        .intervalSeconds(INTERVAL_30S)
+                        .frequency(2)
+                        .withinSeconds(INTERVAL_30S)
                         .build()
         );
 
         defaultLimiterConfigList.add(
                 DefaultLimiterConfig.builder()
-                        .limitType(LimitType.MESSAGE_BORAD)
-                        .sourceNum(10)
-                        .intervalSeconds(INTERVAL_30S)
+                        .limitType(LimitType.CREATE_MESSAGE_ON_BOARD)
+                        .frequency(10)
+                        .withinSeconds(INTERVAL_30S)
                         .build()
         );
 
         defaultLimiterConfigList.add(
                 DefaultLimiterConfig.builder()
-                        .limitType(LimitType.COMMENT)
-                        .sourceNum(10)
-                        .intervalSeconds(INTERVAL_30S)
+                        .limitType(LimitType.CREATE_COMMENT)
+                        .frequency(2)
+                        .withinSeconds(INTERVAL_30S)
                         .build()
         );
 
