@@ -64,6 +64,7 @@ GOOGLE_DATA_AD_CLIENT_ID=Google广告Id
 GOOGLE_AD_RIGHT=右侧广告
 GOOGLE_AD_FEED=信息流广告
 GOOGLE_TAG_ID=Google分析Id
+GOOGLE_GA_4=Google最新GA4媒体资源ID
 ```
 
 2. 启动upupor服务
