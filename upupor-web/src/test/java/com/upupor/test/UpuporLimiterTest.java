@@ -49,7 +49,7 @@ public class UpuporLimiterTest extends AbstractLimiter {
     @Test
     public void testLimiter(){
         // 初始化限制器
-        initLimiter("test", LimitType.CREATE_RADIO);
+        initInterfaceLimiter("test", LimitType.CREATE_RADIO);
         // 执行限流操作
         limit();
         System.out.println();

@@ -70,10 +70,11 @@ public abstract class AbstractLimiter {
         // 初始化
         this.redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
     }
+
     /**
-     * 初始化限制器
+     * 初始化接口限制器
      */
-    public void initLimiter(String businessId, LimitType limitType) {
+    public void initInterfaceLimiter(String businessId, LimitType limitType) {
         commonInit();
         this.businessId = businessId;
         this.limitType = limitType;
@@ -81,7 +82,7 @@ public abstract class AbstractLimiter {
     }
 
     /**
-     * 初始化限制器
+     * 初始化页面限制器
      */
     public void initPageLimiter(String businessId, Limiter limiter) {
         commonInit();

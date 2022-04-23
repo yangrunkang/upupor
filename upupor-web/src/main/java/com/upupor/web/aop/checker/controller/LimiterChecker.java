@@ -66,7 +66,7 @@ public class LimiterChecker extends AbstractLimiter implements ControllerAspectC
         }
 
         // 初始化限制器
-        initLimiter(businessId, annotation.limitType());
+        initInterfaceLimiter(businessId, annotation.limitType());
 
         // 执行限流操作
         limit();
