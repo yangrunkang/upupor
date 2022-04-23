@@ -75,13 +75,14 @@ public class DefaultLimiterConfig {
         list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_CONTENT).frequency(2).withinSeconds(INTERVAL_30S).build());
         list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_RADIO).frequency(2).withinSeconds(INTERVAL_30S).build());
         list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_MESSAGE_ON_BOARD).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_TODO).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_COMMENT).frequency(2).withinSeconds(INTERVAL_30S).build());
         list.add(DefaultLimiterConfig.builder().limitType(LimitType.SEND_EMAIL_VERIFY_CODE).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.FEED_BACK).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_CONTENT_IMAGE).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_PROFILE_IMAGE).frequency(2).withinSeconds(INTERVAL_30S).build());
         list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_RADIO_FILE).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.FEED_BACK).frequency(2).withinSeconds(INTERVAL_30S).build());
+
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_CONTENT_IMAGE).frequency(4).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_PROFILE_IMAGE).frequency(3).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_TODO).frequency(5).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_COMMENT).frequency(3).withinSeconds(INTERVAL_30S).build());
         return list;
     }
 
