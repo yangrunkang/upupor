@@ -149,6 +149,7 @@ public enum ErrorCode {
     LUCENE_FLUSH_SOURCE_404(177, "刷新Lucene时未获取到资源"),
     UNKNOWN_TYPE_CONTENT(178, "未知类型文章类型"),
     WITHOUT_DEFAULT_LIMIT_CONFIG(179, "没有默认的限制器配置"),
+    REQUEST_TOO_MATCH(180, "请求频繁,请稍后再试"),
 
 
     //占位 兜底异常

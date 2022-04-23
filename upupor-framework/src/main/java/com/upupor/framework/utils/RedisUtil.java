@@ -70,7 +70,6 @@ public class RedisUtil {
     }
 
 
-
     /**
      * 永久缓存
      *

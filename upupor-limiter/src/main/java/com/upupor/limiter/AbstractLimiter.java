@@ -32,6 +32,15 @@ package com.upupor.limiter;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.RedisUtil;
+import com.upupor.framework.utils.SpringContextUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
+
+import java.util.concurrent.TimeUnit;
+
+import static com.upupor.framework.CcConstant.DASH;
 
 /**
  * 抽象限制器
@@ -40,8 +49,8 @@ import com.upupor.framework.utils.RedisUtil;
  * @createTime 2022-04-22 00:41
  * @email: yangrunkang53@gmail.com
  */
+@Slf4j
 public abstract class AbstractLimiter {
-
     /**
      * 用户Id
      */
@@ -54,7 +63,7 @@ public abstract class AbstractLimiter {
      * @return
      */
     public String tagKey() {
-        return userId + limitType;
+        return limitType + DASH + userId;
     }
 
     /**
@@ -80,25 +89,21 @@ public abstract class AbstractLimiter {
      * @return
      */
     private Boolean isReachTop() {
-        Boolean exists = RedisUtil.exists(tagKey());
-        if (!exists) {
-            return Boolean.FALSE;
-        }
+        String key = tagKey();
+        Integer windowInSecond = limiterConfig().getWithinSeconds();
+        Integer maxCount = limiterConfig().getFrequency();
+        StringRedisTemplate redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
+        // 当前时间
+        long currentMs = System.currentTimeMillis();
+        // 窗口开始时间
+        long windowStartMs = currentMs - windowInSecond * 1000L;
+        // 按score统计key的value中的有效数量
+        Long count = redisTemplate.opsForZSet().count(key, windowStartMs, currentMs);
+        // 已访问次数 >= 最大可访问值
+        return count >= maxCount;
 
-        String s = RedisUtil.get(tagKey());
-        if (limiterConfig().getFrequency().toString().equals(s)) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
     }
 
-    /**
-     * 使用资源
-     */
-    private void useSource() {
-        RedisUtil.incr(tagKey());
-    }
 
     /**
      * 业务逻辑
@@ -108,10 +113,51 @@ public abstract class AbstractLimiter {
 
     public void limit() {
         if (isReachTop()) {
-            return;
+            throw new BusinessException(ErrorCode.REQUEST_TOO_MATCH);
         }
-        useSource();
+        canAccess();
     }
 
+
+    /**
+     * 判断key的value中的有效访问次数是否超过最大限定值maxCount，若没超过，调用increment方法，将窗口内的访问数加一
+     * 判断与数量增长同步处理
+     */
+    public boolean canAccess() {
+        String key = tagKey();
+        Integer maxCount = limiterConfig().getFrequency();
+        StringRedisTemplate redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
+
+        log.info("redis key = {}", key);
+        //按key统计集合中的有效数量
+        Long count = redisTemplate.opsForZSet().zCard(key);
+        if (count < maxCount) {
+            increment();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 滑动窗口计数增长
+     */
+    public void increment() {
+        String key = tagKey();
+        Integer windowInSecond = limiterConfig().getWithinSeconds();
+        StringRedisTemplate redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
+        // 当前时间
+        long currentMs = System.currentTimeMillis();
+        // 窗口开始时间
+        long windowStartMs = currentMs - windowInSecond * 1000;
+        // 单例模式(提升性能)
+        ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+        // 清除窗口过期成员
+        zSetOperations.removeRangeByScore(key, 0, windowStartMs);
+        // 添加当前时间 value=当前时间戳 score=当前时间戳
+        zSetOperations.add(key, String.valueOf(currentMs), currentMs);
+        // 设置key过期时间
+        redisTemplate.expire(key, windowInSecond, TimeUnit.SECONDS);
+    }
 
 }

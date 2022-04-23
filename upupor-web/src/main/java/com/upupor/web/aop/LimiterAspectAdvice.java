@@ -39,9 +39,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import static com.upupor.web.aop.OrderConstant.LIMITER_ORDER;
-import static org.springframework.data.redis.connection.RedisZSetCommands.Limit.limit;
 
 /**
  * @author Yang Runkang (cruise)
@@ -49,6 +49,7 @@ import static org.springframework.data.redis.connection.RedisZSetCommands.Limit.
  * @email: yangrunkang53@gmail.com
  */
 @Aspect
+@Component
 @Order(LIMITER_ORDER)
 public class LimiterAspectAdvice extends AbstractLimiter {
 
@@ -70,5 +71,8 @@ public class LimiterAspectAdvice extends AbstractLimiter {
         // 执行限流操作
         limit();
     }
+
+
+
 
 }

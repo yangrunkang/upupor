@@ -52,6 +52,7 @@ public class UpuporLimiterTest extends AbstractLimiter {
         initLimiter("test", LimitType.CREATE_RADIO);
         // 执行限流操作
         limit();
+        System.out.println();
     }
 
 }
