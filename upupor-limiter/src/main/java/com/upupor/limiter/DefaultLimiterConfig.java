@@ -71,41 +71,18 @@ public class DefaultLimiterConfig {
      * @return
      */
     public static List<DefaultLimiterConfig> defaultLimiterConfigList() {
-        List<DefaultLimiterConfig> defaultLimiterConfigList = new ArrayList<>();
-
-        defaultLimiterConfigList.add(
-                DefaultLimiterConfig.builder()
-                        .limitType(LimitType.CREATE_CONTENT)
-                        .frequency(2)
-                        .withinSeconds(INTERVAL_30S)
-                        .build()
-        );
-
-        defaultLimiterConfigList.add(
-                DefaultLimiterConfig.builder()
-                        .limitType(LimitType.CREATE_RADIO)
-                        .frequency(2)
-                        .withinSeconds(INTERVAL_30S)
-                        .build()
-        );
-
-        defaultLimiterConfigList.add(
-                DefaultLimiterConfig.builder()
-                        .limitType(LimitType.CREATE_MESSAGE_ON_BOARD)
-                        .frequency(10)
-                        .withinSeconds(INTERVAL_30S)
-                        .build()
-        );
-
-        defaultLimiterConfigList.add(
-                DefaultLimiterConfig.builder()
-                        .limitType(LimitType.CREATE_COMMENT)
-                        .frequency(2)
-                        .withinSeconds(INTERVAL_30S)
-                        .build()
-        );
-
-        return defaultLimiterConfigList;
+        List<DefaultLimiterConfig> list = new ArrayList<>();
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_CONTENT).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_RADIO).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_MESSAGE_ON_BOARD).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_TODO).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_COMMENT).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.SEND_EMAIL_VERIFY_CODE).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.FEED_BACK).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_CONTENT_IMAGE).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_PROFILE_IMAGE).frequency(2).withinSeconds(INTERVAL_30S).build());
+        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_RADIO_FILE).frequency(2).withinSeconds(INTERVAL_30S).build());
+        return list;
     }
 
 }

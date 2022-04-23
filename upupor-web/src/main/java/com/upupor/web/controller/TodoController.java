@@ -28,6 +28,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.service.business.aggregation.dao.entity.Todo;
 import com.upupor.service.business.aggregation.dao.entity.TodoDetail;
 import com.upupor.service.business.aggregation.service.TodoService;
@@ -49,6 +50,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.Objects;
 
+import static com.upupor.limiter.LimitType.CREATE_TODO;
+import static com.upupor.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
+
 
 /**
  * @author cruise
@@ -64,6 +68,7 @@ public class TodoController {
 
     @ApiOperation("添加待办事项")
     @PostMapping(value = "/add")
+    @UpuporLimit(limitType = CREATE_TODO)
     public CcResponse addTodo(AddTodoReq addTodoReq) {
         CcResponse ccResponse = new CcResponse();
 

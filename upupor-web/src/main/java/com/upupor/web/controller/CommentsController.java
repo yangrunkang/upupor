@@ -75,7 +75,7 @@ public class CommentsController {
     @ApiOperation("添加评论")
     @PostMapping("/add")
     @ResponseBody
-    @UpuporLimit(limitType = LimitType.CREATE_COMMENT)
+    @UpuporLimit(limitType = LimitType.CREATE_COMMENT,needSpendMoney = true)
     public CcResponse add(AddCommentReq addCommentReq) {
         CcResponse cc = new CcResponse();
         if (Objects.isNull(addCommentReq.getCommentSource())) {

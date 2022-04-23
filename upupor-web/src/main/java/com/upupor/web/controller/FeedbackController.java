@@ -27,6 +27,7 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.service.business.aggregation.service.FeedbackService;
 import com.upupor.framework.CcResponse;
 import com.upupor.service.outer.req.AddFeedbackReq;
@@ -36,6 +37,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.upupor.limiter.LimitType.FEED_BACK;
 
 
 /**
@@ -54,6 +57,7 @@ public class FeedbackController {
 
     @ApiOperation("添加反馈")
     @PostMapping("/add")
+    @UpuporLimit(limitType = FEED_BACK,needLogin = false,needSpendMoney = true)
     public CcResponse add(AddFeedbackReq add) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(feedbackService.addFeedBack(add) > 0);

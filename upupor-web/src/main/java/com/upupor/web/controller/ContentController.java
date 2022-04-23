@@ -88,7 +88,7 @@ public class ContentController {
     @ResponseBody
     @ApiOperation("创建内容")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
-    @UpuporLimit(limitType = LimitType.CREATE_CONTENT)
+    @UpuporLimit(limitType = LimitType.CREATE_CONTENT,needSpendMoney = true)
     public CcResponse add(AddContentDetailReq addContentDetailReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.addContent(addContentDetailReq);

@@ -29,6 +29,8 @@ package com.upupor.web.controller;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
+import com.upupor.limiter.LimitType;
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
 import com.upupor.lucene.UpuporLucene;
@@ -287,6 +289,7 @@ public class MemberController {
     @ApiOperation("发送验证码")
     @PostMapping("/sendVerifyCode")
     @ResponseBody
+    @UpuporLimit(limitType = LimitType.SEND_EMAIL_VERIFY_CODE, needLogin = false, needSpendMoney = true)
     public CcResponse sendVerifyCode(AddVerifyCodeReq addVerifyCodeReq) {
         CcResponse ccResponse = new CcResponse();
 

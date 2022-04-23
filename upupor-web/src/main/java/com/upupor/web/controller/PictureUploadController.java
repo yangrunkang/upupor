@@ -30,6 +30,7 @@ package com.upupor.web.controller;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.FileUtils;
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.service.business.aggregation.dao.entity.File;
 import com.upupor.service.business.aggregation.dao.entity.Member;
 import com.upupor.service.business.aggregation.service.FileService;
@@ -56,6 +57,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static com.upupor.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
+import static com.upupor.limiter.LimitType.UPLOAD_PROFILE_IMAGE;
+
 
 /**
  * 图片上传
@@ -75,6 +79,7 @@ public class PictureUploadController {
 
     @ApiOperation("上传头像")
     @PostMapping(value = "/uploadFile", consumes = "multipart/form-data")
+    @UpuporLimit(limitType = UPLOAD_PROFILE_IMAGE, needSpendMoney = true)
     public CcResponse uploadMemberPhoto(@RequestParam("image") MultipartFile file) throws IOException {
         CcResponse ccResponse = new CcResponse();
         if (Objects.isNull(file)) {
@@ -167,6 +172,7 @@ public class PictureUploadController {
      */
     @ApiOperation("编辑器上传图片文件")
     @PostMapping(value = "/uploadFile/editor", consumes = "multipart/form-data")
+    @UpuporLimit(limitType = UPLOAD_CONTENT_IMAGE,needSpendMoney = true)
     public CcResponse uploadFileForEditor(@RequestParam("file") MultipartFile file) throws IOException {
 
         if (Objects.isNull(file)) {

@@ -27,52 +27,50 @@
  *   -->
  */
 
-package com.upupor.web.aop;
-
+package com.upupor.web.aop.checker.controller;
 
 import com.upupor.limiter.AbstractLimiter;
 import com.upupor.limiter.UpuporLimit;
 import com.upupor.service.utils.ServletUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import com.upupor.web.aop.checker.controller.dto.ControllerCheckerDto;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import static com.upupor.web.aop.OrderConstant.LIMITER_ORDER;
+import java.util.Objects;
 
 /**
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-23 01:32
+ * @createTime 2022-04-23 15:20
  * @email: yangrunkang53@gmail.com
  */
-@Aspect
-@Component
-@Order(LIMITER_ORDER)
-public class LimiterAspectAdvice extends AbstractLimiter {
+@Service
+@Order(0)
+public class LimiterChecker extends AbstractLimiter implements ControllerAspectChecker {
+    @Override
+    public void check(ControllerCheckerDto controllerCheckerDto) {
 
 
-    @Pointcut("@annotation(com.upupor.limiter.UpuporLimit)")
-    public void upuporLimiterAspect() {
-    }
-
-    @Before("upuporLimiterAspect() && @annotation(annotation)")
-    public void doBefore(JoinPoint joinPoint, UpuporLimit annotation) {
-
-        String userId = ServletUtils.getUserId();
-        if(StringUtils.isEmpty(userId)){
+        MethodSignature signature = (MethodSignature) controllerCheckerDto.getProceedingJoinPoint().getSignature();
+        UpuporLimit annotation = signature.getMethod().getAnnotation(UpuporLimit.class);
+        if(Objects.isNull(annotation)){
             return;
         }
 
+        // 如果需要登录,就使用用户id,否则使用sessionId
+        String businessId;
+        if(annotation.needLogin()){
+            businessId = ServletUtils.getUserId();
+        }else {
+            businessId=controllerCheckerDto.getRequest().getSession().getId();
+        }
+
         // 初始化限制器
-        initLimiter(userId,annotation.limitType());
+        initLimiter(businessId, annotation.limitType());
+
         // 执行限流操作
         limit();
     }
-
-
 
 
 }

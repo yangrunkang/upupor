@@ -66,6 +66,8 @@ import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import static com.upupor.framework.thread.UpuporThreadPoolInit.UPUPOR_THREAD_POOL;
+import static com.upupor.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
+import static com.upupor.limiter.LimitType.UPLOAD_RADIO_FILE;
 
 
 /**
@@ -110,6 +112,7 @@ public class RadioController {
 
     @ApiOperation("上传音频")
     @PostMapping(value = "/addRadioFile", consumes = "multipart/form-data")
+    @UpuporLimit(limitType = UPLOAD_RADIO_FILE, needSpendMoney = true)
     public CcResponse uploadRadioFile(@RequestParam("radioFile") MultipartFile file) throws IOException {
         CcResponse ccResponse = new CcResponse();
 

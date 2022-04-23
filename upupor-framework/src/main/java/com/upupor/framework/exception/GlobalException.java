@@ -1,4 +1,4 @@
-/*
+package com.upupor.framework.exception;/*
  * <!--
  *   ~ MIT License
  *   ~
@@ -27,38 +27,22 @@
  *   -->
  */
 
+import com.upupor.framework.BusinessException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 /**
- * Upupor限制
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-18 02:36
+ * @createTime 2022-04-23 11:28
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.limiter;
+@ControllerAdvice
+public class GlobalException {
+    @ExceptionHandler(value = BusinessException.class)
+    public void exceptionHandler(BusinessException e, HttpServletResponse response) throws IOException {
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.TYPE, ElementType.METHOD})
-public @interface UpuporLimit {
-    /**
-     * 限制类型
-     * @return
-     */
-    LimitType limitType();
-
-    /**
-     * 是否需要登录
-     * @return
-     */
-    boolean needLogin() default true;
-
-    /**
-     * 默认是付费的操作
-     * @return
-     */
-    boolean needSpendMoney() default false;
-
+    }
 }

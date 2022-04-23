@@ -57,6 +57,8 @@ public abstract class AbstractLimiter {
     private String userId;
     private LimitType limitType;
 
+    private StringRedisTemplate redisTemplate;
+    private DefaultLimiterConfig limiterConfig;
     /**
      * 标识key
      *
@@ -72,6 +74,9 @@ public abstract class AbstractLimiter {
     public void initLimiter(String userId, LimitType limitType) {
         this.userId = userId;
         this.limitType = limitType;
+        // 初始化
+        redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
+        limiterConfig = limiterConfig();
     }
 
     private DefaultLimiterConfig limiterConfig() {
@@ -90,9 +95,8 @@ public abstract class AbstractLimiter {
      */
     private Boolean isReachTop() {
         String key = tagKey();
-        Integer windowInSecond = limiterConfig().getWithinSeconds();
-        Integer maxCount = limiterConfig().getFrequency();
-        StringRedisTemplate redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
+        Integer windowInSecond = limiterConfig.getWithinSeconds();
+        Integer maxCount = limiterConfig.getFrequency();
         // 当前时间
         long currentMs = System.currentTimeMillis();
         // 窗口开始时间
@@ -113,7 +117,8 @@ public abstract class AbstractLimiter {
 
     public void limit() {
         if (isReachTop()) {
-            throw new BusinessException(ErrorCode.REQUEST_TOO_MATCH);
+            Long expire = redisTemplate.getExpire(tagKey(), TimeUnit.SECONDS);
+            throw new BusinessException(ErrorCode.REQUEST_TOO_MATCH.getCode(),"请求过于频繁,请"+expire+"秒后重试");
         }
         canAccess();
     }
@@ -125,8 +130,7 @@ public abstract class AbstractLimiter {
      */
     public boolean canAccess() {
         String key = tagKey();
-        Integer maxCount = limiterConfig().getFrequency();
-        StringRedisTemplate redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
+        Integer maxCount = limiterConfig.getFrequency();
 
         log.info("redis key = {}", key);
         //按key统计集合中的有效数量
@@ -144,8 +148,7 @@ public abstract class AbstractLimiter {
      */
     public void increment() {
         String key = tagKey();
-        Integer windowInSecond = limiterConfig().getWithinSeconds();
-        StringRedisTemplate redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
+        Integer windowInSecond = limiterConfig.getWithinSeconds();
         // 当前时间
         long currentMs = System.currentTimeMillis();
         // 窗口开始时间
