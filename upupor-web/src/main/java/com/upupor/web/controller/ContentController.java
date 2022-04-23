@@ -124,6 +124,7 @@ public class ContentController {
     @PostMapping("/like")
     @ResponseBody
     @ApiOperation("喜欢")
+    @UpuporLimit(limitType = LimitType.CLICK_LIKE,needSpendMoney = true)
     public CcResponse like(UpdateLikeReq updateLikeReq) {
         String clickUserId = ServletUtils.getUserId();
         CcResponse cc = new CcResponse();

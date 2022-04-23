@@ -94,7 +94,7 @@ public abstract class AbstractLimiter {
     }
 
     private Limiter limiterConfig() {
-        for (Limiter limiter : Limiter.defaultLimiterList()) {
+        for (Limiter limiter : Limiter.interfaceLimiterList()) {
             if (limiter.getLimitType().equals(limitType)) {
                 return limiter;
             }

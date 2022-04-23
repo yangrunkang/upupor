@@ -35,8 +35,6 @@
  */
 package com.upupor.limiter;
 
-import org.apache.logging.log4j.util.Strings;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -62,11 +60,5 @@ public @interface UpuporLimit {
      * @return
      */
     boolean needSpendMoney() default false;
-
-    /**
-     * 制定页面限流
-     * @return
-     */
-    String pageUrlLimit() default Strings.EMPTY;
 
 }

@@ -29,6 +29,8 @@ package com.upupor.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.limiter.LimitType;
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.service.business.aggregation.dao.entity.Collect;
 import com.upupor.service.business.aggregation.dao.entity.Content;
 import com.upupor.service.business.aggregation.dao.mapper.CollectMapper;
@@ -86,6 +88,7 @@ public class CollectController {
     @PostMapping("/add")
     @ResponseBody
     @ApiOperation("添加收藏")
+    @UpuporLimit(limitType = LimitType.CLICK_COLLECT,needSpendMoney = true)
     public CcResponse add(AddCollectReq addCollectReq) {
         CcResponse ccResponse = new CcResponse();
 

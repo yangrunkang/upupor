@@ -35,6 +35,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.upupor.limiter.LimiterConstant.INTERVAL_10S;
 import static com.upupor.limiter.LimiterConstant.INTERVAL_30S;
 
 /**
@@ -75,7 +76,7 @@ public class Limiter {
      *
      * @return
      */
-    public static List<Limiter> defaultLimiterList() {
+    public static List<Limiter> interfaceLimiterList() {
         List<Limiter> limiterList = new ArrayList<>();
         limiterList.add(Limiter.builder().limitType(LimitType.CREATE_CONTENT).frequency(2).withinSeconds(INTERVAL_30S).build());
         limiterList.add(Limiter.builder().limitType(LimitType.CREATE_RADIO).frequency(2).withinSeconds(INTERVAL_30S).build());
@@ -87,6 +88,9 @@ public class Limiter {
         limiterList.add(Limiter.builder().limitType(LimitType.UPLOAD_PROFILE_IMAGE).frequency(3).withinSeconds(INTERVAL_30S).build());
         limiterList.add(Limiter.builder().limitType(LimitType.CREATE_TODO).frequency(5).withinSeconds(INTERVAL_30S).build());
         limiterList.add(Limiter.builder().limitType(LimitType.CREATE_COMMENT).frequency(3).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.CLICK_COLLECT).frequency(2).withinSeconds(INTERVAL_10S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.CLICK_LIKE).frequency(2).withinSeconds(INTERVAL_10S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.CLICK_ATTENTION).frequency(2).withinSeconds(INTERVAL_10S).build());
         return limiterList;
     }
 

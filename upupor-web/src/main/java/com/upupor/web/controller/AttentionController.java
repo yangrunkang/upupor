@@ -27,6 +27,8 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.limiter.LimitType;
+import com.upupor.limiter.UpuporLimit;
 import com.upupor.service.business.aggregation.service.AttentionService;
 import com.upupor.framework.CcResponse;
 import com.upupor.service.outer.req.AddAttentionReq;
@@ -58,6 +60,7 @@ public class AttentionController {
     @ApiOperation("添加关注")
     @PostMapping(value = "/add")
     @ResponseBody
+    @UpuporLimit(limitType = LimitType.CLICK_ATTENTION,needSpendMoney = true)
     public CcResponse add(AddAttentionReq addAttentionReq) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(attentionService.attention(addAttentionReq));

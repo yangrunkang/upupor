@@ -57,7 +57,7 @@ public class PageLimiterChecker extends AbstractLimiter implements PageAspectChe
 
     static {
         // 搜索限制器
-        pageLimiterList.add(Limiter.builder().limitType(LimitType.GLOBAL_SEARCH).frequency(5).withinSeconds(INTERVAL_10S).pageUrl(SearchView.URL).build());
+        pageLimiterList.add(Limiter.builder().limitType(LimitType.GLOBAL_SEARCH).frequency(3).withinSeconds(INTERVAL_10S).pageUrl(SearchView.URL).build());
     }
 
 

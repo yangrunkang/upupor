@@ -89,7 +89,21 @@ public enum LimitType {
     /**
      * 全局检索
      */
-    GLOBAL_SEARCH
+    GLOBAL_SEARCH,
 
+    /**
+     * 点赞
+     */
+    CLICK_LIKE,
+
+    /**
+     * 关注
+     */
+    CLICK_ATTENTION,
+
+    /**
+     * 收藏
+     */
+    CLICK_COLLECT,
 
 }
