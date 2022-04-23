@@ -32,9 +32,7 @@ package com.upupor.limiter;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.RedisUtil;
-import com.upupor.framework.utils.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 
@@ -52,37 +50,52 @@ import static com.upupor.framework.CcConstant.DASH;
 @Slf4j
 public abstract class AbstractLimiter {
     /**
-     * 用户Id
+     * 业务ID
      */
-    private String userId;
+    private String businessId;
     private LimitType limitType;
 
     private StringRedisTemplate redisTemplate;
-    private DefaultLimiterConfig limiterConfig;
+    private Limiter limiter;
     /**
      * 标识key
      *
      * @return
      */
     public String tagKey() {
-        return limitType + DASH + userId;
+        return limitType + DASH + businessId;
+    }
+
+    private void commonInit(){
+        // 初始化
+        this.redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
+    }
+    /**
+     * 初始化限制器
+     */
+    public void initLimiter(String businessId, LimitType limitType) {
+        commonInit();
+        this.businessId = businessId;
+        this.limitType = limitType;
+        this.limiter = limiterConfig();
     }
 
     /**
      * 初始化限制器
      */
-    public void initLimiter(String userId, LimitType limitType) {
-        this.userId = userId;
-        this.limitType = limitType;
-        // 初始化
-        redisTemplate = RedisUtil.RedisSingleton.getRedisSingleton().getRedisTemplate();
-        limiterConfig = limiterConfig();
+    public void initPageLimiter(String businessId, Limiter limiter) {
+        commonInit();
+
+        this.businessId = businessId;
+        this.limiter = limiter;
+        this.limitType = limiter.getLimitType();
+
     }
 
-    private DefaultLimiterConfig limiterConfig() {
-        for (DefaultLimiterConfig defaultLimiterConfig : DefaultLimiterConfig.defaultLimiterConfigList()) {
-            if (defaultLimiterConfig.getLimitType().equals(limitType)) {
-                return defaultLimiterConfig;
+    private Limiter limiterConfig() {
+        for (Limiter limiter : Limiter.defaultLimiterList()) {
+            if (limiter.getLimitType().equals(limitType)) {
+                return limiter;
             }
         }
         throw new BusinessException(ErrorCode.WITHOUT_DEFAULT_LIMIT_CONFIG);
@@ -95,8 +108,8 @@ public abstract class AbstractLimiter {
      */
     private Boolean isReachTop() {
         String key = tagKey();
-        Integer windowInSecond = limiterConfig.getWithinSeconds();
-        Integer maxCount = limiterConfig.getFrequency();
+        Integer windowInSecond = limiter.getWithinSeconds();
+        Integer maxCount = limiter.getFrequency();
         // 当前时间
         long currentMs = System.currentTimeMillis();
         // 窗口开始时间
@@ -130,7 +143,7 @@ public abstract class AbstractLimiter {
      */
     public boolean canAccess() {
         String key = tagKey();
-        Integer maxCount = limiterConfig.getFrequency();
+        Integer maxCount = limiter.getFrequency();
 
         log.info("redis key = {}", key);
         //按key统计集合中的有效数量
@@ -148,7 +161,7 @@ public abstract class AbstractLimiter {
      */
     public void increment() {
         String key = tagKey();
-        Integer windowInSecond = limiterConfig.getWithinSeconds();
+        Integer windowInSecond = limiter.getWithinSeconds();
         // 当前时间
         long currentMs = System.currentTimeMillis();
         // 窗口开始时间

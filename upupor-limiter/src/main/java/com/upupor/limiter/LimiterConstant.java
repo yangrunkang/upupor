@@ -36,4 +36,5 @@ package com.upupor.limiter;
  */
 public class LimiterConstant {
     public static final Integer INTERVAL_30S = 30;
+    public static final Integer INTERVAL_10S = 10;
 }

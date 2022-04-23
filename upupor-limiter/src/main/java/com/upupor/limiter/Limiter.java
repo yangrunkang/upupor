@@ -38,7 +38,7 @@ import java.util.List;
 import static com.upupor.limiter.LimiterConstant.INTERVAL_30S;
 
 /**
- * 默认限制器
+ * 限制器
  *
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-22 00:46
@@ -46,7 +46,7 @@ import static com.upupor.limiter.LimiterConstant.INTERVAL_30S;
  */
 @Builder
 @Getter
-public class DefaultLimiterConfig {
+public class Limiter {
 
     /**
      * 限制类型
@@ -66,24 +66,28 @@ public class DefaultLimiterConfig {
     private Integer withinSeconds;
 
     /**
+     * 页面Url限制,如果有则限制
+     */
+    private String pageUrl;
+
+    /**
      * 默认的系统资源配置
      *
      * @return
      */
-    public static List<DefaultLimiterConfig> defaultLimiterConfigList() {
-        List<DefaultLimiterConfig> list = new ArrayList<>();
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_CONTENT).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_RADIO).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_MESSAGE_ON_BOARD).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.SEND_EMAIL_VERIFY_CODE).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_RADIO_FILE).frequency(2).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.FEED_BACK).frequency(2).withinSeconds(INTERVAL_30S).build());
-
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_CONTENT_IMAGE).frequency(4).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.UPLOAD_PROFILE_IMAGE).frequency(3).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_TODO).frequency(5).withinSeconds(INTERVAL_30S).build());
-        list.add(DefaultLimiterConfig.builder().limitType(LimitType.CREATE_COMMENT).frequency(3).withinSeconds(INTERVAL_30S).build());
-        return list;
+    public static List<Limiter> defaultLimiterList() {
+        List<Limiter> limiterList = new ArrayList<>();
+        limiterList.add(Limiter.builder().limitType(LimitType.CREATE_CONTENT).frequency(2).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.CREATE_RADIO).frequency(2).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.CREATE_MESSAGE_ON_BOARD).frequency(2).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.SEND_EMAIL_VERIFY_CODE).frequency(2).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.UPLOAD_RADIO_FILE).frequency(2).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.FEED_BACK).frequency(2).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.UPLOAD_CONTENT_IMAGE).frequency(4).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.UPLOAD_PROFILE_IMAGE).frequency(3).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.CREATE_TODO).frequency(5).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.CREATE_COMMENT).frequency(3).withinSeconds(INTERVAL_30S).build());
+        return limiterList;
     }
 
 }

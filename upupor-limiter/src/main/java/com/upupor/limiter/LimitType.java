@@ -84,7 +84,12 @@ public enum LimitType {
     /**
      * 上传电台
      */
-    UPLOAD_RADIO_FILE
+    UPLOAD_RADIO_FILE,
+
+    /**
+     * 全局检索
+     */
+    GLOBAL_SEARCH
 
 
 }
