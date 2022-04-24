@@ -39,7 +39,7 @@ import lombok.Getter;
 public enum BusinessConfigType {
     SEO(0, "SEO配置"),
     CSS_BG(1, "CSS自定义背景"),
-
+    SENSITIVE_WORD(2,"敏感词"),
     ;
     private final Integer status;
     private final String name;

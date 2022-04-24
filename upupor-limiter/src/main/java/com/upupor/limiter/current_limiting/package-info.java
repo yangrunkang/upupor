@@ -27,32 +27,10 @@
  *   -->
  */
 
-package com.upupor.test;
-
-
-import com.upupor.limiter.current_limiting.AbstractLimiter;
-import com.upupor.limiter.current_limiting.LimitType;
-import com.upupor.web.UpuporWebApplication;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
 /**
+ * 限流
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-23 02:22
+ * @createTime 2022-04-25 02:09
  * @email: yangrunkang53@gmail.com
  */
-@SpringBootTest(classes = UpuporWebApplication.class)
-@RequiredArgsConstructor
-public class UpuporLimiterTest extends AbstractLimiter {
-
-    @Test
-    public void testLimiter(){
-        // 初始化限制器
-        initInterfaceLimiter("test", LimitType.CREATE_RADIO);
-        // 执行限流操作
-        limit();
-        System.out.println();
-    }
-
-}
+package com.upupor.limiter.current_limiting;

@@ -27,13 +27,27 @@
  *   -->
  */
 
-package com.upupor.limiter;
-
 /**
- * 基础限制器
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-22 00:31
+ * @createTime 2022-04-25 02:10
  * @email: yangrunkang53@gmail.com
  */
-public class BaseLimiter {
+package com.upupor.limiter.sensitive;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * upupor敏感词注解
+ * @note: 注释到类上
+ *
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-04-25 02:06
+ * @email: yangrunkang53@gmail.com
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(value = {ElementType.TYPE, ElementType.METHOD})
+public @interface UpuporSensitive {
 }

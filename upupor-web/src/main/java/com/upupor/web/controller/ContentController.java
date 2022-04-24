@@ -27,8 +27,8 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.limiter.LimitType;
-import com.upupor.limiter.UpuporLimit;
+import com.upupor.limiter.current_limiting.LimitType;
+import com.upupor.limiter.current_limiting.UpuporLimit;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
 import com.upupor.lucene.UpuporLucene;

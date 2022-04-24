@@ -28,7 +28,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.limiter.UpuporLimit;
+import com.upupor.limiter.current_limiting.UpuporLimit;
 import com.upupor.service.business.aggregation.dao.entity.Todo;
 import com.upupor.service.business.aggregation.dao.entity.TodoDetail;
 import com.upupor.service.business.aggregation.service.TodoService;
@@ -50,8 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.Objects;
 
-import static com.upupor.limiter.LimitType.CREATE_TODO;
-import static com.upupor.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
+import static com.upupor.limiter.current_limiting.LimitType.CREATE_TODO;
 
 
 /**

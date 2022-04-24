@@ -31,8 +31,8 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.FileUtils;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.limiter.LimitType;
-import com.upupor.limiter.UpuporLimit;
+import com.upupor.limiter.current_limiting.LimitType;
+import com.upupor.limiter.current_limiting.UpuporLimit;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
 import com.upupor.lucene.UpuporLucene;
@@ -66,8 +66,7 @@ import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import static com.upupor.framework.thread.UpuporThreadPoolInit.UPUPOR_THREAD_POOL;
-import static com.upupor.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
-import static com.upupor.limiter.LimitType.UPLOAD_RADIO_FILE;
+import static com.upupor.limiter.current_limiting.LimitType.UPLOAD_RADIO_FILE;
 
 
 /**

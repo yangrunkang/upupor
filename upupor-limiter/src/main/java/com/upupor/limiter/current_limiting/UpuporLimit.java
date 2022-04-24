@@ -33,7 +33,7 @@
  * @createTime 2022-04-18 02:36
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.limiter;
+package com.upupor.limiter.current_limiting;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -27,7 +27,7 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.limiter.UpuporLimit;
+import com.upupor.limiter.current_limiting.UpuporLimit;
 import com.upupor.service.business.aggregation.service.FeedbackService;
 import com.upupor.framework.CcResponse;
 import com.upupor.service.outer.req.AddFeedbackReq;
@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.upupor.limiter.LimitType.FEED_BACK;
+import static com.upupor.limiter.current_limiting.LimitType.FEED_BACK;
 
 
 /**
