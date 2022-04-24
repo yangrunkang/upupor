@@ -42,8 +42,6 @@ public class MemberConfig extends BaseEntity {
 
     private String userId;
 
-    private String bgImg;
-
     private Long intervalTimeCreateContent;
 
     private Long createTime;

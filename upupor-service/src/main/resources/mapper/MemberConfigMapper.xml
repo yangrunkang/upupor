@@ -32,14 +32,13 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="config_id" jdbcType="VARCHAR" property="configId" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="bg_img" jdbcType="VARCHAR" property="bgImg" />
     <result column="interval_time_create_content" jdbcType="BIGINT" property="intervalTimeCreateContent" />
     <result column="open_email" jdbcType="INTEGER" property="openEmail" />
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, config_id, user_id, bg_img, open_email, interval_time_create_content, create_time, sys_update_time
+    id, config_id, user_id, open_email, interval_time_create_content, create_time, sys_update_time
   </sql>
 
   <select id="countByUserId" parameterType="java.lang.String" resultType="java.lang.Integer">
