@@ -105,5 +105,9 @@ public enum LimitType {
      * 收藏
      */
     CLICK_COLLECT,
+    /**
+     * 登录
+     */
+    LOGIN,
 
 }

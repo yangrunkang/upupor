@@ -91,6 +91,7 @@ public class Limiter {
         limiterList.add(Limiter.builder().limitType(LimitType.CLICK_COLLECT).frequency(2).withinSeconds(INTERVAL_10S).build());
         limiterList.add(Limiter.builder().limitType(LimitType.CLICK_LIKE).frequency(2).withinSeconds(INTERVAL_10S).build());
         limiterList.add(Limiter.builder().limitType(LimitType.CLICK_ATTENTION).frequency(2).withinSeconds(INTERVAL_10S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.LOGIN).frequency(5).withinSeconds(INTERVAL_30S).build());
         return limiterList;
     }
 

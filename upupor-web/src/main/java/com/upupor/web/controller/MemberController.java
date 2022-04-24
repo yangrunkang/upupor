@@ -92,6 +92,7 @@ public class MemberController {
     @ApiOperation("用户登录")
     @PostMapping("get")
     @ResponseBody
+    @UpuporLimit(limitType = LimitType.LOGIN,needLogin = false)
     public CcResponse get(GetMemberReq getMemberReq) {
         CcResponse cc = new CcResponse();
         Boolean login = memberService.login(getMemberReq);
