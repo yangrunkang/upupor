@@ -39,6 +39,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static com.upupor.service.utils.ServletUtils.checkIsLogin;
+
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-23 15:20
@@ -60,6 +62,7 @@ public class LimiterChecker extends AbstractLimiter implements ControllerAspectC
         // 如果需要登录,就使用用户id,否则使用sessionId
         String businessId;
         if(annotation.needLogin()){
+            checkIsLogin();
             businessId = ServletUtils.getUserId();
         }else {
             businessId=controllerCheckerDto.getRequest().getSession().getId();

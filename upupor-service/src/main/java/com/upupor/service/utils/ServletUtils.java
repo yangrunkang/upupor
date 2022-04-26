@@ -90,5 +90,12 @@ public class ServletUtils {
         }
     }
 
+    public static void checkIsLogin() {
+        Object userId = getSession().getAttribute(CcConstant.Session.USER_ID);
+        if (Objects.isNull(userId) || CcConstant.Session.UNKNOWN_USER_ID.equals(userId)) {
+            throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
+        }
+    }
+
 
 }
