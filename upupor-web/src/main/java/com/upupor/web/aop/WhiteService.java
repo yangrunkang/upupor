@@ -27,16 +27,11 @@
 
 package com.upupor.web.aop;
 
-import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
-import static com.upupor.service.utils.ServletUtils.getSession;
+import static com.upupor.service.utils.ServletUtils.checkIsLogin;
 
 /**
  * 白名单服务
@@ -54,12 +49,7 @@ public class WhiteService {
         }
     }
 
-    private void checkIsLogin() {
-        Object userId = getSession().getAttribute(CcConstant.Session.USER_ID);
-        if (Objects.isNull(userId) || CcConstant.Session.UNKNOWN_USER_ID.equals(userId)) {
-            throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
-        }
-    }
+
 
     public void pageCheck(String servletPath) {
         upuporConfig.getPageCheckUrlList().forEach(page -> {
