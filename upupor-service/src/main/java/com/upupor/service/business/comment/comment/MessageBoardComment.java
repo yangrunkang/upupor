@@ -27,10 +27,10 @@
 
 package com.upupor.service.business.comment.comment;
 
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.MemberIntegralService;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.aggregation.service.MessageService;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.aggregation.service.MemberIntegralService;
+import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.aggregation.service.MessageService;
 import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.types.ContentType;

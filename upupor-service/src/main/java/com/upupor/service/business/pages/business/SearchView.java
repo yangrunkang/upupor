@@ -28,7 +28,7 @@
 package com.upupor.service.business.pages.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.SearchAggregateService;
+import com.upupor.service.data.aggregation.SearchAggregateService;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;

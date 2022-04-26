@@ -28,7 +28,7 @@
 package com.upupor.service.business.pages.member;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.data.aggregation.service.MemberService;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;

@@ -28,7 +28,7 @@
 package com.upupor.service.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Content;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 

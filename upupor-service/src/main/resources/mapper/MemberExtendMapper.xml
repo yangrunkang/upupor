@@ -27,8 +27,8 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.upupor.service.business.aggregation.dao.mapper.MemberExtendMapper">
-  <resultMap id="BaseResultMap" type="com.upupor.service.business.aggregation.dao.entity.MemberExtend">
+<mapper namespace="com.upupor.service.data.dao.mapper.MemberExtendMapper">
+  <resultMap id="BaseResultMap" type="com.upupor.service.data.dao.entity.MemberExtend">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="birthday" jdbcType="VARCHAR" property="birthday" />
@@ -37,7 +37,7 @@
     <result column="emergency_code" jdbcType="VARCHAR" property="emergencyCode" />
     <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.upupor.service.business.aggregation.dao.entity.MemberExtend">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.upupor.service.data.dao.entity.MemberExtend">
     <result column="introduce" jdbcType="LONGVARCHAR" property="introduce" />
   </resultMap>
   <sql id="Base_Column_List">

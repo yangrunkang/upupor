@@ -28,7 +28,7 @@
 package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.MessageService;
+import com.upupor.service.data.aggregation.service.MessageService;
 import com.upupor.service.outer.req.ListMessageReq;
 import com.upupor.service.types.MessageStatus;
 import com.upupor.service.utils.ServletUtils;

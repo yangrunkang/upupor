@@ -27,10 +27,10 @@
 
 package com.upupor.service.dto.page;
 
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.dao.entity.Statement;
-import com.upupor.service.business.aggregation.dao.entity.Tag;
-import com.upupor.service.business.aggregation.dao.entity.Viewer;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.entity.Statement;
+import com.upupor.service.data.dao.entity.Tag;
+import com.upupor.service.data.dao.entity.Viewer;
 import com.upupor.service.dto.page.common.*;
 import lombok.Data;
 

@@ -28,11 +28,11 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.business.aggregation.dao.entity.Attention;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.MemberIntegralService;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.aggregation.service.MessageService;
+import com.upupor.service.data.dao.entity.Attention;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.aggregation.service.MemberIntegralService;
+import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.aggregation.service.MessageService;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.listener.event.MemberLoginEvent;

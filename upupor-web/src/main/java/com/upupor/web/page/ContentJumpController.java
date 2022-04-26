@@ -28,12 +28,12 @@
 package com.upupor.web.page;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.CommonAggregateService;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.dao.entity.MemberConfig;
-import com.upupor.service.business.aggregation.dao.entity.Tag;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.aggregation.service.TagService;
+import com.upupor.service.data.aggregation.CommonAggregateService;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.entity.MemberConfig;
+import com.upupor.service.data.dao.entity.Tag;
+import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.aggregation.service.TagService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.outer.req.GetCommonReq;

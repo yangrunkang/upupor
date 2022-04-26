@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.MessageService;
+import com.upupor.service.data.aggregation.service.MessageService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.framework.BusinessException;

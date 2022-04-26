@@ -28,7 +28,7 @@
 package com.upupor.service.business.editor;
 
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Content;
 import com.upupor.framework.BusinessException;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.UpdateContentReq;

@@ -28,8 +28,8 @@
 package com.upupor.service.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.service.business.aggregation.dao.entity.Attention;
-import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.data.dao.entity.Attention;
+import com.upupor.service.data.dao.entity.Member;
 import lombok.Data;
 
 import java.util.ArrayList;

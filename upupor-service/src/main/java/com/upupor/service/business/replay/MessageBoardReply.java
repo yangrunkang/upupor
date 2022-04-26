@@ -27,9 +27,9 @@
 
 package com.upupor.service.business.replay;
 
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.MemberService;
-import com.upupor.service.business.aggregation.service.MessageService;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.aggregation.service.MessageService;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;

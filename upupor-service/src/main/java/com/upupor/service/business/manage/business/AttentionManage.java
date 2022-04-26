@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.AttentionService;
+import com.upupor.service.data.aggregation.service.AttentionService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.dto.page.common.ListAttentionDto;

@@ -29,8 +29,8 @@ package com.upupor.service.business.manage.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.upupor.service.business.aggregation.dao.entity.Apply;
-import com.upupor.service.business.aggregation.dao.mapper.ApplyMapper;
+import com.upupor.service.data.dao.entity.Apply;
+import com.upupor.service.data.dao.mapper.ApplyMapper;
 import com.upupor.service.business.manage.service.ApplyManageService;
 import com.upupor.service.dto.page.common.ListApplyDto;
 import lombok.RequiredArgsConstructor;

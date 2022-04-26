@@ -28,7 +28,7 @@
 package com.upupor.service.dto.page;
 
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Content;
 import lombok.Data;
 
 import java.util.ArrayList;

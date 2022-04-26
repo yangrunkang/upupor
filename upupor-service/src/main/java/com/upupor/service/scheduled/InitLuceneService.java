@@ -29,9 +29,9 @@ package com.upupor.service.scheduled;
 
 import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.dao.entity.Radio;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.entity.Radio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

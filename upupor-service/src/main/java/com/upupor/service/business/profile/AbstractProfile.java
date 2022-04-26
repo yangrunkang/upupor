@@ -28,10 +28,10 @@
 package com.upupor.service.business.profile;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.dao.entity.Tag;
-import com.upupor.service.business.aggregation.service.*;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.entity.Tag;
+import com.upupor.service.data.aggregation.service.*;
 import com.upupor.service.business.profile.dto.Query;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;

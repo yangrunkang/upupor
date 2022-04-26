@@ -28,7 +28,7 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.data.aggregation.service.MemberService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;

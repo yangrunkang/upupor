@@ -44,7 +44,7 @@ import java.time.ZoneId;
  * @author runkangyang
  */
 @Slf4j
-@MapperScan("com.upupor.service.business.aggregation.dao.mapper")
+@MapperScan("com.upupor.service.data.dao.mapper")
 @ComponentScan("com.upupor")
 @SpringBootApplication
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400)

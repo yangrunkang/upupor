@@ -29,12 +29,12 @@ package com.upupor.service.business.editor;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.dao.mapper.ContentExtendMapper;
-import com.upupor.service.business.aggregation.dao.mapper.ContentMapper;
-import com.upupor.service.business.aggregation.service.ContentService;
-import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.mapper.ContentExtendMapper;
+import com.upupor.service.data.dao.mapper.ContentMapper;
+import com.upupor.service.data.aggregation.service.ContentService;
+import com.upupor.service.data.aggregation.service.MemberService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.OperateContentDto;

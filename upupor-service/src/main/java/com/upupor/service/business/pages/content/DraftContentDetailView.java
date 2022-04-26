@@ -28,7 +28,7 @@
 package com.upupor.service.business.pages.content;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.business.content.UnpublishedContent;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.dto.page.ContentIndexDto;

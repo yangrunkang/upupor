@@ -27,7 +27,7 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.service.business.aggregation.service.ApplyService;
+import com.upupor.service.data.aggregation.service.ApplyService;
 import com.upupor.service.business.apply.AdApply;
 import com.upupor.service.business.apply.ConsultantApply;
 import com.upupor.service.business.apply.TagApply;

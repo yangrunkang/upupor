@@ -27,7 +27,7 @@
 
 package com.upupor.service.dto.cache;
 
-import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.data.dao.entity.Member;
 import lombok.Data;
 
 import java.util.ArrayList;

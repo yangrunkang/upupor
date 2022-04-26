@@ -28,7 +28,7 @@
 package com.upupor.service.business.pages.radio;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.RadioAggregateService;
+import com.upupor.service.data.aggregation.RadioAggregateService;
 import com.upupor.service.business.pages.AbstractView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

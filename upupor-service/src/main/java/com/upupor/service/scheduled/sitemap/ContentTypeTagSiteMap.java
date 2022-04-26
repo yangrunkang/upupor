@@ -28,8 +28,8 @@
 package com.upupor.service.scheduled.sitemap;
 
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.aggregation.dao.entity.Tag;
-import com.upupor.service.business.aggregation.service.TagService;
+import com.upupor.service.data.dao.entity.Tag;
+import com.upupor.service.data.aggregation.service.TagService;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.types.ContentType;
 import lombok.RequiredArgsConstructor;

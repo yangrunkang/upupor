@@ -29,12 +29,12 @@ package com.upupor.web.page;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.CommonAggregateService;
-import com.upupor.service.business.aggregation.EditorAggregateService;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.dao.entity.ContentExtend;
-import com.upupor.service.business.aggregation.dao.entity.Tag;
-import com.upupor.service.business.aggregation.service.TagService;
+import com.upupor.service.data.aggregation.CommonAggregateService;
+import com.upupor.service.data.aggregation.EditorAggregateService;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.ContentExtend;
+import com.upupor.service.data.dao.entity.Tag;
+import com.upupor.service.data.aggregation.service.TagService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.page.EditorIndexDto;

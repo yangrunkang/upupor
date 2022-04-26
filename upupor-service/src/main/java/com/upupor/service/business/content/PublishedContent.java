@@ -28,9 +28,9 @@
 package com.upupor.service.business.content;
 
 import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.business.aggregation.CommonAggregateService;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.service.*;
+import com.upupor.service.data.aggregation.CommonAggregateService;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.aggregation.service.*;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.common.IntegralEnum;

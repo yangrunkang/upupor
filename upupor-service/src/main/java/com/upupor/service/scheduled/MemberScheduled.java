@@ -28,8 +28,8 @@
 package com.upupor.service.scheduled;
 
 import com.alibaba.fastjson.JSON;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.aggregation.service.MemberService;
 import com.upupor.service.dto.cache.CacheMemberDto;
 import com.upupor.framework.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;

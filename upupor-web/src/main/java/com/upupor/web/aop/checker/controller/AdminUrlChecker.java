@@ -27,7 +27,7 @@
 
 package com.upupor.web.aop.checker.controller;
 
-import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.data.aggregation.service.MemberService;
 import com.upupor.web.aop.checker.controller.dto.ControllerCheckerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;

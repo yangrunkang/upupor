@@ -27,8 +27,8 @@
 
 package com.upupor.web.router;
 
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.service.ContentService;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.aggregation.service.ContentService;
 import com.upupor.service.business.pages.footer.AboutAdView;
 import com.upupor.service.business.pages.footer.DeveloperView;
 import com.upupor.service.types.ContentStatus;

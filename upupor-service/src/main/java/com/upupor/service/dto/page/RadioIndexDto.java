@@ -27,7 +27,7 @@
 
 package com.upupor.service.dto.page;
 
-import com.upupor.service.business.aggregation.dao.entity.Radio;
+import com.upupor.service.data.dao.entity.Radio;
 import com.upupor.service.dto.page.common.ListRadioDto;
 import lombok.Data;
 

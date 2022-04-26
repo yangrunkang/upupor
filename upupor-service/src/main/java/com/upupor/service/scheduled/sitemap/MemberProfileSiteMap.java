@@ -29,9 +29,9 @@ package com.upupor.service.scheduled.sitemap;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.dao.entity.Member;
-import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.aggregation.service.MemberService;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.scheduled.ScheduledCommonService;

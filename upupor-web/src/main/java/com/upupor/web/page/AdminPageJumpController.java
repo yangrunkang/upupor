@@ -28,7 +28,7 @@
 package com.upupor.web.page;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.AdminAggregateService;
+import com.upupor.service.data.aggregation.AdminAggregateService;
 import com.upupor.service.types.ContentStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

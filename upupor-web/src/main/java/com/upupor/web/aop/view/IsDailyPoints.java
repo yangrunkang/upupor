@@ -27,7 +27,7 @@
 
 package com.upupor.web.aop.view;
 
-import com.upupor.service.business.aggregation.service.MemberService;
+import com.upupor.service.data.aggregation.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;

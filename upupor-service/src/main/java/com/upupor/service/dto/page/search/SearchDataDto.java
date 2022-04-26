@@ -28,7 +28,7 @@
 package com.upupor.service.dto.page.search;
 
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.business.aggregation.dao.entity.Member;
+import com.upupor.service.data.dao.entity.Member;
 import lombok.Data;
 
 /**

@@ -27,9 +27,9 @@
 
 package com.upupor.service.dto.page;
 
-import com.upupor.service.business.aggregation.CommonAggregateService;
-import com.upupor.service.business.aggregation.dao.entity.Content;
-import com.upupor.service.business.aggregation.dao.entity.Tag;
+import com.upupor.service.data.aggregation.CommonAggregateService;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Tag;
 import lombok.Data;
 
 import java.util.ArrayList;

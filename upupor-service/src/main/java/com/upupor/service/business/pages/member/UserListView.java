@@ -28,7 +28,7 @@
 package com.upupor.service.business.pages.member;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.business.aggregation.MemberAggregateService;
+import com.upupor.service.data.aggregation.MemberAggregateService;
 import com.upupor.service.business.pages.AbstractView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
