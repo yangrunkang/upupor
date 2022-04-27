@@ -30,8 +30,8 @@
 package com.upupor.test;
 
 
-import com.upupor.limiter.current_limiting.AbstractLimiter;
-import com.upupor.limiter.current_limiting.LimitType;
+import com.upupor.security.limiter.AbstractLimiter;
+import com.upupor.security.limiter.LimitType;
 import com.upupor.web.UpuporWebApplication;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;

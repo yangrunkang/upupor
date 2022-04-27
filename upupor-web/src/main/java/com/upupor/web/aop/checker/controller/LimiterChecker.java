@@ -29,8 +29,8 @@
 
 package com.upupor.web.aop.checker.controller;
 
-import com.upupor.limiter.current_limiting.AbstractLimiter;
-import com.upupor.limiter.current_limiting.UpuporLimit;
+import com.upupor.security.limiter.AbstractLimiter;
+import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.web.aop.checker.controller.dto.ControllerCheckerDto;
 import org.aspectj.lang.reflect.MethodSignature;

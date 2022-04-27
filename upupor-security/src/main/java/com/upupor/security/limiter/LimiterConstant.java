@@ -27,10 +27,14 @@
  *   -->
  */
 
+package com.upupor.security.limiter;
+
 /**
- * 处理敏感词
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-25 02:06
+ * @createTime 2022-04-22 00:49
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.limiter.sensitive;
+public class LimiterConstant {
+    public static final Integer INTERVAL_30S = 30;
+    public static final Integer INTERVAL_10S = 10;
+}

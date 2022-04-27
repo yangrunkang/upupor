@@ -27,7 +27,7 @@
  *   -->
  */
 
-package com.upupor.limiter.current_limiting;
+package com.upupor.security.limiter;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -35,8 +35,8 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.upupor.limiter.current_limiting.LimiterConstant.INTERVAL_10S;
-import static com.upupor.limiter.current_limiting.LimiterConstant.INTERVAL_30S;
+import static com.upupor.security.limiter.LimiterConstant.INTERVAL_10S;
+import static com.upupor.security.limiter.LimiterConstant.INTERVAL_30S;
 
 /**
  * 限制器

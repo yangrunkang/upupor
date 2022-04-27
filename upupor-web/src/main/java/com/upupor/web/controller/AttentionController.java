@@ -27,8 +27,8 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.limiter.current_limiting.LimitType;
-import com.upupor.limiter.current_limiting.UpuporLimit;
+import com.upupor.security.limiter.LimitType;
+import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.data.aggregation.service.AttentionService;
 import com.upupor.framework.CcResponse;
 import com.upupor.service.outer.req.AddAttentionReq;

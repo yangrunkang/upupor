@@ -28,26 +28,37 @@
  */
 
 /**
+ * Upupor限制
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-25 02:10
+ * @createTime 2022-04-18 02:36
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.limiter.sensitive;
+package com.upupor.security.limiter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * upupor敏感词注解
- * @note: 注释到类上
- *
- * @author Yang Runkang (cruise)
- * @createTime 2022-04-25 02:06
- * @email: yangrunkang53@gmail.com
- */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE, ElementType.METHOD})
-public @interface UpuporSensitive {
+public @interface UpuporLimit {
+    /**
+     * 限制类型
+     * @return
+     */
+    LimitType limitType();
+
+    /**
+     * 是否需要登录
+     * @return
+     */
+    boolean needLogin() default true;
+
+    /**
+     * 默认是付费的操作
+     * @return
+     */
+    boolean needSpendMoney() default false;
+
 }

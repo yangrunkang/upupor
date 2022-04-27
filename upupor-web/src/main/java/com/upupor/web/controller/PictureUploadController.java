@@ -30,7 +30,7 @@ package com.upupor.web.controller;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.FileUtils;
-import com.upupor.limiter.current_limiting.UpuporLimit;
+import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.data.dao.entity.File;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.aggregation.service.FileService;
@@ -57,8 +57,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.upupor.limiter.current_limiting.LimitType.UPLOAD_CONTENT_IMAGE;
-import static com.upupor.limiter.current_limiting.LimitType.UPLOAD_PROFILE_IMAGE;
+import static com.upupor.security.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
+import static com.upupor.security.limiter.LimitType.UPLOAD_PROFILE_IMAGE;
 
 
 /**

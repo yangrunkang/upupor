@@ -28,6 +28,7 @@
 package com.upupor.service.data.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.upupor.security.sensitive.UpuporSensitive;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.dto.dao.ContentIdAndTitle;
 import com.upupor.service.dto.page.common.CountTagDto;
@@ -35,6 +36,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@UpuporSensitive
 public interface ContentMapper extends BaseMapper<Content> {
 
 

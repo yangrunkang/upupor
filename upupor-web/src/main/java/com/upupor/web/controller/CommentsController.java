@@ -27,8 +27,8 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.limiter.current_limiting.LimitType;
-import com.upupor.limiter.current_limiting.UpuporLimit;
+import com.upupor.security.limiter.LimitType;
+import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.data.dao.entity.Comment;
 import com.upupor.service.data.dao.entity.Member;

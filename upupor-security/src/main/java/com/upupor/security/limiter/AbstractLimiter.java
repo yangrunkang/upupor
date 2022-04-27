@@ -27,7 +27,7 @@
  *   -->
  */
 
-package com.upupor.limiter.current_limiting;
+package com.upupor.security.limiter;
 
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;

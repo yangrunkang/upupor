@@ -29,8 +29,8 @@ package com.upupor.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.limiter.current_limiting.LimitType;
-import com.upupor.limiter.current_limiting.UpuporLimit;
+import com.upupor.security.limiter.LimitType;
+import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.data.dao.entity.Collect;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.mapper.CollectMapper;

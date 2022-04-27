@@ -29,9 +29,9 @@
 
 package com.upupor.web.aop.checker.page;
 
-import com.upupor.limiter.current_limiting.AbstractLimiter;
-import com.upupor.limiter.current_limiting.LimitType;
-import com.upupor.limiter.current_limiting.Limiter;
+import com.upupor.security.limiter.AbstractLimiter;
+import com.upupor.security.limiter.LimitType;
+import com.upupor.security.limiter.Limiter;
 import com.upupor.service.business.pages.business.SearchView;
 import com.upupor.web.aop.checker.page.dto.PageCheckDto;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.upupor.limiter.current_limiting.LimiterConstant.INTERVAL_10S;
+import static com.upupor.security.limiter.LimiterConstant.INTERVAL_10S;
 
 /**
  * @author Yang Runkang (cruise)

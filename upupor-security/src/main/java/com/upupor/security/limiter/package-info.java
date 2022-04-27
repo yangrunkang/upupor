@@ -33,4 +33,4 @@
  * @createTime 2022-04-25 02:09
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.limiter.current_limiting;
+package com.upupor.security.limiter;

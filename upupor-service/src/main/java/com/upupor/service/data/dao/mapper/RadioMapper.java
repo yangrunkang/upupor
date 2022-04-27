@@ -28,10 +28,12 @@
 package com.upupor.service.data.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.upupor.security.sensitive.UpuporSensitive;
 import com.upupor.service.data.dao.entity.Radio;
 
 import java.util.List;
 
+@UpuporSensitive
 public interface RadioMapper extends BaseMapper<Radio> {
 
     Integer countRadioByUserId(String userId);

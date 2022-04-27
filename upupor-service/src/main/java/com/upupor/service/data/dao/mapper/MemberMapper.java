@@ -28,12 +28,14 @@
 package com.upupor.service.data.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.upupor.security.sensitive.UpuporSensitive;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.outer.req.GetMemberReq;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@UpuporSensitive
 public interface MemberMapper extends BaseMapper<Member> {
 
     Member select(GetMemberReq getMemberReq);

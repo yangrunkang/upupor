@@ -38,8 +38,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.upupor.limiter</groupId>
-    <artifactId>upupor-limiter</artifactId>
+    <groupId>com.upupor.security</groupId>
+    <artifactId>upupor-security</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
