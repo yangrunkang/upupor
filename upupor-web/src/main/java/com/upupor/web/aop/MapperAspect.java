@@ -74,7 +74,7 @@ public class MapperAspect {
 
 
         Annotation annotation = proceedingJoinPoint.getSignature().getDeclaringType().getAnnotation(UpuporSensitive.class);
-        if (Objects.nonNull(annotation)) {
+        if (Objects.nonNull(annotation) || proceedingJoinPoint.getSignature().getDeclaringType().getName().equals("com.baomidou.mybatisplus.core.mapper.BaseMapper")) {
             handle(proceed);
         }
 
