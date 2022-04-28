@@ -27,7 +27,7 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.service.data.aggregation.service.MessageService;
+import com.upupor.service.data.service.MessageService;
 import com.upupor.framework.CcResponse;
 import com.upupor.service.outer.req.UpdateMessageReq;
 import com.upupor.service.utils.ServletUtils;

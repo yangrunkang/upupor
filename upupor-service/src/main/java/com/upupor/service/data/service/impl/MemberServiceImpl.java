@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -36,7 +36,7 @@ import com.upupor.framework.utils.RedisUtil;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.data.dao.entity.*;
 import com.upupor.service.data.dao.mapper.*;
-import com.upupor.service.data.aggregation.service.*;
+import com.upupor.service.data.service.*;
 import com.upupor.framework.BusinessException;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.framework.ErrorCode;

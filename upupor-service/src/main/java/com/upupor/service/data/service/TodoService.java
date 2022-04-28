@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service;
+package com.upupor.service.data.service;
 
 import com.upupor.service.data.dao.entity.Todo;
 import com.upupor.service.dto.page.common.ListTodoDto;

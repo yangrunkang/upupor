@@ -28,47 +28,56 @@
 package com.upupor.service.scheduled;
 
 import com.alibaba.fastjson.JSON;
-import com.upupor.service.data.service.ContentService;
-import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.data.dao.entity.BusinessConfig;
+import com.upupor.service.data.service.BusinessConfigService;
+import com.upupor.service.dto.cache.CacheSensitiveWord;
+import com.upupor.service.types.BusinessConfigType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.upupor.framework.CcConstant.CvCache.TAG_COUNT;
+import static com.upupor.framework.CcConstant.CvCache.CACHE_SENSITIVE_WORD;
 
 
 /**
- * 统计标签数
- *
+ * @description: 用户相关的定时任务
  * @author: cruise
- * @created: 2020/08/12 10:34
- */
+ * @create: 2022-04-27 20:54
+ **/
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CountTagScheduled {
+public class SystemScheduled {
 
-    private final ContentService contentService;
+    private final BusinessConfigService businessConfigService;
+
 
     /**
-     * 每天凌晨1点执行一次：0 0 1 * * ?
+     * 刷新敏感词
+     * 每 1 分钟更新一次缓存
      */
-    @Scheduled(cron = "0 0 1 * * ?")
-    public void refreshTag() {
-
-        log.info("刷新标签云任务启动");
-
-        List<CountTagDto> countTagDtos = contentService.listAllTag();
-        if (CollectionUtils.isEmpty(countTagDtos)) {
+    @Scheduled(cron = "0 0/1 * * * ? ")
+    public void refreshSensitiveWord() {
+        log.info("刷新敏感词");
+        List<BusinessConfig> businessConfigList = businessConfigService.listByBusinessConfigType(BusinessConfigType.SENSITIVE_WORD);
+        if(CollectionUtils.isEmpty(businessConfigList)){
             return;
         }
+        List<String> wordList = businessConfigList.stream().map(BusinessConfig::getValue)
+                .filter(StringUtils::isNotEmpty)
+                .distinct()
+                .collect(Collectors.toList());
 
-        RedisUtil.set(TAG_COUNT, JSON.toJSONString(countTagDtos));
+        CacheSensitiveWord cacheSensitiveWord = new CacheSensitiveWord();
+        cacheSensitiveWord.setWordList(wordList);
+        RedisUtil.set(CACHE_SENSITIVE_WORD, JSON.toJSONString(cacheSensitiveWord));
     }
 
 }

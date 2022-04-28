@@ -29,7 +29,7 @@ package com.upupor.web.aop.view;
 
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.MemberConfig;
-import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.service.MemberService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.ContentTypeData;

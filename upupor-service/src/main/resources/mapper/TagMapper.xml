@@ -75,4 +75,16 @@
       and tag_name = #{tagName,jdbcType=VARCHAR}
     </if>
   </select>
+
+  <select id="listAll" resultType="com.upupor.service.dto.page.common.CountTagDto">
+    select tag_ids tagId,count(*) count from content where tag_ids != '' and status = 0 GROUP BY tagId having count > 0
+  </select>
+
+  <select id="listCountByTagIds" resultType="com.upupor.service.dto.page.common.CountTagDto">
+    select tag_ids tagId,count(*) count from content where tag_ids in
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+      #{item}
+    </foreach>
+    and status = 0 GROUP BY tagId
+  </select>
 </mapper>

@@ -29,7 +29,7 @@ package com.upupor.service.business.lucene.flush;
 
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.aggregation.service.ContentService;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.lucene.AbstractFlush;
 import com.upupor.service.types.ContentStatus;
 import lombok.RequiredArgsConstructor;

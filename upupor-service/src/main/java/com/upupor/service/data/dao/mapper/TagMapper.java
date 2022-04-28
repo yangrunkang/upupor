@@ -29,6 +29,7 @@ package com.upupor.service.data.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.service.data.dao.entity.Tag;
+import com.upupor.service.dto.page.common.CountTagDto;
 import io.lettuce.core.dynamic.annotation.Param;
 
 import java.util.List;
@@ -48,4 +49,8 @@ public interface TagMapper extends BaseMapper<Tag> {
     List<Tag> listByTagType(@Param("tagType") Integer tagType);
 
     List<Tag> listByName(@Param("tagName") String tagName);
+
+    List<CountTagDto> listAll();
+    List<CountTagDto> listCountByTagIds(@org.apache.ibatis.annotations.Param("list") List<String> tagIdList);
+
 }

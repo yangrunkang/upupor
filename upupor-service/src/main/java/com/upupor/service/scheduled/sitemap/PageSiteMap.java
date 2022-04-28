@@ -29,7 +29,7 @@ package com.upupor.service.scheduled.sitemap;
 
 import com.upupor.service.data.dao.entity.BusinessConfig;
 import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.aggregation.service.BusinessConfigService;
+import com.upupor.service.data.service.BusinessConfigService;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.types.BusinessConfigType;
 import lombok.RequiredArgsConstructor;

@@ -29,6 +29,7 @@ package com.upupor.service.listener;
 
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;
+import com.upupor.service.listener.event.InitSensitiveWordEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -74,6 +75,8 @@ public class UpuporEventListener implements ApplicationListener {
             eventPublisher.publishEvent(new GenerateGoogleSiteMapEvent());
             // 生成索引
             eventPublisher.publishEvent(new InitLuceneIndexEvent());
+            // 初始化敏感词
+            eventPublisher.publishEvent(new InitSensitiveWordEvent());
 
         }
 

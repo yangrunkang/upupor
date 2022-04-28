@@ -29,7 +29,7 @@ package com.upupor.service.business.lucene.flush;
 
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.service.MemberService;
 import com.upupor.lucene.AbstractFlush;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

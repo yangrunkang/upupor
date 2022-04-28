@@ -393,6 +393,11 @@ public final class CcConstant {
         public static final String ACTIVE_USER_LIST = "activeUserList";
 
         /**
+         * 缓存敏感词
+         */
+        public static final String CACHE_SENSITIVE_WORD = "cacheSensitiveWord";
+
+        /**
          * 缓存标签对应的文章数目
          */
         public static final String TAG_COUNT = "cvTagList";

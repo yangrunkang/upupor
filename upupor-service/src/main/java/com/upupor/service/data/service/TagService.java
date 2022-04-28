@@ -25,9 +25,10 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service;
+package com.upupor.service.data.service;
 
 import com.upupor.service.data.dao.entity.Tag;
+import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.types.ContentType;
 
@@ -78,5 +79,10 @@ public interface TagService {
      * @return
      */
     List<TagDto> listTagNameByTagId(String tagId);
+
+
+    List<CountTagDto> listAll();
+
+    List<CountTagDto> listCountByTagIds(@org.apache.ibatis.annotations.Param("list") List<String> tagIdList);
 
 }

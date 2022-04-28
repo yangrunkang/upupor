@@ -29,7 +29,7 @@ package com.upupor.service.business.manage;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.service.MemberService;
 import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.utils.ServletUtils;
 

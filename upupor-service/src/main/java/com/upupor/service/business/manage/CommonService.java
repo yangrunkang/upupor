@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.manage;
 
-import com.upupor.service.data.aggregation.service.TagService;
+import com.upupor.service.data.service.TagService;
 import com.upupor.service.dto.page.common.ListContentDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

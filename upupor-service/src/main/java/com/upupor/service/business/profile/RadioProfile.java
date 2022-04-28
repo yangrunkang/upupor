@@ -28,7 +28,7 @@
 package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.data.aggregation.service.RadioService;
+import com.upupor.service.data.service.RadioService;
 import com.upupor.service.business.profile.dto.Query;
 import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.types.ViewTargetType;

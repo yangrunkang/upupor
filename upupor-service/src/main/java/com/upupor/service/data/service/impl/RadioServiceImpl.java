@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -36,10 +36,10 @@ import com.upupor.service.data.dao.entity.File;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.Radio;
 import com.upupor.service.data.dao.mapper.RadioMapper;
-import com.upupor.service.data.aggregation.service.ContentService;
-import com.upupor.service.data.aggregation.service.FileService;
-import com.upupor.service.data.aggregation.service.MemberService;
-import com.upupor.service.data.aggregation.service.RadioService;
+import com.upupor.service.data.service.ContentService;
+import com.upupor.service.data.service.FileService;
+import com.upupor.service.data.service.MemberService;
+import com.upupor.service.data.service.RadioService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.OperateRadioDto;

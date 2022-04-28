@@ -27,7 +27,7 @@
 
 package com.upupor.service.data.aggregation;
 
-import com.upupor.service.data.aggregation.service.TodoService;
+import com.upupor.service.data.service.TodoService;
 import com.upupor.service.dto.page.TodoIndexDto;
 import com.upupor.service.dto.page.common.ListTodoDto;
 import lombok.RequiredArgsConstructor;

@@ -25,14 +25,14 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.data.dao.entity.Feedback;
 import com.upupor.service.data.dao.mapper.FeedbackMapper;
-import com.upupor.service.data.aggregation.service.FeedbackService;
-import com.upupor.service.data.aggregation.service.MessageService;
+import com.upupor.service.data.service.FeedbackService;
+import com.upupor.service.data.service.MessageService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.outer.req.AddFeedbackReq;

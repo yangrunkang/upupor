@@ -28,8 +28,8 @@
 package com.upupor.service.data.aggregation;
 
 import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.aggregation.service.ContentService;
-import com.upupor.service.data.aggregation.service.TagService;
+import com.upupor.service.data.service.ContentService;
+import com.upupor.service.data.service.TagService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.page.EditorIndexDto;

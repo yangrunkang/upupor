@@ -29,7 +29,7 @@ package com.upupor.service.business.pages.business;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.data.aggregation.MemberAggregateService;
-import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.service.MemberService;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;

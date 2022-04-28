@@ -28,7 +28,7 @@
 package com.upupor.service.business.pages.content;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.aggregation.service.CommentService;
+import com.upupor.service.data.service.CommentService;
 import com.upupor.service.business.content.PublishedContent;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.dto.page.ContentIndexDto;

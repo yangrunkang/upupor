@@ -29,7 +29,7 @@ package com.upupor.service.business.pages.content;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.data.aggregation.service.ContentService;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.types.SearchContentType;

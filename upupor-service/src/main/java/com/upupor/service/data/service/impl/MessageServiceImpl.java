@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -33,8 +33,8 @@ import com.github.pagehelper.PageInfo;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.data.dao.entity.Message;
 import com.upupor.service.data.dao.mapper.MessageMapper;
-import com.upupor.service.data.aggregation.service.MemberService;
-import com.upupor.service.data.aggregation.service.MessageService;
+import com.upupor.service.data.service.MemberService;
+import com.upupor.service.data.service.MessageService;
 import com.upupor.service.dto.email.SendEmailEvent;
 import com.upupor.service.dto.page.common.ListMessageDto;
 import com.upupor.service.outer.req.ListMessageReq;

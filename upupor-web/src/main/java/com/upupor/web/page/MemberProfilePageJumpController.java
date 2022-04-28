@@ -28,8 +28,8 @@
 package com.upupor.web.page;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.aggregation.service.CommentService;
-import com.upupor.service.data.aggregation.service.MessageService;
+import com.upupor.service.data.service.CommentService;
+import com.upupor.service.data.service.MessageService;
 import com.upupor.service.business.profile.AbstractProfile;
 import com.upupor.service.business.profile.dto.Query;
 import com.upupor.framework.BusinessException;

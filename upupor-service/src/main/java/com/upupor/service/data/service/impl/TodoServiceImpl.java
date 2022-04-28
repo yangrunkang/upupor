@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -34,7 +34,7 @@ import com.upupor.service.data.dao.entity.Todo;
 import com.upupor.service.data.dao.entity.TodoDetail;
 import com.upupor.service.data.dao.mapper.TodoDetailMapper;
 import com.upupor.service.data.dao.mapper.TodoMapper;
-import com.upupor.service.data.aggregation.service.TodoService;
+import com.upupor.service.data.service.TodoService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.page.common.ListTodoDto;

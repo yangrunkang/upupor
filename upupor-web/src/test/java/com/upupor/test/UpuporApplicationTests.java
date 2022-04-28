@@ -28,7 +28,7 @@
 package com.upupor.test;
 
 
-import com.upupor.service.data.aggregation.service.ContentService;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.scheduled.DetectUserOperationScheduled;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;

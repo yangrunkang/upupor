@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -35,7 +35,7 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.data.dao.entity.*;
 import com.upupor.service.data.dao.mapper.*;
-import com.upupor.service.data.aggregation.service.*;
+import com.upupor.service.data.service.*;
 import com.upupor.service.business.editor.AbstractEditor;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
@@ -533,7 +533,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<CountTagDto> listAllTag() {
-        List<CountTagDto> countTagDtos = contentMapper.listAll();
+        List<CountTagDto> countTagDtos = tagService.listAll();
         if (CollectionUtils.isEmpty(countTagDtos)) {
             return new ArrayList<>();
         }
@@ -555,7 +555,7 @@ public class ContentServiceImpl implements ContentService {
         if (CollectionUtils.isEmpty(tagIdList)) {
             return new ArrayList<>();
         }
-        return contentMapper.listCountByTagIds(tagIdList);
+        return tagService.listCountByTagIds(tagIdList);
     }
 
     @Override
@@ -599,14 +599,14 @@ public class ContentServiceImpl implements ContentService {
         if (Objects.isNull(content)) {
             return;
         }
-        List<Long> idList = contentMapper.lastAndNextContent(content.getContentId(), content.getTagIds(), content.getContentType().getType());
+        List<String> idList = contentMapper.lastAndNextContent(content.getContentId(), content.getTagIds(), content.getContentType().getType());
         if (CollectionUtils.isEmpty(idList)) {
             return;
         }
 
         LastAndNextContentDto lastAndNextContentDto = new LastAndNextContentDto();
-        for (Long cId : idList) {
-            ContentIdAndTitle contentIdAndTitle = contentMapper.selectById(cId);
+        for (String cId : idList) {
+            Content contentIdAndTitle = getNormalContent(cId);
             if (contentIdAndTitle.getLatestCommentTime() > content.getLatestCommentTime()) {
                 lastAndNextContentDto.setNextContent(contentIdAndTitle);
             } else {

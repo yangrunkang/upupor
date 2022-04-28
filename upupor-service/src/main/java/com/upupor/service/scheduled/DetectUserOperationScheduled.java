@@ -29,8 +29,8 @@ package com.upupor.service.scheduled;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.aggregation.service.MemberService;
-import com.upupor.service.data.aggregation.service.MessageService;
+import com.upupor.service.data.service.MemberService;
+import com.upupor.service.data.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

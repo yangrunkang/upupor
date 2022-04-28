@@ -27,7 +27,7 @@
 
 package com.upupor.web.aop.checker.page;
 
-import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.service.MemberService;
 import com.upupor.web.aop.checker.page.dto.PageCheckDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;

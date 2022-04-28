@@ -29,8 +29,8 @@ package com.upupor.service.business.apply;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.data.dao.entity.Apply;
-import com.upupor.service.data.aggregation.service.ApplyService;
-import com.upupor.service.data.aggregation.service.MessageService;
+import com.upupor.service.data.service.ApplyService;
+import com.upupor.service.data.service.MessageService;
 
 import javax.annotation.Resource;
 

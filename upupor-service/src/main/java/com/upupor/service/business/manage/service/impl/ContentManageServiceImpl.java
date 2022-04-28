@@ -32,7 +32,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.mapper.ContentMapper;
-import com.upupor.service.data.aggregation.service.ContentService;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.service.business.manage.service.ContentManageService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;

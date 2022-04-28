@@ -30,7 +30,7 @@ package com.upupor.service.scheduled.sitemap;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.data.dao.entity.Radio;
-import com.upupor.service.data.aggregation.service.RadioService;
+import com.upupor.service.data.service.RadioService;
 import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.scheduled.ScheduledCommonService;

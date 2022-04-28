@@ -25,9 +25,9 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
-import com.upupor.service.data.aggregation.service.RecommendService;
+import com.upupor.service.data.service.RecommendService;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.page.GlobalIndexDto;

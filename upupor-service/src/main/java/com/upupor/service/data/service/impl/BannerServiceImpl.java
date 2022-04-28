@@ -25,13 +25,13 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.service.data.dao.entity.Banner;
 import com.upupor.service.data.dao.mapper.BannerMapper;
-import com.upupor.service.data.aggregation.service.BannerService;
+import com.upupor.service.data.service.BannerService;
 import com.upupor.service.dto.page.common.ListBannerDto;
 import com.upupor.service.types.BannerStatus;
 import lombok.RequiredArgsConstructor;

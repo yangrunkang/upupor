@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -35,8 +35,8 @@ import com.upupor.service.data.dao.entity.Fans;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.mapper.AttentionMapper;
 import com.upupor.service.data.dao.mapper.FansMapper;
-import com.upupor.service.data.aggregation.service.FanService;
-import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.service.FanService;
+import com.upupor.service.data.service.MemberService;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.outer.req.DelFanReq;
 import com.upupor.service.types.FansStatus;

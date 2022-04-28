@@ -25,11 +25,12 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.upupor.service.data.dao.entity.Tag;
 import com.upupor.service.data.dao.mapper.TagMapper;
-import com.upupor.service.data.aggregation.service.TagService;
+import com.upupor.service.data.service.TagService;
+import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.types.ContentType;
 import lombok.RequiredArgsConstructor;
@@ -129,5 +130,15 @@ public class TagServiceImpl implements TagService {
         }
 
         return new ArrayList<>(tagDtoSet);
+    }
+
+    @Override
+    public List<CountTagDto> listAll() {
+        return tagMapper.listAll();
+    }
+
+    @Override
+    public List<CountTagDto> listCountByTagIds(List<String> tagIdList) {
+        return tagMapper.listCountByTagIds(tagIdList);
     }
 }

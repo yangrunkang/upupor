@@ -28,7 +28,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.service.data.aggregation.service.FeedbackService;
+import com.upupor.service.data.service.FeedbackService;
 import com.upupor.framework.CcResponse;
 import com.upupor.service.outer.req.AddFeedbackReq;
 import io.swagger.annotations.Api;

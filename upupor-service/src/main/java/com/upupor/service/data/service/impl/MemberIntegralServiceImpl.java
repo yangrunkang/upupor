@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
@@ -33,7 +33,7 @@ import com.github.pagehelper.PageInfo;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.data.dao.entity.MemberIntegral;
 import com.upupor.service.data.dao.mapper.MemberIntegralMapper;
-import com.upupor.service.data.aggregation.service.MemberIntegralService;
+import com.upupor.service.data.service.MemberIntegralService;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;
 import com.upupor.service.outer.req.GetMemberIntegralReq;

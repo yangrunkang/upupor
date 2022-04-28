@@ -59,14 +59,6 @@
     ct.sys_update_time,ct.picture
   </sql>
 
-    <select id="selectById" parameterType="java.lang.Long" resultType="com.upupor.service.dto.dao.ContentIdAndTitle">
-        select
-        content_id as contentId,title as title,latest_comment_time as latestCommentTime
-        from content
-        where id = #{id,jdbcType=BIGINT} and status = 0
-    </select>
-
-
     <select id="listByContentIdList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -94,27 +86,15 @@
         order by create_time desc
     </select>
 
-    <select id="listAll" resultType="com.upupor.service.dto.page.common.CountTagDto">
-        select tag_ids tagId,count(*) count from content where tag_ids != '' and status = 0 GROUP BY tagId having count > 0
-    </select>
-
-    <select id="listCountByTagIds" resultType="com.upupor.service.dto.page.common.CountTagDto">
-        select tag_ids tagId,count(*) count from content where tag_ids in
-        <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
-            #{item}
-        </foreach>
-         and status = 0 GROUP BY tagId
-    </select>
-
     <sql id="lastCommon">
         and content_type = #{contentType}
         <if test="tagIds != null and tagIds != ''">
             and tag_ids = #{tagIds}
         </if>
     </sql>
-    <select id="lastAndNextContent" parameterType="java.lang.String" resultType="java.lang.Long">
+    <select id="lastAndNextContent" parameterType="java.lang.String" resultType="java.lang.String">
         select * from (
-        select id as nextId from content where `status` = 0
+        select content_id as nextId from content where `status` = 0
         <include refid="lastCommon"/>
         and latest_comment_time <![CDATA[ > ]]> (select latest_comment_time from content where `status` = 0
                                                                                                 and content_id = #{contentId,jdbcType=VARCHAR}
@@ -124,7 +104,7 @@
         ) as t
         UNION ALl
         select * from (
-        select id as lastId from content where `status` = 0
+        select content_id as lastId from content where `status` = 0
         <include refid="lastCommon"/>
         and latest_comment_time <![CDATA[ < ]]> (select latest_comment_time from content where status = 0
                                                                                                and content_id = #{contentId,jdbcType=VARCHAR}

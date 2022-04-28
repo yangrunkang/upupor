@@ -25,11 +25,11 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.upupor.service.data.dao.entity.MemberExtend;
 import com.upupor.service.data.dao.mapper.MemberExtendMapper;
-import com.upupor.service.data.aggregation.service.MemberExtendService;
+import com.upupor.service.data.service.MemberExtendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;

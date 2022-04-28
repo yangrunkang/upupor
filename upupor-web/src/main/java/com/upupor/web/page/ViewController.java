@@ -27,7 +27,7 @@
 
 package com.upupor.web.page;
 
-import com.upupor.service.data.aggregation.service.MessageService;
+import com.upupor.service.data.service.MessageService;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.business.pages.Query;
 import com.upupor.service.business.pages.business.*;

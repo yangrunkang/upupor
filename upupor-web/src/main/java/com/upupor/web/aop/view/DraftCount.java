@@ -28,7 +28,7 @@
 package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.aggregation.service.ContentService;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;

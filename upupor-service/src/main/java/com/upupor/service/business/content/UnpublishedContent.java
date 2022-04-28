@@ -28,7 +28,7 @@
 package com.upupor.service.business.content;
 
 import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.aggregation.service.ContentService;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.framework.BusinessException;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.stereotype.Component;

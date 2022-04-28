@@ -25,12 +25,12 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.aggregation.service.impl;
+package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.service.data.dao.entity.File;
 import com.upupor.service.data.dao.mapper.FileMapper;
-import com.upupor.service.data.aggregation.service.FileService;
+import com.upupor.service.data.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

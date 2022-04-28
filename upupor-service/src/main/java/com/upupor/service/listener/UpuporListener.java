@@ -28,14 +28,16 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.aggregation.service.MemberService;
+import com.upupor.service.data.service.MemberService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;
+import com.upupor.service.listener.event.InitSensitiveWordEvent;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.scheduled.InitLuceneService;
 import com.upupor.service.scheduled.MemberScheduled;
 import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.scheduled.SystemScheduled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -63,6 +65,7 @@ public class UpuporListener {
     private final MemberService memberService;
     private final MemberScheduled memberScheduled;
     private final InitLuceneService initLuceneService;
+    private final SystemScheduled systemScheduled;
 
     /**
      * 埋点
@@ -113,6 +116,13 @@ public class UpuporListener {
         // 采用的是内存存储,目的是尽量的减少依赖包括文件依赖;不使用ES,原因是ES太重
         log.info("开始初始胡Lucene索引....");
         initLuceneService.init();
+    }
+
+    @EventListener
+    @Async
+    public void initSensitiveWordEvent(InitSensitiveWordEvent event) {
+        log.info("开始初始化敏感词....");
+        systemScheduled.refreshSensitiveWord();
     }
 
 }

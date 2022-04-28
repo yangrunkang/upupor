@@ -28,8 +28,8 @@
 package com.upupor.service.business.profile;
 
 import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.data.aggregation.service.ContentService;
-import com.upupor.service.data.aggregation.service.TagService;
+import com.upupor.service.data.service.ContentService;
+import com.upupor.service.data.service.TagService;
 import com.upupor.service.business.profile.dto.Query;
 import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;

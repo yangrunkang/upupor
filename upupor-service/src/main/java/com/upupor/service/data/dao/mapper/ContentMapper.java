@@ -30,17 +30,12 @@ package com.upupor.service.data.dao.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.security.sensitive.UpuporSensitive;
 import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.dto.dao.ContentIdAndTitle;
-import com.upupor.service.dto.page.common.CountTagDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @UpuporSensitive
 public interface ContentMapper extends BaseMapper<Content> {
-
-
-    ContentIdAndTitle selectById(@Param("id") Long id);
 
     /**
      * 根据文章id获取内容
@@ -65,17 +60,13 @@ public interface ContentMapper extends BaseMapper<Content> {
 
     List<Content> list();
 
-
-    List<CountTagDto> listAll();
-    List<CountTagDto> listCountByTagIds(@Param("list") List<String> tagIdList);
-
     /**
      * 目标文章的上一篇及下一篇文章
      *
      * @param contentId
      * @return
      */
-    List<Long> lastAndNextContent(@Param("contentId") String contentId,@Param("tagIds")String tagIds,@Param("contentType") Integer contentType);
+    List<String> lastAndNextContent(@Param("contentId") String contentId,@Param("tagIds")String tagIds,@Param("contentType") Integer contentType);
 
     /**
      * 统计草稿数目
