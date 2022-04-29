@@ -30,6 +30,7 @@
 package com.upupor.web.aop;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.google.common.collect.Lists;
 import com.upupor.framework.utils.RedisUtil;
@@ -38,6 +39,10 @@ import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.Radio;
 import com.upupor.service.dto.cache.CacheSensitiveWord;
+import com.upupor.web.aop.mapper.AbstractMapperHandle;
+import com.upupor.web.aop.mapper.ContentMapperHandle;
+import com.upupor.web.aop.mapper.MemberMapperHandle;
+import com.upupor.web.aop.mapper.RadioMapperHandle;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -45,8 +50,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,20 +69,36 @@ import static com.upupor.framework.CcConstant.CvCache.CACHE_SENSITIVE_WORD;
 @RequiredArgsConstructor
 public class MapperAspect {
 
+    private final static List<AbstractMapperHandle<?>> abstractMapperHandleList = new ArrayList<>();
+
+    static {
+        abstractMapperHandleList.add(new ContentMapperHandle());
+        abstractMapperHandleList.add(new RadioMapperHandle());
+        abstractMapperHandleList.add(new MemberMapperHandle());
+    }
+
+    private CacheSensitiveWord cacheSensitiveWord;
 
     @Pointcut("execution(public * com.upupor.service.data.dao.mapper..*.*(..))")
     public void sensitiveAnno() {
     }
 
+    public static void main(String[] args) {
+
+    }
 
     @Around("sensitiveAnno()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object proceed = proceedingJoinPoint.proceed();
 
 
-        Annotation annotation = proceedingJoinPoint.getSignature().getDeclaringType().getAnnotation(UpuporSensitive.class);
-        if (Objects.nonNull(annotation) || proceedingJoinPoint.getSignature().getDeclaringType().getName().equals("com.baomidou.mybatisplus.core.mapper.BaseMapper")) {
-            handle(proceed);
+        cacheSensitiveWord = JSON.parseObject(RedisUtil.get(CACHE_SENSITIVE_WORD), CacheSensitiveWord.class);
+        if(Objects.nonNull(cacheSensitiveWord)){
+            Class clazz = proceedingJoinPoint.getSignature().getDeclaringType();
+            Annotation annotation = clazz.getAnnotation(UpuporSensitive.class);
+            if (Objects.nonNull(annotation) || clazz.getName().equals(BaseMapper.class.getName())) {
+                handle(proceed);
+            }
         }
 
         return proceed;
@@ -86,53 +109,30 @@ public class MapperAspect {
             return;
         }
 
-        // 处理不同场景的返回值
+        List<?> proceedList = convertToList(proceed);
+        if(CollectionUtils.isEmpty(proceedList)){
+            return;
+        }
+
+        for (AbstractMapperHandle<?> abstractMapperHandle : abstractMapperHandleList) {
+            if (abstractMapperHandle.isHandle(proceedList.get(0).getClass())) {
+                abstractMapperHandle.initData(proceedList, cacheSensitiveWord);
+                abstractMapperHandle.sensitive();
+            }
+        }
+
+    }
+
+    protected List<?> convertToList(Object proceed) {
         if (proceed instanceof Page) {
-            Page proceed1 = (Page) proceed;
-            List result = proceed1.getResult();
-            toSensitive(result);
+            Page<?> proceed1 = (Page<?>) proceed;
+            return proceed1.getResult();
         } else if (proceed instanceof List) {
-            toSensitive((List) proceed);
+            return (List<?>) proceed;
         } else {
-            toSensitive(Lists.newArrayList(proceed));
-        }
-
-    }
-
-    private void toSensitive(List result) {
-        if (CollectionUtils.isEmpty(result)) {
-            return;
-        }
-
-        String sensitiveJson = RedisUtil.get(CACHE_SENSITIVE_WORD);
-        CacheSensitiveWord cacheSensitiveWord = JSON.parseObject(sensitiveJson, CacheSensitiveWord.class);
-        if (Objects.isNull(cacheSensitiveWord) || CollectionUtils.isEmpty(cacheSensitiveWord.getWordList())) {
-            return;
-        }
-
-        for (Object o : result) {
-            if (o instanceof Content) {
-                Content content = (Content) o;
-                content.setTitle(replaceSensitiveWord(content.getTitle(), cacheSensitiveWord));
-            }
-            if (o instanceof Member) {
-                Member member = (Member) o;
-                member.setUserName(replaceSensitiveWord(member.getUserName(), cacheSensitiveWord));
-            }
-            if (o instanceof Radio) {
-                Radio radio = (Radio) o;
-                radio.setRadioIntro(replaceSensitiveWord(radio.getRadioIntro(), cacheSensitiveWord));
-            }
+            return Lists.newArrayList(proceed);
         }
     }
 
-    private String replaceSensitiveWord(String target, CacheSensitiveWord cacheSensitiveWord) {
-        for (String sensitiveWord : cacheSensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
-        }
-        return target;
-    }
 
 }
