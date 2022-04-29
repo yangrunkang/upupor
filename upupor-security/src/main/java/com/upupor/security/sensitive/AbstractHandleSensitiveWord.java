@@ -27,19 +27,61 @@
  *   -->
  */
 
-package com.upupor.service.dto.cache;
+package com.upupor.security.sensitive;
 
-import lombok.Data;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
+ * 处理敏感词抽象类
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-27 20:31
+ * @createTime 2022-04-29 20:23
  * @email: yangrunkang53@gmail.com
  */
-@Data
-public class CacheSensitiveWord {
-    private List<String> wordList;
+public abstract class AbstractHandleSensitiveWord<T> {
+
+    public abstract Boolean isHandle(Class<?> clazz);
+
+    /**
+     * 将不同场景的返回值转为List集合(向下兼容)
+     *
+     * @return
+     */
+
+
+    protected abstract void handle(T t);
+
+    private SensitiveWord sensitiveWord;
+    private List<?> proceedList;
+
+
+    protected String replaceSensitiveWord(String target) {
+
+
+        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
+            return target;
+        }
+
+        for (String sensitiveWord : sensitiveWord.getWordList()) {
+            if (target.contains(sensitiveWord)) {
+                return target.replace(sensitiveWord, "[*敏感词*]");
+            }
+        }
+        return target;
+    }
+
+
+    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
+        this.proceedList = proceedList;
+        this.sensitiveWord = sensitiveWord;
+    }
+
+    public void sensitive() {
+        for (Object proceed : proceedList) {
+            handle((T) proceed);
+        }
+    }
 
 }

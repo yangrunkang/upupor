@@ -27,10 +27,25 @@
  *   -->
  */
 
+package com.upupor.web.aop.mapper;
+
+import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
+import com.upupor.service.data.dao.entity.Member;
+
 /**
- * 处理敏感词
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-25 02:06
+ * @createTime 2022-04-29 20:23
  * @email: yangrunkang53@gmail.com
  */
-package com.upupor.security.sensitive;
+public class MemberHandleSensitiveWord extends AbstractHandleSensitiveWord<Member> {
+
+    @Override
+    public Boolean isHandle(Class<?> clazz) {
+        return Member.class.getName().equals(clazz.getName());
+    }
+
+    @Override
+    protected void handle(Member member) {
+        member.setUserName(replaceSensitiveWord(member.getUserName()));
+    }
+}

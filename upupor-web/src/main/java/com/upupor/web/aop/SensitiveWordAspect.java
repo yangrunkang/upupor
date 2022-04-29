@@ -35,14 +35,11 @@ import com.github.pagehelper.Page;
 import com.google.common.collect.Lists;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.Radio;
-import com.upupor.service.dto.cache.CacheSensitiveWord;
-import com.upupor.web.aop.mapper.AbstractMapperHandle;
-import com.upupor.web.aop.mapper.ContentMapperHandle;
-import com.upupor.web.aop.mapper.MemberMapperHandle;
-import com.upupor.web.aop.mapper.RadioMapperHandle;
+import com.upupor.security.sensitive.SensitiveWord;
+import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
+import com.upupor.web.aop.mapper.ContentHandleSensitiveWord;
+import com.upupor.web.aop.mapper.MemberHandleSensitiveWord;
+import com.upupor.web.aop.mapper.RadioHandleSensitiveWord;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -50,7 +47,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -60,6 +56,7 @@ import java.util.Objects;
 import static com.upupor.framework.CcConstant.CvCache.CACHE_SENSITIVE_WORD;
 
 /**
+ * 铭感次切面
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-27 19:25
  * @email: yangrunkang53@gmail.com
@@ -67,17 +64,17 @@ import static com.upupor.framework.CcConstant.CvCache.CACHE_SENSITIVE_WORD;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class MapperAspect {
+public class SensitiveWordAspect {
 
-    private final static List<AbstractMapperHandle<?>> abstractMapperHandleList = new ArrayList<>();
+    private final static List<AbstractHandleSensitiveWord<?>> ABSTRACT_HANDLE_SENSITIVE_WORD_LIST = new ArrayList<>();
 
     static {
-        abstractMapperHandleList.add(new ContentMapperHandle());
-        abstractMapperHandleList.add(new RadioMapperHandle());
-        abstractMapperHandleList.add(new MemberMapperHandle());
+        ABSTRACT_HANDLE_SENSITIVE_WORD_LIST.add(new ContentHandleSensitiveWord());
+        ABSTRACT_HANDLE_SENSITIVE_WORD_LIST.add(new RadioHandleSensitiveWord());
+        ABSTRACT_HANDLE_SENSITIVE_WORD_LIST.add(new MemberHandleSensitiveWord());
     }
 
-    private CacheSensitiveWord cacheSensitiveWord;
+    private SensitiveWord sensitiveWord;
 
     @Pointcut("execution(public * com.upupor.service.data.dao.mapper..*.*(..))")
     public void sensitiveAnno() {
@@ -92,8 +89,8 @@ public class MapperAspect {
         Object proceed = proceedingJoinPoint.proceed();
 
 
-        cacheSensitiveWord = JSON.parseObject(RedisUtil.get(CACHE_SENSITIVE_WORD), CacheSensitiveWord.class);
-        if(Objects.nonNull(cacheSensitiveWord)){
+        sensitiveWord = JSON.parseObject(RedisUtil.get(CACHE_SENSITIVE_WORD), SensitiveWord.class);
+        if(Objects.nonNull(sensitiveWord)){
             Class clazz = proceedingJoinPoint.getSignature().getDeclaringType();
             Annotation annotation = clazz.getAnnotation(UpuporSensitive.class);
             if (Objects.nonNull(annotation) || clazz.getName().equals(BaseMapper.class.getName())) {
@@ -114,10 +111,10 @@ public class MapperAspect {
             return;
         }
 
-        for (AbstractMapperHandle<?> abstractMapperHandle : abstractMapperHandleList) {
-            if (abstractMapperHandle.isHandle(proceedList.get(0).getClass())) {
-                abstractMapperHandle.initData(proceedList, cacheSensitiveWord);
-                abstractMapperHandle.sensitive();
+        for (AbstractHandleSensitiveWord<?> abstractHandleSensitiveWord : ABSTRACT_HANDLE_SENSITIVE_WORD_LIST) {
+            if (abstractHandleSensitiveWord.isHandle(proceedList.get(0).getClass())) {
+                abstractHandleSensitiveWord.initData(proceedList, sensitiveWord);
+                abstractHandleSensitiveWord.sensitive();
             }
         }
 

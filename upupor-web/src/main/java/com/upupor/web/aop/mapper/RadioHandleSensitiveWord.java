@@ -29,22 +29,23 @@
 
 package com.upupor.web.aop.mapper;
 
-import com.upupor.service.data.dao.entity.Content;
+import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
+import com.upupor.service.data.dao.entity.Radio;
 
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-29 20:23
  * @email: yangrunkang53@gmail.com
  */
-public class ContentMapperHandle extends AbstractMapperHandle<Content>{
+public class RadioHandleSensitiveWord extends AbstractHandleSensitiveWord<Radio> {
 
     @Override
     public Boolean isHandle(Class<?> clazz) {
-        return Content.class.getName().equals(clazz.getName());
+        return Radio.class.getName().equals(clazz.getName());
     }
 
     @Override
-    protected void handle(Content content) {
-        content.setTitle(replaceSensitiveWord(content.getTitle()));
+    protected void handle(Radio radio) {
+        radio.setRadioIntro(replaceSensitiveWord(radio.getRadioIntro()));
     }
 }

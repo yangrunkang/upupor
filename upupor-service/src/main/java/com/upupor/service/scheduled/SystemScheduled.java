@@ -31,7 +31,7 @@ import com.alibaba.fastjson.JSON;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.data.dao.entity.BusinessConfig;
 import com.upupor.service.data.service.BusinessConfigService;
-import com.upupor.service.dto.cache.CacheSensitiveWord;
+import com.upupor.security.sensitive.SensitiveWord;
 import com.upupor.service.types.BusinessConfigType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -75,9 +75,9 @@ public class SystemScheduled {
                 .distinct()
                 .collect(Collectors.toList());
 
-        CacheSensitiveWord cacheSensitiveWord = new CacheSensitiveWord();
-        cacheSensitiveWord.setWordList(wordList);
-        RedisUtil.set(CACHE_SENSITIVE_WORD, JSON.toJSONString(cacheSensitiveWord));
+        SensitiveWord sensitiveWord = new SensitiveWord();
+        sensitiveWord.setWordList(wordList);
+        RedisUtil.set(CACHE_SENSITIVE_WORD, JSON.toJSONString(sensitiveWord));
     }
 
 }

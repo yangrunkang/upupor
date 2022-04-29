@@ -29,59 +29,23 @@
 
 package com.upupor.web.aop.mapper;
 
-import com.upupor.service.dto.cache.CacheSensitiveWord;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.Objects;
+import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
+import com.upupor.service.data.dao.entity.Content;
 
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-29 20:23
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractMapperHandle<T> {
+public class ContentHandleSensitiveWord extends AbstractHandleSensitiveWord<Content> {
 
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    /**
-     * 将不同场景的返回值转为List集合(向下兼容)
-     *
-     * @return
-     */
-
-
-    protected abstract void handle(T t);
-
-    private CacheSensitiveWord cacheSensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-
-
-        if (Objects.isNull(cacheSensitiveWord) || CollectionUtils.isEmpty(cacheSensitiveWord.getWordList())) {
-            return target;
-        }
-
-        for (String sensitiveWord : cacheSensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
-        }
-        return target;
+    @Override
+    public Boolean isHandle(Class<?> clazz) {
+        return Content.class.getName().equals(clazz.getName());
     }
 
-
-    public void initData(List<?> proceedList, CacheSensitiveWord cacheSensitiveWord) {
-        this.proceedList = proceedList;
-        this.cacheSensitiveWord = cacheSensitiveWord;
+    @Override
+    protected void handle(Content content) {
+        content.setTitle(replaceSensitiveWord(content.getTitle()));
     }
-
-    public void sensitive() {
-        for (Object proceed : proceedList) {
-            handle((T) proceed);
-        }
-    }
-
 }

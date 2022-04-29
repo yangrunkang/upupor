@@ -27,24 +27,19 @@
  *   -->
  */
 
-package com.upupor.web.aop.mapper;
+package com.upupor.security.sensitive;
 
-import com.upupor.service.data.dao.entity.Member;
+import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
+ * @createTime 2022-04-27 20:31
  * @email: yangrunkang53@gmail.com
  */
-public class MemberMapperHandle extends AbstractMapperHandle<Member> {
+@Data
+public class SensitiveWord {
+    private List<String> wordList;
 
-    @Override
-    public Boolean isHandle(Class<?> clazz) {
-        return Member.class.getName().equals(clazz.getName());
-    }
-
-    @Override
-    protected void handle(Member member) {
-        member.setUserName(replaceSensitiveWord(member.getUserName()));
-    }
 }
