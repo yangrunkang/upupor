@@ -32,7 +32,7 @@ import com.github.houbb.segment.util.SegmentHelper;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.common.algorithm.SnowFlake;
+import com.upupor.framework.algorithm.SnowFlake;
 import lombok.Data;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Component;

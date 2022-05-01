@@ -64,7 +64,7 @@ public class ViewerServiceImpl implements ViewerService {
     private final ViewHistoryMapper viewHistoryMapper;
     private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
-    private final List<AbstractViewHistory> abstractViewHistoryList;
+    private final List<AbstractViewHistory<?>> abstractViewHistoryList;
 
     @Override
     public void addViewer(String targetId, ViewTargetType targetType) {
@@ -148,7 +148,7 @@ public class ViewerServiceImpl implements ViewerService {
         Map<ViewTargetType, List<ViewHistory>> map = viewHistoryList.stream().collect(Collectors.groupingBy(ViewHistory::getTargetType));
 
         for (ViewTargetType targetType : map.keySet()) {
-            for (AbstractViewHistory abstractViewHistory : abstractViewHistoryList) {
+            for (AbstractViewHistory<?> abstractViewHistory : abstractViewHistoryList) {
                 if (abstractViewHistory.viewTargetType().equals(targetType)) {
                     abstractViewHistory.initData(map.get(targetType));
                     abstractViewHistory.setViewHistoryTitleAndUrl();

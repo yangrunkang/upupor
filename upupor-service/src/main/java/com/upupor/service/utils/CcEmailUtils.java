@@ -58,6 +58,24 @@ import java.util.Objects;
  */
 @Slf4j
 public class CcEmailUtils {
+    private static Map<String, String> errMsgMap = new HashMap<>();
+
+    static {
+        errMsgMap.put("InvalidReceiverName.Malformed", "收件人格式不正确，必须有@符号，域名组成为数字，字母，下划线，减号和点，账号组成为数字，字母，下划线，减号和点");
+        errMsgMap.put("InvalidMailAddress.NotFound", "不存在，请检查批定的发信地址");
+        errMsgMap.put("InvalidTemplate.NotFound", "指定的模板不存在");
+        errMsgMap.put("InvalidReceiver.NotFound", "The specified receiver does not exist.");
+        errMsgMap.put("InvalidToAddress", "收件人格式不正确，必须有@符号，域名组成为数字，字母，下划线，减号和点，账号组成为数字，字母，下划线，减号和点");
+        errMsgMap.put("InvalidToAddress.Spam", "无效地址，请检查地址有效性");
+        errMsgMap.put("InvalidBody", "textBody或textBody格式错误,请重新填写内容");
+        errMsgMap.put("InvalidSendMail.Spam", "发信被拒绝，请检查用户状态，是否是频率超限，额度等问题");
+        errMsgMap.put("InvalidMailAddressSendType.Malformed", "发送类型不正确，请去控制台检查类型，设置相应的值");
+        errMsgMap.put("InvalidMailAddressStatus.Malformed", "发信地址状态不对，请检查是否可用，是否是被冻结状态");
+        errMsgMap.put("InvalidMailAddressDomain.Malformed", "域名格式不正确，请使用数字，字母，下划线，减号和点");
+        errMsgMap.put("InvalidFromAlias.Malformed", "主题错误，主题不能超过100个字符");
+        errMsgMap.put("InvalidReplyAddressAlias.Malformed", "回信地址别名格式不正确，长度不超过15个符");
+        errMsgMap.put("InvalidReplyAddress.Malformed", "回信地址格式不正确，必须有@符号，域名组成为数字，字母，下划线，减号和点，账号组成为数字，字母，下划线，减号和点");
+    }
 
     /**
      * 发送邮件
@@ -70,7 +88,7 @@ public class CcEmailUtils {
         // 0-关闭 1-开启
         if (property.equals(CcConstant.CV_OFF)) {
             log.info("邮件开关已关闭");
-            log.error("发送邮件日志[未真实发送邮件]: \n收件人:{},\n文章标题:{},\n邮件内容:{}", sendEmailEvent.getToAddress(), sendEmailEvent.getTitle(),sendEmailEvent.getContent());
+            log.error("发送邮件日志[未真实发送邮件]: \n收件人:{},\n文章标题:{},\n邮件内容:{}", sendEmailEvent.getToAddress(), sendEmailEvent.getTitle(), sendEmailEvent.getContent());
             return false;
         } else if (property.equals(CcConstant.CV_ON)) {
             // 接入模板
@@ -145,52 +163,11 @@ public class CcEmailUtils {
     }
 
     private static String handSendEmailErrCode(String errorCode) {
-        if ("InvalidReceiverName.Malformed".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "收件人格式不正确，必须有@符号，域名组成为数字，字母，下划线，减号和点，账号组成为数字，字母，下划线，减号和点");
+        for (String code : errMsgMap.keySet()) {
+            if (code.equals(errorCode)) {
+                throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, errMsgMap.get(code));
+            }
         }
-        if ("InvalidTemplateName.Malformed".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "模板名格式不正确，模板名不能大于30个字符");
-        }
-        if ("InvalidMailAddress.NotFound".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "不存在，请检查批定的发信地址");
-        }
-        if ("InvalidTemplate.NotFound".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "指定的模板不存在");
-        }
-        if ("InvalidReceiver.NotFound".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "The specified receiver does not exist.");
-        }
-        if ("InvalidToAddress".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "收件人格式不正确，必须有@符号，域名组成为数字，字母，下划线，减号和点，账号组成为数字，字母，下划线，减号和点");
-        }
-        if ("InvalidToAddress.Spam".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "无效地址，请检查地址有效性");
-        }
-        if ("InvalidBody".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "textBody或textBody格式错误,请重新填写内容");
-        }
-        if ("InvalidSendMail.Spam".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "发信被拒绝，请检查用户状态，是否是频率超限，额度等问题");
-        }
-        if ("InvalidMailAddressSendType.Malformed".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "发送类型不正确，请去控制台检查类型，设置相应的值");
-        }
-        if ("InvalidMailAddressStatus.Malformed".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "发信地址状态不对，请检查是否可用，是否是被冻结状态");
-        }
-        if ("InvalidMailAddressDomain.Malformed".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "域名格式不正确，请使用数字，字母，下划线，减号和点");
-        }
-        if ("InvalidFromAlias.Malformed".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "主题错误，主题不能超过100个字符");
-        }
-        if ("InvalidReplyAddressAlias.Malformed".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "回信地址别名格式不正确，长度不超过15个符");
-        }
-        if ("InvalidReplyAddress.Malformed".equals(errorCode)) {
-            throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "回信地址格式不正确，必须有@符号，域名组成为数字，字母，下划线，减号和点，账号组成为数字，字母，下划线，减号和点");
-        }
-
         throw new BusinessException(ErrorCode.SEND_EMAIL_ERROR, "未知错误");
     }
 
