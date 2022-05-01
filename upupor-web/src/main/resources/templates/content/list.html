@@ -81,7 +81,7 @@
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <!--最近一周新增文章-->
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
-                    <div class="fw-normal border-bottom mb-2 text-black-50">最新文章<a class="cv-link text-black-50 float-end" href="/content/all"><i class="bi bi-balloon"></i>全部</a></div>
+                    <div class="fw-normal border-bottom mb-2 text-black-50">最新文章<a class="cv-link text-black-50 float-end" href="/content/new"><i class="bi bi-balloon"></i>全部</a></div>
                     <table class="table table-sm table-borderless mb-0">
                         <tbody>
                         <tr th:if="!${#lists.isEmpty(commonPageIndexDto.latestContentList)}"

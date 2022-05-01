@@ -27,9 +27,12 @@
 
 package com.upupor.framework.config;
 
+import com.upupor.framework.utils.SystemUtil;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -65,8 +68,16 @@ public class UpuporConfig {
     private String googleGa4;
 
 
+    public String getOssStatic() {
+        // 如果没有配置oss地址,则使用本地地址
+        if (StringUtils.isEmpty(ossStatic)) {
+            return String.format("http://%s:%s", SystemUtil.getHostAddress(), serverPort);
+        }
+        return ossStatic;
+    }
 
-
+    @Value("${server.port}")
+    private Integer serverPort;
 
 
 }

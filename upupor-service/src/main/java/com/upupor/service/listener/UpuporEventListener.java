@@ -27,6 +27,7 @@
 
 package com.upupor.service.listener;
 
+import com.upupor.framework.utils.SystemUtil;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import com.upupor.service.listener.event.InitSensitiveWordEvent;
@@ -90,13 +91,7 @@ public class UpuporEventListener implements ApplicationListener {
      * 打印一些url
      */
     private void printUrl() {
-        String hostAddress = "localhost";
-        try {
-            InetAddress address = InetAddress.getLocalHost();
-            hostAddress = address.getHostAddress();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        String hostAddress = SystemUtil.getHostAddress();
         log.info("Upupor 访问地址: http://{}:{}", hostAddress, serverPort);
         log.info("Upupor swagger2 接口地址: http://{}:{}/{}", hostAddress, serverPort, "doc.html");
     }
