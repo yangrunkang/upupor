@@ -29,6 +29,9 @@ package com.upupor.service.data.aggregation;
 
 import com.alibaba.fastjson.JSON;
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.utils.RedisUtil;
+import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.Tag;
 import com.upupor.service.data.service.BannerService;
@@ -42,7 +45,6 @@ import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.GetCommonReq;
 import com.upupor.service.types.BannerStatus;
 import com.upupor.service.types.ContentType;
-import com.upupor.framework.utils.RedisUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -164,7 +166,8 @@ public class CommonAggregateService {
         public HrefDesc(ContentType contentType, String tag, String tagName) {
             this.desc = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
-            this.icon = contentType.getIcon();
+            UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
+            this.icon = upuporConfig.getOss().getFileHost() + contentType.getIcon();
             this.tips = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
             if (!StringUtils.isEmpty(tag)) {
