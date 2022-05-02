@@ -32,7 +32,7 @@ import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.types.ContentType;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

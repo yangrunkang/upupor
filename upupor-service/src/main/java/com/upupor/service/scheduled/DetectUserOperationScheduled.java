@@ -39,7 +39,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.service.utils.CcUtils.sleep2s;
+import static com.upupor.framework.utils.CcUtils.sleep2s;
 
 
 /**

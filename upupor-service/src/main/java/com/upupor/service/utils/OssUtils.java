@@ -43,7 +43,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
 
-import static com.upupor.service.utils.CcUtils.checkEnvIsDev;
+import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
 
 /**
  * Oss工具类

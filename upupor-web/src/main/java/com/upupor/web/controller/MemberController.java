@@ -49,7 +49,7 @@ import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.OperateMemberDto;
 import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.*;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;

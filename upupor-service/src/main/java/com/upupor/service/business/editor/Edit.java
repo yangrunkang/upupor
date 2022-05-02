@@ -39,7 +39,7 @@ import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.OriginType;
 import com.upupor.service.types.PinnedStatus;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

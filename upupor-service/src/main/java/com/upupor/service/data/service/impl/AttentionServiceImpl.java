@@ -48,7 +48,7 @@ import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.DelAttentionReq;
 import com.upupor.service.types.AttentionStatus;
 import com.upupor.service.types.FansStatus;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

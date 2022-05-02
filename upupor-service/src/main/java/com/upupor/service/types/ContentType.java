@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.OSS_URL;
+//import static com.upupor.framework.CcConstant.OSS_URL;
 
 
 /**
@@ -53,32 +53,32 @@ public enum ContentType {
     /**
      * 技术
      */
-    TECH(1, "技术", "/tech", "发布技术文章", OSS_URL + "icons/write/write-tech.png", "创建 > 技术"),
+    TECH(1, "技术", "/tech", "发布技术文章",  "icons/write/write-tech.png", "创建 > 技术"),
 
     /**
      * 问答
      */
-    QA(2, "问答", "/qa", "我要提问", OSS_URL + "icons/write/write-qa.png", "创建 > 问答"),
+    QA(2, "问答", "/qa", "我要提问", "icons/write/write-qa.png", "创建 > 问答"),
 
     /**
      * 分享
      */
-    SHARE(3, "分享", "/share", "我要分享", OSS_URL + "icons/write/write-share.png", "创建 > 分享"),
+    SHARE(3, "分享", "/share", "我要分享",  "icons/write/write-share.png", "创建 > 分享"),
 
     /**
      * 职场
      */
-    WORKPLACE(4, "职场", "/workplace", "分享职场新鲜事", OSS_URL + "icons/write/write-work.png", "创建 > 职场"),
+    WORKPLACE(4, "职场", "/workplace", "分享职场新鲜事",  "icons/write/write-work.png", "创建 > 职场"),
 
     /**
      * 记录
      */
-    RECORD(5, "记录", "/record", "记录美好生活", OSS_URL + "icons/write/write-record.png", "创建 > 记录"),
+    RECORD(5, "记录", "/record", "记录美好生活",  "icons/write/write-record.png", "创建 > 记录"),
 
     /**
      * 短内容
      */
-    TOPIC(6, "短内容", "/topic", "发布短内容", OSS_URL + "icons/system/topic.png", "创建 > 短内容"),
+    TOPIC(6, "短内容", "/topic", "发布短内容",  "icons/system/topic.png", "创建 > 短内容"),
 
     /**
      * 留言

@@ -46,7 +46,7 @@ import com.upupor.service.outer.req.UpdateCollectReq;
 import com.upupor.service.types.CollectStatus;
 import com.upupor.service.types.CollectType;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

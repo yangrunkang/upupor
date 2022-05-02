@@ -46,7 +46,7 @@ import com.upupor.service.outer.req.AddApplyDocumentReq;
 import com.upupor.service.outer.req.DelApplyReq;
 import com.upupor.service.outer.req.UpdateApplyReq;
 import com.upupor.service.types.ApplyStatus;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;

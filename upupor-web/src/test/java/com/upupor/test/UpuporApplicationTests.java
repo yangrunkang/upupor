@@ -34,7 +34,7 @@ import com.upupor.service.scheduled.DetectUserOperationScheduled;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.utils.AvatarHelper;
 import com.upupor.service.utils.CcEmailUtils;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.web.UpuporWebApplication;
 import lombok.RequiredArgsConstructor;

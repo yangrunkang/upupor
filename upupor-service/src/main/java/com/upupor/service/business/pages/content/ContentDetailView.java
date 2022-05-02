@@ -32,7 +32,7 @@ import com.upupor.service.data.service.CommentService;
 import com.upupor.service.business.content.PublishedContent;
 import com.upupor.service.business.pages.AbstractView;
 import com.upupor.service.dto.page.ContentIndexDto;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

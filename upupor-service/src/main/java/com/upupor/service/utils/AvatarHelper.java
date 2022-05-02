@@ -34,6 +34,7 @@ package com.upupor.service.utils;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.SpringContextUtils;
 
 import javax.imageio.ImageIO;
@@ -47,26 +48,24 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Random;
 
-import static com.upupor.framework.CcConstant.DEFAULT_PROFILE_PHOTO;
-import static com.upupor.service.utils.CcUtils.checkEnvIsDev;
+import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
 
 public class AvatarHelper {
 
 
     public static String generateAvatar(Integer hashCode) {
-        String url;
         try {
             String fileName = "profile_system/" + CcUtils.getUuId() + CcConstant.ONE_DOTS + "png";
             if (checkEnvIsDev()) {
-                return DEFAULT_PROFILE_PHOTO;
+                return null;
             }
             OssUtils.uploadToOss(fileName, create(hashCode));
             String fileHost = SpringContextUtils.getBean(UpuporConfig.class).getOss().getFileHost();
-            url = fileHost + fileName;
+            return fileHost + fileName;
         } catch (Exception e) {
-            url = DEFAULT_PROFILE_PHOTO;
+            e.printStackTrace();
         }
-        return url;
+        return null;
     }
 
     /**

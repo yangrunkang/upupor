@@ -38,7 +38,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.service.outer.req.AddTodoReq;
 import com.upupor.service.outer.req.UpdateTodoDoneStatus;
 import com.upupor.service.types.TodoStatus;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -42,7 +42,7 @@ import com.upupor.service.outer.req.AddCacheContentReq;
 import com.upupor.service.outer.req.GetEditorReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ContentType;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;

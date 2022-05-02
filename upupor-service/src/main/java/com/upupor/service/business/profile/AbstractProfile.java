@@ -37,7 +37,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.types.ViewTargetType;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.util.CollectionUtils;
 import org.thymeleaf.util.ArrayUtils;

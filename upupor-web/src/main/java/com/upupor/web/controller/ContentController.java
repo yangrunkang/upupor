@@ -48,7 +48,7 @@ import com.upupor.service.outer.req.*;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.MemberIntegralStatus;
 import com.upupor.service.types.PinnedStatus;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

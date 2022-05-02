@@ -47,7 +47,7 @@ import com.upupor.service.outer.req.ListCommentReq;
 import com.upupor.service.types.CommentAgree;
 import com.upupor.service.types.CommentStatus;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.PageUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;

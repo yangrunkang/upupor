@@ -37,7 +37,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.outer.req.AddFeedbackReq;
 import com.upupor.service.types.FeedBackStatus;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

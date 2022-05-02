@@ -56,7 +56,7 @@ public class Viewer extends BaseEntity {
      * 访问者用户头像
      */
     @TableField(exist = false)
-    private String viewerUserVia = CcConstant.DEFAULT_PROFILE_PHOTO;
+    private String viewerUserVia;
 
     /**
      * 渲染url

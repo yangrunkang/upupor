@@ -48,7 +48,7 @@ import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
 import com.upupor.service.types.RadioStatus;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -28,7 +28,7 @@
 package com.upupor.web.aop.view;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;

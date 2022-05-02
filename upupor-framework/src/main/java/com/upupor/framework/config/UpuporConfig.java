@@ -36,6 +36,9 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
+
+
 /**
  * @author Yang Runkang (cruise)
  * @date 2021年12月12日 22:37
@@ -52,6 +55,7 @@ public class UpuporConfig {
     private String adSwitchRight;
     private String analyzeSwitch;
     private Oss oss;
+    // 静态文件地址
     private String ossStatic;
     private String env;
     /**
@@ -70,7 +74,7 @@ public class UpuporConfig {
 
     public String getOssStatic() {
         // 如果没有配置oss地址,则使用本地地址
-        if (StringUtils.isEmpty(ossStatic)) {
+        if (StringUtils.isEmpty(ossStatic) && checkEnvIsDev()) {
             return String.format("http://%s:%s", SystemUtil.getHostAddress(), serverPort);
         }
         return ossStatic;

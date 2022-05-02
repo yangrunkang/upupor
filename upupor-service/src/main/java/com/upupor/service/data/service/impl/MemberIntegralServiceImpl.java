@@ -38,7 +38,7 @@ import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListIntegralDto;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.types.MemberIntegralStatus;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

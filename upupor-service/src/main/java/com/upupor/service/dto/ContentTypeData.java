@@ -66,7 +66,7 @@ public class ContentTypeData{
         this.sorted = DEFAULT_SORTED;
     }
 
-    public List<ContentTypeData> contentTypeDataList() {
+    public List<ContentTypeData> contentTypeDataList(String urlPrefix) {
         List<ContentTypeData> list = new ArrayList<>();
         for (ContentType value : ContentType.contentSource()) {
             list.add(new ContentTypeData(
@@ -74,7 +74,7 @@ public class ContentTypeData{
                     value.getName(),
                     value.getUrl(),
                     value.getWebText(),
-                    value.getIcon(),
+                    urlPrefix + value.getIcon(),
                     value.getTips(),
                     value.name().toLowerCase()));
         }

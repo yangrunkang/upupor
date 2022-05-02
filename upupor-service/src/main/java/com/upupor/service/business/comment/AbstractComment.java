@@ -30,7 +30,7 @@ package com.upupor.service.business.comment;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.types.ContentType;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 
 /**
  * 评论抽象

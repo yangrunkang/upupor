@@ -27,6 +27,7 @@
 
 package com.upupor.web.aop.view;
 
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.MemberConfig;
 import com.upupor.service.data.service.MemberService;
@@ -59,12 +60,13 @@ import static com.upupor.service.dto.ContentTypeData.FIRST;
 @Order(10)
 public class SetUserDefaultContentType implements PrepareData {
     private final MemberService memberService;
+    private final UpuporConfig upuporConfig;
 
     @Override
     public void prepare(ViewData viewData) {
         ModelAndView modelAndView = viewData.getModelAndView();
 
-        List<ContentTypeData> contentTypeData = new ContentTypeData().contentTypeDataList();
+        List<ContentTypeData> contentTypeData = new ContentTypeData().contentTypeDataList(upuporConfig.getOss().getFileHost());
 
         try {
             String userId = ServletUtils.getUserId();

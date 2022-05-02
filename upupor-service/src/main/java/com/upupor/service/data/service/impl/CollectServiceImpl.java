@@ -37,7 +37,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.page.common.ListCollectDto;
 import com.upupor.service.types.CollectType;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

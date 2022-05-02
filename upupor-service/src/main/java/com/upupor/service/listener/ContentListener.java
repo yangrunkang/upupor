@@ -42,14 +42,12 @@ import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.MessageType;
 import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.types.ViewerDeleteStatus;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -58,7 +56,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.*;
-import static com.upupor.service.utils.CcUtils.sleep2s;
+import static com.upupor.framework.utils.CcUtils.sleep2s;
 
 /**
  * 内容事件监听器

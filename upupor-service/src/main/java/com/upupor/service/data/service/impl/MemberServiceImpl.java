@@ -31,7 +31,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.data.dao.entity.*;
@@ -59,6 +61,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.upupor.framework.CcConstant.DEFAULT_VIA;
 import static com.upupor.framework.ErrorCode.DATA_EXCEPTION;
 
 /**
@@ -81,6 +84,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberConfigMapper memberConfigMapper;
     private final ApplicationEventPublisher eventPublisher;
     private final BusinessConfigService businessConfigService;
+    private final UpuporConfig upuporConfig;
 
     @Override
     public Member register(AddMemberReq addMemberReq) {
@@ -94,7 +98,13 @@ public class MemberServiceImpl implements MemberService {
         BeanUtils.copyProperties(addMemberReq, member);
         member.setUserId(CcUtils.getUuId());
         member.setStatus(MemberStatus.NORMAL);
-        member.setVia(AvatarHelper.generateAvatar(Math.abs(member.getUserId().hashCode())));
+
+        //  生成头像
+        String profileVia = AvatarHelper.generateAvatar(Math.abs(member.getUserId().hashCode()));
+        if (StringUtils.isEmpty(profileVia)) {
+            profileVia = upuporConfig.getOss().getFileHost() + DEFAULT_VIA;
+        }
+        member.setVia(profileVia);
         member.setCreateTime(CcDateUtil.getCurrentTime());
         member.setSysUpdateTime(new Date());
         member.setLastLoginTime(CcDateUtil.getCurrentTime());

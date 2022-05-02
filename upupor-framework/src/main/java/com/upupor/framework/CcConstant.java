@@ -37,13 +37,11 @@ import com.upupor.framework.utils.SpringContextUtils;
  * @created: 2019/12/23 02:19
  */
 public final class CcConstant {
-
-    public static final String OSS_URL = "https://upupor-img.oss-cn-hangzhou.aliyuncs.com/";
-
     /**
-     * 默认头像
+     * 用户默认头像
      */
-    public static final String DEFAULT_PROFILE_PHOTO = OSS_URL + "system/profile-photo.png";
+    public static final String DEFAULT_VIA = "system/profile-photo.png";
+
     /**
      * 业务标识
      */
@@ -177,6 +175,7 @@ public final class CcConstant {
     public static final String OPEN = "foot/opensource";
     public static final String MARKDOWN = "components/markdown";
     public static final String OUR_HOME = "components/our-home";
+
     public static final class ContentView {
         // 文章列表
         public static final String CONTENT_LIST = "content/list";
@@ -187,6 +186,7 @@ public final class CcConstant {
         // 临时文章
         public static final String CONTENT_HISTORY = "content/history";
     }
+
     /**
      * 运营活动
      */

@@ -40,7 +40,7 @@ import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.types.MessageType;
-import com.upupor.service.utils.CcUtils;
+import com.upupor.framework.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
