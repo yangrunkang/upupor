@@ -50,6 +50,7 @@ import com.upupor.service.outer.req.AddContentDetailReq;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.outer.req.UpdateContentReq;
+import com.upupor.service.outer.req.content.BaseContentReq;
 import com.upupor.service.types.*;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.ServletUtils;

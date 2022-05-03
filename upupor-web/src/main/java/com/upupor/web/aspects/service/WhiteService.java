@@ -27,50 +27,37 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service;
 
-import org.springframework.util.CollectionUtils;
+import com.upupor.framework.config.UpuporConfig;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
+import static com.upupor.service.utils.ServletUtils.checkIsLogin;
 
 /**
- * 处理敏感词抽象类
+ * 白名单服务
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
- * @email: yangrunkang53@gmail.com
+ * @date 2021年12月12日 23:16
  */
-public abstract class AbstractHandleSensitiveWord<T> {
+@Service
+@RequiredArgsConstructor
+public class WhiteService {
+    private final UpuporConfig upuporConfig;
 
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
+    public void interfaceWhiteCheck(String servletPath) {
+        if (!upuporConfig.getInterfaceWhiteUrlList().contains(servletPath)) {
+            checkIsLogin();
         }
+    }
 
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
+
+
+    public void pageCheck(String servletPath) {
+        upuporConfig.getPageCheckUrlList().forEach(page -> {
+            if (servletPath.startsWith(page)) {
+                checkIsLogin();
             }
-        }
-        return target;
+        });
     }
-
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
-    }
-
 }

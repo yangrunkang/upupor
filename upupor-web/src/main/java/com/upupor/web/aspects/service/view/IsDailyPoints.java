@@ -27,50 +27,30 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.view;
 
-import org.springframework.util.CollectionUtils;
+import com.upupor.service.data.service.MemberService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Objects;
+import static com.upupor.framework.CcConstant.DAILY_POINTS;
 
 /**
- * 处理敏感词抽象类
- * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
- * @email: yangrunkang53@gmail.com
+ * 每日签到
+ * @author cruise
+ * @createTime 2022-01-19 18:01
  */
-public abstract class AbstractHandleSensitiveWord<T> {
-
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
-        }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
-        }
-        return target;
+@RequiredArgsConstructor
+@Service
+@Order(4)
+public class IsDailyPoints implements PrepareData {
+    private final MemberService memberService;
+    @Override
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
+        // 今日是否签到
+        modelAndView.addObject(DAILY_POINTS, memberService.checkIsGetDailyPoints());
     }
-
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
-    }
-
 }

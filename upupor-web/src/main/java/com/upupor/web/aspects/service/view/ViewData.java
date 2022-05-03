@@ -27,50 +27,28 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.view;
 
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.Objects;
+import lombok.Getter;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 处理敏感词抽象类
- * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
- * @email: yangrunkang53@gmail.com
+ *
+ * @author cruise
+ * @createTime 2022-01-20 18:01
  */
-public abstract class AbstractHandleSensitiveWord<T> {
+@Getter
+public class ViewData {
+    private ModelAndView modelAndView;
+    private String servletPath;
+    private long startTime;
 
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
-        }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
-        }
-        return target;
-    }
-
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
+    public static ViewData create(ModelAndView modelAndView, String servletPath, long startTime){
+        ViewData viewData = new ViewData();
+        viewData.modelAndView = modelAndView;
+        viewData.servletPath = servletPath;
+        viewData.startTime = startTime;
+        return viewData;
     }
 
 }

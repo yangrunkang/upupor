@@ -27,50 +27,22 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.checker.page.dto;
 
-import org.springframework.util.CollectionUtils;
+import com.upupor.web.aspects.service.checker.BaseChecker;
+import lombok.Data;
 
-import java.util.List;
-import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * 处理敏感词抽象类
- * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
- * @email: yangrunkang53@gmail.com
+ * @author cruise
+ * @createTime 2022-01-20 18:01
  */
-public abstract class AbstractHandleSensitiveWord<T> {
+@Data
+public class PageCheckDto extends BaseChecker {
+    private HttpServletRequest request;
 
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
-        }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
-        }
-        return target;
+    public PageCheckDto(HttpServletRequest request) {
+        this.request = request;
     }
-
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
-    }
-
 }

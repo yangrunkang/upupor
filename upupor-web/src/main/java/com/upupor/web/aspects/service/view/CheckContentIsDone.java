@@ -27,50 +27,38 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.view;
 
-import org.springframework.util.CollectionUtils;
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.utils.ServletUtils;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Objects;
+import static com.upupor.framework.CcConstant.CONTENT_IS_DONE;
 
 /**
- * 处理敏感词抽象类
- * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
- * @email: yangrunkang53@gmail.com
+ * @author cruise
+ * @createTime 2022-01-19 18:01
  */
-public abstract class AbstractHandleSensitiveWord<T> {
-
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
-        }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
+@Service
+@RequiredArgsConstructor
+@Order(7)
+public class CheckContentIsDone implements PrepareData{
+    @Override
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
+        try {
+            String cacheContentKey = CcConstant.CvCache.CONTENT_CACHE_KEY + ServletUtils.getUserId();
+            String content = RedisUtil.get(cacheContentKey);
+            if (!StringUtils.isEmpty(content)) {
+                modelAndView.addObject(CONTENT_IS_DONE, Boolean.TRUE);
             }
+        } catch (Exception e) {
+            modelAndView.addObject(CONTENT_IS_DONE, Boolean.FALSE);
         }
-        return target;
     }
-
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
-    }
-
 }

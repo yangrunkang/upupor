@@ -27,50 +27,25 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.sensitive;
 
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.Objects;
+import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
+import com.upupor.service.data.dao.entity.Content;
 
 /**
- * 处理敏感词抽象类
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-29 20:23
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractHandleSensitiveWord<T> {
+public class ContentHandleSensitiveWord extends AbstractHandleSensitiveWord<Content> {
 
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
-        }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
-        }
-        return target;
+    @Override
+    public Boolean isHandle(Class<?> clazz) {
+        return Content.class.getName().equals(clazz.getName());
     }
 
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
+    @Override
+    protected void handle(Content content) {
+        content.setTitle(replaceSensitiveWord(content.getTitle()));
     }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
-    }
-
 }

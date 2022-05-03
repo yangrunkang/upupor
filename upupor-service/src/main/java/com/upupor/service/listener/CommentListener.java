@@ -50,8 +50,8 @@ import java.util.List;
 @Component
 public class CommentListener {
 
-    private final List<AbstractComment> abstractCommentList;
-    private final List<AbstractReplyComment> abstractReplyCommentList;
+    private final List<AbstractComment<?>> abstractCommentList;
+    private final List<AbstractReplyComment<?>> abstractReplyCommentList;
 
     /**
      * 添加评论成功
@@ -63,7 +63,7 @@ public class CommentListener {
     public void toCommentSuccessEvent(ToCommentSuccessEvent event) {
 
 
-        for (AbstractComment abstractComment : abstractCommentList) {
+        for (AbstractComment<?> abstractComment : abstractCommentList) {
             try {
                 if (abstractComment.confirmSource(event.getCommentSource(), event.getTargetId())) {
                     // 评论时间
@@ -93,7 +93,7 @@ public class CommentListener {
             return;
         }
 
-        for (AbstractReplyComment abstractReplyComment : abstractReplyCommentList) {
+        for (AbstractReplyComment<?> abstractReplyComment : abstractReplyCommentList) {
             try {
                 if (abstractReplyComment.isHandled(replayCommentEvent.getTargetId(), replayCommentEvent.getCommentSource())) {
                     abstractReplyComment.reply(replayCommentEvent);

@@ -27,50 +27,30 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.view;
 
-import org.springframework.util.CollectionUtils;
+import com.upupor.framework.CcConstant;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
- * 处理敏感词抽象类
- * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
- * @email: yangrunkang53@gmail.com
+ * 默认标题
+ * @author cruise
+ * @createTime 2022-01-19 18:01
  */
-public abstract class AbstractHandleSensitiveWord<T> {
-
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
+@Service
+@Order(1)
+public class DefaultTitle implements PrepareData{
+    @Override
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
+        // 将维度消息数显示在title
+        Object title = modelAndView.getModelMap().getAttribute(CcConstant.SeoKey.TITLE);
+        if (Objects.isNull(title)) {
+            modelAndView.addObject(CcConstant.SeoKey.TITLE, "Upupor让每个人享受分享");
         }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
-        }
-        return target;
     }
-
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
-    }
-
 }

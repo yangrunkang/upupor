@@ -27,50 +27,47 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.view;
 
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.utils.CcUtils;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import static com.upupor.framework.CcConstant.ContentView.CONTENT_INDEX;
+
 /**
- * 处理敏感词抽象类
- * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
- * @email: yangrunkang53@gmail.com
+ * @author cruise
+ * @createTime 2022-01-19 18:01
  */
-public abstract class AbstractHandleSensitiveWord<T> {
+@Service
+@RequiredArgsConstructor
+@Order(6)
+public class SetKeyWords implements PrepareData {
+    @Override
+    public void prepare(ViewData viewData) {
+        ModelAndView modelAndView = viewData.getModelAndView();
+        Map<String, Object> model = modelAndView.getModel();
+        if (!CollectionUtils.isEmpty(model)) {
+            Object o = model.get(CcConstant.SeoKey.DESCRIPTION);
+            if (o instanceof String) {
+                // 视图名称是文章详情,则不设置keywords,由文章详情自己返回
+                String viewName = modelAndView.getViewName();
+                if (Objects.nonNull(viewName) && viewName.equals(CONTENT_INDEX)) {
+                    return;
+                }
 
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
-        }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
+                String description = (String) o;
+                String segmentResult = CcUtils.getSegmentResult(description);
+                modelAndView.addObject(CcConstant.SeoKey.KEYWORDS, segmentResult);
             }
         }
-        return target;
-    }
-
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
     }
 
 }

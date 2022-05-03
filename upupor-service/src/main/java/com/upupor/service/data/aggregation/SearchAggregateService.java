@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
 public class SearchAggregateService {
 
     private final UpuporLuceneService upuporLuceneService;
-    private final List<AbstractSearchResultRender> renderHandlerList;
+    private final List<AbstractSearchResultRender<?>> renderHandlerList;
 
 
     public SearchIndexDto index(String keyword) {
@@ -77,7 +77,7 @@ public class SearchAggregateService {
 
         Map<LuceneDataType, List<LucenuQueryResultDto.Data>> resultMap = resultList.stream().collect(Collectors.groupingBy(LucenuQueryResultDto.Data::getLuceneDataType));
 
-        for (AbstractSearchResultRender render : renderHandlerList) {
+        for (AbstractSearchResultRender<?> render : renderHandlerList) {
             for (LuceneDataType luceneDataType : resultMap.keySet()) {
                 if(luceneDataType.equals(render.dataType())){
                     // 初始化

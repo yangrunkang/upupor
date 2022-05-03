@@ -27,50 +27,53 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.checker.controller;
 
-import org.springframework.util.CollectionUtils;
+import com.upupor.security.limiter.AbstractLimiter;
+import com.upupor.security.limiter.UpuporLimit;
+import com.upupor.service.utils.ServletUtils;
+import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
+import static com.upupor.service.utils.ServletUtils.checkIsLogin;
+
 /**
- * 处理敏感词抽象类
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
+ * @createTime 2022-04-23 15:20
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractHandleSensitiveWord<T> {
-
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
+@Service
+@Order(0)
+public class LimiterChecker extends AbstractLimiter implements ControllerAspectChecker {
+    @Override
+    public void check(ControllerCheckerDto controllerCheckerDto) {
 
 
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
+        MethodSignature signature = (MethodSignature) controllerCheckerDto.getProceedingJoinPoint().getSignature();
+        UpuporLimit annotation = signature.getMethod().getAnnotation(UpuporLimit.class);
+        if(Objects.isNull(annotation)){
+            return;
         }
 
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
+        // 如果需要登录,就使用用户id,否则使用sessionId
+        String businessId;
+        if(annotation.needLogin()){
+            checkIsLogin();
+            businessId = ServletUtils.getUserId();
+        }else {
+            businessId=controllerCheckerDto.getRequest().getSession().getId();
         }
-        return target;
+
+        // 初始化限制器
+        initInterfaceLimiter(businessId, annotation.limitType());
+
+        // 执行限流操作
+        limit();
     }
 
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
-    }
 
 }

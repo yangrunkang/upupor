@@ -27,50 +27,17 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
-
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.Objects;
+package com.upupor.web.aspects.service;
 
 /**
- * 处理敏感词抽象类
+ * 顺序常量
+ * 数字越小越优先执行
  * @author Yang Runkang (cruise)
- * @createTime 2022-04-29 20:23
+ * @createTime 2022-04-23 01:33
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractHandleSensitiveWord<T> {
-
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList())) {
-            return target;
-        }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "[*敏感词*]");
-            }
-        }
-        return target;
-    }
-
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
-    }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s->handle((T)s));
-    }
-
+public class OrderConstant {
+    public static final int LIMITER_ORDER = 0; // 限制器
+    public static final int CONTROLLER_ORDER = 1; // 接口
+    public static final int LUCENE_ORDER = 2; // 全文检索
 }

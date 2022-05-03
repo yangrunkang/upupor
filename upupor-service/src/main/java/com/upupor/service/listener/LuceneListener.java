@@ -50,7 +50,7 @@ import java.util.List;
 @Component
 public class LuceneListener {
 
-    private final List<AbstractFlush> abstractFlushList;
+    private final List<AbstractFlush<?>> abstractFlushList;
 
     @EventListener
     @Async
@@ -60,7 +60,7 @@ public class LuceneListener {
             return;
         }
 
-        for (AbstractFlush abstractFlush : abstractFlushList) {
+        for (AbstractFlush<?> abstractFlush : abstractFlushList) {
             if (abstractFlush.runDataType().equals(luceneEvent.getDataType())) {
                 abstractFlush.flush(luceneEvent);
                 break;
