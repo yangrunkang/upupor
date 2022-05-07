@@ -63,7 +63,7 @@
                     <div class="flex-grow-1" style="overflow:hidden;">
                         <div class="mt-0">
                             <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}+'/content'">
-                                [[${comment.member.userName}]] <span class="badge bg-gradient rounded-3 fw-normal bg-primary text-light" th:if="${comment.member.userId == targetUserId}">maker</span>
+                                [[${comment.member.userName}]] <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;" th:if="${comment.member.userId == targetUserId}">楼主</span>
                             </a>
                             <div class="float-end text-black-50 small">
                                 <span class="d-none d-sm-block float-start text-black-50 ">[[${comment.createDateDiff}]]&nbsp;·&nbsp;</span>
