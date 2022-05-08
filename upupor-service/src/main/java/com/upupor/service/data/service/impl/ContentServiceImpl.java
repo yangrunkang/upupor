@@ -151,7 +151,7 @@ public class ContentServiceImpl implements ContentService {
                 .like(Objects.nonNull(listContentReq.getSearchTitle()), Content::getTitle, listContentReq.getSearchTitle())
                 .like(Objects.nonNull(listContentReq.getNavbarSearch()), Content::getTitle, listContentReq.getNavbarSearch())
                 .in(!CollectionUtils.isEmpty(listContentReq.getTagIdList()), Content::getTagIds, listContentReq.getTagIdList())
-                .orderByDesc(Content::getCreateTime);
+                .orderByDesc(Content::getLatestCommentTime);
 
         ListContentDto listContentDto = commonListContentDtoQuery(listContentReq.getPageNum(), listContentReq.getPageSize(), query);
         // 处理文章置顶
