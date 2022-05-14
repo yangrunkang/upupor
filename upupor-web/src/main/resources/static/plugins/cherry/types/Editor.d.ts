@@ -21,6 +21,8 @@ export default class Editor {
      * @type {{ timer?: number; destinationTop?: number }}
      */
     private animation;
+    $cherry: import("./Cherry").default;
+    instanceId: string;
     /**
      *
      * @param {ClipboardEvent} e

@@ -6,6 +6,15 @@ export default class Link extends SyntaxBase {
     urlProcessor: any;
     openNewPage: any;
     /**
+     * 校验link中text的方括号是否符合规则
+     * @param {string} rawText
+     */
+    checkBrackets(rawText: string): {
+        isValid: boolean;
+        coreText: string;
+        extraLeadingChar: string;
+    };
+    /**
      *
      * @param {string} match 匹配的完整字符串
      * @param {string} leadingChar 正则分组一：前置字符

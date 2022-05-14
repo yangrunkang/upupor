@@ -30,14 +30,17 @@ export default class Previewer {
     public isMobilePreview: boolean;
     /**
      * @property
-     * @type {string} 实例ID
-     */
-    instanceId: string;
-    /**
-     * @property
      * @type {import('~types/previewer').PreviewerOptions}
      */
     options: import('~types/previewer').PreviewerOptions;
+    $cherry: import("./Cherry").default;
+    instanceId: string;
+    /**
+     * @property
+     * @private
+     * @type {{ timer?: number; destinationTop?: number }}
+     */
+    private animation;
     init(editor: any): void;
     /**
      * @property
@@ -101,6 +104,11 @@ export default class Previewer {
      * @param {Number} offset
      */
     scrollToLineNumWithOffset(lineNum: number, offset: number): void;
+    /**
+     * 实现滚动动画
+     * @param { Number } targetY 目标位置
+     */
+    $scrollAnimation(targetY: number): void;
     scrollToLineNum(lineNum: any, linePercent: any): void;
     /**
      * 导出预览区域内容

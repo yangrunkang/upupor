@@ -22,6 +22,11 @@ export default class Cherry extends CherryStatic {
      */
     options: Partial<CherryOptions>;
     /**
+     * @property
+     * @type {string} 实例ID
+     */
+    instanceId: string;
+    /**
      * @private
      * @type {Engine}
      */
@@ -31,6 +36,11 @@ export default class Cherry extends CherryStatic {
      * @private
      */
     private init;
+    status: {
+        toolbar: string;
+        previewer: string;
+        editor: string;
+    };
     cherryDom: HTMLElement;
     toolbar: any;
     sidebar: any;
@@ -48,6 +58,17 @@ export default class Cherry extends CherryStatic {
      * @returns
      */
     switchModel(model?: 'edit&preview' | 'editOnly' | 'previewOnly'): void;
+    /**
+     * 获取实例id
+     * @returns {string}
+     * @public
+     */
+    public getInstanceId(): string;
+    /**
+     * 获取编辑器状态
+     * @returns  {Object}
+     */
+    getStatus(): any;
     /**
      * 获取编辑区内的markdown源码内容
      * @returns markdown源码内容
@@ -162,7 +183,7 @@ export default class Cherry extends CherryStatic {
     private initText;
     /**
      * @private
-     * @param {Event} evt
+     * @param {Event} _evt
      * @param {import('codemirror').Editor} codemirror
      */
     private editText;

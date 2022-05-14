@@ -252,6 +252,16 @@ function uploadFailed(){
     $(".upload-progress-bar").attr('style', 'width:0%');
     $(".upload-progress-bar-div").hide();
 }
+
+/**
+ * 显示服务器具体原因
+ * @param res
+ */
+function uploadFailedDetail(res){
+    $.cvError("上传失败,"+res.data);
+    $(".upload-progress-bar").attr('style', 'width:0%');
+    $(".upload-progress-bar-div").hide();
+}
 // cherry默认模式以及高度
 let _height = '800px';
 let _defaultModel = 'editOnly';
@@ -264,6 +274,8 @@ let cherryConfig = {
         theme: 'default',
         defaultModel: _defaultModel,
         height: _height,
+        // 粘贴时是否自动将html转成markdown
+        convertWhenPaste: true,
     },
     toolbars:{
         theme: 'light', // light or dark
@@ -318,7 +330,7 @@ let cherryConfig = {
                     $(".upload-progress-bar").attr('style', 'width:0%');
                     $(".upload-progress-bar-div").hide();
                 }else{
-                    uploadFailed()
+                    uploadFailedDetail(res)
                 }
             },
 

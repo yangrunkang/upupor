@@ -15,6 +15,28 @@
  */
 export function compileRegExp(obj: any, flags: any, allowExtendedFlags: any): RegExp;
 export function isLookbehindSupported(): boolean;
+export function getTableRule(merge?: boolean): RegExp | {
+    strict: {
+        begin: string;
+        content: string;
+        end: string;
+    };
+    loose: {
+        begin: string;
+        content: string;
+        end: string;
+    };
+};
+export function getCodeBlockRule(): {
+    /**
+     * (?:^|\n)是区块的通用开头
+     * (\n*)捕获区块前的所有换行
+     * (?:[^\S\n]*)捕获```前置的空格字符
+     */
+    begin: RegExp;
+    content: RegExp;
+    end: RegExp;
+};
 export const HORIZONTAL_WHITESPACE: "[ \\t\\u00a0]";
 export const ALLOW_WHITESPACE_MULTILINE: "(?:.*?)(?:(?:\\n.*?)*?)";
 export const DO_NOT_STARTS_AND_END_WITH_SPACES: "(?:\\S|(?:\\S.*?\\S))";

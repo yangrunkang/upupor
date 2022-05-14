@@ -82,10 +82,10 @@ public class OssUtils {
 
     public static void uploadToOss(String folderName, InputStream inputStream) {
         Boolean isDev = checkEnvIsDev();
-        if (isDev) {
-            log.warn("非上传环境,不会上传到OSS");
-            return;
-        }
+//        if (isDev) {
+//            log.warn("非上传环境,不会上传到OSS");
+//            return;
+//        }
 
         OSS ossClient = null;
         try {

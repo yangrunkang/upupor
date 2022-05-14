@@ -6,6 +6,8 @@ declare var _default: {
     Events: {
         previewerClose: string;
         previewerOpen: string;
+        editorClose: string;
+        editorOpen: string;
         toolbarHide: string;
         toolbarShow: string;
     };

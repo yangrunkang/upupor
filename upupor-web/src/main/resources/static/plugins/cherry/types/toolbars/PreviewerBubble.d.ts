@@ -8,7 +8,6 @@ export default class PreviewerBubble {
      * @param {import('../Editor').default} editor
      */
     constructor(previewer: import('../Previewer').default, editor: import('../Editor').default);
-    instanceId: string;
     /**
      * @property
      * @type {import('../Previewer').default}
@@ -34,6 +33,45 @@ export default class PreviewerBubble {
      */
     $removeAllPreviewerBubbles(): void;
     bubble: HTMLDivElement;
+    /**
+     * 为选中的table增加操作工具栏
+     * @param {HTMLImageElement} htmlElement 用户点击的table dom
+     */
+    $showTablePreviewerBubbles(htmlElement: HTMLImageElement): {
+        tableEditor: {
+            info: {};
+            tableCodes: any[];
+            editorDom: {};
+        };
+        emit(type: any, event?: {}, callback?: () => void): void;
+        $tryRemoveMe(event: any, callback: any): void;
+        $getTdPosition(): {
+            top: number;
+            height: any;
+            width: any;
+            left: number;
+            maxHeight: any;
+        };
+        $setInputOffset(): void;
+        $remove(): void;
+        $collectTableCode(): void;
+        $collectTableDom(): boolean;
+        $setSelection(index: number, type?: string): void;
+        $getTdOffset(tableCode: string, isTHead: boolean, trIndex: number, tdIndex: number): {
+            preLine: number;
+            preCh: number;
+            plusCh: number;
+            currentTd: string;
+        };
+        $findTableInEditor(): boolean;
+        $initReg(): void;
+        showBubble(currentElement: any, container: any, previewerDom: any, codeMirror: any): void;
+        $isEditing(): boolean;
+        $drawEditor(): void;
+        $onInputChange(e: any): void;
+        $updateEditorPosition(): void;
+        $getClosestNode(node: any, targetNodeName: any): any;
+    };
     /**
      * 为选中的图片增加操作工具栏
      * @param {HTMLImageElement} htmlElement 用户点击的图片dom
@@ -188,7 +226,10 @@ export default class PreviewerBubble {
      * @param {Object} style 图片的属性（宽高、对齐方式）
      */
     changeImgValue(htmlElement: HTMLElement, style: any): void;
-    $creatPreviewerBubbles(): void;
+    /**
+     * 预览区域编辑器的容器
+     */
+    $createPreviewerBubbles(type?: string): void;
     $showBorderBubbles(): void;
     $showBtnBubbles(): void;
 }

@@ -52,6 +52,7 @@ export default class CodeBlock extends ParagraphBase {
     renderCodeBlock($code: string, $lang: string, sign: string, lines: number): string;
     /**
      * 获取缩进代码块语法的正则
+     * 缩进代码块必须要以连续两个以上的换行符开头
      */
     $getIndentedCodeReg(): RegExp;
     /**
