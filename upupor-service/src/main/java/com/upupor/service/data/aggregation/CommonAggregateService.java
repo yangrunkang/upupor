@@ -37,6 +37,7 @@ import com.upupor.service.data.dao.entity.Tag;
 import com.upupor.service.data.service.BannerService;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.TagService;
+import com.upupor.service.dto.ContentTypeData;
 import com.upupor.service.dto.cache.CacheMemberDto;
 import com.upupor.service.dto.page.CommonPageIndexDto;
 import com.upupor.service.dto.page.common.CountTagDto;
@@ -54,6 +55,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -117,6 +119,7 @@ public class CommonAggregateService {
                     tagItem.setCount(countTagDto.getCount());
                 }
             }));
+            tagList.sort(Comparator.comparingInt(Tag::getCount).reversed());
         }
 
         // 活跃用户

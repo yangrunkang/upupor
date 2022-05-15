@@ -68,7 +68,7 @@ public class SetUserDefaultContentType implements PrepareData {
     public void prepare(ViewData viewData) {
         ModelAndView modelAndView = viewData.getModelAndView();
 
-        List<ContentTypeData> contentTypeData = new ContentTypeData().contentTypeDataList(upuporConfig.getOss().getFileHost());
+        List<ContentTypeData> contentTypeDataList = new ContentTypeData().contentTypeDataList(upuporConfig.getOss().getFileHost());
 
         try {
             String userId = ServletUtils.getUserId();
@@ -79,7 +79,7 @@ public class SetUserDefaultContentType implements PrepareData {
             }
             String defaultContentType = memberConfig.getDefaultContentType();
             if (StringUtils.isNotEmpty(defaultContentType)) {
-                contentTypeData.forEach(contentType -> {
+                contentTypeDataList.forEach(contentType -> {
                     if (contentType.getUrl().equals(defaultContentType)) {
                         contentType.setSorted(FIRST);
                     }
@@ -92,8 +92,8 @@ public class SetUserDefaultContentType implements PrepareData {
         } catch (Exception ignored) {
         }
 
-        contentTypeData.sort(Comparator.comparingInt(ContentTypeData::getSorted));
-        modelAndView.addObject(SUPPORT_CONTENT_TYPE_LIST, contentTypeData);
+        contentTypeDataList.sort(Comparator.comparingInt(ContentTypeData::getSorted));
+        modelAndView.addObject(SUPPORT_CONTENT_TYPE_LIST, contentTypeDataList);
     }
 
 
