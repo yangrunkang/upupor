@@ -493,8 +493,7 @@ fromProfile: 是否来自Profile页面
             </div>
         </div>
     </div>
-    <!--访问者-->
-    <div th:include="fragments/index::viewList(${memberIndexDto.viewerList})"></div>
+    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" th:include="fragments/index::user_manage_fragment(true)"></div>
     <!---->
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <div class="lead mb-1">内容标签</div>
@@ -507,11 +506,13 @@ fromProfile: 是否来自Profile页面
         </div>
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
     </div>
-    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" th:include="fragments/index::user_manage_fragment(true)"></div>
+    <!--访问者-->
+    <div th:include="fragments/index::viewList(${memberIndexDto.viewerList})"></div>
     <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>我的浏览记录</a>
     </div>
     <div th:include="fragments/social::social_box('profile/','主页',${memberIndexDto.member.userId},${memberIndexDto.member.userName})"></div>
+    <div th:include="fragments/index::global_search"></div>
     <div th:include="fragments/index::google_right_ad"></div>
 </div>
 
