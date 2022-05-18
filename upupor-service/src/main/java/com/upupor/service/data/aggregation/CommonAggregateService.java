@@ -28,7 +28,9 @@
 package com.upupor.service.data.aggregation;
 
 import com.alibaba.fastjson.JSON;
+import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.framework.utils.SpringContextUtils;
@@ -58,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static com.upupor.framework.CcConstant.CvCache.ACTIVE_USER_LIST;
@@ -104,45 +108,62 @@ public class CommonAggregateService {
         String tag = getTagId(getCommonReq);
 
         // 获取文章列表
-        ListContentDto listContentDto = contentService.listContentByContentType(getCommonReq.getContentType(), getCommonReq.getPageNum(), getCommonReq.getPageSize(), tag);
+        CompletableFuture<ListContentDto> listContentDtoFuture = CompletableFuture.supplyAsync(() -> contentService.listContentByContentType(getCommonReq.getContentType(), getCommonReq.getPageNum(), getCommonReq.getPageSize(), tag));
+        // 最近一周新增的文章
+        CompletableFuture<List<Content>> latestContentListFuture = CompletableFuture.supplyAsync(contentService::latestContentList);
+        // 获取Banner栏
+        CompletableFuture<ListBannerDto> listBannerDtoFuture = CompletableFuture.supplyAsync(() -> bannerService.listBannerByStatus(BannerStatus.NORMAL, CcConstant.Page.NUM, CcConstant.Page.SIZE));
 
         // 获取左边菜单栏list
-        List<Tag> tagList = new ArrayList<>();
-        if (Objects.nonNull(getCommonReq.getContentType())) {
-            tagList = tagService.getTagsByType(getCommonReq.getContentType());
-        }
-        if (!CollectionUtils.isEmpty(tagList)) {
-            List<String> tagIdList = tagList.stream().map(Tag::getTagId).collect(Collectors.toList());
-            List<CountTagDto> countTagDtos = contentService.listCountByTagIds(tagIdList);
-            tagList.forEach(tagItem -> countTagDtos.forEach(countTagDto -> {
-                if (tagItem.getTagId().equals(countTagDto.getTagId())) {
-                    tagItem.setCount(countTagDto.getCount());
-                }
-            }));
-            tagList.sort(Comparator.comparingInt(Tag::getCount).reversed());
-        }
+        CompletableFuture<List<Tag>> tagListFuture = CompletableFuture.supplyAsync(() -> {
+            List<Tag> tagList = new ArrayList<>();
+            if (Objects.nonNull(getCommonReq.getContentType())) {
+                tagList = tagService.getTagsByType(getCommonReq.getContentType());
+            }
+            if (!CollectionUtils.isEmpty(tagList)) {
+                List<String> tagIdList = tagList.stream().map(Tag::getTagId).collect(Collectors.toList());
+                List<CountTagDto> countTagDtos = contentService.listCountByTagIds(tagIdList);
+                tagList.forEach(tagItem -> countTagDtos.forEach(countTagDto -> {
+                    if (tagItem.getTagId().equals(countTagDto.getTagId())) {
+                        tagItem.setCount(countTagDto.getCount());
+                    }
+                }));
+                tagList.sort(Comparator.comparingInt(Tag::getCount).reversed());
+            }
+            return tagList;
+        });
 
         // 活跃用户
-        CacheMemberDto cacheMemberDto = new CacheMemberDto();
-        String activeUserListJson = RedisUtil.get(ACTIVE_USER_LIST);
-        if (!StringUtils.isEmpty(activeUserListJson)) {
-            cacheMemberDto = JSON.parseObject(activeUserListJson, CacheMemberDto.class);
-        }
+        CompletableFuture<CacheMemberDto> cacheMemberDtoFuture = CompletableFuture.supplyAsync(() -> {
+            CacheMemberDto cacheMemberDto = new CacheMemberDto();
+            String activeUserListJson = RedisUtil.get(ACTIVE_USER_LIST);
+            if (!StringUtils.isEmpty(activeUserListJson)) {
+                cacheMemberDto = JSON.parseObject(activeUserListJson, CacheMemberDto.class);
+            }
+            return cacheMemberDto;
+        });
 
-        // 最近一周新增的文章
-        List<Content> latestContentList = contentService.latestContentList();
-
-        // 获取Banner栏
-        ListBannerDto listBannerDto = bannerService.listBannerByStatus(BannerStatus.NORMAL, CcConstant.Page.NUM, CcConstant.Page.SIZE);
+        CompletableFuture<Void> allFuture = CompletableFuture.allOf(
+                listContentDtoFuture,
+                tagListFuture,
+                cacheMemberDtoFuture,
+                latestContentListFuture,
+                listBannerDtoFuture
+        );
+        allFuture.join();
 
         CommonPageIndexDto commonPageIndexDto = new CommonPageIndexDto(Boolean.FALSE);
-        commonPageIndexDto.setTagList(tagList);
-        commonPageIndexDto.setMemberList(cacheMemberDto.getMemberList());
-        commonPageIndexDto.setListContentDto(listContentDto);
-        commonPageIndexDto.setListBannerDto(listBannerDto);
-        commonPageIndexDto.setCurrentRootUrl(ContentType.getUrl(getCommonReq.getContentType()));
-        commonPageIndexDto.setCreateContentDesc(getCreateContentInfo(getCommonReq.getContentType(), tag, tagService.getNameById(tag)));
-        commonPageIndexDto.setLatestContentList(latestContentList);
+        try {
+            commonPageIndexDto.setTagList(tagListFuture.get());
+            commonPageIndexDto.setMemberList(cacheMemberDtoFuture.get().getMemberList());
+            commonPageIndexDto.setListContentDto(listContentDtoFuture.get());
+            commonPageIndexDto.setListBannerDto(listBannerDtoFuture.get());
+            commonPageIndexDto.setCurrentRootUrl(ContentType.getUrl(getCommonReq.getContentType()));
+            commonPageIndexDto.setCreateContentDesc(getCreateContentInfo(getCommonReq.getContentType(), tag, tagService.getNameById(tag)));
+            commonPageIndexDto.setLatestContentList(latestContentListFuture.get());
+        } catch (Exception e) {
+            throw new BusinessException(ErrorCode.SYNC_FETCH_DATA_ERROR);
+        }
         return commonPageIndexDto;
     }
 

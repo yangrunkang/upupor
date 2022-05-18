@@ -48,6 +48,8 @@ public class ServletUtils {
 
 
     public static String getUserId() {
+        checkIsLogin();
+        // 可能npl,建议使用String.valueOf()
         return getSession().getAttribute(CcConstant.Session.USER_ID).toString();
     }
 

@@ -43,6 +43,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.upupor.framework.thread.CompletableFuturePool.ASYNC;
+
 
 /**
  * 活动控制器
@@ -91,6 +93,15 @@ public class AdminController {
 
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(result);
+        return ccResponse;
+    }
+
+    @ApiOperation("cpu")
+    @PostMapping(value = "/cpu")
+    @ResponseBody
+    public CcResponse cpu() {
+        CcResponse ccResponse = new CcResponse();
+        ccResponse.setData(ASYNC);
         return ccResponse;
     }
 

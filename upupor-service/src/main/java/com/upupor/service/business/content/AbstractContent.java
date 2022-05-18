@@ -44,7 +44,10 @@ import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+
+import static com.upupor.framework.thread.CompletableFuturePool.ASYNC;
 
 /**
  * 抽象文章类
@@ -81,26 +84,45 @@ public abstract class AbstractContent {
      * 共用逻辑
      */
     protected void commonLogic() {
+
         // 获取文章数据
-        contentService.bindContentData(Collections.singletonList(content));
+        CompletableFuture<Void> bindContentData = CompletableFuture.runAsync(() -> {
+            contentService.bindContentData(Collections.singletonList(content));
+        }, ASYNC);
 
         // 绑定文章作者
-        contentService.bindContentMember(content);
+        CompletableFuture<Void> bindContentMember = CompletableFuture.runAsync(() -> {
+            contentService.bindContentMember(content);
+        }, ASYNC);
 
         // 绑定文章声明
-        contentService.bindContentStatement(content);
+        CompletableFuture<Void> bindContentStatement = CompletableFuture.runAsync(() -> {
+            contentService.bindContentStatement(content);
+        }, ASYNC);
 
         // 绑定最近编辑的原因
-        contentService.bindContentEditReason(content);
+        CompletableFuture<Void> bindContentEditReason = CompletableFuture.runAsync(() -> {
+            contentService.bindContentEditReason(content);
+        }, ASYNC);
 
         // 获取文章标签
-        List<TagDto> tagDtoList = tagService.listTagNameByTagId(content.getTagIds());
-        contentIndexDto.setTagDtoList(tagDtoList);
+        CompletableFuture<Void> setTagDtoList = CompletableFuture.runAsync(() -> {
+            List<TagDto> tagDtoList = tagService.listTagNameByTagId(content.getTagIds());
+            contentIndexDto.setTagDtoList(tagDtoList);
+        }, ASYNC);
 
         // 作者其他的文章
-        bindAuthorOtherContent();
+        CompletableFuture<Void> bindAuthorOtherContent = CompletableFuture.runAsync(this::bindAuthorOtherContent, ASYNC);
 
+        CompletableFuture<Void> allCompletableFuture = CompletableFuture.allOf(bindContentData,
+                bindContentMember,
+                bindContentStatement,
+                bindContentEditReason,
+                setTagDtoList,
+                bindAuthorOtherContent
+        );
 
+        allCompletableFuture.join();
     }
 
     private void bindAuthorOtherContent() {

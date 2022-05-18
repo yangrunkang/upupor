@@ -65,6 +65,7 @@ public enum ErrorCode {
     NOT_VIEW(35, "严重错误,非视图页面"),
     SUBMIT_REPEAT(36, "重复提交"),
     NO_CONSTRUCTOR_ERROR(37, "禁止使用无参构造,统一入口"),
+    SYNC_FETCH_DATA_ERROR(38, "异步获取数据失败"),
 
 
     // 业务异常 100-300

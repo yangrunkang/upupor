@@ -44,6 +44,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+
+import static com.upupor.framework.thread.CompletableFuturePool.ASYNC;
 
 /**
  * 公开的内容
@@ -90,39 +93,76 @@ public class PublishedContent extends AbstractContent {
         Integer pageSize = getPageSize();
         ContentIndexDto contentIndexDto = getContentIndexDto();
 
+
         // 获取评论信息
-        commentService.bindContentComment(content, pageNum, pageSize);
+        CompletableFuture<Void> bindContentComment = CompletableFuture.runAsync(() -> {
+            commentService.bindContentComment(content, pageNum, pageSize);
+        }, ASYNC);
 
         // 绑定点赞的人
-        contentService.bindLikesMember(content);
+        CompletableFuture<Void> bindLikesMember = CompletableFuture.runAsync(() -> {
+            contentService.bindLikesMember(content);
+        }, ASYNC);
 
         // 上一篇下一篇
-        contentService.lastAndNextContent(content);
+        CompletableFuture<Void> lastAndNextContent = CompletableFuture.runAsync(() -> {
+            contentService.lastAndNextContent(content);
+        }, ASYNC);
 
         // 记录访问者
-        content.setViewerList(viewerService.listViewerByTargetIdAndType(content.getContentId(), ViewTargetType.CONTENT));
+        CompletableFuture<Void> setViewerList = CompletableFuture.runAsync(() -> {
+            content.setViewerList(viewerService.listViewerByTargetIdAndType(content.getContentId(), ViewTargetType.CONTENT));
+        }, ASYNC);
 
         // 文章浏览数数据+1
-        contentService.viewNumPlusOne(content.getContentId());
+        CompletableFuture<Void> viewNumPlusOne = CompletableFuture.runAsync(() -> {
+            contentService.viewNumPlusOne(content.getContentId());
+        }, ASYNC);
+
         // 绑定文章收藏数
-        handleContentCollectNum();
+        CompletableFuture<Void> handleContentCollectNum = CompletableFuture.runAsync(this::handleContentCollectNum, ASYNC);
 
         // 推荐文章
-        contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
-        AbstractAd.ad(contentIndexDto.getRandomContentList());
+        CompletableFuture<Void> setRandomContentList = CompletableFuture.runAsync(() -> {
+            contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
+            AbstractAd.ad(contentIndexDto.getRandomContentList());
+        }, ASYNC);
 
         // 记录访问者
-        viewerService.addViewer(getContentId(), ViewTargetType.CONTENT);
+        CompletableFuture<Void> addViewer = CompletableFuture.runAsync(() -> {
+            viewerService.addViewer(getContentId(), ViewTargetType.CONTENT);
+        }, ASYNC);
 
         // 文章作者是否有电台
-        contentIndexDto.setHasRadio(radioService.userHasRadio(content.getUserId()));
+        CompletableFuture<Void> setHasRadio = CompletableFuture.runAsync(() -> {
+            contentIndexDto.setHasRadio(radioService.userHasRadio(content.getUserId()));
+        }, ASYNC);
 
-        settingIsAttention(contentIndexDto,content);
-        settingIsLike(contentIndexDto,content);
-        settingIsCollect(contentIndexDto,content);
+        CompletableFuture<Void> setting = CompletableFuture.runAsync(() -> {
+            settingIsAttention(contentIndexDto,content);
+            settingIsLike(contentIndexDto,content);
+            settingIsCollect(contentIndexDto,content);
+        }, ASYNC);
 
-        // 创建文章
-        contentIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(content.getContentType(), content.getTagIds(),tagService.getNameById(content.getTagIds())));
+        // 快捷创建文章入库url
+        CompletableFuture<Void> setCreateContentDesc = CompletableFuture.runAsync(() -> {
+            contentIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(content.getContentType(), content.getTagIds(),tagService.getNameById(content.getTagIds())));
+        }, ASYNC);
+
+        CompletableFuture<Void> allCompletableFuture = CompletableFuture.allOf(
+                bindContentComment,
+                bindLikesMember,
+                lastAndNextContent,
+                setViewerList,
+                viewNumPlusOne,
+                handleContentCollectNum,
+                setRandomContentList,
+                addViewer,
+                setHasRadio,
+                setting,
+                setCreateContentDesc
+        );
+        allCompletableFuture.join();
     }
 
 

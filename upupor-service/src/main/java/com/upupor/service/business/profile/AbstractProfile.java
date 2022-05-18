@@ -47,7 +47,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+
+import static com.upupor.framework.thread.CompletableFuturePool.ASYNC;
 
 /**
  * 个人主页抽象
@@ -92,31 +95,64 @@ public abstract class AbstractProfile {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
         // 设置用户粉丝数
-        int fansNum = fanService.getFansNum(member.getUserId());
-        member.setFansNum(fansNum);
+        CompletableFuture<Void> getFansNum = CompletableFuture.runAsync(() -> {
+            int fansNum = fanService.getFansNum(member.getUserId());
+            member.setFansNum(fansNum);
+        }, ASYNC);
+
         // 设置用户关注数
-        Integer attentionNum = attentionService.getAttentionNum(member.getUserId());
-        member.setAttentionNum(attentionNum);
+        CompletableFuture<Void> getAttentionNum = CompletableFuture.runAsync(() -> {
+            Integer attentionNum = attentionService.getAttentionNum(member.getUserId());
+            member.setAttentionNum(attentionNum);
+        }, ASYNC);
+
         // 设置文章总数
-        Integer totalContentNum = contentService.getUserTotalContentNum(member.getUserId());
-        member.setTotalContentNum(totalContentNum);
+        CompletableFuture<Void> getUserTotalContentNum = CompletableFuture.runAsync(() -> {
+            Integer totalContentNum = contentService.getUserTotalContentNum(member.getUserId());
+            member.setTotalContentNum(totalContentNum);
+        }, ASYNC);
+
         // 获取用户总积分值
-        Integer totalIntegral = memberService.totalIntegral(member.getUserId());
-        member.setTotalIntegral(totalIntegral);
+        CompletableFuture<Void> getTotalIntegral = CompletableFuture.runAsync(() -> {
+            Integer totalIntegral = memberService.totalIntegral(member.getUserId());
+            member.setTotalIntegral(totalIntegral);
+        }, ASYNC);
 
-        memberIndexDto.setTagList(getUserTagList(userId));
-        memberIndexDto.setCurrUserIsAttention(contentService.currentUserIsAttentionAuthor(userId));
+        CompletableFuture<Void> setTagList = CompletableFuture.runAsync(() -> {
+            memberIndexDto.setTagList(getUserTagList(userId));
+        }, ASYNC);
 
-        // 设置用户声明
-        memberService.bindStatement(member);
+        CompletableFuture<Void> setCurrUserIsAttention = CompletableFuture.runAsync(() -> {
+            memberIndexDto.setCurrUserIsAttention(contentService.currentUserIsAttentionAuthor(userId));
+        }, ASYNC);
 
-        try {
-            if (member.getUserId().equals(ServletUtils.getUserId())) {
-                memberIndexDto.setIsThatYouEnterYourProfile(true);
-            }
-        } catch (Exception e) {
 
-        }
+        CompletableFuture<Void> bindStatement = CompletableFuture.runAsync(() -> {
+            // 设置用户声明
+            memberService.bindStatement(member);
+        }, ASYNC);
+
+        CompletableFuture<Void> setIsThatYouEnterYourProfile = CompletableFuture.runAsync(() -> {
+            try {
+                if (member.getUserId().equals(ServletUtils.getUserId())) {
+                    memberIndexDto.setIsThatYouEnterYourProfile(true);
+                }
+            } catch (Exception ignored) {}
+        }, ASYNC);
+
+        CompletableFuture<Void> allCompletableFuture = CompletableFuture.allOf(
+                getFansNum,
+                getAttentionNum,
+                getUserTotalContentNum,
+                getTotalIntegral,
+                setTagList,
+                setCurrUserIsAttention,
+                bindStatement,
+                setIsThatYouEnterYourProfile
+        );
+
+        allCompletableFuture.join();
+
         // 获取用户属性
         memberIndexDto.setMember(member);
     }
