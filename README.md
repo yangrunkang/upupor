@@ -54,6 +54,10 @@ upupor用 thymeleaf 的原因是为了做SEO,目前所有页面均采用服务�
 下面是Google PageSpeed Insights桌面版的测试结果
 ![PageSpeed Insights性能测试](docs/insight.png)
 
+### Google Search 页面体验报告
+<img width="923" alt="image" src="https://user-images.githubusercontent.com/46257933/169191026-e454c17d-00ac-404d-a12d-d5a150a7182a.png">
+
+
 ## 联系方式
 - Email: yangrunkang53@gmail.com
 - wechat: Bla277225635
