@@ -50,7 +50,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static com.upupor.framework.thread.CompletableFuturePool.ASYNC;
+import static com.upupor.framework.thread.completable.CompletableFuturePool.ASYNC;
 
 /**
  * 个人主页抽象

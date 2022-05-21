@@ -46,7 +46,7 @@ import javax.annotation.Resource;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-import static com.upupor.framework.thread.CompletableFuturePool.ASYNC;
+import static com.upupor.framework.thread.completable.CompletableFuturePool.ASYNC;
 
 /**
  * 公开的内容

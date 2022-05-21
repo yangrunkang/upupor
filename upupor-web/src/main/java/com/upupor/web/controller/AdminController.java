@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.upupor.framework.thread.CompletableFuturePool.ASYNC;
+import static com.upupor.framework.thread.completable.CompletableFuturePool.ASYNC;
 
 
 /**
