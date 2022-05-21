@@ -58,8 +58,6 @@ public class FansProfile extends AbstractProfile {
         Integer pageNum = query.getPageNum();
         Integer pageSize = query.getPageSize();
 
-
-
         ListFansDto listFansDto = fanService.getFans(userId, pageNum, pageSize);
         getMemberIndexDto().setListFansDto(listFansDto);
     }

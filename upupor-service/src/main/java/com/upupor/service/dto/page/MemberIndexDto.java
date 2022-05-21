@@ -109,10 +109,6 @@ public class MemberIndexDto {
      */
     private Boolean currUserIsAttention;
     /**
-     * 是否是你自己进入到自己的公共主页
-     */
-    private Boolean isThatYouEnterYourProfile;
-    /**
      * 备注
      */
     private Statement statement;
@@ -141,7 +137,6 @@ public class MemberIndexDto {
         this.tagList = new ArrayList<>();
         this.viewerList = new ArrayList<>();
         this.currUserIsAttention = false;
-        this.isThatYouEnterYourProfile = false;
     }
 
 }

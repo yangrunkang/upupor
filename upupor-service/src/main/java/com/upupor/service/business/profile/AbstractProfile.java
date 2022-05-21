@@ -118,26 +118,19 @@ public abstract class AbstractProfile {
             member.setTotalIntegral(totalIntegral);
         }, ASYNC);
 
+        // 设置标签
         CompletableFuture<Void> setTagList = CompletableFuture.runAsync(() -> {
             memberIndexDto.setTagList(getUserTagList(userId));
         }, ASYNC);
 
+        // 设置当前用户是否已关注该profile
         CompletableFuture<Void> setCurrUserIsAttention = CompletableFuture.runAsync(() -> {
             memberIndexDto.setCurrUserIsAttention(contentService.currentUserIsAttentionAuthor(userId));
         }, ASYNC);
 
-
+        // 设置用户声明
         CompletableFuture<Void> bindStatement = CompletableFuture.runAsync(() -> {
-            // 设置用户声明
             memberService.bindStatement(member);
-        }, ASYNC);
-
-        CompletableFuture<Void> setIsThatYouEnterYourProfile = CompletableFuture.runAsync(() -> {
-            try {
-                if (member.getUserId().equals(ServletUtils.getUserId())) {
-                    memberIndexDto.setIsThatYouEnterYourProfile(true);
-                }
-            } catch (Exception ignored) {}
         }, ASYNC);
 
         CompletableFuture<Void> allCompletableFuture = CompletableFuture.allOf(
@@ -147,8 +140,7 @@ public abstract class AbstractProfile {
                 getTotalIntegral,
                 setTagList,
                 setCurrUserIsAttention,
-                bindStatement,
-                setIsThatYouEnterYourProfile
+                bindStatement
         );
 
         allCompletableFuture.join();

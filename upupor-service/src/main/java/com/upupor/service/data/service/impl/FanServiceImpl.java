@@ -33,6 +33,8 @@ import com.github.pagehelper.PageInfo;
 import com.upupor.service.data.dao.entity.Attention;
 import com.upupor.service.data.dao.entity.Fans;
 import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.entity.Tag;
+import com.upupor.service.data.dao.entity.comparator.MemberLastLoginTimeComparator;
 import com.upupor.service.data.dao.mapper.AttentionMapper;
 import com.upupor.service.data.dao.mapper.FansMapper;
 import com.upupor.service.data.service.FanService;
@@ -45,6 +47,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -85,7 +88,7 @@ public class FanServiceImpl implements FanService {
         List<Fans> fansList = listFansDto.getFansList();
         if (!CollectionUtils.isEmpty(fansList)) {
             bindFansMemberInfo(fansList);
-            listFansDto.setMemberList(fansList.stream().map(Fans::getMember).collect(Collectors.toList()));
+            listFansDto.setMemberList(fansList.stream().map(Fans::getMember).sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }
 
         return listFansDto;

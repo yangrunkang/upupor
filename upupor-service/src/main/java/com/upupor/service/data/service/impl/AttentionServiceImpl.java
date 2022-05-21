@@ -33,6 +33,7 @@ import com.github.pagehelper.PageInfo;
 import com.upupor.service.data.dao.entity.Attention;
 import com.upupor.service.data.dao.entity.Fans;
 import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.entity.comparator.MemberLastLoginTimeComparator;
 import com.upupor.service.data.dao.mapper.AttentionMapper;
 import com.upupor.service.data.dao.mapper.FansMapper;
 import com.upupor.service.data.service.AttentionService;
@@ -96,7 +97,7 @@ public class AttentionServiceImpl implements AttentionService {
         List<Attention> attentionList = listAttentionDto.getAttentionList();
         if (!CollectionUtils.isEmpty(attentionList)) {
             bindAttentionMemberInfo(attentionList);
-            listAttentionDto.setMemberList(attentionList.stream().map(Attention::getMember).collect(Collectors.toList()));
+            listAttentionDto.setMemberList(attentionList.stream().map(Attention::getMember).sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }
         return listAttentionDto;
     }
