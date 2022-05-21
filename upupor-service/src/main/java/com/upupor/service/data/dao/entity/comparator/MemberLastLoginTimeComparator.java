@@ -31,6 +31,7 @@ package com.upupor.service.data.dao.entity.comparator;
 
 import com.upupor.service.data.dao.entity.Member;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 
 /**
@@ -41,6 +42,6 @@ import java.util.Comparator;
 public class MemberLastLoginTimeComparator implements Comparator<Member> {
     @Override
     public int compare(Member o1, Member o2) {
-        return (int) (o2.getLastLoginTime() - o1.getLastLoginTime());
+        return BigDecimal.valueOf(o2.getLastLoginTime()).compareTo(BigDecimal.valueOf(o1.getLastLoginTime()));
     }
 }
