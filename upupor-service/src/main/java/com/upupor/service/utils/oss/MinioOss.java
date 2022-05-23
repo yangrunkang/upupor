@@ -36,6 +36,7 @@ import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.UploadObjectArgs;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -46,6 +47,7 @@ import java.io.InputStream;
  * @author Yang Runkang (cruise)
  * @email: yangrunkang53@gmail.com
  */
+@Slf4j
 public class MinioOss extends AbstractOss {
 
     @Override
@@ -92,6 +94,8 @@ public class MinioOss extends AbstractOss {
                             .build());
             file.delete();
         } catch (Exception e) {
+            e.printStackTrace();
+            log.error("上传失败异常日志",e);
             throw new BusinessException(ErrorCode.UPLOAD_ERROR);
         }
     }
