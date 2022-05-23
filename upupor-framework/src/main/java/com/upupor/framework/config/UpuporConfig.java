@@ -27,6 +27,10 @@
 
 package com.upupor.framework.config;
 
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.ErrorCode;
+import com.upupor.framework.config.enums.OssSource;
 import com.upupor.framework.utils.SystemUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +58,10 @@ public class UpuporConfig {
     private Integer adSwitch;
     private String adSwitchRight;
     private String analyzeSwitch;
+    // oss资源
+    private OssSource ossSource;
     private Oss oss;
+    private Minio minio;
     // 静态文件地址
     private String ossStatic;
     private String env;
@@ -83,5 +90,14 @@ public class UpuporConfig {
     @Value("${server.port}")
     private Integer serverPort;
 
+    public String getFileHostByOssSource(){
+        if(ossSource.equals(OssSource.ALI_OSS)){
+            return getOss().getFileHost();
+        }
+        if(ossSource.equals(OssSource.MINIO_OSS)){
+            return getMinio().getEndpoint()  + CcConstant.BACKSLASH + getMinio().getBucketName() + CcConstant.BACKSLASH;
+        }
+        throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION,"系统未适配来源");
+    }
 
 }

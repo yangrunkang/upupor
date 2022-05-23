@@ -27,12 +27,12 @@
 
 package com.upupor.service.utils;
 
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
-import com.upupor.framework.config.Email;
-import com.upupor.framework.config.Oss;
 import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.config.enums.OssSource;
 import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.service.utils.oss.AbstractOss;
+import com.upupor.service.utils.oss.AliOss;
+import com.upupor.service.utils.oss.MinioOss;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +41,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
@@ -53,6 +55,11 @@ import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
  */
 @Slf4j
 public class OssUtils {
+    private static List<AbstractOss> abstractOssList = new ArrayList<>();
+    static {
+        abstractOssList.add(new AliOss());
+        abstractOssList.add(new MinioOss());
+    }
 
 
     public static void uploadImgFile(MultipartFile file, String folderName, Double quality) throws IOException {
@@ -82,34 +89,16 @@ public class OssUtils {
 
     public static void uploadToOss(String folderName, InputStream inputStream) {
         Boolean isDev = checkEnvIsDev();
-        if (isDev) {
+        UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
+        // 只有使用阿里的oss才检测
+        if (isDev && OssSource.ALI_OSS.equals(upuporConfig.getOssSource())) {
             log.warn("非上传环境,不会上传到OSS");
             return;
         }
 
-        OSS ossClient = null;
-        try {
-            // Endpoint以杭州为例，其它Region请按实际情况填写。
-            String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
-            // 云账号AccessKey有所有API访问权限，建议遵循阿里云安全最佳实践，创建并使用RAM子账号进行API访问或日常运维，请登录 https://ram.console.aliyun.com 创建。
-            UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
-            Email email = upuporConfig.getEmail();
-            Oss oss = upuporConfig.getOss();
-
-            String accessKeyId = email.getAccessKeyId();
-            String accessKeySecret = email.getAccessKeySecret();
-            String bucketName = oss.getBucketName();
-
-            ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-            ossClient.putObject(bucketName, folderName, inputStream);
-            ossClient.shutdown();
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (Objects.nonNull(ossClient)) {
-                // 关闭OSSClient。
-                ossClient.shutdown();
-            }
+        for (AbstractOss abstractOss : abstractOssList) {
+            abstractOss.init(upuporConfig);
+            abstractOss.upload(folderName,inputStream);
         }
     }
 
