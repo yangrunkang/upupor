@@ -39,7 +39,6 @@ import com.upupor.service.data.dao.entity.Tag;
 import com.upupor.service.data.service.BannerService;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.TagService;
-import com.upupor.service.dto.ContentTypeData;
 import com.upupor.service.dto.cache.CacheMemberDto;
 import com.upupor.service.dto.page.CommonPageIndexDto;
 import com.upupor.service.dto.page.common.CountTagDto;
@@ -61,7 +60,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static com.upupor.framework.CcConstant.CvCache.ACTIVE_USER_LIST;
@@ -191,7 +189,7 @@ public class CommonAggregateService {
             this.desc = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
             UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
-            this.icon = upuporConfig.getFileHostByOssSource() + contentType.getIcon();
+            this.icon = upuporConfig.getOssServerPrefix() + contentType.getIcon();
             this.tips = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
             if (!StringUtils.isEmpty(tag)) {

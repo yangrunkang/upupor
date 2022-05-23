@@ -53,7 +53,7 @@ public class SetUpuporConfig implements PrepareData {
         ModelAndView modelAndView = viewData.getModelAndView();
         // 切入当前环境
         modelAndView.addObject(ACTIVE_ENV, upuporConfig.getEnv());
-        modelAndView.addObject(OSS_STATIC, upuporConfig.getFileHostByOssSource()+"/upupor_static");
+        modelAndView.addObject(OSS_STATIC, upuporConfig.getOssServerPrefix() + upuporConfig.getBusinessStaticSource());
         modelAndView.addObject(STATIC_SOURCE_VERSION, UpuporWebApplication.STATIC_SOURCE_VERSION);
         modelAndView.addObject(AD_SWITCH, upuporConfig.getAdSwitch());
         modelAndView.addObject(AD_SWITCH_RIGHT, upuporConfig.getAdSwitchRight());

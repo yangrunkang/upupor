@@ -102,7 +102,7 @@ public class MemberServiceImpl implements MemberService {
         //  生成头像
         String profileVia = AvatarHelper.generateAvatar(Math.abs(member.getUserId().hashCode()));
         if (StringUtils.isEmpty(profileVia)) {
-            profileVia = upuporConfig.getFileHostByOssSource() + DEFAULT_VIA;
+            profileVia = upuporConfig.getOssServerPrefix() + DEFAULT_VIA;
         }
         member.setVia(profileVia);
         member.setCreateTime(CcDateUtil.getCurrentTime());

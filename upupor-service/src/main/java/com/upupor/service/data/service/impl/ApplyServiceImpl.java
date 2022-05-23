@@ -138,7 +138,7 @@ public class ApplyServiceImpl implements ApplyService {
                 String fileName = "apply_" + CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
                 String folderName = "apply/" + fileName;
                 OssUtils.uploadAnyFile(addApplyDocumentReq.getFile(), folderName);
-                fileUrl = upuporConfig.getFileHostByOssSource() + folderName;
+                fileUrl = upuporConfig.getOssServerPrefix() + folderName;
                 // 文件入库
                 try {
                     File upuporFile = UpuporFileUtils.getUpuporFile(md5, fileUrl, userId);

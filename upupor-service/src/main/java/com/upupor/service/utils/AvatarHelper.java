@@ -60,7 +60,7 @@ public class AvatarHelper {
                 return null;
             }
             OssUtils.uploadToOss(fileName, create(hashCode));
-            String fileHost = SpringContextUtils.getBean(UpuporConfig.class).getFileHostByOssSource();
+            String fileHost = SpringContextUtils.getBean(UpuporConfig.class).getOssServerPrefix();
             return fileHost + fileName;
         } catch (Exception e) {
             e.printStackTrace();

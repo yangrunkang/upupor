@@ -129,7 +129,7 @@ public class PictureUploadController {
                 folderFileName = "profile/" + fileName;
                 OssUtils.uploadImgFile(file, folderFileName, 1d);
 
-                String ossFileHost = upuporConfig.getFileHostByOssSource();
+                String ossFileHost = upuporConfig.getOssServerPrefix();
                 picUrl = ossFileHost + folderFileName;
 
 
@@ -213,7 +213,7 @@ public class PictureUploadController {
             try {
                 folderFileName = "content/" + fileName;
                 OssUtils.uploadImgFile(file, folderFileName, null);
-                String ossFileHost = upuporConfig.getFileHostByOssSource();
+                String ossFileHost = upuporConfig.getOssServerPrefix();
                 pictureUrl = ossFileHost + folderFileName;
 
                 // 文件入库

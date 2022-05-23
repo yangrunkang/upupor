@@ -94,21 +94,18 @@ mybatis-plus:
 upupor:
  # ALI_OSS  MINIO_OSS
  ossSource: ${OSS_SOURCE:MINIO_OSS}
+ # 网站业务js
+ businessStaticSource: ${BUSINESS_STATIC_SOURCE}
  # 自建
  minio:
   # 上传的地址
   endpoint: ${MINIO_ENDPOINT:http://localhost:9001}
   # 请求图片的地址  在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
-  requestUrl: ${MINIO_REQUEST_URL:http://localhost:9001}
-  # API的端口 9001
-#  port: ${MINIO_PORT:9001}
+  requestUrl: ${MINIO_REQUEST_URL:http://localhost:9001/minio_upupor}
   # 秘钥
   accessKey: ${MINIO_ACCESS_KEY:RrBCTwX3ufkD66cN}
   secretKey: ${MINIO_SECRET_KEY:gogTeZAx2DeARwYv04OO7c0bXx8AzR2V}
-  secure: false
   bucketName: ${MINIO_BUCKET_NAME:upupor-img} # 桶名 我这是给出了一个默认桶名
-  image-size: 10485760 # 我在这里设定了 图片文件的最大大小
-  file-size: 1073741824 # 此处是设定了文件的最大大小
  # 自定义线程池
  pool:
   corePoolSize: 10
@@ -138,13 +135,6 @@ upupor:
  adSwitchRight: ${AD_SWITCH_RIGHT}
  # 分析开关
  analyzeSwitch: ${ANALYZE_SWITCH}
- # 文件存储服务
- oss:
-  # oss 名称
-  bucketName: ${OSS_BUCKET_NAME}
-  # oss 文件存储地址
-  fileHost: ${OSS_FILE_HOST}
- ossStatic: ${OSS_STATIC}
  env: ${UPUPOR_ENV}
  # 不需要登录的接口
  interfaceWhiteUrlList:

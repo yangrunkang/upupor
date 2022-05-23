@@ -66,6 +66,7 @@ public enum ErrorCode {
     SUBMIT_REPEAT(36, "重复提交"),
     NO_CONSTRUCTOR_ERROR(37, "禁止使用无参构造,统一入口"),
     SYNC_FETCH_DATA_ERROR(38, "异步获取数据失败"),
+    OSS_UN_IMP(39, "该OSS未实现"),
 
 
     // 业务异常 100-300

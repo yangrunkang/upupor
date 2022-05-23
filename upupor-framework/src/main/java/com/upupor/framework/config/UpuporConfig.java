@@ -31,16 +31,12 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.enums.OssSource;
-import com.upupor.framework.utils.SystemUtil;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
-
-import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
 
 
 /**
@@ -60,10 +56,9 @@ public class UpuporConfig {
     private String analyzeSwitch;
     // oss资源
     private OssSource ossSource;
-    private Oss oss;
     private Minio minio;
     // 静态文件地址
-    private String ossStatic;
+    private String businessStaticSource;
     private String env;
     /**
      * 不用校验是否登录的url
@@ -78,22 +73,18 @@ public class UpuporConfig {
     private String googleTagId;
     private String googleGa4;
 
-
-    public String getOssStatic() {
-        // 如果没有配置oss地址,则使用本地地址
-        if (StringUtils.isEmpty(ossStatic) && checkEnvIsDev()) {
-            return String.format("http://%s:%s", SystemUtil.getHostAddress(), serverPort);
-        }
-        return ossStatic;
-    }
-
     @Value("${server.port}")
     private Integer serverPort;
 
-    public String getFileHostByOssSource(){
+    /**
+     * 获取Oss服务前缀
+     * @return
+     */
+    public String getOssServerPrefix(){
         if(ossSource.equals(OssSource.ALI_OSS)){
-            return getOss().getFileHost();
+            throw new BusinessException(ErrorCode.OSS_UN_IMP);
         }
+
         if(ossSource.equals(OssSource.MINIO_OSS)){
             // 在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
             return getMinio().getRequestUrl()  + CcConstant.BACKSLASH;

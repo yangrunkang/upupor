@@ -31,7 +31,6 @@ import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.config.enums.OssSource;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.utils.oss.AbstractOss;
-import com.upupor.service.utils.oss.AliOss;
 import com.upupor.service.utils.oss.MinioOss;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -57,7 +56,6 @@ import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
 public class OssUtils {
     private static List<AbstractOss> abstractOssList = new ArrayList<>();
     static {
-        abstractOssList.add(new AliOss());
         abstractOssList.add(new MinioOss());
     }
 
