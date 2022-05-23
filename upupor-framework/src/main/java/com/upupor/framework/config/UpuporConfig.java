@@ -95,7 +95,8 @@ public class UpuporConfig {
             return getOss().getFileHost();
         }
         if(ossSource.equals(OssSource.MINIO_OSS)){
-            return getMinio().getEndpoint()  + CcConstant.BACKSLASH + getMinio().getBucketName() + CcConstant.BACKSLASH;
+            // 在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
+            return getMinio().getRequestUrl()  + CcConstant.BACKSLASH;
         }
         throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION,"系统未适配来源");
     }

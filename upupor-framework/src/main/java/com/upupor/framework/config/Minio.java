@@ -37,6 +37,7 @@ import lombok.Data;
 public class Minio {
     private String endpoint;
 //    private Integer port;
+    private String requestUrl;
     private String accessKey;
     private String secretKey;
     private String bucketName;

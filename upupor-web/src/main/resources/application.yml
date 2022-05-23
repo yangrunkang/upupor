@@ -96,8 +96,10 @@ upupor:
  ossSource: ${OSS_SOURCE:MINIO_OSS}
  # 自建
  minio:
-  # 访问的url http://192.168.47.148
+  # 上传的地址
   endpoint: ${MINIO_ENDPOINT:http://localhost:9001}
+  # 请求图片的地址  在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
+  requestUrl: ${MINIO_REQUEST_URL:http://localhost:9001}
   # API的端口 9001
 #  port: ${MINIO_PORT:9001}
   # 秘钥
