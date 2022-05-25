@@ -189,7 +189,7 @@ public class CommonAggregateService {
             this.desc = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
             UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
-            this.icon = upuporConfig.getOssServerPrefix() + contentType.getIcon();
+            this.icon = upuporConfig.getOssStaticPrefix() + contentType.getIcon();
             this.tips = contentType.getTips();
             this.href = "/editor?type=" + contentType.name();
             if (!StringUtils.isEmpty(tag)) {

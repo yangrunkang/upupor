@@ -95,13 +95,15 @@ upupor:
  # ALI_OSS  MINIO_OSS
  ossSource: ${OSS_SOURCE:MINIO_OSS}
  # 网站业务js
- businessStaticSource: ${BUSINESS_STATIC_SOURCE}
+ businessStaticSource: ${BUSINESS_STATIC_SOURCE:}
  # 自建
  minio:
   # 上传的地址
   endpoint: ${MINIO_ENDPOINT:http://localhost:9001}
   # 请求图片的地址  在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
-  requestUrl: ${MINIO_REQUEST_URL:http://localhost:9001/minio_upupor}
+  requestUrl: ${MINIO_REQUEST_URL:http://localhost:2020}
+  # nginx路由url minio_upupor
+  nginxRouter: ${MINIO_NGINX_ROUTER:}
   # 秘钥
   accessKey: ${MINIO_ACCESS_KEY:RrBCTwX3ufkD66cN}
   secretKey: ${MINIO_SECRET_KEY:gogTeZAx2DeARwYv04OO7c0bXx8AzR2V}

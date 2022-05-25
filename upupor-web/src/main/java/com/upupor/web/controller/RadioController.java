@@ -150,7 +150,7 @@ public class RadioController {
                 throw new BusinessException(ErrorCode.UPLOAD_ERROR);
             }
 
-            radioUrl = upuporConfig.getOssServerPrefix() + folderFileName;
+            radioUrl = upuporConfig.getUploadFilePrefix() + folderFileName;
 
             // 文件入库
             try {

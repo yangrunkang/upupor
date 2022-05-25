@@ -68,7 +68,7 @@ public class SetUserDefaultContentType implements PrepareData {
     public void prepare(ViewData viewData) {
         ModelAndView modelAndView = viewData.getModelAndView();
 
-        List<ContentTypeData> contentTypeDataList = new ContentTypeData().contentTypeDataList(upuporConfig.getOssServerPrefix());
+        List<ContentTypeData> contentTypeDataList = new ContentTypeData().contentTypeDataList(upuporConfig.getOssStaticPrefix());
 
         try {
             String userId = ServletUtils.getUserId();

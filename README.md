@@ -21,6 +21,9 @@ https://www.upupor.com
 - [常规部署文档](docs/deploy/常规部署文档.md)
 - [开发环境配置文档](docs/deploy/开发环境配置文档.md)
 
+## 运维文档
+- [应用运维](docs/run.md)
+
 ## markdown编辑器
 > markdown编辑器fork了腾讯的cherry-markdown进行了微改动以适配upupor网站业务及风格
 

@@ -32,6 +32,7 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.enums.OssSource;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -78,18 +79,48 @@ public class UpuporConfig {
 
     /**
      * 获取Oss服务前缀
+     *
      * @return
      */
-    public String getOssServerPrefix(){
-        if(ossSource.equals(OssSource.ALI_OSS)){
+    public String getOssStaticPrefix() {
+        String requestUrl = getMinio().getRequestUrl();
+        String nginxRouter = getMinio().getNginxRouter();
+
+        if (ossSource.equals(OssSource.ALI_OSS)) {
             throw new BusinessException(ErrorCode.OSS_UN_IMP);
         }
 
-        if(ossSource.equals(OssSource.MINIO_OSS)){
-            // 在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
-            return getMinio().getRequestUrl()  + CcConstant.BACKSLASH;
+        if (ossSource.equals(OssSource.MINIO_OSS)) {
+            if (StringUtils.isEmpty(nginxRouter)) {
+                return requestUrl;
+            } else {
+                return requestUrl + CcConstant.BACKSLASH + nginxRouter;
+            }
         }
-        throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION,"系统未适配来源");
+        throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION, "系统未适配来源");
+    }
+
+    public String getUploadFilePrefix() {
+        String requestUrl = getMinio().getRequestUrl();
+        String nginxRouter = getMinio().getNginxRouter();
+
+        if (ossSource.equals(OssSource.ALI_OSS)) {
+            throw new BusinessException(ErrorCode.OSS_UN_IMP);
+        }
+
+        if (ossSource.equals(OssSource.MINIO_OSS)) {
+            // 非生产
+            if(!"prd".equals(env)){
+                return getMinio().getEndpoint() + CcConstant.BACKSLASH + getMinio().getBucketName() + CcConstant.BACKSLASH;
+            }
+
+            if (StringUtils.isEmpty(nginxRouter)) {
+                return requestUrl;
+            } else {
+                return requestUrl + CcConstant.BACKSLASH + nginxRouter;
+            }
+        }
+        throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION, "系统未适配来源");
     }
 
 }

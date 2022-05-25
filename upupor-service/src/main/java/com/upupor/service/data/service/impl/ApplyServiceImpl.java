@@ -129,28 +129,26 @@ public class ApplyServiceImpl implements ApplyService {
             // 检查文件之前是否已经上传过
             String md5 = UpuporFileUtils.getMd5(addApplyDocumentReq.getFile().getInputStream());
             File fileByMd5 = fileService.selectByMd5(md5);
-            String fileUrl;
+            OssUtils.FileInfo fileInfo = new OssUtils.FileInfo();
             if (Objects.isNull(fileByMd5)) {
                 // 上传的文件
                 String originalFilename = addApplyDocumentReq.getFile().getOriginalFilename();
                 assert originalFilename != null;
                 String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
-                String fileName = "apply_" + CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
-                String folderName = "apply/" + fileName;
-                OssUtils.uploadAnyFile(addApplyDocumentReq.getFile(), folderName);
-                fileUrl = upuporConfig.getOssServerPrefix() + folderName;
+                fileInfo = OssUtils.getUploadFileUrl("apply/", suffix);
+                OssUtils.uploadAnyFile(addApplyDocumentReq.getFile(), fileInfo.getFolderName());
                 // 文件入库
                 try {
-                    File upuporFile = UpuporFileUtils.getUpuporFile(md5, fileUrl, userId);
+                    File upuporFile = UpuporFileUtils.getUpuporFile(md5, fileInfo.getFullUrl(), userId);
                     fileService.addFile(upuporFile);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
             } else {
-                fileUrl = fileByMd5.getFileUrl();
+                fileInfo.setFullUrl(fileByMd5.getFileUrl());
             }
-            applyDocument.setUpload(fileUrl);
+            applyDocument.setUpload(fileInfo.getFullUrl());
         }
 
 
@@ -171,6 +169,11 @@ public class ApplyServiceImpl implements ApplyService {
         }
 
         return result;
+    }
+
+    public static void main(String[] args) {
+        String suffix = "23.png".substring("23.png".lastIndexOf(CcConstant.ONE_DOTS) + 1);
+        System.out.println(suffix);
     }
 
     @Override
