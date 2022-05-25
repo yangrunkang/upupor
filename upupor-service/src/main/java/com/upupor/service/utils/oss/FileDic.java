@@ -29,7 +29,6 @@
 
 package com.upupor.service.utils.oss;
 
-import lombok.Data;
 import lombok.Getter;
 
 /**
@@ -39,20 +38,62 @@ import lombok.Getter;
  */
 public enum FileDic {
 
+    // 广告申请文件
     APPLY("apply/"),
-    PROFILE_SYSTEM("profile_system/"),
-    PROFILE("profile/"),
-    CONTENT("content/"),
-    RADIO("radio/"),
+    // 系统生成的图片
+    PROFILE_SYSTEM("profile_system/", Boolean.TRUE,0.75D),
+    // 用户头像
+    PROFILE("profile/", Boolean.TRUE,0.75D),
+    // 文章图片
+    CONTENT("content/", Boolean.TRUE,1D),
+    // 电台音频文件
+    RADIO(Boolean.TRUE,"radio/"),
     ;
 
     FileDic(String dic) {
         this.dic = dic;
     }
 
+    FileDic(String dic, Boolean isImg) {
+        this.dic = dic;
+        this.isImg = isImg;
+    }
+
+    FileDic(Boolean isAsync,String dic) {
+        this.isAsync = isAsync;
+        this.dic = dic;
+    }
+
+    FileDic(String dic, Boolean isImg, Double quality) {
+        this.dic = dic;
+        this.isImg = isImg;
+        this.quality = quality;
+    }
+
+
+
+
     /**
      * 目录
      */
     @Getter
     private String dic;
+
+    /**
+     * 是否是图片
+     */
+    @Getter
+    private Boolean isImg = Boolean.FALSE;
+
+    /**
+     * 图片压缩质量
+     */
+    @Getter
+    private Double quality = 0.75D;
+
+    /**
+     * 是否异步上传
+     */
+    @Getter
+    private Boolean isAsync = Boolean.FALSE;
 }

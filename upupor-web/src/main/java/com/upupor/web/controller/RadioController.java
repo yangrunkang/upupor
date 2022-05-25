@@ -27,36 +27,23 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.framework.CcConstant;
+import com.upupor.framework.CcResponse;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.framework.utils.FileUtils;
-import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.security.limiter.LimitType;
-import com.upupor.security.limiter.UpuporLimit;
+import com.upupor.lucene.UpuporLucene;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
-import com.upupor.lucene.UpuporLucene;
-import com.upupor.service.data.dao.entity.File;
+import com.upupor.security.limiter.LimitType;
+import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.data.service.FileService;
 import com.upupor.service.data.service.RadioService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcResponse;
-import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.OperateRadioDto;
 import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
-import com.upupor.service.types.UploadStatus;
-import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.OssUtils;
-import com.upupor.service.utils.ServletUtils;
-import com.upupor.service.utils.UpuporFileUtils;
 import com.upupor.service.utils.oss.FileDic;
 import com.upupor.service.utils.oss.FileInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,10 +51,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Objects;
-import java.util.concurrent.Executor;
 
-import static com.upupor.framework.thread.UpuporThreadPoolInit.UPUPOR_THREAD_POOL;
 import static com.upupor.security.limiter.LimitType.UPLOAD_RADIO_FILE;
 
 
@@ -116,101 +100,12 @@ public class RadioController {
     @UpuporLimit(limitType = UPLOAD_RADIO_FILE, needSpendMoney = true)
     public CcResponse uploadRadioFile(@RequestParam("radioFile") MultipartFile file) throws IOException {
         CcResponse ccResponse = new CcResponse();
-
-        // 检查文件类型
-        String fileType = FileUtils.getFileType(file.getInputStream());
-        if (!"audio/mpeg".equals(fileType)) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传非mp3文件");
-        }
-
-        // 检查文件之前是否已经上传过
-        String md5 = UpuporFileUtils.getMd5(file.getInputStream());
-        File fileByMd5 = fileService.selectByMd5(md5);
-
-        // 音频地址
-        String radioUrl;
-        if (Objects.isNull(fileByMd5)) {
-            // 获取文件后缀
-            String originalFilename = file.getOriginalFilename();
-            assert originalFilename != null;
-            String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
-
-            if (!"mp3".equalsIgnoreCase(suffix)) {
-                throw new BusinessException(ErrorCode.PARAM_ERROR, "文件类型必须是mp3格式");
-            }
-
-            // 文件名
-            FileInfo fileInfo = FileInfo.getUploadFileUrl(FileDic.RADIO.getDic(), suffix);
-            try {
-                // 异步上传
-                Executor threadPool = (Executor) SpringContextUtils.getBean(UPUPOR_THREAD_POOL);
-                threadPool.execute(new SyncUploadRadio(file, fileInfo.getFolderName(), fileService, md5));
-            } catch (Exception e) {
-                e.printStackTrace();
-                throw new BusinessException(ErrorCode.UPLOAD_ERROR);
-            }
-            radioUrl = fileInfo.getFullUrl();
-            // 文件入库
-            try {
-                File upuporFile = UpuporFileUtils.getUpuporFile(md5, radioUrl, ServletUtils.getUserId());
-                upuporFile.setUploadStatus(UploadStatus.UPLOADING);
-                fileService.addFile(upuporFile);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            radioUrl = fileByMd5.getFileUrl();
-        }
-
-        ccResponse.setData(radioUrl);
+        ccResponse.setData(FileInfo.fullUpload(file,FileDic.RADIO));
         return ccResponse;
     }
 
 
-    /**
-     * 异步上传电台文件
-     */
-    @Slf4j
-    @Data
-    private static class SyncUploadRadio implements Runnable {
-
-        private MultipartFile file;
-
-        private String folderFileName;
-
-        private String fileMd5;
-
-        private FileService fileService;
-
-        SyncUploadRadio(MultipartFile file, String folderFileName, FileService fileService, String fileMd5) {
-            this.file = file;
-            this.folderFileName = folderFileName;
-            this.fileService = fileService;
-            this.fileMd5 = fileMd5;
-        }
 
 
-        @Override
-        public void run() {
-            // 异步处理
-            try {
-                OssUtils.uploadAnyFile(file, folderFileName);
-
-                File fileByMd5 = fileService.selectByMd5(this.fileMd5);
-                if (Objects.isNull(fileByMd5)) {
-                    // 等主流程入库结束
-                    Thread.sleep(1300);
-                    fileByMd5 = fileService.selectByMd5(this.fileMd5);
-                }
-                if (Objects.nonNull(fileByMd5) && fileByMd5.getUploadStatus().equals(UploadStatus.UPLOADING)) {
-                    fileByMd5.setUploadStatus(UploadStatus.UPLOADED);
-                    fileService.update(fileByMd5);
-                }
-            } catch (Exception e) {
-                log.error("异步上传音频失败");
-                e.printStackTrace();
-            }
-        }
-    }
 
 }

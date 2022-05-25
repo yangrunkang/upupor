@@ -62,9 +62,7 @@ public class AvatarHelper {
             if (checkEnvIsDev()) {
                 return SpringContextUtils.getBean(UpuporConfig.class).getBusinessStaticSource() + DEFAULT_VIA;
             }
-            FileInfo fileInfo = FileInfo.getUploadFileUrl(FileDic.PROFILE_SYSTEM.getDic(), "png");
-            OssUtils.uploadToOss(fileInfo.getFolderName(), create(hashCode));
-            return fileInfo.getFullUrl();
+            return FileInfo.fullUpload(FileInfo.getUploadFileUrl(FileDic.PROFILE_SYSTEM.getDic(), "png"),create(hashCode));
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.UPLOAD_ERROR, e.getMessage());
         }

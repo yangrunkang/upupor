@@ -27,36 +27,26 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.framework.CcConstant;
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.framework.utils.FileUtils;
-import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.service.data.dao.entity.File;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.FileService;
-import com.upupor.service.data.service.MemberService;
 import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.OssUtils;
+import com.upupor.security.limiter.UpuporLimit;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.service.MemberService;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.service.utils.UpuporFileUtils;
 import com.upupor.service.utils.oss.FileDic;
 import com.upupor.service.utils.oss.FileInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.ArrayUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
 
 import static com.upupor.security.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
@@ -76,8 +66,6 @@ import static com.upupor.security.limiter.LimitType.UPLOAD_PROFILE_IMAGE;
 public class PictureUploadController {
 
     private final MemberService memberService;
-    private final FileService fileService;
-    private final UpuporConfig upuporConfig;
 
     @ApiOperation("上传头像")
     @PostMapping(value = "/uploadFile", consumes = "multipart/form-data")
@@ -88,70 +76,21 @@ public class PictureUploadController {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "文件为空");
         }
 
-
         // 获取用户
         Member member = memberService.memberInfo(ServletUtils.getUserId());
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
-
-        String fileType = FileUtils.getFileType(file.getInputStream());
-        if (!fileType.startsWith("image/")) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传非图像文件");
-        }
-
-        // 检查文件之前是否已经上传过
-        String md5 = UpuporFileUtils.getMd5(file.getInputStream());
-        File fileByMd5 = fileService.selectByMd5(md5);
-
-        // 设置图片地址
-        String picUrl;
-        if (Objects.isNull(fileByMd5)) {
-            // 获取文件后缀
-            String originalFilename = file.getOriginalFilename();
-            assert originalFilename != null;
-            String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
-
-            String allowsFilesSuffix = upuporConfig.getThumbnails().getAllows();
-            // 判定是否是允许上传文件后缀
-            if (StringUtils.isEmpty(allowsFilesSuffix)) {
-                throw new BusinessException(ErrorCode.LESS_CONFIG);
-            }
-            String[] split = allowsFilesSuffix.split(CcConstant.COMMA);
-            if (ArrayUtils.isEmpty(split)) {
-                throw new BusinessException(ErrorCode.LESS_CONFIG);
-            }
-            if (!Arrays.asList(split).contains(suffix)) {
-                throw new BusinessException(ErrorCode.ILLEGAL_FILE_SUFFIX);
-            }
-            // 文件名
-            try {
-                FileInfo fileInfo = FileInfo.getUploadFileUrl(FileDic.PROFILE.getDic(), suffix);
-                OssUtils.uploadImgFile(file, fileInfo.getFolderName(), 1d);
-                picUrl = fileInfo.getFullUrl();
-                // 文件入库
-                File upuporFile = UpuporFileUtils.getUpuporFile(md5, picUrl, member.getUserId());
-                fileService.addFile(upuporFile);
-            } catch (Exception e) {
-                throw new BusinessException(ErrorCode.UPLOAD_ERROR,e.getMessage());
-            }
-        } else {
-            picUrl = fileByMd5.getFileUrl();
-        }
-
-        member.setVia(picUrl);
+        member.setVia(FileInfo.fullUpload(file, FileDic.PROFILE));
         // 重新设置头像
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
         Boolean update = memberService.update(member);
         if (!update) {
             throw new BusinessException(ErrorCode.UPLOAD_MEMBER_INFO_ERROR);
         }
-
-        ccResponse.setData(picUrl);
+        ccResponse.setData(member.getVia());
         return ccResponse;
     }
-
-
     /**
      * 返回方法参数
      * <p>
@@ -164,55 +103,6 @@ public class PictureUploadController {
     @PostMapping(value = "/uploadFile/editor", consumes = "multipart/form-data")
     @UpuporLimit(limitType = UPLOAD_CONTENT_IMAGE, needSpendMoney = true)
     public CcResponse uploadFileForEditor(@RequestParam("file") MultipartFile file) throws IOException {
-
-        if (Objects.isNull(file)) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR, "文件为空");
-        }
-
-        String fileType = FileUtils.getFileType(file.getInputStream());
-        if (!fileType.startsWith("image/")) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传非图像文件");
-        }
-
-
-        // 检查文件之前是否已经上传过
-        String md5 = UpuporFileUtils.getMd5(file.getInputStream());
-        File fileByMd5 = fileService.selectByMd5(md5);
-
-        String pictureUrl = "Error";
-        if (Objects.isNull(fileByMd5)) {
-            // 获取文件后缀
-            String originalFilename = file.getOriginalFilename();
-            assert originalFilename != null;
-            String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
-            String allowsFilesSuffix = upuporConfig.getThumbnails().getAllows();
-            // 判定是否是允许上传文件后缀
-            if (StringUtils.isEmpty(allowsFilesSuffix)) {
-                throw new BusinessException(ErrorCode.LESS_CONFIG);
-            }
-            String[] split = allowsFilesSuffix.split(CcConstant.COMMA);
-            if (ArrayUtils.isEmpty(split)) {
-                throw new BusinessException(ErrorCode.LESS_CONFIG);
-            }
-            if (!Arrays.asList(split).contains(suffix)) {
-                throw new BusinessException(ErrorCode.ILLEGAL_FILE_SUFFIX);
-            }
-            // 文件名
-            try {
-                FileInfo fileInfo = FileInfo.getUploadFileUrl(FileDic.CONTENT.getDic(), suffix);
-                OssUtils.uploadImgFile(file, fileInfo.getFolderName(), null);
-                pictureUrl = fileInfo.getFullUrl();
-                // 文件入库
-                File upuporFile = UpuporFileUtils.getUpuporFile(md5, pictureUrl, ServletUtils.getUserId());
-                fileService.addFile(upuporFile);
-
-            } catch (Exception e) {
-                throw new BusinessException(ErrorCode.UPLOAD_ERROR,e.getMessage());
-            }
-        } else {
-            pictureUrl = fileByMd5.getFileUrl();
-        }
-
-        return new CcResponse(pictureUrl);
+        return new CcResponse(FileInfo.fullUpload(file,FileDic.CONTENT));
     }
 }
