@@ -42,6 +42,7 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
+import com.upupor.service.utils.oss.FileDic;
 import com.upupor.service.utils.oss.FileInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -125,7 +126,7 @@ public class PictureUploadController {
             }
             // 文件名
             try {
-                FileInfo fileInfo = FileInfo.getUploadFileUrl("profile/", suffix);
+                FileInfo fileInfo = FileInfo.getUploadFileUrl(FileDic.PROFILE.getDic(), suffix);
                 OssUtils.uploadImgFile(file, fileInfo.getFolderName(), 1d);
                 picUrl = fileInfo.getFullUrl();
                 // 文件入库
@@ -198,7 +199,7 @@ public class PictureUploadController {
             }
             // 文件名
             try {
-                FileInfo fileInfo = FileInfo.getUploadFileUrl("content/", suffix);
+                FileInfo fileInfo = FileInfo.getUploadFileUrl(FileDic.CONTENT.getDic(), suffix);
                 OssUtils.uploadImgFile(file, fileInfo.getFolderName(), null);
                 pictureUrl = fileInfo.getFullUrl();
                 // 文件入库

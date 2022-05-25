@@ -29,50 +29,30 @@
 
 package com.upupor.service.utils.oss;
 
-import com.upupor.framework.CcConstant;
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.data.dao.entity.File;
-import com.upupor.service.data.service.FileService;
-import com.upupor.service.utils.OssUtils;
-import com.upupor.service.utils.ServletUtils;
-import com.upupor.service.utils.UpuporFileUtils;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Objects;
+import lombok.Getter;
 
 /**
  * @author Yang Runkang (cruise)
- * @createTime 2022-05-25 23:12
+ * @createTime 2022-05-26 00:22
  * @email: yangrunkang53@gmail.com
  */
-@Data
-public class FileInfo {
+public enum FileDic {
 
-    private String folderName;
-    private String fullUrl;
+    APPLY("apply/"),
+    PROFILE_SYSTEM("profile_system/"),
+    PROFILE("profile/"),
+    CONTENT("content/"),
+    RADIO("radio/"),
+    ;
 
-    /**
-     *
-     * @param dic 格式: dicName + /
-     * @param suffix 格式例如 png 不带.
-     * @return
-     */
-    public static FileInfo getUploadFileUrl(String dic,String suffix){
-
-        UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
-
-        String fileName = CcUtils.getUuId() + CcConstant.ONE_DOTS +suffix;
-        String folderName = dic + fileName;
-
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setFullUrl(upuporConfig.getUploadFilePrefix() + folderName);
-        fileInfo.setFolderName(folderName);
-        return fileInfo;
+    FileDic(String dic) {
+        this.dic = dic;
     }
 
+    /**
+     * 目录
+     */
+    @Getter
+    private String dic;
 }
-

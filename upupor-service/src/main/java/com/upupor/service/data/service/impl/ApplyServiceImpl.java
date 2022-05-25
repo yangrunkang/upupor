@@ -50,6 +50,7 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
+import com.upupor.service.utils.oss.FileDic;
 import com.upupor.service.utils.oss.FileInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -136,7 +137,7 @@ public class ApplyServiceImpl implements ApplyService {
                 String originalFilename = addApplyDocumentReq.getFile().getOriginalFilename();
                 assert originalFilename != null;
                 String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
-                fileInfo = FileInfo.getUploadFileUrl("apply/", suffix);
+                fileInfo = FileInfo.getUploadFileUrl( FileDic.APPLY.getDic(), suffix);
                 OssUtils.uploadAnyFile(addApplyDocumentReq.getFile(), fileInfo.getFolderName());
                 // 文件入库
                 try {

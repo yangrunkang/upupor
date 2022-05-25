@@ -50,6 +50,7 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
+import com.upupor.service.utils.oss.FileDic;
 import com.upupor.service.utils.oss.FileInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -139,7 +140,7 @@ public class RadioController {
             }
 
             // 文件名
-            FileInfo fileInfo = FileInfo.getUploadFileUrl("radio/", suffix);
+            FileInfo fileInfo = FileInfo.getUploadFileUrl(FileDic.RADIO.getDic(), suffix);
             try {
                 // 异步上传
                 Executor threadPool = (Executor) SpringContextUtils.getBean(UPUPOR_THREAD_POOL);

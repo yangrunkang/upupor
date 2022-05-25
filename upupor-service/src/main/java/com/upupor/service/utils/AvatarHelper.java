@@ -37,6 +37,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.service.utils.oss.FileDic;
 import com.upupor.service.utils.oss.FileInfo;
 
 import javax.imageio.ImageIO;
@@ -61,7 +62,7 @@ public class AvatarHelper {
             if (checkEnvIsDev()) {
                 return SpringContextUtils.getBean(UpuporConfig.class).getBusinessStaticSource() + DEFAULT_VIA;
             }
-            FileInfo fileInfo = FileInfo.getUploadFileUrl("profile_system/", "png");
+            FileInfo fileInfo = FileInfo.getUploadFileUrl(FileDic.PROFILE_SYSTEM.getDic(), "png");
             OssUtils.uploadToOss(fileInfo.getFolderName(), create(hashCode));
             return fileInfo.getFullUrl();
         } catch (Exception e) {
