@@ -32,10 +32,12 @@ package com.upupor.service.utils;
  * @date 2021/01/22 21:57
  */
 
-import com.upupor.framework.CcConstant;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.service.utils.oss.FileInfo;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
@@ -48,6 +50,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Random;
 
+import static com.upupor.framework.CcConstant.DEFAULT_VIA;
 import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
 
 public class AvatarHelper {
@@ -55,17 +58,15 @@ public class AvatarHelper {
 
     public static String generateAvatar(Integer hashCode) {
         try {
-            String fileName = "profile_system/" + CcUtils.getUuId() + CcConstant.ONE_DOTS + "png";
             if (checkEnvIsDev()) {
-                return null;
+                return SpringContextUtils.getBean(UpuporConfig.class).getBusinessStaticSource() + DEFAULT_VIA;
             }
-            OssUtils.uploadToOss(fileName, create(hashCode));
-            String fileHost = SpringContextUtils.getBean(UpuporConfig.class).getUploadFilePrefix();
-            return fileHost + fileName;
+            FileInfo fileInfo = FileInfo.getUploadFileUrl("profile_system/", "png");
+            OssUtils.uploadToOss(fileInfo.getFolderName(), create(hashCode));
+            return fileInfo.getFullUrl();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BusinessException(ErrorCode.UPLOAD_ERROR, e.getMessage());
         }
-        return null;
     }
 
     /**

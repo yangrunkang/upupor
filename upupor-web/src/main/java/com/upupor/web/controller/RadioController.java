@@ -50,6 +50,7 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
+import com.upupor.service.utils.oss.FileInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.Data;
@@ -138,20 +139,16 @@ public class RadioController {
             }
 
             // 文件名
-            String fileName = "radio" + CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
-            String folderFileName;
+            FileInfo fileInfo = FileInfo.getUploadFileUrl("radio/", suffix);
             try {
-                folderFileName = "radio/" + fileName;
                 // 异步上传
                 Executor threadPool = (Executor) SpringContextUtils.getBean(UPUPOR_THREAD_POOL);
-                threadPool.execute(new SyncUploadRadio(file, folderFileName, fileService, md5));
+                threadPool.execute(new SyncUploadRadio(file, fileInfo.getFolderName(), fileService, md5));
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new BusinessException(ErrorCode.UPLOAD_ERROR);
             }
-
-            radioUrl = upuporConfig.getUploadFilePrefix() + folderFileName;
-
+            radioUrl = fileInfo.getFullUrl();
             // 文件入库
             try {
                 File upuporFile = UpuporFileUtils.getUpuporFile(md5, radioUrl, ServletUtils.getUserId());

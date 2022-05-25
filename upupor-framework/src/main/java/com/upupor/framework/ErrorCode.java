@@ -67,6 +67,7 @@ public enum ErrorCode {
     NO_CONSTRUCTOR_ERROR(37, "禁止使用无参构造,统一入口"),
     SYNC_FETCH_DATA_ERROR(38, "异步获取数据失败"),
     OSS_UN_IMP(39, "该OSS未实现"),
+    BUCKET_NOT_EXISTS(40, "该存储桶未实现"),
 
 
     // 业务异常 100-300

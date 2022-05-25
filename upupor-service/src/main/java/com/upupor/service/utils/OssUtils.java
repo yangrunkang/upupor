@@ -33,6 +33,7 @@ import com.upupor.framework.config.enums.OssSource;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.utils.oss.AbstractOss;
+import com.upupor.service.utils.oss.FileInfo;
 import com.upupor.service.utils.oss.MinioOss;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -57,30 +58,6 @@ import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
  */
 @Slf4j
 public class OssUtils {
-
-    /**
-     *
-     * @param dic 格式: dicName + /
-     * @param suffix 格式例如 png 不带.
-     * @return
-     */
-    public static FileInfo getUploadFileUrl(String dic,String suffix){
-
-        UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
-
-        String fileName = CcUtils.getUuId() + CcConstant.ONE_DOTS +suffix;
-        String folderName = dic + fileName;
-
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setFullUrl(upuporConfig.getUploadFilePrefix() + folderName);
-        fileInfo.setFolderName(folderName);
-        return fileInfo;
-    }
-    @Data
-    public static class FileInfo {
-        private String folderName;
-        private String fullUrl;
-    }
 
 
     private static List<AbstractOss> abstractOssList = new ArrayList<>();

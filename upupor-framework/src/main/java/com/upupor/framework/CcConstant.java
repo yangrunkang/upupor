@@ -40,7 +40,7 @@ public final class CcConstant {
     /**
      * 用户默认头像
      */
-    public static final String DEFAULT_VIA = "system/profile-photo.png";
+    public static final String DEFAULT_VIA = "/system/profile-photo.png";
 
     /**
      * 业务标识

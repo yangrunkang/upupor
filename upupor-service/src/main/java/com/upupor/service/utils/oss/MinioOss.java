@@ -66,26 +66,17 @@ public class MinioOss extends AbstractOss {
                             .credentials(minio.getAccessKey(), minio.getSecretKey())
                             .build();
 
-            // Make 'asiatrip' bucket if not exist.
-            boolean found =
-                    minioClient.bucketExists(BucketExistsArgs.builder().bucket(minio.getBucketName()).build());
-            if (!found) {
-                // Make a new bucket called 'asiatrip'.
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(minio.getBucketName()).build());
-            } else {
-                System.out.println("Bucket 'asiatrip' already exists.");
+            if (!minioClient.bucketExists(BucketExistsArgs.builder().bucket(minio.getBucketName()).build())) {
+                throw new BusinessException(ErrorCode.BUCKET_NOT_EXISTS);
             }
 
-            // Upload '/home/user/Photos/asiaphotos.zip' as object name 'asiaphotos-2015.zip' to bucket
-            // 'asiatrip'.
-
             String[] folderNameSplit = folderName.split(CcConstant.BACKSLASH);
-            if(ArrayUtils.isEmpty(folderNameSplit)){
-                throw new BusinessException(ErrorCode.UPLOAD_ERROR,"请指定目录及文件");
+            if (ArrayUtils.isEmpty(folderNameSplit)) {
+                throw new BusinessException(ErrorCode.UPLOAD_ERROR, "请指定目录及文件");
             }
             String fileName = folderNameSplit[folderNameSplit.length - 1];
             File file = new File(fileName);
-            FileUtils.copyInputStreamToFile(inputStream,file);
+            FileUtils.copyInputStreamToFile(inputStream, file);
             minioClient.uploadObject(
                     UploadObjectArgs.builder()
                             .bucket(minio.getBucketName())
@@ -94,9 +85,8 @@ public class MinioOss extends AbstractOss {
                             .build());
             file.delete();
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("上传失败异常日志",e);
-            throw new BusinessException(ErrorCode.UPLOAD_ERROR);
+            log.error("上传失败异常日志", e);
+            throw new BusinessException(ErrorCode.UPLOAD_ERROR,e.getMessage());
         }
     }
 

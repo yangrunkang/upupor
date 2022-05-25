@@ -42,6 +42,7 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
+import com.upupor.service.utils.oss.FileInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -123,27 +124,15 @@ public class PictureUploadController {
                 throw new BusinessException(ErrorCode.ILLEGAL_FILE_SUFFIX);
             }
             // 文件名
-            String fileName = "profile_photo_" + CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
-            String folderFileName;
             try {
-                folderFileName = "profile/" + fileName;
-                OssUtils.uploadImgFile(file, folderFileName, 1d);
-
-                String ossFileHost = upuporConfig.getUploadFilePrefix();
-                picUrl = ossFileHost + folderFileName;
-
-
+                FileInfo fileInfo = FileInfo.getUploadFileUrl("profile/", suffix);
+                OssUtils.uploadImgFile(file, fileInfo.getFolderName(), 1d);
+                picUrl = fileInfo.getFullUrl();
                 // 文件入库
-                try {
-                    File upuporFile = UpuporFileUtils.getUpuporFile(md5, picUrl, member.getUserId());
-                    fileService.addFile(upuporFile);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+                File upuporFile = UpuporFileUtils.getUpuporFile(md5, picUrl, member.getUserId());
+                fileService.addFile(upuporFile);
             } catch (Exception e) {
-                e.printStackTrace();
-                throw new BusinessException(ErrorCode.UPLOAD_ERROR);
+                throw new BusinessException(ErrorCode.UPLOAD_ERROR,e.getMessage());
             }
         } else {
             picUrl = fileByMd5.getFileUrl();
@@ -172,7 +161,7 @@ public class PictureUploadController {
      */
     @ApiOperation("编辑器上传图片文件")
     @PostMapping(value = "/uploadFile/editor", consumes = "multipart/form-data")
-    @UpuporLimit(limitType = UPLOAD_CONTENT_IMAGE,needSpendMoney = true)
+    @UpuporLimit(limitType = UPLOAD_CONTENT_IMAGE, needSpendMoney = true)
     public CcResponse uploadFileForEditor(@RequestParam("file") MultipartFile file) throws IOException {
 
         if (Objects.isNull(file)) {
@@ -208,24 +197,16 @@ public class PictureUploadController {
                 throw new BusinessException(ErrorCode.ILLEGAL_FILE_SUFFIX);
             }
             // 文件名
-            String fileName = "content_" + CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
-            String folderFileName;
             try {
-                folderFileName = "content/" + fileName;
-                OssUtils.uploadImgFile(file, folderFileName, null);
-                String ossFileHost = upuporConfig.getUploadFilePrefix();
-                pictureUrl = ossFileHost + folderFileName;
-
+                FileInfo fileInfo = FileInfo.getUploadFileUrl("content/", suffix);
+                OssUtils.uploadImgFile(file, fileInfo.getFolderName(), null);
+                pictureUrl = fileInfo.getFullUrl();
                 // 文件入库
-                try {
-                    File upuporFile = UpuporFileUtils.getUpuporFile(md5, pictureUrl, ServletUtils.getUserId());
-                    fileService.addFile(upuporFile);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                File upuporFile = UpuporFileUtils.getUpuporFile(md5, pictureUrl, ServletUtils.getUserId());
+                fileService.addFile(upuporFile);
 
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new BusinessException(ErrorCode.UPLOAD_ERROR,e.getMessage());
             }
         } else {
             pictureUrl = fileByMd5.getFileUrl();

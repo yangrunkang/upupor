@@ -50,6 +50,7 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.OssUtils;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
+import com.upupor.service.utils.oss.FileInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -129,13 +130,13 @@ public class ApplyServiceImpl implements ApplyService {
             // 检查文件之前是否已经上传过
             String md5 = UpuporFileUtils.getMd5(addApplyDocumentReq.getFile().getInputStream());
             File fileByMd5 = fileService.selectByMd5(md5);
-            OssUtils.FileInfo fileInfo = new OssUtils.FileInfo();
+            FileInfo fileInfo  = new FileInfo();
             if (Objects.isNull(fileByMd5)) {
                 // 上传的文件
                 String originalFilename = addApplyDocumentReq.getFile().getOriginalFilename();
                 assert originalFilename != null;
                 String suffix = originalFilename.substring(originalFilename.lastIndexOf(CcConstant.ONE_DOTS) + 1);
-                fileInfo = OssUtils.getUploadFileUrl("apply/", suffix);
+                fileInfo = FileInfo.getUploadFileUrl("apply/", suffix);
                 OssUtils.uploadAnyFile(addApplyDocumentReq.getFile(), fileInfo.getFolderName());
                 // 文件入库
                 try {
