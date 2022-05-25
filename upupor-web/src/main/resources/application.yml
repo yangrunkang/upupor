@@ -102,7 +102,7 @@ upupor:
   endpoint: ${MINIO_ENDPOINT:http://localhost:9001}
   # 请求图片的地址  在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
   requestUrl: ${MINIO_REQUEST_URL:http://localhost:2020}
-  # nginx路由url minio_upupor
+  # nginx路由url /minio_upupor
   nginxRouter: ${MINIO_NGINX_ROUTER:}
   # 秘钥
   accessKey: ${MINIO_ACCESS_KEY:Wdahu3cHbkNH5e0X}

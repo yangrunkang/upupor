@@ -86,7 +86,8 @@ MINIO_ENDPOINT=minio的服务端点 ,例如 协议://ip:port
 MINIO_ACCESS_KEY=minio对象存储的Key
 MINIO_SECRET_KEY=minio对象存储的密匙
 MINIO_BUCKET_NAME=存储桶对象
-MINIO_REQUEST_URL=访问minio资源的前缀,例如:https://www.upupor.com/minio_upupor
+MINIO_REQUEST_URL=访问minio资源的前缀,例如:https://www.upupor.com
+MINIO_NGINX_ROUTER=nginx转发的url,例如/minio_upupor
 ```
 
 2. 启动upupor服务

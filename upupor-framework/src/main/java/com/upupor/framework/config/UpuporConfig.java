@@ -94,7 +94,7 @@ public class UpuporConfig {
             if (StringUtils.isEmpty(nginxRouter)) {
                 return requestUrl;
             } else {
-                return requestUrl + CcConstant.BACKSLASH + nginxRouter;
+                return requestUrl + nginxRouter;
             }
         }
         throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION, "系统未适配来源");
@@ -117,7 +117,7 @@ public class UpuporConfig {
             if (StringUtils.isEmpty(nginxRouter)) {
                 return requestUrl;
             } else {
-                return requestUrl + CcConstant.BACKSLASH + nginxRouter;
+                return requestUrl + nginxRouter;
             }
         }
         throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION, "系统未适配来源");
