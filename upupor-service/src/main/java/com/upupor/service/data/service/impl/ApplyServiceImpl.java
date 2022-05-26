@@ -47,8 +47,8 @@ import com.upupor.service.outer.req.DelApplyReq;
 import com.upupor.service.outer.req.UpdateApplyReq;
 import com.upupor.service.types.ApplyStatus;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.service.utils.oss.FileDic;
-import com.upupor.service.utils.oss.FileInfo;
+import com.upupor.service.utils.oss.enums.FileDic;
+import com.upupor.service.utils.oss.FileUpload;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -122,7 +122,7 @@ public class ApplyServiceImpl implements ApplyService {
         applyDocument.setApplyId(applyId);
         applyDocument.setCopyWriting(addApplyDocumentReq.getApplyAdText().trim());
         if (Objects.nonNull(addApplyDocumentReq.getFile())) {
-            applyDocument.setUpload(FileInfo.fullUpload(addApplyDocumentReq.getFile(), FileDic.APPLY));
+            applyDocument.setUpload(FileUpload.upload(addApplyDocumentReq.getFile(), FileDic.APPLY));
         }
         applyDocument.setCreateTime(CcDateUtil.getCurrentTime());
         applyDocument.setSysUpdateTime(new Date());

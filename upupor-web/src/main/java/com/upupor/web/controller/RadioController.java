@@ -39,8 +39,8 @@ import com.upupor.service.data.service.RadioService;
 import com.upupor.service.dto.OperateRadioDto;
 import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
-import com.upupor.service.utils.oss.FileDic;
-import com.upupor.service.utils.oss.FileInfo;
+import com.upupor.service.utils.oss.enums.FileDic;
+import com.upupor.service.utils.oss.FileUpload;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -100,7 +100,7 @@ public class RadioController {
     @UpuporLimit(limitType = UPLOAD_RADIO_FILE, needSpendMoney = true)
     public CcResponse uploadRadioFile(@RequestParam("radioFile") MultipartFile file) throws IOException {
         CcResponse ccResponse = new CcResponse();
-        ccResponse.setData(FileInfo.fullUpload(file,FileDic.RADIO));
+        ccResponse.setData(FileUpload.upload(file,FileDic.RADIO));
         return ccResponse;
     }
 

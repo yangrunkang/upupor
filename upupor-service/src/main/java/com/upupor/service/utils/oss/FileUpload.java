@@ -42,6 +42,10 @@ import com.upupor.service.data.service.FileService;
 import com.upupor.service.types.UploadStatus;
 import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.UpuporFileUtils;
+import com.upupor.service.utils.oss.enums.FileDic;
+import com.upupor.service.utils.oss.sources.MinioOss;
+import com.upupor.service.utils.oss.enums.IsAsync;
+import com.upupor.service.utils.oss.enums.IsImg;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -69,7 +73,7 @@ import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
  */
 @Slf4j
 @Data
-public class FileInfo {
+public class FileUpload {
 
     private String folderName;
     private String fullUrl;
@@ -79,23 +83,23 @@ public class FileInfo {
      * @param suffix 格式例如 png 不带.
      * @return
      */
-    public static FileInfo getUploadFileUrl(String dic, String suffix) {
+    public static FileUpload create(String dic, String suffix) {
 
         UpuporConfig upuporConfig = SpringContextUtils.getBean(UpuporConfig.class);
 
         String fileName = CcUtils.getUuId() + CcConstant.ONE_DOTS + suffix;
         String folderName = dic + fileName;
 
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setFullUrl(upuporConfig.getUploadFilePrefix() + folderName);
-        fileInfo.setFolderName(folderName);
-        return fileInfo;
+        FileUpload fileUpload = new FileUpload();
+        fileUpload.setFullUrl(upuporConfig.getUploadFilePrefix() + folderName);
+        fileUpload.setFolderName(folderName);
+        return fileUpload;
     }
 
 
-    public static String fullUpload(FileInfo fileInfo,InputStream inputStream) throws IOException {
-        uploadToOss(fileInfo.getFolderName(),inputStream);
-        return fileInfo.getFullUrl();
+    public static String upload(FileUpload fileUpload, InputStream inputStream) throws IOException {
+        uploadToOss(fileUpload.getFolderName(),inputStream);
+        return fileUpload.getFullUrl();
     }
 
     /**
@@ -105,7 +109,7 @@ public class FileInfo {
      * @param fileDic
      * @return
      */
-    public static String fullUpload(MultipartFile file, FileDic fileDic) throws IOException {
+    public static String upload(MultipartFile file, FileDic fileDic) throws IOException {
         if (Objects.isNull(file)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "文件为空");
         }
@@ -113,7 +117,7 @@ public class FileInfo {
         String userId = ServletUtils.getUserId();
         ServletUtils.checkOperatePermission(userId);
 
-        FileInfo fileInfo = new FileInfo();
+        FileUpload fileUpload = new FileUpload();
         FileService fileService = SpringContextUtils.getBean(FileService.class);
 
         // 计算文件md5值,检查文件之前是否已经上传过
@@ -121,13 +125,13 @@ public class FileInfo {
         File fileByMd5 = fileService.selectByMd5(md5);
         if (Objects.isNull(fileByMd5)) {
             // 组装文件信息
-            fileInfo = FileInfo.getUploadFileUrl(fileDic.getDic(), getFileSuffix(file));
+            fileUpload = FileUpload.create(fileDic.getDic(), getFileSuffix(file));
 
 
             InputStream fileInputStream = null;
 
             // 图片上传
-            if (fileDic.getIsImg()) {
+            if (fileDic.getIsImg().equals(IsImg.YES)) {
                 // 检查是否是图片
                 String fileType = FileUtils.getFileType(file.getInputStream());
                 if (!fileType.startsWith("image/")) {
@@ -158,7 +162,7 @@ public class FileInfo {
                 }
 
                 // 校验文件后缀
-                String suffix = FileInfo.getFileSuffix(file);
+                String suffix = FileUpload.getFileSuffix(file);
                 if (!"mp3".equalsIgnoreCase(suffix)) {
                     throw new BusinessException(ErrorCode.PARAM_ERROR, "文件类型必须是mp3格式");
                 }
@@ -166,25 +170,25 @@ public class FileInfo {
                 fileInputStream = file.getInputStream();
             }
 
-            if (fileDic.getIsAsync()) {
+            if (fileDic.getIsAsync().equals(IsAsync.YES)) {
                 Executor threadPool = (Executor) SpringContextUtils.getBean(UPUPOR_THREAD_POOL);
-                threadPool.execute(new SyncUpload(file.getInputStream(), fileInfo.getFolderName(), fileService, md5));
+                threadPool.execute(new SyncUpload(file.getInputStream(), fileUpload.getFolderName(), fileService, md5));
             } else {
-                uploadToOss(fileInfo.getFolderName(), fileInputStream);
+                uploadToOss(fileUpload.getFolderName(), fileInputStream);
             }
 
             // 文件入库
-            File upuporFile = UpuporFileUtils.getUpuporFile(md5, fileInfo.getFullUrl(), userId);
-            if (fileDic.getIsAsync()) {
+            File upuporFile = UpuporFileUtils.getUpuporFile(md5, fileUpload.getFullUrl(), userId);
+            if (fileDic.getIsAsync().equals(IsAsync.YES)) {
                 upuporFile.setUploadStatus(UploadStatus.UPLOADING);
             }
 
             fileService.addFile(upuporFile);
         } else {
-            fileInfo.setFullUrl(fileByMd5.getFileUrl());
+            fileUpload.setFullUrl(fileByMd5.getFileUrl());
         }
 
-        return fileInfo.getFullUrl();
+        return fileUpload.getFullUrl();
     }
 
     /**

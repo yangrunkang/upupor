@@ -49,7 +49,7 @@ public abstract class AbstractOss {
      *
      * @return
      */
-    abstract OssSource ossSource();
+    public abstract OssSource ossSource();
 
     /**
      * 上传
@@ -57,7 +57,7 @@ public abstract class AbstractOss {
      * @param folderName
      * @param inputStream
      */
-    abstract void uploadToOss(String folderName, InputStream inputStream);
+    public abstract void uploadToOss(String folderName, InputStream inputStream);
 
 
 

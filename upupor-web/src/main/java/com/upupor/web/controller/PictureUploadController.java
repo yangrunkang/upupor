@@ -35,8 +35,8 @@ import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.service.utils.oss.FileDic;
-import com.upupor.service.utils.oss.FileInfo;
+import com.upupor.service.utils.oss.enums.FileDic;
+import com.upupor.service.utils.oss.FileUpload;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +81,7 @@ public class PictureUploadController {
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
-        member.setVia(FileInfo.fullUpload(file, FileDic.PROFILE));
+        member.setVia(FileUpload.upload(file, FileDic.PROFILE));
         // 重新设置头像
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
         Boolean update = memberService.update(member);
@@ -103,6 +103,6 @@ public class PictureUploadController {
     @PostMapping(value = "/uploadFile/editor", consumes = "multipart/form-data")
     @UpuporLimit(limitType = UPLOAD_CONTENT_IMAGE, needSpendMoney = true)
     public CcResponse uploadFileForEditor(@RequestParam("file") MultipartFile file) throws IOException {
-        return new CcResponse(FileInfo.fullUpload(file,FileDic.CONTENT));
+        return new CcResponse(FileUpload.upload(file,FileDic.CONTENT));
     }
 }
