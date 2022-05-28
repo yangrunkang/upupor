@@ -278,8 +278,10 @@ public class FileUpload {
         }
 
         for (AbstractOss abstractOss : abstractOssList) {
-            abstractOss.init(upuporConfig);
-            abstractOss.upload(folderName,inputStream);
+            if(abstractOss.ossSource().equals(upuporConfig.getOssSource())){
+                abstractOss.init(upuporConfig);
+                abstractOss.upload(folderName,inputStream);
+            }
         }
     }
 
