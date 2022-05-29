@@ -90,7 +90,7 @@ public class MemberController {
     private final MemberConfigMapper memberConfigMapper;
 
     @ApiOperation("用户登录")
-    @PostMapping("get")
+    @PostMapping("login")
     @ResponseBody
     @UpuporLimit(limitType = LimitType.LOGIN,needLogin = false)
     public CcResponse get(GetMemberReq getMemberReq) {
@@ -105,7 +105,7 @@ public class MemberController {
 
 
     @ApiOperation("用户注册")
-    @PostMapping("add")
+    @PostMapping("register")
     @ResponseBody
     @UpuporLucene(dataType = LuceneDataType.MEMBER, operationType = LuceneOperationType.ADD)
     public CcResponse add(AddMemberReq addMemberReq) {

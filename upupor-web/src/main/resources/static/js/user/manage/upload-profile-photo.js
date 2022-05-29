@@ -122,7 +122,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 var formData = new FormData();
 
                 formData.append('image', blob, 'avatar.jpg');
-                $.ajax('/pic/uploadFile', {
+                $.ajax('/file/uploadFile', {
                     method: 'POST',
                     data: formData,
                     processData: false,
@@ -143,10 +143,15 @@ window.addEventListener('DOMContentLoaded', function () {
                         return myXhr;
                     },
                     success: function (res) {
-                        $.cvSuccess("上传成功");
-                        setTimeout(function () {
-                            history.go();
-                        }, 1600);
+                        if (res.code === 0) {
+                            $.cvSuccess("上传成功");
+                            setTimeout(function () {
+                                history.go();
+                            }, 1600);
+                        }else{
+                            $.cvError("上传失败")
+                        }
+
                     },
 
                     error: function () {

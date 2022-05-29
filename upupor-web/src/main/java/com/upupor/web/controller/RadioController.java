@@ -28,31 +28,21 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.CcResponse;
-import com.upupor.framework.config.UpuporConfig;
 import com.upupor.lucene.UpuporLucene;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.service.data.service.FileService;
 import com.upupor.service.data.service.RadioService;
 import com.upupor.service.dto.OperateRadioDto;
 import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
-import com.upupor.service.utils.oss.enums.FileDic;
-import com.upupor.service.utils.oss.FileUpload;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-
-import static com.upupor.security.limiter.LimitType.UPLOAD_RADIO_FILE;
 
 
 /**
@@ -64,10 +54,7 @@ import static com.upupor.security.limiter.LimitType.UPLOAD_RADIO_FILE;
 @RequiredArgsConstructor
 @RequestMapping("/radio")
 public class RadioController {
-
-    private final FileService fileService;
     private final RadioService radioService;
-    private final UpuporConfig upuporConfig;
 
     @ApiOperation("删除音频")
     @PostMapping(value = "/delete")
@@ -78,7 +65,6 @@ public class RadioController {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(operateRadioDto);
         return ccResponse;
-
     }
 
 
@@ -93,19 +79,5 @@ public class RadioController {
         ccResponse.setData(operateRadioDto);
         return ccResponse;
     }
-
-
-    @ApiOperation("上传音频")
-    @PostMapping(value = "/addRadioFile", consumes = "multipart/form-data")
-    @UpuporLimit(limitType = UPLOAD_RADIO_FILE, needSpendMoney = true)
-    public CcResponse uploadRadioFile(@RequestParam("radioFile") MultipartFile file) throws IOException {
-        CcResponse ccResponse = new CcResponse();
-        ccResponse.setData(FileUpload.upload(file,FileDic.RADIO));
-        return ccResponse;
-    }
-
-
-
-
 
 }

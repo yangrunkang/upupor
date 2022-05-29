@@ -35,22 +35,19 @@ import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.service.utils.oss.enums.FileDic;
 import com.upupor.service.utils.oss.FileUpload;
+import com.upupor.service.utils.oss.enums.FileDic;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.upupor.security.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
-import static com.upupor.security.limiter.LimitType.UPLOAD_PROFILE_IMAGE;
+import static com.upupor.security.limiter.LimitType.*;
 
 
 /**
@@ -59,10 +56,10 @@ import static com.upupor.security.limiter.LimitType.UPLOAD_PROFILE_IMAGE;
  * @author YangRunkang(cruise)
  * @date 2020/04/12 16:15
  */
-@Api(tags = "图片上传服务")
+@Api(tags = "文件上传服务")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/pic")
+@RequestMapping("/file")
 public class PictureUploadController {
 
     private final MemberService memberService;
@@ -92,17 +89,14 @@ public class PictureUploadController {
         return ccResponse;
     }
     /**
-     * 返回方法参数
-     * <p>
-     * 要记住 @RequestParam("value")里面的value值,要和页面提交的一直,如果是页面是 filedddd,@RequestParam()里面就要写filedddd
-     *
+     * 返回上传文件的地址
      * @param file
      * @return
      */
-    @ApiOperation("编辑器上传图片文件")
-    @PostMapping(value = "/uploadFile/editor", consumes = "multipart/form-data")
+    @ApiOperation("上传文件")
+    @PostMapping(value = "/upload/{fileDic}", consumes = "multipart/form-data")
     @UpuporLimit(limitType = UPLOAD_CONTENT_IMAGE, needSpendMoney = true)
-    public CcResponse uploadFileForEditor(@RequestParam("file") MultipartFile file) throws IOException {
-        return new CcResponse(FileUpload.upload(file,FileDic.CONTENT));
+    public CcResponse uploadFile(@RequestParam("file") MultipartFile file, @PathVariable(value = "fileDic",required = true)FileDic dic) throws IOException {
+        return new CcResponse(FileUpload.upload(file,dic));
     }
 }

@@ -270,6 +270,30 @@ let _defaultModel = 'editOnly';
 let cherryConfig = {
     id: 'vcr_editor',
     value: '',
+    // 解析引擎配置
+    engine: {
+        // 内置语法配置
+        syntax: {
+            emoji: {
+                useUnicode: true, // 是否使用unicode进行渲染
+            },
+            fontEmphasis: {
+                allowWhitespace: false, // 是否允许首尾空格
+            },
+            strikethrough: {
+                needWhitespace: false, // 是否必须有首位空格
+            },
+            header: {
+                /**
+                 * 标题的样式：
+                 *  - default       默认样式，标题前面有锚点
+                 *  - autonumber    标题前面有自增序号锚点
+                 *  - none          标题没有锚点
+                 */
+                anchorStyle: 'default',
+            },
+        },
+    },
     editor: {
         theme: 'default',
         defaultModel: _defaultModel,
@@ -306,7 +330,7 @@ let cherryConfig = {
 
         let formData = new FormData();
         formData.append('file', file);
-        $.ajax('/pic/uploadFile/editor', {
+        $.ajax('/file/upload/CONTENT', {
             method: 'POST',
             data: formData,
             processData: false,

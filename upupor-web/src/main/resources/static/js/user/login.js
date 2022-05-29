@@ -52,7 +52,7 @@ function login() {
             password: password
         };
 
-        $.cvPost('/member/get', param, function (data) {
+        $.cvPost('/member/login', param, function (data) {
             if (respSuccess(data)) {
                 let back = getQueryString('back');
                 if(!cvIsNull(back)){

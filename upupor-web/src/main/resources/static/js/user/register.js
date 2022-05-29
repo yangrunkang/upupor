@@ -67,7 +67,7 @@ function register() {
             password: password,
             verifyCode: verifyCode,
         };
-        $.cvPost('/member/add', param, function (data) {
+        $.cvPost('/member/register', param, function (data) {
             if (data.data.success) {
                 $.cvSuccess("注册成功,已为您自动登录");
                 setTimeout(function () {

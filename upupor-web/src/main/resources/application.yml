@@ -44,7 +44,7 @@ spring:
      paths: /**
  # 数据源配置
  datasource:
-  url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?useUnicode=true&useSSL=false&characterEncoding=utf8
+  url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
   username: ${MYSQL_USERNAME}
   password: ${MYSQL_PASSWORD}
   driver-class-name: com.mysql.cj.jdbc.Driver
@@ -140,9 +140,9 @@ upupor:
  env: ${UPUPOR_ENV}
  # 不需要登录的接口
  interfaceWhiteUrlList:
-  - /member/get
+  - /member/login
   - /member/resetPassword
-  - /member/add
+  - /member/register
   - /member/sendVerifyCode
   - /feedback/add
  # 需要登录的页面

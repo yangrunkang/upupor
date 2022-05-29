@@ -31,6 +31,7 @@
 <!--css-->
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/radio-station/record.css}"/>
 <!--脚本-->
+<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/radio-station/common.js}"></script>
 <script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/radio-station/record.js}"></script>
 <script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/record/recorder.mp3.min.js}"></script>
 <script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/plugins/record/extensions/frequency.histogram.view.js}"></script>
