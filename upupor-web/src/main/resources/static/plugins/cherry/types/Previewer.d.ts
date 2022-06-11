@@ -49,7 +49,7 @@ export default class Previewer {
      */
     private disableScrollListener;
     editor: any;
-    $initPreviewerBubble(editor: any): void;
+    $initPreviewerBubble(): void;
     previewerBubble: PreviewerBubble;
     getDomContainer: () => HTMLDivElement;
     getDom(): HTMLDivElement;

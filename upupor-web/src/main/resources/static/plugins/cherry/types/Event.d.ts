@@ -16,7 +16,7 @@ declare var _default: {
      * @private
      * @type {import('mitt').Emitter}
      */
-    emitter: import('mitt').Emitter;
+    emitter: import("mitt").Emitter<any>;
     /**
      * 注册监听事件
      * @param {string} instanceId 接收消息的频道

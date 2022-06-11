@@ -5,9 +5,8 @@ export default class PreviewerBubble {
     /**
      *
      * @param {import('../Previewer').default} previewer
-     * @param {import('../Editor').default} editor
      */
-    constructor(previewer: import('../Previewer').default, editor: import('../Editor').default);
+    constructor(previewer: import('../Previewer').default);
     /**
      * @property
      * @type {import('../Previewer').default}

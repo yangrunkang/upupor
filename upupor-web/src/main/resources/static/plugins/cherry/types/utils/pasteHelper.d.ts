@@ -23,6 +23,22 @@ declare namespace pasteHelper {
     function init(currentCursor: any, editor: any, html: any, md: any): void;
     function init(currentCursor: any, editor: any, html: any, md: any): void;
     /**
+     * 获取缓存中的复制粘贴类型
+     */
+    function getTypeFromLocalStorage(): string;
+    /**
+     * 获取缓存中的复制粘贴类型
+     */
+    function getTypeFromLocalStorage(): string;
+    /**
+     * 记忆最近一次用户选择的粘贴类型
+     */
+    function setTypeToLocalStorage(type: any): void;
+    /**
+     * 记忆最近一次用户选择的粘贴类型
+     */
+    function setTypeToLocalStorage(type: any): void;
+    /**
      * 在编辑器中自动选中刚刚粘贴的内容
      */
     function setSelection(): void;

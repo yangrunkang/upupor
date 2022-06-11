@@ -21,6 +21,11 @@ export default class Cherry extends CherryStatic {
      * @type {Partial<CherryOptions>}
      */
     options: Partial<CherryOptions>;
+    status: {
+        toolbar: string;
+        previewer: string;
+        editor: string;
+    };
     /**
      * @property
      * @type {string} 实例ID
@@ -36,11 +41,6 @@ export default class Cherry extends CherryStatic {
      * @private
      */
     private init;
-    status: {
-        toolbar: string;
-        previewer: string;
-        editor: string;
-    };
     cherryDom: HTMLElement;
     toolbar: any;
     sidebar: any;
