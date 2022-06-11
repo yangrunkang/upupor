@@ -77414,7 +77414,7 @@
 	    convertWhenPaste: true,
 	    codemirror: {
 	      // 是否自动focus 默认为true
-	      autofocus: true
+	      autofocus: false
 	    }
 	  },
 	  toolbars: {
@@ -77668,7 +77668,7 @@
 	  });
 	}
 
-	var VERSION = "0.7.4-9e3c0823";
+	var VERSION = "0.7.4-8ac13ed0";
 	var CherryStatic = /*#__PURE__*/function () {
 	  function CherryStatic() {
 	    _classCallCheck(this, CherryStatic);
