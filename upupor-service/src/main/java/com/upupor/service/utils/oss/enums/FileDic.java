@@ -38,15 +38,15 @@ import lombok.Getter;
 public enum FileDic {
 
     // 广告申请文件
-    APPLY("apply/"),
+    APPLY("/apply/"),
     // 系统生成的图片
-    PROFILE_SYSTEM("profile_system/", IsImg.YES, 0.75D),
+    PROFILE_SYSTEM("/profile_system/", IsImg.YES, 0.75D),
     // 用户头像
-    PROFILE("profile/", IsImg.YES, 0.75D),
+    PROFILE("/profile/", IsImg.YES, 0.75D),
     // 文章图片
-    CONTENT("content/", IsImg.YES, 1D),
+    CONTENT("/content/", IsImg.YES, 1D),
     // 电台音频文件
-    RADIO("radio/", IsAsync.YES),
+    RADIO("/radio/", IsAsync.YES),
     ;
 
     FileDic(String dic) {
