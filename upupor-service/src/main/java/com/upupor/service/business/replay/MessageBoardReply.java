@@ -33,12 +33,12 @@ import com.upupor.service.data.service.MessageService;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.MsgTemplate.MESSAGE_INTEGRAL;
-import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_INNER_MSG;
+import static com.upupor.framework.CcConstant.MsgTemplate.*;
 
 /**
  * @author Yang Runkang (cruise)
@@ -59,34 +59,37 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
 
     @Override
     public void reply(ReplayCommentEvent replayCommentEvent) {
-        String title = "留言板有新的回复消息";
+        Member beReplayedUser = getMember(replayCommentEvent.getBeRepliedUserId());
         String msgId = msgId();
+
+        String msg = buildMsgByTemplate(replayCommentEvent, msgId, MESSAGE_INTEGRAL);
+        String email = buildMsgByTemplate(replayCommentEvent, msgId, MESSAGE_EMAIL);
+        // 站内信通知
+        getMessageService().addMessage(beReplayedUser.getUserId(), msg, MessageType.USER_REPLAY, msgId);
+        // 邮件通知
+        String title = "留言板有新的回复消息";
+        getMessageService().sendEmail(beReplayedUser.getEmail(), title, email, beReplayedUser.getUserId());
+    }
+
+    @NotNull
+    private String buildMsgByTemplate(ReplayCommentEvent replayCommentEvent, String msgId, String template) {
+        String msg;
         String targetId = replayCommentEvent.getTargetId();
         String creatorReplayUserId = replayCommentEvent.getCreateReplayUserId();
         String creatorReplayUserName = replayCommentEvent.getCreateReplayUserName();
-
-        Member beReplayedUser = getMember(replayCommentEvent.getBeRepliedUserId());
-
-        String msg = null;
-
         // 留言板所有者(对应的就是事件的targetId)
         if (!targetId.equals(creatorReplayUserId)) {
-            msg = String.format(MESSAGE_INTEGRAL, targetId, msgId, "<strong>留言板</strong>")
+            msg = String.format(template, targetId, msgId, "<strong>留言板</strong>")
                     + "收到了来自"
                     + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + String.format(MESSAGE_INTEGRAL, targetId, msgId, "点击查看");
+                    + "的回复,请" + String.format(template, targetId, msgId, "点击查看");
         } else {
-            msg = String.format(MESSAGE_INTEGRAL, creatorReplayUserId, msgId, "<strong>留言板</strong>")
+            msg = String.format(template, creatorReplayUserId, msgId, "<strong>留言板</strong>")
                     + "收到了来自"
                     + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + String.format(MESSAGE_INTEGRAL, creatorReplayUserId, msgId, "点击查看");
+                    + "的回复,请" + String.format(template, creatorReplayUserId, msgId, "点击查看");
         }
-
-        // 站内信通知
-        getMessageService().addMessage(beReplayedUser.getUserId(), msg, MessageType.USER_REPLAY, msgId);
-
-        // 邮件通知
-        getMessageService().sendEmail(beReplayedUser.getEmail(), title, msg, beReplayedUser.getUserId());
+        return msg;
     }
 
     @Override
