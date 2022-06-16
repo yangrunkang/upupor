@@ -63,7 +63,7 @@
                             <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'CONTENT'">
                                 <div class="flex-grow-1">
                                     <div class="mt-0">
-                                        <a th:href="@{'/u/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <a th:href="@{'/u/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}" th:utext="${searchData.resultTitle}"></a>
                                         <span class="badge bg-gradient bg-warning text-dark fw-light rounded-3 small">文章</span>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@
                             <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'RADIO'">
                                 <div class="flex-grow-1">
                                     <div class="mt-0">
-                                        <a th:href="@{'/r/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <a th:href="@{'/r/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}" th:utext="${searchData.resultTitle}"></a>
                                         <span class="badge bg-gradient bg-primary fw-light rounded-3 small">电台</span>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                             <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'MEMBER'">
                                 <div class="flex-grow-1">
                                     <div class="mt-0">
-                                        <a th:href="'/profile/' + ${searchData.member.userId}+'/content'" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}">[[${searchData.resultTitle}]]</a>
+                                        <a th:href="'/profile/' + ${searchData.member.userId}+'/content'" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}" th:utext="${searchData.resultTitle}"></a>
                                         <span  class="badge bg-gradient bg-success fw-light rounded-3 small">用户</span>
                                     </div>
                                 </div>
