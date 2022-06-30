@@ -60,7 +60,7 @@ import static com.upupor.security.limiter.LimitType.UPLOAD_PROFILE_IMAGE;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/file")
-public class PictureUploadController {
+public class UploadController {
 
     private final MemberService memberService;
 

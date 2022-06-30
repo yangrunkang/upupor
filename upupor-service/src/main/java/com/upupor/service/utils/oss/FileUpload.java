@@ -29,6 +29,7 @@
 
 package com.upupor.service.utils.oss;
 
+import com.google.common.collect.Lists;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
@@ -98,7 +99,7 @@ public class FileUpload {
 
 
     public static String upload(FileUpload fileUpload, InputStream inputStream) throws IOException {
-        uploadToOss(fileUpload.getFolderName(),inputStream);
+        uploadToOss(fileUpload.getFolderName(), inputStream);
         return fileUpload.getFullUrl();
     }
 
@@ -157,14 +158,16 @@ public class FileUpload {
             } else if (FileDic.RADIO.equals(fileDic)) {
                 // 检查文件类型
                 String fileType = FileUtils.getFileType(file.getInputStream());
-                if (!"audio/mpeg".equals(fileType)) {
-                    throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传非mp3文件");
+                List<String> detectTypes = Lists.newArrayList("audio/mpeg", "application/octet-stream");
+                if (!detectTypes.contains(fileType.toLowerCase())) {
+                    throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传非mp3或aac文件");
                 }
 
                 // 校验文件后缀
                 String suffix = FileUpload.getFileSuffix(file);
-                if (!"mp3".equalsIgnoreCase(suffix)) {
-                    throw new BusinessException(ErrorCode.PARAM_ERROR, "文件类型必须是mp3格式");
+                List<String> supportFileType = Lists.newArrayList("mp3", "aac");
+                if (!supportFileType.contains(suffix.toLowerCase())) {
+                    throw new BusinessException(ErrorCode.PARAM_ERROR, "文件类型必须是mp3或aac格式");
                 }
             } else {
                 fileInputStream = file.getInputStream();
@@ -263,6 +266,7 @@ public class FileUpload {
 
 
     private static List<AbstractOss> abstractOssList = new ArrayList<>();
+
     static {
         abstractOssList.add(new MinioOss());
     }
@@ -278,9 +282,9 @@ public class FileUpload {
         }
 
         for (AbstractOss abstractOss : abstractOssList) {
-            if(abstractOss.ossSource().equals(upuporConfig.getOssSource())){
+            if (abstractOss.ossSource().equals(upuporConfig.getOssSource())) {
                 abstractOss.init(upuporConfig);
-                abstractOss.upload(folderName,inputStream);
+                abstractOss.upload(folderName, inputStream);
             }
         }
     }

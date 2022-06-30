@@ -380,25 +380,38 @@ let cherryConfig = {
  * 加载不同的编辑器js,初始化是同一个
  */
 function initEditor(isComment){
-    if(isComment){
-        _height = '400px';
-        _defaultModel = 'editOnly';
+    try{
+        $("#editor_load_failure").hide();
+        $("#editor_loading").show();
+
+        if(isComment){
+            _height = '400px';
+            _defaultModel = 'editOnly';
+        }
+
+        let config = Object.assign({}, cherryConfig);
+        window.editor = new Cherry(config);
+
+        let mdValue = getElementValue("md_value");
+        let htmlValue = getElementValue("html_value");
+
+        if(cvIsNull(mdValue) && !cvIsNull(htmlValue)){
+            // 将html转为markdown
+            mdValue = window.editor.engine.makeMarkdown(htmlValue);
+        }
+
+        if(!cvIsNull(mdValue)){
+            window.editor.setMarkdown(mdValue);
+        }
+    }catch (e) {
+        $("#editor_load_failure").show();
+        $("#editor_loading").hide();
     }
 
-    let config = Object.assign({}, cherryConfig);
-    window.editor = new Cherry(config);
+}
 
-    let mdValue = getElementValue("md_value");
-    let htmlValue = getElementValue("html_value");
-
-    if(cvIsNull(mdValue) && !cvIsNull(htmlValue)){
-        // 将html转为markdown
-        mdValue = window.editor.engine.makeMarkdown(htmlValue);
-    }
-
-    if(!cvIsNull(mdValue)){
-        window.editor.setMarkdown(mdValue);
-    }
+function reloadEditor(isComment) {
+    $.cvLoadBootstrapRichText(isComment)
 }
 
 
