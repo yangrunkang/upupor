@@ -27,15 +27,15 @@
 
 package com.upupor.web.page;
 
+import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.ErrorCode;
 import com.upupor.service.data.aggregation.CommonAggregateService;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.MemberConfig;
 import com.upupor.service.data.dao.entity.Tag;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.TagService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
 import com.upupor.service.outer.req.GetCommonReq;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.utils.ServletUtils;
@@ -53,8 +53,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.*;
 import static com.upupor.framework.CcConstant.ContentView.CONTENT_LIST;
+import static com.upupor.framework.CcConstant.IS_DEFAULT_CONTENT_TYPE;
+import static com.upupor.framework.CcConstant.RIGHT_ARROW;
 
 
 /**

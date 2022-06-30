@@ -28,8 +28,8 @@
 package com.upupor.web.outer;
 
 import com.alibaba.druid.util.StringUtils;
-import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

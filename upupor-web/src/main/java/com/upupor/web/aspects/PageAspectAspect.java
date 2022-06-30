@@ -27,8 +27,8 @@
 
 package com.upupor.web.aspects;
 
-import com.upupor.framework.CcConstant;
 import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.types.PointType;

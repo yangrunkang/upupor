@@ -27,21 +27,14 @@
 
 package com.upupor.web.router;
 
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.service.ContentService;
 import com.upupor.service.business.pages.footer.AboutAdView;
 import com.upupor.service.business.pages.footer.DeveloperView;
-import com.upupor.service.types.ContentStatus;
-import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Objects;
 
 /**
  * 路由器

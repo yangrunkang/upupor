@@ -27,13 +27,19 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.security.limiter.LimitType;
-import com.upupor.security.limiter.UpuporLimit;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.RedisUtil;
+import com.upupor.lucene.UpuporLucene;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
-import com.upupor.lucene.UpuporLucene;
+import com.upupor.security.limiter.LimitType;
+import com.upupor.security.limiter.UpuporLimit;
+import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.data.dao.entity.File;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.MemberConfig;
@@ -42,15 +48,9 @@ import com.upupor.service.data.service.FileService;
 import com.upupor.service.data.service.MemberIntegralService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcResponse;
-import com.upupor.framework.ErrorCode;
-import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.OperateMemberDto;
 import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.*;
-import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

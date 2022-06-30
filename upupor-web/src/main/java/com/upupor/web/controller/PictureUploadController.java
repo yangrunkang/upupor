@@ -43,11 +43,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.util.Objects;
 
-import static com.upupor.security.limiter.LimitType.*;
+import static com.upupor.security.limiter.LimitType.UPLOAD_CONTENT_IMAGE;
+import static com.upupor.security.limiter.LimitType.UPLOAD_PROFILE_IMAGE;
 
 
 /**

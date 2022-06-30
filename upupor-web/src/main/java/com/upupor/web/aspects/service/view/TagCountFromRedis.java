@@ -30,8 +30,8 @@
 package com.upupor.web.aspects.service.view;
 
 import com.alibaba.fastjson.JSON;
-import com.upupor.service.scheduled.CountTagScheduled;
 import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.scheduled.CountTagScheduled;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
