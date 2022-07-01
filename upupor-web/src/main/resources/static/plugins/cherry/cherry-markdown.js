@@ -22175,9 +22175,11 @@
 	// [, \, ], ^, _, ` (U+005B–0060),
 	// {, |, }, or ~ (U+007B–007E).
 
-	var PUNCTUATION = "[\\u0021-\\u002F\\u003a-\\u0040\\u005b-\\u0060\\u007b-\\u007e]"; // 下划线强调语法允许的边界符号
+	var PUNCTUATION = "[\\u0021-\\u002F\\u003a-\\u0040\\u005b-\\u0060\\u007b-\\u007e]"; // extra punctuations
 
-	var UNDERSCORE_EMPHASIS_BORDER = "[\\u0021-\\u002F\\u003a-\\u0040\\u005b\\u005d\\u005e\\u0060\\u007b-\\u007e \\t\\n]"; // https://html.spec.whatwg.org/multipage/input.html#e-mail-state-(type%3Demail)
+	var UNDERSCORE_EMPHASIS_BOUNDARY = '[' + "\\u0021-\\u002F\\u003a-\\u0040\\u005b\\u005d\\u005e\\u0060\\u007b-\\u007e" + // punctuations defined in commonmark
+	' ' + '\\t\\n' + '！“”¥‘’（），。—：；《》？【】「」·～｜' + // chinese punctuations
+	']'; // https://html.spec.whatwg.org/multipage/input.html#e-mail-state-(type%3Demail)
 
 	var EMAIL_INLINE = new RegExp([/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+/.source, '@', /[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/.source].join(''));
 	var EMAIL = new RegExp("^".concat(EMAIL_INLINE.source, "$")); // https://gist.github.com/dperini/729294
@@ -29751,11 +29753,11 @@
 	      }; // UNDERSCORE_EMPHASIS_BORDER：允许除下划线以外的「标点符号」和空格出现，使用[^\w\S \t]或[\W\s]会有性能问题
 
 	      var underscore = {
-	        begin: "(^|".concat(UNDERSCORE_EMPHASIS_BORDER, ")(_+)"),
+	        begin: "(^|".concat(UNDERSCORE_EMPHASIS_BOUNDARY, ")(_+)"),
 	        // ?<leading>, ?<symbol>
 	        content: "(".concat(REGEX, ")"),
 	        // ?<text>
-	        end: "\\2(?=".concat(UNDERSCORE_EMPHASIS_BORDER, "|$)")
+	        end: "\\2(?=".concat(UNDERSCORE_EMPHASIS_BOUNDARY, "|$)")
 	      };
 	      asterisk.reg = compileRegExp(asterisk, 'g');
 	      underscore.reg = compileRegExp(underscore, 'g');
@@ -49025,7 +49027,14 @@
 	    key: "$onClick",
 	    value: function $onClick(e) {
 	      // 只有双栏编辑模式才出现该功能
-	      if (this.previewer.$cherry.getStatus().editor === 'hide') {
+	      var cherryStatus = this.previewer.$cherry.getStatus();
+
+	      if (cherryStatus.editor === 'hide') {
+	        if (cherryStatus.previewer === 'show') {
+	          // 纯预览模式下，支持点击放大图片功能（以回调的形式实现，需要业务侧实现图片放大功能）
+	          this.previewer.$cherry.options.callback.onClickPreview && this.previewer.$cherry.options.callback.onClickPreview(e);
+	        }
+
 	        return;
 	      }
 
@@ -51675,6 +51684,11 @@
 	    });
 	    editor.options.wrapperDom.appendChild(_this.subBubbleTableMenu.dom); // 定义子菜单
 
+	    /**
+	     * **TODO**:
+	     *   这里所有子菜单的代码应该删掉，复用已有的toolbar对象
+	     */
+
 	    _this.subMenuConfig = [{
 	      iconName: 'image',
 	      name: 'image',
@@ -52928,6 +52942,15 @@
 	      var code = selection ? selection : 'code...';
 	      return "\n``` \n".concat(code, "\n```\n");
 	    }
+	    /**
+	     * 声明绑定的快捷键，快捷键触发onClick
+	     */
+
+	  }, {
+	    key: "shortcutKeys",
+	    get: function get() {
+	      return ['Mod-k'];
+	    }
 	  }]);
 
 	  return Code;
@@ -53386,9 +53409,678 @@
 	  return SwitchModel;
 	}(MenuBase);
 
+	/**
+	 * Copyright (C) 2021 THL A29 Limited, a Tencent company.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 *     http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+
+	/**
+	 * 上传文件的逻辑
+	 * @param {string} type 上传文件的类型
+	 */
+	function handleUpload(editor) {
+	  var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'image';
+	  // type为上传文件类型 image|video|audio|pdf|word
+	  var input = document.createElement('input');
+	  input.type = 'file';
+	  input.id = 'fileUpload';
+	  input.value = '';
+	  input.style.display = 'none'; // document.body.appendChild(input);
+
+	  input.addEventListener('change', function (event) {
+	    // @ts-ignore
+	    var _event$target$files = _slicedToArray(event.target.files, 1),
+	        file = _event$target$files[0]; // 文件上传后的回调函数可以由调用方自己实现
+
+
+	    editor.options.fileUpload(file, function (url) {
+	      // 文件上传的默认回调行数，调用方可以完全不使用该函数
+	      if (typeof url !== 'string' || !url) {
+	        return;
+	      }
+
+	      var code = '';
+
+	      if (type === 'image') {
+	        var _context;
+
+	        // 如果是图片，则返回固定的图片markdown源码
+	        code = concat$5(_context = "![".concat(file.name, "](")).call(_context, url, ")");
+	      } else if (type === 'video') {
+	        var _context2;
+
+	        // 如果是视频，则返回固定的视频markdown源码
+	        code = concat$5(_context2 = "!video[".concat(file.name, "](")).call(_context2, url, ")");
+	      } else if (type === 'audio') {
+	        var _context3;
+
+	        // 如果是音频，则返回固定的音频markdown源码
+	        code = concat$5(_context3 = "!audio[".concat(file.name, "](")).call(_context3, url, ")");
+	      } else {
+	        var _context4;
+
+	        // 默认返回超链接
+	        code = concat$5(_context4 = "[".concat(file.name, "](")).call(_context4, url, ")");
+	      } // 替换选中区域
+	      // @ts-ignore
+
+
+	      editor.editor.doc.replaceSelection(code);
+	    });
+	  });
+	  input.click();
+	}
+
 	function _createSuper$Y(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$Y(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 	function _isNativeReflectConstruct$Y() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入图片
+	 */
+
+	var H1$1 = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(H1, _MenuBase);
+
+	  var _super = _createSuper$Y(H1);
+
+	  function H1(editor) {
+	    var _this;
+
+	    _classCallCheck(this, H1);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('image', 'image');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(H1, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      // 插入图片，调用上传文件逻辑
+	      handleUpload(this.editor, 'image');
+	      return selection;
+	    }
+	    /**
+	     * 声明绑定的快捷键，快捷键触发onClick
+	     */
+
+	  }, {
+	    key: "shortcutKeys",
+	    get: function get() {
+	      return ['Mod-g'];
+	    }
+	  }]);
+
+	  return H1;
+	}(MenuBase);
+
+	function _createSuper$Z(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$Z(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$Z() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入音频
+	 */
+
+	var H1$2 = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(H1, _MenuBase);
+
+	  var _super = _createSuper$Z(H1);
+
+	  function H1(editor) {
+	    var _this;
+
+	    _classCallCheck(this, H1);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('audio', 'video');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(H1, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      // 插入图片，调用上传文件逻辑
+	      handleUpload(this.editor, 'audio');
+	      return selection;
+	    }
+	  }]);
+
+	  return H1;
+	}(MenuBase);
+
+	function _createSuper$_(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$_(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$_() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入视频
+	 */
+
+	var H1$3 = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(H1, _MenuBase);
+
+	  var _super = _createSuper$_(H1);
+
+	  function H1(editor) {
+	    var _this;
+
+	    _classCallCheck(this, H1);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('video', 'video');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(H1, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      // 插入图片，调用上传文件逻辑
+	      handleUpload(this.editor, 'video');
+	      return selection;
+	    }
+	  }]);
+
+	  return H1;
+	}(MenuBase);
+
+	function _createSuper$$(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$$(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$$() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入换行
+	 */
+
+	var Br$1 = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(Br, _MenuBase);
+
+	  var _super = _createSuper$$(Br);
+
+	  function Br(editor) {
+	    var _this;
+
+	    _classCallCheck(this, Br);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('br', 'br');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(Br, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      return "".concat(selection, "<br>");
+	    }
+	  }]);
+
+	  return Br;
+	}(MenuBase);
+
+	function _createSuper$10(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$10(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$10() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入分割线
+	 */
+
+	var Hr$1 = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(Hr, _MenuBase);
+
+	  var _super = _createSuper$10(Hr);
+
+	  function Hr(editor) {
+	    var _this;
+
+	    _classCallCheck(this, Hr);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('hr', 'line');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(Hr, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      // 插入分割线
+	      return "".concat(selection, "\n\n---\n");
+	    }
+	  }]);
+
+	  return Hr;
+	}(MenuBase);
+
+	function _createSuper$11(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$11(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$11() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入行内公式
+	 */
+
+	var Formula = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(Formula, _MenuBase);
+
+	  var _super = _createSuper$11(Formula);
+
+	  function Formula(editor) {
+	    var _this;
+
+	    _classCallCheck(this, Formula);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('formula', 'insertFormula');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(Formula, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      // 插入行内公式
+	      return "".concat(selection, " $ e=mc^2 $ ");
+	    }
+	    /**
+	     * 声明绑定的快捷键，快捷键触发onClick
+	     */
+
+	  }, {
+	    key: "shortcutKeys",
+	    get: function get() {
+	      return ['Mod-m'];
+	    }
+	  }]);
+
+	  return Formula;
+	}(MenuBase);
+
+	function _createSuper$12(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$12(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$12() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入超链接
+	 */
+
+	var Link$1 = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(Link, _MenuBase);
+
+	  var _super = _createSuper$12(Link);
+
+	  function Link(editor) {
+	    var _this;
+
+	    _classCallCheck(this, Link);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('link', 'link');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(Link, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+
+	      // 插入图片，调用上传文件逻辑
+	      if (/^http/.test(selection)) {
+	        return "[\u8D85\u94FE\u63A5](".concat(selection, ")");
+	      }
+
+	      var title = selection ? selection : '超链接';
+	      return "[".concat(title, "](http://url.com) ");
+	    }
+	    /**
+	     * 声明绑定的快捷键，快捷键触发onClick
+	     */
+
+	  }, {
+	    key: "shortcutKeys",
+	    get: function get() {
+	      return ['Mod-l'];
+	    }
+	  }]);
+
+	  return Link;
+	}(MenuBase);
+
+	function _createSuper$13(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$13(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$13() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入普通表格
+	 */
+
+	var Table$1 = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(Table, _MenuBase);
+
+	  var _super = _createSuper$13(Table);
+
+	  function Table(editor) {
+	    var _this;
+
+	    _classCallCheck(this, Table);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('table', 'table');
+
+	    _this.subBubbleTableMenu = new BubbleTableMenu({
+	      row: 9,
+	      col: 9
+	    });
+	    editor.options.wrapperDom.appendChild(_this.subBubbleTableMenu.dom);
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(Table, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      var _this2 = this;
+	      // 插入表格，会出现一个二维面板，用户可以通过点击决定插入表格的行号和列号
+	      var pos = this.dom.getBoundingClientRect();
+	      this.subBubbleTableMenu.dom.style.left = "".concat(pos.left + pos.width, "px");
+	      this.subBubbleTableMenu.dom.style.top = "".concat(pos.top + pos.height, "px");
+	      this.subBubbleTableMenu.show(function (row, col) {
+	        var _context, _context2, _context3, _context4, _context5, _context6;
+
+	        var headerText = repeat$3(_context = ' Header |').call(_context, col);
+
+	        var controlText = repeat$3(_context2 = ' ------ |').call(_context2, col);
+
+	        var rowText = "\n|".concat(repeat$3(_context3 = ' Sample |').call(_context3, col));
+
+	        var text = concat$5(_context4 = concat$5(_context5 = concat$5(_context6 = "".concat(selection, "\n\n|")).call(_context6, headerText, "\n|")).call(_context5, controlText)).call(_context4, repeat$3(rowText).call(rowText, row), "\n\n");
+
+	        _this2.editor.editor.replaceSelection(text, 'around');
+
+	        _this2.editor.editor.focus();
+	      });
+	      return;
+	    }
+	  }]);
+
+	  return Table;
+	}(MenuBase);
+
+	function _createSuper$14(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$14(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$14() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入目录
+	 */
+
+	var Toc$1 = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(Toc, _MenuBase);
+
+	  var _super = _createSuper$14(Toc);
+
+	  function Toc(editor) {
+	    var _this;
+
+	    _classCallCheck(this, Toc);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('toc', 'toc');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(Toc, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      // 插入目录
+	      return "".concat(selection, "\n\n[[toc]]\n");
+	    }
+	  }]);
+
+	  return Toc;
+	}(MenuBase);
+
+	function _createSuper$15(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$15(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$15() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入折线图+表格
+	 */
+
+	var LineTable = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(LineTable, _MenuBase);
+
+	  var _super = _createSuper$15(LineTable);
+
+	  function LineTable(editor) {
+	    var _this;
+
+	    _classCallCheck(this, LineTable);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('lineTable', 'table');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(LineTable, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      var _context;
+	      // 插入带折线图的表格
+	      return concat$5(_context = "".concat(selection, "\n\n")).call(_context, ['| :line: {x,y} | a | b | c |', '| :-: | :-: | :-: | :-: |', '| x | 1 | 2 | 3 |', '| y | 2 | 4 | 6 |', '| z | 7 | 5 | 3 |'].join('\n'), "\n\n");
+	    }
+	  }]);
+
+	  return LineTable;
+	}(MenuBase);
+
+	function _createSuper$16(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$16(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$16() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入柱状图图+表格
+	 */
+
+	var BrTable = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(BrTable, _MenuBase);
+
+	  var _super = _createSuper$16(BrTable);
+
+	  function BrTable(editor) {
+	    var _this;
+
+	    _classCallCheck(this, BrTable);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('brTable', 'table');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(BrTable, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      var _context;
+	      // 插入带折线图的表格
+	      return concat$5(_context = "".concat(selection, "\n\n")).call(_context, ['| :bar: {x,y} | a | b | c |', '| :-: | :-: | :-: | :-: |', '| x | 1 | 2 | 3 |', '| y | 2 | 4 | 6 |', '| z | 7 | 5 | 3 |'].join('\n'), "\n\n");
+	    }
+	  }]);
+
+	  return BrTable;
+	}(MenuBase);
+
+	function _createSuper$17(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$17(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$17() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入pdf
+	 */
+
+	var Pdf = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(Pdf, _MenuBase);
+
+	  var _super = _createSuper$17(Pdf);
+
+	  function Pdf(editor) {
+	    var _this;
+
+	    _classCallCheck(this, Pdf);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('pdf', 'pdf');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(Pdf, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      // 插入图片，调用上传文件逻辑
+	      handleUpload(this.editor, 'pdf');
+	      return selection;
+	    }
+	  }]);
+
+	  return Pdf;
+	}(MenuBase);
+
+	function _createSuper$18(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$18(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$18() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	/**
+	 * 插入word
+	 */
+
+	var Word = /*#__PURE__*/function (_MenuBase) {
+	  _inherits(Word, _MenuBase);
+
+	  var _super = _createSuper$18(Word);
+
+	  function Word(editor) {
+	    var _this;
+
+	    _classCallCheck(this, Word);
+
+	    _this = _super.call(this, editor);
+
+	    _this.setName('word', 'word');
+
+	    return _this;
+	  }
+	  /**
+	   * 响应点击事件
+	   * @param {string} selection 被用户选中的文本内容
+	   * @returns {string} 回填到编辑器光标位置/选中文本区域的内容
+	   */
+
+
+	  _createClass(Word, [{
+	    key: "onClick",
+	    value: function onClick(selection) {
+	      // 插入图片，调用上传文件逻辑
+	      handleUpload(this.editor, 'word');
+	      return selection;
+	    }
+	  }]);
+
+	  return Word;
+	}(MenuBase);
+
+	function _createSuper$19(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$19(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+	function _isNativeReflectConstruct$19() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	/**
 	 * 预览区域切换到“移动端视图”的按钮
 	 */
@@ -53396,7 +54088,7 @@
 	var MobilePreview = /*#__PURE__*/function (_MenuBase) {
 	  _inherits(MobilePreview, _MenuBase);
 
-	  var _super = _createSuper$Y(MobilePreview);
+	  var _super = _createSuper$19(MobilePreview);
 
 	  function MobilePreview(editor, engine, toolbar) {
 	    var _this;
@@ -74704,9 +75396,9 @@
 
 	var client = juiceClient;
 
-	function _createSuper$Z(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$Z(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$1a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1a(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$Z() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$1a() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	/**
 	 * 复制按钮，用来复制预览区的html内容
 	 * 该操作会将预览区的css样式以行内样式的形式插入到html内容里，从而保证粘贴时样式一致
@@ -74715,7 +75407,7 @@
 	var Copy = /*#__PURE__*/function (_MenuBase) {
 	  _inherits(Copy, _MenuBase);
 
-	  var _super = _createSuper$Z(Copy);
+	  var _super = _createSuper$1a(Copy);
 
 	  function Copy(editor, engine, toolbar) {
 	    var _this;
@@ -74941,7 +75633,20 @@
 	  undo: Undo,
 	  redo: Redo,
 	  underline: Underline$1,
-	  switchModel: SwitchModel
+	  switchModel: SwitchModel,
+	  image: H1$1,
+	  audio: H1$2,
+	  video: H1$3,
+	  br: Br$1,
+	  hr: Hr$1,
+	  formula: Formula,
+	  link: Link$1,
+	  table: Table$1,
+	  toc: Toc$1,
+	  lineTable: LineTable,
+	  barTable: BrTable,
+	  pdf: Pdf,
+	  word: Word
 	};
 
 	var HookCenter$1 = /*#__PURE__*/function () {
@@ -75153,9 +75858,9 @@
 	  return Toolbar;
 	}();
 
-	function _createSuper$_(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$_(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$1b(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1b(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$_() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$1b() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	/**
 	 * 在编辑区域选中文本时浮现的bubble工具栏
 	 */
@@ -75163,7 +75868,7 @@
 	var Bubble = /*#__PURE__*/function (_Toolbar) {
 	  _inherits(Bubble, _Toolbar);
 
-	  var _super = _createSuper$_(Bubble);
+	  var _super = _createSuper$1b(Bubble);
 
 	  function Bubble() {
 	    _classCallCheck(this, Bubble);
@@ -75394,9 +76099,9 @@
 	  return Bubble;
 	}(Toolbar);
 
-	function _createSuper$$(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$$(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$1c(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1c(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$$() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$1c() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	/**
 	 * 当光标处于编辑器新行起始位置时出现的浮动工具栏
 	 */
@@ -75404,7 +76109,7 @@
 	var FloatMenu = /*#__PURE__*/function (_Toolbar) {
 	  _inherits(FloatMenu, _Toolbar);
 
-	  var _super = _createSuper$$(FloatMenu);
+	  var _super = _createSuper$1c(FloatMenu);
 
 	  function FloatMenu() {
 	    _classCallCheck(this, FloatMenu);
@@ -75537,9 +76242,9 @@
 	  return FloatMenu;
 	}(Toolbar);
 
-	function _createSuper$10(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$10(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$1d(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1d(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$10() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$1d() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	/**
 	 * 预览区域右侧悬浮的工具栏
 	 * 推荐放置跟编辑区域完全无关的工具栏
@@ -75549,7 +76254,7 @@
 	var Sidebar = /*#__PURE__*/function (_Toolbar) {
 	  _inherits(Sidebar, _Toolbar);
 
-	  var _super = _createSuper$10(Sidebar);
+	  var _super = _createSuper$1d(Sidebar);
 
 	  function Sidebar(options) {
 	    var _this;
@@ -77261,7 +77966,8 @@
 	      srcProp: srcProp,
 	      src: src
 	    };
-	  }
+	  },
+	  onClickPreview: function onClickPreview(event) {}
 	};
 	/** @type {Partial<import('~types/cherry').CherryOptions>} */
 
@@ -77435,7 +78141,9 @@
 	  callback: {
 	    afterChange: callbacks.afterChange,
 	    afterInit: callbacks.afterInit,
-	    beforeImageMounted: callbacks.beforeImageMounted
+	    beforeImageMounted: callbacks.beforeImageMounted,
+	    // 预览区域点击事件，previewer.enablePreviewerBubble = true 时生效
+	    onClickPreview: callbacks.onClickPreview
 	  },
 	  previewer: {
 	    dom: false,
@@ -77452,9 +78160,9 @@
 	};
 	var defaultConfig$1 = cloneDeep_1(defaultConfig);
 
-	function _createSuper$11(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$11(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$1e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1e(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$11() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$1e() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 	function filterOptions(options, whiteList, propTypes) {
 	  var _context;
@@ -77499,7 +78207,7 @@
 	  return _class = /*#__PURE__*/function (_BaseClass) {
 	    _inherits(CustomSyntax, _BaseClass);
 
-	    var _super = _createSuper$11(CustomSyntax);
+	    var _super = _createSuper$1e(CustomSyntax);
 
 	    function CustomSyntax() {
 	      var _this;
@@ -77613,7 +78321,7 @@
 	  return /*#__PURE__*/function (_MenuBase) {
 	    _inherits(CustomMenu, _MenuBase);
 
-	    var _super2 = _createSuper$11(CustomMenu);
+	    var _super2 = _createSuper$1e(CustomMenu);
 
 	    function CustomMenu(editorInstance) {
 	      var _this2;
@@ -77668,7 +78376,7 @@
 	  });
 	}
 
-	var VERSION = "0.7.4-8ac13ed0";
+	var VERSION = "0.7.4-c5f233bd";
 	var CherryStatic = /*#__PURE__*/function () {
 	  function CherryStatic() {
 	    _classCallCheck(this, CherryStatic);
@@ -77732,15 +78440,15 @@
 
 	function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-	function _createSuper$12(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$12(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+	function _createSuper$1f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1f(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = construct$4(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-	function _isNativeReflectConstruct$12() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+	function _isNativeReflectConstruct$1f() { if (typeof Reflect === "undefined" || !construct$4) return false; if (construct$4.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(construct$4(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 	/** @typedef {import('~types/cherry').CherryOptions} CherryOptions */
 
 	var Cherry = /*#__PURE__*/function (_CherryStatic) {
 	  _inherits(Cherry, _CherryStatic);
 
-	  var _super = _createSuper$12(Cherry);
+	  var _super = _createSuper$1f(Cherry);
 
 	  /**
 	   * @protected
@@ -77782,7 +78490,7 @@
 	      editor: 'show'
 	    };
 
-	    if (_this.options.isPreviewOnly) {
+	    if (_this.options.isPreviewOnly || _this.options.editor.defaultModel === 'previewOnly') {
 	      _this.options.toolbars.showToolbar = false;
 	      _this.options.editor.defaultModel = 'previewOnly';
 	      _this.status.editor = 'hide';
@@ -80396,6 +81104,10 @@
 	  };
 	}();
 
+	function ownKeys$c(object, enumerableOnly) { var keys = keys$3(object); if (getOwnPropertySymbols$2) { var symbols = getOwnPropertySymbols$2(object); enumerableOnly && (symbols = filter$3(symbols).call(symbols, function (sym) { return getOwnPropertyDescriptor$3(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+	function _objectSpread$b(target) { for (var i = 1; i < arguments.length; i++) { var _context4, _context5; var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? forEach$3(_context4 = ownKeys$c(Object(source), !0)).call(_context4, function (key) { _defineProperty(target, key, source[key]); }) : getOwnPropertyDescriptors$2 ? defineProperties$2(target, getOwnPropertyDescriptors$2(source)) : forEach$3(_context5 = ownKeys$c(Object(source))).call(_context5, function (key) { defineProperty$5(target, key, getOwnPropertyDescriptor$3(source, key)); }); } return target; }
+
 	function encode64(data) {
 	  var r = '';
 
@@ -80493,17 +81205,15 @@
 	    }
 	  }], [{
 	    key: "install",
-	    value: function install(cherryOptions) {
-	      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	        args[_key - 1] = arguments[_key];
-	      }
+	    value: function install(cherryOptions, args) {
+	      var _cherryOptions$engine;
 
 	      mergeWith_1(cherryOptions, {
 	        engine: {
 	          syntax: {
 	            codeBlock: {
 	              customRenderer: {
-	                plantuml: _construct(PlantUMLCodeEngine, args)
+	                plantuml: new PlantUMLCodeEngine(_objectSpread$b(_objectSpread$b({}, args), (_cherryOptions$engine = cherryOptions.engine.syntax.plantuml) !== null && _cherryOptions$engine !== void 0 ? _cherryOptions$engine : {}))
 	              }
 	            }
 	          }

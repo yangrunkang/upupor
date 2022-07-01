@@ -1,28 +1,30 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 /*主要写JQuery一些基础封装插件&封装(方便后面统一替换)*/
@@ -85,11 +87,11 @@ function packagingToastInfo(message) {
 
 function loadShowImg() {
     // 点击图片放大(ckeditor)
-    $(".image").children().click(function(){
+    $(".image").children().click(function () {
         showImg(this);
     });
     // 点击图片放大(cherry-markdown)
-    $(".cherry-markdown p img").click(function(){
+    $(".cherry-markdown p img").click(function () {
         showImg(this);
     });
 }
@@ -143,9 +145,9 @@ function packagingAjaxPost(url, data, okFunc) {
                 okFunc(data.data);
             } else {
                 // 处理特定状态码跳转
-                if(data.code === 115){ // 未登录直接调整到登录页
+                if (data.code === 115) { // 未登录直接调整到登录页
                     window.location.href = '/login?back=' + window.location.pathname + window.location.search;
-                }else{
+                } else {
                     $.cvError(data.data);
                 }
             }
@@ -175,9 +177,9 @@ function packagingAjaxPostUnder(url, data, okFunc) {
                 okFunc(data.data);
             } else {
                 // 处理特定状态码跳转
-                if(data.code === 115){ // 未登录直接调整到登录页
+                if (data.code === 115) { // 未登录直接调整到登录页
                     window.location.href = '/login?back=' + window.location.pathname + window.location.search;
-                }else{
+                } else {
                     $.cvError(data.data);
                 }
             }
@@ -247,7 +249,7 @@ function setEditorContent(t) {
 /**
  * 上传失败
  */
-function uploadFailed(){
+function uploadFailed() {
     $.cvError("上传失败");
     $(".upload-progress-bar").attr('style', 'width:0%');
     $(".upload-progress-bar-div").hide();
@@ -257,11 +259,12 @@ function uploadFailed(){
  * 显示服务器具体原因
  * @param res
  */
-function uploadFailedDetail(res){
-    $.cvError("上传失败,"+res.data);
+function uploadFailedDetail(res) {
+    $.cvError("上传失败," + res.data);
     $(".upload-progress-bar").attr('style', 'width:0%');
     $(".upload-progress-bar-div").hide();
 }
+
 // cherry默认模式以及高度
 let _height = '800px';
 let _defaultModel = 'editOnly';
@@ -301,11 +304,11 @@ let cherryConfig = {
         // 粘贴时是否自动将html转成markdown
         convertWhenPaste: true,
     },
-    toolbars:{
+    toolbars: {
         theme: 'light', // light or dark
         // 'size' 字体大小
         // ,
-        toolbar : ['bold', 'header', 'list', 'quote',{
+        toolbar: ['bold', 'header', 'list', 'quote', {
             insert: [
                 'image',
                 'link',
@@ -320,11 +323,10 @@ let cherryConfig = {
                 // 'pdf',
                 // 'word',
             ],
-        },  'switchModel'],
-        bubble : ['bold', 'italic', 'strikethrough', 'sub', 'sup',  'size','color'], // array or false
-        float : ['h1', 'h2', 'h3',  'checklist', 'quote', 'quickTable', 'code','graph'], // array or false
-        customMenu: {
-        },
+        }, 'switchModel'],
+        bubble: ['bold', 'italic', 'strikethrough', 'sub', 'sup', 'size', 'color'], // array or false
+        float: ['h1', 'h2', 'h3', 'checklist', 'quote', 'quickTable', 'code', 'graph'], // array or false
+        customMenu: {},
     },
     fileUpload(file, callback) {
 
@@ -349,11 +351,11 @@ let cherryConfig = {
                 return myXhr;
             },
             success: function (res) {
-                if(respCodeOk(res)){
+                if (respCodeOk(res)) {
                     callback(res.data.data);
                     $(".upload-progress-bar").attr('style', 'width:0%');
                     $(".upload-progress-bar-div").hide();
-                }else{
+                } else {
                     uploadFailedDetail(res)
                 }
             },
@@ -365,26 +367,39 @@ let cherryConfig = {
     },
     callback: {
         /** 编辑器内容改变并完成渲染后触发 */
-        afterChange: function(){
+        afterChange: function () {
             // console.log("内容变更")
         },
         /** 编辑器完成初次渲染后触发 */
-        afterInit: function(){
+        afterInit: function () {
             $("#comment_btn_group").show();
             $("#comment_loading").hide();
         },
+
+        onClickPreview: function (e) {
+            const {target} = e;
+            if (target.tagName === 'IMG') {
+                console.log('click img', target);
+                const tmp = new Viewer(target, {
+                    button: false,
+                    navbar: false,
+                    title: [1, (image, imageData) => `${image.alt.replace(/#.+$/, '')} (${imageData.naturalWidth} × ${imageData.naturalHeight})`],
+                });
+                tmp.show();
+            }
+        }
     }
 }
 
 /**
  * 加载不同的编辑器js,初始化是同一个
  */
-function initEditor(isComment){
-    try{
+function initEditor(isComment) {
+    try {
         $("#editor_load_failure").hide();
         $("#editor_loading").show();
 
-        if(isComment){
+        if (isComment) {
             _height = '400px';
             _defaultModel = 'editOnly';
         }
@@ -395,15 +410,15 @@ function initEditor(isComment){
         let mdValue = getElementValue("md_value");
         let htmlValue = getElementValue("html_value");
 
-        if(cvIsNull(mdValue) && !cvIsNull(htmlValue)){
+        if (cvIsNull(mdValue) && !cvIsNull(htmlValue)) {
             // 将html转为markdown
             mdValue = window.editor.engine.makeMarkdown(htmlValue);
         }
 
-        if(!cvIsNull(mdValue)){
+        if (!cvIsNull(mdValue)) {
             window.editor.setMarkdown(mdValue);
         }
-    }catch (e) {
+    } catch (e) {
         $("#editor_load_failure").show();
         $("#editor_loading").hide();
     }
@@ -415,13 +430,14 @@ function reloadEditor(isComment) {
 }
 
 
-function getQueryVariable(variable)
-{
+function getQueryVariable(variable) {
     let query = window.location.search.substring(1);
     let vars = query.split("&");
-    for (let i=0;i<vars.length;i++) {
+    for (let i = 0; i < vars.length; i++) {
         let pair = vars[i].split("=");
-        if(pair[0] === variable){return pair[1];}
+        if (pair[0] === variable) {
+            return pair[1];
+        }
     }
     return false;
 }
@@ -429,10 +445,9 @@ function getQueryVariable(variable)
 function getCookie(cname) {
     let name = cname + "=";
     let ca = document.cookie.split(';');
-    for(let i=0; i<ca.length; i++)
-    {
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i].trim();
-        if (c.indexOf(name)===0) return c.substring(name.length,c.length);
+        if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
     }
     return "";
 }
