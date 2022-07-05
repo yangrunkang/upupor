@@ -1,28 +1,30 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.framework;
@@ -87,10 +89,7 @@ public final class CcConstant {
      * 响应时间
      */
     public static final String RESPONSE_TIME = "responseTime";
-    /**
-     * 检查是否有未完的文章
-     */
-    public static final String CONTENT_IS_DONE = "cv_content_done";
+
     /**
      * 根据标签获取对应的数目
      */
@@ -159,7 +158,6 @@ public final class CcConstant {
     public static final String SEARCH_INDEX = "search/index";
     public static final String TAG_INDEX = "tag/index";
     public static final String EDITOR = "editor/editor";
-    public static final String BEFORE_EDITOR = "components/before-editor";
 
     public static final String EDIT_USER_MANAGE_ADMIN = "user/admin/admin";
     public static final String EDIT_USER_MANAGE_CONTENT = "user/admin/content";
@@ -183,8 +181,6 @@ public final class CcConstant {
         public static final String CONTENT_TYPE = "content/type";
         // 文章详情
         public static final String CONTENT_INDEX = "content/index";
-        // 临时文章
-        public static final String CONTENT_HISTORY = "content/history";
     }
 
     /**
@@ -200,8 +196,6 @@ public final class CcConstant {
     public static final String THANKS = "foot/thanks";
     public static final String BRAND_STORY = "foot/brand-story";
     public static final String CHECK_INFO = "foot/about-ad";
-    public static final String VERSION = "foot/version";
-    public static final String SITEMAP = "foot/sitemap";
     public static final String LOGO_DESIGN = "foot/logo-design";
     /**
      * 商务合作
@@ -216,12 +210,6 @@ public final class CcConstant {
     public static final String PAGE_500 = "error/500";
     public static final String URL_404 = "/error/404";
     public static final String URL_500 = "/error/500";
-    /**
-     * 其他
-     * 来自个人中心的标识
-     */
-    public static final String FROM_USER_MANAGE = "manage";
-
 
     public static final class UserManageView {
         // 基础Path
@@ -376,17 +364,6 @@ public final class CcConstant {
      * 缓存常量
      */
     public static final class CvCache {
-
-        /**
-         * 缓存文章Key,数据结构为:  contentCache:userId
-         */
-        public static final String CONTENT_CACHE_KEY = "cacheContent:";
-
-        /**
-         * 回显到 history.html 页面的key
-         */
-        public static final String CACHE_CONTENT_DATA = "cacheContent";
-
         /**
          * 缓存活跃用户
          */
@@ -414,7 +391,7 @@ public final class CcConstant {
         public static final String SITE_MAP = "siteMap";
 
 
-        public static String createContentIntervalkey(String userId) {
+        public static String createContentIntervalKey(String userId) {
             return CcConstant.CvCache.CREATE_CONTENT_TIME_OUT + userId;
         }
 

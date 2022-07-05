@@ -1,37 +1,39 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 $(function () {
-    $('.original_radio').click(function(){
+    $('.original_radio').click(function () {
         let checkValue = $('input:radio[class="align-self-center original_radio"]:checked').val();
-        if(checkValue === 'NONE_ORIGIN'){
+        if (checkValue === 'NONE_ORIGIN') {
             $('.none_original').show();
             $('.original').hide();
-        }else{
+        } else {
             $('.none_original').hide();
             $('.original').show();
         }
@@ -40,11 +42,11 @@ $(function () {
     setInterval(function () {
         try {
             let cookie = getCookie("isOpenEditor");
-            if(cvIsNull(cookie)){
-                document.cookie="isOpenEditor=yes;max-age=1";
+            if (cvIsNull(cookie)) {
+                document.cookie = "isOpenEditor=yes;max-age=1";
             }
-        }catch (e) {
-            
+        } catch (e) {
+
         }
     }, 500);
 
@@ -52,7 +54,7 @@ $(function () {
 });
 
 let autoSaveInterval;
-$(window).on('load', function() {
+$(window).on('load', function () {
     // 开启提示
     // $('[data-toggle="tooltip"]').tooltip();
     // 自动保存 10秒执行一次
@@ -62,12 +64,8 @@ $(window).on('load', function() {
 });
 
 function autoSave() {
-    let title = $("#title").val();
-    let vcrEditorContentMd = $.cvGetEditorDataMd(); //用作自动保存的判断
-    if (!cvIsNull(title) || !cvIsNull(vcrEditorContentMd)) {
-        let content = getCommonReq();
-        content.contentType = getQueryVariable("type");
-        content.edit = getQueryVariable("edit");
+    let content = getCommonReq();
+    if (!cvIsNull(content.title) || !cvIsNull(content.mdContent)) {
         content.contentId = $(".hide-content-content-id").val();
         content.userId = $(".hide-content-user-id").val();
         $.cvPostUnder('/cache/add', content, function (data) {
@@ -109,7 +107,7 @@ function updateContent(fromSource, contentId, userId) {
             if (!cvIsNull(autoSaveInterval)) {
                 clearInterval(autoSaveInterval);
             }
-            handleEditContentEvent(contentId, userId,false,"编辑成功");
+            handleEditContentEvent(contentId, userId, false, "编辑成功");
         }
         // 定时器 1 只能点击一次
         setTimeout(function () {
@@ -126,7 +124,7 @@ function updateContentPublic(fromSource, contentId, userId) {
             if (!cvIsNull(autoSaveInterval)) {
                 clearInterval(autoSaveInterval);
             }
-            handleEditContentEvent(contentId, userId,true,"发布成功");
+            handleEditContentEvent(contentId, userId, true, "发布成功");
         }
         // 定时器 1 只能点击一次
         setTimeout(function () {
@@ -142,15 +140,14 @@ function updateContentPublic(fromSource, contentId, userId) {
  * @param isDraftPublic 是否从草稿变更为正常
  * @returns {boolean}
  */
-function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
-    let title = $("#title").val();
+function handleEditContentEvent(contentId, userId, isDraftPublic, tips) {
+    let content = getCommonReq();
 
-    if (cvIsNull(title)) {
+    if (cvIsNull(content.title)) {
         $.cvWarn("标题为空");
         return false;
     }
 
-    let content = getCommonReq();
     content.contentId = contentId;
     content.userId = userId;
     content.editReason = $("#edit_reason").val();
@@ -168,15 +165,15 @@ function handleEditContentEvent(contentId, userId,isDraftPublic,tips) {
 
 
 function handleSaveContentEvent(operation) {
-    let title = $("#title").val();
-    if (cvIsNull(title)) {
+    let content = getCommonReq();
+
+    if (cvIsNull(content.title)) {
         $.cvWarn("标题为空");
         return false;
     }
-    let content = getCommonReq();
-    content.contentType= getQueryVariable("type");
-    content.operation= operation;
-    content.preContentId= $(".hidden-pre-content-id").val();
+
+    content.operation = operation;
+    content.preContentId = $(".hidden-pre-content-id").val();
     $.cvPost('/content/add', content, function (data) {
         if (data.data.success) {
             if (!cvIsNull(operation)) {
@@ -194,19 +191,19 @@ function handleSaveContentEvent(operation) {
     });
 }
 
-function redirectContent(operateContentDto){
+function redirectContent(operateContentDto) {
     setTimeout(function () {
-        if(operateContentDto.success === false){
+        if (operateContentDto.success === false) {
             return;
         }
 
-        if(operateContentDto.status === 'NORMAL'){
-            window.location.href = '/u/'+operateContentDto.contentId;
+        if (operateContentDto.status === 'NORMAL') {
+            window.location.href = '/u/' + operateContentDto.contentId;
         }
 
 
-        if(operateContentDto.status === 'ONLY_SELF_CAN_SEE' || operateContentDto.status === 'DRAFT'){
-            window.location.href = '/m/'+operateContentDto.contentId;
+        if (operateContentDto.status === 'ONLY_SELF_CAN_SEE' || operateContentDto.status === 'DRAFT') {
+            window.location.href = '/m/' + operateContentDto.contentId;
         }
     }, 1500);
 }
@@ -230,6 +227,8 @@ function getCommonReq() {
     let vcrEditorContentMd = $.cvGetEditorDataMd();
     let none_origin_link = $('#none_original_link').val();
     let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
+    let contentType = getQueryVariable("type");
+    let edit = getQueryVariable("edit");
 
     return {
         title: title,
@@ -237,6 +236,8 @@ function getCommonReq() {
         mdContent: vcrEditorContentMd,
         noneOriginLink: none_origin_link,
         originType: origin_type,
+        contentType: contentType,
+        edit: edit,
         tagIds: getSelectedTagIds(),
         picture: null,
     };

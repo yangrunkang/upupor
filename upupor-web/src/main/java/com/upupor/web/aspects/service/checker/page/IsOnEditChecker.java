@@ -55,7 +55,7 @@ public class IsOnEditChecker implements PageAspectChecker {
         String servletPath = pageCheckDto.getRequest().getServletPath();
         HttpServletRequest request = pageCheckDto.getRequest();
         if (StringUtils.isNotEmpty(servletPath)) {
-            if (servletPath.startsWith("/continue-editor") || servletPath.startsWith("/editor") || servletPath.startsWith("/before-editor")) {
+            if (servletPath.startsWith("/editor")) {
                 Cookie[] cookies = request.getCookies();
                 if (!ArrayUtils.isEmpty(cookies)) {
                     for (Cookie cookie : cookies) {

@@ -1,28 +1,30 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 $(function () {
@@ -37,7 +39,7 @@ $(function () {
 function searchInputBindEnter() {
     $("#searchTitle").on('keydown', function (event) {
         let key = event.which;
-        if(key === 13){
+        if (key === 13) {
             event.preventDefault();
             manageContentSearch();
         }
@@ -67,7 +69,7 @@ function removeAll() {
 }
 
 function select(condition) {
-    if(cvIsNull(condition)){
+    if (cvIsNull(condition)) {
         return;
     }
     window.location.href = window.location.pathname + '?select=' + condition;
@@ -97,13 +99,13 @@ function userLeftContentBtnActive() {
  * 位置置顶
  * @param contentId
  */
-function pinned(contentId,ope) {
+function pinned(contentId, ope) {
     let _title = '';
     let _pinnedStatus = 'UN_PINNED';
-    if(ope === 'pinned'){
+    if (ope === 'pinned') {
         _title = "确定将文章置顶吗?";
         _pinnedStatus = 'PINNED';
-    }else if(ope === 'cancel'){
+    } else if (ope === 'cancel') {
         _title = "确定将取消文章置顶吗?";
         _pinnedStatus = 'UN_PINNED';
     }
@@ -140,7 +142,6 @@ function pinned(contentId,ope) {
     });
 
 
-
 }
 
 
@@ -149,7 +150,7 @@ function pinned(contentId,ope) {
  * @param operation
  * @param content
  */
-function changeContentStatus(status,contentId) {
+function changeContentStatus(status, contentId) {
     let operation = '';
     if (status === 'DRAFT') {
         operation = "确定将文章变更为草稿吗";

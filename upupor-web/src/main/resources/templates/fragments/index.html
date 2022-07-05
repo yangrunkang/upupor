@@ -1,28 +1,30 @@
 <!--
-  ~ MIT License
   ~
-  ~ Copyright (c) 2021-2022 yangrunkang
+  ~   ~ MIT License
+  ~   ~
+  ~   ~ Copyright (c) 2021-2022 yangrunkang
+  ~   ~
+  ~   ~ Author: yangrunkang
+  ~   ~ Email: yangrunkang53@gmail.com
+  ~   ~
+  ~   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   ~ of this software and associated documentation files (the "Software"), to deal
+  ~   ~ in the Software without restriction, including without limitation the rights
+  ~   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   ~ copies of the Software, and to permit persons to whom the Software is
+  ~   ~ furnished to do so, subject to the following conditions:
+  ~   ~
+  ~   ~ The above copyright notice and this permission notice shall be included in all
+  ~   ~ copies or substantial portions of the Software.
+  ~   ~
+  ~   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   ~ SOFTWARE.
   ~
-  ~ Author: yangrunkang
-  ~ Email: yangrunkang53@gmail.com
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in all
-  ~ copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  ~ SOFTWARE.
   -->
 
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
@@ -36,27 +38,42 @@
             <div th:if="${memberIndexDto} != null and ${memberIndexDto.member} != null">
                 <figure class="figure text-center mb-1 d-block" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
                     <a href="/user/manage/upload-profile-photo" title="我的">
-                        <img class="img rounded" th:src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;" alt="头像"/>
+                        <img class="img rounded" th:src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;"
+                             alt="头像"/>
                     </a>
                 </figure>
                 <div>
                     <p>
-                        <img th:src="${ossStatic} + @{/icons/system/email.png}" class="cv-icon-item" alt="邮箱"/></span> <span th:text="${memberIndexDto.member.email}">yangrunkang@qq.com</span>
+                        <img th:src="${ossStatic} + @{/icons/system/email.png}" class="cv-icon-item" alt="邮箱"/></span>
+                        <span th:text="${memberIndexDto.member.email}">yangrunkang@qq.com</span>
                     </p>
-                    <p><img th:src="${ossStatic} + @{/icons/system/nickname.png}" class="cv-icon-item" alt="昵称"/> 昵称: <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'" th:text="${memberIndexDto.member.userName}" th:title="${memberIndexDto.member.userName}"></a></p>
-                    <p><span><img th:src="${ossStatic} + @{/icons/system/register-time.png}" class="cv-icon-item" alt="注册时间"/> 注册时间: </span><span th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
+                    <p><img th:src="${ossStatic} + @{/icons/system/nickname.png}" class="cv-icon-item" alt="昵称"/> 昵称: <a
+                            class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'"
+                            th:text="${memberIndexDto.member.userName}"
+                            th:title="${memberIndexDto.member.userName}"></a></p>
+                    <p><span><img th:src="${ossStatic} + @{/icons/system/register-time.png}" class="cv-icon-item"
+                                  alt="注册时间"/> 注册时间: </span><span
+                            th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
                     <div class="row g-2">
                         <div class="col-lg-12">
-                            <img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="积分数"/> <a href="/user/manage/integral-record" class="cv-link" title="积分数">积分数: <span th:text="${memberIndexDto.member.totalIntegral}">2019.1.2</span></a>
+                            <img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="积分数"/> <a
+                                href="/user/manage/integral-record" class="cv-link" title="积分数">积分数: <span
+                                th:text="${memberIndexDto.member.totalIntegral}">2019.1.2</span></a>
                         </div>
                     </div>
                     <div class="border-bottom my-2"></div>
                     <div class="row g-2">
                         <div class="col-lg-6">
-                            <a class="cv-link" href="/user/manage/fan" title="粉丝"><img th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md" th:text="${ memberIndexDto.member.fansNum}">42</span></a>
+                            <a class="cv-link" href="/user/manage/fan" title="粉丝"><img
+                                    th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝
+                                <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md"
+                                      th:text="${ memberIndexDto.member.fansNum}">42</span></a>
                         </div>
                         <div class="col-lg-6">
-                            <a class="cv-link" href="/user/manage/attention" title="关注"><img th:src="${ossStatic} + @{/icons/system/attention.png}" class="cv-icon-item" alt=""/> 关注 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md" th:text="${memberIndexDto.member.attentionNum}">42</span></a>
+                            <a class="cv-link" href="/user/manage/attention" title="关注"><img
+                                    th:src="${ossStatic} + @{/icons/system/attention.png}" class="cv-icon-item" alt=""/>
+                                关注 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md"
+                                         th:text="${memberIndexDto.member.attentionNum}">42</span></a>
                         </div>
                     </div>
                 </div>
@@ -66,8 +83,10 @@
     <div th:replace="fragments/index::user_manage_fragment(false)"></div>
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}+'/content'" title="我的主页"><img th:src="${ossStatic} + @{/icons/system/profile.svg}" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
-            <a class="nav-link cv-link user_manage_apply" href="/user/manage/apply" title="申请管理"><img th:src="${ossStatic} + @{/icons/system/apply.png}" class="cv-icon-item" alt="申请管理"/> 申请管理</a>
+            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}+'/content'" title="我的主页"><img
+                    th:src="${ossStatic} + @{/icons/system/profile.svg}" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
+            <a class="nav-link cv-link user_manage_apply" href="/user/manage/apply" title="申请管理"><img
+                    th:src="${ossStatic} + @{/icons/system/apply.png}" class="cv-icon-item" alt="申请管理"/> 申请管理</a>
         </div>
     </div>
     <!--<div th:include="fragments/index::google_right_ad"></div>-->
@@ -76,14 +95,26 @@
 
 <!--用户设置管理-->
 <div th:fragment="user_manage_fragment(show)">
-    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:if="${session?.cv_user_id}">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2"
+         th:if="${session?.cv_user_id}">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <div class="m-1 text-black-50" th:if="${show}">快捷操作</div>
-            <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio user_manage_content-settings" href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}" class="cv-icon-item" alt="内容管理"/>  内容管理</a>
-            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${unReadMegCount} != null and ${unReadMegCount} > 0" th:text="${unReadMegCount}">23</span></a>
-            <a class="nav-link cv-link profile_message" th:href="'/profile/' + ${session?.cv_user_id}+'/message'" title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/> 留言板</a>
-            <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
-            <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo user_manage_default-content-setting" href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="设置"/> 设置</a>
+            <a class="nav-link cv-link user_manage_content user_manage_draft user_manage_radio user_manage_content-settings"
+               href="/user/manage/content" title="内容管理"><img th:src="${ossStatic} + @{/icons/system/manage3.svg}"
+                                                             class="cv-icon-item" alt="内容管理"/> 内容管理</a>
+            <a class="nav-link cv-link user_manage_message" href="/user/manage/message/un-read" title="消息中心"><img
+                    th:src="${ossStatic} + @{/icons/system/message.svg}" class="cv-icon-item" alt="消息中心"/> 消息中心 <span
+                    class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                    th:if="${unReadMegCount} != null and ${unReadMegCount} > 0"
+                    th:text="${unReadMegCount}">23</span></a>
+            <a class="nav-link cv-link profile_message" th:href="'/profile/' + ${session?.cv_user_id}+'/message'"
+               title="留言板"><img th:src="${ossStatic} + @{/icons/system/goutong.png}" class="cv-icon-item" alt="留言板"/>
+                留言板</a>
+            <a class="nav-link cv-link user_manage_collect" href="/user/manage/collect" title="收藏夹"><img
+                    th:src="${ossStatic} + @{/icons/system/collection.png}" class="cv-icon-item" alt="收藏夹"/> 收藏夹</a>
+            <a class="nav-link cv-link user_manage_edit-user-info user_manage_bg-style-settings user_manage_upload-profile-photo user_manage_default-content-setting"
+               href="/user/manage/edit-user-info" title="设置"><img th:src="${ossStatic} + @{/icons/system/settings.svg}"
+                                                                  class="cv-icon-item" alt="设置"/> 设置</a>
         </div>
     </div>
 </div>
@@ -94,7 +125,8 @@
     <!--未登录提示-->
     <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert" th:if="!${session?.cv_user_id}">
         您还未登录,请前往登录页面<a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="登录">登录</a>
-        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
     </div>
 </div>
 
@@ -102,11 +134,14 @@
 <!--文章数据-->
 <div th:fragment="content_data">
     <div>
-        <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.contentData.viewNum}"></span>
-        <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${content.createDate}"></span>
+        <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span
+            class="text-black-50 small" th:text="${content.contentData.viewNum}"></span>
+        <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span
+            class="text-black-50 small" th:text="${content.createDate}"></span>
         <span th:if="${content?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold text-black-50">·&nbsp;</span>最后回复:</span>
-            <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${content?.latestCommentUserId}+'/content'" th:inline="text">[[${content?.latestCommentUserName}]]</a>
+            <a class="cv-link fw-bold text-black-50 small"
+               th:href="'/profile/'+${content?.latestCommentUserId}+'/content'" th:inline="text">[[${content?.latestCommentUserName}]]</a>
             <span class="fw-bold text-black-50">&nbsp;·&nbsp;</span>
             <span class="text-black-50 small" th:text="${content?.latestCommentDate}"></span>
         </span>
@@ -114,10 +149,14 @@
 </div>
 
 <div th:fragment="tag_cloud">
-    <div th:if="!${#lists.isEmpty(cvTagList)}" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
+    <div th:if="!${#lists.isEmpty(cvTagList)}"
+         class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
         <div class="lead">网站标签</div>
         <div>
-            <a th:each="tag : ${cvTagList}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1 cv-link" th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}+'('+${tag.count}+')'" th:title="${tag.tagName}"></a>
+            <a th:each="tag : ${cvTagList}"
+               class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1 cv-link"
+               th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}+'('+${tag.count}+')'"
+               th:title="${tag.tagName}"></a>
         </div>
         <div class="text-black-50 small">* 数据可能会延迟,标签更新时间为每天凌晨一点</div>
     </div>
@@ -139,7 +178,7 @@
         <div>
             <div class="mt-2 float-end"
                  th:if="!${#strings.isEmpty(listContentDto.paginationHtml)}"
-                 th:utext="${listContentDto.paginationHtml}"> </div>
+                 th:utext="${listContentDto.paginationHtml}"></div>
         </div>
     </div>
 </div>
@@ -148,10 +187,12 @@
 置顶
 -->
 <div th:fragment="top_content(pinnedContnet,fromProfile)">
-    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2" th:if="${pinnedContnet != null}">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2"
+         th:if="${pinnedContnet != null}">
         <div class="border-bottom pb-1 text-black-50">
             <span th:include="fragments/icon::top"></span> 置顶文章
-            <span class="text-sm-end border p-1 rounded-2" style="cursor: pointer" th:if="!${fromProfile}" th:onclick="pinned([[${pinnedContnet.contentId}]],'cancel')">取消</span>
+            <span class="text-sm-end border p-1 rounded-2" style="cursor: pointer" th:if="!${fromProfile}"
+                  th:onclick="pinned([[${pinnedContnet.contentId}]],'cancel')">取消</span>
         </div>
         <div th:include="fragments/index::content_media(${pinnedContnet},true)"></div>
     </div>
@@ -166,7 +207,8 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="content_list(list,fromProfile)">
     <ul class="list-group list-group-flush">
         <li class="list-group-item p-1" th:each="content,ite : ${list}">
-            <div th:if="${content.contentId != 'google-ad-feed'}" th:include="fragments/index::content_media(${content},${fromProfile})"></div>
+            <div th:if="${content.contentId != 'google-ad-feed'}"
+                 th:include="fragments/index::content_media(${content},${fromProfile})"></div>
             <div th:if="${content.contentId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
         </li>
     </ul>
@@ -185,10 +227,14 @@ fromProfile: 是否来自Profile页面
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
                     <div th:if="${radio.radioId != 'google-ad-feed'}" th:include="fragments/index::radio-item"></div>
-                    <div th:if="${radio.radioId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
+                    <div th:if="${radio.radioId == 'google-ad-feed'}"
+                         th:include="fragments/index::google_feed_ad"></div>
                 </div>
-                <a th:if="${!fromProfile && radio.radioId != 'google-ad-feed'}" class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radio.member.userId}+'/content'"  th:title="${radio.member.userName}">
-                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${radio.member.via}" th:alt="${radio.member.userName}">
+                <a th:if="${!fromProfile && radio.radioId != 'google-ad-feed'}"
+                   class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radio.member.userId}+'/content'"
+                   th:title="${radio.member.userName}">
+                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${radio.member.via}"
+                         th:alt="${radio.member.userName}">
                 </a>
             </div>
         </li>
@@ -196,25 +242,27 @@ fromProfile: 是否来自Profile页面
 </div>
 
 
-
 <div th:fragment="content_data_show(userId,userName,via,viewNum,commentNum,createDate,editTimes)">
     <div class="my-1 d-inline-flex text-black-50 small">
         <div class="me-1">
             <a th:inline="text" th:href="'/profile/' + ${userId}+'/content'" class="cv-link text-black-50">
-                <img th:data-src="${via}" class="lazyload cv-icon-small img rounded" /> [[${userName}]]
+                <img th:data-src="${via}" class="lazyload cv-icon-small img rounded"/> [[${userName}]]
             </a>
             <span class="fw-bold">·</span>
         </div>
         <div class="me-1">
-            <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> [[${viewNum}]]
+            <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/>
+            [[${viewNum}]]
             <span class="fw-bold">·</span>
         </div>
         <div class="me-1">
-            <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/> [[${commentNum}]]
+            <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/>
+            [[${commentNum}]]
             <span class="fw-bold">·</span>
         </div>
         <div class="me-1">
-            <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> [[${createDate}]]
+            <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/>
+            [[${createDate}]]
         </div>
         <div class="me-1 d-none d-xl-block">
             <div data-bs-toggle="collapse" href="#edit-reason"
@@ -228,15 +276,18 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="content_manage(content)">
-    <a th:if="${content.status.name()} == 'NORMAL'" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow text-break" th:title="${content.title}"></a>
-    <a th:if="${content.status.name()} != 'NORMAL'" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}" class="cv-link up-text-overflow text-break" th:title="${content.title}"></a>
+    <a th:if="${content.status.name()} == 'NORMAL'" th:href="@{'/u/'+${content.contentId}}" th:text="${content.title}"
+       class="cv-link up-text-overflow text-break" th:title="${content.title}"></a>
+    <a th:if="${content.status.name()} != 'NORMAL'" th:href="@{'/m/'+${content.contentId}}" th:text="${content.title}"
+       class="cv-link up-text-overflow text-break" th:title="${content.title}"></a>
 </div>
 
 <div th:fragment="content_media(content,fromProfile)">
     <div class="d-flex align-items-center">
         <div class="flex-grow-1">
             <div class="mt-0">
-                <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${content.title}">[[${content.title}]]</a>
+                <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal"
+                   th:title="${content.title}">[[${content.title}]]</a>
             </div>
             <div th:replace="fragments/index::contet_tag(${content})"></div>
             <div class="mb-0" th:if="${content.contentData != null}" th:include="fragments/index::content_data"></div>
@@ -246,13 +297,18 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="contet_tag(content)">
-    <a th:if="${content.newContent}" class="badge bg-gradient bg-danger fw-light rounded-3 small d-inline-flex text-white" href="/content/new">新内容</a>
-    <a th:if="${content.hasLatestEdit}" class="badge bg-gradient bg-secondary fw-light rounded-3 small d-inline-flex text-white"  href="/content/recently-edited">内容有更新 · [[${content.editDate}]]</a>
+    <a th:if="${content.newContent}"
+       class="badge bg-gradient bg-danger fw-light rounded-3 small d-inline-flex text-white" href="/content/new">新内容</a>
+    <a th:if="${content.hasLatestEdit}"
+       class="badge bg-gradient bg-secondary fw-light rounded-3 small d-inline-flex text-white"
+       href="/content/recently-edited">内容有更新 · [[${content.editDate}]]</a>
 </div>
 
 <div th:fragment="content_profile_via">
-    <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}+'/content'"  th:title="${content.member.userName}">
-        <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${content.member.via}" th:alt="${content.member.userName}">
+    <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}+'/content'"
+       th:title="${content.member.userName}">
+        <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${content.member.via}"
+             th:alt="${content.member.userName}">
     </a>
 </div>
 
@@ -271,7 +327,8 @@ fromProfile: 是否来自Profile页面
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2"
          th:if="!${#lists.isEmpty(commonPageIndexDto.listBannerDto.bannerList)}">
         <div class="border-bottom text-secondary mb-2">
-            <img th:data-src="${ossStatic} + @{/icons/system/recommand.png}" class="lazyload cv-icon-item" alt="广而告之"/> 广而告之
+            <img th:data-src="${ossStatic} + @{/icons/system/recommand.png}" class="lazyload cv-icon-item" alt="广而告之"/>
+            广而告之
         </div>
         <div th:each="banner,ite : ${commonPageIndexDto.listBannerDto.bannerList}">
             <a class="cv-link text-secondary"
@@ -287,7 +344,8 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="page_menu">
     <ul class="nav nav-pills">
         <li class="nav-item me-1" th:each="type : ${contentTypeList}">
-            <a th:class="'nav-link cv-link small ' + ${type.cssClass}" th:href="${type.url}" th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}" /> [[${type.name}]]</a>
+            <a th:class="'nav-link cv-link small ' + ${type.cssClass}" th:href="${type.url}"
+               th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}"/> [[${type.name}]]</a>
         </li>
     </ul>
     <div class="d-xl-none" th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
@@ -295,8 +353,10 @@ fromProfile: 是否来自Profile页面
         <ul class="nav nav-pills">
             <!--如果以后涵盖子类，可以使用展开按钮-->
             <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">
-                <a th:class="'nav-link cv-link small ' + ${menu.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}" th:inline="text">
-                    <img th:data-src="${menu.icon}" class="lazyload cv-icon" />
+                <a th:class="'nav-link cv-link small ' + ${menu.tagId}"
+                   th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}"
+                   th:inline="text">
+                    <img th:data-src="${menu.icon}" class="lazyload cv-icon"/>
                     [[${menu.tagName}]]
                 </a>
             </li>
@@ -321,44 +381,43 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="without_comment">
     <div>
         <p style="text-align: center;">
-            <img th:data-src="${ossStatic} + @{/icons/without_comment.svg}" class="lazyload" style="text-align: center"/>
-            <p style="text-align: center;" class="text-black-50 lead">无评论内容,快来评论吧</p>
+            <img th:data-src="${ossStatic} + @{/icons/without_comment.svg}" class="lazyload"
+                 style="text-align: center"/>
+        <p style="text-align: center;" class="text-black-50 lead">无评论内容,快来评论吧</p>
         </p>
     </div>
 </div>
 
 <div th:fragment="global_member_info">
-    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 p-2" th:if="${session?.cv_user_id}">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 p-2"
+         th:if="${session?.cv_user_id}">
         <figure class="figure text-center mb-0">
             <a th:href="'/profile/' + ${session?.cv_user_id}+'/content'">
                 <img class="img rounded " th:src="${session?.cv_user_via}" style="width: 90px;height: 90px;"/>
             </a>
             <figcaption class="figure-caption">
-                <a style="text-align: center;font-size: 14px" th:href="'/profile/' + ${session?.cv_user_id}+'/content'" class="text-black-50 cv-link">
+                <a style="text-align: center;font-size: 14px" th:href="'/profile/' + ${session?.cv_user_id}+'/content'"
+                   class="text-black-50 cv-link">
                     [[${session?.cv_user_name}]]
                 </a>
             </figcaption>
         </figure>
         <div class="border-bottom my-2"></div>
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a th:if="${cv_content_done}" class="nav-link cv-link" href="/before-editor">
-                <span>
-                    <img class="cv-icon" th:src="${ossStatic} + @{/icons/system/undo.svg}" alt="继续上次编辑" /> 继续上次编辑
-                </span>
+            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft"
+               th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
+                <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}"/> 草稿箱</span>
+                <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                      th:text="${draftCount}">23</span>
             </a>
-            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱</span>
-                <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${draftCount}">23</span>
-            </a>
-            <!--                        <a th:if="${unReadMegCount} != null and ${unReadMegCount} >= 1" class="nav-link cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">-->
-            <!--                            <img class="cv-icon" th:src="${ossStatic} + @{/icons/system/message.svg}" /> 未读消息 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${unReadMegCount}">23</span>-->
-            <!--                        </a>-->
             <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
                 <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
                 <span>签到领积分</span>
             </a>
-            <a th:if="!${isSettingDefaultContent}" class="nav-link cv-link" href="/user/manage/default-content-setting" title="内容喜好设置">
-                <span><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item" alt="内容喜好设置"/></span>
+            <a th:if="!${isSettingDefaultContent}" class="nav-link cv-link" href="/user/manage/default-content-setting"
+               title="内容喜好设置">
+                <span><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item"
+                           alt="内容喜好设置"/></span>
                 <span>内容喜好设置</span>
             </a>
         </div>
@@ -369,7 +428,8 @@ fromProfile: 是否来自Profile页面
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
         <div class="fw-normal border-bottom mb-2 text-black-50">
             全局搜索 · <span class="badge bg-gradient rounded-3 fw-normal bg-light text-black-50">基于lucene实现</span>
-            <div class="spinner-border text-success float-end global-search-tips" role="status" style="height: 20px;width: 20px;display: none" aria-hidden="true"></div>
+            <div class="spinner-border text-success float-end global-search-tips" role="status"
+                 style="height: 20px;width: 20px;display: none" aria-hidden="true"></div>
         </div>
         <div th:include="fragments/index::global_search_clean"></div>
         <div class="mt-1 small text-black-50">
@@ -383,32 +443,38 @@ fromProfile: 是否来自Profile页面
 </div>
 
 <div th:fragment="statement">
-    <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert" th:if="${contentIndexDto.content.statement} != null">
+    <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert"
+         th:if="${contentIndexDto.content.statement} != null">
         <strong th:text="${contentIndexDto.content.statement.title}" style="font-size:17px"></strong>
         <span th:text="${contentIndexDto.content.statement.statement}"></span>
-        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
     </div>
 </div>
 
 <div th:fragment="member_statement">
-    <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert" th:if="${memberIndexDto.member.statement} != null">
+    <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert"
+         th:if="${memberIndexDto.member.statement} != null">
         <strong th:text="${memberIndexDto.member.statement.title}" style="font-size:17px"></strong>
         <span th:text="${memberIndexDto.member.statement.statement}"></span>
-        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
     </div>
 </div>
 
 <div th:fragment="login_tips">
     <div class="alert alert-danger alert-dismissible fade show mb-2 mt-2" th:if="!${session?.cv_user_id}" role="alert">
         <a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="登录后方可进行内容发布、评论、留言等操作">登录</a>后方可进行内容发布、评论、留言等操作
-        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
     </div>
 </div>
 
 <div th:fragment="un_login_radio">
     <div class="alert alert-danger alert-dismissible fade show mb-2" th:if="!${session?.cv_user_id}" role="alert">
         您还未<a th:href="'/login?back='+${#request.servletPath}" class="alert-link" title="您还未登录">登录</a>,登录后方可以发布电台
-        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
     </div>
 </div>
 
@@ -426,10 +492,10 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="create_radio">
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-0 mb-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a  class="nav-link cv-link" style="font-size: 16px" href="/radio-station/record" title="在线录制电台">
+            <a class="nav-link cv-link" style="font-size: 16px" href="/radio-station/record" title="在线录制电台">
                 <img class="lazyload cv-icon img" th:data-src="${ossStatic} + @{/icons/record.svg}"> 在线录制电台
             </a>
-            <a  class="nav-link cv-link" style="font-size: 16px" href="/radio-station/create" title="上传电台音频">
+            <a class="nav-link cv-link" style="font-size: 16px" href="/radio-station/create" title="上传电台音频">
                 <img class="lazyload cv-icon img" th:src="${ossStatic} + @{/icons/system/upload-radio.svg}"> 上传电台音频
             </a>
         </div>
@@ -451,20 +517,25 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="profile_common">
     <div th:if="${memberIndexDto.member.statement} != null" th:include="fragments/index::member_statement"></div>
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
-        <div style="font-size: 40px;font-weight: bold;" class="text-wrap" th:text="${memberIndexDto.member.userName}"></div>
+        <div style="font-size: 40px;font-weight: bold;" class="text-wrap"
+             th:text="${memberIndexDto.member.userName}"></div>
         <div th:switch="${memberIndexDto.member.memberExtend.introduce != null && memberIndexDto.member.memberExtend.introduce != ''}">
-            <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="true" th:text="${memberIndexDto.member.memberExtend.introduce}"></div>
+            <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="true"
+                 th:text="${memberIndexDto.member.memberExtend.introduce}"></div>
             <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="false">该作者个人简介未填写</div>
         </div>
     </div>
 </div>
 
 <div th:fragment="viewList(list)">
-    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:if="!${#lists.isEmpty(list)}">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2"
+         th:if="!${#lists.isEmpty(list)}">
         <div class="small text-black-50">以下用户访问过:</div>
         <span>
             <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}+'/content'">
-                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover" th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}" />
+                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover"
+                     th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon"
+                     th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}"/>
             </a>
         </span>
     </div>
@@ -475,40 +546,65 @@ fromProfile: 是否来自Profile页面
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
         <div>
             <figure class="figure text-center mb-0 d-block" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
-                <img class="lazyload img rounded" th:data-src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;"/>
+                <img class="lazyload img rounded" th:data-src="${memberIndexDto.member.via}"
+                     style="width: 90px;height: 90px;"/>
             </figure>
             <div>
-                <div class="mt-2">拥有 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝</div>
-                <div class="mt-2">关注 <a class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者</div>
-                <div class="mt-2">一共写了 <a class="cv-link active" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'"><span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章</div>
-                <div class="mt-2">于 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭</div>
-                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">最近活跃: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span></div>
-                <div class="mt-2 mb-1" th:inline="text">积分: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span></div>
+                <div class="mt-2">拥有 <a class="cv-link active"
+                                        th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span
+                        class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                        th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝
+                </div>
+                <div class="mt-2">关注 <a class="cv-link"
+                                        th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span
+                        class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                        th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者
+                </div>
+                <div class="mt-2">一共写了 <a class="cv-link active"
+                                          th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'"><span
+                        class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                        th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章
+                </div>
+                <div class="mt-2">于 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                                          th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭
+                </div>
+                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">
+                    最近活跃: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span>
+                </div>
+                <div class="mt-2 mb-1" th:inline="text">积分: <span
+                        class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span>
+                </div>
             </div>
             <!--关注按钮-->
-            <div th:if="${session?.cv_user_id != memberIndexDto.member.userId} and !${memberIndexDto.currUserIsAttention}" class="mb-1">
-                <button class="btn rounded-3 bg-gradient btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${memberIndexDto.member.userId}]])" id="attention_btn">
-                    <span th:text="${memberIndexDto.currUserIsAttention} == false ? '关注作者':'已关注作者'" id="attention_tips"></span>
+            <div th:if="${session?.cv_user_id != memberIndexDto.member.userId} and !${memberIndexDto.currUserIsAttention}"
+                 class="mb-1">
+                <button class="btn rounded-3 bg-gradient btn-warning btn-sm w-100"
+                        th:onclick="attentionAuthor([[${memberIndexDto.member.userId}]])" id="attention_btn">
+                    <span th:text="${memberIndexDto.currUserIsAttention} == false ? '关注作者':'已关注作者'"
+                          id="attention_tips"></span>
                 </button>
             </div>
         </div>
     </div>
-    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" th:include="fragments/index::user_manage_fragment(true)"></div>
+    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}"
+         th:include="fragments/index::user_manage_fragment(true)"></div>
     <!---->
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <div class="lead mb-1">内容标签</div>
         <div th:if="${#lists.isEmpty(memberIndexDto.tagList)}" th:include="fragments/index::empty_content"></div>
-        <div >
+        <div>
             <a th:if="!${#lists.isEmpty(memberIndexDto.tagList)}"
                th:each="tag : ${memberIndexDto.tagList}"
                class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link ms-1"
-               th:href="@{'/profile/' + ${memberIndexDto.member.userId} + '/content/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
+               th:href="@{'/profile/' + ${memberIndexDto.member.userId} + '/content/'+${tag.tagName}}"
+               th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
         </div>
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
     </div>
     <!--访问者-->
     <div th:include="fragments/index::viewList(${memberIndexDto.viewerList})"></div>
-    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}" class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
+    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}"
+         class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
         <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>我的浏览记录</a>
     </div>
     <div th:include="fragments/social::social_box('profile/','主页',${memberIndexDto.member.userId},${memberIndexDto.member.userName})"></div>
@@ -518,15 +614,17 @@ fromProfile: 是否来自Profile页面
 
 <!--文章详情-右侧-纵向广告-->
 <div th:fragment="google_right_ad">
-    <div class="card shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mb-2" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1' and ${adSwitchRight} == '1'">
-        <div class="card-body border-0 p-0 float-ads-vertical" >
+    <div class="card shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mb-2"
+         th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1' and ${adSwitchRight} == '1'">
+        <div class="card-body border-0 p-0 float-ads-vertical">
         </div>
         <div class="card-footer shadow-sm border-0 p-1">
             <a href="/about-ad" class="text-black-50 small">关于广告</a>
         </div>
     </div>
-    <div class="card shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mb-2" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0' and ${adSwitchRight} == '0'">
-        <div class="card-body border-0 p-0 float-ads-vertical" >
+    <div class="card shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 mb-2"
+         th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0' and ${adSwitchRight} == '0'">
+        <div class="card-body border-0 p-0 float-ads-vertical">
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- 文章详情-右侧-纵向广告 -->
             <ins class="adsbygoogle"
@@ -549,7 +647,8 @@ fromProfile: 是否来自Profile页面
 
 <!--列表信息流广告-->
 <div th:fragment="google_feed_ad">
-    <div class="card card-body border-0 p-2 mb-2 float-ads-feed" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1'">
+    <div class="card card-body border-0 p-2 mb-2 float-ads-feed"
+         th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1'">
     </div>
     <div class="float-ads-feed" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0'">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -568,14 +667,18 @@ fromProfile: 是否来自Profile页面
 
 <div th:fragment="radio-item">
     <div class="mt-0">
-        <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${radio.radioIntro}"  th:text="${radio.radioIntro}"></a>
+        <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow fs-6 fst-normal"
+           th:title="${radio.radioIntro}" th:text="${radio.radioIntro}"></a>
     </div>
     <div>
-        <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>
-        <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span class="text-black-50 small" th:text="${radio?.createDate}"></span>
+        <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span
+            class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>
+        <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span
+            class="text-black-50 small" th:text="${radio?.createDate}"></span>
         <span th:if="${radio?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold">·&nbsp;</span>最后回复:</span>
-            <a class="cv-link fw-bold text-black-50 small" th:href="'/profile/'+${radio?.latestCommentUserId}+'/content'" th:inline="text">[[${radio?.latestCommentUserName}]]</a>
+            <a class="cv-link fw-bold text-black-50 small"
+               th:href="'/profile/'+${radio?.latestCommentUserId}+'/content'" th:inline="text">[[${radio?.latestCommentUserName}]]</a>
             <span class="fw-bold text-black-50">·</span>
             <span class="text-black-50 small" th:text="${radio?.latestCommentDate}"></span>
         </span>
@@ -584,29 +687,42 @@ fromProfile: 是否来自Profile页面
 
 
 <div th:fragment="foot_left(target)">
-<!--    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">-->
-<!--        <div class="nav flex-column nav-pills" aria-orientation="vertical">-->
-<!--            <a class="cv-link text-black-50" href="/our-home"><span th:include="fragments/icon::earth"></span>暗淡蓝点</a>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">-->
+    <!--        <div class="nav flex-column nav-pills" aria-orientation="vertical">-->
+    <!--            <a class="cv-link text-black-50" href="/our-home"><span th:include="fragments/icon::earth"></span>暗淡蓝点</a>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
-<!--            <a th:class="${target == 'business-cooperation'?'nav-link cv-link active':'nav-link cv-link'}" href="/business-cooperation" title="商务合作"><i class="bi bi-briefcase" style="color:#ce7900"></i> 商务合作</a>-->
-            <a th:class="${target == 'apply-ad'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-ad" title="广告位"><i class="bi bi-badge-ad" style="color:#ce7900"></i> 广告位</a>
-            <a th:class="${target == 'apply-consultant'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-consultant" title="咨询申请"><i class="bi bi-people-fill" style="color:#ce7900"></i> 咨询服务</a>
-            <a th:class="${target == 'apply-tag'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-tag" title="标签申请"><i class="bi bi-tag" style="color:#ce7900"></i> 标签申请</a>
+            <!--            <a th:class="${target == 'business-cooperation'?'nav-link cv-link active':'nav-link cv-link'}" href="/business-cooperation" title="商务合作"><i class="bi bi-briefcase" style="color:#ce7900"></i> 商务合作</a>-->
+            <a th:class="${target == 'apply-ad'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-ad"
+               title="广告位"><i class="bi bi-badge-ad" style="color:#ce7900"></i> 广告位</a>
+            <a th:class="${target == 'apply-consultant'?'nav-link cv-link active':'nav-link cv-link'}"
+               href="/apply-consultant" title="咨询申请"><i class="bi bi-people-fill" style="color:#ce7900"></i> 咨询服务</a>
+            <a th:class="${target == 'apply-tag'?'nav-link cv-link active':'nav-link cv-link'}" href="/apply-tag"
+               title="标签申请"><i class="bi bi-tag" style="color:#ce7900"></i> 标签申请</a>
         </div>
     </div>
 
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a th:class="${target == 'vision'?'nav-link cv-link active':'nav-link cv-link'}" href="/vision" title="愿景"><img th:data-src="${ossStatic} + @{/icons/system/footer/vision.svg}" class="lazyload cv-icon" />  愿景</a>
-            <a th:class="${target == 'brand-story'?'nav-link cv-link active':'nav-link cv-link'}" href="/brand-story" title="品牌故事"><img th:data-src="${ossStatic} + @{/icons/system/footer/brand-story.svg}" class="lazyload cv-icon" />  品牌故事</a>
-            <a th:class="${target == 'team'?'nav-link cv-link active':'nav-link cv-link'}" href="/developer" title="技术"><i class="bi bi-code-square" style="color:#ce7900"></i>  开发者</a>
-            <a th:class="${target == 'thanks'?'nav-link cv-link active':'nav-link cv-link'}" href="/thanks" title="致谢"><img th:data-src="${ossStatic} + @{/icons/system/footer/thanks.svg}" class="lazyload cv-icon" />  致谢</a>
+            <a th:class="${target == 'vision'?'nav-link cv-link active':'nav-link cv-link'}" href="/vision"
+               title="愿景"><img th:data-src="${ossStatic} + @{/icons/system/footer/vision.svg}"
+                               class="lazyload cv-icon"/> 愿景</a>
+            <a th:class="${target == 'brand-story'?'nav-link cv-link active':'nav-link cv-link'}" href="/brand-story"
+               title="品牌故事"><img th:data-src="${ossStatic} + @{/icons/system/footer/brand-story.svg}"
+                                 class="lazyload cv-icon"/> 品牌故事</a>
+            <a th:class="${target == 'team'?'nav-link cv-link active':'nav-link cv-link'}" href="/developer" title="技术"><i
+                    class="bi bi-code-square" style="color:#ce7900"></i> 开发者</a>
+            <a th:class="${target == 'thanks'?'nav-link cv-link active':'nav-link cv-link'}" href="/thanks"
+               title="致谢"><img th:data-src="${ossStatic} + @{/icons/system/footer/thanks.svg}"
+                               class="lazyload cv-icon"/> 致谢</a>
             <!--    <a th:class="${target == 'logo-design'?'nav-link cv-link active':'nav-link cv-link'}" href="/logo-design" title="logo设计"><img th:data-src="${ossStatic} + @{/icons/system/footer/design.svg}" class="lazyload cv-icon" />  logo设计</a>-->
-            <a th:class="${target == 'check-info'?'nav-link cv-link active':'nav-link cv-link'}" href="/about-ad" title="关于广告"><img th:data-src="${ossStatic} + @{/icons/system/footer/ad.svg}" class="lazyload cv-icon" />  关于广告</a>
-            <a th:class="${target == 'pinned'?'nav-link cv-link active':'nav-link cv-link'}" href="/pinned" title="关于置顶"><span th:include="fragments/icon::top"></span> 关于置顶</a>
+            <a th:class="${target == 'check-info'?'nav-link cv-link active':'nav-link cv-link'}" href="/about-ad"
+               title="关于广告"><img th:data-src="${ossStatic} + @{/icons/system/footer/ad.svg}" class="lazyload cv-icon"/>
+                关于广告</a>
+            <a th:class="${target == 'pinned'?'nav-link cv-link active':'nav-link cv-link'}" href="/pinned"
+               title="关于置顶"><span th:include="fragments/icon::top"></span> 关于置顶</a>
         </div>
     </div>
 </div>
@@ -627,11 +743,17 @@ fromProfile: 是否来自Profile页面
                         <span th:text="${member.userName}">标题</span>
                         <span th:include="fragments/profile::memberActive(${member.active})"></span>
                     </a>
-                    <div class="text-black-50" th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">内容简介</div>
+                    <div class="text-black-50"
+                         th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">
+                        内容简介
+                    </div>
                 </div>
-                <span class="text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}" th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
-                <a class="btn rounded-3 bg-gradient btn-warning btn-sm" th:href="'/profile/' + ${member.userId}+'/message'" th:inline="text">
-                    <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item" alt="留言"/>  留言
+                <span class="text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}"
+                      th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
+                <a class="btn rounded-3 bg-gradient btn-warning btn-sm"
+                   th:href="'/profile/' + ${member.userId}+'/message'" th:inline="text">
+                    <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item"
+                         alt="留言"/> 留言
                 </a>
             </div>
         </li>
@@ -641,10 +763,11 @@ fromProfile: 是否来自Profile页面
 
 <!--创建文章的URL组件-->
 <div th:fragment="create_content_url(createContentDesc)">
-    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-1 mb-2" th:if="${createContentDesc != null}">
+    <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-1 mb-2"
+         th:if="${createContentDesc != null}">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
             <a class="nav-link cv-link text-secondary" th:href="${createContentDesc.href}">
-                <img class="lazyload cv-icon" th:src="${createContentDesc.icon}" /> [[${createContentDesc.desc}]]
+                <img class="lazyload cv-icon" th:src="${createContentDesc.icon}"/> [[${createContentDesc.desc}]]
             </a>
         </div>
     </div>

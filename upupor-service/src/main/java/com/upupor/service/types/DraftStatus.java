@@ -27,38 +27,35 @@
  *   -->
  */
 
-package com.upupor.web.aspects.service.view;
+package com.upupor.service.types;
 
-import com.upupor.framework.CcConstant;
-import com.upupor.framework.utils.RedisUtil;
-import com.upupor.service.utils.ServletUtils;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
-
-import static com.upupor.framework.CcConstant.CONTENT_IS_DONE;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import lombok.Getter;
 
 /**
- * @author cruise
- * @createTime 2022-01-19 18:01
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-07-03 19:31
+ * @email: yangrunkang53@gmail.com
  */
-@Service
-@RequiredArgsConstructor
-@Order(7)
-public class CheckContentIsDone implements PrepareData{
-    @Override
-    public void prepare(ViewData viewData) {
-        ModelAndView modelAndView = viewData.getModelAndView();
-        try {
-            String cacheContentKey = CcConstant.CvCache.CONTENT_CACHE_KEY + ServletUtils.getUserId();
-            String content = RedisUtil.get(cacheContentKey);
-            if (!StringUtils.isEmpty(content)) {
-                modelAndView.addObject(CONTENT_IS_DONE, Boolean.TRUE);
-            }
-        } catch (Exception e) {
-            modelAndView.addObject(CONTENT_IS_DONE, Boolean.FALSE);
-        }
+@Getter
+public enum DraftStatus {
+    /**
+     * 有草稿
+     */
+    YES(0, "有草稿"),
+
+    /**
+     * 无草稿
+     */
+    NO(1, "无草稿"),
+
+    ;
+    @EnumValue
+    private final Integer status;
+    private final String name;
+
+    DraftStatus(Integer status, String name) {
+        this.status = status;
+        this.name = name;
     }
 }

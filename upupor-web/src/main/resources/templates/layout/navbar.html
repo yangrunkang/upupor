@@ -1,137 +1,162 @@
 <!--
-  ~ MIT License
   ~
-  ~ Copyright (c) 2021-2022 yangrunkang
+  ~   ~ MIT License
+  ~   ~
+  ~   ~ Copyright (c) 2021-2022 yangrunkang
+  ~   ~
+  ~   ~ Author: yangrunkang
+  ~   ~ Email: yangrunkang53@gmail.com
+  ~   ~
+  ~   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   ~ of this software and associated documentation files (the "Software"), to deal
+  ~   ~ in the Software without restriction, including without limitation the rights
+  ~   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   ~ copies of the Software, and to permit persons to whom the Software is
+  ~   ~ furnished to do so, subject to the following conditions:
+  ~   ~
+  ~   ~ The above copyright notice and this permission notice shall be included in all
+  ~   ~ copies or substantial portions of the Software.
+  ~   ~
+  ~   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   ~ SOFTWARE.
   ~
-  ~ Author: yangrunkang
-  ~ Email: yangrunkang53@gmail.com
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in all
-  ~ copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  ~ SOFTWARE.
   -->
 
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <body>
-    <!--导航栏-->
-    <div th:fragment="navbar">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+<!--导航栏-->
+<div th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 
+        <div class="container">
+            <a class="navbar-brand fw-bold pt-0 position-relative" href="/">
+                <span><span style="color: #4285F4">U</span><span style="color: #EA4335">p</span><span
+                        style="color: #FBBC04">u</span><span style="color: #4285F4">p</span><span
+                        style="color: #34A853">o</span><span style="color: #EA4335">r</span></span>
+                <div class="position-absolute top-0 start-100 spinner-border spinner-border-sm text-success global-loading-nav-tips-slave"
+                     role="status" aria-hidden="true" style="display: none;margin-top: 11px;margin-left: 2px;"></div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse ms-1" id="navbarSupportedContent">
+                <div class="nav-item home topic tech share workplace record qa d-md-none d-none d-xl-block">
+                    <a class="nav-link cv-link me-1" href="/" title="文章">
+                        <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}"/> 文章
+                    </a>
+                </div>
+                <div class="nav-item radio-station d-md-none d-none d-xl-block">
+                    <a class="nav-link cv-link" href="/radio-station" title="电台">
+                        <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}"/> 电台
+                    </a>
+                </div>
+                <div class="nav-item todo-list d-md-none d-none d-xl-block">
+                    <a class="nav-link cv-link" href="/todo-list" title="待办">
+                        <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}"/> 待办
+                    </a>
+                </div>
+                <ul class="navbar-nav ms-auto my-1">
+                    <li class="nav-item dropdown d-none d-xl-block">
+                        <a class="nav-link cv-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img style="width:21px;height: 21px" class="lazyload"
+                                 th:data-src="${ossStatic} + @{/icons/write/write-content.png}"/> 创作
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg"
+                             aria-labelledby="navbarDropdown">
+                            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="cv-link dropdown-item small"
+                               href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
+                                <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/draft.svg}"/>
+                                草稿箱 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                                          th:text="${draftCount}">23</span>
+                            </a>
+                            <div class="dropdown-divider" th:if="${draftCount} != null and ${draftCount} >= 1"></div>
+                            <a class="cv-link dropdown-item small" th:href="'/editor?type=' + ${type.typeName}"
+                               th:each="type : ${contentTypeList}"
+                               th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="@{${type.icon}}"
+                                                            th:alt="${type.name}"/> [[${type.name}]]</a>
+                        </div>
+                    </li>
+                    <li class="nav-item login" th:if="!${session?.cv_user_id}">
+                        <a class="nav-link cv-link" href="/login" title="登录"><img class="lazyload cv-icon-item"
+                                                                                  th:src="${ossStatic} + @{/icons/system/login.svg}"/>
+                            <span>登录</span></a>
+                    </li>
+                    <li class="nav-item d-none d-xl-block"
+                        th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
+                        <a class="nav-link message cv-link" href="/user/manage/message/un-read"
+                           th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">
+                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/message.svg}"/>
+                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger"
+                                  th:text="${unReadMegCount}">23</span>
+                        </a>
+                    </li>
+                    <li class="nav-item register" th:if="!${session?.cv_user_id}">
+                        <a class="nav-link cv-link" href="/register" title="注册"><img class="lazyload cv-icon-item"
+                                                                                     th:data-src="${ossStatic} + @{/icons/system/register.svg}"/>
+                            <span>注册</span></a>
+                    </li>
+                    <li class="nav-item user_manage" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
+                        <a class="nav-link user cv-link" href="/user/manage/content" title="我的">
+                            <img class="lazyload img rounded" th:data-src="${session?.cv_user_via}"
+                                 style="width:21px;height: 21px"/>
+                            <span>我的</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
+                        <a class="nav-link logout cv-link" href="/logout" title="登出">登出</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div>
+        <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top shadow-sm">
             <div class="container">
-                <a class="navbar-brand fw-bold pt-0 position-relative" href="/">
-                    <span><span style="color: #4285F4">U</span><span style="color: #EA4335">p</span><span style="color: #FBBC04">u</span><span style="color: #4285F4">p</span><span style="color: #34A853">o</span><span style="color: #EA4335">r</span></span>
-                    <div class="position-absolute top-0 start-100 spinner-border spinner-border-sm text-success global-loading-nav-tips-slave"
-                         role="status" aria-hidden="true" style="display: none;margin-top: 11px;margin-left: 2px;"></div>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse ms-1" id="navbarSupportedContent">
-                    <div class="nav-item home topic tech share workplace record qa d-md-none d-none d-xl-block">
-                        <a class="nav-link cv-link me-1" href="/" title="文章">
-                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}" /> 文章
-                        </a>
-                    </div>
-                    <div class="nav-item radio-station d-md-none d-none d-xl-block">
-                        <a class="nav-link cv-link" href="/radio-station" title="电台">
-                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}" /> 电台
-                        </a>
-                    </div>
-                    <div class="nav-item todo-list d-md-none d-none d-xl-block">
-                        <a class="nav-link cv-link" href="/todo-list" title="待办">
-                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}" /> 待办
-                        </a>
-                    </div>
-                    <ul class="navbar-nav ms-auto my-1">
-                        <li class="nav-item dropdown d-none d-xl-block">
-                            <a class="nav-link cv-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img style="width:21px;height: 21px" class="lazyload" th:data-src="${ossStatic} + @{/icons/write/write-content.png}" />  创作
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg" aria-labelledby="navbarDropdown">
-                                <a class="cv-link dropdown-item small" href="/before-editor" th:if="${cv_content_done}"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/undo.svg}" alt="继续上次编辑" /> 继续上次编辑</a>
-                                <a th:if="${draftCount} != null and ${draftCount} >= 1" class="cv-link dropdown-item small" href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                                    <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/draft.svg}" /> 草稿箱 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:text="${draftCount}">23</span>
-                                </a>
-                                <div class="dropdown-divider" th:if="(${draftCount} != null and ${draftCount} >= 1) or (${cv_content_done})"></div>
-                                    <a class="cv-link dropdown-item small" th:href="'/editor?type=' + ${type.typeName}" th:each="type : ${contentTypeList}"
-                                       th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="@{${type.icon}}" th:alt="${type.name}"/> [[${type.name}]]</a>
-                            </div>
-                        </li>
-                        <li class="nav-item login" th:if="!${session?.cv_user_id}">
-                            <a class="nav-link cv-link" href="/login" title="登录"><img class="lazyload cv-icon-item" th:src="${ossStatic} + @{/icons/system/login.svg}" /> <span>登录</span></a>
-                        </li>
-                        <li class="nav-item d-none d-xl-block" th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
-                            <a  class="nav-link message cv-link" href="/user/manage/message/un-read" th:title="'您有 ' + ${unReadMegCount} + ' 条未读消息'">
-                                <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/message.svg}" /> <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:text="${unReadMegCount}">23</span>
-                            </a>
-                        </li>
-                        <li class="nav-item register" th:if="!${session?.cv_user_id}">
-                            <a class="nav-link cv-link" href="/register" title="注册"><img class="lazyload cv-icon-item" th:data-src="${ossStatic} + @{/icons/system/register.svg}" /> <span>注册</span></a>
-                        </li>
-                        <li class="nav-item user_manage" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
-                            <a class="nav-link user cv-link" href="/user/manage/content" title="我的">
-                                <img class="lazyload img rounded" th:data-src="${session?.cv_user_via}" style="width:21px;height: 21px"/>
-                                <span>我的</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
-                            <a class="nav-link logout cv-link" href="/logout" title="登出">登出</a>
-                        </li>
-                    </ul>
+                <div class="nav-item">
+                    <a class="nav-link cv-link home topic tech share workplace record qa" href="/" title="文章">
+                        <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}"/> 文章
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link cv-link radio-station" href="/radio-station" title="电台">
+                        <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}"/> 电台
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link cv-link todo-list" href="/todo-list" title="待办">
+                        <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}"/> 待办
+                    </a>
+                </div>
+                <!--                    <div class="nav-item">-->
+                <!--                        <a class="nav-link cv-link before-editor" href="/before-editor" title="创作">-->
+                <!--                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-content.png}" /> 创作-->
+                <!--                        </a>-->
+                <!--                    </div>-->
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top shadow-sm"
+             th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
+            <div class="container">
+                <div class="nav-item">
+                    <a class="nav-link cv-link" href="/user/manage/message/un-read" title="未读消息">
+                        您有<span
+                            class="badge bg-gradient rounded-3 fw-normal bg-danger mx-2">[[${unReadMegCount}]]</span>
+                        条未读消息
+                    </a>
                 </div>
             </div>
         </nav>
-        <div>
-            <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top shadow-sm">
-                <div class="container">
-                    <div class="nav-item">
-                        <a class="nav-link cv-link home topic tech share workplace record qa" href="/" title="文章">
-                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}" /> 文章
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a class="nav-link cv-link radio-station" href="/radio-station" title="电台">
-                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}" /> 电台
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a class="nav-link cv-link todo-list" href="/todo-list" title="待办">
-                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}" /> 待办
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a class="nav-link cv-link before-editor" href="/before-editor" title="创作">
-                            <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/write/write-content.png}" /> 创作
-                        </a>
-                    </div>
-                </div>
-            </nav>
-            <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top shadow-sm" th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
-                <div class="container">
-                    <div class="nav-item">
-                        <a class="nav-link cv-link" href="/user/manage/message/un-read" title="未读消息">
-                            您有<span class="badge bg-gradient rounded-3 fw-normal bg-danger mx-2">[[${unReadMegCount}]]</span> 条未读消息
-                        </a>
-                    </div>
-                </div>
-            </nav>
-        </div>
     </div>
+</div>
 </body>
 </html>
