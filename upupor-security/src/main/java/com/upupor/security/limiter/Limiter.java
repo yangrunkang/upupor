@@ -79,6 +79,7 @@ public class Limiter {
     public static List<Limiter> interfaceLimiterList() {
         List<Limiter> limiterList = new ArrayList<>();
         limiterList.add(Limiter.builder().limitType(LimitType.CREATE_CONTENT).frequency(2).withinSeconds(INTERVAL_30S).build());
+        limiterList.add(Limiter.builder().limitType(LimitType.CONTENT_AUTO_SAVE).frequency(5).withinSeconds(INTERVAL_10S).build());
         limiterList.add(Limiter.builder().limitType(LimitType.CREATE_RADIO).frequency(2).withinSeconds(INTERVAL_30S).build());
         limiterList.add(Limiter.builder().limitType(LimitType.CREATE_MESSAGE_ON_BOARD).frequency(2).withinSeconds(INTERVAL_30S).build());
         limiterList.add(Limiter.builder().limitType(LimitType.SEND_EMAIL_VERIFY_CODE).frequency(2).withinSeconds(INTERVAL_30S).build());

@@ -68,12 +68,19 @@ function autoSave() {
     if (!cvIsNull(content.title) || !cvIsNull(content.mdContent)) {
         content.contentId = $(".hide-content-content-id").val();
         content.userId = $(".hide-content-user-id").val();
-        $.cvPostUnder('/cache/add', content, function (data) {
-            if (respCodeOk(data)) {
-                $(".auto-save-card").fadeIn();
-                $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
-            }
-        });
+        let edit = $(".hide-is-edit").val();
+        if (edit) { // 如果是编辑,则自动保存
+            $.cvPostUnder('/content/auto-save', content, function (data) {
+                if (respCodeOk(data)) {
+                    $(".auto-save-card").fadeIn();
+                    $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
+                }
+            });
+        }else{
+            // 新增草稿并将隐藏域改为编辑
+        }
+
+
         return false;
     }
 
@@ -228,7 +235,7 @@ function getCommonReq() {
     let none_origin_link = $('#none_original_link').val();
     let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
     let contentType = getQueryVariable("type");
-    let edit = getQueryVariable("edit");
+    // let edit = getQueryVariable("edit");
 
     return {
         title: title,
@@ -237,7 +244,7 @@ function getCommonReq() {
         noneOriginLink: none_origin_link,
         originType: origin_type,
         contentType: contentType,
-        edit: edit,
+        // edit: edit,
         tagIds: getSelectedTagIds(),
         picture: null,
     };

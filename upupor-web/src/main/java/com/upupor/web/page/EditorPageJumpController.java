@@ -34,6 +34,7 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.data.aggregation.EditorAggregateService;
+import com.upupor.service.dto.page.EditorIndexDto;
 import com.upupor.service.outer.req.GetEditorReq;
 import com.upupor.service.types.ContentType;
 import io.swagger.annotations.Api;
@@ -44,6 +45,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.Objects;
 
@@ -63,19 +65,21 @@ import static com.upupor.framework.CcConstant.*;
 public class EditorPageJumpController {
 
     private final EditorAggregateService editorAggregateService;
-    
+
     /**
      * 正常流程从页面新建编辑内容
      */
     @ApiOperation("正常流程从页面新建编辑内容")
     @GetMapping("/editor")
-    public ModelAndView editor(@RequestParam(value = "type", required = false) ContentType contentType,
-                               @RequestParam(value = "contentId", required = false) String contentId,
-                               @RequestParam(value = "edit", required = false) Boolean edit,
-                               @RequestParam(value = "tag", required = false) String tag
+    public ModelAndView editor(@RequestParam(value = "type", required = false) ContentType contentType, // 新增&编辑
+                               @RequestParam(value = "contentId", required = false) String contentId, // 编辑指定的文章
+                               @RequestParam(value = "edit", required = false) Boolean edit, // 是否是编辑已有文章
+                               @RequestParam(value = "tag", required = false) String tag // 快捷操作新增文章会到指定tag
     ) {
 
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(EDITOR);
+        modelAndView.addObject(SeoKey.TITLE, "编辑器");
 
         if (Objects.isNull(contentType)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "从未知入口进入编辑器");
@@ -86,20 +90,23 @@ public class EditorPageJumpController {
             getEditorReq.setContentType(contentType);
             getEditorReq.setTag(tag);
             getEditorReq.setContentId(contentId);
-            modelAndView.addObject(editorAggregateService.index(getEditorReq));
+            EditorIndexDto editorIndexDto = editorAggregateService.index(getEditorReq);
+            modelAndView.addObject(editorIndexDto);
             // 如果是从管理后台过来的编辑,edit为true,然后依次来控制按钮是否显示或者隐藏
             modelAndView.addObject("edit", edit);
+            // 参数传递
+            modelAndView.addObject("type", contentType);
+            
+            // 创建新的内容会使用预生成ID,防止页面表单重复提交
+            if (StringUtils.isEmpty(contentId)) {
+                // 预生成 内容ID,防止重复提交,默认使用预生成的id作为文章id
+                modelAndView.addObject("pre_content_id", CcUtils.getUuId());
+            }
         } catch (Exception e) {
             modelAndView.addObject(CcConstant.GLOBAL_EXCEPTION, e.getMessage());
             modelAndView.setViewName(PAGE_500);
         }
 
-        modelAndView.setViewName(EDITOR);
-        modelAndView.addObject(SeoKey.TITLE, "编辑器");
-        // 参数传递
-        modelAndView.addObject("type", contentType);
-        // 预生成 内容ID
-        modelAndView.addObject("pre_content_id", CcUtils.getUuId());
         return modelAndView;
     }
 

@@ -33,8 +33,9 @@ import lombok.Getter;
 
 /**
  * 限制类型
- * @note: 一期: 主要是对付费资源进行限制
+ *
  * @author Yang Runkang (cruise)
+ * @note: 一期: 主要是对付费资源进行限制
  * @createTime 2022-04-18 02:38
  * @email: yangrunkang53@gmail.com
  */
@@ -44,6 +45,10 @@ public enum LimitType {
      * 创建文章
      */
     CREATE_CONTENT,
+    /**
+     * 自动保存
+     */
+    CONTENT_AUTO_SAVE,
     /**
      * 创建电台
      */

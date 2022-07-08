@@ -1,28 +1,30 @@
 <!--
-  ~ MIT License
   ~
-  ~ Copyright (c) 2021-2022 yangrunkang
+  ~   ~ MIT License
+  ~   ~
+  ~   ~ Copyright (c) 2021-2022 yangrunkang
+  ~   ~
+  ~   ~ Author: yangrunkang
+  ~   ~ Email: yangrunkang53@gmail.com
+  ~   ~
+  ~   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   ~ of this software and associated documentation files (the "Software"), to deal
+  ~   ~ in the Software without restriction, including without limitation the rights
+  ~   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   ~ copies of the Software, and to permit persons to whom the Software is
+  ~   ~ furnished to do so, subject to the following conditions:
+  ~   ~
+  ~   ~ The above copyright notice and this permission notice shall be included in all
+  ~   ~ copies or substantial portions of the Software.
+  ~   ~
+  ~   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   ~ SOFTWARE.
   ~
-  ~ Author: yangrunkang
-  ~ Email: yangrunkang53@gmail.com
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in all
-  ~ copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  ~ SOFTWARE.
   -->
 
 <!DOCTYPE html>
@@ -33,14 +35,17 @@
 <link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/common/img.css}"/>
 <!--脚本-->
 <script th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/editor/editor.js}"></script>
-<link th:fragment="css" type="text/css" rel="stylesheet" th:href="'/plugins/cherry/cherry-markdown.min.css?v='+${staticSourceVersion}"/>
-<script th:fragment="js" type="text/javascript" th:src="${ossStatic} +@{/plugins/cherry/cherry-markdown.min.js}+'?v='+${staticSourceVersion}"></script>
+<link th:fragment="css" type="text/css" rel="stylesheet"
+      th:href="'/plugins/cherry/cherry-markdown.min.css?v='+${staticSourceVersion}"/>
+<script th:fragment="js" type="text/javascript"
+        th:src="${ossStatic} +@{/plugins/cherry/cherry-markdown.min.js}+'?v='+${staticSourceVersion}"></script>
 <!--内容-->
 <div th:fragment="content">
     <div class="container">
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 d-block text-secondary" th:if="${editorIndexDto.createContentDesc.tips != null}">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 d-block text-secondary"
+                     th:if="${editorIndexDto.createContentDesc.tips != null}">
                     [[${editorIndexDto.createContentDesc.tips}]]
                 </div>
 
@@ -49,8 +54,9 @@
                         <div class="form-group mb-3">
                             <label for="title" class="col-lg-1 control-label text-black-50">标题</label>
                             <div class="col-lg-11">
-                                <textarea type="text" class="form-control " id="title" placeholder="如果内容标题可以描述清楚,内容可以不用填写"
-                                       th:text="${editorIndexDto?.content?.title}"
+                                <textarea type="text" class="form-control " id="title"
+                                          placeholder="如果内容标题可以描述清楚,内容可以不用填写"
+                                          th:text="${editorIndexDto?.content?.title}"
                                 ></textarea>
                             </div>
                         </div>
@@ -72,8 +78,10 @@
                             <div class="col-lg-12">
                                 <div th:replace="fragments/comment::loading_editor(false)"></div>
                                 <!--编辑器-->
-                                <input type="hidden" id="md_value" th:value="${editorIndexDto?.content?.contentExtend?.markdownContent}" />
-                                <input type="hidden" id="html_value" th:value="${editorIndexDto?.content?.contentExtend?.detailContent}" />
+                                <input type="hidden" id="md_value"
+                                       th:value="${editorIndexDto?.content?.contentExtend?.markdownContent}"/>
+                                <input type="hidden" id="html_value"
+                                       th:value="${editorIndexDto?.content?.contentExtend?.detailContent}"/>
                                 <div id="vcr_editor"
                                      style="overflow:hidden">
                                 </div>
@@ -95,17 +103,18 @@
                         <div class="card-title" th:text="${cvException}"></div>
                     </div>
                     <!--保存按钮-->
-                    <div>
-                        <button type="button" class="btn rounded-3 bg-gradient btn-primary" th:if="!${edit}"
+                    <div th:if="!${edit}">
+                        <button type="button" class="btn rounded-3 bg-gradient btn-primary"
                                 onclick="saveContent(null)">发布
                         </button>
-                        <button type="button" class="btn rounded-3 bg-gradient btn-secondary" th:if="!${edit}"
+                        <button type="button" class="btn rounded-3 bg-gradient btn-secondary"
                                 onclick="saveContent('temp')">草稿
                         </button>
                     </div>
                     <!--编辑按钮-->
                     <div th:if="${edit}">
-                        <button type="button" class="btn rounded-3 bg-gradient btn-success" th:if="${editorIndexDto.content.status.name() != 'NORMAL'}"
+                        <button type="button" class="btn rounded-3 bg-gradient btn-success"
+                                th:if="${editorIndexDto.content.status.name() != 'NORMAL'}"
                                 th:onclick="updateContentPublic([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]])">
                             发布
                         </button>
@@ -114,27 +123,29 @@
                             编辑完成
                         </button>
                         <div class="border-bottom my-2"></div>
-                        <textarea type="text" id="edit_reason" class="form-control " placeholder="内容变更原因,选填" style="width: 100%;height: 60px;"></textarea>
+                        <textarea type="text" id="edit_reason" class="form-control " placeholder="内容变更原因,选填"
+                                  style="width: 100%;height: 60px;"></textarea>
                     </div>
                 </div>
-                <!--字数统计-->
-<!--                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 editor_word_count my-2">-->
-<!--                    <div class="ck ck-word-count">-->
-<!--                        <div class="ck-word-count__characters"></div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--转载或者原创-->
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
                     <div class="btn-group rounded-3 bg-gradient" style="width: 100%">
-                        <input type="radio" name="original" class="align-self-center original_radio" value="ORIGIN" th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'">&nbsp;原创
+                        <input type="radio" name="original" class="align-self-center original_radio" value="ORIGIN"
+                               th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'">&nbsp;原创
                         <span class="me-2"></span>
-                        <input type="radio" name="original" class="align-self-center original_radio" value="NONE_ORIGIN" th:checked="${editorIndexDto.content.originType.name() == 'NONE_ORIGIN'}?'checked'">&nbsp;转载
+                        <input type="radio" name="original" class="align-self-center original_radio" value="NONE_ORIGIN"
+                               th:checked="${editorIndexDto.content.originType.name() == 'NONE_ORIGIN'}?'checked'">&nbsp;转载
                     </div>
-                    <div class="original" th:style="${editorIndexDto.content.originType.name()} == 'ORIGIN' ? 'display: block':'display: none'">
+                    <div class="original"
+                         th:style="${editorIndexDto.content.originType.name()} == 'ORIGIN' ? 'display: block':'display: none'">
                         <div class="small border-top mt-1">
-                            原创作品将采用<a class="cv-link" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0 国际》</a>许可协议进行发布
+                            原创作品将采用<a class="cv-link" target="_blank"
+                                      href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0
+                            国际》</a>许可协议进行发布
                         </div>
                     </div>
-                    <div class="none_original" th:style="${editorIndexDto.content.originType.name()} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
+                    <div class="none_original"
+                         th:style="${editorIndexDto.content.originType.name()} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
                         <div class="border-top my-1"></div>
                         <div class="form-group mb-3">
                                 <textarea class="form-control  " id="none_original_link"
@@ -143,15 +154,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 auto-save-card" style="display: none">
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 auto-save-card"
+                     style="display: none">
                     <!--隐藏域-->
                     <input type="hidden" class="hide-content-content-id"
                            th:value="${editorIndexDto?.content?.contentId}"/>
                     <input type="hidden" class="hide-content-user-id"
                            th:value="${editorIndexDto?.content?.userId}"/>
+                    <input type="hidden" class="hide-is-edit"
+                           th:value="${edit}"/>
                     <!--提示自动保存-->
                     <div class="fw-light text-black-50 border-bottom mb-2">文章自动保存提示</div>
-                    <div class="auto-save" style="background-color: #4285f4;padding: 6px;border-radius: 5px;color: #ffffff;font-size: 13px;display: none"></div>
+                    <div class="auto-save"
+                         style="background-color: #4285f4;padding: 6px;border-radius: 5px;color: #ffffff;font-size: 13px;display: none"></div>
                 </div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
                     <div class="border-bottom mb-2">友请提示</div>
@@ -159,8 +174,10 @@
                 </div>
                 <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>
                 <div th:replace="fragments/editor::upupor-editor-progress"></div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:include="fragments/index::apply_tag"></div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:include="fragments/common::markdown"></div>
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2"
+                     th:include="fragments/index::apply_tag"></div>
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2"
+                     th:include="fragments/common::markdown"></div>
             </div>
         </div>
     </div>
