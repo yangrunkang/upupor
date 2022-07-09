@@ -65,137 +65,89 @@ $(window).on('load', function () {
 
 function autoSave() {
     let content = getCommonReq();
-    if (!cvIsNull(content.title) || !cvIsNull(content.mdContent)) {
-        content.contentId = $(".hide-content-content-id").val();
-        content.userId = $(".hide-content-user-id").val();
-        let edit = $(".hide-is-edit").val();
-        if (edit) { // 如果是编辑,则自动保存
-            $.cvPostUnder('/content/auto-save', content, function (data) {
-                if (respCodeOk(data)) {
-                    $(".auto-save-card").fadeIn();
-                    $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
-                }
-            });
-        }else{
-            // 新增草稿并将隐藏域改为编辑
-        }
-
-
-        return false;
-    }
-
+    content.autoSave = 'YES';
+    // saveContent()
+    $(".auto-save-card").fadeIn();
+    $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
+    console.log('触发自动保存');
+    return false;
 }
 
-/**
- * 提交form表单
- */
-let lock_click = true;
 
 function saveContent(operation) {
-    // 清除 定时器
-    if (!cvIsNull(autoSaveInterval)) {
-        clearInterval(autoSaveInterval);
-    }
-    if (lock_click) {
-        lock_click = false;
-        handleSaveContentEvent(operation);
-        // 定时器 1 只能点击一次
-        setTimeout(function () {
-            lock_click = true;
-        }, 1000);
-    }
-}
 
-function updateContent(fromSource, contentId, userId) {
-    if (lock_click) {
-        lock_click = false;
-        if (cvIsNull(contentId) === false) {
-            // 清除 定时器
-            if (!cvIsNull(autoSaveInterval)) {
-                clearInterval(autoSaveInterval);
-            }
-            handleEditContentEvent(contentId, userId, false, "编辑成功");
-        }
-        // 定时器 1 只能点击一次
-        setTimeout(function () {
-            lock_click = true;
-        }, 1000);
-    }
-}
+    lockLogic(null, function () {
+        let content = getCommonReq();
+        content.contentOperation = operation;
 
-function updateContentPublic(fromSource, contentId, userId) {
-    if (lock_click) {
-        lock_click = false;
-        if (cvIsNull(contentId) === false) {
-            // 清除 定时器
-            if (!cvIsNull(autoSaveInterval)) {
-                clearInterval(autoSaveInterval);
-            }
-            handleEditContentEvent(contentId, userId, true, "发布成功");
+        if (cvIsNull(content.title)) {
+            $.cvWarn("标题为空");
+            return false;
         }
-        // 定时器 1 只能点击一次
-        setTimeout(function () {
-            lock_click = true;
-        }, 1000);
-    }
+
+        content.preContentId = $(".hidden-pre-content-id").val();
+        $.cvPost('/content/add', content, function (data) {
+            if (data.data.success) {
+                redirectContent(data.data);
+            } else {
+                $.cvError("文章保存失败")
+            }
+        });
+    })
 }
 
 /**
- *
- * @param contentId
- * @param userId
- * @param isDraftPublic 是否从草稿变更为正常
- * @returns {boolean}
+ * 锁定统一逻辑
+ * @param operateFunction
  */
-function handleEditContentEvent(contentId, userId, isDraftPublic, tips) {
-    let content = getCommonReq();
 
-    if (cvIsNull(content.title)) {
-        $.cvWarn("标题为空");
-        return false;
-    }
+let lock_click = true;
 
-    content.contentId = contentId;
-    content.userId = userId;
-    content.editReason = $("#edit_reason").val();
-    content.isDraftPublic = isDraftPublic;
-
-    $.cvPost('/content/edit', content, function (data) {
-        if (data.data.success) {
-            $.cvSuccess(tips);
-            redirectContent(data.data);
-        } else {
-            $.cvError("文章保存失败")
+function lockLogic(contentId, operateFunction) {
+    if (lock_click) {
+        lock_click = false;
+        if (cvIsNull(contentId) === false) {
+            // 清除 定时器
+            if (!cvIsNull(autoSaveInterval)) {
+                clearInterval(autoSaveInterval);
+            }
         }
-    });
+
+        operateFunction();
+        
+        // 定时器 1 只能点击一次
+        setTimeout(function () {
+            lock_click = true;
+        }, 1000);
+    }
 }
 
 
-function handleSaveContentEvent(operation) {
-    let content = getCommonReq();
-
-    if (cvIsNull(content.title)) {
-        $.cvWarn("标题为空");
-        return false;
-    }
-
-    content.operation = operation;
-    content.preContentId = $(".hidden-pre-content-id").val();
-    $.cvPost('/content/add', content, function (data) {
-        if (data.data.success) {
-            if (!cvIsNull(operation)) {
-                if (operation === 'temp') {
-                    $.cvSuccess("文章已保存为草稿");
-                    redirectContent(data.data);
-                }
-            } else {
-                $.cvSuccess("文章已发布");
-                redirectContent(data.data);
-            }
-        } else {
-            $.cvError("文章保存失败")
+function updateContent(fromSource, contentId, userId, isDraftPublic) {
+    lockLogic(contentId, function () {
+        let content = getCommonReq();
+        if (cvIsNull(content.title)) {
+            $.cvWarn("标题为空");
+            return false;
         }
-    });
+        content.contentId = contentId;
+        content.userId = userId;
+        content.editReason = $("#edit_reason").val();
+        content.isDraftPublic = isDraftPublic;
+
+        $.cvPost('/content/edit', content, function (data) {
+            if (data.data.success) {
+                if (content.isDraftPublic) {
+                    $.cvSuccess('发布成功');
+                } else {
+                    $.cvSuccess('编辑成功');
+                }
+                redirectContent(data.data);
+            } else {
+                $.cvError("文章保存失败");
+            }
+        });
+    })
 }
 
 function redirectContent(operateContentDto) {
@@ -205,11 +157,13 @@ function redirectContent(operateContentDto) {
         }
 
         if (operateContentDto.status === 'NORMAL') {
+            $.cvSuccess("文章已发布");
             window.location.href = '/u/' + operateContentDto.contentId;
         }
 
 
         if (operateContentDto.status === 'ONLY_SELF_CAN_SEE' || operateContentDto.status === 'DRAFT') {
+            $.cvSuccess("文章已保存为草稿");
             window.location.href = '/m/' + operateContentDto.contentId;
         }
     }, 1500);

@@ -29,33 +29,15 @@
 
 package com.upupor.service.types;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import lombok.Getter;
-
 /**
+ * 自动保存
+ *
  * @author Yang Runkang (cruise)
- * @createTime 2022-07-03 19:31
+ * @createTime 2022-07-09 19:51
  * @email: yangrunkang53@gmail.com
  */
-@Getter
-public enum DraftStatus {
-    /**
-     * 有草稿
-     */
-    YES(0, "草稿"),
-
-    /**
-     * 无草稿
-     */
-    NO(1, "非草稿"),
-
+public enum AutoSave {
+    YES,
+    NO,
     ;
-    @EnumValue
-    private final Integer status;
-    private final String name;
-
-    DraftStatus(Integer status, String name) {
-        this.status = status;
-        this.name = name;
-    }
 }

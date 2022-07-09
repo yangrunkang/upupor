@@ -108,18 +108,18 @@
                                 onclick="saveContent(null)">发布
                         </button>
                         <button type="button" class="btn rounded-3 bg-gradient btn-secondary"
-                                onclick="saveContent('temp')">草稿
+                                onclick="saveContent('DRAFT')">草稿
                         </button>
                     </div>
                     <!--编辑按钮-->
                     <div th:if="${edit}">
                         <button type="button" class="btn rounded-3 bg-gradient btn-success"
                                 th:if="${editorIndexDto.content.status.name() != 'NORMAL'}"
-                                th:onclick="updateContentPublic([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]])">
+                                th:onclick="updateContent([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]],true)">
                             发布
                         </button>
                         <button type="button" class="btn rounded-3 bg-gradient btn-primary"
-                                th:onclick="updateContent([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]])">
+                                th:onclick="updateContent([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]],false)">
                             编辑完成
                         </button>
                         <div class="border-bottom my-2"></div>

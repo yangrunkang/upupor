@@ -30,6 +30,7 @@
 package com.upupor.service.outer.req;
 
 import com.upupor.service.outer.req.content.BaseContentReq;
+import com.upupor.service.types.ContentOperation;
 import lombok.Data;
 
 /**
@@ -39,11 +40,10 @@ import lombok.Data;
 @Data
 public class AddContentDetailReq extends BaseContentReq {
 
+    private ContentOperation contentOperation;
     /**
-     * 操作 temp: 代表草稿
+     * 预置文章Id
      */
-    private String operation;
-
     private String preContentId;
 
 }

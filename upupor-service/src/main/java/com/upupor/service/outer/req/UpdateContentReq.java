@@ -45,6 +45,9 @@ public class UpdateContentReq extends BaseContentReq {
     @NotEmpty(message = "文章Id为空")
     private String contentId;
 
+    /**
+     * 文章状态
+     */
     private ContentStatus status;
 
     private String userId;

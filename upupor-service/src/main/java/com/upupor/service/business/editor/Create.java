@@ -41,6 +41,7 @@ import com.upupor.service.data.dao.mapper.MemberConfigMapper;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.AddContentDetailReq;
 import com.upupor.service.types.ContentIsInitialStatus;
+import com.upupor.service.types.ContentOperation;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.Asserts;
 import lombok.extern.slf4j.Slf4j;
@@ -173,9 +174,8 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
 
     private void publishOperator(Content content) {
         AddContentDetailReq addContentDetailReq = getReq();
-        if (!StringUtils.isEmpty(addContentDetailReq.getOperation())) {
-            String draftTag = "temp";
-            if (draftTag.equals(addContentDetailReq.getOperation())) {
+        if (Objects.nonNull(addContentDetailReq.getContentOperation())) {
+            if (ContentOperation.DRAFT.equals(addContentDetailReq.getContentOperation())) {
                 content.setStatus(ContentStatus.DRAFT);
                 content.setIsInitialStatus(ContentIsInitialStatus.NOT_FIRST_PUBLISH_EVER);
             }

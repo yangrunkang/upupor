@@ -106,7 +106,6 @@ public class ContentController {
         ServletUtils.checkOperatePermission(updateContentReq.getUserId());
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.updateContent(updateContentReq);
-
         cc.setData(operateContentDto);
         return cc;
     }
@@ -120,17 +119,6 @@ public class ContentController {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.updateContentStatus(updateContentReq);
         cc.setData(operateContentDto);
-        return cc;
-    }
-
-
-    @PostMapping("/auto-save")
-    @ResponseBody
-    @ApiOperation("自动保存")
-    @UpuporLimit(limitType = LimitType.CONTENT_AUTO_SAVE)
-    public CcResponse autoSave(AddContentDetailReq addContentDetailReq) {
-        CcResponse cc = new CcResponse();
-
         return cc;
     }
 

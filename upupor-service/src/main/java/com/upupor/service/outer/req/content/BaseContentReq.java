@@ -29,6 +29,7 @@
 
 package com.upupor.service.outer.req.content;
 
+import com.upupor.service.types.AutoSave;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.OriginType;
 import lombok.Data;
@@ -53,9 +54,10 @@ public class BaseContentReq {
     @Length(max = 1024, message = "简介内容过长,最多可输入1024个字")
     private String shortContent;
 
-
+    /**
+     * 文章类型
+     */
     private ContentType contentType;
-
 
     @Length(max = 256, message = "标签过多,请减少标签数目")
     private String tagIds;
@@ -72,10 +74,19 @@ public class BaseContentReq {
      */
     private String draftMarkdownContent;
 
+    /**
+     * 原创
+     */
     private OriginType originType;
 
     @Length(max = 1024, message = "转载链接过长,最多可输入1024个字")
     private String noneOriginLink;
+
+    /**
+     * 是否是自动保存
+     */
+    private AutoSave autoSave;
+
 
     public String getMdContent() {
         if (StringUtils.isEmpty(mdContent)) {

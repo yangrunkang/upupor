@@ -27,35 +27,11 @@
  *   -->
  */
 
-package com.upupor.service.types;
+alter table content
+    add column `draft_status` int(2) DEFAULT NULL COMMENT '草稿状态 0-草稿 1-非草稿';
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import lombok.Getter;
+alter table content_extend
+    add column `draft_markdown_content` longtext COLLATE utf8mb4_bin COMMENT 'markdown草稿内容';
 
-/**
- * @author Yang Runkang (cruise)
- * @createTime 2022-07-03 19:31
- * @email: yangrunkang53@gmail.com
- */
-@Getter
-public enum DraftStatus {
-    /**
-     * 有草稿
-     */
-    YES(0, "草稿"),
-
-    /**
-     * 无草稿
-     */
-    NO(1, "非草稿"),
-
-    ;
-    @EnumValue
-    private final Integer status;
-    private final String name;
-
-    DraftStatus(Integer status, String name) {
-        this.status = status;
-        this.name = name;
-    }
-}
+alter table content_extend
+    add column `draft_detail_content` longtext COLLATE utf8mb4_bin COMMENT '草稿内容';
