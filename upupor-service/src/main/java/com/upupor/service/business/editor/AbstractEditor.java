@@ -40,7 +40,7 @@ import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.PublishContentEvent;
-import com.upupor.service.outer.req.content.BaseContentReq;
+import com.upupor.service.outer.req.content.ContentInterface;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -54,7 +54,7 @@ import java.util.List;
  * @date 2022年01月09日 11:13
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractEditor<T extends BaseContentReq> {
+public abstract class AbstractEditor<T extends ContentInterface> {
 
     @Resource
     protected MemberService memberService;
@@ -94,6 +94,11 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
          * 更新状态
          */
         UPDATE_STATUS,
+
+        /**
+         * 自动保存
+         */
+        AUTO_SAVE
     }
 
     public Member getMember() {
@@ -122,7 +127,7 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
     /**
      * 执行业务
      */
-    public static OperateContentDto execute(List<AbstractEditor> abstractEditorList, EditorType editorType, BaseContentReq t) {
+    public static OperateContentDto execute(List<AbstractEditor> abstractEditorList, EditorType editorType, ContentInterface t) {
         for (AbstractEditor abstractEditor : abstractEditorList) {
             if (abstractEditor.editorType().equals(editorType)) {
                 abstractEditor.contentService = SpringContextUtils.getBean(ContentService.class);

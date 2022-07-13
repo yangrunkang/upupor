@@ -96,11 +96,15 @@ public class EditorPageJumpController {
             modelAndView.addObject("edit", edit);
             // 参数传递
             modelAndView.addObject("type", contentType);
-            
+
             // 创建新的内容会使用预生成ID,防止页面表单重复提交
             if (StringUtils.isEmpty(contentId)) {
                 // 预生成 内容ID,防止重复提交,默认使用预生成的id作为文章id
                 modelAndView.addObject("pre_content_id", CcUtils.getUuId());
+                // 新文章,如果是新文章,可以使用pre_content_id去update草稿内容
+                modelAndView.addObject("new_content_tag", Boolean.TRUE);
+            } else {
+                modelAndView.addObject("new_content_tag", Boolean.FALSE);
             }
         } catch (Exception e) {
             modelAndView.addObject(CcConstant.GLOBAL_EXCEPTION, e.getMessage());

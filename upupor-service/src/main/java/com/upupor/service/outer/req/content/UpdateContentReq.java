@@ -27,17 +27,40 @@
  *   -->
  */
 
-package com.upupor.service.types;
+package com.upupor.service.outer.req.content;
+
+import com.upupor.service.types.ContentStatus;
+import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
- * 自动保存
- *
- * @author Yang Runkang (cruise)
- * @createTime 2022-07-09 19:51
- * @email: yangrunkang53@gmail.com
+ * @author: YangRunkang(cruise)
+ * @created: 2019/12/22 16:44
  */
-public enum AutoSave {
-    YES,
-    NO,
-    ;
+@Data
+public class UpdateContentReq extends BaseContentReq {
+
+    @NotEmpty(message = "文章Id为空")
+    private String contentId;
+
+    /**
+     * 文章状态
+     */
+    private ContentStatus status;
+
+    private String userId;
+
+    /**
+     * 编辑原因
+     */
+    private String editReason;
+
+
+    /**
+     * 是否将草稿公开 true-公开
+     */
+    private Boolean isDraftPublic;
+
+
 }

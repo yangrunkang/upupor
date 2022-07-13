@@ -54,22 +54,28 @@ $(function () {
 });
 
 let autoSaveInterval;
+let auto_save_timeout = 10000; // 自动保存间隔
 $(window).on('load', function () {
     // 开启提示
     // $('[data-toggle="tooltip"]').tooltip();
     // 自动保存 10秒执行一次
     autoSaveInterval = setInterval(function () {
         autoSave();
-    }, 10000);
+    }, auto_save_timeout);
 });
 
 function autoSave() {
+
     let content = getCommonReq();
-    content.autoSave = 'YES';
-    // saveContent()
-    $(".auto-save-card").fadeIn();
-    $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
-    console.log('触发自动保存');
+
+    $.cvPost('/content/auto-save', content, function (data) {
+        if (data.data.success) {
+            $(".auto-save-card").fadeIn();
+            $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
+        } else {
+            $(".auto-save").text("文章保存失败").fadeIn();
+        }
+    });
     return false;
 }
 
@@ -114,7 +120,7 @@ function lockLogic(contentId, operateFunction) {
         }
 
         operateFunction();
-        
+
         // 定时器 1 只能点击一次
         setTimeout(function () {
             lock_click = true;
@@ -137,9 +143,7 @@ function updateContent(fromSource, contentId, userId, isDraftPublic) {
 
         $.cvPost('/content/edit', content, function (data) {
             if (data.data.success) {
-                if (content.isDraftPublic) {
-                    $.cvSuccess('发布成功');
-                } else {
+                if (!content.isDraftPublic) {
                     $.cvSuccess('编辑成功');
                 }
                 redirectContent(data.data);
@@ -189,6 +193,11 @@ function getCommonReq() {
     let none_origin_link = $('#none_original_link').val();
     let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
     let contentType = getQueryVariable("type");
+    let tagIds = getSelectedTagIds();
+
+    // 只有新文章才会预生成文章内容Id
+    let isNewContent = $('.is-new-content-tag').val();
+    let preContentId = $('.hidden-pre-content-id').val();
     // let edit = getQueryVariable("edit");
 
     return {
@@ -199,7 +208,9 @@ function getCommonReq() {
         originType: origin_type,
         contentType: contentType,
         // edit: edit,
-        tagIds: getSelectedTagIds(),
+        tagIds: tagIds,
         picture: null,
+        isNewContent: isNewContent,
+        preContentId: preContentId,
     };
 }

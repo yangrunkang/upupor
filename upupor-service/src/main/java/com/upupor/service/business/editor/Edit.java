@@ -37,7 +37,7 @@ import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.ContentEditReason;
 import com.upupor.service.data.dao.mapper.ContentEditReasonMapper;
 import com.upupor.service.dto.OperateContentDto;
-import com.upupor.service.outer.req.UpdateContentReq;
+import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.OriginType;

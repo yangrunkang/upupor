@@ -27,9 +27,8 @@
  *   -->
  */
 
-package com.upupor.service.outer.req;
+package com.upupor.service.outer.req.content;
 
-import com.upupor.service.outer.req.content.BaseContentReq;
 import com.upupor.service.types.ContentOperation;
 import lombok.Data;
 

@@ -34,12 +34,11 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.ContentExtend;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.MemberConfig;
 import com.upupor.service.data.dao.mapper.MemberConfigMapper;
 import com.upupor.service.dto.OperateContentDto;
-import com.upupor.service.outer.req.AddContentDetailReq;
+import com.upupor.service.outer.req.content.AddContentDetailReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentOperation;
 import com.upupor.service.types.ContentStatus;
@@ -86,40 +85,26 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
     private Content createNewContent() {
         AddContentDetailReq addContentDetailReq = getReq();
         Member member = getMember();
-        Content content = Content.create();
-        generateContentId(content);
+        String contentId = generateContentId();
+        Content content = Content.create(contentId, addContentDetailReq);
         content.setUserId(member.getUserId());
-        content.setTitle(addContentDetailReq.getTitle());
-        content.setContentType(addContentDetailReq.getContentType());
-        content.setShortContent(addContentDetailReq.getShortContent());
-        content.setTagIds(CcUtils.removeLastComma(addContentDetailReq.getTagIds()));
         content.setStatementId(member.getStatementId());
-        // 初始化文章拓展表
-        content.setContentExtend(
-                ContentExtend.create(
-                        content.getContentId(),
-                        addContentDetailReq.getContent(),
-                        addContentDetailReq.getMdContent(),
-                        addContentDetailReq.getDraftDetailContent(),
-                        addContentDetailReq.getDraftMarkdownContent()
-                )
-        );
-        // 初始化文章数据
         contentService.initContendData(content.getContentId());
-        // 原创处理
-        originProcessing(content);
-        // 具体操作 发布 或者 草稿
-        publishOperator(content);
+
+        // 发布或草稿
+        if (Objects.nonNull(addContentDetailReq.getContentOperation())) {
+            if (ContentOperation.DRAFT.equals(addContentDetailReq.getContentOperation())) {
+                content.setStatus(ContentStatus.DRAFT);
+                content.setIsInitialStatus(ContentIsInitialStatus.NOT_FIRST_PUBLISH_EVER);
+            }
+        }
         return content;
     }
 
     @Override
     protected OperateContentDto doBusiness() {
         Content content = createNewContent();
-        int count = contentMapper.insert(content);
-        int total = contentExtendMapper.insert(content.getContentExtend()) + count;
-        boolean addSuccess = total > 1;
-
+        boolean addSuccess = contentService.insertContent(content);
         if (addSuccess) {
             // 发送创建文章成功事件
             publishContentEvent(content);
@@ -129,7 +114,6 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
                 RedisUtil.set(createContentIntervalKey(getMember().getUserId()), content.getContentId(), limitedInterval);
             }
         }
-
 
         return OperateContentDto.builder()
                 .contentId(content.getContentId())
@@ -172,51 +156,30 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
 
     }
 
-    private void publishOperator(Content content) {
+    private String generateContentId() {
         AddContentDetailReq addContentDetailReq = getReq();
-        if (Objects.nonNull(addContentDetailReq.getContentOperation())) {
-            if (ContentOperation.DRAFT.equals(addContentDetailReq.getContentOperation())) {
-                content.setStatus(ContentStatus.DRAFT);
-                content.setIsInitialStatus(ContentIsInitialStatus.NOT_FIRST_PUBLISH_EVER);
-            }
-        }
-    }
 
-    private void originProcessing(Content content) {
-        AddContentDetailReq addContentDetailReq = getReq();
-        if (Objects.nonNull(addContentDetailReq.getOriginType())) {
-            content.setOriginType(addContentDetailReq.getOriginType());
-            content.setNoneOriginLink(addContentDetailReq.getNoneOriginLink());
-        }
-    }
-
-
-    private void generateContentId(Content content) {
-        AddContentDetailReq addContentDetailReq = getReq();
         if (StringUtils.isEmpty(addContentDetailReq.getPreContentId())) {
-            content.setContentId(CcUtils.getUuId());
+            return CcUtils.getUuId();
         } else {
             // 检查preContentId是否已经使用
-            checkPreContentId(addContentDetailReq);
-            content.setContentId(addContentDetailReq.getPreContentId());
+            try {
+                // 检查重复提交
+                Content normalContent = contentService.getNormalContent(addContentDetailReq.getPreContentId());
+                if (Objects.nonNull(normalContent)) {
+                    throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
+                }
+            } catch (Exception e) {
+                if (e instanceof BusinessException && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())) {
+                    // 忽略
+                } else {
+                    throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
+                }
+            }
+
+            return addContentDetailReq.getPreContentId();
         }
     }
 
-
-    private void checkPreContentId(AddContentDetailReq addContentDetailReq) {
-        try {
-            // 检查重复提交
-            Content normalContent = contentService.getNormalContent(addContentDetailReq.getPreContentId());
-            if (Objects.nonNull(normalContent)) {
-                throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
-            }
-        } catch (Exception e) {
-            if (e instanceof BusinessException && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())) {
-                // 忽略
-            } else {
-                throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
-            }
-        }
-    }
 
 }

@@ -156,13 +156,6 @@
                 </div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 auto-save-card"
                      style="display: none">
-                    <!--隐藏域-->
-                    <input type="hidden" class="hide-content-content-id"
-                           th:value="${editorIndexDto?.content?.contentId}"/>
-                    <input type="hidden" class="hide-content-user-id"
-                           th:value="${editorIndexDto?.content?.userId}"/>
-                    <input type="hidden" class="hide-is-edit"
-                           th:value="${edit}"/>
                     <!--提示自动保存-->
                     <div class="fw-light text-black-50 border-bottom mb-2">文章自动保存提示</div>
                     <div class="auto-save"
@@ -172,12 +165,24 @@
                     <div class="border-bottom mb-2">友请提示</div>
                     <div class="small">1. 如果内容标题可以描述清楚,内容可以不用填写</div>
                 </div>
-                <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>
                 <div th:replace="fragments/editor::upupor-editor-progress"></div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2"
                      th:include="fragments/index::apply_tag"></div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2"
                      th:include="fragments/common::markdown"></div>
+                <div>
+                    <!--隐藏域-->
+                    <input type="hidden" class="hide-content-content-id"
+                           th:value="${editorIndexDto?.content?.contentId}"/>
+                    <input type="hidden" class="hide-content-user-id"
+                           th:value="${editorIndexDto?.content?.userId}"/>
+                    <input type="hidden" class="hide-is-edit"
+                           th:value="${edit}"/>
+                    <input type="hidden" class="is-new-content-tag"
+                           th:value="${new_content_tag}"/>
+                    <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>
+
+                </div>
             </div>
         </div>
     </div>

@@ -47,7 +47,12 @@ import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.MemberIntegralService;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
-import com.upupor.service.outer.req.*;
+import com.upupor.service.outer.req.GetMemberIntegralReq;
+import com.upupor.service.outer.req.PinnedReq;
+import com.upupor.service.outer.req.UpdateLikeReq;
+import com.upupor.service.outer.req.content.AddContentDetailReq;
+import com.upupor.service.outer.req.content.AutoSaveContentReq;
+import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.MemberIntegralStatus;
 import com.upupor.service.types.PinnedStatus;
@@ -121,6 +126,20 @@ public class ContentController {
         cc.setData(operateContentDto);
         return cc;
     }
+
+
+    @PostMapping("/auto-save")
+    @ResponseBody
+    @ApiOperation("自动保存内容")
+//    @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
+    @UpuporLimit(limitType = LimitType.CONTENT_AUTO_SAVE, needSpendMoney = false)
+    public CcResponse autoSave(AutoSaveContentReq autoSaveContentReq) {
+        CcResponse cc = new CcResponse();
+        OperateContentDto operateContentDto = contentService.autoSaveContent(autoSaveContentReq);
+        cc.setData(operateContentDto);
+        return cc;
+    }
+
 
     @PostMapping("/like")
     @ResponseBody

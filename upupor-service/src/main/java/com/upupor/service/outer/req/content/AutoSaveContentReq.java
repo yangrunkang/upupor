@@ -36,18 +36,20 @@ import org.apache.logging.log4j.util.Strings;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.util.StringUtils;
 
-import javax.validation.constraints.NotEmpty;
-
 /**
  * @author Yang Runkang (cruise)
- * @date 2022年01月07日 22:10
+ * @createTime 2022-07-10 17:17
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class BaseContentReq extends ContentInterface {
+public class AutoSaveContentReq extends ContentInterface {
+    private Boolean isNewContent;
+    /**
+     * 预置文章Id
+     * note: 父类也有该字段,这里依然写改字段,用于突出适用场景
+     */
+    private String preContentId;
 
-    @Length(max = 256, message = "文章标题过长,最多可输入256个字")
-    @NotEmpty(message = "标题不能为空")
     private String title;
 
     @Length(max = 1024, message = "简介内容过长,最多可输入1024个字")

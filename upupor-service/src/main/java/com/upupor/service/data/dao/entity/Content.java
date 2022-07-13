@@ -34,9 +34,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.google.common.collect.Lists;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.dto.dao.LastAndNextContentDto;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.dto.page.common.TagDto;
+import com.upupor.service.outer.req.content.AddContentDetailReq;
 import com.upupor.service.types.*;
 import lombok.Data;
 
@@ -233,8 +235,43 @@ public class Content extends BaseEntity {
         init();
     }
 
-    public static Content create() {
+    public static Content empty() {
         return new Content();
+    }
+
+    public static Content create(String contentId, AddContentDetailReq addContentDetailReq) {
+        Content content = new Content();
+        content.setTitle(addContentDetailReq.getTitle());
+        content.setContentType(addContentDetailReq.getContentType());
+        content.setShortContent(addContentDetailReq.getShortContent());
+        content.setTagIds(CcUtils.removeLastComma(addContentDetailReq.getTagIds()));
+        // 初始化文章拓展表
+        content.setContentExtend(
+                ContentExtend.create(
+                        contentId,
+                        addContentDetailReq.getContent(),
+                        addContentDetailReq.getMdContent(),
+                        addContentDetailReq.getDraftDetailContent(),
+                        addContentDetailReq.getDraftMarkdownContent()
+                )
+        );
+
+        // 原创处理
+        if (Objects.nonNull(addContentDetailReq.getOriginType())) {
+            content.setOriginType(addContentDetailReq.getOriginType());
+            content.setNoneOriginLink(addContentDetailReq.getNoneOriginLink());
+        }
+
+        return content;
+    }
+
+    public static Content createAutoSave(String contentId, AddContentDetailReq addContentDetailReq) {
+        Content content = create(contentId, addContentDetailReq);
+        ContentExtend contentExtend = content.getContentExtend();
+        // 不影响原文
+        contentExtend.setDetailContent(null);
+        contentExtend.setMarkdownContent(null);
+        return content;
     }
 
     private void init() {
