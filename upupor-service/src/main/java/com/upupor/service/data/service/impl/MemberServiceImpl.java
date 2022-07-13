@@ -1,28 +1,30 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.service.data.service.impl;
@@ -30,19 +32,19 @@ package com.upupor.service.data.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
+import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
-import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.service.common.CcTemplateConstant;
+import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.data.dao.entity.*;
 import com.upupor.service.data.dao.mapper.*;
 import com.upupor.service.data.service.*;
-import com.upupor.framework.BusinessException;
-import com.upupor.service.common.CcTemplateConstant;
-import com.upupor.framework.ErrorCode;
-import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.listener.event.MemberLoginEvent;
@@ -61,7 +63,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.upupor.framework.CcConstant.DEFAULT_VIA;
 import static com.upupor.framework.ErrorCode.DATA_EXCEPTION;
 
 /**
@@ -84,7 +85,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberConfigMapper memberConfigMapper;
     private final ApplicationEventPublisher eventPublisher;
     private final BusinessConfigService businessConfigService;
-    private final UpuporConfig upuporConfig;
 
     @Override
     public Member register(AddMemberReq addMemberReq) {
@@ -293,9 +293,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     private MemberConfig getMemberConfig(String userId) {
-        LambdaQueryWrapper<MemberConfig> querConfig = new LambdaQueryWrapper<MemberConfig>().eq(MemberConfig::getUserId, userId);
-        return memberConfigMapper.selectOne(querConfig);
+        List<MemberConfig> memberConfigList = this.listMemberConfig(Lists.newArrayList(userId));
+        if (CollectionUtils.isEmpty(memberConfigList)) {
+            return null;
+        }
+        return memberConfigList.get(0);
     }
+
 
     @Override
     public Boolean editMemberBgStyle(UpdateCssReq updateCssReq) {
@@ -655,5 +659,17 @@ public class MemberServiceImpl implements MemberService {
                 throw new BusinessException(ErrorCode.USER_NOT_ADMIN);
             }
         }
+    }
+
+    @Override
+    public List<MemberConfig> listMemberConfig(List<String> userIdList) {
+        LambdaQueryWrapper<MemberConfig> listConfigQuery = new LambdaQueryWrapper<MemberConfig>().in(MemberConfig::getUserId, userIdList);
+        return memberConfigMapper.selectList(listConfigQuery);
+    }
+
+    @Override
+    public Boolean updateMemberConfig(MemberConfig memberConfig) {
+        Asserts.notNull(memberConfig.getId(), ErrorCode.MEMBER_CONFIG_LESS);
+        return memberConfigMapper.updateById(memberConfig) > 0;
     }
 }
