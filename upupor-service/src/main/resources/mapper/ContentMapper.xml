@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ MIT License
   ~
-  ~ Copyright (c) 2021-2022 yangrunkang
+  ~   ~ MIT License
+  ~   ~
+  ~   ~ Copyright (c) 2021-2022 yangrunkang
+  ~   ~
+  ~   ~ Author: yangrunkang
+  ~   ~ Email: yangrunkang53@gmail.com
+  ~   ~
+  ~   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~   ~ of this software and associated documentation files (the "Software"), to deal
+  ~   ~ in the Software without restriction, including without limitation the rights
+  ~   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~   ~ copies of the Software, and to permit persons to whom the Software is
+  ~   ~ furnished to do so, subject to the following conditions:
+  ~   ~
+  ~   ~ The above copyright notice and this permission notice shall be included in all
+  ~   ~ copies or substantial portions of the Software.
+  ~   ~
+  ~   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~   ~ SOFTWARE.
   ~
-  ~ Author: yangrunkang
-  ~ Email: yangrunkang53@gmail.com
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
-  ~ of this software and associated documentation files (the "Software"), to deal
-  ~ in the Software without restriction, including without limitation the rights
-  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-  ~ copies of the Software, and to permit persons to whom the Software is
-  ~ furnished to do so, subject to the following conditions:
-  ~
-  ~ The above copyright notice and this permission notice shall be included in all
-  ~ copies or substantial portions of the Software.
-  ~
-  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-  ~ SOFTWARE.
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -51,13 +53,17 @@
         <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, content_id, user_id, latest_comment_user_id, title,is_initial_status,statement_id, short_content,keywords,pinned_status, edit_times, origin_type, none_origin_link, content_type, tag_ids, status, create_time,latest_comment_time,
-    sys_update_time,picture,edit_time
-  </sql>
+        id, content_id, user_id, latest_comment_user_id, title,is_initial_status,statement_id,
+        short_content,keywords,pinned_status, edit_times, origin_type, none_origin_link, content_type, tag_ids, status,
+        create_time,latest_comment_time,
+        sys_update_time,picture,edit_time
+    </sql>
     <sql id="Base_Column_List_Alias">
-      ct.id, ct.content_id, ct.user_id,ct.latest_comment_user_id, ct.title, ct.statement_id, ct.short_content, ct.keywords, ct.is_initial_status, ct.content_type, ct.origin_type, ct.none_origin_link, ct.edit_times, ct.tag_ids, ct.status, ct.create_time,ct.latest_comment_time,
-    ct.sys_update_time,ct.picture
-  </sql>
+        ct.id, ct.content_id, ct.user_id,ct.latest_comment_user_id, ct.title, ct.statement_id, ct.short_content,
+        ct.keywords, ct.is_initial_status, ct.content_type, ct.origin_type, ct.none_origin_link, ct.edit_times,
+        ct.tag_ids, ct.status, ct.create_time,ct.latest_comment_time,
+        ct.sys_update_time,ct.picture
+    </sql>
 
     <select id="listByContentIdList" resultMap="BaseResultMap">
         select
@@ -74,7 +80,11 @@
         select
         <include refid="Base_Column_List"/>
         from content
-        where user_id = #{userId,jdbcType=VARCHAR} and status = 0
+        where user_id in
+        <foreach collection="userIdList" close=")" open="(" separator="," item="userId">
+            #{userId,jdbcType=VARCHAR}
+        </foreach>
+        and status = 0
         order by create_time desc
     </select>
 
@@ -97,9 +107,9 @@
         select content_id as nextId from content where `status` = 0
         <include refid="lastCommon"/>
         and latest_comment_time <![CDATA[ > ]]> (select latest_comment_time from content where `status` = 0
-                                                                                                and content_id = #{contentId,jdbcType=VARCHAR}
-                                                                                                <include refid="lastCommon"/>
-            )
+        and content_id = #{contentId,jdbcType=VARCHAR}
+        <include refid="lastCommon"/>
+        )
         order by latest_comment_time asc limit 1
         ) as t
         UNION ALl
@@ -107,36 +117,37 @@
         select content_id as lastId from content where `status` = 0
         <include refid="lastCommon"/>
         and latest_comment_time <![CDATA[ < ]]> (select latest_comment_time from content where status = 0
-                                                                                               and content_id = #{contentId,jdbcType=VARCHAR}
-                                                                                               <include refid="lastCommon"/>
-            )
+        and content_id = #{contentId,jdbcType=VARCHAR}
+        <include refid="lastCommon"/>
+        )
         order by latest_comment_time desc limit 1
         ) as c
     </select>
 
     <select id="total" resultType="java.lang.Integer">
-    select
-    count(*)
-    from content
-    where status = 0
-  </select>
+        select
+        count(*)
+        from content
+        where status = 0
+    </select>
     <select id="totalByUserId" resultType="java.lang.Integer">
-    select
-    count(*)
-    from content
-    where status = 0 and user_id = #{userId,jdbcType=VARCHAR}
-  </select>
+        select
+        count(*)
+        from content
+        where status = 0 and user_id = #{userId,jdbcType=VARCHAR}
+    </select>
 
     <select id="countDraft" resultType="java.lang.Integer">
-    select
-    count(*)
-    from content
-    where status = 1 and user_id = #{userId,jdbcType=VARCHAR}
-  </select>
+        select
+        count(*)
+        from content
+        where status = 1 and user_id = #{userId,jdbcType=VARCHAR}
+    </select>
 
 
     <select id="randomContent" resultType="java.lang.String" parameterType="java.lang.String">
-        select distinct content_id from content where status = 0 and user_id != #{notUserId,jdbcType=VARCHAR} order by rand() limit 10
+        select distinct content_id from content where status = 0 and user_id != #{notUserId,jdbcType=VARCHAR} order by
+        rand() limit 10
     </select>
 
 </mapper>

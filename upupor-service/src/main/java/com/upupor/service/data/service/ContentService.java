@@ -147,8 +147,9 @@ public interface ContentService {
      *
      * @author runkangyang (cruise)
      * @date 2020.01.26 19:59
+     * @param userIdList
      */
-    List<Content> listAllByUserId(String userId);
+    List<Content> listAllByUserId(List<String> userIdList);
 
     /**
      * 文章总数

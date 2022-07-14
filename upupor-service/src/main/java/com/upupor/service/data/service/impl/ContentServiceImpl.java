@@ -49,6 +49,7 @@ import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.ListContentReq;
+import com.upupor.service.outer.req.UpdateContentReq;
 import com.upupor.service.outer.req.content.AddContentDetailReq;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
@@ -268,6 +269,7 @@ public class ContentServiceImpl implements ContentService {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.CREATE, addContentDetailReq);
     }
 
+
     @Override
     public OperateContentDto updateContent(UpdateContentReq updateContentReq) {
         return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.EDIT, updateContentReq);
@@ -388,11 +390,11 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public List<Content> listAllByUserId(String userId) {
-        if (StringUtils.isEmpty(userId)) {
+    public List<Content> listAllByUserId(List<String> userIdList) {
+        if (StringUtils.isEmpty(userIdList)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
         }
-        return contentMapper.listAllByUserId(userId);
+        return contentMapper.listAllByUserId(userIdList);
     }
 
     @Override
