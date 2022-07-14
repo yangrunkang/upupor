@@ -39,6 +39,7 @@ import com.upupor.service.dto.dao.LastAndNextContentDto;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.outer.req.content.AddContentDetailReq;
+import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.types.*;
 import lombok.Data;
 
@@ -241,6 +242,7 @@ public class Content extends BaseEntity {
 
     public static Content create(String contentId, AddContentDetailReq addContentDetailReq) {
         Content content = new Content();
+        content.setContentId(contentId);
         content.setTitle(addContentDetailReq.getTitle());
         content.setContentType(addContentDetailReq.getContentType());
         content.setShortContent(addContentDetailReq.getShortContent());
@@ -250,9 +252,7 @@ public class Content extends BaseEntity {
                 ContentExtend.create(
                         contentId,
                         addContentDetailReq.getContent(),
-                        addContentDetailReq.getMdContent(),
-                        addContentDetailReq.getDraftDetailContent(),
-                        addContentDetailReq.getDraftMarkdownContent()
+                        addContentDetailReq.getMdContent()
                 )
         );
 
@@ -265,13 +265,33 @@ public class Content extends BaseEntity {
         return content;
     }
 
-    public static Content createAutoSave(String contentId, AddContentDetailReq addContentDetailReq) {
-        Content content = create(contentId, addContentDetailReq);
-        ContentExtend contentExtend = content.getContentExtend();
-        // 不影响原文
-        contentExtend.setDetailContent(null);
-        contentExtend.setMarkdownContent(null);
+    public static Content createAuto(String contentId, AutoSaveContentReq autoSaveContentReq) {
+        Content content = new Content();
+        content.setContentId(contentId);
+        content.setTitle(autoSaveContentReq.getTitle());
+        content.setContentType(autoSaveContentReq.getContentType());
+        content.setShortContent(autoSaveContentReq.getShortContent());
+        content.setTagIds(CcUtils.removeLastComma(autoSaveContentReq.getTagIds()));
+        // 初始化文章拓展表
+        content.setContentExtend(
+                ContentExtend.createAutoSave(
+                        contentId,
+                        autoSaveContentReq.getContent(),
+                        autoSaveContentReq.getMdContent()
+                )
+        );
+
+        // 原创处理
+        if (Objects.nonNull(autoSaveContentReq.getOriginType())) {
+            content.setOriginType(autoSaveContentReq.getOriginType());
+            content.setNoneOriginLink(autoSaveContentReq.getNoneOriginLink());
+        }
+
         return content;
+    }
+
+    public static Content createAutoSave(String contentId, AutoSaveContentReq autoSaveContentReq) {
+        return createAuto(contentId, autoSaveContentReq);
     }
 
     private void init() {

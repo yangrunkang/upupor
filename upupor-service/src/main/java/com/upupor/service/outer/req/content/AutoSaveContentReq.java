@@ -43,7 +43,6 @@ import org.springframework.util.StringUtils;
  */
 @Data
 public class AutoSaveContentReq extends ContentInterface {
-    private Boolean isNewContent;
     /**
      * 预置文章Id
      * note: 父类也有该字段,这里依然写改字段,用于突出适用场景
@@ -65,15 +64,6 @@ public class AutoSaveContentReq extends ContentInterface {
 
     private String content;
     private String mdContent;
-    /**
-     * 草稿内容
-     */
-    private String draftDetailContent;
-
-    /**
-     * 草稿内容markdown
-     */
-    private String draftMarkdownContent;
 
     /**
      * 原创

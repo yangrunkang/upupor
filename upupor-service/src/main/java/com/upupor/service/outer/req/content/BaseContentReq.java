@@ -63,15 +63,6 @@ public class BaseContentReq extends ContentInterface {
 
     private String content;
     private String mdContent;
-    /**
-     * 草稿内容
-     */
-    private String draftDetailContent;
-
-    /**
-     * 草稿内容markdown
-     */
-    private String draftMarkdownContent;
 
     /**
      * 原创

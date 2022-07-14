@@ -49,7 +49,6 @@ import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.ListContentReq;
-import com.upupor.service.outer.req.UpdateContentReq;
 import com.upupor.service.outer.req.content.AddContentDetailReq;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
@@ -141,6 +140,7 @@ public class ContentServiceImpl implements ContentService {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
+        bindContentExtend(content);
         return content;
     }
 
@@ -288,7 +288,18 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Boolean updateContent(Content content) {
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
-        return contentMapper.updateById(content) > 0;
+        Boolean updateContent, updateContentExtend = Boolean.FALSE;
+        updateContent = contentMapper.updateById(content) > 0;
+        ContentExtend contentExtend = content.getContentExtend();
+        if (Objects.nonNull(contentExtend)) {
+            updateContentExtend = contentExtendMapper.updateById(contentExtend) > 0;
+        }
+
+        if (updateContent || updateContentExtend) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
 

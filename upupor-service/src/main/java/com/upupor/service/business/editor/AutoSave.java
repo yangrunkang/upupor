@@ -29,12 +29,15 @@
 
 package com.upupor.service.business.editor;
 
+import com.upupor.framework.BusinessException;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.ContentExtend;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.types.DraftStatus;
+import com.upupor.service.utils.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -62,34 +65,47 @@ public class AutoSave extends AbstractEditor<AutoSaveContentReq> {
     protected OperateContentDto doBusiness() {
         AutoSaveContentReq autoSaveContentReq = getReq();
 
-        Boolean isNewContent = autoSaveContentReq.getIsNewContent();
         String preContentId = autoSaveContentReq.getPreContentId();
-        Content content = Content.createAutoSave(preContentId, autoSaveContentReq);
-        content.setDraftStatus(DraftStatus.YES);
-        draftContet(autoSaveContentReq, content);
-        if (isNewContent) {
-            // 先检查内容Id是否存在,如果存在则更新,否则则新增
-            Content preContent = contentService.getContentByContentIdNoStatus(preContentId);
-            if (Objects.isNull(preContent)) {
-                contentService.insertContent(content);
-            } else {
-                contentService.updateContent(content); // 第一次保存后,第二次进入会到这里
+        // 先检查内容Id是否存在,如果存在则更新,否则则新增
+        Content preContent = null;
+        try {
+            preContent = contentService.getContentByContentIdNoStatus(preContentId);
+        } catch (Exception ignored) {
+            if (!(ignored instanceof BusinessException)) {
+                throw ignored;
             }
-        } else {
-            // 更新操作
-            contentService.updateContent(content);
         }
-
+        if (Objects.isNull(preContent)) {
+            // 创建文章
+            Content content = createNewContent(autoSaveContentReq, preContentId);
+            contentService.insertContent(content);
+        } else {
+            commonSettings(autoSaveContentReq, preContent);
+            contentService.updateContent(preContent); // 第一次保存后,第二次进入会到这里
+        }
         return OperateContentDto.builder()
-                .contentId(content.getContentId())
+                .contentId(preContentId)
                 .success(Boolean.TRUE)
                 .build();
     }
 
-    private void draftContet(AutoSaveContentReq autoSaveContentReq, Content content) {
+    @NotNull
+    private Content createNewContent(AutoSaveContentReq autoSaveContentReq, String preContentId) {
+        Content content = Content.createAutoSave(preContentId, autoSaveContentReq);
+        commonSettings(autoSaveContentReq, content);
+        return content;
+    }
+
+    private void commonSettings(AutoSaveContentReq autoSaveContentReq, Content content) {
+        content.setUserId(ServletUtils.getUserId());
+        content.setDraftStatus(DraftStatus.YES);
+        draftContent(autoSaveContentReq, content);
+    }
+
+    private void draftContent(AutoSaveContentReq autoSaveContentReq, Content content) {
         ContentExtend contentExtend = content.getContentExtend();
-        contentExtend.setDraftDetailContent(autoSaveContentReq.getDraftDetailContent());
-        contentExtend.setDraftMarkdownContent(autoSaveContentReq.getDraftMarkdownContent());
+        contentExtend.setDraftDetailContent(autoSaveContentReq.getContent());
+        contentExtend.setDraftMarkdownContent(autoSaveContentReq.getMdContent());
     }
 
 }

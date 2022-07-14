@@ -53,16 +53,23 @@ public class ContentExtend extends BaseEntity {
 
     public static ContentExtend create(String contentId,
                                        String detailContent,
-                                       String markDownContent,
-                                       String draftDetailContent,
-                                       String draftMarkdownContent
+                                       String markDownContent
     ) {
         ContentExtend contentExtend = new ContentExtend();
         contentExtend.setContentId(contentId);
         contentExtend.setDetailContent(detailContent);
         contentExtend.setMarkdownContent(markDownContent);
-//        contentExtend.setDraftDetailContent(draftDetailContent);
-//        contentExtend.setDraftMarkdownContent(draftMarkdownContent);
+        return contentExtend;
+    }
+
+    public static ContentExtend createAutoSave(String contentId,
+                                               String draftDetailContent,
+                                               String draftMarkdownContent
+    ) {
+        ContentExtend contentExtend = new ContentExtend();
+        contentExtend.setContentId(contentId);
+        contentExtend.setDraftDetailContent(draftDetailContent);
+        contentExtend.setDraftMarkdownContent(draftMarkdownContent);
         return contentExtend;
     }
 

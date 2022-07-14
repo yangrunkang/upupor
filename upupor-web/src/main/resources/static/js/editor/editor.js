@@ -195,8 +195,8 @@ function getCommonReq() {
     let contentType = getQueryVariable("type");
     let tagIds = getSelectedTagIds();
 
+
     // 只有新文章才会预生成文章内容Id
-    let isNewContent = $('.is-new-content-tag').val();
     let preContentId = $('.hidden-pre-content-id').val();
     // let edit = getQueryVariable("edit");
 
@@ -210,7 +210,6 @@ function getCommonReq() {
         // edit: edit,
         tagIds: tagIds,
         picture: null,
-        isNewContent: isNewContent,
         preContentId: preContentId,
     };
 }

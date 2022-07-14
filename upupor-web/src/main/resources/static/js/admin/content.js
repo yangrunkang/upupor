@@ -68,8 +68,6 @@ function handleExceptionUser() {
         $.cvError("请输入用户Id,一行一个");
         return;
     }
-    let userIdList = userIdListStr.split('\n');
-    console.log(userIdList)
 
     $.cvPost('/admin/handle-user', {
         userIdListStr
