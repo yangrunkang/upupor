@@ -85,7 +85,7 @@ public class UpuporConfig {
      * @return
      */
     public String getOssStaticPrefix() {
-        String requestUrl = getRequestUrl();
+        String requestUrl = getMinio().getRequestUrl();
         String nginxRouter = getMinio().getNginxRouter();
 
         if (ossSource.equals(OssSource.ALI_OSS)) {
@@ -102,21 +102,8 @@ public class UpuporConfig {
         throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION, "系统未适配来源");
     }
 
-    /**
-     * 获取请求Url
-     *
-     * @return
-     */
-    private String getRequestUrl() {
-        if ("prd".equals(env)) {
-            return StringUtils.EMPTY;
-        } else {
-            return getMinio().getRequestUrl();
-        }
-    }
-
     public String getUploadFilePrefix() {
-        String requestUrl = getRequestUrl();
+        String requestUrl = getMinio().getRequestUrl();
         String nginxRouter = getMinio().getNginxRouter();
 
         if (ossSource.equals(OssSource.ALI_OSS)) {
