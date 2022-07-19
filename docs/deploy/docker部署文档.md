@@ -29,6 +29,7 @@ docker run --name 自定义名称 -p 宿主机端口:redis服务端口 -d redis:
 ```
 
 ### minio安装
+
 1. 下载minio对象存储
 
 ```
@@ -47,6 +48,7 @@ docker run -p 2187:9000 -p 2188:9001 --name minio -d -e "MINIO_ACCESS_KEY=xljlla
 ```
 
 ### 编辑upupor配置文件,docker启动upupor时使用
+
 > 配置文件放在 `~` 目录下,文件命名为`.prd_env`
 
 1. 配置upupor服务启动所需变量
@@ -88,9 +90,11 @@ MINIO_SECRET_KEY=minio对象存储的密匙
 MINIO_BUCKET_NAME=存储桶对象
 MINIO_REQUEST_URL=访问minio资源的前缀,例如:https://www.upupor.com
 MINIO_NGINX_ROUTER=nginx转发的url,例如/minio_upupor
+SQL_LOG=SQL日志打印实现类配置
 ```
 
 2. 启动upupor服务
+
 ```
 docker run -d --name=upupor -p 宿主机端口:upupor服务端口 --env-file ~/.prd_env upupor镜像名
 ```

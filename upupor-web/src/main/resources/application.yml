@@ -1,165 +1,165 @@
 # 应用程序配置
 application:
- name: UPUPOR # 程序名
- version: 1.0.0 # 版本号
+  name: UPUPOR # 程序名
+  version: 1.0.0 # 版本号
 
 server:
- port: 2020 #端口
- servlet:
-  context-path: /
-  session:
-   timeout: PT24H
- netty:
-  connection-timeout: 300000
+  port: 2020 #端口
+  servlet:
+    context-path: /
+    session:
+      timeout: PT24H
+  netty:
+    connection-timeout: 300000
 
 # spring配置
 spring:
- #flyway
- flyway:
-  enabled: true
-  encoding: utf-8
-  #sql文件存放位置
-  locations: classpath:db/migration
-  #版本记录表格
-  table: _upupor_db_version_
-  baseline-on-migrate: true
-  validate-on-migrate: true
- # thymeleaf配置
- thymeleaf:
-  # 开启会提高并发能力
-  cache: ${THYMELEAF_CACHE:true} # 开发时关闭缓存,不然没法看到实时页面
-  prefix: classpath:/templates/
-  suffix: .html
-  check-template-location: true
-  encoding: UTF-8
-  mode: HTML # 用非严格的 HTML
+  #flyway
+  flyway:
+    enabled: true
+    encoding: utf-8
+    #sql文件存放位置
+    locations: classpath:db/migration
+    #版本记录表格
+    table: _upupor_db_version_
+    baseline-on-migrate: true
+    validate-on-migrate: true
+  # thymeleaf配置
+  thymeleaf:
+    # 开启会提高并发能力
+    cache: ${THYMELEAF_CACHE:true} # 开发时关闭缓存,不然没法看到实时页面
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template-location: true
+    encoding: UTF-8
+    mode: HTML # 用非严格的 HTML
+    servlet:
+      content-type: text/html # spring.thymeleaf.content-type=text/html
+  # 静态资源启用版本控制
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 连接池配置
+    druid:
+      initial-size: 5
+      max-wait: 60000
+      max-active: 10
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+  # redis配置 redis版本 4.0.9 redis重启后spring服务会自动链接
+  redis:
+    # 需要开启redis远程访问功能 redis.conf 文件  注释掉bind 127.0.0.1 再改变protected-mode值为no
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    # 配置redis.conf文件requirepass 的值
+    # 设置了密码后,使用redis-cli时需要 auth验证 直接输入 auth sDF234sdf#@@$@$fdd即可
+    password: ${REDIS_PASSWORD}
+    database: 0
+  session:
+    store-type: redis
   servlet:
-   content-type: text/html # spring.thymeleaf.content-type=text/html
- # 静态资源启用版本控制
- resources:
-  chain:
-   strategy:
-    content:
-     enabled: true
-     paths: /**
- # 数据源配置
- datasource:
-  url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
-  username: ${MYSQL_USERNAME}
-  password: ${MYSQL_PASSWORD}
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  # 连接池配置
-  druid:
-   initial-size: 5
-   max-wait: 60000
-   max-active: 10
-   time-between-eviction-runs-millis: 60000
-   min-evictable-idle-time-millis: 300000
-   validation-query: SELECT 1
-   test-while-idle: true
-   test-on-borrow: false
-   test-on-return: false
- # redis配置 redis版本 4.0.9 redis重启后spring服务会自动链接
- redis:
-  # 需要开启redis远程访问功能 redis.conf 文件  注释掉bind 127.0.0.1 再改变protected-mode值为no
-  host: ${REDIS_HOST}
-  port: ${REDIS_PORT}
-  # 配置redis.conf文件requirepass 的值
-  # 设置了密码后,使用redis-cli时需要 auth验证 直接输入 auth sDF234sdf#@@$@$fdd即可
-  password: ${REDIS_PASSWORD}
-  database: 0
- session:
-  store-type: redis
- servlet:
-  multipart:
-   # 开启多文件上传功能
-   enabled: true
-   # 文件写入磁盘的阈值
-   file-size-threshold: 100MB
-   # 文件最大
-   max-file-size: 100MB
-   # 最大请求大小
-   max-request-size: 100MB
- mvc:
-  async:
-   request-timeout: 300000
+    multipart:
+      # 开启多文件上传功能
+      enabled: true
+      # 文件写入磁盘的阈值
+      file-size-threshold: 100MB
+      # 文件最大
+      max-file-size: 100MB
+      # 最大请求大小
+      max-request-size: 100MB
+  mvc:
+    async:
+      request-timeout: 300000
 mybatis-plus:
- mapper-locations: classpath:mapper/*.xml
- type-enums-package: com.upupor.service.types
- configuration:
-  default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
-  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
+  type-enums-package: com.upupor.service.types
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    log-impl: ${SQL_LOG:org.apache.ibatis.logging.stdout.StdOutImpl}
 
 # codingvcr配置
 upupor:
- # ALI_OSS  MINIO_OSS
- ossSource: ${OSS_SOURCE:MINIO_OSS}
- # 网站业务js
- businessStaticSource: ${BUSINESS_STATIC_SOURCE:}
- # 自建
- minio:
-  # 上传的地址
-  endpoint: ${MINIO_ENDPOINT:http://localhost:9001}
-  # 请求图片的地址  在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
-  requestUrl: ${MINIO_REQUEST_URL:http://localhost:2020}
-  # nginx路由url /minio_upupor
-  nginxRouter: ${MINIO_NGINX_ROUTER:}
-  # 秘钥
-  accessKey: ${MINIO_ACCESS_KEY:Wdahu3cHbkNH5e0X}
-  secretKey: ${MINIO_SECRET_KEY:p3n4mzzeSabhfcnzDSKKuAZtBYuktrIj}
-  bucketName: ${MINIO_BUCKET_NAME:upupor-img} # 桶名 我这是给出了一个默认桶名
- # 自定义线程池
- pool:
-  corePoolSize: 10
-  maxPoolSize: 30
-  keepAliveSeconds: 120
-  queueCapacity: 10
- # 压缩后的图片输出地址
- thumbnails:
-  # 压缩质量
-  outputQuality: ${ALLOW_UPLOAD_PIC_QUALITY:0.9}
-  # 允许哪些后缀的文件上传
-  allows: ${ALLOW_UPLOAD_PIC_SUFFIX:jpg,png,gif,jpeg,bmp,x-icon,JPG,PNG,GIF,JPEG,BMP,X-ICON}
- #邮件配置
- email:
-  # 是否开启邮件推送 0-关闭 -1开启
-  onOff: ${EMAIL_ON:0}
-  # 发件人昵称
-  senderNickName: ${EMAIL_SENDER_NICK_NAME}
-  # 控制台创建的发信地址
-  senderAccountName: ${EMAIL_SENDER_ACCOUNT}
-  accessKeyId: ${EMAIL_ACCESS_KEY}
-  accessKeySecret: ${EMAIL_ACCESS_SECRET}
- website: ${WEBSITE}
- # 是否开启广告等推广 0-开启 1-关闭
- adSwitch: ${AD_SWITCH:1}
- # 右侧广告是否开启
- adSwitchRight: ${AD_SWITCH_RIGHT:1}
- # 分析开关
- analyzeSwitch: ${ANALYZE_SWITCH:1}
- env: ${UPUPOR_ENV}
- # 不需要登录的接口
- interfaceWhiteUrlList:
-  - /member/login
-  - /member/resetPassword
-  - /member/register
-  - /member/sendVerifyCode
-  - /feedback/add
- # 需要登录的页面
- pageCheckUrlList:
-  - /editor
-  - /radio-station/record
-  - /radio-station/create
-  - /todo-list
-  - /user/manage
-  - /m
-  - /before-editor
-  - /user/admin
-  - /view/history
-  - /unsubscribe-mail
- googleAd:
-  dataAdClientId: ${GOOGLE_DATA_AD_CLIENT_ID}
-  rightSlot: ${GOOGLE_AD_RIGHT}
-  feedSlot: ${GOOGLE_AD_FEED}
- googleTagId: ${GOOGLE_TAG_ID}
- googleGa4: ${GOOGLE_GA_4}
+  # ALI_OSS  MINIO_OSS
+  ossSource: ${OSS_SOURCE:MINIO_OSS}
+  # 网站业务js
+  businessStaticSource: ${BUSINESS_STATIC_SOURCE:}
+  # 自建
+  minio:
+    # 上传的地址
+    endpoint: ${MINIO_ENDPOINT:http://localhost:9001}
+    # 请求图片的地址  在nginx做了反向代理  /minio_upupor --> http://ip:port/upupor-img/
+    requestUrl: ${MINIO_REQUEST_URL:http://localhost:2020}
+    # nginx路由url /minio_upupor
+    nginxRouter: ${MINIO_NGINX_ROUTER:}
+    # 秘钥
+    accessKey: ${MINIO_ACCESS_KEY:Wdahu3cHbkNH5e0X}
+    secretKey: ${MINIO_SECRET_KEY:p3n4mzzeSabhfcnzDSKKuAZtBYuktrIj}
+    bucketName: ${MINIO_BUCKET_NAME:upupor-img} # 桶名 我这是给出了一个默认桶名
+  # 自定义线程池
+  pool:
+    corePoolSize: 10
+    maxPoolSize: 30
+    keepAliveSeconds: 120
+    queueCapacity: 10
+  # 压缩后的图片输出地址
+  thumbnails:
+    # 压缩质量
+    outputQuality: ${ALLOW_UPLOAD_PIC_QUALITY:0.9}
+    # 允许哪些后缀的文件上传
+    allows: ${ALLOW_UPLOAD_PIC_SUFFIX:jpg,png,gif,jpeg,bmp,x-icon,JPG,PNG,GIF,JPEG,BMP,X-ICON}
+  #邮件配置
+  email:
+    # 是否开启邮件推送 0-关闭 -1开启
+    onOff: ${EMAIL_ON:0}
+    # 发件人昵称
+    senderNickName: ${EMAIL_SENDER_NICK_NAME}
+    # 控制台创建的发信地址
+    senderAccountName: ${EMAIL_SENDER_ACCOUNT}
+    accessKeyId: ${EMAIL_ACCESS_KEY}
+    accessKeySecret: ${EMAIL_ACCESS_SECRET}
+  website: ${WEBSITE}
+  # 是否开启广告等推广 0-开启 1-关闭
+  adSwitch: ${AD_SWITCH:1}
+  # 右侧广告是否开启
+  adSwitchRight: ${AD_SWITCH_RIGHT:1}
+  # 分析开关
+  analyzeSwitch: ${ANALYZE_SWITCH:1}
+  env: ${UPUPOR_ENV}
+  # 不需要登录的接口
+  interfaceWhiteUrlList:
+    - /member/login
+    - /member/resetPassword
+    - /member/register
+    - /member/sendVerifyCode
+    - /feedback/add
+  # 需要登录的页面
+  pageCheckUrlList:
+    - /editor
+    - /radio-station/record
+    - /radio-station/create
+    - /todo-list
+    - /user/manage
+    - /m
+    - /before-editor
+    - /user/admin
+    - /view/history
+    - /unsubscribe-mail
+  googleAd:
+    dataAdClientId: ${GOOGLE_DATA_AD_CLIENT_ID}
+    rightSlot: ${GOOGLE_AD_RIGHT}
+    feedSlot: ${GOOGLE_AD_FEED}
+  googleTagId: ${GOOGLE_TAG_ID}
+  googleGa4: ${GOOGLE_GA_4}
