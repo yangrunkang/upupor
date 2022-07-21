@@ -30,12 +30,14 @@
 package com.upupor.web.page;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.data.aggregation.EditorAggregateService;
 import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.ContentExtend;
 import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.DraftService;
@@ -80,6 +82,7 @@ public class EditorPageJumpController {
     private final static String EDIT_CONTENT = "edit";
     private final static String CONTENT_TYPE = "type";
     private final static String PRE_CONTENT_ID = "pre_content_id";
+    private final static String HAS_DRAFT = "hasDraft";
 
 
     /**
@@ -89,7 +92,7 @@ public class EditorPageJumpController {
     @GetMapping("/editor")
     public ModelAndView editor(@RequestParam(value = "type", required = false) ContentType contentType, // 新增&编辑
                                @RequestParam(value = "contentId", required = false) String contentId, // 编辑指定的文章
-                               @RequestParam(value = "edit", required = false) Boolean edit, // 是否是编辑已有文章
+                               @RequestParam(value = "edit", required = false) Boolean edit, // 是否是编辑已有文章,透传,主要是控制按钮的
                                @RequestParam(value = "tag", required = false) String tag, // 快捷操作新增文章会到指定tag
                                @RequestParam(value = "cleanDraftAndReload", required = false) Boolean cleanDraftAndReload // 移除草稿并重新编辑
     ) {
@@ -111,14 +114,26 @@ public class EditorPageJumpController {
             EditorIndexDto editorIndexDto = editorAggregateService.index(getEditorReq);
 
             // 处理文章信息
-            if (Objects.nonNull(getEditorReq.getContentId())) {
+            if (Objects.nonNull(contentId)) {
                 if (Objects.nonNull(cleanDraftAndReload) && cleanDraftAndReload) {
-                    setDbContent(getEditorReq, editorIndexDto);
+                    setDbContent(contentId, editorIndexDto);
                 } else {
-                    List<Draft> drafts = draftService.listByDto(ListDraftDto.builder().draftId(getEditorReq.getContentId()).build());
+                    List<Draft> drafts = draftService.listByDto(ListDraftDto.builder().draftId(contentId).build());
                     if (!CollectionUtils.isEmpty(drafts)) {
                         Content content = JSON.parseObject(drafts.get(0).getDraftContent(), Content.class);
+                        content.setContentId(contentId);
+                        JSONObject jsonObject = JSON.parseObject(drafts.get(0).getDraftContent());
+                        //        noneOriginLink: none_origin_link,
+                        //        // edit: edit,
+                        //        tagIds: tagIds,
+                        //        preContentId: preContentId,
+                        ContentExtend contentExtend = ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent"));
+                        content.setContentExtend(contentExtend);
+
                         editorIndexDto.setContent(content);
+                        modelAndView.addObject(HAS_DRAFT, Boolean.TRUE);
+                    } else {
+                        setDbContent(contentId, editorIndexDto);
                     }
                 }
             }
@@ -143,8 +158,8 @@ public class EditorPageJumpController {
         return modelAndView;
     }
 
-    private void setDbContent(GetEditorReq getEditorReq, EditorIndexDto editorIndexDto) {
-        Content content = contentService.getManageContentDetail(getEditorReq.getContentId());
+    private void setDbContent(String contentId, EditorIndexDto editorIndexDto) {
+        Content content = contentService.getManageContentDetail(contentId);
         if (Objects.isNull(content)) {
             throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
         }

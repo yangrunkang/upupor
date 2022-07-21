@@ -48,6 +48,10 @@
                      th:if="${editorIndexDto.createContentDesc.tips != null}">
                     [[${editorIndexDto.createContentDesc.tips}]]
                 </div>
+                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 d-block"
+                     th:if="${hasDraft}">
+                    继续您上次的编辑; 如需清除草稿,请点我
+                </div>
 
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
                     <form class="form-horizontal" role="form">
