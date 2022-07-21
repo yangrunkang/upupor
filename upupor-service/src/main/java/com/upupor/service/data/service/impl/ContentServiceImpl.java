@@ -45,12 +45,13 @@ import com.upupor.service.data.service.*;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.dto.dao.CommentNumDto;
 import com.upupor.service.dto.dao.LastAndNextContentDto;
+import com.upupor.service.dto.dao.ListDraftDto;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.ListContentReq;
-import com.upupor.service.outer.req.content.AddContentDetailReq;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
+import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.types.*;
 import com.upupor.service.utils.Asserts;
@@ -90,6 +91,7 @@ public class ContentServiceImpl implements ContentService {
     private final MemberService memberService;
     private final MemberIntegralService memberIntegralService;
     private final List<AbstractEditor> abstractEditorList;
+    private final DraftService draftService;
 
 
     @Override
@@ -265,10 +267,9 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public OperateContentDto addContent(AddContentDetailReq addContentDetailReq) {
-        return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.CREATE, addContentDetailReq);
+    public OperateContentDto addContent(CreateContentReq createContentReq) {
+        return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.CREATE, createContentReq);
     }
-
 
     @Override
     public OperateContentDto updateContent(UpdateContentReq updateContentReq) {
@@ -281,8 +282,31 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public OperateContentDto autoSaveContent(AutoSaveContentReq autoSaveContentReq) {
-        return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.AUTO_SAVE, autoSaveContentReq);
+    public Boolean autoSaveContent(AutoSaveContentReq autoSaveContentReq) {
+
+
+        String draftId = autoSaveContentReq.getDraftId(); // 草稿Id
+        String userId = ServletUtils.getUserId();
+        List<Draft> drafts = draftService.listByDto(ListDraftDto.builder().userId(userId).draftId(draftId).build());
+
+        Boolean autoSave;
+        if (CollectionUtils.isEmpty(drafts)) {
+            // 新文章,入库
+            Draft draft = Draft.create(autoSaveContentReq, userId);
+            autoSave = draftService.create(draft);
+        } else {
+            Draft draft = drafts.get(0);
+
+            if (autoSaveContentReq.getDraftContent().equals(draft.getDraftContent())) {
+                return Boolean.TRUE;
+            }
+
+            draft.setDraftContent(autoSaveContentReq.getDraftContent());
+            draft.setSysUpdateTime(new Date());
+            autoSave = draftService.update(draft);
+        }
+
+        return autoSave;
     }
 
     @Override

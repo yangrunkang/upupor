@@ -27,35 +27,19 @@
  *   -->
  */
 
-package com.upupor.service.types;
+package com.upupor.service.outer;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import lombok.Getter;
+import java.lang.annotation.*;
 
 /**
+ * 不校验
+ *
  * @author Yang Runkang (cruise)
- * @createTime 2022-07-03 19:31
+ * @createTime 2022-07-19 23:43
  * @email: yangrunkang53@gmail.com
  */
-@Getter
-public enum DraftStatus {
-    /**
-     * 有草稿
-     */
-    YES(0, "草稿"),
-
-    /**
-     * 无草稿
-     */
-    NO(1, "非草稿"),
-
-    ;
-    @EnumValue
-    private final Integer status;
-    private final String name;
-
-    DraftStatus(Integer status, String name) {
-        this.status = status;
-        this.name = name;
-    }
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface NotValid {
 }

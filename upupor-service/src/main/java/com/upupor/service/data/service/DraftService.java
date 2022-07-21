@@ -27,22 +27,52 @@
  *   -->
  */
 
-package com.upupor.service.outer.req.content;
+package com.upupor.service.data.service;
 
-import com.upupor.service.types.ContentOperation;
-import lombok.Data;
+import com.upupor.service.data.dao.entity.Draft;
+import com.upupor.service.dto.dao.ListDraftDto;
+
+import java.util.List;
 
 /**
- * @author: YangRunkang(cruise)
- * @created: 2019/12/22 16:44
+ * 草稿服务
+ *
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-07-20 00:26
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class AddContentDetailReq extends BaseContentReq {
-
-    private ContentOperation contentOperation;
+public interface DraftService {
     /**
-     * 预置文章Id
+     * 创建草稿
+     *
+     * @param draft
+     * @return
      */
-    private String preContentId;
+    Boolean create(Draft draft);
+
+    /**
+     * 更新草稿
+     *
+     * @param draft
+     * @return
+     */
+    Boolean update(Draft draft);
+
+    /**
+     * 删除草稿
+     *
+     * @param id
+     * @return
+     */
+    Boolean delete(Long id);
+
+    /**
+     * 获取草稿
+     *
+     * @param listDraftDto
+     * @return
+     */
+    List<Draft> listByDto(ListDraftDto listDraftDto);
+
 
 }

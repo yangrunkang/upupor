@@ -27,39 +27,30 @@
  *   -->
  */
 
-package com.upupor.service.data.aggregation;
+package com.upupor.service.types;
 
-import com.upupor.service.data.service.TagService;
-import com.upupor.service.dto.page.EditorIndexDto;
-import com.upupor.service.outer.req.GetEditorReq;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import static com.upupor.service.data.aggregation.CommonAggregateService.getCreateContentInfo;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import lombok.Getter;
 
 /**
- * 编辑器页面
- *
- * @author runkangyang (cruise)
- * @date 2020.01.07 00:25
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-07-03 19:31
+ * @email: yangrunkang53@gmail.com
  */
-@Service
-@RequiredArgsConstructor
-public class EditorAggregateService {
-
-    private final TagService tagService;
-
+@Getter
+public enum DraftSource {
     /**
-     * 编辑器首页
-     *
-     * @param getEditorReq 从哪里进入编辑器
-     * @return 返回EditorIndexDto
+     * 文章
      */
-    public EditorIndexDto index(GetEditorReq getEditorReq) {
-        EditorIndexDto editorIndexDto = new EditorIndexDto();
-        editorIndexDto.setTagList(tagService.getTagsByType(getEditorReq.getContentType()));
-        editorIndexDto.setCreateTag(getEditorReq.getTag());
-        editorIndexDto.setCreateContentDesc(getCreateContentInfo(getEditorReq.getContentType(), getEditorReq.getTag()));
-        return editorIndexDto;
+    CONTENT(0, "文章"),
+
+    ;
+    @EnumValue
+    private final Integer status;
+    private final String name;
+
+    DraftSource(Integer status, String name) {
+        this.status = status;
+        this.name = name;
     }
 }

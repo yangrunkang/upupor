@@ -68,8 +68,20 @@ function autoSave() {
 
     let content = getCommonReq();
 
-    $.cvPost('/content/auto-save', content, function (data) {
-        if (data.data.success) {
+    if (cvIsNull(content.title) && cvIsNull(content.content)) {
+        console.log('内容为空,不自动保存')
+        return false;
+    }
+
+    let draft = {
+        draftId: content.preContentId,
+        draftContent: JSON.stringify(content),
+        draftSource: 'CONTENT'
+    }
+
+
+    $.cvPost('/content/auto-save', draft, function (data) {
+        if (respSuccess(data)) {
             $(".auto-save-card").fadeIn();
             $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
         } else {
@@ -112,11 +124,10 @@ let lock_click = true;
 function lockLogic(contentId, operateFunction) {
     if (lock_click) {
         lock_click = false;
-        if (cvIsNull(contentId) === false) {
-            // 清除 定时器
-            if (!cvIsNull(autoSaveInterval)) {
-                clearInterval(autoSaveInterval);
-            }
+
+        // 自动保存停止
+        if (!cvIsNull(autoSaveInterval)) {
+            clearInterval(autoSaveInterval);
         }
 
         operateFunction();

@@ -26,12 +26,26 @@
  *   ~ SOFTWARE.
  *   -->
  */
-
-alter table content
-    add column `draft_status` int(2) DEFAULT NULL COMMENT '草稿状态 0-草稿 1-非草稿';
-
-alter table content_extend
-    add column `draft_markdown_content` longtext COLLATE utf8mb4_bin COMMENT 'markdown草稿内容';
-
-alter table content_extend
-    add column `draft_detail_content` longtext COLLATE utf8mb4_bin COMMENT '草稿内容';
+CREATE TABLE IF NOT EXISTS `draft`
+(
+    `id` bigint
+(
+    11
+) NOT NULL COMMENT '主键',
+    `user_id` varchar
+(
+    32
+) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户Id',
+    `draft_id` varchar
+(
+    32
+) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '草稿id',
+    `draft_source` int DEFAULT NULL COMMENT '草稿来源  0-文章',
+    `draft_content` text COLLATE utf8mb4_general_ci COMMENT '草稿内容Json',
+    `create_time` bigint DEFAULT NULL COMMENT '创建时间',
+    `sys_update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '系统更新时间',
+    PRIMARY KEY
+(
+    `id`
+)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE =utf8mb4_general_ci COMMENT='草稿';

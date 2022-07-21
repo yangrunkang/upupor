@@ -127,8 +127,6 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         if (!updateContentReq.getMdContent().equals(markdownContent)) {
             editContent.getContentExtend().setDetailContent(updateContentReq.getContent());
             editContent.getContentExtend().setMarkdownContent(updateContentReq.getMdContent());
-//            editContent.getContentExtend().setDraftDetailContent(updateContentReq.getDraftDetailContent());
-//            editContent.getContentExtend().setDraftMarkdownContent(updateContentReq.getDraftMarkdownContent());
             editContent.getContentExtend().setSysUpdateTime(new Date());
             totalUpdateCount = totalUpdateCount + contentExtendMapper.updateById(editContent.getContentExtend());
         }

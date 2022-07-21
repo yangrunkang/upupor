@@ -1,0 +1,81 @@
+/*
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
+ */
+
+package com.upupor.service.data.service.impl;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.upupor.framework.ErrorCode;
+import com.upupor.service.data.dao.entity.Draft;
+import com.upupor.service.data.dao.mapper.DraftMapper;
+import com.upupor.service.data.service.DraftService;
+import com.upupor.service.dto.dao.ListDraftDto;
+import com.upupor.service.utils.Asserts;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.Objects;
+
+/**
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-07-20 00:30
+ * @email: yangrunkang53@gmail.com
+ */
+@Service
+public class DraftServiceImpl implements DraftService {
+
+    @Resource
+    private DraftMapper draftMapper;
+
+    @Override
+    public Boolean create(Draft draft) {
+        return draftMapper.insert(draft) > 0;
+    }
+
+    @Override
+    public Boolean update(Draft draft) {
+        Asserts.notNull(draft.getId(), ErrorCode.WITHOUT_OPERATION_ID);
+        return draftMapper.updateById(draft) > 0;
+    }
+
+    @Override
+    public Boolean delete(Long id) {
+        Asserts.notNull(id, ErrorCode.WITHOUT_OPERATION_ID);
+        return draftMapper.deleteById(id) > 0;
+    }
+
+    @Override
+    public List<Draft> listByDto(ListDraftDto listDraftDto) {
+        LambdaQueryWrapper<Draft> draftQuery = new LambdaQueryWrapper<>();
+        draftQuery.eq(Objects.nonNull(listDraftDto.getId()), Draft::getId, listDraftDto.getId());
+        draftQuery.eq(Objects.nonNull(listDraftDto.getUserId()), Draft::getUserId, listDraftDto.getUserId());
+        draftQuery.eq(Objects.nonNull(listDraftDto.getDraftId()), Draft::getDraftId, listDraftDto.getDraftId());
+        return draftMapper.selectList(draftQuery);
+    }
+}

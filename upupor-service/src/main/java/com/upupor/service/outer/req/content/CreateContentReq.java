@@ -29,12 +29,18 @@
 
 package com.upupor.service.outer.req.content;
 
+import com.upupor.service.types.ContentOperation;
+import lombok.Data;
+
 /**
- * 内容接口
+ * 创建文章请求
  *
- * @author Yang Runkang (cruise)
- * @createTime 2022-07-10 19:23
- * @email: yangrunkang53@gmail.com
+ * @author: YangRunkang(cruise)
+ * @created: 2019/12/22 16:44
  */
-public class ContentInterface {
+@Data
+public class CreateContentReq extends BaseContentReq {
+
+    private ContentOperation contentOperation;
+
 }

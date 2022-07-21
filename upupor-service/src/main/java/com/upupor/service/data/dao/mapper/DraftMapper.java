@@ -27,39 +27,17 @@
  *   -->
  */
 
-package com.upupor.service.data.aggregation;
+package com.upupor.service.data.dao.mapper;
 
-import com.upupor.service.data.service.TagService;
-import com.upupor.service.dto.page.EditorIndexDto;
-import com.upupor.service.outer.req.GetEditorReq;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import static com.upupor.service.data.aggregation.CommonAggregateService.getCreateContentInfo;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.upupor.service.data.dao.entity.Draft;
 
 /**
- * 编辑器页面
- *
- * @author runkangyang (cruise)
- * @date 2020.01.07 00:25
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-07-20 00:33
+ * @email: yangrunkang53@gmail.com
  */
-@Service
-@RequiredArgsConstructor
-public class EditorAggregateService {
+public interface DraftMapper extends BaseMapper<Draft> {
 
-    private final TagService tagService;
-
-    /**
-     * 编辑器首页
-     *
-     * @param getEditorReq 从哪里进入编辑器
-     * @return 返回EditorIndexDto
-     */
-    public EditorIndexDto index(GetEditorReq getEditorReq) {
-        EditorIndexDto editorIndexDto = new EditorIndexDto();
-        editorIndexDto.setTagList(tagService.getTagsByType(getEditorReq.getContentType()));
-        editorIndexDto.setCreateTag(getEditorReq.getTag());
-        editorIndexDto.setCreateContentDesc(getCreateContentInfo(getEditorReq.getContentType(), getEditorReq.getTag()));
-        return editorIndexDto;
-    }
 }
+

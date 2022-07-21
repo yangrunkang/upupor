@@ -33,16 +33,20 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.mapper.ContentExtendMapper;
 import com.upupor.service.data.dao.mapper.ContentMapper;
 import com.upupor.service.data.service.ContentService;
+import com.upupor.service.data.service.DraftService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.dto.OperateContentDto;
+import com.upupor.service.dto.dao.ListDraftDto;
 import com.upupor.service.listener.event.PublishContentEvent;
-import com.upupor.service.outer.req.content.ContentInterface;
+import com.upupor.service.outer.req.content.BaseContentReq;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -54,7 +58,7 @@ import java.util.List;
  * @date 2022年01月09日 11:13
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractEditor<T extends ContentInterface> {
+public abstract class AbstractEditor<T extends BaseContentReq> {
 
     @Resource
     protected MemberService memberService;
@@ -68,7 +72,11 @@ public abstract class AbstractEditor<T extends ContentInterface> {
     protected ContentService contentService;
 
     @Resource
+    protected DraftService draftService;
+
+    @Resource
     protected ApplicationEventPublisher eventPublisher;
+
 
     protected T req;
 
@@ -94,11 +102,6 @@ public abstract class AbstractEditor<T extends ContentInterface> {
          * 更新状态
          */
         UPDATE_STATUS,
-
-        /**
-         * 自动保存
-         */
-        AUTO_SAVE
     }
 
     public Member getMember() {
@@ -127,13 +130,22 @@ public abstract class AbstractEditor<T extends ContentInterface> {
     /**
      * 执行业务
      */
-    public static OperateContentDto execute(List<AbstractEditor> abstractEditorList, EditorType editorType, ContentInterface t) {
+    public static OperateContentDto execute(List<AbstractEditor> abstractEditorList, EditorType editorType, BaseContentReq baseContentReq) {
         for (AbstractEditor abstractEditor : abstractEditorList) {
             if (abstractEditor.editorType().equals(editorType)) {
                 abstractEditor.contentService = SpringContextUtils.getBean(ContentService.class);
-                abstractEditor.req = t;
+                abstractEditor.req = baseContentReq;
                 abstractEditor.check();
-                return abstractEditor.doBusiness();
+                OperateContentDto operateContentDto = abstractEditor.doBusiness();
+                if (operateContentDto.getSuccess()) {
+                    // 移除草稿
+                    String preContentId = baseContentReq.getPreContentId();
+                    List<Draft> draftList = abstractEditor.draftService.listByDto(ListDraftDto.builder().draftId(preContentId).build());
+                    if (!CollectionUtils.isEmpty(draftList)) {
+                        draftList.forEach(draft -> abstractEditor.draftService.delete(draft.getId()));
+                    }
+                }
+                return operateContentDto;
             }
         }
         throw new BusinessException(ErrorCode.NOT_EXISTS_ABSTRACT_EDITOR_IMPLEMENTS);

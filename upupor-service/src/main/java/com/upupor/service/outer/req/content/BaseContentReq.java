@@ -44,7 +44,11 @@ import javax.validation.constraints.NotEmpty;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class BaseContentReq extends ContentInterface {
+public class BaseContentReq {
+    /**
+     * 预置文章Id
+     */
+    private String preContentId;
 
     @Length(max = 256, message = "文章标题过长,最多可输入256个字")
     @NotEmpty(message = "标题不能为空")

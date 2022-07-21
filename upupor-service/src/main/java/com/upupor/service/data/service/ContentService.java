@@ -37,8 +37,8 @@ import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.ListContentReq;
-import com.upupor.service.outer.req.content.AddContentDetailReq;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
+import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.PinnedStatus;
@@ -104,10 +104,10 @@ public interface ContentService {
     /**
      * 添加内容
      *
-     * @param addContentDetailReq
+     * @param createContentReq
      * @return
      */
-    OperateContentDto addContent(AddContentDetailReq addContentDetailReq);
+    OperateContentDto addContent(CreateContentReq createContentReq);
 
     /**
      * 插入内容
@@ -145,9 +145,9 @@ public interface ContentService {
     /**
      * 根据用户id查询所有文章
      *
+     * @param userIdList
      * @author runkangyang (cruise)
      * @date 2020.01.26 19:59
-     * @param userIdList
      */
     List<Content> listAllByUserId(List<String> userIdList);
 
@@ -309,5 +309,5 @@ public interface ContentService {
     List<Content> latestContentList();
 
 
-    OperateContentDto autoSaveContent(AutoSaveContentReq autoSaveContentReq);
+    Boolean autoSaveContent(AutoSaveContentReq autoSaveContentReq);
 }

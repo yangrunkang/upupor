@@ -38,7 +38,7 @@ import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.MemberConfig;
 import com.upupor.service.data.dao.mapper.MemberConfigMapper;
 import com.upupor.service.dto.OperateContentDto;
-import com.upupor.service.outer.req.content.AddContentDetailReq;
+import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentOperation;
 import com.upupor.service.types.ContentStatus;
@@ -65,7 +65,7 @@ import static com.upupor.framework.ErrorCode.MEMBER_CONFIG_LESS;
  */
 @Slf4j
 @Component
-public class Create extends AbstractEditor<AddContentDetailReq> {
+public class Create extends AbstractEditor<CreateContentReq> {
     @Resource
     private MemberConfigMapper memberConfigMapper;
 
@@ -83,17 +83,17 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
     }
 
     private Content createNewContent() {
-        AddContentDetailReq addContentDetailReq = getReq();
+        CreateContentReq createContentReq = getReq();
         Member member = getMember();
         String contentId = generateContentId();
-        Content content = Content.create(contentId, addContentDetailReq);
+        Content content = Content.create(contentId, createContentReq);
         content.setUserId(member.getUserId());
         content.setStatementId(member.getStatementId());
         contentService.initContendData(content.getContentId());
 
         // 发布或草稿
-        if (Objects.nonNull(addContentDetailReq.getContentOperation())) {
-            if (ContentOperation.DRAFT.equals(addContentDetailReq.getContentOperation())) {
+        if (Objects.nonNull(createContentReq.getContentOperation())) {
+            if (ContentOperation.DRAFT.equals(createContentReq.getContentOperation())) {
                 content.setStatus(ContentStatus.DRAFT);
                 content.setIsInitialStatus(ContentIsInitialStatus.NOT_FIRST_PUBLISH_EVER);
             }
@@ -157,15 +157,15 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
     }
 
     private String generateContentId() {
-        AddContentDetailReq addContentDetailReq = getReq();
+        CreateContentReq createContentReq = getReq();
 
-        if (StringUtils.isEmpty(addContentDetailReq.getPreContentId())) {
+        if (StringUtils.isEmpty(createContentReq.getPreContentId())) {
             return CcUtils.getUuId();
         } else {
             // 检查preContentId是否已经使用
             try {
                 // 检查重复提交
-                Content normalContent = contentService.getNormalContent(addContentDetailReq.getPreContentId());
+                Content normalContent = contentService.getNormalContent(createContentReq.getPreContentId());
                 if (Objects.nonNull(normalContent)) {
                     throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
                 }
@@ -177,7 +177,7 @@ public class Create extends AbstractEditor<AddContentDetailReq> {
                 }
             }
 
-            return addContentDetailReq.getPreContentId();
+            return createContentReq.getPreContentId();
         }
     }
 

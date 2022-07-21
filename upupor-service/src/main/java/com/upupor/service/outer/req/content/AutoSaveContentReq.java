@@ -29,54 +29,24 @@
 
 package com.upupor.service.outer.req.content;
 
-import com.upupor.service.types.ContentType;
-import com.upupor.service.types.OriginType;
+import com.upupor.service.outer.NotValid;
+import com.upupor.service.types.DraftSource;
 import lombok.Data;
-import org.apache.logging.log4j.util.Strings;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.util.StringUtils;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-07-10 17:17
  * @email: yangrunkang53@gmail.com
  */
+@NotValid
 @Data
-public class AutoSaveContentReq extends ContentInterface {
-    /**
-     * 预置文章Id
-     * note: 父类也有该字段,这里依然写改字段,用于突出适用场景
-     */
-    private String preContentId;
-
-    private String title;
-
-    @Length(max = 1024, message = "简介内容过长,最多可输入1024个字")
-    private String shortContent;
-
-    /**
-     * 文章类型
-     */
-    private ContentType contentType;
-
-    @Length(max = 256, message = "标签过多,请减少标签数目")
-    private String tagIds;
-
-    private String content;
-    private String mdContent;
-
-    /**
-     * 原创
-     */
-    private OriginType originType;
-
-    @Length(max = 1024, message = "转载链接过长,最多可输入1024个字")
-    private String noneOriginLink;
-
-    public String getMdContent() {
-        if (StringUtils.isEmpty(mdContent)) {
-            return Strings.EMPTY;
-        }
-        return mdContent;
-    }
+public class AutoSaveContentReq {
+    @NotEmpty(message = "draftId 不能为空")
+    private String draftId;
+    @NotEmpty(message = "draftContent 不能为空")
+    private String draftContent;
+    @NotEmpty(message = "draftContent 不能为空")
+    private DraftSource draftSource;
 }

@@ -38,8 +38,7 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.dto.dao.LastAndNextContentDto;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.dto.page.common.TagDto;
-import com.upupor.service.outer.req.content.AddContentDetailReq;
-import com.upupor.service.outer.req.content.AutoSaveContentReq;
+import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.types.*;
 import lombok.Data;
 
@@ -82,11 +81,6 @@ public class Content extends BaseEntity {
      * 状态 0-正常 1-草稿 2-审核中 3-异常 4-删除 5-回收站 6-仅自己可见
      */
     private ContentStatus status;
-
-    /**
-     * 草稿状态
-     */
-    private DraftStatus draftStatus;
 
     /**
      * 是否是第一次发布 0-未发布 1-已发布
@@ -240,58 +234,29 @@ public class Content extends BaseEntity {
         return new Content();
     }
 
-    public static Content create(String contentId, AddContentDetailReq addContentDetailReq) {
+    public static Content create(String contentId, CreateContentReq createContentReq) {
         Content content = new Content();
         content.setContentId(contentId);
-        content.setTitle(addContentDetailReq.getTitle());
-        content.setContentType(addContentDetailReq.getContentType());
-        content.setShortContent(addContentDetailReq.getShortContent());
-        content.setTagIds(CcUtils.removeLastComma(addContentDetailReq.getTagIds()));
+        content.setTitle(createContentReq.getTitle());
+        content.setContentType(createContentReq.getContentType());
+        content.setShortContent(createContentReq.getShortContent());
+        content.setTagIds(CcUtils.removeLastComma(createContentReq.getTagIds()));
         // 初始化文章拓展表
         content.setContentExtend(
                 ContentExtend.create(
                         contentId,
-                        addContentDetailReq.getContent(),
-                        addContentDetailReq.getMdContent()
+                        createContentReq.getContent(),
+                        createContentReq.getMdContent()
                 )
         );
 
         // 原创处理
-        if (Objects.nonNull(addContentDetailReq.getOriginType())) {
-            content.setOriginType(addContentDetailReq.getOriginType());
-            content.setNoneOriginLink(addContentDetailReq.getNoneOriginLink());
+        if (Objects.nonNull(createContentReq.getOriginType())) {
+            content.setOriginType(createContentReq.getOriginType());
+            content.setNoneOriginLink(createContentReq.getNoneOriginLink());
         }
 
         return content;
-    }
-
-    public static Content createAuto(String contentId, AutoSaveContentReq autoSaveContentReq) {
-        Content content = new Content();
-        content.setContentId(contentId);
-        content.setTitle(autoSaveContentReq.getTitle());
-        content.setContentType(autoSaveContentReq.getContentType());
-        content.setShortContent(autoSaveContentReq.getShortContent());
-        content.setTagIds(CcUtils.removeLastComma(autoSaveContentReq.getTagIds()));
-        // 初始化文章拓展表
-        content.setContentExtend(
-                ContentExtend.createAutoSave(
-                        contentId,
-                        autoSaveContentReq.getContent(),
-                        autoSaveContentReq.getMdContent()
-                )
-        );
-
-        // 原创处理
-        if (Objects.nonNull(autoSaveContentReq.getOriginType())) {
-            content.setOriginType(autoSaveContentReq.getOriginType());
-            content.setNoneOriginLink(autoSaveContentReq.getNoneOriginLink());
-        }
-
-        return content;
-    }
-
-    public static Content createAutoSave(String contentId, AutoSaveContentReq autoSaveContentReq) {
-        return createAuto(contentId, autoSaveContentReq);
     }
 
     private void init() {

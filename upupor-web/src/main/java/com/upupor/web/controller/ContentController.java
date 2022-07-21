@@ -50,8 +50,8 @@ import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.PinnedReq;
 import com.upupor.service.outer.req.UpdateLikeReq;
-import com.upupor.service.outer.req.content.AddContentDetailReq;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
+import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.MemberIntegralStatus;
@@ -96,9 +96,9 @@ public class ContentController {
     @ApiOperation("创建内容")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
     @UpuporLimit(limitType = LimitType.CREATE_CONTENT, needSpendMoney = true)
-    public CcResponse add(AddContentDetailReq addContentDetailReq) {
+    public CcResponse add(CreateContentReq createContentReq) {
         CcResponse cc = new CcResponse();
-        OperateContentDto operateContentDto = contentService.addContent(addContentDetailReq);
+        OperateContentDto operateContentDto = contentService.addContent(createContentReq);
         cc.setData(operateContentDto);
         return cc;
     }
@@ -131,12 +131,11 @@ public class ContentController {
     @PostMapping("/auto-save")
     @ResponseBody
     @ApiOperation("自动保存内容")
-//    @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
-    @UpuporLimit(limitType = LimitType.CONTENT_AUTO_SAVE, needSpendMoney = false)
+    @UpuporLimit(limitType = LimitType.CONTENT_AUTO_SAVE)
     public CcResponse autoSave(AutoSaveContentReq autoSaveContentReq) {
         CcResponse cc = new CcResponse();
-        OperateContentDto operateContentDto = contentService.autoSaveContent(autoSaveContentReq);
-        cc.setData(operateContentDto);
+        Boolean autoSave = contentService.autoSaveContent(autoSaveContentReq);
+        cc.setData(autoSave);
         return cc;
     }
 

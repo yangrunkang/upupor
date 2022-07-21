@@ -44,13 +44,6 @@ public class ContentExtend extends BaseEntity {
     private String detailContent;
     private String markdownContent;
 
-    /**
-     * 草稿内容
-     */
-    private String draftDetailContent;
-    private String draftMarkdownContent;
-
-
     public static ContentExtend create(String contentId,
                                        String detailContent,
                                        String markDownContent
@@ -61,17 +54,5 @@ public class ContentExtend extends BaseEntity {
         contentExtend.setMarkdownContent(markDownContent);
         return contentExtend;
     }
-
-    public static ContentExtend createAutoSave(String contentId,
-                                               String draftDetailContent,
-                                               String draftMarkdownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDraftDetailContent(draftDetailContent);
-        contentExtend.setDraftMarkdownContent(draftMarkdownContent);
-        return contentExtend;
-    }
-
 
 }

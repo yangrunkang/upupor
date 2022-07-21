@@ -33,6 +33,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.ValidationUtil;
+import com.upupor.service.outer.NotValid;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -40,6 +41,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author cruise
@@ -53,6 +55,12 @@ public class RequestArgsChecker implements ControllerAspectChecker {
     public void check(ControllerCheckerDto controllerCheckerDto) {
         Object[] args = controllerCheckerDto.getProceedingJoinPoint().getArgs();
         for (Object arg : args) {
+            // 如果注释了NotValid注解,则不校验
+            NotValid notValid = arg.getClass().getAnnotation(NotValid.class);
+            if (Objects.nonNull(notValid)) {
+                break;
+            }
+
             ValidationUtil.ValidResult validResult = ValidationUtil.validateBean(arg);
             if (!CollectionUtils.isEmpty(validResult.getAllErrors())) {
                 // 格式化显示错误信息
