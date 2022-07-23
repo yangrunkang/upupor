@@ -29,19 +29,15 @@
 
 package com.upupor.web.page;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.data.aggregation.EditorAggregateService;
 import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.ContentExtend;
 import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.DraftService;
-import com.upupor.service.dto.dao.ListDraftDto;
 import com.upupor.service.dto.page.EditorIndexDto;
 import com.upupor.service.outer.req.GetEditorReq;
 import com.upupor.service.types.ContentType;
@@ -50,17 +46,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.util.StringUtils;
 
-import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.*;
+import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 
 
 /**
@@ -79,10 +74,9 @@ public class EditorPageJumpController {
     private final ContentService contentService;
     private final DraftService draftService;
 
-    private final static String EDIT_CONTENT = "edit";
     private final static String CONTENT_TYPE = "type";
     private final static String PRE_CONTENT_ID = "pre_content_id";
-    private final static String HAS_DRAFT = "hasDraft";
+    private final static String HAS_DRAFT = "hasContentCanToRestore";
 
 
     /**
@@ -92,9 +86,7 @@ public class EditorPageJumpController {
     @GetMapping("/editor")
     public ModelAndView editor(@RequestParam(value = "type", required = false) ContentType contentType, // 新增&编辑
                                @RequestParam(value = "contentId", required = false) String contentId, // 编辑指定的文章
-                               @RequestParam(value = "edit", required = false) Boolean edit, // 是否是编辑已有文章,透传,主要是控制按钮的
-                               @RequestParam(value = "tag", required = false) String tag, // 快捷操作新增文章会到指定tag
-                               @RequestParam(value = "cleanDraftAndReload", required = false) Boolean cleanDraftAndReload // 移除草稿并重新编辑
+                               @RequestParam(value = "tag", required = false) String tag // 快捷操作新增文章会到指定tag
     ) {
 
         ModelAndView modelAndView = new ModelAndView();
@@ -115,32 +107,17 @@ public class EditorPageJumpController {
 
             // 处理文章信息
             if (Objects.nonNull(contentId)) {
-                if (Objects.nonNull(cleanDraftAndReload) && cleanDraftAndReload) {
-                    setDbContent(contentId, editorIndexDto);
-                } else {
-                    List<Draft> drafts = draftService.listByDto(ListDraftDto.builder().draftId(contentId).build());
-                    if (!CollectionUtils.isEmpty(drafts)) {
-                        Content content = JSON.parseObject(drafts.get(0).getDraftContent(), Content.class);
-                        content.setContentId(contentId);
-                        JSONObject jsonObject = JSON.parseObject(drafts.get(0).getDraftContent());
-                        //        noneOriginLink: none_origin_link,
-                        //        // edit: edit,
-                        //        tagIds: tagIds,
-                        //        preContentId: preContentId,
-                        ContentExtend contentExtend = ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent"));
-                        content.setContentExtend(contentExtend);
+                Draft draft = draftService.getByDraftId(contentId);
 
-                        editorIndexDto.setContent(content);
-                        modelAndView.addObject(HAS_DRAFT, Boolean.TRUE);
-                    } else {
-                        setDbContent(contentId, editorIndexDto);
-                    }
+                if (Objects.nonNull(draft)) {
+                    editorIndexDto.setContent(Draft.parseContent(contentId, draft.getDraftContent(), draft.getUserId()));
+                    modelAndView.addObject(HAS_DRAFT, hasContentCanToRestore(contentId));
+                } else {
+                    setDbContent(contentId, editorIndexDto);
                 }
             }
 
             modelAndView.addObject(editorIndexDto);
-            // 如果是从管理后台过来的编辑,edit为true,然后依次来控制按钮是否显示或者隐藏
-            modelAndView.addObject(EDIT_CONTENT, edit);
             // 参数传递
             modelAndView.addObject(CONTENT_TYPE, contentType);
             // 创建新的内容会使用预生成ID,防止页面表单重复提交
@@ -156,6 +133,24 @@ public class EditorPageJumpController {
         }
 
         return modelAndView;
+    }
+
+    /**
+     * 是否有正式的内容可以重置
+     *
+     * @param contentId
+     * @return
+     */
+    private boolean hasContentCanToRestore(String contentId) {
+        Content content = null;
+        try {
+            content = contentService.getManageContentDetail(contentId);
+        } catch (Exception e) {
+            if (!(e instanceof BusinessException && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode()))) {
+                throw e;
+            }
+        }
+        return Objects.nonNull(content);
     }
 
     private void setDbContent(String contentId, EditorIndexDto editorIndexDto) {

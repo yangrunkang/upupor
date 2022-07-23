@@ -1,44 +1,51 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.service.business.manage.business;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.CommonService;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.business.manage.service.ContentManageService;
-import com.upupor.framework.BusinessException;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Draft;
+import com.upupor.service.data.service.DraftService;
+import com.upupor.service.dto.dao.ListDraftDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-
-import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author cruise
@@ -48,7 +55,7 @@ import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 public class DraftManage extends AbstractManage {
 
     @Resource
-    private ContentManageService contentManageService;
+    private DraftService draftService;
 
     @Resource
     private CommonService commonService;
@@ -60,23 +67,30 @@ public class DraftManage extends AbstractManage {
         String userId = manageDto.getUserId();
         String searchTitle = manageDto.getSearchTitle();
 
-        ListContentDto listContentDto = null;
-        try {
-            listContentDto = contentManageService.listContentDraft(pageNum, pageSize, userId, searchTitle);
-        } catch (Exception e) {
-            if (e instanceof BusinessException) {
-                BusinessException businessException = (BusinessException) e;
-                if (businessException.getCode().equals(CONTENT_NOT_EXISTS.getCode())) {
-                    listContentDto = new ListContentDto();
-                }
-            }
-            e.printStackTrace();
-        }
-        // 处理标签
-        assert listContentDto != null;
+        ListDraftDto queryDto = ListDraftDto.builder()
+                .userId(userId)
+                .searchTitle(searchTitle)
+                .build();
+        PageHelper.startPage(pageNum, pageSize);
+        List<Draft> draftList = draftService.listByDto(queryDto);
+        PageInfo<Draft> pageInfo = new PageInfo<>(draftList);
+
+        ListContentDto listContentDto = new ListContentDto(pageInfo);
+        listContentDto.setContentList(parseToContentList(draftList));
+
         commonService.handListContentDtoTagName(listContentDto);
         getMemberIndexDto().setListContentDto(listContentDto);
 
+    }
+
+
+    private List<Content> parseToContentList(List<Draft> draftList) {
+        List<Content> contentList = new ArrayList<>();
+        if (CollectionUtils.isEmpty(draftList)) {
+            return new ArrayList<>();
+        }
+        draftList.forEach(draft -> contentList.add(Draft.parseContent(draft.getDraftId(), draft.getDraftContent(), draft.getUserId())));
+        return contentList;
     }
 
 

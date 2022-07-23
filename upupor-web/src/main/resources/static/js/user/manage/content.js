@@ -152,9 +152,7 @@ function pinned(contentId, ope) {
  */
 function changeContentStatus(status, contentId) {
     let operation = '';
-    if (status === 'DRAFT') {
-        operation = "确定将文章变更为草稿吗";
-    } else if (status === 'DELETED') {
+    if (status === 'DELETED') {
         operation = "确定将文章删除吗";
     } else if (status === 'ONLY_SELF_CAN_SEE') {
         operation = "确定将文章变更为自己可见吗";

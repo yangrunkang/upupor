@@ -1,28 +1,30 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.service.business.manage.service.impl;
@@ -30,12 +32,12 @@ package com.upupor.service.business.manage.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
+import com.upupor.service.business.manage.service.ContentManageService;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.mapper.ContentMapper;
 import com.upupor.service.data.service.ContentService;
-import com.upupor.service.business.manage.service.ContentManageService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.types.ContentStatus;
@@ -68,22 +70,14 @@ public class ContentManageServiceImpl implements ContentManageService {
         return getListContentDto(listContentReq);
     }
 
-    @Override
-    public ListContentDto listContentDraft(Integer pageNum, Integer pageSize, String userId, String searchTitle) {
-        if (Strings.isEmpty(userId)) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
-        }
-        return getListContentDtoDraft(pageNum, pageSize, userId, searchTitle);
-    }
-
     private ListContentDto getListContentDto(ListContentReq listContentReq) {
 
         LambdaQueryWrapper<Content> listQuery = new LambdaQueryWrapper<Content>()
                 .notIn(Content::getStatus, ContentStatus.notIn())
-                .eq(StringUtils.isNotEmpty(listContentReq.getUserId()),Content::getUserId, listContentReq.getUserId())
-                .eq(StringUtils.isNotEmpty(listContentReq.getContentId()),Content::getContentId, listContentReq.getContentId())
-                .eq(Objects.nonNull(listContentReq.getSelect()) && "ONLY_SELF_SEE".equals(listContentReq.getSelect()),Content::getStatus, ContentStatus.ONLY_SELF_CAN_SEE)
-                .like(StringUtils.isNotEmpty(listContentReq.getSearchTitle()),Content::getTitle, listContentReq.getSearchTitle())
+                .eq(StringUtils.isNotEmpty(listContentReq.getUserId()), Content::getUserId, listContentReq.getUserId())
+                .eq(StringUtils.isNotEmpty(listContentReq.getContentId()), Content::getContentId, listContentReq.getContentId())
+                .eq(Objects.nonNull(listContentReq.getSelect()) && "ONLY_SELF_SEE".equals(listContentReq.getSelect()), Content::getStatus, ContentStatus.ONLY_SELF_CAN_SEE)
+                .like(StringUtils.isNotEmpty(listContentReq.getSearchTitle()), Content::getTitle, listContentReq.getSearchTitle())
                 .orderByDesc(Content::getCreateTime);
 
         PageHelper.startPage(listContentReq.getPageNum(), listContentReq.getPageSize());
@@ -97,21 +91,4 @@ public class ContentManageServiceImpl implements ContentManageService {
         return listContentDto;
     }
 
-    private ListContentDto getListContentDtoDraft(Integer pageNum, Integer pageSize, String userId, String searchTitle) {
-        LambdaQueryWrapper<Content> listQuery = new LambdaQueryWrapper<Content>()
-                .eq(Content::getStatus, ContentStatus.DRAFT)
-                .eq(Content::getUserId, userId)
-                .like(StringUtils.isNotEmpty(searchTitle),Content::getTitle, searchTitle)
-                .orderByDesc(Content::getCreateTime);
-
-        PageHelper.startPage(pageNum, pageSize);
-        List<Content> contents = contentMapper.selectList(listQuery);
-        PageInfo<Content> pageInfo = new PageInfo<>(contents);
-
-        contentService.bindContentMember(contents);
-
-        ListContentDto listContentDto = new ListContentDto(pageInfo);
-        listContentDto.setContentList(pageInfo.getList());
-        return listContentDto;
-    }
 }

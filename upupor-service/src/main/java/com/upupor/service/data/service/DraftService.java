@@ -31,6 +31,7 @@ package com.upupor.service.data.service;
 
 import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.dto.dao.ListDraftDto;
+import com.upupor.service.outer.req.content.AutoSaveContentReq;
 
 import java.util.List;
 
@@ -74,5 +75,17 @@ public interface DraftService {
      */
     List<Draft> listByDto(ListDraftDto listDraftDto);
 
+    Draft getByDraftId(String draftId);
 
+    Draft getByDraftIdAndUserId(String draftId, String userId);
+
+    Boolean autoSaveContent(AutoSaveContentReq autoSaveContentReq);
+
+    /**
+     * 草稿总数
+     *
+     * @param userId
+     * @return
+     */
+    Long countDraft(String userId);
 }

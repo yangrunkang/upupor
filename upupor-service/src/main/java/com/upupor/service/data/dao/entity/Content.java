@@ -39,7 +39,10 @@ import com.upupor.service.dto.dao.LastAndNextContentDto;
 import com.upupor.service.dto.page.common.ListCommentDto;
 import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.outer.req.content.CreateContentReq;
-import com.upupor.service.types.*;
+import com.upupor.service.types.ContentStatus;
+import com.upupor.service.types.ContentType;
+import com.upupor.service.types.OriginType;
+import com.upupor.service.types.PinnedStatus;
 import lombok.Data;
 
 import java.util.List;
@@ -78,14 +81,10 @@ public class Content extends BaseEntity {
     private String tagIds;
 
     /**
-     * 状态 0-正常 1-草稿 2-审核中 3-异常 4-删除 5-回收站 6-仅自己可见
+     * 状态 0-正常 1-草稿[已移除] 2-审核中 3-异常 4-删除 5-回收站 6-仅自己可见
      */
     private ContentStatus status;
 
-    /**
-     * 是否是第一次发布 0-未发布 1-已发布
-     */
-    private ContentIsInitialStatus isInitialStatus;
 
     /**
      * 置顶状态
@@ -266,7 +265,6 @@ public class Content extends BaseEntity {
         this.listCommentDto = new ListCommentDto();
         this.tagIds = CcConstant.EMPTY_STR;
         this.status = ContentStatus.NORMAL;
-        this.isInitialStatus = ContentIsInitialStatus.FIRST_PUBLISHED;
         this.editTimes = 0;
         this.pinnedStatus = PinnedStatus.UN_PINNED;
         this.originType = OriginType.ORIGIN;

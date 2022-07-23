@@ -29,7 +29,6 @@
 
 package com.upupor.service.outer.req.content;
 
-import com.upupor.service.types.ContentOperation;
 import lombok.Data;
 
 /**
@@ -41,6 +40,5 @@ import lombok.Data;
 @Data
 public class CreateContentReq extends BaseContentReq {
 
-    private ContentOperation contentOperation;
 
 }

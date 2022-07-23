@@ -153,6 +153,7 @@ public enum ErrorCode {
     UNKNOWN_TYPE_CONTENT(178, "未知类型文章类型"),
     WITHOUT_DEFAULT_LIMIT_CONFIG(179, "没有默认的限制器配置"),
     REQUEST_TOO_MATCH(180, "请求频繁,请稍后再试"),
+    DRAFT_NOT_EXISTS(181, "草稿不存在"),
 
 
     //占位 兜底异常

@@ -26,26 +26,23 @@
  *   ~ SOFTWARE.
  *   -->
  */
-CREATE TABLE IF NOT EXISTS `draft`
-(
-    `id` bigint
-(
-    11
-) NOT NULL COMMENT '主键',
-    `user_id` varchar
-(
-    32
-) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户Id',
-    `draft_id` varchar
-(
-    32
-) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '草稿id',
-    `draft_source` int DEFAULT NULL COMMENT '草稿来源  0-文章',
-    `draft_content` text COLLATE utf8mb4_general_ci COMMENT '草稿内容Json',
-    `create_time` bigint DEFAULT NULL COMMENT '创建时间',
-    `sys_update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '系统更新时间',
-    PRIMARY KEY
-(
-    `id`
-)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE =utf8mb4_general_ci COMMENT='草稿';
+
+package com.upupor.service.outer.req.content;
+
+/**
+ * 清除内容草稿
+ *
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-07-23 16:54
+ * @email: yangrunkang53@gmail.com
+ */
+
+import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+
+@Data
+public class CleanDraftReq {
+    @NotEmpty(message = "contentId not empty")
+    private String contentId;
+}

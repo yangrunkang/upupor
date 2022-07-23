@@ -42,17 +42,21 @@
 <!--内容-->
 <div th:fragment="content">
     <div class="container">
+        <div class="alert alert-primary alert-dismissible fade show mb-2" role="alert"
+             th:if="${hasContentCanToRestore}">
+            如需将编辑器中的内容恢复至最近一次正式发布的内容,
+            <span onclick="cleanDraftAndReload()" style="cursor: pointer" class="fw-bold">请点我
+            <i class="bi bi-arrow-left-circle"></i>
+        </span>
+            <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 d-block text-secondary"
                      th:if="${editorIndexDto.createContentDesc.tips != null}">
                     [[${editorIndexDto.createContentDesc.tips}]]
                 </div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2 d-block"
-                     th:if="${hasDraft}">
-                    继续您上次的编辑; 如需清除草稿,请点我
-                </div>
-
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
                     <form class="form-horizontal" role="form">
                         <div class="form-group mb-3">
@@ -106,30 +110,12 @@
                         </div>
                         <div class="card-title" th:text="${cvException}"></div>
                     </div>
-                    <!--保存按钮-->
-                    <div th:if="!${edit}">
-                        <button type="button" class="btn rounded-3 bg-gradient btn-primary"
-                                onclick="saveContent(null)">发布
-                        </button>
-                        <button type="button" class="btn rounded-3 bg-gradient btn-secondary"
-                                onclick="saveContent('DRAFT')">草稿
-                        </button>
-                    </div>
-                    <!--编辑按钮-->
-                    <div th:if="${edit}">
-                        <button type="button" class="btn rounded-3 bg-gradient btn-success"
-                                th:if="${editorIndexDto.content.status.name() != 'NORMAL'}"
-                                th:onclick="updateContent([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]],true)">
-                            发布
-                        </button>
-                        <button type="button" class="btn rounded-3 bg-gradient btn-primary"
-                                th:onclick="updateContent([[${editorIndexDto.content.contentType.name()}]],[[${editorIndexDto.content.contentId}]],[[${editorIndexDto.content.userId}]],false)">
-                            编辑完成
-                        </button>
-                        <div class="border-bottom my-2"></div>
-                        <textarea type="text" id="edit_reason" class="form-control " placeholder="内容变更原因,选填"
-                                  style="width: 100%;height: 60px;"></textarea>
-                    </div>
+                    <button type="button" class="btn rounded-3 bg-gradient btn-primary"
+                            onclick="saveContent(null)">发布
+                    </button>
+                    <button type="button" class="btn rounded-3 bg-gradient btn-secondary"
+                            onclick="draftSave()">草稿
+                    </button>
                 </div>
                 <!--转载或者原创-->
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
@@ -180,8 +166,6 @@
                            th:value="${editorIndexDto?.content?.contentId}"/>
                     <input type="hidden" class="hide-content-user-id"
                            th:value="${editorIndexDto?.content?.userId}"/>
-                    <input type="hidden" class="hide-is-edit"
-                           th:value="${edit}"/>
                     <!--                    <input type="hidden" class="is-new-content-tag"-->
                     <!--                           th:value="${new_content_tag}"/>-->
                     <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>

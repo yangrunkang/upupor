@@ -70,13 +70,6 @@ public interface ContentMapper extends BaseMapper<Content> {
      */
     List<String> lastAndNextContent(@Param("contentId") String contentId, @Param("tagIds") String tagIds, @Param("contentType") Integer contentType);
 
-    /**
-     * 统计草稿数目
-     *
-     * @param userId
-     * @return
-     */
-    Integer countDraft(@Param("userId") String userId);
 
     /**
      * 随机退件

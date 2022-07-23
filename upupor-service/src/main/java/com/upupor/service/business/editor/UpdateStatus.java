@@ -30,11 +30,9 @@
 package com.upupor.service.business.editor;
 
 import com.upupor.framework.BusinessException;
-import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.content.UpdateContentReq;
-import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.PinnedStatus;
 import com.upupor.service.utils.ServletUtils;
@@ -78,26 +76,11 @@ public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
     @Override
     protected OperateContentDto doBusiness() {
         UpdateContentReq updateContentReq = getReq();
-        // 如果只是单纯的在控制中心更改状态
-        boolean isSendCreateContentMessage = false;
-        if (Objects.nonNull(updateContentReq.getStatus()) && updateContentReq.getStatus() == ContentStatus.NORMAL) {
-            if (!ContentIsInitialStatus.FIRST_PUBLISHED.equals(editContent.getIsInitialStatus())) {
-                editContent.setCreateTime(CcDateUtil.getCurrentTime());
-                editContent.setLatestCommentTime(CcDateUtil.getCurrentTime());
-                editContent.setIsInitialStatus(ContentIsInitialStatus.FIRST_PUBLISHED);
-                // 第一次将文章正式发出,需要发送邮件
-                isSendCreateContentMessage = true;
-            }
-        }
-
+        
         editContent.setStatus(updateContentReq.getStatus());
         editContent.setSysUpdateTime(new Date());
         boolean result = contentMapper.updateById(editContent) > 0;
 
-        if (result && isSendCreateContentMessage) {
-            // 发布文章事件
-            publishContentEvent(editContent);
-        }
 
         return OperateContentDto.builder()
                 .contentId(editContent.getContentId())

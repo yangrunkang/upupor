@@ -39,17 +39,6 @@ $(function () {
         }
     });
 
-    setInterval(function () {
-        try {
-            let cookie = getCookie("isOpenEditor");
-            if (cvIsNull(cookie)) {
-                document.cookie = "isOpenEditor=yes;max-age=1";
-            }
-        } catch (e) {
-
-        }
-    }, 500);
-
     $.cvLoadBootstrapRichText();
 });
 
@@ -65,9 +54,7 @@ $(window).on('load', function () {
 });
 
 function autoSave() {
-
     let content = getCommonReq();
-
     if (cvIsNull(content.title) && cvIsNull(content.content)) {
         console.log('内容为空,不自动保存')
         return false;
@@ -80,7 +67,7 @@ function autoSave() {
     }
 
 
-    $.cvPost('/content/auto-save', draft, function (data) {
+    $.cvPost('/editor/auto-save', draft, function (data) {
         if (respSuccess(data)) {
             $(".auto-save-card").fadeIn();
             $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
@@ -89,6 +76,11 @@ function autoSave() {
         }
     });
     return false;
+}
+
+function draftSave() {
+    autoSave();
+    window.location.href = '/m/' + getCommonReq().preContentId;
 }
 
 
@@ -176,11 +168,6 @@ function redirectContent(operateContentDto) {
             window.location.href = '/u/' + operateContentDto.contentId;
         }
 
-
-        if (operateContentDto.status === 'ONLY_SELF_CAN_SEE' || operateContentDto.status === 'DRAFT') {
-            $.cvSuccess("文章已保存为草稿");
-            window.location.href = '/m/' + operateContentDto.contentId;
-        }
     }, 1500);
 }
 
@@ -223,4 +210,18 @@ function getCommonReq() {
         picture: null,
         preContentId: preContentId,
     };
+}
+
+function cleanDraftAndReload() {
+    let contentId = getCommonReq().preContentId;
+
+    $.cvPost('/editor/clean-draft', {contentId}, function (data) {
+        if (respCodeOk(data)) {
+            history.go(0);
+        } else {
+            $.cvError("清除草稿失败")
+        }
+    });
+
+
 }

@@ -35,10 +35,15 @@ import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.data.dao.mapper.DraftMapper;
 import com.upupor.service.data.service.DraftService;
 import com.upupor.service.dto.dao.ListDraftDto;
+import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.utils.Asserts;
+import com.upupor.service.utils.ServletUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,11 +76,67 @@ public class DraftServiceImpl implements DraftService {
     }
 
     @Override
+    public Boolean autoSaveContent(AutoSaveContentReq autoSaveContentReq) {
+        String draftId = autoSaveContentReq.getDraftId(); // 草稿Id
+        String userId = ServletUtils.getUserId();
+        Draft draft = this.getByDraftIdAndUserId(draftId, userId);
+
+        Boolean autoSave;
+        if (Objects.isNull(draft)) {
+            // 新文章,入库
+            Draft newDraft = Draft.create(autoSaveContentReq, userId);
+            autoSave = this.create(newDraft);
+        } else {
+            if (autoSaveContentReq.getDraftContent().equals(draft.getDraftContent())) { // 内容json包含title和content,只需要比较这个值
+                return Boolean.TRUE;
+            }
+            draft.setTitle(Draft.parseContent(autoSaveContentReq.getDraftId(), autoSaveContentReq.getDraftContent(), userId).getTitle());
+            draft.setDraftContent(autoSaveContentReq.getDraftContent());
+            draft.setSysUpdateTime(new Date());
+            autoSave = this.update(draft);
+        }
+
+        return autoSave;
+    }
+
+    @Override
     public List<Draft> listByDto(ListDraftDto listDraftDto) {
         LambdaQueryWrapper<Draft> draftQuery = new LambdaQueryWrapper<>();
         draftQuery.eq(Objects.nonNull(listDraftDto.getId()), Draft::getId, listDraftDto.getId());
         draftQuery.eq(Objects.nonNull(listDraftDto.getUserId()), Draft::getUserId, listDraftDto.getUserId());
         draftQuery.eq(Objects.nonNull(listDraftDto.getDraftId()), Draft::getDraftId, listDraftDto.getDraftId());
+        draftQuery.like(Objects.nonNull(listDraftDto.getSearchTitle()), Draft::getTitle, listDraftDto.getSearchTitle());
         return draftMapper.selectList(draftQuery);
     }
+
+    @Override
+    public Draft getByDraftId(String draftId) {
+        List<Draft> draftList = this.listByDto(ListDraftDto.builder().draftId(draftId).build());
+        if (CollectionUtils.isEmpty(draftList)) {
+            return null;
+        }
+        return draftList.get(0);
+    }
+
+    @Override
+    public Draft getByDraftIdAndUserId(String draftId, String userId) {
+        List<Draft> draftList = this.listByDto(ListDraftDto.builder().draftId(draftId).userId(userId).build());
+        if (CollectionUtils.isEmpty(draftList)) {
+            return null;
+        }
+        return draftList.get(0);
+    }
+
+
+    @Override
+    public Long countDraft(String userId) {
+        if (StringUtils.isEmpty(userId)) {
+            return 0L;
+        }
+        LambdaQueryWrapper<Draft> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Draft::getUserId, userId);
+        return draftMapper.selectCount(queryWrapper);
+    }
+
+
 }

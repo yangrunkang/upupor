@@ -38,7 +38,6 @@ import com.upupor.service.data.dao.entity.ContentEditReason;
 import com.upupor.service.data.dao.mapper.ContentEditReasonMapper;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.outer.req.content.UpdateContentReq;
-import com.upupor.service.types.ContentIsInitialStatus;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.OriginType;
 import com.upupor.service.types.PinnedStatus;
@@ -101,19 +100,6 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
             editContent.setTagIds(CcUtils.removeLastComma(updateContentReq.getTagIds()));
         }
 
-        // 操作更改为公开、草稿
-        boolean isSendCreateContentMessage = false;
-        if (Objects.nonNull(updateContentReq.getIsDraftPublic()) && updateContentReq.getIsDraftPublic()) {
-            editContent.setStatus(ContentStatus.NORMAL);
-            if (!ContentIsInitialStatus.FIRST_PUBLISHED.equals(editContent.getIsInitialStatus())) {
-                editContent.setCreateTime(CcDateUtil.getCurrentTime());
-                editContent.setLatestCommentTime(CcDateUtil.getCurrentTime());
-                editContent.setIsInitialStatus(ContentIsInitialStatus.FIRST_PUBLISHED);
-                // 第一次将文章正式发出,需要发送邮件
-                isSendCreateContentMessage = true;
-            }
-        }
-
         // 从转载变为原创,需要清除转载的链接
         if (OriginType.NONE_ORIGIN.equals(editContent.getOriginType()) && OriginType.ORIGIN.equals(updateContentReq.getOriginType())) {
             editContent.setNoneOriginLink(null);
@@ -131,10 +117,6 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
             totalUpdateCount = totalUpdateCount + contentExtendMapper.updateById(editContent.getContentExtend());
         }
         boolean updateSuccess = totalUpdateCount > 0;
-        if (updateSuccess && isSendCreateContentMessage) {
-            // 发布文章时间
-            publishContentEvent(editContent);
-        }
 
         Content reGet = contentService.getContentByContentIdNoStatus(updateContentReq.getContentId());
         return OperateContentDto.builder()

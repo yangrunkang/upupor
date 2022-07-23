@@ -27,19 +27,4 @@
  *   -->
  */
 
-package com.upupor.service.types;
-
-/**
- * 文章操作
- *
- * @author Yang Runkang (cruise)
- * @createTime 2022-07-09 19:57
- * @email: yangrunkang53@gmail.com
- */
-public enum ContentOperation {
-    /**
-     * 草稿
-     */
-    DRAFT,
-    ;
-}
+alter table content drop column `is_initial_status`;

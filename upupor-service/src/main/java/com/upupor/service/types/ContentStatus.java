@@ -49,7 +49,7 @@ public enum ContentStatus {
     NORMAL(0, "正常"),
 
     /**
-     * 草稿
+     * 草稿-暂时保留兼容 草稿管理页面
      */
     DRAFT(1, "草稿"),
 
@@ -92,7 +92,6 @@ public enum ContentStatus {
 
     public static List<ContentStatus> notIn() {
         List<ContentStatus> statusList = new ArrayList<>();
-        statusList.add(ContentStatus.DRAFT);
         statusList.add(ContentStatus.DELETED);
         return statusList;
     }

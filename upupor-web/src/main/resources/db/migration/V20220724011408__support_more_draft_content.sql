@@ -26,41 +26,15 @@
  *   ~ SOFTWARE.
  *   -->
  */
-
-package com.upupor.web.aspects.service.view;
-
-import com.upupor.framework.CcConstant;
-import com.upupor.service.data.service.DraftService;
-import com.upupor.service.utils.ServletUtils;
-import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.math.BigDecimal;
-
-/**
- * 草稿数量
- *
- * @author cruise
- * @createTime 2022-01-19 18:01
- */
-@RequiredArgsConstructor
-@Service
-@Order(3)
-public class DraftCount implements PrepareData {
-    private final DraftService draftService;
-
-    @Override
-    public void prepare(ViewData viewData) {
-        ModelAndView modelAndView = viewData.getModelAndView();
-        try {
-            String userId = ServletUtils.getUserId();
-            Long draftCount = draftService.countDraft(userId);
-            modelAndView.addObject(CcConstant.DRAFT_COUNT, draftCount);
-        } catch (Exception e) {
-            // 用户未登录异常 不处理
-            modelAndView.addObject(CcConstant.UNREAD_MSG_COUNT, BigDecimal.ZERO);
-        }
-    }
-}
+CREATE TABLE `draft` (
+     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+     `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户Id',
+     `draft_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '草稿id',
+     `title` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '标题',
+     `draft_source` int DEFAULT '0' COMMENT '草稿来源  0-文章',
+     `draft_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '草稿内容Json',
+     `create_time` bigint DEFAULT NULL COMMENT '创建时间',
+     `sys_update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '系统更新时间',
+     PRIMARY KEY (`id`),
+     UNIQUE KEY `unique_key` (`user_id`,`draft_id`) USING BTREE COMMENT '用户id和草稿内容id唯一'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='草稿';

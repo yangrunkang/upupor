@@ -1,40 +1,44 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.test;
 
 
-import com.upupor.service.data.service.ContentService;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.common.CcTemplateConstant;
+import com.upupor.service.data.dao.mapper.ContentExtendMapper;
+import com.upupor.service.data.dao.mapper.ContentMapper;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.service.scheduled.DetectUserOperationScheduled;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.utils.AvatarHelper;
 import com.upupor.service.utils.CcEmailUtils;
-import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.web.UpuporWebApplication;
 import lombok.RequiredArgsConstructor;
@@ -78,6 +82,7 @@ public class UpuporApplicationTests {
      * 邮件发送测试
      */
     private final DetectUserOperationScheduled detectUserOperationScheduled;
+
     @Test
     void detectUserOperationScheduled() {
         detectUserOperationScheduled.detectUserNotLogin();
@@ -102,7 +107,6 @@ public class UpuporApplicationTests {
     }
 
 
-
     @Test
     void uplaodOss() throws FileNotFoundException {
     }
@@ -124,21 +128,22 @@ public class UpuporApplicationTests {
         String[] split = f.split("\\+");
         for (int i = 0; i < split.length; i++) {
             String s = split[i];
-            System.out.println("{language: '"+s.trim()+"', label: '"+s.trim()+"', class: 'language-"+s.trim()+"'},");
+            System.out.println("{language: '" + s.trim() + "', label: '" + s.trim() + "', class: 'language-" + s.trim() + "'},");
 
         }
 
     }
 
-    public static final String s ="# /icons/system/";
+    public static final String s = "# /icons/system/";
+
     public static void removeRepeate() {
         SortedSet set = new TreeSet<String>();
-        for(String st :s.split("\n")){
+        for (String st : s.split("\n")) {
             set.add(st);
         }
 
         Iterator it = set.iterator();
-        while (it.hasNext()){
+        while (it.hasNext()) {
             System.out.println(it.next());
         }
 
@@ -156,5 +161,8 @@ public class UpuporApplicationTests {
     }
 
 
+    private final ContentMapper contentMapper;
+
+    private final ContentExtendMapper contentExtendMapper;
 
 }

@@ -29,10 +29,14 @@
 
 package com.upupor.service.data.dao.entity;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
+import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.DraftSource;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 /**
  * 草稿
@@ -45,19 +49,47 @@ import lombok.Data;
 public class Draft extends BaseEntity {
     private String userId;
     private String draftId;
+    private String title;
     private String draftContent;
     private DraftSource draftSource;
     private Long createTime;
 
-
+    /**
+     * 创建草稿
+     *
+     * @param autoSaveContentReq
+     * @param userId
+     * @return
+     */
     public static Draft create(AutoSaveContentReq autoSaveContentReq, String userId) {
         Draft draft = new Draft();
         draft.setUserId(userId);
         draft.setDraftId(autoSaveContentReq.getDraftId());
+        draft.setTitle(parseContent(autoSaveContentReq.getDraftId(), autoSaveContentReq.getDraftContent(), userId).getTitle());
         draft.setDraftContent(autoSaveContentReq.getDraftContent());
         draft.setDraftSource(autoSaveContentReq.getDraftSource());
         draft.setCreateTime(CcDateUtil.getCurrentTime());
         return draft;
+    }
+
+    /**
+     * 草稿内容解析为内容
+     *
+     * @param contentId
+     * @return
+     */
+    public static Content parseContent(String contentId, String draftContent, String userId) {
+        if (StringUtils.isEmpty(draftContent)) {
+            return Content.empty();
+        }
+        Content content = JSON.parseObject(draftContent, Content.class);
+        content.setContentId(contentId);
+        content.setUserId(userId);
+        content.setStatus(ContentStatus.DRAFT); // 兼容
+        JSONObject jsonObject = JSON.parseObject(draftContent);
+        ContentExtend contentExtend = ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent"));
+        content.setContentExtend(contentExtend);
+        return content;
     }
 
 }

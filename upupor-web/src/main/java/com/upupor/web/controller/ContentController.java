@@ -44,13 +44,13 @@ import com.upupor.service.data.dao.entity.ContentData;
 import com.upupor.service.data.dao.entity.MemberIntegral;
 import com.upupor.service.data.dao.mapper.MemberIntegralMapper;
 import com.upupor.service.data.service.ContentService;
+import com.upupor.service.data.service.DraftService;
 import com.upupor.service.data.service.MemberIntegralService;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.PinnedReq;
 import com.upupor.service.outer.req.UpdateLikeReq;
-import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.types.ContentStatus;
@@ -90,6 +90,7 @@ public class ContentController {
     private final MemberIntegralService memberIntegralService;
     private final ApplicationEventPublisher eventPublisher;
     private final MemberIntegralMapper memberIntegralMapper;
+    private final DraftService draftService;
 
     @PostMapping("/add")
     @ResponseBody
@@ -126,19 +127,6 @@ public class ContentController {
         cc.setData(operateContentDto);
         return cc;
     }
-
-
-    @PostMapping("/auto-save")
-    @ResponseBody
-    @ApiOperation("自动保存内容")
-    @UpuporLimit(limitType = LimitType.CONTENT_AUTO_SAVE)
-    public CcResponse autoSave(AutoSaveContentReq autoSaveContentReq) {
-        CcResponse cc = new CcResponse();
-        Boolean autoSave = contentService.autoSaveContent(autoSaveContentReq);
-        cc.setData(autoSave);
-        return cc;
-    }
-
 
     @PostMapping("/like")
     @ResponseBody

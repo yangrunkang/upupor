@@ -37,7 +37,6 @@ import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.ListContentReq;
-import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.types.ContentType;
@@ -275,13 +274,6 @@ public interface ContentService {
 
     OperateContentDto updateContentStatus(UpdateContentReq updateContentReq);
 
-    /**
-     * 草稿总数
-     *
-     * @param userId
-     * @return
-     */
-    Integer countDraft(String userId);
 
     /**
      * 随机文章
@@ -309,5 +301,4 @@ public interface ContentService {
     List<Content> latestContentList();
 
 
-    Boolean autoSaveContent(AutoSaveContentReq autoSaveContentReq);
 }

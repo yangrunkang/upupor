@@ -45,4 +45,5 @@ public class ListDraftDto {
     private Long id;
     private String userId;
     private String draftId;
+    private String searchTitle;
 }

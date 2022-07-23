@@ -32,7 +32,6 @@ package com.upupor.service.business.editor;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.mapper.ContentExtendMapper;
@@ -41,15 +40,13 @@ import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.DraftService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.dto.OperateContentDto;
-import com.upupor.service.dto.dao.ListDraftDto;
-import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.outer.req.content.BaseContentReq;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 编辑抽象
@@ -140,28 +137,15 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
                 if (operateContentDto.getSuccess()) {
                     // 移除草稿
                     String preContentId = baseContentReq.getPreContentId();
-                    List<Draft> draftList = abstractEditor.draftService.listByDto(ListDraftDto.builder().draftId(preContentId).build());
-                    if (!CollectionUtils.isEmpty(draftList)) {
-                        draftList.forEach(draft -> abstractEditor.draftService.delete(draft.getId()));
+                    Draft draft = abstractEditor.draftService.getByDraftId(preContentId);
+                    if (Objects.nonNull(draft)) {
+                        abstractEditor.draftService.delete(draft.getId());
                     }
                 }
                 return operateContentDto;
             }
         }
         throw new BusinessException(ErrorCode.NOT_EXISTS_ABSTRACT_EDITOR_IMPLEMENTS);
-    }
-
-
-    /**
-     * 发布文章事件
-     *
-     * @param content
-     */
-    protected void publishContentEvent(Content content) {
-        PublishContentEvent createContentEvent = new PublishContentEvent();
-        createContentEvent.setContentId(content.getContentId());
-        createContentEvent.setUserId(content.getUserId());
-        eventPublisher.publishEvent(createContentEvent);
     }
 
 

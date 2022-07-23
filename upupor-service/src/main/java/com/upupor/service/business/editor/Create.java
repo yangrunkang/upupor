@@ -38,10 +38,8 @@ import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.MemberConfig;
 import com.upupor.service.data.dao.mapper.MemberConfigMapper;
 import com.upupor.service.dto.OperateContentDto;
+import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.outer.req.content.CreateContentReq;
-import com.upupor.service.types.ContentIsInitialStatus;
-import com.upupor.service.types.ContentOperation;
-import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.Asserts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -90,14 +88,6 @@ public class Create extends AbstractEditor<CreateContentReq> {
         content.setUserId(member.getUserId());
         content.setStatementId(member.getStatementId());
         contentService.initContendData(content.getContentId());
-
-        // 发布或草稿
-        if (Objects.nonNull(createContentReq.getContentOperation())) {
-            if (ContentOperation.DRAFT.equals(createContentReq.getContentOperation())) {
-                content.setStatus(ContentStatus.DRAFT);
-                content.setIsInitialStatus(ContentIsInitialStatus.NOT_FIRST_PUBLISH_EVER);
-            }
-        }
         return content;
     }
 
@@ -170,15 +160,25 @@ public class Create extends AbstractEditor<CreateContentReq> {
                     throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
                 }
             } catch (Exception e) {
-                if (e instanceof BusinessException && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())) {
-                    // 忽略
-                } else {
+                if (!(e instanceof BusinessException && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode()))) {
                     throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
                 }
             }
 
             return createContentReq.getPreContentId();
         }
+    }
+
+    /**
+     * 发布文章事件
+     *
+     * @param content
+     */
+    protected void publishContentEvent(Content content) {
+        PublishContentEvent createContentEvent = new PublishContentEvent();
+        createContentEvent.setContentId(content.getContentId());
+        createContentEvent.setUserId(content.getUserId());
+        eventPublisher.publishEvent(createContentEvent);
     }
 
 
