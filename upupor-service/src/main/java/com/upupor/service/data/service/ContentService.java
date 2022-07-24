@@ -307,5 +307,13 @@ public interface ContentService {
      */
     List<Content> latestContentList();
 
+    /**
+     * 是否存在
+     *
+     * @param contentId
+     * @return
+     */
+    Boolean exists(String contentId);
 
+    void handleExistsDraft(ListContentDto listContentDto);
 }

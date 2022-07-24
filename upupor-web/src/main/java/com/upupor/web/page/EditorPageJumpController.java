@@ -55,6 +55,7 @@ import org.thymeleaf.util.StringUtils;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.*;
+import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 
 
 /**
@@ -112,10 +113,17 @@ public class EditorPageJumpController {
 
                     // 查看是否有非草稿的文章
                     {
-                        Content hasContent = contentService.getManageContentDetail(contentId);
-                        boolean hasContentEmpty = Objects.nonNull(hasContent);
+                        Content queryContent = null;
+                        try {
+                            queryContent = contentService.getManageContentDetail(contentId);
+                        } catch (Exception e) {
+                            if (!(e instanceof BusinessException && (((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())))) {
+                                throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
+                            }
+                        }
+                        boolean hasContentEmpty = Objects.nonNull(queryContent);
                         if (hasContentEmpty) {
-                            content.setStatus(hasContent.getStatus()); // 覆盖非草稿文章的状态
+                            content.setStatus(queryContent.getStatus()); // 覆盖非草稿文章的状态
                         }
                         modelAndView.addObject(HAS_DRAFT, hasContentEmpty);
                     }

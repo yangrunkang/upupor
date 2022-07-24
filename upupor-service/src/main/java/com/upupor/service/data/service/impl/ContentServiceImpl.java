@@ -45,6 +45,7 @@ import com.upupor.service.data.service.*;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.dto.dao.CommentNumDto;
 import com.upupor.service.dto.dao.LastAndNextContentDto;
+import com.upupor.service.dto.dao.ListDraftDto;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
@@ -90,6 +91,7 @@ public class ContentServiceImpl implements ContentService {
     private final MemberService memberService;
     private final MemberIntegralService memberIntegralService;
     private final List<AbstractEditor> abstractEditorList;
+    private final DraftService draftService;
 
 
     @Override
@@ -663,5 +665,42 @@ public class ContentServiceImpl implements ContentService {
 
         this.bindContentMember(contentList);
         return contentList;
+    }
+
+    @Override
+    public Boolean exists(String contentId) {
+        Content manageContentDetail = null;
+        try {
+            manageContentDetail = this.getManageContentDetail(contentId);
+        } catch (Exception e) {
+            if (!(e instanceof BusinessException && (((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())))) {
+                throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
+            }
+        }
+        return Objects.nonNull(manageContentDetail);
+    }
+
+    @Override
+    public void handleExistsDraft(ListContentDto listContentDto) {
+        List<Content> contentList = listContentDto.getContentList();
+        if (CollectionUtils.isEmpty(contentList)) {
+            return;
+        }
+
+        List<String> contentIdList = contentList.stream().map(Content::getContentId).distinct().collect(Collectors.toList());
+        List<Draft> drafts = draftService.listByDto(ListDraftDto.builder().draftIdList(contentIdList).build());
+        if (CollectionUtils.isEmpty(drafts)) {
+            return;
+        }
+
+        for (Content content : contentList) {
+            for (Draft draft : drafts) {
+                if (content.getContentId().equals(draft.getDraftId())) {
+                    content.setHasDraft(Boolean.TRUE);
+                }
+            }
+        }
+
+
     }
 }

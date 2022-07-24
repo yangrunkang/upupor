@@ -32,6 +32,8 @@ package com.upupor.service.dto.dao;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 获取草稿数据Dto
  *
@@ -46,4 +48,6 @@ public class ListDraftDto {
     private String userId;
     private String draftId;
     private String searchTitle;
+    // 批量查询
+    private List<String> draftIdList;
 }

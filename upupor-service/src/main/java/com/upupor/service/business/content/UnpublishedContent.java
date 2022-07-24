@@ -31,6 +31,7 @@ package com.upupor.service.business.content;
 
 import com.upupor.framework.BusinessException;
 import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.ContentData;
 import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.DraftService;
@@ -69,6 +70,7 @@ public class UnpublishedContent extends AbstractContent {
             }
         } else {
             content = Draft.parseContent(draft);
+            content.setContentData(ContentData.empty(content.getContentId()));
         }
 
         // 校验文章所属人

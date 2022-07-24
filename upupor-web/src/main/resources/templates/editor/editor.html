@@ -111,7 +111,7 @@
                         <div class="card-title" th:text="${cvException}"></div>
                     </div>
                     <div>
-                        <button th:if="${editorIndexDto.content.status.name() == 'NORMAL'}" type="button" class="btn rounded-3 bg-gradient btn-primary" onclick="saveOrUpdateContent()">发布</button>
+                        <button th:if="${editorIndexDto.content.status.name() == 'NORMAL' or editorIndexDto.content.status.name() == 'DRAFT'}" type="button" class="btn rounded-3 bg-gradient btn-primary" onclick="saveOrUpdateContent()">发布</button>
                         <button th:if="${editorIndexDto.content.status.name() == 'ONLY_SELF_CAN_SEE'}" type="button" class="btn rounded-3 bg-gradient btn-primary" onclick="saveOrUpdateContent()">编辑完成</button>
                         <button type="button" class="btn rounded-3 bg-gradient btn-secondary"
                                 onclick="draftSave()">暂存

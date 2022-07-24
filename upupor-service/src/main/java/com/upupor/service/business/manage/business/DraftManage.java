@@ -66,10 +66,12 @@ public class DraftManage extends AbstractManage {
         Integer pageSize = manageDto.getPageSize();
         String userId = manageDto.getUserId();
         String searchTitle = manageDto.getSearchTitle();
+        String searchContentId = manageDto.getSearchContentId();
 
         ListDraftDto queryDto = ListDraftDto.builder()
                 .userId(userId)
                 .searchTitle(searchTitle)
+                .draftId(searchContentId)
                 .build();
         PageHelper.startPage(pageNum, pageSize);
         List<Draft> draftList = draftService.listByDto(queryDto);

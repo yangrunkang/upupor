@@ -106,6 +106,7 @@ public class DraftServiceImpl implements DraftService {
         draftQuery.eq(Objects.nonNull(listDraftDto.getUserId()), Draft::getUserId, listDraftDto.getUserId());
         draftQuery.eq(Objects.nonNull(listDraftDto.getDraftId()), Draft::getDraftId, listDraftDto.getDraftId());
         draftQuery.like(Objects.nonNull(listDraftDto.getSearchTitle()), Draft::getTitle, listDraftDto.getSearchTitle());
+        draftQuery.in(!CollectionUtils.isEmpty(listDraftDto.getDraftIdList()), Draft::getDraftId, listDraftDto.getDraftIdList());
         draftQuery.orderByDesc(Draft::getCreateTime);
         return draftMapper.selectList(draftQuery);
     }

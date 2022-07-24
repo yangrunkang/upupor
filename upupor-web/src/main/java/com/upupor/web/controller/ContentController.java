@@ -72,7 +72,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.CONTENT_INTEGRAL;
-import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 import static com.upupor.framework.ErrorCode.FORBIDDEN_LIKE_SELF_CONTENT;
 
 
@@ -97,16 +96,8 @@ public class ContentController {
     @ResponseBody
     @ApiOperation("文章是否存在")
     public CcResponse exists(ExistContentReq existContentReq) {
-        Content manageContentDetail = null;
-        try {
-            manageContentDetail = contentService.getManageContentDetail(existContentReq.getContentId());
-        } catch (Exception e) {
-            if (!(e instanceof BusinessException && (((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())))) {
-                throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
-            }
-        }
         CcResponse cc = new CcResponse();
-        cc.setData(Objects.nonNull(manageContentDetail));
+        cc.setData(contentService.exists(existContentReq.getContentId()));
         return cc;
     }
 

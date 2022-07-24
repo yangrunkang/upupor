@@ -48,10 +48,13 @@
                             <input type="text" class="form-control" placeholder="根据标题搜索" id="searchTitle"
                                    aria-label="Recipient's username with two button addons"
                                    aria-describedby="button-addon4">
-                            <button class="btn btn-outline-secondary btn-sm" id="button-addon4" type="button"
-                                    onclick="manageContentSearch()">搜索
+                            <button class="btn btn-outline-secondary btn-sm by-title" type="button"
+                                    onclick="manageContentSearch('title')">按标题搜
                             </button>
-                            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="removeAll()">所有
+                            <button class="btn btn-outline-secondary btn-sm by-id" type="button"
+                                    onclick="manageContentSearch('id')">按id搜
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm" type="button" onclick="removeAll()">清空
                             </button>
                         </div>
                     </div>

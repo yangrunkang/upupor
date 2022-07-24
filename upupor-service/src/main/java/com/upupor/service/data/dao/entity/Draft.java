@@ -90,6 +90,7 @@ public class Draft extends BaseEntity {
         content.setContentId(contentId);
         content.setUserId(userId);
         content.setStatus(ContentStatus.DRAFT); // 兼容
+        content.setCreateTime(draft.getCreateTime());
         JSONObject jsonObject = JSON.parseObject(draftContent);
         ContentExtend contentExtend = ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent"));
         content.setContentExtend(contentExtend);

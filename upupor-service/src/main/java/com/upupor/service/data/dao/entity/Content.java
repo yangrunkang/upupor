@@ -339,4 +339,7 @@ public class Content extends BaseEntity {
         }
         return CcDateUtil.getCurrentTime() - createTime <= NEW_CONTENT_TIME;
     }
+
+    @TableField(exist = false)
+    private Boolean hasDraft = Boolean.FALSE;
 }

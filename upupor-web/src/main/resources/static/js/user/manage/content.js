@@ -48,8 +48,9 @@ function searchInputBindEnter() {
 
 function intiSearchInput() {
     let searchQuery = getQueryString("searchTitle");
-    if (!cvIsNull(searchQuery)) {
-        $("#searchTitle").val(searchQuery);
+    let searchContentId = getQueryString("searchContentId");
+
+    function handlePaginationAndAlertTips() {
         // 隐藏分页组件的div
         $("#cv-pagination").addClass("hidden");
         let searchTotal = $("#content_more_alert_value").val();
@@ -59,6 +60,16 @@ function intiSearchInput() {
         } else {
             $("#content_more_alert").hide();
         }
+    }
+
+    if (!cvIsNull(searchQuery)) {
+        $("#searchTitle").val(searchQuery);
+        $(".by-title").addClass("active");
+        handlePaginationAndAlertTips();
+    } else if (!cvIsNull(searchContentId)) {
+        $("#searchTitle").val(searchContentId);
+        $(".by-id").addClass("active");
+        handlePaginationAndAlertTips();
     } else {
         $("#content_more_alert").hide();
     }
@@ -78,13 +89,22 @@ function select(condition) {
 /**
  * 内容搜索
  */
-function manageContentSearch() {
+function manageContentSearch(tag) {
     let title = $("#searchTitle").val();
     if (cvIsNull(title.trim())) {
-        $.cvWarn("请输入内容进行搜索");
+        if (tag === 'title') {
+            $.cvWarn("请输入内容进行搜索");
+        } else if (tag === 'id') {
+            $.cvWarn("请输入内容id进行搜索");
+        }
         return;
     }
-    window.location.href = window.location.pathname + '?searchTitle=' + title;
+    if (tag === 'title') {
+        window.location.href = window.location.pathname + '?searchTitle=' + title;
+    } else if (tag === 'id') {
+        window.location.href = window.location.pathname + '?searchContentId=' + title;
+    }
+
 }
 
 /**
@@ -205,9 +225,12 @@ function changeContentStatus(status, contentId) {
                     }
                 });
             }
-
-
         }
     });
 
+}
+
+
+function toDraft(contentId) {
+    window.location.href = '/user/manage/draft?searchContentId=' + contentId;
 }
