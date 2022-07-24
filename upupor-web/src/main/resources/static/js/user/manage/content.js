@@ -69,6 +69,7 @@ function intiSearchInput() {
     } else if (!cvIsNull(searchContentId)) {
         $("#searchTitle").val(searchContentId);
         $(".by-id").addClass("active");
+        $(".from-content-to-draft").show();
         handlePaginationAndAlertTips();
     } else {
         $("#content_more_alert").hide();
