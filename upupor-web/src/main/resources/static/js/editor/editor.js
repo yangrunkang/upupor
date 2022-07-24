@@ -81,9 +81,9 @@ function autoSave() {
 function draftSave() {
     try {
         autoSave();
-        $.cvSuccess("草稿保存成功")
+        $.cvSuccess("暂存成功")
     } catch (e) {
-        $.cvError("草稿保存失败")
+        $.cvError("暂存失败")
         return false;
     }
     setTimeout(function () {

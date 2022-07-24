@@ -29,29 +29,6 @@
 
 package com.upupor.web.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.framework.CcResponse;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.ContentExtend;
-import com.upupor.service.data.dao.entity.Draft;
-import com.upupor.service.data.dao.mapper.ContentExtendMapper;
-import com.upupor.service.data.dao.mapper.ContentMapper;
-import com.upupor.service.data.dao.mapper.DraftMapper;
-import com.upupor.service.types.ContentStatus;
-import com.upupor.service.types.ContentType;
-import com.upupor.service.types.DraftSource;
-import com.upupor.service.types.OriginType;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * 合并数据
  *
@@ -59,86 +36,86 @@ import java.util.stream.Collectors;
  * @createTime 2022-07-23 23:21
  * @email: yangrunkang53@gmail.com
  */
-@RestController
-@RequiredArgsConstructor
-public class MergeDataController {
-
-    private final ContentMapper contentMapper;
-
-    private final DraftMapper draftMapper;
-
-    private final ContentExtendMapper contentExtendMapper;
-
-    @GetMapping("/to-draft")
-    @ResponseBody
-    public CcResponse contentList() {
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getStatus, ContentStatus.DRAFT);
-        List<Content> contentList = contentMapper.selectList(query);
-        if (CollectionUtils.isEmpty(contentList)) {
-            return new CcResponse("草稿状态的内容已清空");
-        }
-
-        List<String> contentIdList = contentList.stream().map(Content::getContentId).distinct().collect(Collectors.toList());
-
-        LambdaQueryWrapper<ContentExtend> queryExtend = new LambdaQueryWrapper<ContentExtend>()
-                .in(ContentExtend::getContentId, contentIdList);
-        List<ContentExtend> contentExtends = contentExtendMapper.selectList(queryExtend);
-
-        for (Content content : contentList) {
-            for (ContentExtend contentExtend : contentExtends) {
-                if (content.getContentId().equals(contentExtend.getContentId())) {
-                    content.setContentExtend(contentExtend);
-                    break;
-                }
-            }
-        }
-
-
-        for (Content content : contentList) {
-            DraftDto draftDto = new DraftDto();
-            draftDto.setTitle(content.getTitle());
-            draftDto.setContent(content.getContentExtend().getDetailContent());
-            draftDto.setMdContent(content.getContentExtend().getMarkdownContent());
-            draftDto.setNoneOriginLink(content.getNoneOriginLink());
-            draftDto.setOriginType(content.getOriginType());
-            draftDto.setContentType(content.getContentType());
-            draftDto.setTagIds(content.getTagIds());
-            draftDto.setPicture(null);
-            draftDto.setPreContentId(content.getContentId());
-            String s = JSONObject.toJSONString(draftDto);
-
-
-            Draft draft = new Draft();
-            draft.setUserId(content.getUserId());
-            draft.setDraftId(content.getContentId());
-            draft.setTitle(content.getTitle());
-            draft.setDraftContent(s);
-            draft.setDraftSource(DraftSource.CONTENT);
-            draft.setCreateTime(content.getCreateTime());
-            draft.setSysUpdateTime(content.getSysUpdateTime());
-            draftMapper.insert(draft);
-            // 删除文章
-            contentMapper.deleteById(content.getId());
-
-        }
-
-        return new CcResponse();
-
-    }
-
-    @Data
-    private class DraftDto {
-        private String title;
-        private String content;
-        private String mdContent;
-        private String noneOriginLink;
-        private OriginType originType;
-        private ContentType contentType;
-        private String tagIds;
-        private String picture;
-        private String preContentId;
-        private String userId;
-    }
-
-}
+//@RestController
+//@RequiredArgsConstructor
+//public class MergeDataController {
+//
+//    private final ContentMapper contentMapper;
+//
+//    private final DraftMapper draftMapper;
+//
+//    private final ContentExtendMapper contentExtendMapper;
+//
+//    @GetMapping("/to-draft")
+//    @ResponseBody
+//    public CcResponse contentList() {
+//        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
+//                .eq(Content::getStatus, ContentStatus.DRAFT);
+//        List<Content> contentList = contentMapper.selectList(query);
+//        if (CollectionUtils.isEmpty(contentList)) {
+//            return new CcResponse("草稿状态的内容已清空");
+//        }
+//
+//        List<String> contentIdList = contentList.stream().map(Content::getContentId).distinct().collect(Collectors.toList());
+//
+//        LambdaQueryWrapper<ContentExtend> queryExtend = new LambdaQueryWrapper<ContentExtend>()
+//                .in(ContentExtend::getContentId, contentIdList);
+//        List<ContentExtend> contentExtends = contentExtendMapper.selectList(queryExtend);
+//
+//        for (Content content : contentList) {
+//            for (ContentExtend contentExtend : contentExtends) {
+//                if (content.getContentId().equals(contentExtend.getContentId())) {
+//                    content.setContentExtend(contentExtend);
+//                    break;
+//                }
+//            }
+//        }
+//
+//
+//        for (Content content : contentList) {
+//            DraftDto draftDto = new DraftDto();
+//            draftDto.setTitle(content.getTitle());
+//            draftDto.setContent(content.getContentExtend().getDetailContent());
+//            draftDto.setMdContent(content.getContentExtend().getMarkdownContent());
+//            draftDto.setNoneOriginLink(content.getNoneOriginLink());
+//            draftDto.setOriginType(content.getOriginType());
+//            draftDto.setContentType(content.getContentType());
+//            draftDto.setTagIds(content.getTagIds());
+//            draftDto.setPicture(null);
+//            draftDto.setPreContentId(content.getContentId());
+//            String s = JSONObject.toJSONString(draftDto);
+//
+//
+//            Draft draft = new Draft();
+//            draft.setUserId(content.getUserId());
+//            draft.setDraftId(content.getContentId());
+//            draft.setTitle(content.getTitle());
+//            draft.setDraftContent(s);
+//            draft.setDraftSource(DraftSource.CONTENT);
+//            draft.setCreateTime(content.getCreateTime());
+//            draft.setSysUpdateTime(content.getSysUpdateTime());
+//            draftMapper.insert(draft);
+//            // 删除文章
+//            contentMapper.deleteById(content.getId());
+//
+//        }
+//
+//        return new CcResponse();
+//
+//    }
+//
+//    @Data
+//    private class DraftDto {
+//        private String title;
+//        private String content;
+//        private String mdContent;
+//        private String noneOriginLink;
+//        private OriginType originType;
+//        private ContentType contentType;
+//        private String tagIds;
+//        private String picture;
+//        private String preContentId;
+//        private String userId;
+//    }
+//
+//}
