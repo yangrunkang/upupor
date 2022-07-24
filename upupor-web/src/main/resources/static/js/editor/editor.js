@@ -114,12 +114,21 @@ function addContent() {
 }
 
 function saveOrUpdateContent() {
-    let hasContentCanToRestore = $('.has-content-can-to-restore').val();
-    if (hasContentCanToRestore) {
-        updateContent(getCommonReq().preContentId);
-    } else {
-        addContent();
+    // 自动保存停止
+    if (!cvIsNull(autoSaveInterval)) {
+        clearInterval(autoSaveInterval);
     }
+
+    let contentId = getCommonReq().preContentId;
+    $.cvPost('/content/exists', {
+        contentId
+    }, function (data) {
+        if (respSuccess(data)) {
+            updateContent(contentId);
+        } else {
+            addContent();
+        }
+    });
 }
 
 /**

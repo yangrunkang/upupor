@@ -160,7 +160,11 @@ public class Create extends AbstractEditor<CreateContentReq> {
                     throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
                 }
             } catch (Exception e) {
-                if (!(e instanceof BusinessException && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode()))) {
+                if (!(e instanceof BusinessException && (
+                        ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())
+                                ||
+                                ((BusinessException) e).getCode().equals(ErrorCode.SUBMIT_REPEAT.getCode())
+                ))) {
                     throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
                 }
             }

@@ -44,7 +44,6 @@ import com.upupor.service.data.dao.entity.ContentData;
 import com.upupor.service.data.dao.entity.MemberIntegral;
 import com.upupor.service.data.dao.mapper.MemberIntegralMapper;
 import com.upupor.service.data.service.ContentService;
-import com.upupor.service.data.service.DraftService;
 import com.upupor.service.data.service.MemberIntegralService;
 import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
@@ -52,6 +51,7 @@ import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.PinnedReq;
 import com.upupor.service.outer.req.UpdateLikeReq;
 import com.upupor.service.outer.req.content.CreateContentReq;
+import com.upupor.service.outer.req.content.ExistContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.outer.req.content.UpdateStatusReq;
 import com.upupor.service.types.ContentStatus;
@@ -72,6 +72,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.CONTENT_INTEGRAL;
+import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 import static com.upupor.framework.ErrorCode.FORBIDDEN_LIKE_SELF_CONTENT;
 
 
@@ -91,7 +92,23 @@ public class ContentController {
     private final MemberIntegralService memberIntegralService;
     private final ApplicationEventPublisher eventPublisher;
     private final MemberIntegralMapper memberIntegralMapper;
-    private final DraftService draftService;
+
+    @PostMapping("/exists")
+    @ResponseBody
+    @ApiOperation("文章是否存在")
+    public CcResponse exists(ExistContentReq existContentReq) {
+        Content manageContentDetail = null;
+        try {
+            manageContentDetail = contentService.getManageContentDetail(existContentReq.getContentId());
+        } catch (Exception e) {
+            if (!(e instanceof BusinessException && (((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())))) {
+                throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
+            }
+        }
+        CcResponse cc = new CcResponse();
+        cc.setData(Objects.nonNull(manageContentDetail));
+        return cc;
+    }
 
     @PostMapping("/add")
     @ResponseBody
