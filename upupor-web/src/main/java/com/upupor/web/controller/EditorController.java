@@ -36,6 +36,7 @@ import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.data.service.DraftService;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.outer.req.content.CleanDraftReq;
+import com.upupor.service.outer.req.content.ExistsDraftReq;
 import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -93,6 +94,19 @@ public class EditorController {
         }
 
         return new CcResponse();
+    }
+
+    /**
+     * 清除草稿
+     *
+     * @return
+     */
+    @PostMapping("/exists-draft")
+    @ResponseBody
+    public CcResponse existsDraft(ExistsDraftReq existsDraftReq) {
+        String contentId = existsDraftReq.getContentId();
+        String userId = ServletUtils.getUserId();
+        return new CcResponse(Objects.nonNull(draftService.getByDraftIdAndUserId(contentId, userId)));
     }
 
 }

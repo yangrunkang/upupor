@@ -56,7 +56,6 @@ $(window).on('load', function () {
 function autoSave() {
     let content = getCommonReq();
     if (cvIsNull(content.title) && cvIsNull(content.content)) {
-        console.log('内容为空,不自动保存')
         return false;
     }
 
@@ -80,6 +79,11 @@ function autoSave() {
 
 function draftSave() {
     try {
+        if (cvIsNull(getCommonReq().title)) {
+            $.cvError("请输入标题,标题不能为空");
+            return false;
+        }
+
         autoSave();
         $.cvSuccess("暂存成功")
     } catch (e) {

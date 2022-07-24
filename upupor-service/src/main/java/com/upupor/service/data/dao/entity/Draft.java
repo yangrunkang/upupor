@@ -31,6 +31,8 @@ package com.upupor.service.data.dao.entity;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.types.ContentStatus;
@@ -66,8 +68,8 @@ public class Draft extends BaseEntity {
         draft.setUserId(userId);
         draft.setDraftId(autoSaveContentReq.getDraftId());
         draft.setDraftContent(autoSaveContentReq.getDraftContent());
-        draft.setTitle(parseContent(draft).getTitle());
         draft.setDraftSource(autoSaveContentReq.getDraftSource());
+        draft.setTitle(parseContent(draft).getTitle());
         draft.setCreateTime(CcDateUtil.getCurrentTime());
         return draft;
     }
@@ -82,6 +84,10 @@ public class Draft extends BaseEntity {
         String draftContent = draft.getDraftContent();
         String contentId = draft.getDraftId();
         String userId = draft.getUserId();
+
+        if (!DraftSource.CONTENT.equals(draft.getDraftSource())) {
+            throw new BusinessException(ErrorCode.DRAFT_SOURCE_NOT_EXISTS);
+        }
 
         if (StringUtils.isEmpty(draftContent)) {
             return Content.empty();

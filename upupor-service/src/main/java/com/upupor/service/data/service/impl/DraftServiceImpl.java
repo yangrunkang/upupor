@@ -91,6 +91,7 @@ public class DraftServiceImpl implements DraftService {
                 return Boolean.TRUE;
             }
             draft.setDraftContent(autoSaveContentReq.getDraftContent());
+            draft.setDraftSource(autoSaveContentReq.getDraftSource());
             draft.setTitle(Draft.parseContent(draft).getTitle());
             draft.setSysUpdateTime(new Date());
             autoSave = this.update(draft);
@@ -139,6 +140,5 @@ public class DraftServiceImpl implements DraftService {
         queryWrapper.eq(Draft::getUserId, userId);
         return draftMapper.selectCount(queryWrapper);
     }
-
 
 }
