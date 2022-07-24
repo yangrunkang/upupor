@@ -55,7 +55,6 @@ import org.thymeleaf.util.StringUtils;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.*;
-import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 
 
 /**
@@ -108,10 +107,21 @@ public class EditorPageJumpController {
             // 处理文章信息
             if (Objects.nonNull(contentId)) {
                 Draft draft = draftService.getByDraftId(contentId);
-
                 if (Objects.nonNull(draft)) {
-                    editorIndexDto.setContent(Draft.parseContent(contentId, draft.getDraftContent(), draft.getUserId()));
-                    modelAndView.addObject(HAS_DRAFT, hasContentCanToRestore(contentId));
+                    Content content = Draft.parseContent(draft);
+
+                    // 查看是否有非草稿的文章
+                    {
+                        Content hasContent = contentService.getManageContentDetail(contentId);
+                        boolean hasContentEmpty = Objects.nonNull(hasContent);
+                        if (hasContentEmpty) {
+                            content.setStatus(hasContent.getStatus()); // 覆盖非草稿文章的状态
+                        }
+                        modelAndView.addObject(HAS_DRAFT, hasContentEmpty);
+                    }
+
+
+                    editorIndexDto.setContent(content);
                 } else {
                     setDbContent(contentId, editorIndexDto);
                 }
@@ -135,23 +145,6 @@ public class EditorPageJumpController {
         return modelAndView;
     }
 
-    /**
-     * 是否有正式的内容可以重置
-     *
-     * @param contentId
-     * @return
-     */
-    private boolean hasContentCanToRestore(String contentId) {
-        Content content = null;
-        try {
-            content = contentService.getManageContentDetail(contentId);
-        } catch (Exception e) {
-            if (!(e instanceof BusinessException && ((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode()))) {
-                throw e;
-            }
-        }
-        return Objects.nonNull(content);
-    }
 
     private void setDbContent(String contentId, EditorIndexDto editorIndexDto) {
         Content content = contentService.getManageContentDetail(contentId);

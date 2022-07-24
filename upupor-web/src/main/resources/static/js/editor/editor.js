@@ -79,16 +79,23 @@ function autoSave() {
 }
 
 function draftSave() {
-    autoSave();
-    window.location.href = '/m/' + getCommonReq().preContentId;
+    try {
+        autoSave();
+        $.cvSuccess("草稿保存成功")
+    } catch (e) {
+        $.cvError("草稿保存失败")
+        return false;
+    }
+    setTimeout(function () {
+        window.location.href = '/m/' + getCommonReq().preContentId;
+    }, 1500);
+
 }
 
 
-function saveContent(operation) {
-
+function addContent() {
     lockLogic(null, function () {
         let content = getCommonReq();
-        content.contentOperation = operation;
 
         if (cvIsNull(content.title)) {
             $.cvWarn("标题为空");
@@ -104,6 +111,15 @@ function saveContent(operation) {
             }
         });
     })
+}
+
+function saveOrUpdateContent() {
+    let hasContentCanToRestore = $('.has-content-can-to-restore').val();
+    if (hasContentCanToRestore) {
+        updateContent(getCommonReq().preContentId);
+    } else {
+        addContent();
+    }
 }
 
 /**
@@ -132,7 +148,7 @@ function lockLogic(contentId, operateFunction) {
 }
 
 
-function updateContent(fromSource, contentId, userId, isDraftPublic) {
+function updateContent(contentId) {
     lockLogic(contentId, function () {
         let content = getCommonReq();
         if (cvIsNull(content.title)) {
@@ -140,15 +156,10 @@ function updateContent(fromSource, contentId, userId, isDraftPublic) {
             return false;
         }
         content.contentId = contentId;
-        content.userId = userId;
         content.editReason = $("#edit_reason").val();
-        content.isDraftPublic = isDraftPublic;
 
         $.cvPost('/content/edit', content, function (data) {
             if (data.data.success) {
-                if (!content.isDraftPublic) {
-                    $.cvSuccess('编辑成功');
-                }
                 redirectContent(data.data);
             } else {
                 $.cvError("文章保存失败");
@@ -166,6 +177,10 @@ function redirectContent(operateContentDto) {
         if (operateContentDto.status === 'NORMAL') {
             $.cvSuccess("文章已发布");
             window.location.href = '/u/' + operateContentDto.contentId;
+        }
+        if (operateContentDto.status === 'ONLY_SELF_CAN_SEE') {
+            $.cvSuccess("文章编辑完成");
+            window.location.href = '/m/' + operateContentDto.contentId;
         }
 
     }, 1500);

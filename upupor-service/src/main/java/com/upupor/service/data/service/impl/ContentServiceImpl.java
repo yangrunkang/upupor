@@ -51,6 +51,7 @@ import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
+import com.upupor.service.outer.req.content.UpdateStatusReq;
 import com.upupor.service.types.*;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.ServletUtils;
@@ -272,8 +273,8 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public OperateContentDto updateContentStatus(UpdateContentReq updateContentReq) {
-        return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.UPDATE_STATUS, updateContentReq);
+    public OperateContentDto updateContentStatus(UpdateStatusReq updateStatusReq) {
+        return AbstractEditor.execute(abstractEditorList, AbstractEditor.EditorType.UPDATE_STATUS, updateStatusReq);
     }
 
 

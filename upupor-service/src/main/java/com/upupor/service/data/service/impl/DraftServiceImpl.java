@@ -90,8 +90,8 @@ public class DraftServiceImpl implements DraftService {
             if (autoSaveContentReq.getDraftContent().equals(draft.getDraftContent())) { // 内容json包含title和content,只需要比较这个值
                 return Boolean.TRUE;
             }
-            draft.setTitle(Draft.parseContent(autoSaveContentReq.getDraftId(), autoSaveContentReq.getDraftContent(), userId).getTitle());
             draft.setDraftContent(autoSaveContentReq.getDraftContent());
+            draft.setTitle(Draft.parseContent(draft).getTitle());
             draft.setSysUpdateTime(new Date());
             autoSave = this.update(draft);
         }
@@ -106,6 +106,7 @@ public class DraftServiceImpl implements DraftService {
         draftQuery.eq(Objects.nonNull(listDraftDto.getUserId()), Draft::getUserId, listDraftDto.getUserId());
         draftQuery.eq(Objects.nonNull(listDraftDto.getDraftId()), Draft::getDraftId, listDraftDto.getDraftId());
         draftQuery.like(Objects.nonNull(listDraftDto.getSearchTitle()), Draft::getTitle, listDraftDto.getSearchTitle());
+        draftQuery.orderByDesc(Draft::getCreateTime);
         return draftMapper.selectList(draftQuery);
     }
 

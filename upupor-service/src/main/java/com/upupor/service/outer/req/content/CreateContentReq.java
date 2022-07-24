@@ -30,6 +30,9 @@
 package com.upupor.service.outer.req.content;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 创建文章请求
@@ -39,6 +42,8 @@ import lombok.Data;
  */
 @Data
 public class CreateContentReq extends BaseContentReq {
-
+    @Length(max = 256, message = "文章标题过长,最多可输入256个字")
+    @NotEmpty(message = "标题不能为空")
+    private String title;
 
 }

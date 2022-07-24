@@ -31,6 +31,7 @@ package com.upupor.service.outer.req.content;
 
 import com.upupor.service.types.ContentStatus;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -44,23 +45,18 @@ public class UpdateContentReq extends BaseContentReq {
     @NotEmpty(message = "文章Id为空")
     private String contentId;
 
+    @Length(max = 256, message = "文章标题过长,最多可输入256个字")
+    @NotEmpty(message = "标题不能为空")
+    private String title;
+
     /**
      * 文章状态
      */
     private ContentStatus status;
 
-    private String userId;
-
     /**
      * 编辑原因
      */
     private String editReason;
-
-
-    /**
-     * 是否将草稿公开 true-公开
-     */
-    private Boolean isDraftPublic;
-
 
 }

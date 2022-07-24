@@ -65,8 +65,8 @@ public class Draft extends BaseEntity {
         Draft draft = new Draft();
         draft.setUserId(userId);
         draft.setDraftId(autoSaveContentReq.getDraftId());
-        draft.setTitle(parseContent(autoSaveContentReq.getDraftId(), autoSaveContentReq.getDraftContent(), userId).getTitle());
         draft.setDraftContent(autoSaveContentReq.getDraftContent());
+        draft.setTitle(parseContent(draft).getTitle());
         draft.setDraftSource(autoSaveContentReq.getDraftSource());
         draft.setCreateTime(CcDateUtil.getCurrentTime());
         return draft;
@@ -75,10 +75,14 @@ public class Draft extends BaseEntity {
     /**
      * 草稿内容解析为内容
      *
-     * @param contentId
+     * @param draft
      * @return
      */
-    public static Content parseContent(String contentId, String draftContent, String userId) {
+    public static Content parseContent(Draft draft) {
+        String draftContent = draft.getDraftContent();
+        String contentId = draft.getDraftId();
+        String userId = draft.getUserId();
+
         if (StringUtils.isEmpty(draftContent)) {
             return Content.empty();
         }

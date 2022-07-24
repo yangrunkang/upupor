@@ -110,12 +110,13 @@
                         </div>
                         <div class="card-title" th:text="${cvException}"></div>
                     </div>
-                    <button type="button" class="btn rounded-3 bg-gradient btn-primary"
-                            onclick="saveContent(null)">发布
-                    </button>
-                    <button type="button" class="btn rounded-3 bg-gradient btn-secondary"
-                            onclick="draftSave()">草稿
-                    </button>
+                    <div>
+                        <button th:if="${editorIndexDto.content.status.name() == 'NORMAL'}" type="button" class="btn rounded-3 bg-gradient btn-primary" onclick="saveOrUpdateContent()">发布</button>
+                        <button th:if="${editorIndexDto.content.status.name() == 'ONLY_SELF_CAN_SEE'}" type="button" class="btn rounded-3 bg-gradient btn-primary" onclick="saveOrUpdateContent()">编辑完成</button>
+                        <button type="button" class="btn rounded-3 bg-gradient btn-secondary"
+                                onclick="draftSave()">暂存
+                        </button>
+                    </div>
                 </div>
                 <!--转载或者原创-->
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
@@ -169,6 +170,7 @@
                     <!--                    <input type="hidden" class="is-new-content-tag"-->
                     <!--                           th:value="${new_content_tag}"/>-->
                     <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>
+                    <input type="hidden" class="has-content-can-to-restore" th:value="${hasContentCanToRestore}"/>
 
                 </div>
             </div>

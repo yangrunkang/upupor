@@ -32,7 +32,7 @@ package com.upupor.service.business.editor;
 import com.upupor.framework.BusinessException;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.dto.OperateContentDto;
-import com.upupor.service.outer.req.content.UpdateContentReq;
+import com.upupor.service.outer.req.content.UpdateStatusReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.PinnedStatus;
 import com.upupor.service.utils.ServletUtils;
@@ -51,7 +51,7 @@ import static com.upupor.framework.ErrorCode.FIRST_CANCEL_PINNED;
  */
 @Slf4j
 @Component
-public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
+public class UpdateStatus extends AbstractEditor<UpdateStatusReq> {
     @Override
     protected EditorType editorType() {
         return EditorType.UPDATE_STATUS;
@@ -61,23 +61,23 @@ public class UpdateStatus extends AbstractEditor<UpdateContentReq> {
 
     @Override
     protected void check() {
-        UpdateContentReq updateContentReq = getReq();
+        UpdateStatusReq updateStatusReq = getReq();
         // check
-        String contentId = updateContentReq.getContentId();
+        String contentId = updateStatusReq.getContentId();
         editContent = contentService.getManageContentDetail(contentId);
         // 校验内容所属的用户id是否是当前用户
         ServletUtils.checkOperatePermission(editContent.getUserId());
 
-        if (Objects.nonNull(editContent.getPinnedStatus()) && PinnedStatus.PINNED.equals(editContent.getPinnedStatus()) && !ContentStatus.NORMAL.equals(updateContentReq.getStatus())) {
+        if (Objects.nonNull(editContent.getPinnedStatus()) && PinnedStatus.PINNED.equals(editContent.getPinnedStatus()) && !ContentStatus.NORMAL.equals(updateStatusReq.getStatus())) {
             throw new BusinessException(FIRST_CANCEL_PINNED);
         }
     }
 
     @Override
     protected OperateContentDto doBusiness() {
-        UpdateContentReq updateContentReq = getReq();
-        
-        editContent.setStatus(updateContentReq.getStatus());
+        UpdateStatusReq updateStatusReq = getReq();
+
+        editContent.setStatus(updateStatusReq.getStatus());
         editContent.setSysUpdateTime(new Date());
         boolean result = contentMapper.updateById(editContent) > 0;
 

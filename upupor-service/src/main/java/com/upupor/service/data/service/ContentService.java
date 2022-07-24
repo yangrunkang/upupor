@@ -39,6 +39,7 @@ import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
+import com.upupor.service.outer.req.content.UpdateStatusReq;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.PinnedStatus;
 import com.upupor.service.types.SearchContentType;
@@ -272,7 +273,13 @@ public interface ContentService {
     void lastAndNextContent(Content content);
 
 
-    OperateContentDto updateContentStatus(UpdateContentReq updateContentReq);
+    /**
+     * 更新内容状态
+     *
+     * @param updateStatusReq
+     * @return
+     */
+    OperateContentDto updateContentStatus(UpdateStatusReq updateStatusReq);
 
 
     /**

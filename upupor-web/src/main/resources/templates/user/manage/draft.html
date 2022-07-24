@@ -119,7 +119,7 @@
                                                    th:href="@{'/editor?type='+${content.contentType.name()}+'&contentId='+${content.contentId}}"><span
                                                         th:include="fragments/icon::edit"></span>编辑</a>
                                                 <a class="cv-link dropdown-item small"
-                                                   th:onclick="changeContentStatus('DELETED',[[${content.contentId}]])"><span
+                                                   th:onclick="changeContentStatus('DELETE_DRAFT',[[${content.contentId}]])"><span
                                                         th:include="fragments/icon::shanchu"></span>删除</a>
                                             </div>
                                         </div>

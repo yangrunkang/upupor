@@ -53,6 +53,7 @@ import com.upupor.service.outer.req.PinnedReq;
 import com.upupor.service.outer.req.UpdateLikeReq;
 import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
+import com.upupor.service.outer.req.content.UpdateStatusReq;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.MemberIntegralStatus;
 import com.upupor.service.types.PinnedStatus;
@@ -109,7 +110,6 @@ public class ContentController {
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
     @ApiOperation("更新内容")
     public CcResponse edit(UpdateContentReq updateContentReq) {
-        ServletUtils.checkOperatePermission(updateContentReq.getUserId());
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.updateContent(updateContentReq);
         cc.setData(operateContentDto);
@@ -121,9 +121,9 @@ public class ContentController {
     @ResponseBody
     @ApiOperation("更新内容状态")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
-    public CcResponse status(UpdateContentReq updateContentReq) {
+    public CcResponse status(UpdateStatusReq updateStatusReq) {
         CcResponse cc = new CcResponse();
-        OperateContentDto operateContentDto = contentService.updateContentStatus(updateContentReq);
+        OperateContentDto operateContentDto = contentService.updateContentStatus(updateStatusReq);
         cc.setData(operateContentDto);
         return cc;
     }

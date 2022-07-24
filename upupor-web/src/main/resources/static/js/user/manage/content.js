@@ -154,6 +154,8 @@ function changeContentStatus(status, contentId) {
     let operation = '';
     if (status === 'DELETED') {
         operation = "确定将文章删除吗";
+    } else if (status === 'DELETE_DRAFT') {
+        operation = "确定将草稿删除吗";
     } else if (status === 'ONLY_SELF_CAN_SEE') {
         operation = "确定将文章变更为自己可见吗";
     } else if (status === 'NORMAL') {
@@ -180,17 +182,31 @@ function changeContentStatus(status, contentId) {
         closeOnEsc: false,
     }).then((willDelete) => {
         if (willDelete) {
-            let updateContent = {
-                contentId: contentId,
-                status: status,
-            };
-            $.cvPost('/content/status', updateContent, function (data) {
-                if (data.data.success) {
-                    history.go();
-                } else {
-                    $.cvError("状态变更失败")
-                }
-            });
+
+            if (status === 'DELETE_DRAFT') {
+                $.cvPost('/editor/clean-draft', {contentId}, function (data) {
+                    if (respCodeOk(data)) {
+                        history.go(0);
+                    } else {
+                        $.cvError("清除草稿失败")
+                    }
+                });
+
+            } else {
+                let updateContent = {
+                    contentId: contentId,
+                    status: status,
+                };
+                $.cvPost('/content/status', updateContent, function (data) {
+                    if (data.data.success) {
+                        history.go();
+                    } else {
+                        $.cvError("状态变更失败")
+                    }
+                });
+            }
+
+
         }
     });
 

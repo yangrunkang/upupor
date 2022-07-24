@@ -38,6 +38,7 @@ import com.upupor.service.data.dao.entity.Draft;
 import com.upupor.service.data.dao.mapper.ContentExtendMapper;
 import com.upupor.service.data.dao.mapper.ContentMapper;
 import com.upupor.service.data.dao.mapper.DraftMapper;
+import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.DraftSource;
 import com.upupor.service.types.OriginType;
@@ -50,8 +51,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.upupor.framework.utils.CcUtils.checkEnvIsDev;
 
 /**
  * 合并数据
@@ -74,7 +73,7 @@ public class MergeDataController {
     @ResponseBody
     public CcResponse contentList() {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
-                .eq(Content::getStatus, 1);
+                .eq(Content::getStatus, ContentStatus.DRAFT);
         List<Content> contentList = contentMapper.selectList(query);
         if (CollectionUtils.isEmpty(contentList)) {
             return new CcResponse("草稿状态的内容已清空");
@@ -120,9 +119,7 @@ public class MergeDataController {
             draft.setSysUpdateTime(content.getSysUpdateTime());
             draftMapper.insert(draft);
             // 删除文章
-            if (!checkEnvIsDev()) {
-                contentMapper.deleteById(content.getId());
-            }
+            contentMapper.deleteById(content.getId());
 
         }
 

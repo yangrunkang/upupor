@@ -29,51 +29,16 @@
 
 package com.upupor.service.outer.req.content;
 
-import com.upupor.service.types.ContentType;
-import com.upupor.service.types.OriginType;
 import lombok.Data;
-import org.apache.logging.log4j.util.Strings;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.util.StringUtils;
 
 /**
+ * 删除草稿
+ *
  * @author Yang Runkang (cruise)
- * @date 2022年01月07日 22:10
+ * @createTime 2022-07-24 12:29
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class BaseContentReq {
-    /**
-     * 预置文章Id
-     */
-    private String preContentId;
-
-    @Length(max = 1024, message = "简介内容过长,最多可输入1024个字")
-    private String shortContent;
-
-    /**
-     * 文章类型
-     */
-    private ContentType contentType;
-
-    @Length(max = 256, message = "标签过多,请减少标签数目")
-    private String tagIds;
-
-    private String content;
-    private String mdContent;
-
-    /**
-     * 原创
-     */
-    private OriginType originType;
-
-    @Length(max = 1024, message = "转载链接过长,最多可输入1024个字")
-    private String noneOriginLink;
-
-    public String getMdContent() {
-        if (StringUtils.isEmpty(mdContent)) {
-            return Strings.EMPTY;
-        }
-        return mdContent;
-    }
+public class DeleteDraftReq {
+    private String draftId;
 }

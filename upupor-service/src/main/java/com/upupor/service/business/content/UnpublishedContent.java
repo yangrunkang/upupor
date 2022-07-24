@@ -32,7 +32,9 @@ package com.upupor.service.business.content;
 import com.upupor.framework.BusinessException;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.Draft;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.DraftService;
+import com.upupor.service.types.ContentStatus;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
@@ -53,19 +55,27 @@ public class UnpublishedContent extends AbstractContent {
     @Resource
     private DraftService draftService;
 
+    @Resource
+    private ContentService contentService;
+
     @Override
     protected Content queryContent() {
+        Content content = null;
         Draft draft = draftService.getByDraftId(getContentId());
-        if (Objects.isNull(draft)) {
-            throw new BusinessException(DRAFT_NOT_EXISTS);
+        if (Objects.isNull(draft)) { // 草稿不存在,则查询文章仅自己可见的内容
+            content = contentService.getManageContentDetail(getContentId());
+            if (Objects.isNull(content) || !ContentStatus.ONLY_SELF_CAN_SEE.equals(content.getStatus())) {
+                throw new BusinessException(DRAFT_NOT_EXISTS);
+            }
+        } else {
+            content = Draft.parseContent(draft);
         }
-        Content content = Draft.parseContent(getContentId(), draft.getDraftContent(), draft.getUserId());
+
         // 校验文章所属人
         String userId = ServletUtils.getUserId();
         if (!content.getUserId().equals(userId)) {
             throw new BusinessException(ARTICLE_NOT_BELONG_TO_YOU);
         }
-
         return content;
     }
 

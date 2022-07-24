@@ -89,7 +89,7 @@ public class DraftManage extends AbstractManage {
         if (CollectionUtils.isEmpty(draftList)) {
             return new ArrayList<>();
         }
-        draftList.forEach(draft -> contentList.add(Draft.parseContent(draft.getDraftId(), draft.getDraftContent(), draft.getUserId())));
+        draftList.forEach(draft -> contentList.add(Draft.parseContent(draft)));
         return contentList;
     }
 

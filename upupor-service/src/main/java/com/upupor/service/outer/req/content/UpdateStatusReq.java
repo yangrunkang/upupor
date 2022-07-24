@@ -29,51 +29,23 @@
 
 package com.upupor.service.outer.req.content;
 
-import com.upupor.service.types.ContentType;
-import com.upupor.service.types.OriginType;
+import com.upupor.service.types.ContentStatus;
 import lombok.Data;
-import org.apache.logging.log4j.util.Strings;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.util.StringUtils;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author Yang Runkang (cruise)
- * @date 2022年01月07日 22:10
+ * @createTime 2022-07-24 12:45
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class BaseContentReq {
+public class UpdateStatusReq extends BaseContentReq {
+
+    @NotEmpty(message = "文章Id为空")
+    private String contentId;
     /**
-     * 预置文章Id
+     * 文章状态
      */
-    private String preContentId;
-
-    @Length(max = 1024, message = "简介内容过长,最多可输入1024个字")
-    private String shortContent;
-
-    /**
-     * 文章类型
-     */
-    private ContentType contentType;
-
-    @Length(max = 256, message = "标签过多,请减少标签数目")
-    private String tagIds;
-
-    private String content;
-    private String mdContent;
-
-    /**
-     * 原创
-     */
-    private OriginType originType;
-
-    @Length(max = 1024, message = "转载链接过长,最多可输入1024个字")
-    private String noneOriginLink;
-
-    public String getMdContent() {
-        if (StringUtils.isEmpty(mdContent)) {
-            return Strings.EMPTY;
-        }
-        return mdContent;
-    }
+    private ContentStatus status;
 }
