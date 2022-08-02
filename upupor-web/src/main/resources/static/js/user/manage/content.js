@@ -41,7 +41,7 @@ function searchInputBindEnter() {
         let key = event.which;
         if (key === 13) {
             event.preventDefault();
-            manageContentSearch();
+            manageContentSearch('title');
         }
     })
 }

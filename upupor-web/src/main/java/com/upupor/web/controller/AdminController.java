@@ -152,7 +152,7 @@ public class AdminController {
         List<MemberConfig> memberConfigList = memberService.listMemberConfig(userIdList);
         if (!CollectionUtils.isEmpty(memberConfigList)) {
             memberConfigList.forEach(memberConfig -> {
-                memberConfig.setIntervalTimeCreateContent(3600L);
+                memberConfig.setIntervalTimeCreateContent(3600L * 24);// 对于恶意用户,限制发文调整至24小时
                 memberService.updateMemberConfig(memberConfig);
             });
         }
