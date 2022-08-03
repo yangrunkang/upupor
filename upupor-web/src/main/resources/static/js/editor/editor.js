@@ -66,7 +66,7 @@ function autoSave() {
     }
 
 
-    $.cvPost('/editor/auto-save', draft, function (data) {
+    $.cvPostUnder('/editor/auto-save', draft, function (data) {
         if (respSuccess(data)) {
             $(".auto-save-card").fadeIn();
             $(".auto-save").text(getFormatDate() + "自动保存").fadeIn();
