@@ -261,7 +261,18 @@ public class ContentServiceImpl implements ContentService {
     @Override
     public Boolean insertContent(Content content) {
         int count = contentMapper.insert(content);
-        return contentExtendMapper.insert(content.getContentExtend()) + count > 1;
+
+        {// 如果有历史文章先删除,此段代码为重构草稿(支持多草稿)的兼容代码
+            LambdaQueryWrapper<ContentExtend> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(ContentExtend::getContentId, content.getContentExtend().getContentId());
+            List<ContentExtend> contentExtendList = contentExtendMapper.selectList(queryWrapper);
+            if (!CollectionUtils.isEmpty(contentExtendList)) {
+                contentExtendMapper.deleteBatchIds(contentExtendList.stream().map(ContentExtend::getId).distinct().collect(Collectors.toList()));
+            }
+        }
+
+        int extend = contentExtendMapper.insert(content.getContentExtend());
+        return extend + count > 1;
     }
 
     @Override
