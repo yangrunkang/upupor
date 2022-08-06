@@ -182,20 +182,27 @@ function updateContent(contentId) {
 }
 
 function redirectContent(operateContentDto) {
+    if (operateContentDto.success === false) {
+        return;
+    }
+
+    let tips;
+    let url;
+
+    if (operateContentDto.status === 'NORMAL') {
+        tips = "文章已发布";
+        url = '/u/' + operateContentDto.contentId;
+    } else if (operateContentDto.status === 'ONLY_SELF_CAN_SEE') {
+        tips = "文章编辑完成";
+        url = '/m/' + operateContentDto.contentId;
+    } else {
+        tips = "未知操作";
+        url = '/';
+    }
+
+    $.cvSuccess(tips);
     setTimeout(function () {
-        if (operateContentDto.success === false) {
-            return;
-        }
-
-        if (operateContentDto.status === 'NORMAL') {
-            $.cvSuccess("文章已发布");
-            window.location.href = '/u/' + operateContentDto.contentId;
-        }
-        if (operateContentDto.status === 'ONLY_SELF_CAN_SEE') {
-            $.cvSuccess("文章编辑完成");
-            window.location.href = '/m/' + operateContentDto.contentId;
-        }
-
+        window.location.href = url;
     }, 1500);
 }
 
