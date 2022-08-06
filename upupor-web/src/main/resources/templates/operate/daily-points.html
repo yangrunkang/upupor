@@ -65,7 +65,7 @@
                                 >
                                     <td th:text="${ite.count}" style="text-align: center"></td>
                                     <td>
-                                        <p th:utext="${integral.integralText} +' +'+ ${integral.integralValue}"></p>
+                                        <p th:utext="${integral.integralText} +${integral.integralValue > 0 ? ' +':' '}+ ${integral.integralValue}"></p>
                                     </td>
                                     <td th:text="${integral.createDate}">创建时间</td>
                                 </tr>
