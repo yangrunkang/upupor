@@ -1,34 +1,36 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.lucene;
 
 import com.upupor.lucene.bean.LuceneBean;
-import com.upupor.lucene.dto.LucenuQueryResultDto;
+import com.upupor.lucene.dto.LuceneQueryResultDto;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.SearchType;
 import org.apache.commons.lang3.ArrayUtils;
@@ -73,7 +75,7 @@ public class UpuporLuceneService {
      * @param searchType  检索类型
      * @return
      */
-    public LucenuQueryResultDto searchTitle(String searchField, String keyword, SearchType searchType) {
+    public LuceneQueryResultDto searchTitle(String searchField, String keyword, SearchType searchType) {
         IndexReader reader = null;
         try {
             Query query;
@@ -91,25 +93,25 @@ public class UpuporLuceneService {
             TopDocs docs = searcher.search(query, hitsPerPage);
             // 命中结果
             ScoreDoc[] hits = docs.scoreDocs;
-            LucenuQueryResultDto lucenuQueryResultDto = new LucenuQueryResultDto();
+            LuceneQueryResultDto luceneQueryResultDto = new LuceneQueryResultDto();
             if (ArrayUtils.isEmpty(hits)) {
-                return lucenuQueryResultDto;
+                return luceneQueryResultDto;
             }
 
-            List<LucenuQueryResultDto.Data> resultList = new ArrayList<>();
+            List<LuceneQueryResultDto.Data> resultList = new ArrayList<>();
             for (ScoreDoc hit : hits) {
                 int docId = hit.doc;
                 Document d = searcher.doc(docId);
-                resultList.add(LucenuQueryResultDto.Data.builder()
+                resultList.add(LuceneQueryResultDto.Data.builder()
                         .title(d.get(TITLE))
                         .target(d.get(TARGET_ID))
                         .luceneDataType(LuceneDataType.getByEnumStr(d.get(LUCENE_DATA_TYPE)))
                         .build());
             }
 
-            lucenuQueryResultDto.setTotal((long) hits.length);
-            lucenuQueryResultDto.setResultList(resultList);
-            return lucenuQueryResultDto;
+            luceneQueryResultDto.setTotal((long) hits.length);
+            luceneQueryResultDto.setResultList(resultList);
+            return luceneQueryResultDto;
 
         } catch (Exception e) {
             throw new RuntimeException("查询失败", e);

@@ -27,12 +27,30 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.service.types;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.service.data.dao.entity.ViewHistory;
+import com.baomidou.mybatisplus.annotation.EnumValue;
+import lombok.Getter;
 
-public interface ViewHistoryMapper extends BaseMapper<ViewHistory> {
+/**
+ * 访问类型 1-访问者 2-访问记录
+ *
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-09-05 00:50
+ * @email: yangrunkang53@gmail.com
+ */
+@Getter
+public enum ViewType {
 
+    VIEWER(1, "访问者"),
+    VIEW_RECORD(2, "访问记录"),
+    ;
+    @EnumValue
+    private final Integer type;
+    private final String name;
 
+    ViewType(Integer type, String name) {
+        this.type = type;
+        this.name = name;
+    }
 }

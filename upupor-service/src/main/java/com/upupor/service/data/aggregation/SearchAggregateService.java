@@ -1,42 +1,43 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.service.data.aggregation;
 
 import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.lucene.dto.ContentFieldAndSearchDto;
-import com.upupor.lucene.dto.LucenuQueryResultDto;
+import com.upupor.lucene.dto.LuceneQueryResultDto;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.SearchType;
 import com.upupor.service.business.search.AbstractSearchResultRender;
 import com.upupor.service.dto.page.SearchIndexDto;
 import com.upupor.service.dto.page.search.SearchDataDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -66,10 +67,10 @@ public class SearchAggregateService {
         List<SearchDataDto> searchDataDtoList = new ArrayList<>();
 
         // 搜索Lucene
-        LucenuQueryResultDto lucenuQueryResultDto = upuporLuceneService.searchTitle(ContentFieldAndSearchDto.TITLE, keyword, SearchType.LIKE);
+        LuceneQueryResultDto luceneQueryResultDto = upuporLuceneService.searchTitle(ContentFieldAndSearchDto.TITLE, keyword, SearchType.LIKE);
 
         // 获取搜索结果
-        List<LucenuQueryResultDto.Data> resultList = lucenuQueryResultDto.getResultList();
+        List<LuceneQueryResultDto.Data> resultList = luceneQueryResultDto.getResultList();
 
         // 结果为空,则返回
         if (CollectionUtils.isEmpty(resultList)) {
@@ -77,11 +78,11 @@ public class SearchAggregateService {
             return searchIndexDto;
         }
 
-        Map<LuceneDataType, List<LucenuQueryResultDto.Data>> resultMap = resultList.stream().collect(Collectors.groupingBy(LucenuQueryResultDto.Data::getLuceneDataType));
+        Map<LuceneDataType, List<LuceneQueryResultDto.Data>> resultMap = resultList.stream().collect(Collectors.groupingBy(LuceneQueryResultDto.Data::getLuceneDataType));
 
         for (AbstractSearchResultRender<?> render : renderHandlerList) {
             for (LuceneDataType luceneDataType : resultMap.keySet()) {
-                if(luceneDataType.equals(render.dataType())){
+                if (luceneDataType.equals(render.dataType())) {
                     // 初始化
                     render.init(resultMap.get(luceneDataType));
                     // 渲染结果
@@ -105,27 +106,29 @@ public class SearchAggregateService {
         searchIndexDto.setSearchDataDtoList(searchDataDtoList);
         return searchIndexDto;
     }
+
     /**
      * 过滤html标签
+     *
      * @param htmlStr
      * @return
      */
-    public synchronized static String delHTMLTag(String htmlStr){
-        String regEx_script="<script[^>]*?>[\\s\\S]*?<\\/script>"; //定义script的正则表达式
-        String regEx_style="<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
-        String regEx_html="<[^>]+>"; //定义HTML标签的正则表达式
+    public synchronized static String delHTMLTag(String htmlStr) {
+        String regEx_script = "<script[^>]*?>[\\s\\S]*?<\\/script>"; //定义script的正则表达式
+        String regEx_style = "<style[^>]*?>[\\s\\S]*?<\\/style>"; //定义style的正则表达式
+        String regEx_html = "<[^>]+>"; //定义HTML标签的正则表达式
 
-        Pattern p_script=Pattern.compile(regEx_script,Pattern.CASE_INSENSITIVE);
-        Matcher m_script=p_script.matcher(htmlStr);
-        htmlStr=m_script.replaceAll(""); //过滤script标签
+        Pattern p_script = Pattern.compile(regEx_script, Pattern.CASE_INSENSITIVE);
+        Matcher m_script = p_script.matcher(htmlStr);
+        htmlStr = m_script.replaceAll(""); //过滤script标签
 
-        Pattern p_style=Pattern.compile(regEx_style,Pattern.CASE_INSENSITIVE);
-        Matcher m_style=p_style.matcher(htmlStr);
-        htmlStr=m_style.replaceAll(""); //过滤style标签
+        Pattern p_style = Pattern.compile(regEx_style, Pattern.CASE_INSENSITIVE);
+        Matcher m_style = p_style.matcher(htmlStr);
+        htmlStr = m_style.replaceAll(""); //过滤style标签
 
-        Pattern p_html=Pattern.compile(regEx_html,Pattern.CASE_INSENSITIVE);
-        Matcher m_html=p_html.matcher(htmlStr);
-        htmlStr=m_html.replaceAll(""); //过滤html标签
+        Pattern p_html = Pattern.compile(regEx_html, Pattern.CASE_INSENSITIVE);
+        Matcher m_html = p_html.matcher(htmlStr);
+        htmlStr = m_html.replaceAll(""); //过滤html标签
 
         return htmlStr.trim(); //返回文本字符串
     }

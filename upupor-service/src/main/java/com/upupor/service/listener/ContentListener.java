@@ -1,39 +1,45 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.service.listener;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.data.dao.entity.*;
-import com.upupor.service.data.dao.mapper.ViewHistoryMapper;
-import com.upupor.service.data.dao.mapper.ViewerMapper;
-import com.upupor.service.data.service.*;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.data.dao.entity.Content;
+import com.upupor.service.data.dao.entity.Fans;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.entity.ViewHistory;
+import com.upupor.service.data.dao.mapper.ViewHistoryMapper;
+import com.upupor.service.data.service.*;
 import com.upupor.service.dto.page.common.ListFansDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.listener.event.PublishContentEvent;
@@ -41,8 +47,7 @@ import com.upupor.service.listener.event.ViewerEvent;
 import com.upupor.service.types.ContentStatus;
 import com.upupor.service.types.MessageType;
 import com.upupor.service.types.ViewTargetType;
-import com.upupor.service.types.ViewerDeleteStatus;
-import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.types.ViewType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -51,7 +56,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,7 +78,6 @@ public class ContentListener {
     private final FanService fanService;
     private final MemberService memberService;
     private final MessageService messageService;
-    private final ViewerMapper viewerMapper;
     private final ViewHistoryMapper viewHistoryMapper;
 
     @EventListener
@@ -91,35 +94,21 @@ public class ContentListener {
         // 记录浏览者
         recordViewer(targetId, targetType, viewerUserId);
         // 记录浏览记录
-        recordViewerHistory(targetId, targetType, viewerUserId);
+        viewHistoryMapper.insert(ViewHistory.create(targetId, targetType, viewerUserId, ViewType.VIEW_RECORD));
     }
 
     private void recordViewer(String targetId, ViewTargetType targetType, String viewerUserId) {
-        int count = viewerMapper.countByTargetIdAndViewerUserId(targetId, viewerUserId, targetType.getType());
+
+        LambdaQueryWrapper<ViewHistory> queryViewHistory = new LambdaQueryWrapper<ViewHistory>()
+                .eq(ViewHistory::getTargetId, targetId)
+                .eq(ViewHistory::getViewerUserId, viewerUserId)
+                .eq(ViewHistory::getTargetType, targetType)
+                .eq(ViewHistory::getViewType, ViewType.VIEWER);
+        Long count = viewHistoryMapper.selectCount(queryViewHistory);
         if (count > 0) {
             return;
         }
-
-        Viewer viewer = new Viewer();
-        viewer.setTargetId(targetId);
-        viewer.setViewerUserId(viewerUserId);
-        viewer.setTargetType(targetType);
-        viewer.setDeleteStatus(ViewerDeleteStatus.NORMAL);
-        viewer.setSysUpdateTime(new Date());
-        viewer.setCreateTime(CcDateUtil.getCurrentTime());
-        viewerMapper.insert(viewer);
-    }
-
-    private void recordViewerHistory(String targetId, ViewTargetType targetType, String viewerUserId) {
-
-        ViewHistory viewHistory = new ViewHistory();
-        viewHistory.setTargetId(targetId);
-        viewHistory.setViewerUserId(viewerUserId);
-        viewHistory.setTargetType(targetType);
-        viewHistory.setDeleteStatus(ViewerDeleteStatus.NORMAL);
-        viewHistory.setSysUpdateTime(new Date());
-        viewHistory.setCreateTime(CcDateUtil.getCurrentTime());
-        viewHistoryMapper.insert(viewHistory);
+        viewHistoryMapper.insert(ViewHistory.create(targetId, targetType, viewerUserId, ViewType.VIEWER));
     }
 
     @EventListener

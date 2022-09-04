@@ -223,7 +223,7 @@ public class Content extends BaseEntity {
      * 文章访问者
      */
     @TableField(exist = false)
-    private List<Viewer> viewerList;
+    private List<ViewHistory> viewerList;
 
     public Content() {
         init();

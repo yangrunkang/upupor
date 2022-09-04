@@ -27,12 +27,43 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.lucene.dto;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.service.data.dao.entity.ViewHistory;
+import com.upupor.lucene.enums.LuceneDataType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public interface ViewHistoryMapper extends BaseMapper<ViewHistory> {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Lucene查询结果总数
+ *
+ * @author Yang Runkang (cruise)
+ * @date 2022年03月27日 23:19
+ * @email: yangrunkang53@gmail.com
+ */
+@Data
+public class LuceneQueryResultDto {
+
+    private Long total;
+    List<Data> resultList;
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @lombok.Data
+    public static class Data {
+        private String title;
+        private String target;
+        private LuceneDataType luceneDataType;
+    }
 
 
+    public LuceneQueryResultDto() {
+        this.total = 0L;
+        resultList = new ArrayList<>();
+    }
 }

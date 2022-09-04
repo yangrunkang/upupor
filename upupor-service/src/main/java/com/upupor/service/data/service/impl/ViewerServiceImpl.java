@@ -1,28 +1,30 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.service.data.service.impl;
@@ -30,18 +32,18 @@ package com.upupor.service.data.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.ViewHistory;
-import com.upupor.service.data.dao.entity.Viewer;
-import com.upupor.service.data.dao.mapper.ViewHistoryMapper;
-import com.upupor.service.data.dao.mapper.ViewerMapper;
-import com.upupor.service.data.service.MemberService;
-import com.upupor.service.data.service.ViewerService;
 import com.upupor.service.business.viewhistory.AbstractViewHistory;
 import com.upupor.service.common.CcTemplateConstant;
+import com.upupor.service.data.dao.entity.Member;
+import com.upupor.service.data.dao.entity.ViewHistory;
+import com.upupor.service.data.dao.mapper.ViewHistoryMapper;
+import com.upupor.service.data.service.MemberService;
+import com.upupor.service.data.service.ViewerService;
 import com.upupor.service.dto.page.common.ListViewHistoryDto;
 import com.upupor.service.listener.event.ViewerEvent;
 import com.upupor.service.types.ViewTargetType;
+import com.upupor.service.types.ViewType;
+import com.upupor.service.types.ViewerDeleteStatus;
 import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +62,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ViewerServiceImpl implements ViewerService {
 
-    private final ViewerMapper viewerMapper;
     private final ViewHistoryMapper viewHistoryMapper;
     private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
@@ -85,13 +86,20 @@ public class ViewerServiceImpl implements ViewerService {
     }
 
     @Override
-    public List<Viewer> listViewerByTargetIdAndType(String targetId, ViewTargetType targetType) {
-        List<Viewer> viewerList = viewerMapper.listByTargetId(targetId, targetType.getType());
+    public List<ViewHistory> listViewerByTargetIdAndType(String targetId, ViewTargetType targetType) {
+
+        LambdaQueryWrapper<ViewHistory> queryViewHistory = new LambdaQueryWrapper<ViewHistory>()
+                .eq(ViewHistory::getTargetId, targetId)
+                .eq(ViewHistory::getTargetType, targetType)
+                .eq(ViewHistory::getViewType, ViewType.VIEWER)
+                .eq(ViewHistory::getDeleteStatus, ViewerDeleteStatus.NORMAL);
+
+        List<ViewHistory> viewerList = viewHistoryMapper.selectList(queryViewHistory);
         if (CollectionUtils.isEmpty(viewerList)) {
             return new ArrayList<>();
         }
 
-        List<String> userIdList = viewerList.stream().map(Viewer::getViewerUserId).distinct().collect(Collectors.toList());
+        List<String> userIdList = viewerList.stream().map(ViewHistory::getViewerUserId).distinct().collect(Collectors.toList());
         List<Member> members = memberService.listByUserIdList(userIdList);
         if (CollectionUtils.isEmpty(members)) {
             return viewerList;
@@ -122,6 +130,7 @@ public class ViewerServiceImpl implements ViewerService {
     public ListViewHistoryDto listViewHistoryByUserId(String userId, Integer pageNum, Integer pageSize) {
         LambdaQueryWrapper<ViewHistory> query = new LambdaQueryWrapper<ViewHistory>()
                 .eq(ViewHistory::getViewerUserId, userId)
+                .eq(ViewHistory::getViewType, ViewType.VIEW_RECORD)
                 .orderByDesc(ViewHistory::getCreateTime);
         PageHelper.startPage(pageNum, pageSize);
         List<ViewHistory> viewHistories = viewHistoryMapper.selectList(query);

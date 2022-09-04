@@ -27,12 +27,12 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.service.data.dao.entity.ViewHistory;
-
-public interface ViewHistoryMapper extends BaseMapper<ViewHistory> {
+alter table view_history add column `view_type` int(2) DEFAULT NULL COMMENT '访问类型 1-访问者 2-访问记录';
+update view_history set view_type = 2;
 
 
-}
+INSERT INTO `view_history` (`target_id`, `viewer_user_id`, `target_type`, `delete_status`, `sys_update_time`, `create_time`,view_type)
+SELECT target_id,viewer_user_id,target_type,delete_status,sys_update_time,create_time,1 from viewer;
+
+
+DROP table viewer;
