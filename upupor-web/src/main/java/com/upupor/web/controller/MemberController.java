@@ -1,28 +1,30 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.web.controller;
@@ -58,7 +60,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.Objects;
@@ -91,8 +96,7 @@ public class MemberController {
 
     @ApiOperation("用户登录")
     @PostMapping("login")
-    @ResponseBody
-    @UpuporLimit(limitType = LimitType.LOGIN,needLogin = false)
+    @UpuporLimit(limitType = LimitType.LOGIN, needLogin = false)
     public CcResponse get(GetMemberReq getMemberReq) {
         CcResponse cc = new CcResponse();
         Boolean login = memberService.login(getMemberReq);
@@ -106,7 +110,6 @@ public class MemberController {
 
     @ApiOperation("用户注册")
     @PostMapping("register")
-    @ResponseBody
     @UpuporLucene(dataType = LuceneDataType.MEMBER, operationType = LuceneOperationType.ADD)
     public CcResponse add(AddMemberReq addMemberReq) {
 
@@ -161,7 +164,6 @@ public class MemberController {
 
     @ApiOperation("登出")
     @GetMapping("/logout")
-    @ResponseBody
     public CcResponse logoutConfirm() {
         // 清除session
         ServletUtils.getSession().invalidate();
@@ -171,7 +173,6 @@ public class MemberController {
 
     @ApiOperation("编辑用户")
     @PostMapping("edit")
-    @ResponseBody
     @UpuporLucene(dataType = LuceneDataType.MEMBER, operationType = LuceneOperationType.UPDATE)
     public CcResponse edit(UpdateMemberReq updateMemberReq) throws Exception {
         CcResponse cc = new CcResponse();
@@ -213,7 +214,6 @@ public class MemberController {
 
     @ApiOperation("设置背景样式")
     @PostMapping("edit/bg-style-settings")
-    @ResponseBody
     public CcResponse bgStyleSettings(UpdateCssReq updateCssReq) throws Exception {
         CcResponse cc = new CcResponse();
         String userId = ServletUtils.getUserId();
@@ -232,7 +232,6 @@ public class MemberController {
 
     @ApiOperation("设置用户喜爱的文章类型")
     @PostMapping("edit/default-content-type-settings")
-    @ResponseBody
     public CcResponse defaultContentTypeSetting(UpdateDefaultContentTypeReq updateCssReq) throws Exception {
         CcResponse cc = new CcResponse();
         String userId = ServletUtils.getUserId();
@@ -256,7 +255,6 @@ public class MemberController {
 
     @ApiOperation("重置密码")
     @PostMapping("resetPassword")
-    @ResponseBody
     public CcResponse resetPassword(UpdatePasswordReq updatePasswordReq) {
         CcResponse cc = new CcResponse();
         String email = updatePasswordReq.getEmail().trim();
@@ -289,7 +287,6 @@ public class MemberController {
 
     @ApiOperation("发送验证码")
     @PostMapping("/sendVerifyCode")
-    @ResponseBody
     @UpuporLimit(limitType = LimitType.SEND_EMAIL_VERIFY_CODE, needLogin = false, needSpendMoney = true)
     public CcResponse sendVerifyCode(AddVerifyCodeReq addVerifyCodeReq) {
         CcResponse ccResponse = new CcResponse();
@@ -330,7 +327,6 @@ public class MemberController {
 
     @ApiOperation("领取今日积分")
     @PostMapping("dailyPoints")
-    @ResponseBody
     public CcResponse dailyPoints() {
 
         CcResponse ccResponse = new CcResponse();
@@ -348,7 +344,6 @@ public class MemberController {
 
     @ApiOperation("变更头像")
     @PostMapping("updateVia")
-    @ResponseBody
     public CcResponse updateVia(UpdateViaReq updateViaReq) {
 
         CcResponse ccResponse = new CcResponse();

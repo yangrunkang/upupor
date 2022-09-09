@@ -43,7 +43,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -66,7 +65,6 @@ public class EditorController {
     private DraftService draftService;
 
     @PostMapping("/auto-save")
-    @ResponseBody
     @ApiOperation("自动保存内容")
     @UpuporLimit(limitType = LimitType.CONTENT_AUTO_SAVE)
     public CcResponse autoSave(AutoSaveContentReq autoSaveContentReq) {
@@ -83,7 +81,6 @@ public class EditorController {
      * @return
      */
     @PostMapping("/clean-draft")
-    @ResponseBody
     public CcResponse cleanDraft(CleanDraftReq cleanDraftReq) {
         String contentId = cleanDraftReq.getContentId();
         String userId = ServletUtils.getUserId();
@@ -102,7 +99,6 @@ public class EditorController {
      * @return
      */
     @PostMapping("/exists-draft")
-    @ResponseBody
     public CcResponse existsDraft(ExistsDraftReq existsDraftReq) {
         String contentId = existsDraftReq.getContentId();
         String userId = ServletUtils.getUserId();

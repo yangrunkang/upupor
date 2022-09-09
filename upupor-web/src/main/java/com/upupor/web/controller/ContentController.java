@@ -65,7 +65,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -93,7 +92,6 @@ public class ContentController {
     private final MemberIntegralMapper memberIntegralMapper;
 
     @PostMapping("/exists")
-    @ResponseBody
     @ApiOperation("文章是否存在")
     public CcResponse exists(ExistContentReq existContentReq) {
         CcResponse cc = new CcResponse();
@@ -102,7 +100,6 @@ public class ContentController {
     }
 
     @PostMapping("/add")
-    @ResponseBody
     @ApiOperation("创建内容")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
     @UpuporLimit(limitType = LimitType.CREATE_CONTENT, needSpendMoney = true)
@@ -114,7 +111,6 @@ public class ContentController {
     }
 
     @PostMapping("/edit")
-    @ResponseBody
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
     @ApiOperation("更新内容")
     public CcResponse edit(UpdateContentReq updateContentReq) {
@@ -126,7 +122,6 @@ public class ContentController {
 
 
     @PostMapping("/status")
-    @ResponseBody
     @ApiOperation("更新内容状态")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
     public CcResponse status(UpdateStatusReq updateStatusReq) {
@@ -137,7 +132,6 @@ public class ContentController {
     }
 
     @PostMapping("/like")
-    @ResponseBody
     @ApiOperation("喜欢")
     @UpuporLimit(limitType = LimitType.CLICK_LIKE, needSpendMoney = true)
     public CcResponse like(UpdateLikeReq updateLikeReq) {
@@ -189,7 +183,6 @@ public class ContentController {
     }
 
     @PostMapping("/pinned")
-    @ResponseBody
     @ApiOperation("文章置顶")
     public CcResponse pinned(PinnedReq pinnedReq) {
 

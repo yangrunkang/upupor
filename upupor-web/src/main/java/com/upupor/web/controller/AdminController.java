@@ -47,7 +47,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
@@ -73,7 +72,6 @@ public class AdminController {
 
     @ApiOperation("设置关键字")
     @PostMapping(value = "/content/keywords")
-    @ResponseBody
     public CcResponse setKeywords(SetKeywordsReq setKeywordsReq) {
 
         String contentId = setKeywordsReq.getContentId();
@@ -87,7 +85,6 @@ public class AdminController {
 
     @ApiOperation("设置状态")
     @PostMapping(value = "/content/status")
-    @ResponseBody
     public CcResponse setContentStatus(SetContentStatusReq setContentStatusReq) {
 
         String contentId = setContentStatusReq.getContentId();
@@ -109,7 +106,6 @@ public class AdminController {
 
     @ApiOperation("cpu")
     @PostMapping(value = "/cpu")
-    @ResponseBody
     public CcResponse cpu() {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(ASYNC);
@@ -124,7 +120,6 @@ public class AdminController {
      */
     @ApiOperation("handle-user")
     @PostMapping(value = "/handle-user")
-    @ResponseBody
     public CcResponse handleUser(BatchHandleExceptionUserReq batchHandleExceptionUserReq) {
         List<String> userIdList = Arrays.asList(batchHandleExceptionUserReq.getUserIdListStr().split("\n"));
         List<Member> memberList = memberService.listByUserIdList(userIdList);

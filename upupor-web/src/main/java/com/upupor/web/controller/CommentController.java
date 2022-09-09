@@ -53,7 +53,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
@@ -76,7 +75,6 @@ public class CommentController {
 
     @ApiOperation("添加评论")
     @PostMapping("/add")
-    @ResponseBody
     @UpuporLimit(limitType = LimitType.CREATE_COMMENT, needSpendMoney = true)
     public CcResponse add(AddCommentReq addCommentReq) {
         CcResponse cc = new CcResponse();
@@ -139,7 +137,6 @@ public class CommentController {
 
     @ApiOperation("编辑评论")
     @PostMapping("/edit")
-    @ResponseBody
     public CcResponse edit(UpdateCommentReq updateCommentReq) {
         CcResponse cc = new CcResponse();
 
@@ -159,7 +156,6 @@ public class CommentController {
 
     @ApiOperation("获取评论列表")
     @PostMapping("/list")
-    @ResponseBody
     public CcResponse list(ListCommentReq listCommentReq) {
         CcResponse cc = new CcResponse();
         if (StringUtils.isEmpty(listCommentReq.getPageNum())) {
