@@ -27,30 +27,23 @@
   ~
   -->
 
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:replace="index">
-<!--css-->
-<link th:fragment="css" type="text/css" rel="stylesheet" th:href="${ossStatic} + @{/css/profile/attention.css}"/>
-<!--脚本-->
-<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/profile/attention.js}"></script>
-<script async="async" th:fragment="js" type="text/javascript" th:src="${ossStatic} + @{/js/common/common.js}"></script>
-<!--内容-->
-<div th:fragment="content">
-    <div class="container">
-        <div class="row g-2">
-            <div class="col-lg-9 mb-2">
-                <div th:include="fragments/index::profile_common"></div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div th:replace="fragments/profile::nav_profile(${memberIndexDto.listAttentionDto.total},'attention')"></div>
-                    <div th:replace="fragments/index::render_user_list(${memberIndexDto.listAttentionDto.memberList})"></div>
-                    <div th:replace="fragments/page::page(${memberIndexDto.listAttentionDto.pageDtoList})"></div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div th:include="fragments/index::profile_right"></div>
-            </div>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--分页组件 <div th:replace="fragments/page::page(${null)"></div>-->
+<div th:fragment="page(pageList)">
+    <div th:if="!${#lists.isEmpty(pageList)}" class="mt-2 float-end">
+        <div class="mt-2 float-end">
+            <ul class="pagination">
+                <li th:class="${page.last?'page-item disabled d-none d-sm-block':'page-item'}" th:each="page : ${pageList}"><a th:class="${page.active?'page-link cv-link cv-font-sm text-secondary cv-active-page':'page-link cv-link cv-font-sm text-secondary'}" th:href="'?pageNum='+${page.pageNum}">[[${page.pageNumName}]]</a></li>
+            </ul>
         </div>
     </div>
 </div>
+
+
+
+</body>
 </html>

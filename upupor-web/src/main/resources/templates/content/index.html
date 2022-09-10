@@ -118,7 +118,7 @@
                 <!--未登录提示-->
                 <div th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
                 <div th:if="${contentIndexDto.content.status.name()} == 'NORMAL'" th:include="fragments/comment::commentList(${contentIndexDto.content.listCommentDto.commentList},
-                                                                                                                            ${contentIndexDto.content.listCommentDto.paginationHtml},
+                                                                                                                            ${contentIndexDto.content.listCommentDto.pageDtoList},
                                                                                                                             ${contentIndexDto.content.listCommentDto.total},
                                                                                                                             false,
                                                                                                                             ${contentIndexDto.content.userId})"></div>

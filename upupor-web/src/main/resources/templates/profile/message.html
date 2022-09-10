@@ -49,7 +49,7 @@
                     <!--未登录提示-->
                     <div th:if="!${session?.cv_user_id}"  th:include="fragments/index::login_tips"></div>
                     <div th:include="fragments/comment::commentList(${memberIndexDto.listCommentDto.commentList},
-                                                                    ${memberIndexDto.listCommentDto.paginationHtml},
+                                                                    ${memberIndexDto.listCommentDto.pageDtoList},
                                                                     ${memberIndexDto.listCommentDto.total},
                                                                     true,
                                                                     ${memberIndexDto.member.userId})"></div>

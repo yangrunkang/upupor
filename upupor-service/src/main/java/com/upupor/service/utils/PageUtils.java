@@ -1,56 +1,50 @@
 /*
- * MIT License
- *
- * Copyright (c) 2021-2022 yangrunkang
- *
- * Author: yangrunkang
- * Email: yangrunkang53@gmail.com
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * <!--
+ *   ~ MIT License
+ *   ~
+ *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~
+ *   ~ Author: yangrunkang
+ *   ~ Email: yangrunkang53@gmail.com
+ *   ~
+ *   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+ *   ~ of this software and associated documentation files (the "Software"), to deal
+ *   ~ in the Software without restriction, including without limitation the rights
+ *   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *   ~ copies of the Software, and to permit persons to whom the Software is
+ *   ~ furnished to do so, subject to the following conditions:
+ *   ~
+ *   ~ The above copyright notice and this permission notice shall be included in all
+ *   ~ copies or substantial portions of the Software.
+ *   ~
+ *   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *   ~ SOFTWARE.
+ *   -->
  */
 
 package com.upupor.service.utils;
 
 import com.github.pagehelper.PageInfo;
 import com.upupor.framework.CcConstant;
-import org.apache.logging.log4j.util.Strings;
+import com.upupor.service.utils.page.PageDto;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
  * 分页工具
- * @note: 这是js的替代版,写这个工具类的原因是为了在IE浏览器上可以成功渲染出分页按钮,从而提高用户到达其他页面的机率。js的分页组件在IE上渲染不出来
+ *
  * @author YangRunkang(cruise)
+ * @note: 这是js的替代版, 写这个工具类的原因是为了在IE浏览器上可以成功渲染出分页按钮, 从而提高用户到达其他页面的机率。js的分页组件在IE上渲染不出来
  * @date 2021/01/08 19:59
  */
 public class PageUtils {
-    public static void main(String[] args) {
-        // 数据总条数
-        Integer totalPageSize = 83;
-        // 用户翻页
-        Integer userPageIndex = 1;
-
-        Page page = new Page(totalPageSize, userPageIndex);
-        System.out.println(page.exportPaginationHtml());
-//        System.out.println(Integer.MAX_VALUE);
-//        System.out.println(Math.toIntExact(Integer.MAX_VALUE));
-    }
 
 
     /**
@@ -59,26 +53,26 @@ public class PageUtils {
      * @param pageInfo
      * @return
      */
-    public static String paginationHtml(PageInfo pageInfo) {
+    public static List<PageDto> buildPageDtoList(PageInfo pageInfo) {
         if (Objects.isNull(pageInfo)) {
-            return Strings.EMPTY;
+            return new ArrayList<>();
         }
-        Long total = pageInfo.getTotal();
+        long total = pageInfo.getTotal();
         Integer userCurrentPage = pageInfo.getPageNum();
 
-        if (Objects.isNull(total) || total <= 0) {
-            return Strings.EMPTY;
+        if (total <= 0) {
+            return new ArrayList<>();
         }
         Page page = new Page(Math.toIntExact(total), userCurrentPage);
-        return page.exportPaginationHtml();
+        return page.exportPageDtoList();
     }
 
-    public static String paginationHtmlForComment(Long total, Integer userCurrentPage, Integer pageSize) {
+    public static List<PageDto> buildPageDtoListForComment(Long total, Integer userCurrentPage, Integer pageSize) {
         if (Objects.isNull(total) || total <= 0) {
-            return Strings.EMPTY;
+            return new ArrayList<>();
         }
         Page page = new Page(Math.toIntExact(total), userCurrentPage, pageSize);
-        return page.exportPaginationHtml();
+        return page.exportPageDtoList();
     }
 
     public static Integer calcMaxPage(Integer totalSize, Integer pageSize) {
@@ -143,7 +137,7 @@ public class PageUtils {
          *
          * @return
          */
-        private String exportPaginationHtml() {
+        private List<PageDto> exportPageDtoList() {
             StartEndPageNum startEnd = getStartEnd();
             Integer start = startEnd.getStart();
             Integer end = startEnd.getEnd();
@@ -167,40 +161,35 @@ public class PageUtils {
                 if (endPage >= effectivePageNumber()) {
                     endPage = effectivePageNumber();
                 }
-                return render(i, endPage);
+                return pageDtoList(i, endPage);
             }
 
-            return render(start, end);
+            return pageDtoList(start, end);
         }
 
-        private String renderEmpty() {
-            return Strings.EMPTY;
+        public static List<PageDto> renderEmpty() {
+            return new ArrayList<>();
         }
 
         /*
 
 
          */
-        private String render(Integer start, Integer end) {
+        private List<PageDto> pageDtoList(Integer start, Integer end) {
+            List<PageDto> pageDtoList = new ArrayList<>();
+            pageDtoList.add(new PageDto(1, "首页"));
 
-            String aTagClass = "page-link cv-link cv-font-sm text-secondary ";
-            String aTagActiveClass = aTagClass + " cv-active-page ";
-            String pageParm = "?pageNum=";
-
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("<ul class=\"pagination\">\n");
-            stringBuilder.append("\t<li class=\"page-item\"><a class=\"" + aTagClass + "\" href=\"" + pageParm + "1\">首页</a></li>\n");
             for (int page = start; page <= end; page++) {
+                PageDto pageDto = new PageDto(page, String.valueOf(page));
                 if (currentPage == page) {
-                    stringBuilder.append("\t<li class=\"page-item\"><a class=\"" + aTagActiveClass + "\" href=\"" + pageParm + "" + page + "\">" + page + "</a></li>\n");
-                } else {
-                    stringBuilder.append("\t<li class=\"page-item\"><a class=\"" + aTagClass + "\" href=\"" + pageParm + "" + page + "\">" + page + "</a></li>\n");
+                    pageDto.setActive(Boolean.TRUE);
                 }
+                pageDtoList.add(pageDto);
             }
-            stringBuilder.append("\t<li class=\"page-item\"><a class=\"" + aTagClass + "\" href=\"" + pageParm + "" + effectivePageNumber() + "\">末页</a></li>\n");
-            stringBuilder.append("\t<li class=\"page-item disabled d-none d-sm-block\"><a class=\"" + aTagClass + "\" >总数 " + totalSize + "</a></li>\n");
-            stringBuilder.append("</ul>");
-            return stringBuilder.toString();
+            pageDtoList.add(new PageDto(effectivePageNumber(), "末页"));
+            pageDtoList.add(new PageDto(Boolean.TRUE, totalSize, "总数 " + totalSize));
+
+            return pageDtoList;
         }
 
         /**

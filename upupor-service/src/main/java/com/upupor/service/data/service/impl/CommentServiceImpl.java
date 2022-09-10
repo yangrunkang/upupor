@@ -125,7 +125,7 @@ public class CommentServiceImpl implements CommentService {
         ListCommentDto listCommentDto = new ListCommentDto(pageInfo);
         listCommentDto.setCommentList(pageInfo.getList());
         // 评论特殊翻页,默认翻到最新一页,用户可以看到最新的评论
-        listCommentDto.setPaginationHtml(PageUtils.paginationHtmlForComment(pageInfo.getTotal(), pageInfo.getPageNum(), listCommentReq.getPageSize()));
+        listCommentDto.setPageDtoList(PageUtils.buildPageDtoListForComment(pageInfo.getTotal(), pageInfo.getPageNum(), listCommentReq.getPageSize()));
 
         return listCommentDto;
     }

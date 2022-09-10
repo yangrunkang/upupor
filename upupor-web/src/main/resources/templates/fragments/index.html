@@ -175,11 +175,7 @@
     <div th:if="${#lists.isEmpty(listContentDto.contentList)}" th:include="fragments/index::empty_content"></div>
     <div th:if="!${#lists.isEmpty(listContentDto.contentList)}">
         <div th:replace="fragments/index::content_list(${listContentDto.contentList},${fromProfile})"></div>
-        <div>
-            <div class="mt-2 float-end"
-                 th:if="!${#strings.isEmpty(listContentDto.paginationHtml)}"
-                 th:utext="${listContentDto.paginationHtml}"></div>
-        </div>
+        <div th:replace="fragments/page::page(${listContentDto.pageDtoList})"></div>
     </div>
 </div>
 

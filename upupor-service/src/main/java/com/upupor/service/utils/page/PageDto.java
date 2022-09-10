@@ -27,32 +27,53 @@
  *   -->
  */
 
-package com.upupor.service.dto.page.common;
+package com.upupor.service.utils.page;
 
-import com.github.pagehelper.PageInfo;
-import com.upupor.service.utils.PageUtils;
-import com.upupor.service.utils.page.PageDto;
 import lombok.Data;
 
-import java.util.List;
-
 /**
- * List列表基类
+ * 页码Dto
  *
- * @author: Yang Runkang(cruise)
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-09-10 17:26
  * @email: yangrunkang53@gmail.com
- * @create: 2021-12-09 00:24
+ * @note 这里只返回页码元数据, 具体样式放在前端渲染, 解决网页SEO问题及IE页面渲染问题
  */
 @Data
-public class BaseListDto {
-    private Long total = 0L;
-    private List<PageDto> pageDtoList;
+public class PageDto {
+    /**
+     * 页码
+     */
+    private Integer pageNum;
 
-    public BaseListDto() {
+    /**
+     * 页码名字
+     */
+    private String pageNumName;
+
+    /**
+     * 是否激活
+     */
+    private Boolean active = false;
+    private Boolean last = false;
+
+    public PageDto(Integer pageNum, String pageNumName, Boolean active) {
+        this.pageNum = pageNum;
+        this.pageNumName = pageNumName;
+        this.active = active;
     }
 
-    public BaseListDto(PageInfo pageInfo) {
-        this.total = pageInfo.getTotal();
-        this.pageDtoList = PageUtils.buildPageDtoList(pageInfo);
+    public PageDto(Integer pageNum, String pageNumName) {
+        this.pageNum = pageNum;
+        this.pageNumName = pageNumName;
+    }
+
+    public PageDto(Boolean last, Integer pageNum, String pageNumName) {
+        this.last = last;
+        this.pageNum = pageNum;
+        this.pageNumName = pageNumName;
+    }
+
+    public PageDto() {
     }
 }

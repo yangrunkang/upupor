@@ -74,11 +74,7 @@
                         </div>
                     </div>
                     <div th:if="${#lists.isEmpty(listIntegralDto.memberIntegralList)}" th:include="fragments/index::empty_content"></div>
-                    <div>
-                        <div class="mt-2 float-end"
-                             th:if="!${#strings.isEmpty(listIntegralDto.paginationHtml)}"
-                             th:utext="${listIntegralDto.paginationHtml}"> </div>
-                    </div>
+                    <div th:replace="fragments/page::page(${listIntegralDto.pageDtoList})"></div>
                 </div>
             </div>
             <div class="col-lg-3">
