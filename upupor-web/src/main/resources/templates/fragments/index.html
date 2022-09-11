@@ -514,8 +514,8 @@ fromProfile: 是否来自Profile页面
 <div th:fragment="profile_common">
     <div th:if="${memberIndexDto.member.statement} != null" th:include="fragments/index::member_statement"></div>
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
-        <div style="font-size: 40px;font-weight: bold;" class="text-wrap"
-             th:text="${memberIndexDto.member.userName}"></div>
+        <div style="font-size: 40px;font-weight: bold;" class="text-wrap">[[${memberIndexDto.member.userName}]]</div>
+        <span th:include="fragments/member::memberAdmin(${memberIndexDto.member.isAdmin})"></span>
         <div th:switch="${memberIndexDto.member.memberExtend.introduce != null && memberIndexDto.member.memberExtend.introduce != ''}">
             <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="true"
                  th:text="${memberIndexDto.member.memberExtend.introduce}"></div>
@@ -722,40 +722,6 @@ fromProfile: 是否来自Profile页面
                title="关于置顶"><span th:include="fragments/icon::top"></span> 关于置顶</a>
         </div>
     </div>
-</div>
-
-<div th:fragment="render_user_list(userList)">
-    <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(userList)}">
-        <li class="list-group-item p-0" th:each="member,ite : ${userList}">
-            <div th:if="${member.userId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
-            <div th:if="${member.userId != 'google-ad-feed'}" class="d-flex align-items-center my-1 ">
-                <img class="lazyload img rounded cv-icon-50 me-1"
-                     th:if="!${#strings.isEmpty(member.via)}"
-                     th:data-src="${member.via}"
-                     th:alt="${member.userName}"
-                />
-                <div class="flex-grow-1">
-                    <a th:href="@{'/profile/'+${member.userId}+'/content'}" class="cv-link fs-6 fst-normal"
-                       th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
-                        <span th:text="${member.userName}">标题</span>
-                        <span th:include="fragments/profile::memberActive(${member.active})"></span>
-                    </a>
-                    <div class="text-black-50"
-                         th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">
-                        内容简介
-                    </div>
-                </div>
-                <span class="text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}"
-                      th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
-                <a class="btn rounded-3 bg-gradient btn-warning btn-sm"
-                   th:href="'/profile/' + ${member.userId}+'/message'" th:inline="text">
-                    <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item"
-                         alt="留言"/> 留言
-                </a>
-            </div>
-        </li>
-    </ul>
-    <div th:if="${#lists.isEmpty(userList)}" th:include="fragments/index::empty_content"></div>
 </div>
 
 <!--创建文章的URL组件-->
