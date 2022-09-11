@@ -60,7 +60,7 @@ public class EditProfile extends AbstractMember<UpdateMemberReq> {
         CcResponse cc = new CcResponse();
 
         UpdateMemberReq updateMemberReq = transferReq();
-        checkUserName(updateMemberReq.getUserName());
+        checkUserName(updateMemberReq.getUserName(), Boolean.TRUE);
 
         String userId = ServletUtils.getUserId();
         if (StringUtils.isEmpty(userId)) {

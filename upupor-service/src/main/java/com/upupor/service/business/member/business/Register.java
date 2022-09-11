@@ -69,7 +69,7 @@ public class Register extends AbstractMember<AddMemberReq> {
 
         AddMemberReq addMemberReq = transferReq();
 
-        checkUserName(addMemberReq.getUserName());
+        checkUserName(addMemberReq.getUserName(), Boolean.FALSE);
 
         // 检测用户是否存在
         memberService.checkUserExists(addMemberReq);

@@ -29,6 +29,7 @@
 
 package com.upupor.service.data.service;
 
+import com.upupor.service.common.UserCheckFieldType;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.MemberConfig;
 import com.upupor.service.data.dao.entity.Radio;
@@ -136,9 +137,10 @@ public interface MemberService {
     /**
      * 重置密码校验用户
      *
-     * @param email
+     * @param field
+     * @return
      */
-    List<Member> checkUserExists(String email);
+    Boolean checkUserExists(String field, UserCheckFieldType userCheckFieldType);
 
 
     ListMemberDto list(Integer pageNum, Integer pageSize);

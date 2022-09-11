@@ -35,6 +35,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
+import com.upupor.service.common.UserCheckFieldType;
 import com.upupor.service.outer.req.member.UpdatePasswordReq;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -62,8 +63,10 @@ public class ResetPassword extends AbstractMember<UpdatePasswordReq> {
             throw new BusinessException(ErrorCode.EMAIL_EMPTY);
         }
 
-        // 校验邮箱唯一性
-        memberService.checkUserExists(email);
+        // 邮箱不存在,不能重设密码
+        if (!memberService.checkUserExists(email, UserCheckFieldType.EMAIL)) {
+            throw new BusinessException(ErrorCode.YOU_EMAIL_HAS_NOT_REGISTERED);
+        }
 
         // 先校验验证码是否存在 用户注册 RedisKey组成: source + email + 验证码
         String key = FORGET_PASSWORD + updatePasswordReq.getEmail().trim() + updatePasswordReq.getVerifyCode();

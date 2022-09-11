@@ -33,11 +33,14 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.business.member.common.MemberBusiness;
+import com.upupor.service.common.UserCheckFieldType;
 import com.upupor.service.data.dao.entity.BusinessConfig;
+import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.BusinessConfigService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.outer.req.member.BaseMemberReq;
 import com.upupor.service.types.BusinessConfigType;
+import com.upupor.service.utils.ServletUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -62,11 +65,12 @@ public abstract class AbstractMember<T extends BaseMemberReq> {
     @Resource
     protected MemberService memberService;
 
-    protected void checkUserName(String userName) {
+    protected void checkUserName(String userName, Boolean logined) {
         if (StringUtils.isEmpty(userName)) {
             throw new BusinessException(ErrorCode.USER_NAME_CAN_NOT_EMPTY);
         }
 
+        // 用户姓名,铭感词禁止注册
         List<BusinessConfig> businessConfigList = businessConfigService.listByBusinessConfigType(BusinessConfigType.ILLEGAL_USER_NAME);
         if (CollectionUtils.isEmpty(businessConfigList)) {
             return;
@@ -77,6 +81,23 @@ public abstract class AbstractMember<T extends BaseMemberReq> {
                 String replace = userNameError.getMessage().replace("{name}", businessConfig.getValue());
                 throw new BusinessException(userNameError.getCode(), replace);
             }
+        }
+
+        if (logined) {
+            String userId = ServletUtils.getUserId();
+            Member member = memberService.memberInfo(userId);
+            if (!member.getUserName().equals(userName)) {
+                checkUserNameInDB(userName);
+            }
+        } else {
+            checkUserNameInDB(userName);
+        }
+    }
+
+    private void checkUserNameInDB(String userName) {
+        // 检测用户名是否重复
+        if (memberService.checkUserExists(userName, UserCheckFieldType.USER_NAME)) {
+            throw new BusinessException(ErrorCode.USER_NAME_ALREADY_USED_BY_OTHERS);
         }
     }
 

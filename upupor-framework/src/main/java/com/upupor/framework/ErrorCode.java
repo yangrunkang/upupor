@@ -124,7 +124,7 @@ public enum ErrorCode {
     USER_INFO_LESS(150, "用户信息缺少"),
     FORBIDDEN_LIKE_SELF_CONTENT(151, "不能给自己点赞"),
     FORBIDDEN_SET_PINNED_CONTENT_STATUS_NOT_NORMAL(152, "置顶文章状态不能设置为非正常状态"),
-    USER_NAME_ERROR(153, "用户名不允许包含{name}相关字样"),
+    USER_NAME_ERROR(153, "用户名不允许包含【{name}】相关字样"),
     NEXT_PUBLIC_TIME(154, "不允许在短时间内发文多次,下一次可发文的时间节点为:\n"),
     EXISTS_IS_OPENING_EDITOR(155, "<strong>您有正在编辑的内容,请优先处理.</strong> <br/><br/>有以下2种处理方式: <br/>1.将正在编辑中的内容完成 <br/>2.关闭编辑器页面"),
     YOU_DROPPED_CACHE_CONTENT(156, "您已丢弃未完成的内容. 当前操作属于非常规操作."),
@@ -156,6 +156,7 @@ public enum ErrorCode {
     DRAFT_NOT_EXISTS(181, "草稿不存在"),
     DRAFT_SOURCE_NOT_EXISTS(182, "草稿来源不存在"),
     MEMBER_IMPL_NOT_EXISTS(183, "未找到对应的用户抽象行为实现"),
+    USER_NAME_ALREADY_USED_BY_OTHERS(184, "用户名已被其他用户使用"),
 
 
     //占位 兜底异常

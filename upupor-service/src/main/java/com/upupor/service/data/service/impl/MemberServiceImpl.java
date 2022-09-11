@@ -42,13 +42,14 @@ import com.upupor.framework.utils.RedisUtil;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.common.UserCheckFieldType;
 import com.upupor.service.data.dao.entity.*;
 import com.upupor.service.data.dao.mapper.*;
 import com.upupor.service.data.service.*;
 import com.upupor.service.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.listener.event.MemberLoginEvent;
-import com.upupor.service.outer.req.*;
+import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.member.*;
 import com.upupor.service.types.*;
 import com.upupor.service.utils.*;
@@ -208,8 +209,7 @@ public class MemberServiceImpl implements MemberService {
 
     private List<Member> selectByEmail(String email) {
         LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>().eq(Member::getEmail, email).eq(Member::getStatus, MemberStatus.NORMAL);
-        List<Member> members = memberMapper.selectList(query);
-        return members;
+        return memberMapper.selectList(query);
     }
 
 
@@ -372,9 +372,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Boolean resetPassword(UpdatePasswordReq updatePasswordReq) {
         String email = updatePasswordReq.getEmail();
-        List<Member> memberList = checkUserExists(email);
-
-        Member member = memberList.get(0);
+        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
+                .eq(Member::getEmail, email);
+        Member member = memberMapper.selectOne(query);
         member.setEmail(email);
         member.setPassword(PasswordUtils.encryptMemberPassword(updatePasswordReq.getPassword(), member));
 
@@ -382,28 +382,24 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> checkUserExists(String email) {
-        if (StringUtils.isEmpty(email)) {
+    public Boolean checkUserExists(String field, UserCheckFieldType userCheckFieldType) {
+        if (StringUtils.isEmpty(field)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
 
-        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>().eq(Member::getEmail, email);
+        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
+                .eq(UserCheckFieldType.EMAIL.equals(userCheckFieldType), Member::getEmail, field)
+                .eq(UserCheckFieldType.USER_NAME.equals(userCheckFieldType), Member::getUserName, field);
         List<Member> memberList = memberMapper.selectList(query);
-
-        if (CollectionUtils.isEmpty(memberList)) {
-            throw new BusinessException(ErrorCode.YOU_EMAIL_HAS_NOT_REGISTERED);
-        }
-        // 邮箱必须是唯一的
+        // 数据必须是唯一的
         if (memberList.size() > 1) {
             throw new BusinessException(DATA_EXCEPTION);
         }
-
-        return memberList;
+        return !CollectionUtils.isEmpty(memberList);
     }
 
     @Override
     public ListMemberDto list(Integer pageNum, Integer pageSize) {
-
 
         PageHelper.startPage(pageNum, pageSize);
         List<Member> memberList = memberMapper.list();

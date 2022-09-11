@@ -38,6 +38,7 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
+import com.upupor.service.common.UserCheckFieldType;
 import com.upupor.service.data.service.MessageService;
 import com.upupor.service.outer.req.member.SendVerifyCodeReq;
 import lombok.extern.slf4j.Slf4j;
@@ -86,8 +87,11 @@ public class SendVerifyCode extends AbstractMember<SendVerifyCodeReq> {
             emailTitle = "Upupor新用户注册";
 
         } else if (addVerifyCodeReq.getSource().equals(FORGET_PASSWORD)) {
-            // 检测是否是本站用户
-            memberService.checkUserExists(addVerifyCodeReq.getEmail());
+            // 忘记密码,需要检验邮箱是否已经注册
+            if (!memberService.checkUserExists(addVerifyCodeReq.getEmail(), UserCheckFieldType.EMAIL)) {
+                throw new BusinessException(ErrorCode.YOU_EMAIL_HAS_NOT_REGISTERED);
+            }
+
             emailTitle = "Upupor重置密码";
         } else {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "发送验证码来源信息错误");
