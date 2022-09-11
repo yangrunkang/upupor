@@ -27,29 +27,49 @@
  *   -->
  */
 
-package com.upupor.service.types;
+package com.upupor.service.business.member.business;
 
-import lombok.Getter;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
+import com.upupor.service.business.member.abstracts.AbstractMember;
+import com.upupor.service.business.member.common.MemberBusiness;
+import com.upupor.service.common.IntegralEnum;
+import com.upupor.service.data.service.MemberIntegralService;
+import com.upupor.service.outer.req.member.BaseMemberReq;
+import com.upupor.service.utils.ServletUtils;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
- * 业务配置类型
- *
  * @author Yang Runkang (cruise)
- * @date 2022年01月27日 23:10
+ * @createTime 2022-09-11 13:22
  * @email: yangrunkang53@gmail.com
  */
-@Getter
-public enum BusinessConfigType {
-    SEO(0, "SEO配置"),
-    CSS_BG(1, "CSS自定义背景"),
-    SENSITIVE_WORD(2, "敏感词"),
-    ILLEGAL_USER_NAME(3, "用户名不能包含的字符"),
-    ;
-    private final Integer status;
-    private final String name;
+@Component
+public class DoDailyPoints extends AbstractMember<BaseMemberReq> {
 
-    BusinessConfigType(Integer status, String name) {
-        this.status = status;
-        this.name = name;
+    @Resource
+    private MemberIntegralService memberIntegralService;
+
+    @Override
+    public MemberBusiness memberBusiness() {
+        return MemberBusiness.DAILY_POINTS;
+    }
+
+    @Override
+    public CcResponse handle() {
+        CcResponse ccResponse = new CcResponse();
+
+        Boolean exists = memberService.checkIsGetDailyPoints();
+        if (exists) {
+            throw new BusinessException(ErrorCode.ALREADY_GET_DAILY_POINTS);
+        }
+
+        String userId = ServletUtils.getUserId();
+
+        memberIntegralService.addIntegral(IntegralEnum.DAILY_POINTS, userId, userId);
+        return ccResponse;
     }
 }

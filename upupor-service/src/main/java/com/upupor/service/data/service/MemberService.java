@@ -34,7 +34,7 @@ import com.upupor.service.data.dao.entity.MemberConfig;
 import com.upupor.service.data.dao.entity.Radio;
 import com.upupor.service.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
-import com.upupor.service.outer.req.*;
+import com.upupor.service.outer.req.member.*;
 
 import java.util.List;
 
@@ -56,10 +56,10 @@ public interface MemberService {
     /**
      * 登录Req
      *
-     * @param getMemberReq
+     * @param memberLoginReq
      * @return
      */
-    Boolean login(GetMemberReq getMemberReq);
+    Boolean login(MemberLoginReq memberLoginReq);
 
     /**
      * 检查用户是否存在
@@ -92,7 +92,7 @@ public interface MemberService {
      * @param updateMemberReq
      * @return
      */
-    Boolean editMember(UpdateMemberReq updateMemberReq) throws Exception;
+    Boolean editMember(UpdateMemberReq updateMemberReq);
 
     /**
      * 更新

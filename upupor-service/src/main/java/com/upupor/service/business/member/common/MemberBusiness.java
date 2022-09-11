@@ -27,52 +27,22 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.service.business.member.common;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.outer.req.member.MemberLoginReq;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
-
-@UpuporSensitive
-public interface MemberMapper extends BaseMapper<Member> {
-
-    Member select(MemberLoginReq memberLoginReq);
-
-    Integer total();
-
-    /**
-     * 批量根据用户id获取用户名
-     *
-     * @param userIdList
-     * @return
-     */
-    List<Member> listByUserIdList(@Param("userIdList") List<String> userIdList);
-
-    /**
-     * 查询用户列表
-     *
-     * @return
-     */
-    List<Member> list();
-
-    /**
-     * 活跃用户
-     *
-     * @return
-     */
-    List<Member> activeMember();
-
-    /**
-     * 统计不活跃的用户数
-     *
-     * @return
-     */
-    Integer countUnActivityMemberList(@Param("currentTime") Long currentTime);
-
-
-    List<Member> listUnActivityMemberList(long currentTime);
+/**
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-09-11 11:46
+ * @email: yangrunkang53@gmail.com
+ */
+public enum MemberBusiness {
+    LOGIN,
+    REGISTER,
+    RESET_PASSWORD,
+    EDIT_MEMBER_INFO,
+    SEND_VERIFY_CODE,
+    BG_SETTINGS,
+    DAILY_POINTS,
+    DEFAULT_CONTENT_TYPE,
+    VIA,
+    LOGIN_OUT;
 }

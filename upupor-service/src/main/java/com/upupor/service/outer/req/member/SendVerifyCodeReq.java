@@ -27,52 +27,26 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.service.outer.req.member;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.outer.req.member.MemberLoginReq;
-import org.apache.ibatis.annotations.Param;
+import com.upupor.service.outer.req.member.BaseMemberReq;
+import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotEmpty;
 
-@UpuporSensitive
-public interface MemberMapper extends BaseMapper<Member> {
+/**
+ * 添加验证码
+ *
+ * @author YangRunkang(cruise)
+ * @date 2020/02/06 22:11
+ */
+@Data
+public class SendVerifyCodeReq extends BaseMemberReq {
 
-    Member select(MemberLoginReq memberLoginReq);
+    @NotEmpty(message = "验证码来源不能为空")
+    private String source;
 
-    Integer total();
+    @NotEmpty(message = "邮箱不能为空")
+    private String email;
 
-    /**
-     * 批量根据用户id获取用户名
-     *
-     * @param userIdList
-     * @return
-     */
-    List<Member> listByUserIdList(@Param("userIdList") List<String> userIdList);
-
-    /**
-     * 查询用户列表
-     *
-     * @return
-     */
-    List<Member> list();
-
-    /**
-     * 活跃用户
-     *
-     * @return
-     */
-    List<Member> activeMember();
-
-    /**
-     * 统计不活跃的用户数
-     *
-     * @return
-     */
-    Integer countUnActivityMemberList(@Param("currentTime") Long currentTime);
-
-
-    List<Member> listUnActivityMemberList(long currentTime);
 }

@@ -49,6 +49,7 @@ import com.upupor.service.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.service.dto.page.common.ListMemberDto;
 import com.upupor.service.listener.event.MemberLoginEvent;
 import com.upupor.service.outer.req.*;
+import com.upupor.service.outer.req.member.*;
 import com.upupor.service.types.*;
 import com.upupor.service.utils.*;
 import lombok.RequiredArgsConstructor;
@@ -155,10 +156,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean login(GetMemberReq getMemberReq) {
+    public Boolean login(MemberLoginReq memberLoginReq) {
         // 优先使用 紧急代码
-        if (!StringUtils.isEmpty(getMemberReq.getEmergencyCode())) {
-            String md5EmergencyCode = PasswordUtils.encryptMemberEmergencyCode(getMemberReq.getEmergencyCode());
+        if (!StringUtils.isEmpty(memberLoginReq.getEmergencyCode())) {
+            String md5EmergencyCode = PasswordUtils.encryptMemberEmergencyCode(memberLoginReq.getEmergencyCode());
             boolean b = memberExtendMapper.countByEmergencyCode(md5EmergencyCode) > 0;
             if (b) {
                 // 登录成功 重新设置EmergencyCode
@@ -167,19 +168,19 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 其次是常规登录
-        if (StringUtils.isEmpty(getMemberReq.getPassword())) {
+        if (StringUtils.isEmpty(memberLoginReq.getPassword())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR.getCode(), "密码为空");
         }
-        List<Member> members = selectByEmail(getMemberReq.getEmail());
+        List<Member> members = selectByEmail(memberLoginReq.getEmail());
         if (CollectionUtils.isEmpty(members)) {
             throw new BusinessException(ErrorCode.WITHOUT_USER_PLEASE_TO_REGISTER);
         }
 
         // 密码加密
-        String encryptPassword = PasswordUtils.encryptMemberPassword(getMemberReq.getPassword(), members.get(0));
+        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), members.get(0));
         // reset password use encrypts
-        getMemberReq.setPassword(encryptPassword);
-        Member member = memberMapper.select(getMemberReq);
+        memberLoginReq.setPassword(encryptPassword);
+        Member member = memberMapper.select(memberLoginReq);
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR);
         }
@@ -267,7 +268,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean editMember(UpdateMemberReq updateMemberReq) throws Exception {
+    public Boolean editMember(UpdateMemberReq updateMemberReq) {
         String userId = updateMemberReq.getUserId();
         Member member = memberInfo(userId);
         // 编辑用户信息

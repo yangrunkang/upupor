@@ -27,52 +27,39 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.service.outer.req.member;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.outer.req.member.MemberLoginReq;
-import org.apache.ibatis.annotations.Param;
+import com.upupor.service.outer.req.member.BaseMemberReq;
+import com.upupor.service.types.OpenEmail;
+import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+/**
+ * @author: YangRunkang(cruise)
+ * @created: 2019/12/28 14:36
+ */
+@Data
+public class UpdateMemberReq extends BaseMemberReq {
 
-@UpuporSensitive
-public interface MemberMapper extends BaseMapper<Member> {
+    private String userId;
 
-    Member select(MemberLoginReq memberLoginReq);
+    private String userName;
 
-    Integer total();
+    private String email;
 
-    /**
-     * 批量根据用户id获取用户名
-     *
-     * @param userIdList
-     * @return
-     */
-    List<Member> listByUserIdList(@Param("userIdList") List<String> userIdList);
+    private String phone;
 
     /**
-     * 查询用户列表
-     *
-     * @return
+     * member extend
      */
-    List<Member> list();
+    private String birthday;
 
-    /**
-     * 活跃用户
-     *
-     * @return
-     */
-    List<Member> activeMember();
+//    private Integer age;
 
-    /**
-     * 统计不活跃的用户数
-     *
-     * @return
-     */
-    Integer countUnActivityMemberList(@Param("currentTime") Long currentTime);
+    private String introduce;
 
+    @Deprecated
+    private MultipartFile bgImg;
 
-    List<Member> listUnActivityMemberList(long currentTime);
+    private OpenEmail openEmail;
 }

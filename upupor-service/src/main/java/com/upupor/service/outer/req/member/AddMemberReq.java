@@ -27,52 +27,42 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.service.outer.req.member;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.outer.req.member.MemberLoginReq;
-import org.apache.ibatis.annotations.Param;
+import com.upupor.service.outer.req.member.BaseMemberReq;
+import lombok.Data;
 
-import java.util.List;
+import javax.validation.constraints.NotEmpty;
 
-@UpuporSensitive
-public interface MemberMapper extends BaseMapper<Member> {
+/**
+ * 注册请求
+ *
+ * @author: YangRunkang(cruise)
+ * @created: 2019/12/20 02:58
+ */
+@Data
+public class AddMemberReq extends BaseMemberReq {
 
-    Member select(MemberLoginReq memberLoginReq);
+    private String userName;
 
-    Integer total();
+    @NotEmpty
+    private String password;
 
-    /**
-     * 批量根据用户id获取用户名
-     *
-     * @param userIdList
-     * @return
-     */
-    List<Member> listByUserIdList(@Param("userIdList") List<String> userIdList);
+    private String email;
 
-    /**
-     * 查询用户列表
-     *
-     * @return
-     */
-    List<Member> list();
+    private String phone;
 
-    /**
-     * 活跃用户
-     *
-     * @return
-     */
-    List<Member> activeMember();
+    private String verifyCode;
 
-    /**
-     * 统计不活跃的用户数
-     *
-     * @return
-     */
-    Integer countUnActivityMemberList(@Param("currentTime") Long currentTime);
+    // 额外信息(可以在登录页面提示用户展开)
+    private String birthday;
 
+    private Integer age;
 
-    List<Member> listUnActivityMemberList(long currentTime);
+    private String emergencyCode;
+
+    private String introduce;
+
+    private String via;
+
 }

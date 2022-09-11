@@ -27,52 +27,8 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+ALTER TABLE `member`
+    ADD UNIQUE INDEX `unique_user_id_user_name`(`user_id`, `user_name`, `email`) COMMENT '用户id、用户名、邮箱联合组件唯一';
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.outer.req.member.MemberLoginReq;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
-
-@UpuporSensitive
-public interface MemberMapper extends BaseMapper<Member> {
-
-    Member select(MemberLoginReq memberLoginReq);
-
-    Integer total();
-
-    /**
-     * 批量根据用户id获取用户名
-     *
-     * @param userIdList
-     * @return
-     */
-    List<Member> listByUserIdList(@Param("userIdList") List<String> userIdList);
-
-    /**
-     * 查询用户列表
-     *
-     * @return
-     */
-    List<Member> list();
-
-    /**
-     * 活跃用户
-     *
-     * @return
-     */
-    List<Member> activeMember();
-
-    /**
-     * 统计不活跃的用户数
-     *
-     * @return
-     */
-    Integer countUnActivityMemberList(@Param("currentTime") Long currentTime);
-
-
-    List<Member> listUnActivityMemberList(long currentTime);
-}
+INSERT INTO `business_config` (`value`, `status`, `type`) VALUES (  '测试', 0, 3);
+INSERT INTO `business_config` (`value`, `status`, `type`) VALUES (  'test', 0, 3);

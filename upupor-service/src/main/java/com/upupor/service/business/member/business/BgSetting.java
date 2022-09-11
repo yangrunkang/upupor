@@ -27,29 +27,45 @@
  *   -->
  */
 
-package com.upupor.service.types;
+package com.upupor.service.business.member.business;
 
-import lombok.Getter;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
+import com.upupor.service.business.member.abstracts.AbstractMember;
+import com.upupor.service.business.member.common.MemberBusiness;
+import com.upupor.service.outer.req.member.UpdateCssReq;
+import com.upupor.service.utils.ServletUtils;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 /**
- * 业务配置类型
- *
  * @author Yang Runkang (cruise)
- * @date 2022年01月27日 23:10
+ * @createTime 2022-09-11 13:22
  * @email: yangrunkang53@gmail.com
  */
-@Getter
-public enum BusinessConfigType {
-    SEO(0, "SEO配置"),
-    CSS_BG(1, "CSS自定义背景"),
-    SENSITIVE_WORD(2, "敏感词"),
-    ILLEGAL_USER_NAME(3, "用户名不能包含的字符"),
-    ;
-    private final Integer status;
-    private final String name;
+@Component
+public class BgSetting extends AbstractMember<UpdateCssReq> {
 
-    BusinessConfigType(Integer status, String name) {
-        this.status = status;
-        this.name = name;
+    @Override
+    public MemberBusiness memberBusiness() {
+        return MemberBusiness.BG_SETTINGS;
+    }
+
+    @Override
+    public CcResponse handle() {
+        CcResponse cc = new CcResponse();
+        String userId = ServletUtils.getUserId();
+        if (StringUtils.isEmpty(userId)) {
+            throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
+        }
+        UpdateCssReq updateCssReq = transferReq();
+        updateCssReq.setUserId(userId);
+        Boolean editSuccess = memberService.editMemberBgStyle(updateCssReq);
+        if (!editSuccess) {
+            throw new BusinessException(ErrorCode.SETTING_BG_FAILED);
+        }
+        cc.setData(true);
+        return cc;
     }
 }

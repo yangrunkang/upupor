@@ -27,52 +27,16 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.service.outer.req.member;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.outer.req.member.MemberLoginReq;
-import org.apache.ibatis.annotations.Param;
+import com.upupor.service.outer.req.member.BaseMemberReq;
+import lombok.Data;
 
-import java.util.List;
-
-@UpuporSensitive
-public interface MemberMapper extends BaseMapper<Member> {
-
-    Member select(MemberLoginReq memberLoginReq);
-
-    Integer total();
-
-    /**
-     * 批量根据用户id获取用户名
-     *
-     * @param userIdList
-     * @return
-     */
-    List<Member> listByUserIdList(@Param("userIdList") List<String> userIdList);
-
-    /**
-     * 查询用户列表
-     *
-     * @return
-     */
-    List<Member> list();
-
-    /**
-     * 活跃用户
-     *
-     * @return
-     */
-    List<Member> activeMember();
-
-    /**
-     * 统计不活跃的用户数
-     *
-     * @return
-     */
-    Integer countUnActivityMemberList(@Param("currentTime") Long currentTime);
-
-
-    List<Member> listUnActivityMemberList(long currentTime);
+/**
+ * @author YangRunkang(cruise)
+ * @date 2020/10/02 23:21
+ */
+@Data
+public class UpdateDefaultContentTypeReq extends BaseMemberReq {
+    private String selectedContentType;
 }

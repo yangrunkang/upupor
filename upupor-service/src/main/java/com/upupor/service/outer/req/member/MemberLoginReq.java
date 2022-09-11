@@ -27,52 +27,43 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.service.outer.req.member;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.outer.req.member.MemberLoginReq;
-import org.apache.ibatis.annotations.Param;
+import com.upupor.service.outer.req.member.BaseMemberReq;
+import lombok.Data;
 
-import java.util.List;
-
-@UpuporSensitive
-public interface MemberMapper extends BaseMapper<Member> {
-
-    Member select(MemberLoginReq memberLoginReq);
-
-    Integer total();
+/**
+ * 登录请求
+ *
+ * @author: YangRunkang(cruise)
+ * @created: 2019/12/21 02:56
+ */
+@Data
+public class MemberLoginReq extends BaseMemberReq {
+    /**
+     * 邮件
+     */
+    private String email;
 
     /**
-     * 批量根据用户id获取用户名
-     *
-     * @param userIdList
-     * @return
+     * 密码
      */
-    List<Member> listByUserIdList(@Param("userIdList") List<String> userIdList);
+    private String password;
 
     /**
-     * 查询用户列表
-     *
-     * @return
+     * 号码
      */
-    List<Member> list();
+    private String phone;
 
     /**
-     * 活跃用户
-     *
-     * @return
+     * 紧急码_只能使用一次_成功使用一次后,必须强制更换,如果不填,默认生成一串密文
      */
-    List<Member> activeMember();
+    private String emergencyCode;
 
     /**
-     * 统计不活跃的用户数
-     *
-     * @return
+     * 用户名
      */
-    Integer countUnActivityMemberList(@Param("currentTime") Long currentTime);
+    private String userName;
 
 
-    List<Member> listUnActivityMemberList(long currentTime);
 }

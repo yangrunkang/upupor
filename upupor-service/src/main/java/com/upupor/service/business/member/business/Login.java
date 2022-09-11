@@ -27,52 +27,38 @@
  *   -->
  */
 
-package com.upupor.service.data.dao.mapper;
+package com.upupor.service.business.member.business;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.service.data.dao.entity.Member;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
+import com.upupor.service.business.member.abstracts.AbstractMember;
+import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.MemberLoginReq;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+/**
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-09-11 13:22
+ * @email: yangrunkang53@gmail.com
+ */
+@Component
+public class Login extends AbstractMember<MemberLoginReq> {
 
-@UpuporSensitive
-public interface MemberMapper extends BaseMapper<Member> {
+    @Override
+    public MemberBusiness memberBusiness() {
+        return MemberBusiness.LOGIN;
+    }
 
-    Member select(MemberLoginReq memberLoginReq);
-
-    Integer total();
-
-    /**
-     * 批量根据用户id获取用户名
-     *
-     * @param userIdList
-     * @return
-     */
-    List<Member> listByUserIdList(@Param("userIdList") List<String> userIdList);
-
-    /**
-     * 查询用户列表
-     *
-     * @return
-     */
-    List<Member> list();
-
-    /**
-     * 活跃用户
-     *
-     * @return
-     */
-    List<Member> activeMember();
-
-    /**
-     * 统计不活跃的用户数
-     *
-     * @return
-     */
-    Integer countUnActivityMemberList(@Param("currentTime") Long currentTime);
-
-
-    List<Member> listUnActivityMemberList(long currentTime);
+    @Override
+    public CcResponse handle() {
+        CcResponse cc = new CcResponse();
+        MemberLoginReq memberLoginReq = transferReq();
+        Boolean login = memberService.login(memberLoginReq);
+        if (!login) {
+            throw new BusinessException(ErrorCode.LOGIN_FAILED);
+        }
+        cc.setData(true);
+        return cc;
+    }
 }
