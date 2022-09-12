@@ -46,8 +46,8 @@
                     <a th:href="@{'/profile/'+${member.userId}+'/content'}" class="cv-link fs-6 fst-normal"
                        th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
                         <span>[[${member.userName}]]</span>
-                        <span th:include="fragments/profile::memberActive(${member.active})"></span>
                         <span th:include="fragments/member::memberAdmin(${member.isAdmin})"></span>
+                        <span th:include="fragments/profile::memberActive(${member.active})"></span>
                     </a>
                     <div class="text-black-50"
                          th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">
