@@ -65,7 +65,7 @@
                                 <h5 class="text-wrap m-0" th:text="${contentIndexDto.content.title}"></h5>
                             </div>
                         </div>
-                        <span th:include="fragments/index::contet_tag(${contentIndexDto.content})"></span>
+                        <span th:include="fragments/index::content_tag(${contentIndexDto.content},false)"></span>
                         <div th:replace="fragments/index::content_data_show(${contentIndexDto.content.userId},
                                                                             ${contentIndexDto.content.member.userName},
                                                                             ${contentIndexDto.content.member.via},

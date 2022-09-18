@@ -286,18 +286,18 @@ fromProfile: 是否来自Profile页面
                 <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal"
                    th:title="${content.title}">[[${content.title}]]</a>
             </div>
-            <div th:replace="fragments/index::contet_tag(${content})"></div>
+            <div th:replace="fragments/index::content_tag(${content},${fromProfile})"></div>
             <div class="mb-0" th:if="${content.contentData != null}" th:include="fragments/index::content_data"></div>
         </div>
         <div th:if="${!fromProfile}" th:include="fragments/index::content_profile_via"></div>
     </div>
 </div>
 
-<div th:fragment="contet_tag(content)">
+<div th:fragment="content_tag(content,fromProfile)">
     <span th:if="!${#lists.isEmpty(content.tagDtoList)}">
         <a th:each="tag : ${content.tagDtoList}"
            class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark cv-link"
-           th:href="@{'/tag/'+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
+           th:href="@{${fromProfile?'/profile/'+content.userId+'/content/':'/tag/'}+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
     </span>
     <a th:if="${content.newContent}"
        class="badge bg-gradient bg-danger fw-light rounded-3 small d-inline-flex text-white" href="/content/new">新内容</a>
