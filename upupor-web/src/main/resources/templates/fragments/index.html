@@ -515,7 +515,7 @@ fromProfile: 是否来自Profile页面
     <div th:if="${memberIndexDto.member.statement} != null" th:include="fragments/index::member_statement"></div>
     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
         <div style="font-size: 40px;font-weight: bold;" class="text-wrap">[[${memberIndexDto.member.userName}]]</div>
-        <span th:include="fragments/member::memberAdmin(${memberIndexDto.member.isAdmin})"></span>
+        <span th:include="fragments/member::memberTag(${memberIndexDto.member})"></span>
         <div th:switch="${memberIndexDto.member.memberExtend.introduce != null && memberIndexDto.member.memberExtend.introduce != ''}">
             <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="true"
                  th:text="${memberIndexDto.member.memberExtend.introduce}"></div>

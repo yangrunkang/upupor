@@ -111,8 +111,7 @@
                             <img class="align-self-center me-1 img rounded" style="width: 20px;height: 20px" th:src="${member.via}" th:alt="${member.userName}">
                             <div class="flex-grow-1 ms-1">
                                 <span class="mt-0" th:text="${member.userName}" ></span>
-                                <span th:include="fragments/member::memberAdmin(${member.isAdmin})"></span>
-                                <span th:include="fragments/profile::memberActive(${member.active})"></span>
+                                <span th:include="fragments/member::memberTag(${member})"></span>
                             </div>
                         </a>
                     </div>

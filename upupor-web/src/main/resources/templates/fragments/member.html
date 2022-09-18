@@ -46,8 +46,7 @@
                     <a th:href="@{'/profile/'+${member.userId}+'/content'}" class="cv-link fs-6 fst-normal"
                        th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
                         <span>[[${member.userName}]]</span>
-                        <span th:include="fragments/member::memberAdmin(${member.isAdmin})"></span>
-                        <span th:include="fragments/profile::memberActive(${member.active})"></span>
+                        <span th:include="fragments/member::memberTag(${member})"></span>
                     </a>
                     <div class="text-black-50"
                          th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">
@@ -67,11 +66,19 @@
     <div th:if="${#lists.isEmpty(userList)}" th:include="fragments/index::empty_content"></div>
 </div>
 
+<!--用户标签-->
+<div th:fragment="memberTag(member)">
+    <span th:include="fragments/member::memberAdmin(${member.isAdmin})"></span>
+    <span th:include="fragments/member::memberActive(${member.active})"></span>
+</div>
+
+<div th:fragment="memberActive(active)">
+    <span th:if="${active}" class="badge bg-gradient rounded-3 bg-info fw-light small">online</span>
+</div>
 
 <div th:fragment="memberAdmin(isAdmin)">
     <span th:if="${isAdmin.name()== 'ADMIN'}" class="badge bg-gradient rounded-3 bg-dark text-white fw-light small">admin</span>
 </div>
-
 
 </body>
 </html>
