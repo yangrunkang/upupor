@@ -48,6 +48,7 @@ import com.upupor.service.dto.dao.LastAndNextContentDto;
 import com.upupor.service.dto.dao.ListDraftDto;
 import com.upupor.service.dto.page.common.CountTagDto;
 import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.outer.req.content.CreateContentReq;
@@ -212,6 +213,7 @@ public class ContentServiceImpl implements ContentService {
         // 封装文章数据
         this.bindContentData(pageInfo.getList());
         this.bindContentMember(contents);
+        this.bindContentTag(contents);
         // 不能添加广告,会引起首页文章列表布局紊乱问题,如果需要添加广告,请在各业务外面添加
 //        AbstractAd.ad(pageInfo.getList());
 
@@ -700,7 +702,18 @@ public class ContentServiceImpl implements ContentService {
                 }
             }
         }
+    }
 
+    @Override
+    public void bindContentTag(List<Content> contentList) {
+        if (CollectionUtils.isEmpty(contentList)) {
+            return;
+        }
+
+        for (Content content : contentList) {
+            List<TagDto> tagDtoList = tagService.listTagNameByTagId(content.getTagIds());
+            content.setTagDtoList(tagDtoList);
+        }
 
     }
 }

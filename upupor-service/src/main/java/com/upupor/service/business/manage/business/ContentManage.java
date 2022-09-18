@@ -32,7 +32,6 @@ package com.upupor.service.business.manage.business;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManage;
-import com.upupor.service.business.manage.CommonService;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ContentManageService;
 import com.upupor.service.data.service.ContentService;
@@ -52,8 +51,6 @@ import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 public class ContentManage extends AbstractManage {
     @Resource
     private ContentManageService contentManageService;
-    @Resource
-    private CommonService commonService;
     @Resource
     private ContentService contentService;
 
@@ -87,7 +84,7 @@ public class ContentManage extends AbstractManage {
         }
         // 处理标签
         assert listContentDto != null;
-        commonService.handListContentDtoTagName(listContentDto);
+        contentService.bindContentTag(listContentDto.getContentList());
         // 处理置顶
         contentService.handlePinnedContent(listContentDto, userId);
         // 处理是否有草稿

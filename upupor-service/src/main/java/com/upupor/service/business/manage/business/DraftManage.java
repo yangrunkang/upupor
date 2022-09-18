@@ -33,10 +33,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManage;
-import com.upupor.service.business.manage.CommonService;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.Draft;
+import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.DraftService;
 import com.upupor.service.dto.dao.ListDraftDto;
 import com.upupor.service.dto.page.common.ListContentDto;
@@ -58,7 +58,7 @@ public class DraftManage extends AbstractManage {
     private DraftService draftService;
 
     @Resource
-    private CommonService commonService;
+    private ContentService contentService;
 
     @Override
     protected void specifyDtoHandle(ManageDto manageDto) {
@@ -79,8 +79,7 @@ public class DraftManage extends AbstractManage {
 
         ListContentDto listContentDto = new ListContentDto(pageInfo);
         listContentDto.setContentList(parseToContentList(draftList));
-
-        commonService.handListContentDtoTagName(listContentDto);
+        contentService.bindContentTag(listContentDto.getContentList());
         getMemberIndexDto().setListContentDto(listContentDto);
 
     }

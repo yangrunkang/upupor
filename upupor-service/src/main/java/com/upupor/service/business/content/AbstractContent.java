@@ -27,13 +27,13 @@
 
 package com.upupor.service.business.content;
 
+import com.google.common.collect.Lists;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.TagService;
 import com.upupor.service.dto.page.ContentIndexDto;
 import com.upupor.service.dto.page.common.ListContentDto;
-import com.upupor.service.dto.page.common.TagDto;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.types.ContentStatus;
 import lombok.Getter;
@@ -107,8 +107,7 @@ public abstract class AbstractContent {
 
         // 获取文章标签
         CompletableFuture<Void> setTagDtoList = CompletableFuture.runAsync(() -> {
-            List<TagDto> tagDtoList = tagService.listTagNameByTagId(content.getTagIds());
-            contentIndexDto.setTagDtoList(tagDtoList);
+            contentService.bindContentTag(Lists.newArrayList(content));
         }, ASYNC);
 
         // 作者其他的文章

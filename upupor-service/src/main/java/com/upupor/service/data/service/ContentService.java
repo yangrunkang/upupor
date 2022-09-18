@@ -265,6 +265,13 @@ public interface ContentService {
      */
     void bindLikesMember(Content content);
 
+    /*
+     * 绑定文章标签
+     *
+     * @param content
+     */
+    void bindContentTag(List<Content> contentList);
+
     /**
      * 上一篇、下一篇
      *

@@ -30,7 +30,6 @@ package com.upupor.service.dto.page;
 import com.upupor.service.data.aggregation.CommonAggregateService;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.ContentEditReason;
-import com.upupor.service.dto.page.common.TagDto;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -50,7 +49,6 @@ public class ContentIndexDto {
      */
     List<Content> authorOtherContentList;
     private Content content;
-    private List<TagDto> tagDtoList;
     /**
      * true:已经收藏  false:未收藏
      */
@@ -80,7 +78,6 @@ public class ContentIndexDto {
     private CommonAggregateService.HrefDesc createContentDesc;
 
     public ContentIndexDto() {
-        this.tagDtoList = new ArrayList<>();
         this.currUserIsCollect = false;
         this.currUserIsAttention = false;
         this.hasRadio = false;
