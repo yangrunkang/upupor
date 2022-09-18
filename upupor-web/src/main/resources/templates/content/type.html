@@ -38,18 +38,17 @@
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
-                    <div class="lead border-bottom mb-2">[[${businessTitle}]]</div>
+                    <nav class="mb-1">
+                        <div class="nav nav-tabs">
+                            <a th:class="${businessTitle == '新内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/new" title="新内容">新内容</a>
+                            <a th:class="${businessTitle == '内容有更新'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/recently-edited" title="内容有更新">内容有更新</a>
+                            <a th:class="${businessTitle == '所有内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/all" title="所有内容">所有内容</a>
+                        </div>
+                    </nav>
                     <div th:include="fragments/index::list_content_dto(${listContentDto},false)"></div>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
-                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
-                        <a th:class="${businessTitle == '新内容'?'nav-link cv-link active':'nav-link cv-link'}" href="/content/new" title="新内容">新内容</a>
-                        <a th:class="${businessTitle == '内容有更新'?'nav-link cv-link active':'nav-link cv-link'}" href="/content/recently-edited" title="内容有更新">内容有更新</a>
-                        <a th:class="${businessTitle == '所有内容'?'nav-link cv-link active':'nav-link cv-link'}" href="/content/all" title="所有内容">所有内容</a>
-                    </div>
-                </div>
                 <div th:include="fragments/index::global_search"></div>
                 <!--全局个人信息卡片-->
                 <div th:include="fragments/index::global_member_info"></div>
