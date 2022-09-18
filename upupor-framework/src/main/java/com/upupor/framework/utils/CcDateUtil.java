@@ -45,7 +45,7 @@ public class CcDateUtil {
     private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String FORMAT_SHORT = "yyyy-MM-dd";
     private static final SimpleDateFormat SDF = new SimpleDateFormat(FORMAT);
-    private static final  DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT);
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMAT);
     private static final long zero = 0L;
     private static final long one = 1L;
     private static final long minute = 60L;
@@ -155,7 +155,4 @@ public class CcDateUtil {
 
     }
 
-    public static long getResponseTime(Long startTime) {
-        return System.currentTimeMillis() - startTime;
-    }
 }

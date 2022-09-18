@@ -44,6 +44,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,10 +55,10 @@ import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.IS_DEFAULT_CONTENT_TYPE;
 import static com.upupor.framework.CcConstant.UserView.USER_LOGIN;
-import static com.upupor.framework.utils.CcDateUtil.getResponseTime;
 
 /**
  * 页面接口切面
+ *
  * @author: YangRunkang(cruise)
  * @created: 2019/12/23 02:29
  */
@@ -86,7 +87,8 @@ public class PageAspectAspect {
      */
     @Around("controllerLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        long startTime = System.currentTimeMillis();
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         // 开始打印请求日志
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert attributes != null;
@@ -112,28 +114,36 @@ public class PageAspectAspect {
             if (result instanceof ModelAndView) {
                 ModelAndView modelAndView = (ModelAndView) result;
                 Object isDefaultContentType = modelAndView.getModel().get(IS_DEFAULT_CONTENT_TYPE);
-                if(Objects.nonNull(isDefaultContentType) && ((Boolean)isDefaultContentType)){
+                if (Objects.nonNull(isDefaultContentType) && ((Boolean) isDefaultContentType)) {
                     modelAndView.getModelMap().clear();
                     return modelAndView;
                 }
-                setViewData(modelAndView, servletPath, startTime);
+                setViewData(modelAndView, servletPath, getResponseTime(stopWatch));
             }
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return exceptionView(startTime, servletPath, exception);
+            return exceptionView(getResponseTime(stopWatch), servletPath, exception);
         }
 
         // 执行业务后
-        String format = String.format("URL:%s \nconsume time:%s ms", request.getRequestURL().toString(), getResponseTime(startTime));
+        String format = String.format("URL:%s \nconsume time:%s ms", request.getRequestURL().toString(), getResponseTime(stopWatch));
         // 日志打印
         log.info(format);
 
         return result;
     }
 
+    private long getResponseTime(StopWatch stopWatch) {
+        if (stopWatch.isRunning()) {
+            stopWatch.stop();
+        }
+        return stopWatch.getTotalTimeMillis();
+    }
+
     /**
      * 异常视图
+     *
      * @param startTime
      * @param servletPath
      * @param exception

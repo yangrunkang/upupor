@@ -35,10 +35,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import static com.upupor.framework.CcConstant.RESPONSE_TIME;
-import static com.upupor.framework.utils.CcDateUtil.getResponseTime;
 
 /**
  * 设定响应时间
+ *
  * @author cruise
  * @createTime 2022-01-19 18:01
  */
@@ -50,10 +50,10 @@ public class SetResponseTime implements PrepareData {
     @Override
     public void prepare(ViewData viewData) {
         ModelAndView modelAndView = viewData.getModelAndView();
-        long startTime = viewData.getStartTime();
+        long startTime = viewData.getResponseTime();
 
         // 设定响应时间
-        modelAndView.addObject(RESPONSE_TIME, getResponseTime(startTime));
+        modelAndView.addObject(RESPONSE_TIME, viewData.getResponseTime());
     }
 
 }
