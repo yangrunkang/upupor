@@ -66,6 +66,7 @@ public class TagAggregateService {
         listContentReq.setStatus(ContentStatus.NORMAL);
 
         ListContentDto listContentDto = contentService.listContent(listContentReq);
+        listContentDto.removeTag();
         tagIndexDto.setListContentDto(listContentDto);
         tagIndexDto.setTagName(tagName);
         return tagIndexDto;

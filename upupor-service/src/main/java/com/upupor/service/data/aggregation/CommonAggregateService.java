@@ -51,7 +51,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -111,7 +110,7 @@ public class CommonAggregateService {
             ListContentDto listContentDto = contentService.listContentByContentType(getCommonReq.getContentType(), getCommonReq.getPageNum(), getCommonReq.getPageSize(), tag);
             // 如果点击了[技术]-[SEO]中的二级分类(例如:SEO),则不设置tagDtoList,不然界面上都是二级分类的标识
             if (!StringUtils.isEmpty(getCommonReq.getTagId()) && !CollectionUtils.isEmpty(listContentDto.getContentList())) {
-                listContentDto.getContentList().forEach(s -> s.setTagDtoList(Lists.newArrayList()));
+                listContentDto.removeTag();
             }
             return listContentDto;
         });

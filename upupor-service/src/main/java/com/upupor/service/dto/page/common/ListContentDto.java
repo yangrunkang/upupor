@@ -28,6 +28,7 @@
 package com.upupor.service.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.upupor.service.data.dao.entity.Content;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
@@ -68,5 +69,12 @@ public class ListContentDto extends BaseListDto {
             return new ArrayList<>();
         }
         return contentList;
+    }
+
+    public void removeTag() {
+        if (CollectionUtils.isEmpty(contentList)) {
+            return;
+        }
+        contentList.forEach(s -> s.setTagDtoList(Lists.newArrayList()));
     }
 }
