@@ -41,8 +41,6 @@ public class GetCommonReq {
 
     private String tagId;
 
-    private String tagInId;
-
     private Integer pageNum;
 
     private Integer pageSize;
@@ -59,10 +57,9 @@ public class GetCommonReq {
         return getCommonReq;
     }
 
-    public static GetCommonReq create(String tagId, String tagInId, Integer pageNum, Integer pageSize, ContentType contentType) {
+    public static GetCommonReq create(String tagId, Integer pageNum, Integer pageSize, ContentType contentType) {
         GetCommonReq getCommonReq = new GetCommonReq();
         getCommonReq.setTagId(tagId);
-        getCommonReq.setTagInId(tagInId);
         getCommonReq.setPageNum(pageNum);
         getCommonReq.setPageSize(pageSize);
         getCommonReq.setContentType(contentType);

@@ -51,6 +51,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -103,10 +104,17 @@ public class CommonAggregateService {
         }
 
         // 请求参数封装
-        String tag = getTagId(getCommonReq);
+        String tag = getCommonReq.getTagId();
 
         // 获取文章列表
-        CompletableFuture<ListContentDto> listContentDtoFuture = CompletableFuture.supplyAsync(() -> contentService.listContentByContentType(getCommonReq.getContentType(), getCommonReq.getPageNum(), getCommonReq.getPageSize(), tag));
+        CompletableFuture<ListContentDto> listContentDtoFuture = CompletableFuture.supplyAsync(() -> {
+            ListContentDto listContentDto = contentService.listContentByContentType(getCommonReq.getContentType(), getCommonReq.getPageNum(), getCommonReq.getPageSize(), tag);
+            // 如果点击了[技术]-[SEO]中的二级分类(例如:SEO),则不设置tagDtoList,不然界面上都是二级分类的标识
+            if (!StringUtils.isEmpty(getCommonReq.getTagId()) && !CollectionUtils.isEmpty(listContentDto.getContentList())) {
+                listContentDto.getContentList().forEach(s -> s.setTagDtoList(Lists.newArrayList()));
+            }
+            return listContentDto;
+        });
         // 最近一周新增的文章
         CompletableFuture<List<Content>> latestContentListFuture = CompletableFuture.supplyAsync(contentService::latestContentList);
         // 获取Banner栏
@@ -163,18 +171,6 @@ public class CommonAggregateService {
             throw new BusinessException(ErrorCode.SYNC_FETCH_DATA_ERROR);
         }
         return commonPageIndexDto;
-    }
-
-    private String getTagId(GetCommonReq getCommonReq) {
-        if (!StringUtils.isEmpty(getCommonReq.getTagInId())) {
-            return getCommonReq.getTagInId();
-        }
-
-        if (!StringUtils.isEmpty(getCommonReq.getTagId())) {
-            return getCommonReq.getTagId();
-        }
-
-        return null;
     }
 
     @AllArgsConstructor

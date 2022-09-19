@@ -76,16 +76,15 @@ public class ContentJumpController {
 
     @GetMapping(value = {
             WEB_INDEX,
-            "/qa", "/qa/{tagId}", "/qa/{tagId}/{tagInId}",
-            "/topic","/topic/{tagId}",
+            "/qa", "/qa/{tagId}",
+            "/topic", "/topic/{tagId}",
             "/record", "/record/{tagId}",
-            "/share", "/share/{tagId}", "/share/{tagId}/{tagInId}",
-            "/tech", "/tech/{tagId}", "/tech/{tagId}/{tagInId}",
+            "/share", "/share/{tagId}",
+            "/tech", "/tech/{tagId}",
             "/workplace", "/workplace/{tagId}"
     })
     public ModelAndView contentList(Integer pageNum, Integer pageSize,
                                     @PathVariable(value = "tagId", required = false) String tagId,
-                                    @PathVariable(value = "tagInId", required = false) String tagInId,
                                     HttpServletRequest request) {
         String servletPath = request.getServletPath();
 
@@ -103,7 +102,7 @@ public class ContentJumpController {
                 if (StringUtils.isNotEmpty(defaultContentType)) {
                     ModelAndView modelAndView = new ModelAndView();
                     modelAndView.setViewName("redirect:" + defaultContentType);
-                    modelAndView.addObject(IS_DEFAULT_CONTENT_TYPE,true);
+                    modelAndView.addObject(IS_DEFAULT_CONTENT_TYPE, true);
                     return modelAndView;
                 }
             } catch (Exception ignored) {
@@ -117,7 +116,7 @@ public class ContentJumpController {
         setViewTitle(tagId, modelAndView);
 
         ContentType contentType = getContentIndexContentType(servletPath);
-        modelAndView.addObject(commonAggregateService.index(GetCommonReq.create(tagId, tagInId, pageNum, pageSize, contentType)));
+        modelAndView.addObject(commonAggregateService.index(GetCommonReq.create(tagId, pageNum, pageSize, contentType)));
         modelAndView.addObject(CcConstant.SeoKey.TITLE, ContentType.getName(contentType));
         return modelAndView;
     }
