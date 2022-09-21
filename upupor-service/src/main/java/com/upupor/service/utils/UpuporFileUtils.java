@@ -45,7 +45,7 @@ public class UpuporFileUtils {
         return DigestUtils.md5Hex(inputStream);
     }
 
-    public static File getUpuporFile(InputStream inputStream, String url, String userId) throws IOException {
+    public static File createUpuporFile(InputStream inputStream, String url, String userId) throws IOException {
         File file = new File();
         file.setCreateTime(CcDateUtil.getCurrentTime());
         file.setFileMd5(getMd5(inputStream));
@@ -55,7 +55,7 @@ public class UpuporFileUtils {
         return file;
     }
 
-    public static File getUpuporFile(String md5, String url, String userId) {
+    public static File createUpuporFile(String md5, String url, String userId) {
         File file = new File();
         file.setCreateTime(CcDateUtil.getCurrentTime());
         file.setFileMd5(md5);
