@@ -51,7 +51,7 @@
                     <div th:include="fragments/comment::commentList(${memberIndexDto.listCommentDto.commentList},
                                                                     ${memberIndexDto.listCommentDto.pageDtoList},
                                                                     ${memberIndexDto.listCommentDto.total},
-                                                                    true,
+                                                                    'profile-message',
                                                                     ${memberIndexDto.member.userId})"></div>
                     <div class="my-2" th:if="${session?.cv_user_id}">
                         <div id="comment_area">

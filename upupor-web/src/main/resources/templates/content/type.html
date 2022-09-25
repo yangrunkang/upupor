@@ -45,7 +45,7 @@
                             <a th:class="${businessTitle == '所有内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/all" title="所有内容">所有内容</a>
                         </div>
                     </nav>
-                    <div th:include="fragments/index::list_content_dto(${listContentDto},false)"></div>
+                    <div th:include="fragments/index::list_content_dto(${listContentDto},'content-type')"></div>
                 </div>
             </div>
             <div class="col-lg-3">

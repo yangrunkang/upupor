@@ -60,11 +60,11 @@
 </div>
 
 
-<div th:fragment="commentList(commentList,pageDtoList,total,fromProfile,targetUserId)">
-    <div th:class="${fromProfile}?'':'card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2'">
+<div th:fragment="commentList(commentList,pageDtoList,total,fromPage,targetUserId)">
+    <div th:class="${fromPage == 'profile-message'}?'':'card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2'">
         <div th:if="${#lists.isEmpty(commentList)}" th:include="fragments/index::empty_content"></div>
         <div th:if="!${#lists.isEmpty(commentList)}">
-            <div class="border-bottom mb-2" th:if="!${fromProfile}">
+            <div class="border-bottom mb-2" th:if="${fromPage != 'profile-message'}">
                 <span class="lead">评论<span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1" th:text="${total}"></span></span>
             </div>
             <div class="list-group list-group-flush">

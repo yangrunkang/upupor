@@ -115,7 +115,7 @@
                 <div th:if="${contentIndexDto.content.status.name()} == 'NORMAL'" th:include="fragments/comment::commentList(${contentIndexDto.content.listCommentDto.commentList},
                                                                                                                             ${contentIndexDto.content.listCommentDto.pageDtoList},
                                                                                                                             ${contentIndexDto.content.listCommentDto.total},
-                                                                                                                            false,
+                                                                                                                            'content-detail',
                                                                                                                             ${contentIndexDto.content.userId})"></div>
                 <!--评论框-->
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}">

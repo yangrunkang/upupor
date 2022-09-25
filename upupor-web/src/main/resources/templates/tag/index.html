@@ -42,7 +42,7 @@
                     <div class="d-block text-center my-2">
                         <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" style="font-size: 30px"><a class="cv-link" th:href="@{'/tag/'+${tagIndexDto.tagName}}">[[${tagIndexDto.tagName}]]</a></span>
                     </div>
-                    <div th:include="fragments/index::list_content_dto(${tagIndexDto.listContentDto},false)"></div>
+                    <div th:include="fragments/index::list_content_dto(${tagIndexDto.listContentDto},'tag-index')"></div>
                 </div>
 
             </div>

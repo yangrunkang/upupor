@@ -40,7 +40,7 @@
         <div class="row g-2">
             <!--右列-->
             <div class="col-lg-9 mb-2">
-                <div th:replace="fragments/index::top_content(${memberIndexDto.listContentDto.pinnedContent},false)"></div>
+                <div th:replace="fragments/index::top_content(${memberIndexDto.listContentDto.pinnedContent},'manage-content')"></div>
                 <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
                     <div th:replace="fragments/manage::nav_content(${memberIndexDto.listContentDto.total},'content')"></div>
                     <div class="mb-2">

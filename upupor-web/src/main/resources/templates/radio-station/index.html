@@ -68,7 +68,7 @@
                     <div th:include="fragments/comment::commentList(${radioIndexDto.radio.listCommentDto.commentList},
                                                                     ${radioIndexDto.radio.listCommentDto.pageDtoList},
                                                                     ${radioIndexDto.radio.listCommentDto.total},
-                                                                    false,
+                                                                    'radio-detail',
                                                                     ${radioIndexDto.radio.userId})"></div>
                     <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status.name() == 'NORMAL'}">
                         <div id="comment_area">
