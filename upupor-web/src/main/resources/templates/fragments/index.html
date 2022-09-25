@@ -132,7 +132,7 @@
 
 
 <!--文章数据-->
-<div th:fragment="content_data">
+<div th:fragment="content_data(content)">
     <div>
         <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span
             class="text-black-50 small" th:text="${content.contentData.viewNum}"></span>
@@ -287,9 +287,9 @@ fromPage: 来自于页面
                    th:title="${content.title}">[[${content.title}]]</a>
             </div>
             <div th:replace="fragments/index::content_tag(${content},${fromPage})"></div>
-            <div class="mb-0" th:if="${content.contentData != null}" th:include="fragments/index::content_data"></div>
+            <div class="mb-0" th:if="${content.contentData != null}" th:include="fragments/index::content_data(${content})"></div>
         </div>
-        <div th:if="${fromPage != 'profile-content'}" th:include="fragments/index::content_profile_via"></div>
+        <div th:if="${fromPage != 'profile-content'}" th:include="fragments/index::content_profile_via(${content})"></div>
     </div>
 </div>
 
@@ -306,7 +306,7 @@ fromPage: 来自于页面
        href="/content/recently-edited">内容有更新 · [[${content.editDate}]]</a>
 </div>
 
-<div th:fragment="content_profile_via">
+<div th:fragment="content_profile_via(content)">
     <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}+'/content'"
        th:title="${content.member.userName}">
         <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${content.member.via}"
