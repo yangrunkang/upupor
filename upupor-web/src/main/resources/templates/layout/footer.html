@@ -97,7 +97,7 @@
                 <div class="col w-100 text-black-50 border-top">
                     <span class="text-black-50 small"><a class="cv-link text-black-50" href="/our-home"><span
                             th:include="fragments/icon::earth"></span>暗淡蓝点</a></span> ·
-                    <span class="text-black-50 small" th:if="${responseTime} != null and ${responseTime} > 0"
+                    <span class="text-black-50 small" th:if="${responseTime} != null and ${responseTime} >= 0"
                           th:text="'响应时间: ' + ${responseTime}+'ms'"></span> ·
                     <span class="text-black-50 small">版本:[[${staticSourceVersion}]]</span> ·
                     <a class="cv-link text-black-50 small" href="http://www.beian.miit.gov.cn">备案号:&nbsp;皖ICP备17015935号-2</a>
