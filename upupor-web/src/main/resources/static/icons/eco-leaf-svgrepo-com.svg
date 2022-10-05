@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+  -
+  -   ~ MIT License
+  -   ~
+  -   ~ Copyright (c) 2021-2022 yangrunkang
+  -   ~
+  -   ~ Author: yangrunkang
+  -   ~ Email: yangrunkang53@gmail.com
+  -   ~
+  -   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  -   ~ of this software and associated documentation files (the "Software"), to deal
+  -   ~ in the Software without restriction, including without limitation the rights
+  -   ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  -   ~ copies of the Software, and to permit persons to whom the Software is
+  -   ~ furnished to do so, subject to the following conditions:
+  -   ~
+  -   ~ The above copyright notice and this permission notice shall be included in all
+  -   ~ copies or substantial portions of the Software.
+  -   ~
+  -   ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  -   ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  -   ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  -   ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  -   ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  -   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  -   ~ SOFTWARE.
+  -
+  -->
+
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<path style="fill:#ADDE52;" d="M317.144,346.79v-49.788c0-74.371,60.29-134.661,134.661-134.661h17.304
+	c17.941,0,32.484,14.543,32.484,32.484v17.304c0,74.371-60.29,134.661-134.661,134.661L317.144,346.79L317.144,346.79z"/>
+<g>
+	<path style="fill:#5E282D;" d="M120.374,160.106c4.989,0,7.796-4.678,7.796-9.979c0-4.367-2.182-9.043-7.796-9.043H9.355
+		c-4.678,0-9.355,2.494-9.355,7.796v212.059c0,5.302,4.678,8.109,9.355,8.109h111.019c5.613,0,7.796-4.989,7.796-9.355
+		c0-4.99-2.807-9.668-7.796-9.668H20.582v-86.382h48.961c5.613,0,7.797-4.367,7.797-8.421c0-4.989-2.808-9.355-7.797-9.355H20.582
+		v-85.759L120.374,160.106L120.374,160.106z"/>
+	<path style="fill:#5E282D;" d="M217.363,160.106c37.111,0,43.035,24.325,43.659,37.734c0.312,4.367,3.119,7.797,10.291,7.797
+		c7.172,0,10.291-2.182,10.291-12.474c0-28.067-23.389-52.078-64.241-52.078c-35.551,0-65.488,18.087-65.488,66.425v96.673
+		c0,48.648,29.314,66.735,64.553,66.735c41.165,0,65.177-24.324,65.177-52.703c0-10.291-3.119-12.785-10.291-12.785
+		c-6.549,0-9.668,3.119-10.291,8.109c-1.871,14.969-5.302,38.357-42.412,38.357c-30.25,0-46.155-14.969-46.155-47.713v-96.673
+		C172.456,175.074,188.361,160.106,217.363,160.106z"/>
+	<path style="fill:#5E282D;" d="M469.11,151.934h-17.304c-79.991,0-145.068,65.077-145.068,145.068v49.788
+		c0,5.746,4.66,10.406,10.407,10.406h49.788c79.991,0,145.068-65.077,145.068-145.068v-17.304
+		C512,171.175,492.759,151.934,469.11,151.934z M491.187,212.129c0,68.514-55.74,124.255-124.255,124.255h-24.663l76.601-76.601
+		c4.064-4.064,4.064-10.653,0-14.718c-4.065-4.063-10.652-4.063-14.718,0l-76.601,76.601v-24.663
+		c0-68.514,55.74-124.255,124.255-124.255h17.304c12.174,0,22.077,9.904,22.077,22.077L491.187,212.129L491.187,212.129z"/>
+	<path style="fill:#5E282D;" d="M436.094,213.124l-4.487,4.487c-4.064,4.064-4.064,10.653,0,14.718
+		c2.032,2.031,4.695,3.048,7.358,3.048c2.663,0,5.326-1.017,7.358-3.048l4.487-4.487c4.064-4.064,4.064-10.653,0-14.718
+		C446.746,209.061,440.159,209.061,436.094,213.124z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>

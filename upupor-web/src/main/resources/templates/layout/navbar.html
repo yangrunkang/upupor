@@ -36,13 +36,16 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 
         <div class="container">
-            <a class="navbar-brand fw-bold pt-0 position-relative" href="/">
-                <span><span style="color: #4285F4">U</span><span style="color: #EA4335">p</span><span
+            <div class="navbar-brand fw-bold pt-0">
+                <a href="/" class="position-relative">
+                    <span style="color: #4285F4">U</span><span style="color: #EA4335">p</span><span
                         style="color: #FBBC04">u</span><span style="color: #4285F4">p</span><span
-                        style="color: #34A853">o</span><span style="color: #EA4335">r</span></span>
-                <div class="position-absolute top-0 start-100 spinner-border spinner-border-sm text-success global-loading-nav-tips-slave"
-                     role="status" aria-hidden="true" style="display: none;margin-top: 11px;margin-left: 2px;"></div>
-            </a>
+                        style="color: #34A853">o</span><span style="color: #EA4335">r</span>
+                    <div class="position-absolute top-10 start-100 spinner-border spinner-border-sm text-success global-loading-nav-tips-slave"
+                         role="status" aria-hidden="true" style="display: none;margin-top: 11px;margin-left: 2px;"></div>
+                </a>
+            </div>
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                     aria-label="Toggle navigation">
@@ -62,6 +65,12 @@
                 <div class="nav-item todo-list d-md-none d-none d-xl-block">
                     <a class="nav-link cv-link" href="/todo-list" title="待办">
                         <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}"/> 待办
+                    </a>
+                </div>
+                <div class="nav-item d-md-none d-none d-xl-block">
+                    <a class="nav-link cv-link fw-bolder text-black-50 fs-6"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
+                       aria-controls="offcanvasBottom">
+                        <img class="lazyload cv-icon-30" th:data-src="${ossStatic} + @{/icons/eco-leaf-svgrepo-com.svg}"/>
                     </a>
                 </div>
                 <ul class="navbar-nav ms-auto my-1">
@@ -135,6 +144,12 @@
                 <div class="nav-item">
                     <a class="nav-link cv-link todo-list" href="/todo-list" title="待办">
                         <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/todo.svg}"/> 待办
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link cv-link fw-bolder text-black-50 fs-6"  data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
+                       aria-controls="offcanvasBottom">
+                        <img class="lazyload cv-icon-30" th:data-src="${ossStatic} + @{/icons/eco-leaf-svgrepo-com.svg}"/>
                     </a>
                 </div>
                 <!--                    <div class="nav-item">-->
