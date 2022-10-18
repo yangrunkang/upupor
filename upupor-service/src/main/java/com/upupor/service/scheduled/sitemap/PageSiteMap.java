@@ -28,9 +28,9 @@
 package com.upupor.service.scheduled.sitemap;
 
 import com.upupor.service.data.dao.entity.BusinessConfig;
-import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.service.BusinessConfigService;
 import com.upupor.service.dto.seo.GoogleSeoDto;
+import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
 import com.upupor.service.types.BusinessConfigType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -52,6 +52,11 @@ public class PageSiteMap extends AbstractSiteMap<BusinessConfig> {
     @Override
     protected Boolean dataCheck() {
         return !CollectionUtils.isEmpty(businessConfigService.listByBusinessConfigType(BusinessConfigType.SEO));
+    }
+
+    @Override
+    public SiteMapType siteMapType() {
+        return SiteMapType.PAGE;
     }
 
     @Override

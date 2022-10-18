@@ -33,6 +33,7 @@ import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.data.dao.entity.Tag;
 import com.upupor.service.data.service.TagService;
 import com.upupor.service.dto.seo.GoogleSeoDto;
+import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
 import com.upupor.service.types.ContentType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -57,6 +58,11 @@ public class ContentTypeTagSiteMap extends AbstractSiteMap<Tag> {
     @Override
     protected Boolean dataCheck() {
         return Boolean.TRUE;
+    }
+
+    @Override
+    public SiteMapType siteMapType() {
+        return SiteMapType.CONTENT_TYPE;
     }
 
     @Override

@@ -27,11 +27,13 @@
 
 package com.upupor.service.scheduled;
 
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.scheduled.sitemap.AbstractSiteMap;
+import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
 import com.upupor.service.utils.HtmlTemplateUtils;
-import com.upupor.framework.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -39,7 +41,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.upupor.framework.CcConstant.CvCache.SITE_MAP;
 
@@ -55,6 +59,7 @@ import static com.upupor.framework.CcConstant.CvCache.SITE_MAP;
 @RequiredArgsConstructor
 public class GenerateSiteMapScheduled {
     private final List<AbstractSiteMap<?>> abstractSiteMapList;
+
     /**
      * 每5分钟
      */
@@ -70,40 +75,28 @@ public class GenerateSiteMapScheduled {
     public void googleSitemap() {
         log.info("生成站点地图任务启动");
 
-
-        List<GoogleSeoDto> googleSeoDtoList = new ArrayList<>();
-
         for (AbstractSiteMap<?> abstractSiteMap : abstractSiteMapList) {
             abstractSiteMap.doBusiness();
             List<GoogleSeoDto> sitemapList = abstractSiteMap.getGoogleSeoDtoList();
-            if(!CollectionUtils.isEmpty(sitemapList)){
-                googleSeoDtoList.addAll(sitemapList);
+            if (CollectionUtils.isEmpty(sitemapList)) {
+                continue;
             }
+
+            render(sitemapList, abstractSiteMap.siteMapType());
         }
 
-        if (CollectionUtils.isEmpty(googleSeoDtoList)) {
-            return;
-        }
+    }
 
-        // googleSeoList
+    private void render(List<GoogleSeoDto> sitemapList, SiteMapType siteMapType) {
         Map<String, Object> params = new HashMap<>();
-        params.put(CcTemplateConstant.GOOGLE_SEO_LIST, googleSeoDtoList);
+        params.put(CcTemplateConstant.GOOGLE_SEO_LIST, sitemapList);
         String s = HtmlTemplateUtils.renderGoogleSeoSiteMap(CcTemplateConstant.TEMPLATE_GOOGLE_SEO, params);
-
         if (StringUtils.isEmpty(s)) {
             return;
         }
 
-        RedisUtil.set(SITE_MAP, s);
+        RedisUtil.set(SITE_MAP + CcConstant.BLANK + siteMapType.name(), s);
     }
-
-
-
-
-
-
-
-
 
 
 }

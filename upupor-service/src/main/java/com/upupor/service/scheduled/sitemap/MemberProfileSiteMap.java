@@ -34,6 +34,7 @@ import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.scheduled.ScheduledCommonService;
+import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
 import com.upupor.service.types.MemberStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -67,6 +68,11 @@ public class MemberProfileSiteMap extends AbstractSiteMap<Member> {
     @Override
     protected Boolean dataCheck() {
         return memberService.total() > 0;
+    }
+
+    @Override
+    public SiteMapType siteMapType() {
+        return SiteMapType.MEMBER_PROFILE;
     }
 
     @Override

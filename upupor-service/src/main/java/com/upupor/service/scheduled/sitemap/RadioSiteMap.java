@@ -27,19 +27,16 @@
 
 package com.upupor.service.scheduled.sitemap;
 
-import com.upupor.framework.CcConstant;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.data.dao.entity.Radio;
 import com.upupor.service.data.service.RadioService;
-import com.upupor.service.dto.page.common.ListRadioDto;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.scheduled.ScheduledCommonService;
+import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
 import com.upupor.service.types.RadioStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,8 +58,13 @@ public class RadioSiteMap extends AbstractSiteMap<Radio> {
     }
 
     @Override
+    public SiteMapType siteMapType() {
+        return SiteMapType.RADIO;
+    }
+
+    @Override
     protected List<Radio> getSiteMapData() {
-      return scheduledCommonService.radioList();
+        return scheduledCommonService.radioList();
     }
 
     @Override

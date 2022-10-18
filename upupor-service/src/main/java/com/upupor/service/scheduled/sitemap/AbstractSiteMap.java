@@ -28,6 +28,7 @@
 package com.upupor.service.scheduled.sitemap;
 
 import com.upupor.service.dto.seo.GoogleSeoDto;
+import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
 import lombok.Getter;
 import org.springframework.util.CollectionUtils;
 
@@ -49,6 +50,7 @@ public abstract class AbstractSiteMap<T> {
 
     /**
      * 检查数据
+     *
      * @return
      */
     protected abstract Boolean dataCheck();
@@ -62,10 +64,17 @@ public abstract class AbstractSiteMap<T> {
     protected abstract void renderSiteMap(List<T> tList);
 
 
-    public void doBusiness(){
-        if(dataCheck()){
+    /**
+     * 站点类型
+     *
+     * @return
+     */
+    public abstract SiteMapType siteMapType();
+
+    public void doBusiness() {
+        if (dataCheck()) {
             List<T> siteMapDataList = getSiteMapData();
-            if(CollectionUtils.isEmpty(siteMapDataList)){
+            if (CollectionUtils.isEmpty(siteMapDataList)) {
                 return;
             }
             renderSiteMap(siteMapDataList);

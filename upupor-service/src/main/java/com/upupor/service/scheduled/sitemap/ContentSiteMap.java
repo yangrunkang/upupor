@@ -34,6 +34,7 @@ import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.scheduled.ScheduledCommonService;
+import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
 import com.upupor.service.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -56,6 +57,11 @@ public class ContentSiteMap extends AbstractSiteMap<Content> {
     @Override
     protected Boolean dataCheck() {
         return contentService.total() > 0;
+    }
+
+    @Override
+    public SiteMapType siteMapType() {
+        return SiteMapType.CONTENT;
     }
 
     @Override
