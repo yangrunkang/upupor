@@ -195,7 +195,7 @@
                         <div class="border-0 mt-2 small text-black-50">以下用户觉得很赞:</div>
                         <span th:each="member : ${contentIndexDto.content.likesMemberList}">
                             <a class="cv-link" th:href="'/profile/'+${member.userId}+'/content'">
-                                <span th:if="!${#strings.isEmpty(member.via)}"><img data-bs-toggle="popover" th:data-bs-content="${member.card border-0Html}" class="lazyload img rounded cv-icon" th:data-src="${member.via}" th:alt="${member.userName}" /></span>
+                                <span th:if="!${#strings.isEmpty(member.via)}"><img data-bs-toggle="popover" th:data-bs-content="${member.cardHtml}" class="lazyload img rounded cv-icon" th:data-src="${member.via}" th:alt="${member.userName}" /></span>
                             </a>
                         </span>
                     </div>

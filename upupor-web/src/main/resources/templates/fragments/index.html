@@ -536,7 +536,7 @@ fromPage: 来自于页面
         <span>
             <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}+'/content'">
                 <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover"
-                     th:data-bs-content="${viewer.card border-0Html}" class="lazyload img rounded cv-icon"
+                     th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon"
                      th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}"/>
             </a>
         </span>
