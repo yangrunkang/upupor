@@ -61,7 +61,7 @@
 
 
 <div th:fragment="commentList(commentList,pageDtoList,total,fromPage,targetUserId)">
-    <div th:class="${fromPage == 'profile-message'}?'':'card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2'">
+    <div th:class="${fromPage == 'profile-message'}?'':'card border-0 card border-0-body rounded-3 p-2 my-2'">
         <div th:if="${#lists.isEmpty(commentList)}" th:include="fragments/index::empty_content"></div>
         <div th:if="!${#lists.isEmpty(commentList)}">
             <div class="border-bottom mb-2" th:if="${fromPage != 'profile-message'}">

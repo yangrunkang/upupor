@@ -38,7 +38,7 @@
     <div class="container">
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2">
+                <div class="card border-0 card border-0-body rounded-3 p-2">
                     <div th:if="${#lists.isEmpty(radioIndexDto.listRadioDto.radioList)}" th:include="fragments/index::empty_content"></div>
                     <div th:replace="fragments/index::radio_list(${radioIndexDto.listRadioDto.radioList},'radio-list')"></div>
                     <div th:replace="fragments/page::page(${radioIndexDto.listRadioDto.pageDtoList})"></div>
@@ -46,7 +46,7 @@
             </div>
             <div class="col-lg-3">
                 <div th:include="fragments/index::create_radio"></div>
-                <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 mb-2">
+                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
                     <div class="lead border-bottom mb-2">电台</div>
                     <div>
                         上传您的声音,与这个世界分享

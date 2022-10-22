@@ -33,7 +33,7 @@
 <body>
 <!--导航栏-->
 <div th:fragment="navbar">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
 
         <div class="container">
             <div class="navbar-brand fw-bold pt-0">
@@ -128,7 +128,7 @@
         </div>
     </nav>
     <div>
-        <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top shadow-sm">
+        <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top">
             <div class="container">
                 <div class="nav-item">
                     <a class="nav-link cv-link home topic tech share workplace record qa" href="/" title="文章">
@@ -157,7 +157,7 @@
                 <!--                    </div>-->
             </div>
         </nav>
-        <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top shadow-sm"
+        <nav class="navbar navbar-expand-lg bg-white d-xl-none border-top"
              th:if="${session?.cv_user_id} and ${unReadMegCount} != null and ${unReadMegCount} >= 1">
             <div class="container">
                 <div class="nav-item">
