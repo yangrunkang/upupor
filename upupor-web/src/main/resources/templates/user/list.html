@@ -38,14 +38,14 @@
     <div class="container">
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
-                <div class="card border-0 card border-0-body rounded-3 p-2">
+                <div class="card border-0 rounded-3 p-2">
                     <div class="lead border-bottom mb-2">所有用户</div>
                     <div class="mt-2" th:replace="fragments/member::render_user_list(${memberListDto.listMemberDto.memberList})"></div>
                     <div th:replace="fragments/page::page(${memberListDto.listMemberDto.pageDtoList})"></div>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div class="card border-0 rounded-3 p-2 mb-2">
                     <div class="lead border-bottom text-black-50">感谢</div>
                     <div>感谢您浏览并使用本网站</div>
                 </div>

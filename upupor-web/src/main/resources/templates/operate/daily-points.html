@@ -39,7 +39,7 @@
     <div class="container">
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
-                <div class="card border-0 card border-0-body rounded-3 p-2">
+                <div class="card border-0 rounded-3 p-2">
                     <!--未登录提示-->
                     <div th:include="fragments/index::user_not_login"></div>
                     <!--签到-->
@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2" th:if="!${#lists.isEmpty(listDailyPointsMemberDto.memberList)}">
+                <div class="card border-0 rounded-3 p-2 mb-2" th:if="!${#lists.isEmpty(listDailyPointsMemberDto.memberList)}">
                     <div class="border-bottom mb-2">今天签到用户</div>
                     <a class="cv-link"
                        th:each="member,ite : ${listDailyPointsMemberDto.memberList}"
@@ -88,7 +88,7 @@
                         <br />
                     </a>
                 </div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div class="card border-0 rounded-3 p-2 mb-2">
                     <div class="nav flex-column nav-pills">
                         <a class="nav-link cv-link p-2" href="/user/manage/integral-record">
                             <img th:data-src="${ossStatic} + @{/icons/system/jifen2.svg}"  class="lazyload cv-icon-item" alt="查看我的积分"/> 查看我的积分

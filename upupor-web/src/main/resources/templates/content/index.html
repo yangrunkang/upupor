@@ -46,7 +46,7 @@
 <div th:fragment="content">
     <div class="container" th:if="${contentIndexDto.content.statement} != null" th:include="fragments/index::statement"></div>
     <div class="container">
-        <div class="card border-0 card border-0-body rounded-3 p-2 mb-2 alert alert-warning" th:if="${contentIndexDto.content.status.name()} == 'DRAFT' or ${contentIndexDto.content.status.name()} == 'ONLY_SELF_CAN_SEE'">
+        <div class="card border-0 rounded-3 p-2 mb-2 alert alert-warning" th:if="${contentIndexDto.content.status.name()} == 'DRAFT' or ${contentIndexDto.content.status.name()} == 'ONLY_SELF_CAN_SEE'">
             <div th:if="${contentIndexDto.content.status.name()} == 'DRAFT'" class="fw-bold">预览·该页内容为草稿,仅您自己可见</div>
             <div th:if="${contentIndexDto.content.status.name()} == 'ONLY_SELF_CAN_SEE'" class="fw-bold">预览·该页内容仅您自己可见</div>
             <div th:include="fragments/index::content_not_public_tips"></div>
@@ -58,7 +58,7 @@
                     <span th:if="!${#strings.isEmpty(contentIndexDto.content?.noneOriginLink)}"
                           th:text="${'原文链接:' + contentIndexDto.content?.noneOriginLink}"></span>
                 </div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div class="card border-0 rounded-3 p-2 mb-2">
                     <div>
                         <div class="d-flex">
                             <div class="flex-grow-1">
@@ -75,7 +75,7 @@
                                                                             ${contentIndexDto.content.editTimes}
                                                                             )"></div>
                         <div class="collapse" id="edit-reason">
-                            <div class="card border-0 card border-0-body rounded-3 p-2 my-2">
+                            <div class="card border-0 rounded-3 p-2 my-2">
                                 <div class="text-black-50 small" th:if="${contentIndexDto.content.editTime > 0}">最新编辑时间: [[${contentIndexDto.content.editDate}]]</div>
                                 <div class="text-black-50 small">最新编辑原因:</div>
                                 <div class="cv-font-sm" th:if="!${#strings.isEmpty(contentIndexDto.content?.contentEditReason?.reason)}">[[${contentIndexDto.content?.contentEditReason?.reason}]]</div>
@@ -118,13 +118,13 @@
                                                                                                                             'content-detail',
                                                                                                                             ${contentIndexDto.content.userId})"></div>
                 <!--评论框-->
-                <div class="card border-0 card border-0-body rounded-3 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}">
+                <div class="card border-0 rounded-3 p-2 my-2" th:if="${session?.cv_user_id} and ${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div id="comment_area">
                         <div th:include="fragments/comment::comment_box(${contentIndexDto.content.contentId},${contentIndexDto.content.contentType.name()},'评论')"></div>
                     </div>
                 </div>
                 <!--推荐文章-->
-                <div class="card border-0 card border-0-body rounded-3 p-2 mt-2" th:if="!${#lists.isEmpty(contentIndexDto.randomContentList)}">
+                <div class="card border-0 rounded-3 p-2 mt-2" th:if="!${#lists.isEmpty(contentIndexDto.randomContentList)}">
                     <div class="lead">推荐阅读</div>
                     <div th:replace="fragments/index::content_list(${contentIndexDto.randomContentList},false)"></div>
                 </div>
@@ -132,7 +132,7 @@
             <div class="col-lg-3">
                 <div th:if="${contentIndexDto.createContentDesc != null}" th:include="fragments/index::create_content_url(${contentIndexDto.createContentDesc})"></div>
                 <div th:include="fragments/index::global_search"></div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div class="card border-0 rounded-3 p-2 mb-2">
                     <div class="text-black-50 border-bottom mb-2 pt-0">文章导航</div>
                     <nav aria-label="breadcrumb mb-0">
                         <ol class="breadcrumb mb-0">
@@ -147,19 +147,19 @@
                         </ol>
                     </nav>
                 </div>
-                <div th:if="${session?.is_admin}" class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div th:if="${session?.is_admin}" class="card border-0 rounded-3 p-2 mb-2">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">管理员专有权限</div>
                     <div class="media-right media-middle ms-1">
                         <a class="btn rounded-3 bg-gradient btn-sm btn-danger" th:href="'/user/admin/content/' + ${contentIndexDto.content.contentId}">管理文章</a>
                     </div>
                 </div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
+                <div class="card border-0 rounded-3 p-2 mb-2" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">操作</div>
                     <div class="media-right media-middle ms-1">
                         <a class="btn rounded-3 bg-gradient btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType.name()}+'&contentId='+${contentIndexDto.content.contentId}}">修改文章</a>
                     </div>
                 </div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}">
+                <div class="card border-0 rounded-3 p-2 mb-2" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}">
                     <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id != contentIndexDto.content.userId}">点赞<span class="fw-bold mx-1">·</span>收藏</div>
                     <div class="text-black-50 border-bottom mb-2 pt-0" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">本文收到的 点赞数 和 收藏数</div>
                     <div class="btn-group rounded-3 bg-gradient w-100">
@@ -203,16 +203,16 @@
                 <!--访问者-->
                 <div th:include="fragments/index::viewList(${contentIndexDto.content.viewerList})"></div>
                 <!--如果作者有电台,跳转到作者电台列表-->
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2" th:if="${contentIndexDto.hasRadio}" th:inline="text">
+                <div class="card border-0 rounded-3 p-2 mb-2" th:if="${contentIndexDto.hasRadio}" th:inline="text">
                     <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto?.content?.userId}+'/radio'"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}">  [[${contentIndexDto.content.member.userName}]]的电台</a>
                 </div>
                 <!--跳转到作者的留言板-->
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2"  th:inline="text">
+                <div class="card border-0 rounded-3 p-2 mb-2"  th:inline="text">
                     <a class="cv-link text-black-50" th:href="'/profile/'+${contentIndexDto?.content?.userId}+'/message'"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/goutong.png}">  [[${contentIndexDto.content.member.userName}]]的留言板</a>
                 </div>
                 <!--社交模板-->
                 <div th:include="fragments/social::social_box('u/','文章',${contentIndexDto.content.contentId},${contentIndexDto.content.title})" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}"></div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div class="card border-0 rounded-3 p-2 mb-2">
                     <div>
                         <p style="text-align: center" class="m-0 p-1" th:if="!${#strings.isEmpty(contentIndexDto.content.member.via)}">
                             <a th:href="'/profile/'+${contentIndexDto.content.member.userId}+'/content'">
@@ -235,7 +235,7 @@
                     </div>
                 </div>
                 <!--作者其他文章-->
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div class="card border-0 rounded-3 p-2 mb-2">
                     <div>
                         <div class="text-black-50 border-bottom mb-2">[[${contentIndexDto.content.member.userName}]]的其他文章<a class="cv-link text-black-50 float-end" th:href="'/profile/'+${contentIndexDto.content.userId}+'/content'"><i class="bi bi-balloon"></i>全部</a></div>
                         <div th:if="${#lists.isEmpty(contentIndexDto.authorOtherContentList)}" th:include="fragments/index::empty_content"></div>

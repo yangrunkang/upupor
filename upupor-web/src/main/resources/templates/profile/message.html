@@ -44,7 +44,7 @@
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div th:include="fragments/index::profile_common"></div>
-                <div class="card border-0 card border-0-body rounded-3 p-2">
+                <div class="card border-0 rounded-3 p-2">
                     <div th:replace="fragments/profile::nav_profile(${memberIndexDto.listCommentDto.total},'message')"></div>
                     <!--未登录提示-->
                     <div th:if="!${session?.cv_user_id}"  th:include="fragments/index::login_tips"></div>

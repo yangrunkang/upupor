@@ -53,11 +53,11 @@
         </div>
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2 d-block text-secondary"
+                <div class="card border-0 rounded-3 p-2 mb-2 d-block text-secondary"
                      th:if="${editorIndexDto.createContentDesc.tips != null}">
                     [[${editorIndexDto.createContentDesc.tips}]]
                 </div>
-                <div class="card border-0 card border-0-body rounded-3 p-2">
+                <div class="card border-0 rounded-3 p-2">
                     <form class="form-horizontal" role="form">
                         <div class="form-group mb-3">
                             <label for="title" class="col-lg-1 control-label text-black-50">标题</label>
@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card border-0 card border-0-body rounded-3 p-2">
+                <div class="card border-0 rounded-3 p-2">
                     <div class="border-bottom mb-1">控制面板</div>
                     <!--未登录提示-->
                     <div th:include="fragments/index::user_not_login"></div>
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <!--转载或者原创-->
-                <div class="card border-0 card border-0-body rounded-3 p-2 my-2">
+                <div class="card border-0 rounded-3 p-2 my-2">
                     <div class="btn-group rounded-3 bg-gradient" style="width: 100%">
                         <input type="radio" name="original" class="align-self-center original_radio" value="ORIGIN"
                                th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'">&nbsp;原创
@@ -145,21 +145,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 auto-save-card border-0"
+                <div class="card border-0 rounded-3 p-2 auto-save-card border-0"
                      style="display: none">
                     <!--提示自动保存-->
                     <div class="fw-light text-black-50 border-bottom mb-2">文章自动保存提示</div>
                     <div class="auto-save"
                          style="background-color: #4285f4;padding: 6px;border-radius: 5px;color: #ffffff;font-size: 13px;display: none"></div>
                 </div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 my-2">
+                <div class="card border-0 rounded-3 p-2 my-2">
                     <div class="border-bottom mb-2">友请提示</div>
                     <div class="small">1. 如果内容标题可以描述清楚,内容可以不用填写</div>
                 </div>
                 <div th:replace="fragments/editor::upupor-editor-progress"></div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 my-2"
+                <div class="card border-0 rounded-3 p-2 my-2"
                      th:include="fragments/index::apply_tag"></div>
-                <div class="card border-0 card border-0-body rounded-3 p-2 my-2"
+                <div class="card border-0 rounded-3 p-2 my-2"
                      th:include="fragments/common::markdown"></div>
                 <div>
                     <!--隐藏域-->

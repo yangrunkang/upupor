@@ -41,7 +41,7 @@
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div th:include="fragments/index::profile_common"></div>
-                <div class="card border-0 card border-0-body rounded-3 p-2">
+                <div class="card border-0 rounded-3 p-2">
                     <div th:replace="fragments/profile::nav_profile(${memberIndexDto.listAttentionDto.total},'attention')"></div>
                     <div th:replace="fragments/member::render_user_list(${memberIndexDto.listAttentionDto.memberList})"></div>
                     <div th:replace="fragments/page::page(${memberIndexDto.listAttentionDto.pageDtoList})"></div>

@@ -40,9 +40,9 @@
             <div class="col-lg-9 mb-2">
                 <div th:include="fragments/index::profile_common"></div>
                 <div th:replace="fragments/index::top_content(${memberIndexDto.listContentDto.pinnedContent},'profile-content')"></div>
-                <div class="card border-0 card border-0-body rounded-3 p-2">
+                <div class="card border-0 rounded-3 p-2">
                     <div th:replace="fragments/profile::nav_profile(${memberIndexDto.listContentDto.total},'content')"></div>
-                    <div class="card border-0 card border-0-body rounded-3 p-2 mb-1" th:if="!${#strings.isEmpty(memberIndexDto.tagName)}">
+                    <div class="card border-0 rounded-3 p-2 mb-1" th:if="!${#strings.isEmpty(memberIndexDto.tagName)}">
                         <div class="d-block text-secondary">
                             筛选:
                             <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">

@@ -36,7 +36,7 @@
     <div class="container">
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div class="card border-0 rounded-3 p-2 mb-2">
                     <ul class="list-unstyled mb-0">
                         <li class="write-new-ul-li" th:each="type : ${contentTypeList}">
                             <a class="cv-link text-secondary" th:href="'/editor?type=' + ${type.typeName}" th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="@{${type.icon}}" th:alt="${type.name}"/> [[${type.name}]]</a>
@@ -44,13 +44,13 @@
                     </ul>
                     <p class="fw-lighter border-top mt-1">叙述或者阐述一件事情</p>
                 </div>
-                <div class="card border-0 card border-0-body rounded-3 p-2">
+                <div class="card border-0 rounded-3 p-2">
                     <a class="cv-link text-secondary" href="/radio-station/create" title="发布电台"><img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/radio.svg}" alt="发布电台"> 发布电台</a>
                     <p class="fw-lighter border-top mt-1">与世界分享您的声音</p>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card border-0 card border-0-body rounded-3 p-2 mb-2">
+                <div class="card border-0 rounded-3 p-2 mb-2">
                     创建文章
                 </div>
                 <div th:include="fragments/index::global_search"></div>
