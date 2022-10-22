@@ -27,7 +27,7 @@
 
 package com.upupor.service.scheduled.sitemap;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.dto.page.common.CountTagDto;

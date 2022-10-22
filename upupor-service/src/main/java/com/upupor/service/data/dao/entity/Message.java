@@ -27,7 +27,7 @@
 
 package com.upupor.service.data.dao.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.MessageStatus;
@@ -51,7 +51,6 @@ public class Message extends BaseEntity {
     private MessageStatus status;
 
     private Long createTime;
-
 
 
     /**

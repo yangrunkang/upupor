@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.apply;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.data.dao.entity.Apply;
 import com.upupor.service.dto.page.apply.ApplyContentDto;

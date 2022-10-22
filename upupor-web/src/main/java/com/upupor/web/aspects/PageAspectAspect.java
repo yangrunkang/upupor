@@ -30,6 +30,7 @@ package com.upupor.web.aspects;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.types.PointType;
 import com.upupor.web.aspects.service.checker.page.PageAspectChecker;
@@ -88,7 +89,8 @@ public class PageAspectAspect {
     @Around("controllerLog()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+        CcUtils.start(stopWatch);
+
         // 开始打印请求日志
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert attributes != null;
@@ -118,28 +120,22 @@ public class PageAspectAspect {
                     modelAndView.getModelMap().clear();
                     return modelAndView;
                 }
-                setViewData(modelAndView, servletPath, getResponseTime(stopWatch));
+                setViewData(modelAndView, servletPath, CcUtils.stop(stopWatch));
             }
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            return exceptionView(getResponseTime(stopWatch), servletPath, exception);
+            return exceptionView(CcUtils.stop(stopWatch), servletPath, exception);
         }
 
         // 执行业务后
-        String format = String.format("URL:%s \nconsume time:%s ms", request.getRequestURL().toString(), getResponseTime(stopWatch));
+        String format = String.format("URL:%s \nconsume time:%s ms", request.getRequestURL().toString(), CcUtils.stop(stopWatch));
         // 日志打印
         log.info(format);
 
         return result;
     }
 
-    private long getResponseTime(StopWatch stopWatch) {
-        if (stopWatch.isRunning()) {
-            stopWatch.stop();
-        }
-        return stopWatch.getTotalTimeMillis();
-    }
 
     /**
      * 异常视图

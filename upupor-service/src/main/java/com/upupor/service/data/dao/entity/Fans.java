@@ -27,7 +27,7 @@
 
 package com.upupor.service.data.dao.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.FansStatus;
@@ -50,7 +50,6 @@ public class Fans extends BaseEntity {
     private Long createTime;
 
 
-
     @TableField(exist = false)
     private Member member;
 
@@ -71,7 +70,7 @@ public class Fans extends BaseEntity {
         return CcDateUtil.timeStamp2DateOnly(createTime);
     }
 
-    public static Fans init(){
+    public static Fans init() {
         Fans fans = new Fans();
         fans.setFanId(CcUtils.getUuId());
         fans.setFanStatus(FansStatus.NORMAL);

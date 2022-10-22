@@ -37,6 +37,7 @@ import com.upupor.framework.config.UpuporConfig;
 import lombok.Data;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 import org.thymeleaf.util.ArrayUtils;
 
@@ -201,5 +202,17 @@ public class CcUtils {
 
         private String fileName;
     }
+
+    public static void start(StopWatch stopWatch) {
+        stopWatch.start();
+    }
+
+    public static Long stop(StopWatch stopWatch) {
+        if (stopWatch.isRunning()) {
+            stopWatch.stop();
+        }
+        return stopWatch.getTotalTimeMillis();
+    }
+
 
 }

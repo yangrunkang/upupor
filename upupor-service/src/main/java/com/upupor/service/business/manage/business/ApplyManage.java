@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.manage.business;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;

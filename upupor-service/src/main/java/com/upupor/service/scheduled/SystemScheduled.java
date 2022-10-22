@@ -27,7 +27,7 @@
 
 package com.upupor.service.scheduled;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.data.dao.entity.BusinessConfig;
 import com.upupor.service.data.service.BusinessConfigService;
@@ -67,7 +67,7 @@ public class SystemScheduled {
     public void refreshSensitiveWord() {
         log.info("刷新敏感词");
         List<BusinessConfig> businessConfigList = businessConfigService.listByBusinessConfigType(BusinessConfigType.SENSITIVE_WORD);
-        if(CollectionUtils.isEmpty(businessConfigList)){
+        if (CollectionUtils.isEmpty(businessConfigList)) {
             return;
         }
         List<String> wordList = businessConfigList.stream().map(BusinessConfig::getValue)

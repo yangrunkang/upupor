@@ -27,7 +27,7 @@
 
 package com.upupor.service.data.dao.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.types.CommentAgree;
@@ -93,12 +93,11 @@ public class Comment extends BaseEntity {
 
     @JSONField(serialize = false)
     public String getCreateDateDiff() {
-        if(Objects.isNull(createTime)){
+        if (Objects.isNull(createTime)) {
             return Strings.EMPTY;
         }
         return CcDateUtil.timeStamp2DateOnly(createTime);
     }
-
 
 
 }

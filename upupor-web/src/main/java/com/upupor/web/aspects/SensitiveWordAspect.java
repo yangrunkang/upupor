@@ -29,7 +29,7 @@
 
 package com.upupor.web.aspects;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.google.common.collect.Lists;
@@ -57,6 +57,7 @@ import static com.upupor.framework.CcConstant.CvCache.CACHE_SENSITIVE_WORD;
 
 /**
  * 铭感次切面
+ *
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-27 19:25
  * @email: yangrunkang53@gmail.com
@@ -86,7 +87,7 @@ public class SensitiveWordAspect {
 
 
         sensitiveWord = JSON.parseObject(RedisUtil.get(CACHE_SENSITIVE_WORD), SensitiveWord.class);
-        if(Objects.nonNull(sensitiveWord)){
+        if (Objects.nonNull(sensitiveWord)) {
             Class clazz = proceedingJoinPoint.getSignature().getDeclaringType();
             Annotation annotation = clazz.getAnnotation(UpuporSensitive.class);
             if (Objects.nonNull(annotation) || clazz.getName().equals(BaseMapper.class.getName())) {
@@ -103,7 +104,7 @@ public class SensitiveWordAspect {
         }
 
         List<?> proceedList = convertToList(proceed);
-        if(CollectionUtils.isEmpty(proceedList)){
+        if (CollectionUtils.isEmpty(proceedList)) {
             return;
         }
 

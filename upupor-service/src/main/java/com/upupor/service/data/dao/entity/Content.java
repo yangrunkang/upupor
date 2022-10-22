@@ -29,7 +29,7 @@
 
 package com.upupor.service.data.dao.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.google.common.collect.Lists;
 import com.upupor.framework.CcConstant;
