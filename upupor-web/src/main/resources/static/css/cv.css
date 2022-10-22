@@ -99,13 +99,13 @@ img.lazyload:not([src]) {
 
 .cv-active {
     color: #000;
-    background-color: #dcdfe2;
+    background-color: rgb(239,239,243);
     border-radius: 4px;
 }
 
 .cv-active-page {
     color: #000;
-    background-color: #dcdfe2;
+    background-color: rgb(239,239,243);
 }
 
 .cv-hr {
@@ -141,7 +141,7 @@ a {
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     color: #000;
-    background-color: #dcdfe2;
+    background-color: rgb(239,239,243);
 }
 
 .fixed-table-body {
