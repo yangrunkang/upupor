@@ -335,8 +335,9 @@ fromPage: 来自于页面
         <div th:each="banner,ite : ${commonPageIndexDto.listBannerDto.bannerList}">
             <a class="cv-link text-secondary"
                th:href="${banner.bannerHref}"
-               th:title="${banner.bannerTitle} + ' ' + ${#strings.isEmpty(banner.bannerDesc)?'':banner.bannerDesc}">
-                [[${banner.bannerTitle}]]
+               th:title="${banner.bannerTitle} + ' ' + ${#strings.isEmpty(banner.bannerDesc)?'':banner.bannerDesc}"
+               th:utext="${banner.bannerTitle}"
+            >
             </a>
         </div>
     </div>
