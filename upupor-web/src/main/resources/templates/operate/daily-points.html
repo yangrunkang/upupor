@@ -92,7 +92,7 @@
                     <div class="nav flex-column nav-pills">
                         <a class="nav-link cv-link p-2" href="/user/manage/integral-record">
                             <img th:data-src="${ossStatic} + @{/icons/system/jifen2.svg}"  class="lazyload cv-icon-item" alt="查看我的积分"/> 查看我的积分
-                            <span th:if="${dailyPoints}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${listIntegralDto.totalIntegral}]]</span>
+                            <span th:if="${session?.cv_user_id}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${listIntegralDto.totalIntegral}]]</span>
                         </a>
                         <a class="nav-link cv-link p-2" href="/integral-rules">
                             <img th:data-src="${ossStatic} + @{/icons/system/rule.png}"  class="lazyload cv-icon-item" alt="积分规则"/> 积分规则
