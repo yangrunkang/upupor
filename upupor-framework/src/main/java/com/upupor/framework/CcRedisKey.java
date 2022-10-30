@@ -102,4 +102,7 @@ public class CcRedisKey {
         return SITE_MAP + CcConstant.BLANK + siteMapName;
     }
 
+    public static String memberVerifyCodeKey(String source, String email, String verifyCode) {
+        return source + email.trim() + verifyCode;
+    }
 }

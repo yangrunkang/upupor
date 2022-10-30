@@ -40,6 +40,8 @@ import com.upupor.service.outer.req.member.UpdatePasswordReq;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import static com.upupor.framework.CcRedisKey.memberVerifyCodeKey;
+
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-09-11 13:06
@@ -69,7 +71,7 @@ public class ResetPassword extends AbstractMember<UpdatePasswordReq> {
         }
 
         // 先校验验证码是否存在 用户注册 RedisKey组成: source + email + 验证码
-        String key = FORGET_PASSWORD + updatePasswordReq.getEmail().trim() + updatePasswordReq.getVerifyCode();
+        String key = memberVerifyCodeKey(FORGET_PASSWORD, updatePasswordReq.getEmail(), updatePasswordReq.getVerifyCode());
         String value = RedisUtil.get(key);
         if (StringUtils.isEmpty(value)) {
             throw new BusinessException(ErrorCode.VERIFY_CODE_ERROR);

@@ -47,6 +47,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcRedisKey.memberVerifyCodeKey;
 
 /**
  * @author Yang Runkang (cruise)
@@ -105,7 +106,7 @@ public class SendVerifyCode extends AbstractMember<SendVerifyCodeReq> {
         messageService.sendEmail(email, emailTitle, emailContent, SKIP_SUBSCRIBE_EMAIL_CHECK);
 
         // Redis缓存90s 用户注册 RedisKey组成: source + email + 验证码
-        String key = addVerifyCodeReq.getSource() + addVerifyCodeReq.getEmail().trim() + verifyCode;
+        String key = memberVerifyCodeKey(addVerifyCodeReq.getSource(), addVerifyCodeReq.getEmail(), verifyCode);
         RedisUtil.set(key, verifyCode, 90L);
         ccResponse.setData(true);
         return ccResponse;

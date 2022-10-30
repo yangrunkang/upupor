@@ -48,6 +48,8 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.Objects;
 
+import static com.upupor.framework.CcRedisKey.memberVerifyCodeKey;
+
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-09-11 14:15
@@ -75,7 +77,7 @@ public class Register extends AbstractMember<AddMemberReq> {
         memberService.checkUserExists(addMemberReq);
 
         // 先校验验证码是否存在 用户注册 RedisKey组成: source + email + 验证码
-        String key = REGISTER + addMemberReq.getEmail().trim() + addMemberReq.getVerifyCode();
+        String key = memberVerifyCodeKey(REGISTER, addMemberReq.getEmail(), addMemberReq.getVerifyCode());
         String value = RedisUtil.get(key);
         if (StringUtils.isEmpty(value)) {
             throw new BusinessException(ErrorCode.VERIFY_CODE_ERROR);
