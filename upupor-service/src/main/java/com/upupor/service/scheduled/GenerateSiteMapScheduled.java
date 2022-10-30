@@ -27,7 +27,7 @@
 
 package com.upupor.service.scheduled;
 
-import com.upupor.framework.CcConstant;
+import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.dto.seo.GoogleSeoDto;
@@ -44,8 +44,6 @@ import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.upupor.framework.CcConstant.CvCache.SITE_MAP;
 
 
 /**
@@ -94,8 +92,8 @@ public class GenerateSiteMapScheduled {
         if (StringUtils.isEmpty(s)) {
             return;
         }
-
-        RedisUtil.set(SITE_MAP + CcConstant.BLANK + siteMapType.name(), s);
+        String siteMapKey = CcRedisKey.siteMapKey(siteMapType.name());
+        RedisUtil.set(siteMapKey, s);
     }
 
 

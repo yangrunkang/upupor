@@ -40,7 +40,7 @@ import org.springframework.util.StringUtils;
 import java.util.Date;
 import java.util.List;
 
-import static com.upupor.framework.CcConstant.CvCache.TAG_COUNT;
+import static com.upupor.framework.CcRedisKey.TAG_COUNT;
 
 /**
  * @author Yang Runkang (cruise)

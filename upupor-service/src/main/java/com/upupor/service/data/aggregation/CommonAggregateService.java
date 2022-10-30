@@ -62,7 +62,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-import static com.upupor.framework.CcConstant.CvCache.ACTIVE_USER_LIST;
+import static com.upupor.framework.CcRedisKey.ACTIVE_USER_LIST;
 
 /**
  * 公共服务

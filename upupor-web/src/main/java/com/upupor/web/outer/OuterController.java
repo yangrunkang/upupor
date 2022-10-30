@@ -28,7 +28,7 @@
 package com.upupor.web.outer;
 
 import com.alibaba.druid.util.StringUtils;
-import com.upupor.framework.CcConstant;
+import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
@@ -38,8 +38,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.upupor.framework.CcConstant.CvCache.SITE_MAP;
 
 
 /**
@@ -58,10 +56,13 @@ public class OuterController {
     @GetMapping(value = "/upupor-google-sitemap-{siteMapType}.xml", produces = {"application/xml; charset=UTF-8"})
     public String siteMap(@PathVariable(value = "siteMapType", required = true) SiteMapType siteMapType) {
 
-        String s = RedisUtil.get(SITE_MAP + CcConstant.BLANK + siteMapType.name());
+
+        String siteMapKey = CcRedisKey.siteMapKey(siteMapType.name());
+
+        String s = RedisUtil.get(siteMapKey);
         if (StringUtils.isEmpty(s)) {
             generateSiteMapScheduled.googleSitemap();
-            s = RedisUtil.get(SITE_MAP + CcConstant.BLANK + siteMapType.name());
+            s = RedisUtil.get(siteMapKey);
         }
 
 

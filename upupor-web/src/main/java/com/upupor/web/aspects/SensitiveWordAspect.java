@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.CvCache.CACHE_SENSITIVE_WORD;
+import static com.upupor.framework.CcRedisKey.CACHE_SENSITIVE_WORD;
 
 /**
  * 铭感次切面

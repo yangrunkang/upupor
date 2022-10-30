@@ -28,6 +28,7 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
@@ -36,7 +37,6 @@ import com.upupor.service.listener.event.InitSensitiveWordEvent;
 import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.scheduled.InitLuceneService;
 import com.upupor.service.scheduled.MemberScheduled;
-import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.scheduled.SystemScheduled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,8 +48,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.CvCache.refreshKey;
 import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
+import static com.upupor.framework.CcRedisKey.refreshMemberActiveKey;
 
 /**
  * Upupor 监听器
@@ -94,7 +94,7 @@ public class UpuporListener {
     }
 
     private void refreshActiveMember(String userId) {
-        String refreshKey = refreshKey(userId);
+        String refreshKey = refreshMemberActiveKey(userId);
         if (RedisUtil.exists(refreshKey)) {
             return;
         }

@@ -35,6 +35,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
@@ -474,7 +475,8 @@ public class MemberServiceImpl implements MemberService {
                 // 未登录状态
                 return Boolean.FALSE;
             } else {
-                String dailyPointsKey = "DAILY_POINTS_" + format + "_" + userId;
+
+                String dailyPointsKey = CcRedisKey.dayilyPoint(format, userId);
                 if (!Objects.isNull(RedisUtil.get(dailyPointsKey))) {
                     return Boolean.TRUE;
                 }

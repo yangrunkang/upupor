@@ -360,46 +360,6 @@ public final class CcConstant {
 
     }
 
-    /**
-     * 缓存常量
-     */
-    public static final class CvCache {
-        /**
-         * 缓存活跃用户
-         */
-        public static final String ACTIVE_USER_LIST = "activeUserList";
-
-        /**
-         * 缓存敏感词
-         */
-        public static final String CACHE_SENSITIVE_WORD = "cacheSensitiveWord";
-
-        /**
-         * 缓存标签对应的文章数目
-         */
-        public static final String TAG_COUNT = "cvTagList";
-
-        /**
-         * 文章发布间隔
-         */
-        public static final String CREATE_CONTENT_TIME_OUT = "create_content_time_out";
-        public static final String REFRESH_KEY = "refresh_key";
-
-        /**
-         * SiteMap
-         */
-        public static final String SITE_MAP = "siteMap";
-
-
-        public static String createContentIntervalKey(String userId) {
-            return CcConstant.CvCache.CREATE_CONTENT_TIME_OUT + userId;
-        }
-
-        public static String refreshKey(String userId) {
-            return CcConstant.CvCache.REFRESH_KEY + userId;
-        }
-    }
-
     public static final class Time {
         // 用户只要活跃一次,维持活跃状态的时间
         public static final long MEMBER_ACTIVE_TIME = 60 * 60L;

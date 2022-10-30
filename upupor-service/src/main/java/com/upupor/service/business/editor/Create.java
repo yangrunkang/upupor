@@ -51,7 +51,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.CvCache.createContentIntervalKey;
+import static com.upupor.framework.CcRedisKey.createContentIntervalKey;
 import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 import static com.upupor.framework.ErrorCode.MEMBER_CONFIG_LESS;
 

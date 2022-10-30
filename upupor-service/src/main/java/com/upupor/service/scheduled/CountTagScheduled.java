@@ -28,9 +28,9 @@
 package com.upupor.service.scheduled;
 
 import com.alibaba.fastjson2.JSON;
+import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.dto.page.common.CountTagDto;
-import com.upupor.framework.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -39,7 +39,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
-import static com.upupor.framework.CcConstant.CvCache.TAG_COUNT;
+import static com.upupor.framework.CcRedisKey.TAG_COUNT;
 
 
 /**
