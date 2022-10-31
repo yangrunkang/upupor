@@ -75,11 +75,10 @@ public class GenerateSiteMapScheduled {
 
         for (AbstractSiteMap<?> abstractSiteMap : abstractSiteMapList) {
             abstractSiteMap.doBusiness();
-            List<GoogleSeoDto> sitemapList = abstractSiteMap.getGoogleSeoDtoList();
+            List<GoogleSeoDto> sitemapList = abstractSiteMap.googleSeoDtoList;
             if (CollectionUtils.isEmpty(sitemapList)) {
                 continue;
             }
-
             render(sitemapList, abstractSiteMap.siteMapType());
         }
 

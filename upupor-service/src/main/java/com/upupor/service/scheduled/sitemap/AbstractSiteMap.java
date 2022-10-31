@@ -29,7 +29,6 @@ package com.upupor.service.scheduled.sitemap;
 
 import com.upupor.service.dto.seo.GoogleSeoDto;
 import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
-import lombok.Getter;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;
@@ -44,8 +43,8 @@ import java.util.Locale;
  */
 public abstract class AbstractSiteMap<T> {
 
-    @Getter
-    List<GoogleSeoDto> googleSeoDtoList = new ArrayList<>();
+    public List<GoogleSeoDto> googleSeoDtoList;
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     /**
@@ -73,12 +72,17 @@ public abstract class AbstractSiteMap<T> {
 
     public void doBusiness() {
         if (dataCheck()) {
+            init();
             List<T> siteMapDataList = getSiteMapData();
             if (CollectionUtils.isEmpty(siteMapDataList)) {
                 return;
             }
             renderSiteMap(siteMapDataList);
         }
+    }
+
+    private void init() {
+        googleSeoDtoList = new ArrayList<>();
     }
 
 }
