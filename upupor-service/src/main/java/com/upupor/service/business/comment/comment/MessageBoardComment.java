@@ -94,7 +94,7 @@ public class MessageBoardComment extends AbstractComment<Member> {
                 .toUserId(targetUserId)
                 .emailModel(MessageModel.EmailModel.builder()
                         .title(emailTitle)
-                        .content(emailTitle)
+                        .content(emailContent)
                         .build())
                 .innerModel(MessageModel.InnerModel.builder()
                         .message(msg).build())
