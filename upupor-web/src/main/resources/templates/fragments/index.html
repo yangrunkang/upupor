@@ -526,6 +526,14 @@ fromPage: 来自于页面
 <!--个人中心公共部分-->
 <div th:fragment="profile_common">
     <div th:if="${memberIndexDto.member.statement} != null" th:include="fragments/index::member_statement"></div>
+    <div class="alert alert-warning alert-dismissible fade show mb-2" role="alert"
+         th:if="${session?.long_time_un_update_profile_photo}">
+        <a  href="/user/manage/upload-profile-photo" class="text-dark fw-bold">
+            <i class="bi bi-exclamation-triangle-fill"></i> 系统检测到您还未更换头像,请您更换头像,便于其他用户关注到您,从而提升您的影响力
+        </a>
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
+    </div>
     <div class="card border-0 rounded-3 p-2 mb-2">
         <div style="font-size: 40px;font-weight: bold;" class="text-wrap">[[${memberIndexDto.member.userName}]]</div>
         <span th:include="fragments/member::memberTag(${memberIndexDto.member})"></span>

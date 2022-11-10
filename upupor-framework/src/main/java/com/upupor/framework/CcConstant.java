@@ -320,6 +320,11 @@ public final class CcConstant {
          */
         public static final String IS_ADMIN = "is_admin";
 
+        /**
+         * 用户是否很长时间未更换头像
+         */
+        public static final String LONG_TIME_UN_UPDATE_PROFILE_PHOTO = "long_time_un_update_profile_photo";
+
     }
 
     /**
