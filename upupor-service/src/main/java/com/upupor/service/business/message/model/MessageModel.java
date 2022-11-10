@@ -25,67 +25,67 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.service;
+package com.upupor.service.business.message.model;
 
-import com.upupor.service.data.dao.entity.Message;
-import com.upupor.service.dto.page.common.ListMessageDto;
-import com.upupor.service.outer.req.ListMessageReq;
-import com.upupor.service.outer.req.UpdateMessageReq;
+import com.upupor.service.types.MessageType;
+import lombok.Builder;
+import lombok.Data;
 
 /**
- * 消息服务
+ * 消息模型
  *
- * @author: YangRunkang(cruise)
- * @created: 2019/12/23 00:26
+ * @author Yang Runkang (cruise)
+ * @date 2022年11月10日
+ * @email: yangrunkang53@gmail.com
  */
-public interface MessageService {
+@Data
+@Builder
+public class MessageModel {
 
     /**
-     * 发送邮件
-     *
-     * @param email
-     * @param emailTitle
-     * @param emailContent
-     * @return
+     * 发送给指定用户
      */
-    @Deprecated
-    void sendEmail(String email, String emailTitle, String emailContent, String userId);
+    private String toUserId;
 
     /**
-     * 更新消息
-     *
-     * @param updateMessageReq@return
+     * 直接发送到Email,使用场景是注册、忘记密码发送验证码
      */
-    Integer updateMessage(UpdateMessageReq updateMessageReq);
+    private String toEmail;
 
     /**
-     * 获取消息列表
-     *
-     * @param listMessageReq
-     * @return
+     * 标题
      */
-    ListMessageDto listMessage(ListMessageReq listMessageReq);
+    private String emailTitle;
 
     /**
-     * 获取消息
-     *
-     * @param messageId@return
+     * 内容
      */
-    Message getMessage(String messageId);
+    private String emailContent;
 
     /**
-     * 未读消息数
-     *
-     * @return
+     * 站内性消息
      */
-    Integer unReadMessageTotal(ListMessageReq listMessageReq);
+    private String innerMsgText;
 
     /**
-     * 标记消息为已读
-     *
-     * @param msgIdStr
-     * @return
+     * 消息类型
      */
-    Integer tagMsgRead(String msgIdStr);
+    private MessageType messageType;
+
+    /**
+     * 消息ID
+     */
+    private String messageId;
+
+    /**
+     * 默认发送邮件
+     */
+    private Boolean isSendEmail = Boolean.TRUE;
+
+    /**
+     * 默认发送站内信
+     */
+    private Boolean isSendInner = Boolean.TRUE;
+
 
 }

@@ -27,17 +27,18 @@
 
 package com.upupor.service.data.service.impl;
 
-import com.upupor.framework.CcConstant;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Feedback;
 import com.upupor.service.data.dao.mapper.FeedbackMapper;
 import com.upupor.service.data.service.FeedbackService;
 import com.upupor.service.data.service.MessageService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
 import com.upupor.service.outer.req.AddFeedbackReq;
 import com.upupor.service.types.FeedBackStatus;
-import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
-import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcConstant.NOTIFY_ADMIN;
 
 /**
  * 反馈服务
@@ -81,7 +82,15 @@ public class FeedbackServiceImpl implements FeedbackService {
         Integer result = feedbackMapper.insert(feedback);
         if (result > 0) {
             // 邮件发送
-            messageService.sendEmail(CcConstant.UPUPOR_EMAIL, "网站反馈" + CcDateUtil.formatDate(new Date()), "有收到新的反馈,请及时处理,反馈内容:<br />" + feedback.getFeedbackContent(), SKIP_SUBSCRIBE_EMAIL_CHECK);
+            MessageSend.send(MessageModel.builder()
+                    .toUserId(NOTIFY_ADMIN)
+                    .emailTitle("网站反馈" + CcDateUtil.formatDate(new Date()))
+                    .emailContent("有收到新的反馈,请及时处理,反馈内容:<br />" + feedback.getFeedbackContent())
+//                .messageType(MessageType.SYSTEM)
+//                .innerMsgText(msg)
+//                .messageId(msgId)
+                    .isSendInner(Boolean.FALSE)
+                    .build());
         }
         return result;
     }

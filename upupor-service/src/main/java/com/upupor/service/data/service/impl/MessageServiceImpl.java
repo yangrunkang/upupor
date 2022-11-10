@@ -32,31 +32,21 @@ package com.upupor.service.data.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.data.dao.entity.Message;
 import com.upupor.service.data.dao.mapper.MessageMapper;
-import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
-import com.upupor.service.dto.email.SendEmailEvent;
 import com.upupor.service.dto.page.common.ListMessageDto;
 import com.upupor.service.outer.req.ListMessageReq;
 import com.upupor.service.outer.req.UpdateMessageReq;
 import com.upupor.service.types.MessageStatus;
-import com.upupor.service.types.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 
 /**
  * 消息服务
@@ -70,58 +60,32 @@ import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 public class MessageServiceImpl implements MessageService {
 
     private final MessageMapper messageMapper;
-    private final MemberService memberService;
-    private final ApplicationEventPublisher eventPublisher;
-
-    @Override
-    public Integer addMessage(String toUserId, String msgContent, MessageType messageType, String msgId) {
-        Assert.notNull(msgId, "msgId不能为空");
-
-        try {
-            Message message = new Message();
-            message.setMessageId(msgId);
-            message.setMessage(msgContent);
-            message.setUserId(toUserId);
-            if (Objects.isNull(messageType)) {
-                messageType = MessageType.SYSTEM;
-            }
-            message.setMessageType(messageType);
-            message.setStatus(MessageStatus.UN_READ);
-            message.setCreateTime(CcDateUtil.getCurrentTime());
-            message.setSysUpdateTime(new Date());
-            return messageMapper.insert(message);
-        } catch (Exception e) {
-
-        }
-        // 返回默认值 0
-        return BigDecimal.ZERO.intValue();
-    }
 
     @Override
     public void sendEmail(String email, String emailTitle, String emailContent, String userId) {
-        if (StringUtils.isEmpty(userId)) {
-            return;
-        }
-
-        // 跳过配置检查,主要用于一些无用户邮件,例如反馈邮件通知
-        if (!SKIP_SUBSCRIBE_EMAIL_CHECK.equals(userId)) {
-            // 如果不允许直接跳过,则检查用户是否开始了邮件
-            Boolean openEmail = memberService.isOpenEmail(userId);
-            if (!openEmail) {
-                log.warn("用户:{}未开启邮件", userId);
-                return;
-            }
-        }
-
-        try {
-            SendEmailEvent sendEmailEvent = new SendEmailEvent();
-            sendEmailEvent.setToAddress(email);
-            sendEmailEvent.setTitle(emailTitle);
-            sendEmailEvent.setContent(emailContent);
-            eventPublisher.publishEvent(sendEmailEvent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        if (StringUtils.isEmpty(userId)) {
+//            return;
+//        }
+//
+//        // 跳过配置检查,主要用于一些无用户邮件,例如反馈邮件通知
+//        if (!SKIP_SUBSCRIBE_EMAIL_CHECK.equals(userId)) {
+//            // 如果不允许直接跳过,则检查用户是否开始了邮件
+//            Boolean openEmail = memberService.isOpenEmail(userId);
+//            if (!openEmail) {
+//                log.warn("用户:{}未开启邮件", userId);
+//                return;
+//            }
+//        }
+//
+//        try {
+//            SendEmailEvent sendEmailEvent = new SendEmailEvent();
+//            sendEmailEvent.setToAddress(email);
+//            sendEmailEvent.setTitle(emailTitle);
+//            sendEmailEvent.setContent(emailContent);
+//            eventPublisher.publishEvent(sendEmailEvent);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

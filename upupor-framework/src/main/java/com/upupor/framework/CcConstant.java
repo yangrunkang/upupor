@@ -97,7 +97,7 @@ public final class CcConstant {
     /**
      * 跳过是否订阅邮件配置校验
      */
-    public static final String SKIP_SUBSCRIBE_EMAIL_CHECK = "skip";
+    public static final String NOTIFY_ADMIN = "NOTIFY_ADMIN";
 
     /**
      * 系统支持的内容类型

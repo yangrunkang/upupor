@@ -25,65 +25,34 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.apply;
+package com.upupor.service.business.message;
 
-import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.service.data.dao.entity.Apply;
-import com.upupor.service.data.service.ApplyService;
-
-import javax.annotation.Resource;
-
-import static com.upupor.framework.CcConstant.NOTIFY_ADMIN;
 
 /**
- * 抽象申请
+ * 抽象消息
  *
  * @author Yang Runkang (cruise)
- * @date 2022年01月02日 20:06
+ * @date 2022年11月10日
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractApply<T> {
-
-    @Resource
-    private ApplyService applyService;
-
-    private Apply applyEntity = null;
+public abstract class AbstractMessage {
 
     /**
-     * 通知管理员
-     */
-    protected abstract void notifyAdministrator(Apply apply);
-
-    /**
-     * 申请
+     * 发送邮件
      *
-     * @param t
+     * @param messageModel
+     */
+    public abstract void send(MessageModel messageModel);
+
+    /**
+     * 默认是发送的
+     *
+     * @param messageModel
      * @return
      */
-    protected abstract Boolean apply(T t);
-
-    protected void sendMessage(String title, String content) {
-        MessageSend.send(MessageModel.builder()
-                .toUserId(NOTIFY_ADMIN)
-                .emailTitle(title)
-                .emailContent(content)
-//                .messageType(MessageType.SYSTEM)
-//                .innerMsgText(msg)
-//                .messageId(msgId)
-                .isSendInner(Boolean.FALSE)
-                .build());
-    }
-
-    protected Boolean apply(Apply apply) {
-        applyEntity = apply;
-        return applyService.addApply(apply) > 0;
-    }
-
-    public Boolean doBusiness(T t) {
-        Boolean success = apply(t);
-        notifyAdministrator(applyEntity);
-        return success;
+    public Boolean isSend(MessageModel messageModel) {
+        return Boolean.TRUE;
     }
 
 }

@@ -30,6 +30,8 @@
 package com.upupor.service.business.replay;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.ContentService;
@@ -80,10 +82,14 @@ public class ContentReply extends AbstractReplyComment<Content> {
         String innerMsg = buildByTemplate(msgId, createReplayUserId, createReplayUserName, content, CONTENT_INNER_MSG);
         String emailMsg = buildByTemplate(msgId, createReplayUserId, createReplayUserName, content, CONTENT_EMAIL);
 
-        // 站内信通知
-        getMessageService().addMessage(beRepliedUserId, innerMsg, MessageType.USER_REPLAY, msgId);
-        // 邮件通知
-        getMessageService().sendEmail(beRepliedMember.getEmail(), title(), emailMsg, beRepliedUserId);
+        MessageSend.send(MessageModel.builder()
+                .toUserId(beRepliedUserId)
+                .emailTitle(title())
+                .emailContent(emailMsg)
+                .messageType(MessageType.USER_REPLAY)
+                .innerMsgText(innerMsg)
+                .messageId(msgId)
+                .build());
     }
 
     @NotNull

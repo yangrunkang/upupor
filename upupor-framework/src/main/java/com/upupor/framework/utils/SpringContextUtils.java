@@ -28,9 +28,15 @@
 package com.upupor.framework.utils;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Spring上下文工具类
@@ -74,4 +80,17 @@ public class SpringContextUtils implements ApplicationContextAware {
         return applicationContext.getBean(clazz);
     }
 
+    public static <T> List<T> getBeans(Class<T> requireType) {
+        if ((applicationContext instanceof ListableBeanFactory)) {
+            ListableBeanFactory listFactory = applicationContext;
+            Map<String, T> beanMap = listFactory.getBeansOfType(requireType);
+            Iterator<String> itr = beanMap.keySet().iterator();
+            List ret = new ArrayList();
+            while (itr.hasNext()) {
+                ret.add(beanMap.get(itr.next()));
+            }
+            return ret;
+        }
+        return null;
+    }
 }

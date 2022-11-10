@@ -28,13 +28,15 @@
 package com.upupor.service.business.comment.comment;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.comment.AbstractComment;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.Radio;
 import com.upupor.service.data.service.CommentService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
 import com.upupor.service.data.service.RadioService;
-import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
@@ -76,21 +78,28 @@ public class RadioComment extends AbstractComment<Radio> {
         String commenterUserName = commenter.getUserName();
 
         // 如果作者自己评论自己就不用发邮件了
-        if(commenter.getUserId().equals(radio.getUserId())){
+        if (commenter.getUserId().equals(radio.getUserId())) {
             return;
         }
 
         // 站内信通知对方收到新的留言
         String msg = "您收到了新的电台评论,点击<strong>《" + String.format(RADIO_INTEGRAL, radio.getRadioId(), msgId, radioName) + "》</strong>查看,评论来自"
                 + String.format(PROFILE_INNER_MSG, commenterUserId, msgId, commenterUserName);
-        messageService.addMessage(radioAuthorUserId, msg, MessageType.USER_REPLAY, msgId);
+
 
         // 发送邮件通知对方收到新的留言
-
         String emailTitle = "您有新的电台评论,快去看看吧";
         String emailContent = "点击" + String.format(RADIO_EMAIL, radio.getRadioId(), msgId, radioName) + ",评论来自 "
                 + String.format(PROFILE_EMAIL, commenterUserId, msgId, commenterUserName);
-        messageService.sendEmail(radioAuthor.getEmail(), emailTitle, emailContent, radioAuthorUserId);
+
+        MessageSend.send(MessageModel.builder()
+                .toUserId(radioAuthorUserId)
+                .emailTitle(emailTitle)
+                .emailContent(emailContent)
+                .messageType(MessageType.USER_REPLAY)
+                .innerMsgText(msg)
+                .messageId(msgId)
+                .build());
     }
 
     @Override

@@ -38,6 +38,8 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.common.UserCheckFieldType;
 import com.upupor.service.data.service.MessageService;
 import com.upupor.service.outer.req.member.SendVerifyCodeReq;
@@ -46,7 +48,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
 import static com.upupor.framework.CcRedisKey.memberVerifyCodeKey;
 
 /**
@@ -102,8 +103,17 @@ public class SendVerifyCode extends AbstractMember<SendVerifyCodeReq> {
             log.info("开发环境验证码:{}", verifyCode);
         }
 
-        // 验证码的短信要跳过是否订阅邮件配置
-        messageService.sendEmail(email, emailTitle, emailContent, SKIP_SUBSCRIBE_EMAIL_CHECK);
+        // 邮件发送
+        MessageSend.send(MessageModel.builder()
+                .toEmail(email)
+                .emailTitle(emailTitle)
+                .emailContent(emailContent)
+//                .messageType(MessageType.SYSTEM)
+//                .innerMsgText(msg)
+//                .messageId(msgId)
+                .isSendInner(Boolean.FALSE)
+                .build());
+
 
         // Redis缓存90s 用户注册 RedisKey组成: source + email + 验证码
         String key = memberVerifyCodeKey(addVerifyCodeReq.getSource(), addVerifyCodeReq.getEmail(), verifyCode);

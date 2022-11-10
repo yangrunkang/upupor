@@ -28,14 +28,14 @@
 package com.upupor.service.business.apply;
 
 import com.alibaba.fastjson2.JSON;
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.data.dao.entity.Apply;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.data.dao.entity.Apply;
 import com.upupor.service.dto.page.apply.ApplyContentDto;
 import com.upupor.service.outer.req.AddConsultantReq;
 import com.upupor.service.types.ApplyStatus;
-import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
@@ -61,7 +61,7 @@ public class ConsultantApply extends AbstractApply<AddConsultantReq> {
                 apply.getApplyContentDto().getApplyProject()
         );
 
-        sendEmail("您有新的咨询服务!!!请尽快处理", emailContent);
+        sendMessage("您有新的咨询服务!!!请尽快处理", emailContent);
 
 
     }
