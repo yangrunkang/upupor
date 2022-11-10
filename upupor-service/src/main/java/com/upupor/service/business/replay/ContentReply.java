@@ -84,10 +84,13 @@ public class ContentReply extends AbstractReplyComment<Content> {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beRepliedUserId)
-                .emailTitle(title())
-                .emailContent(emailMsg)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(title())
+                        .content(emailMsg)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(innerMsg).build())
                 .messageType(MessageType.USER_REPLAY)
-                .innerMsgText(innerMsg)
                 .messageId(msgId)
                 .build());
     }

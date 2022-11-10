@@ -105,13 +105,14 @@ public class SendVerifyCode extends AbstractMember<SendVerifyCodeReq> {
 
         // 邮件发送
         MessageSend.send(MessageModel.builder()
-                .toEmail(email)
-                .emailTitle(emailTitle)
-                .emailContent(emailContent)
-//                .messageType(MessageType.SYSTEM)
-//                .innerMsgText(msg)
-//                .messageId(msgId)
-                .isSendInner(Boolean.FALSE)
+                .directEmailModel(MessageModel.DirectEmailModel.builder()
+                        .email(email)
+                        .build())
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(emailTitle)
+                        .content(emailContent)
+                        .build())
+                .messageId(CcUtils.getUuId())
                 .build());
 
 

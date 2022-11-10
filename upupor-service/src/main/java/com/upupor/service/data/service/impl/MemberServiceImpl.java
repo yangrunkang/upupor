@@ -616,21 +616,6 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.updateById(member);
     }
 
-    @Override
-    public Boolean isOpenEmail(String userId) {
-        Member member = getMember(userId);
-        if (Objects.isNull(member)) {
-            return false;
-        }
-
-        MemberConfig memberConfig = getMemberConfig(userId);
-        if (Objects.isNull(memberConfig)) {
-            return false;
-        }
-
-        return OpenEmail.SUBSCRIBE_EMAIL.equals(memberConfig.getOpenEmail());
-    }
-
     /**
      * 初始化用户配置
      *

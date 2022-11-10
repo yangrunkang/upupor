@@ -94,10 +94,13 @@ public class RadioComment extends AbstractComment<Radio> {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(radioAuthorUserId)
-                .emailTitle(emailTitle)
-                .emailContent(emailContent)
                 .messageType(MessageType.USER_REPLAY)
-                .innerMsgText(msg)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(emailTitle)
+                        .content(emailContent)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(msg).build())
                 .messageId(msgId)
                 .build());
     }

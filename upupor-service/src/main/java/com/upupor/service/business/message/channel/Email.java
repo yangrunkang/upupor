@@ -37,7 +37,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+
+import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.NOTIFY_ADMIN;
 import static com.upupor.framework.CcConstant.UPUPOR_EMAIL;
@@ -57,44 +58,40 @@ public class Email extends AbstractMessage {
     private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
 
-
     @Override
     public Boolean isSend(MessageModel messageModel) {
-        return messageModel.getIsSendEmail();
+        return Objects.nonNull(messageModel.getEmailModel());
     }
 
     @Override
     public void send(MessageModel messageModel) {
-        String toUserId = messageModel.getToUserId();
-        if (StringUtils.isEmpty(toUserId)) {
-            return;
-        }
 
+        MessageModel.DirectEmailModel directEmailModel = messageModel.getDirectEmailModel();
+        MessageModel.EmailModel emailModel = messageModel.getEmailModel();
 
         String email;
-        if (StringUtils.isEmpty(messageModel.getToEmail())) {
-            Member member = memberService.memberInfo(toUserId);
-            email = member.getEmail();
-            // 例如反馈邮件通知只发送给系统管理员
+        if (Objects.nonNull(directEmailModel)) {
+            email = directEmailModel.getEmail();
+        } else {
+            String toUserId = messageModel.getToUserId();
             if (NOTIFY_ADMIN.equals(toUserId)) {
                 email = UPUPOR_EMAIL;
             } else {
-                // 如果不允许直接跳过,则检查用户是否开始了邮件
+                Member member = memberService.memberInfo(toUserId);
                 boolean openEmail = OpenEmail.SUBSCRIBE_EMAIL.equals(member.getMemberConfig().getOpenEmail());
                 if (!openEmail) {
                     log.warn("用户:{}未开启邮件", toUserId);
                     return;
                 }
+                email = member.getEmail();
             }
-        } else {
-            email = messageModel.getToEmail();
         }
 
         try {
             SendEmailEvent sendEmailEvent = new SendEmailEvent();
             sendEmailEvent.setToAddress(email);
-            sendEmailEvent.setTitle(messageModel.getEmailTitle());
-            sendEmailEvent.setContent(messageModel.getEmailContent());
+            sendEmailEvent.setTitle(emailModel.getTitle());
+            sendEmailEvent.setContent(emailModel.getContent());
             eventPublisher.publishEvent(sendEmailEvent);
         } catch (Exception e) {
             e.printStackTrace();

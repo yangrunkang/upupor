@@ -177,10 +177,13 @@ public class ContentListener {
 
                 MessageSend.send(MessageModel.builder()
                         .toUserId(member.getUserId())
-                        .emailTitle(content.getTitle())
-                        .emailContent(email)
                         .messageType(MessageType.SYSTEM)
-                        .innerMsgText(innerMessage)
+                        .emailModel(MessageModel.EmailModel.builder()
+                                .title(content.getTitle())
+                                .content(email)
+                                .build())
+                        .innerModel(MessageModel.InnerModel.builder()
+                                .message(innerMessage).build())
                         .messageId(msgId)
                         .build());
 
@@ -210,12 +213,10 @@ public class ContentListener {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(content.getUserId())
-//                .emailTitle(title())
-//                .emailContent(emailMsg)
                 .messageType(MessageType.SYSTEM)
-                .innerMsgText(message)
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(message).build())
                 .messageId(msgId)
-                .isSendEmail(Boolean.FALSE)
                 .build());
 
     }

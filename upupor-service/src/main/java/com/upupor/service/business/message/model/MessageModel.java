@@ -48,24 +48,20 @@ public class MessageModel {
     private String toUserId;
 
     /**
-     * 直接发送到Email,使用场景是注册、忘记密码发送验证码
+     * 邮件模型
      */
-    private String toEmail;
+    private EmailModel emailModel;
 
     /**
-     * 标题
+     * 站内信模型
      */
-    private String emailTitle;
+    private InnerModel innerModel;
+
 
     /**
-     * 内容
+     * 直接发邮件模型
      */
-    private String emailContent;
-
-    /**
-     * 站内性消息
-     */
-    private String innerMsgText;
+    private DirectEmailModel directEmailModel;
 
     /**
      * 消息类型
@@ -77,15 +73,59 @@ public class MessageModel {
      */
     private String messageId;
 
-    /**
-     * 默认发送邮件
-     */
-    private Boolean isSendEmail = Boolean.TRUE;
 
     /**
-     * 默认发送站内信
+     * 站内信Model
+     *
+     * @author Yang Runkang (cruise)
+     * @createTime 2022-11-10 23:37
+     * @email: yangrunkang53@gmail.com
      */
-    private Boolean isSendInner = Boolean.TRUE;
+    @Data
+    @Builder
+    public static class InnerModel {
+
+        /**
+         * 站内信消息
+         */
+        private String message;
+
+    }
 
 
+    /**
+     * 邮件Model
+     *
+     * @author Yang Runkang (cruise)
+     * @createTime 2022-11-10 23:37
+     * @email: yangrunkang53@gmail.com
+     */
+    @Data
+    @Builder
+    public static class EmailModel {
+        /**
+         * 标题
+         */
+        private String title;
+
+        /**
+         * 内容
+         */
+        private String content;
+
+    }
+
+    /**
+     * 直接发邮件Model
+     * 针对无账号用户、忘记密码等操作
+     *
+     * @author Yang Runkang (cruise)
+     * @createTime 2022-11-10 23:47
+     * @email: yangrunkang53@gmail.com
+     */
+    @Data
+    @Builder
+    public static class DirectEmailModel {
+        private String email;
+    }
 }

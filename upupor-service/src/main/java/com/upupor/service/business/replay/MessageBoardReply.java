@@ -71,10 +71,13 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beReplayedUser.getUserId())
-                .emailTitle(title())
-                .emailContent(emailMsg)
                 .messageType(MessageType.USER_REPLAY)
-                .innerMsgText(innerMsg)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(title())
+                        .content(emailMsg)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(innerMsg).build())
                 .messageId(msgId)
                 .build());
     }

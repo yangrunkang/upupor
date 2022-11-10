@@ -102,10 +102,13 @@ public class ContentComment extends AbstractComment<Content> {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(contentAuthor.getUserId())
-                .emailTitle(emailTitle)
-                .emailContent(emailContent)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(emailTitle)
+                        .content(emailContent)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(innerMsgText).build())
                 .messageType(MessageType.SYSTEM)
-                .innerMsgText(innerMsgText)
                 .messageId(msgId)
                 .build());
 

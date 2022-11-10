@@ -139,12 +139,11 @@ public class ApplyServiceImpl implements ApplyService {
 
             MessageSend.send(MessageModel.builder()
                     .toUserId(NOTIFY_ADMIN)
-                    .emailTitle("广告申请材料提交!!!请尽快处理")
-                    .emailContent("广告申请材料:" + emailContent)
-//                .messageType(MessageType.SYSTEM)
-//                .innerMsgText(msg)
-//                .messageId(msgId)
-                    .isSendInner(Boolean.FALSE)
+                    .emailModel(MessageModel.EmailModel.builder()
+                            .title("广告申请材料提交!!!请尽快处理")
+                            .content("广告申请材料:" + emailContent)
+                            .build())
+                    .messageId(CcUtils.getUuId())
                     .build());
 
         }

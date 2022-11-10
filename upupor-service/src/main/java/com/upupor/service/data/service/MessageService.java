@@ -41,17 +41,6 @@ import com.upupor.service.outer.req.UpdateMessageReq;
 public interface MessageService {
 
     /**
-     * 发送邮件
-     *
-     * @param email
-     * @param emailTitle
-     * @param emailContent
-     * @return
-     */
-    @Deprecated
-    void sendEmail(String email, String emailTitle, String emailContent, String userId);
-
-    /**
      * 更新消息
      *
      * @param updateMessageReq@return

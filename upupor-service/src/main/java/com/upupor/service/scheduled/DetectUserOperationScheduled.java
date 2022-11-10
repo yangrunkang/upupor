@@ -28,6 +28,7 @@
 package com.upupor.service.scheduled;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Member;
@@ -86,12 +87,11 @@ public class DetectUserOperationScheduled {
 
                 MessageSend.send(MessageModel.builder()
                         .toUserId(member.getUserId())
-                        .emailTitle(title)
-                        .emailContent(content)
-                        //                .messageType(MessageType.SYSTEM)
-                        //                .innerMsgText(msg)
-                        //                .messageId(msgId)
-                        .isSendInner(Boolean.FALSE)
+                        .emailModel(MessageModel.EmailModel.builder()
+                                .title(title)
+                                .content(content)
+                                .build())
+                        .messageId(CcUtils.getUuId())
                         .build());
 
                 log.info("检测用户一周内未登录定时任务邮件内容:{}-{}-{}", member.getEmail(), title, content);

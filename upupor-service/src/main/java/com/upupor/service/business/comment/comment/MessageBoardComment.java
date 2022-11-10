@@ -92,10 +92,13 @@ public class MessageBoardComment extends AbstractComment<Member> {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(targetUserId)
-                .emailTitle(emailTitle)
-                .emailContent(emailContent)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(emailTitle)
+                        .content(emailTitle)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(msg).build())
                 .messageType(MessageType.USER_REPLAY)
-                .innerMsgText(msg)
                 .messageId(msgId)
                 .build());
 

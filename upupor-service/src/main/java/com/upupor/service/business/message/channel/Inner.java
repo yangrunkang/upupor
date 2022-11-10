@@ -56,13 +56,19 @@ public class Inner extends AbstractMessage {
     private final MessageMapper messageMapper;
 
     @Override
+    public Boolean isSend(MessageModel messageModel) {
+        return Objects.nonNull(messageModel.getInnerModel());
+    }
+
+    @Override
     public void send(MessageModel messageModel) {
         String msgId = messageModel.getMessageId();
+        MessageModel.InnerModel innerModel = messageModel.getInnerModel();
         MessageType messageType = messageModel.getMessageType();
         try {
             Message message = new Message();
             message.setMessageId(msgId);
-            message.setMessage(messageModel.getInnerMsgText());
+            message.setMessage(innerModel.getMessage());
             message.setUserId(messageModel.getToUserId());
             if (Objects.isNull(messageType)) {
                 messageType = MessageType.SYSTEM;

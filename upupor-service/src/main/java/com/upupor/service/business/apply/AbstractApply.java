@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.apply;
 
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Apply;
@@ -66,12 +67,11 @@ public abstract class AbstractApply<T> {
     protected void sendMessage(String title, String content) {
         MessageSend.send(MessageModel.builder()
                 .toUserId(NOTIFY_ADMIN)
-                .emailTitle(title)
-                .emailContent(content)
-//                .messageType(MessageType.SYSTEM)
-//                .innerMsgText(msg)
-//                .messageId(msgId)
-                .isSendInner(Boolean.FALSE)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(title)
+                        .content(content)
+                        .build())
+                .messageId(CcUtils.getUuId())
                 .build());
     }
 

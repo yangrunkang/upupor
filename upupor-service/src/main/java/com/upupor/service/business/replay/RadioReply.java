@@ -81,10 +81,13 @@ public class RadioReply extends AbstractReplyComment<Radio> {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beReplayedUser.getUserId())
-                .emailTitle(title())
-                .emailContent(emailMsg)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(title())
+                        .content(emailMsg)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(innerMsg).build())
                 .messageType(MessageType.USER_REPLAY)
-                .innerMsgText(innerMsg)
                 .messageId(msgId)
                 .build());
     }

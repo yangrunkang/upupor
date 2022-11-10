@@ -51,8 +51,6 @@ public abstract class AbstractMessage {
      * @param messageModel
      * @return
      */
-    public Boolean isSend(MessageModel messageModel) {
-        return Boolean.TRUE;
-    }
+    public abstract Boolean isSend(MessageModel messageModel);
 
 }

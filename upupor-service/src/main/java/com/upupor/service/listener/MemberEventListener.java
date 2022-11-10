@@ -180,10 +180,13 @@ public class MemberEventListener {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(member.getUserId())
-                .emailTitle(emailTitle)
-                .emailContent(emailContent)
                 .messageType(MessageType.SYSTEM)
-                .innerMsgText(msg)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(emailTitle)
+                        .content(emailContent)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(msg).build())
                 .messageId(msgId)
                 .build());
 
@@ -207,12 +210,10 @@ public class MemberEventListener {
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(memberRegisterEvent.getUserId())
-//                .emailTitle(title())
-//                .emailContent(emailMsg)
                 .messageType(MessageType.SYSTEM)
-                .innerMsgText(msg)
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(msg).build())
                 .messageId(msgId)
-                .isSendEmail(Boolean.FALSE)
                 .build());
 
     }

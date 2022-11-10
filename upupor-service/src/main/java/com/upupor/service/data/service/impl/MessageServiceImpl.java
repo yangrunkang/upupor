@@ -62,33 +62,6 @@ public class MessageServiceImpl implements MessageService {
     private final MessageMapper messageMapper;
 
     @Override
-    public void sendEmail(String email, String emailTitle, String emailContent, String userId) {
-//        if (StringUtils.isEmpty(userId)) {
-//            return;
-//        }
-//
-//        // 跳过配置检查,主要用于一些无用户邮件,例如反馈邮件通知
-//        if (!SKIP_SUBSCRIBE_EMAIL_CHECK.equals(userId)) {
-//            // 如果不允许直接跳过,则检查用户是否开始了邮件
-//            Boolean openEmail = memberService.isOpenEmail(userId);
-//            if (!openEmail) {
-//                log.warn("用户:{}未开启邮件", userId);
-//                return;
-//            }
-//        }
-//
-//        try {
-//            SendEmailEvent sendEmailEvent = new SendEmailEvent();
-//            sendEmailEvent.setToAddress(email);
-//            sendEmailEvent.setTitle(emailTitle);
-//            sendEmailEvent.setContent(emailContent);
-//            eventPublisher.publishEvent(sendEmailEvent);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    @Override
     public Integer updateMessage(UpdateMessageReq updateMessageReq) {
 
         // 单个消息已读

@@ -84,12 +84,11 @@ public class FeedbackServiceImpl implements FeedbackService {
             // 邮件发送
             MessageSend.send(MessageModel.builder()
                     .toUserId(NOTIFY_ADMIN)
-                    .emailTitle("网站反馈" + CcDateUtil.formatDate(new Date()))
-                    .emailContent("有收到新的反馈,请及时处理,反馈内容:<br />" + feedback.getFeedbackContent())
-//                .messageType(MessageType.SYSTEM)
-//                .innerMsgText(msg)
-//                .messageId(msgId)
-                    .isSendInner(Boolean.FALSE)
+                    .emailModel(MessageModel.EmailModel.builder()
+                            .title("网站反馈" + CcDateUtil.formatDate(new Date()))
+                            .content("有收到新的反馈,请及时处理,反馈内容:<br />" + feedback.getFeedbackContent())
+                            .build())
+                    .messageId(CcUtils.getUuId())
                     .build());
         }
         return result;
