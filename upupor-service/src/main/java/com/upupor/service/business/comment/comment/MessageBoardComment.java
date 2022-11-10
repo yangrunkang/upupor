@@ -27,12 +27,14 @@
 
 package com.upupor.service.business.comment.comment;
 
+import com.upupor.service.business.comment.AbstractComment;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
+import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberIntegralService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
-import com.upupor.service.business.comment.AbstractComment;
-import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
@@ -75,21 +77,31 @@ public class MessageBoardComment extends AbstractComment<Member> {
         String commenterUserName = commenter.getUserName();
 
         // 如果作者自己评论自己就不用发邮件了
-        if(commenter.getUserId().equals(targetMember.getUserId())){
+        if (commenter.getUserId().equals(targetMember.getUserId())) {
             return;
         }
 
         // 站内信通知对方收到新的留言
         String msg = "您收到了新的留言信息,点击" + String.format(MESSAGE_INTEGRAL, targetUserId, msgId, "<strong>留言板</strong>") + "查看. 留言来自"
                 + String.format(PROFILE_INNER_MSG, commenterUserId, msgId, commenterUserName);
-        messageService.addMessage(targetUserId, msg, MessageType.USER_REPLAY, msgId);
 
         // 发送邮件通知对方收到新的留言
-
         String emailTitle = "您有新的留言,快去看看吧";
         String emailContent = "点击" + String.format(MESSAGE_EMAIL, targetUserId, msgId, "<strong>留言板</strong>") + ",留言来自 "
                 + String.format(PROFILE_EMAIL, commenterUserId, msgId, commenterUserName);
-        messageService.sendEmail(targetMember.getEmail(), emailTitle, emailContent, targetUserId);
+
+        MessageSend.send(MessageModel.builder()
+                .toUserId(targetUserId)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(emailTitle)
+                        .content(emailContent)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(msg).build())
+                .messageType(MessageType.USER_REPLAY)
+                .messageId(msgId)
+                .build());
+
 
         // 留言赠送积分
         IntegralEnum integralEnum = IntegralEnum.MESSAGE;

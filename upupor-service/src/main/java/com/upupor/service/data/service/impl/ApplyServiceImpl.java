@@ -29,12 +29,13 @@ package com.upupor.service.data.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.FileUtils;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Apply;
 import com.upupor.service.data.dao.entity.ApplyDocument;
 import com.upupor.service.data.dao.mapper.ApplyDocumentMapper;
@@ -47,8 +48,8 @@ import com.upupor.service.outer.req.DelApplyReq;
 import com.upupor.service.outer.req.UpdateApplyReq;
 import com.upupor.service.types.ApplyStatus;
 import com.upupor.service.utils.ServletUtils;
-import com.upupor.service.utils.oss.enums.FileDic;
 import com.upupor.service.utils.oss.FileUpload;
+import com.upupor.service.utils.oss.enums.FileDic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +57,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcConstant.NOTIFY_ADMIN;
 
 /**
  * 申请服务
@@ -135,7 +136,16 @@ public class ApplyServiceImpl implements ApplyService {
 
             // 发送邮件
             String emailContent = "收到新的申请,请尽快处理";
-            messageService.sendEmail(CcConstant.UPUPOR_EMAIL, "广告申请材料提交!!!请尽快处理", "广告申请材料:" + emailContent, SKIP_SUBSCRIBE_EMAIL_CHECK);
+
+            MessageSend.send(MessageModel.builder()
+                    .toUserId(NOTIFY_ADMIN)
+                    .emailModel(MessageModel.EmailModel.builder()
+                            .title("广告申请材料提交!!!请尽快处理")
+                            .content("广告申请材料:" + emailContent)
+                            .build())
+                    .messageId(CcUtils.getUuId())
+                    .build());
+
         }
 
         return result;

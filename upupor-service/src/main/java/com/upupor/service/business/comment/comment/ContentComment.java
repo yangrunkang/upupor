@@ -28,14 +28,16 @@
 package com.upupor.service.business.comment.comment;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.comment.AbstractComment;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
+import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.ContentService;
 import com.upupor.service.data.service.MemberIntegralService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
-import com.upupor.service.business.comment.AbstractComment;
-import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.types.ContentType;
 import com.upupor.service.types.MessageType;
 import org.springframework.stereotype.Component;
@@ -97,11 +99,18 @@ public class ContentComment extends AbstractComment<Content> {
         String integralText = "您评论了 《" + String.format(CONTENT_INTEGRAL, contentId, msgId, contentTitle) + "》文章,赠送 " +
                 IntegralEnum.CREATE_COMMENT.getIntegral() + " 积分;快去写文章吧,您收到的评论越多,就会获得更多的积分~";
 
-        // 站内信
-        messageService.addMessage(contentAuthor.getUserId(), innerMsgText, MessageType.SYSTEM, msgId);
 
-        // 邮件
-        messageService.sendEmail(contentAuthor.getEmail(), emailTitle, emailContent, contentAuthor.getUserId());
+        MessageSend.send(MessageModel.builder()
+                .toUserId(contentAuthor.getUserId())
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(emailTitle)
+                        .content(emailContent)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(innerMsgText).build())
+                .messageType(MessageType.SYSTEM)
+                .messageId(msgId)
+                .build());
 
         // 送积分
         memberIntegralService.addIntegral(IntegralEnum.CREATE_COMMENT, integralText, commenterUserId, commentId);

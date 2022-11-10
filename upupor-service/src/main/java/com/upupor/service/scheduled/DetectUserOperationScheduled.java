@@ -28,6 +28,9 @@
 package com.upupor.service.scheduled;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
@@ -81,7 +84,16 @@ public class DetectUserOperationScheduled {
             memberList.forEach(member -> {
                 String title = "亲爱的 " + member.getUserName() + " :";
                 String content = "<a class='cv-link' target='_blank' href = 'https://www.upupor.com?source=email'>最近一周Upupor更新了很多内容,立即访问</a>";
-                messageService.sendEmail(member.getEmail(), title, content, member.getUserId());
+
+                MessageSend.send(MessageModel.builder()
+                        .toUserId(member.getUserId())
+                        .emailModel(MessageModel.EmailModel.builder()
+                                .title(title)
+                                .content(content)
+                                .build())
+                        .messageId(CcUtils.getUuId())
+                        .build());
+
                 log.info("检测用户一周内未登录定时任务邮件内容:{}-{}-{}", member.getEmail(), title, content);
                 sleep2s();
             });

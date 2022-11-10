@@ -25,56 +25,42 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.service;
+package com.upupor.service.business.message;
 
-import com.upupor.service.data.dao.entity.Message;
-import com.upupor.service.dto.page.common.ListMessageDto;
-import com.upupor.service.outer.req.ListMessageReq;
-import com.upupor.service.outer.req.UpdateMessageReq;
+import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.service.business.message.model.MessageModel;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
- * 消息服务
+ * 消息发送
  *
- * @author: YangRunkang(cruise)
- * @created: 2019/12/23 00:26
+ * @author Yang Runkang (cruise)
+ * @date 2022年11月10日
+ * @email: yangrunkang53@gmail.com
  */
-public interface MessageService {
+@Slf4j
+public class MessageSend {
+    public static void send(MessageModel messageModel) {
+        if (StringUtils.isEmpty(messageModel.getMessageId())) {
+            log.warn("msgId为空,无法发送消息");
+            return;
+        }
 
-    /**
-     * 更新消息
-     *
-     * @param updateMessageReq@return
-     */
-    Integer updateMessage(UpdateMessageReq updateMessageReq);
+        List<AbstractMessage> abstractMessageList = SpringContextUtils.getBeans(AbstractMessage.class);
+        if (CollectionUtils.isEmpty(abstractMessageList)) {
+            log.warn("无具体实现类,无法发送消息");
+            return;
+        }
 
-    /**
-     * 获取消息列表
-     *
-     * @param listMessageReq
-     * @return
-     */
-    ListMessageDto listMessage(ListMessageReq listMessageReq);
-
-    /**
-     * 获取消息
-     *
-     * @param messageId@return
-     */
-    Message getMessage(String messageId);
-
-    /**
-     * 未读消息数
-     *
-     * @return
-     */
-    Integer unReadMessageTotal(ListMessageReq listMessageReq);
-
-    /**
-     * 标记消息为已读
-     *
-     * @param msgIdStr
-     * @return
-     */
-    Integer tagMsgRead(String msgIdStr);
-
+        for (AbstractMessage abstractMessage : abstractMessageList) {
+            if (!abstractMessage.isSend(messageModel)) {
+                continue;
+            }
+            abstractMessage.send(messageModel);
+        }
+    }
 }

@@ -25,56 +25,32 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.data.service;
+package com.upupor.service.business.message;
 
-import com.upupor.service.data.dao.entity.Message;
-import com.upupor.service.dto.page.common.ListMessageDto;
-import com.upupor.service.outer.req.ListMessageReq;
-import com.upupor.service.outer.req.UpdateMessageReq;
+import com.upupor.service.business.message.model.MessageModel;
 
 /**
- * 消息服务
+ * 抽象消息
  *
- * @author: YangRunkang(cruise)
- * @created: 2019/12/23 00:26
+ * @author Yang Runkang (cruise)
+ * @date 2022年11月10日
+ * @email: yangrunkang53@gmail.com
  */
-public interface MessageService {
+public abstract class AbstractMessage {
 
     /**
-     * 更新消息
+     * 发送邮件
      *
-     * @param updateMessageReq@return
+     * @param messageModel
      */
-    Integer updateMessage(UpdateMessageReq updateMessageReq);
+    public abstract void send(MessageModel messageModel);
 
     /**
-     * 获取消息列表
+     * 默认是发送的
      *
-     * @param listMessageReq
+     * @param messageModel
      * @return
      */
-    ListMessageDto listMessage(ListMessageReq listMessageReq);
-
-    /**
-     * 获取消息
-     *
-     * @param messageId@return
-     */
-    Message getMessage(String messageId);
-
-    /**
-     * 未读消息数
-     *
-     * @return
-     */
-    Integer unReadMessageTotal(ListMessageReq listMessageReq);
-
-    /**
-     * 标记消息为已读
-     *
-     * @param msgIdStr
-     * @return
-     */
-    Integer tagMsgRead(String msgIdStr);
+    public abstract Boolean isSend(MessageModel messageModel);
 
 }

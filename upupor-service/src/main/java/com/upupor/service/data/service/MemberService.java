@@ -235,13 +235,6 @@ public interface MemberService {
     void updateActiveTime(String userId);
 
     /**
-     * 是否开启邮件订阅
-     *
-     * @param userId
-     */
-    Boolean isOpenEmail(String userId);
-
-    /**
      * 初始化用户配置
      *
      * @param userId

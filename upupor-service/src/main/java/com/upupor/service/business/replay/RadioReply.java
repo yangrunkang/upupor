@@ -30,6 +30,8 @@
 package com.upupor.service.business.replay;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.dao.entity.Radio;
 import com.upupor.service.data.service.MemberService;
@@ -77,11 +79,17 @@ public class RadioReply extends AbstractReplyComment<Radio> {
         String innerMsg = buildByTemplate(creatorReplayUserId, creatorReplayUserName, msgId, radio, RADIO_INNER_MSG);
         String emailMsg = buildByTemplate(creatorReplayUserId, creatorReplayUserName, msgId, radio, RADIO_EMAIL);
 
-
-        // 站内信通知
-        getMessageService().addMessage(beRepliedUserId, innerMsg, MessageType.USER_REPLAY, msgId);
-        // 邮件通知
-        getMessageService().sendEmail(beReplayedUser.getEmail(), title(), emailMsg, beRepliedUserId);
+        MessageSend.send(MessageModel.builder()
+                .toUserId(beReplayedUser.getUserId())
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(title())
+                        .content(emailMsg)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(innerMsg).build())
+                .messageType(MessageType.USER_REPLAY)
+                .messageId(msgId)
+                .build());
     }
 
     @NotNull

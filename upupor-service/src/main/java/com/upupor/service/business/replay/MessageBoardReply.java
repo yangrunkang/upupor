@@ -29,6 +29,8 @@
 
 package com.upupor.service.business.replay;
 
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
@@ -66,11 +68,18 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
 
         String innerMsg = buildMsgByTemplate(replayCommentEvent, msgId, MESSAGE_INTEGRAL);
         String emailMsg = buildMsgByTemplate(replayCommentEvent, msgId, MESSAGE_EMAIL);
-        // 站内信通知
-        getMessageService().addMessage(beReplayedUser.getUserId(), innerMsg, MessageType.USER_REPLAY, msgId);
-        // 邮件通知
-        String title = "留言板有新的回复消息";
-        getMessageService().sendEmail(beReplayedUser.getEmail(), title, emailMsg, beReplayedUser.getUserId());
+
+        MessageSend.send(MessageModel.builder()
+                .toUserId(beReplayedUser.getUserId())
+                .messageType(MessageType.USER_REPLAY)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(title())
+                        .content(emailMsg)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(innerMsg).build())
+                .messageId(msgId)
+                .build());
     }
 
     @NotNull

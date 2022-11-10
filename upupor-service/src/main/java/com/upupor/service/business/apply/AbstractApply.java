@@ -27,14 +27,15 @@
 
 package com.upupor.service.business.apply;
 
-import com.upupor.framework.CcConstant;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Apply;
 import com.upupor.service.data.service.ApplyService;
-import com.upupor.service.data.service.MessageService;
 
 import javax.annotation.Resource;
 
-import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
+import static com.upupor.framework.CcConstant.NOTIFY_ADMIN;
 
 /**
  * 抽象申请
@@ -44,9 +45,6 @@ import static com.upupor.framework.CcConstant.SKIP_SUBSCRIBE_EMAIL_CHECK;
  * @email: yangrunkang53@gmail.com
  */
 public abstract class AbstractApply<T> {
-
-    @Resource
-    private MessageService messageService;
 
     @Resource
     private ApplyService applyService;
@@ -66,8 +64,15 @@ public abstract class AbstractApply<T> {
      */
     protected abstract Boolean apply(T t);
 
-    protected void sendEmail(String title, String content) {
-        messageService.sendEmail(CcConstant.UPUPOR_EMAIL, title, content, SKIP_SUBSCRIBE_EMAIL_CHECK);
+    protected void sendMessage(String title, String content) {
+        MessageSend.send(MessageModel.builder()
+                .toUserId(NOTIFY_ADMIN)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(title)
+                        .content(content)
+                        .build())
+                .messageId(CcUtils.getUuId())
+                .build());
     }
 
     protected Boolean apply(Apply apply) {
@@ -75,7 +80,7 @@ public abstract class AbstractApply<T> {
         return applyService.addApply(apply) > 0;
     }
 
-    public Boolean doBusiness(T t){
+    public Boolean doBusiness(T t) {
         Boolean success = apply(t);
         notifyAdministrator(applyEntity);
         return success;

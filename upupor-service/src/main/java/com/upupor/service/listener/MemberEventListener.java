@@ -28,19 +28,21 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
+import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.data.dao.entity.Attention;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberIntegralService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.data.service.MessageService;
-import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.listener.event.MemberLoginEvent;
 import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.types.MessageType;
-import com.upupor.framework.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -170,13 +172,24 @@ public class MemberEventListener {
         String msgId = CcUtils.getUuId();
         String msg = "您有新的关注者 " + String.format(PROFILE_INNER_MSG, attentionUser.getUserId(), msgId, attentionUser.getUserName())
                 + " 去Ta的主页看看吧";
-        messageService.addMessage(addAttentionReq.getAttentionUserId(), msg, MessageType.SYSTEM, msgId);
 
         // 发送邮件 被关注的人要通知ta
         Member member = memberService.memberInfo(addAttentionReq.getAttentionUserId());
         String emailTitle = "您有新的关注者";
         String emailContent = "点击" + String.format(PROFILE_EMAIL, attentionUser.getUserId(), msgId, attentionUser.getUserName()) + " 去Ta的主页看看吧";
-        messageService.sendEmail(member.getEmail(), emailTitle, emailContent, member.getUserId());
+
+        MessageSend.send(MessageModel.builder()
+                .toUserId(member.getUserId())
+                .messageType(MessageType.SYSTEM)
+                .emailModel(MessageModel.EmailModel.builder()
+                        .title(emailTitle)
+                        .content(emailContent)
+                        .build())
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(msg).build())
+                .messageId(msgId)
+                .build());
+
     }
 
 
@@ -194,6 +207,14 @@ public class MemberEventListener {
                 "<div>官方微信公众号: <a class='cv-link' data-toggle='modal' data-target='#wechat'>Upupor</a></div>" +
                 "<div>官方微博: <a class='cv-link' data-toggle='modal' data-target='#weibo'>UpuporCom</a></div>";
         String msgId = CcUtils.getUuId();
-        messageService.addMessage(memberRegisterEvent.getUserId(), msg, MessageType.SYSTEM, msgId);
+
+        MessageSend.send(MessageModel.builder()
+                .toUserId(memberRegisterEvent.getUserId())
+                .messageType(MessageType.SYSTEM)
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(msg).build())
+                .messageId(msgId)
+                .build());
+
     }
 }

@@ -33,6 +33,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.data.dao.entity.Content;
 import com.upupor.service.data.dao.entity.Fans;
@@ -173,10 +175,17 @@ public class ContentListener {
                 String innerMessage = "您关注的" + innerMessageUser + "发表了新内容《" + innerMessageContentTitle + "》,请"
                         + String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, "点击查看");
 
-                // 发送站内信
-                messageService.addMessage(member.getUserId(), innerMessage, MessageType.SYSTEM, msgId);
-                // 发送邮件
-                messageService.sendEmail(member.getEmail(), content.getTitle(), email, member.getUserId());
+                MessageSend.send(MessageModel.builder()
+                        .toUserId(member.getUserId())
+                        .messageType(MessageType.SYSTEM)
+                        .emailModel(MessageModel.EmailModel.builder()
+                                .title(content.getTitle())
+                                .content(email)
+                                .build())
+                        .innerModel(MessageModel.InnerModel.builder()
+                                .message(innerMessage).build())
+                        .messageId(msgId)
+                        .build());
 
                 sleep2s();
 
@@ -201,7 +210,15 @@ public class ContentListener {
                 String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle()) + "》被 " +
                 String.format(PROFILE_INNER_MSG, member.getUserId(), msgId, member.getUserName()) +
                 " 在" + CcDateUtil.timeStamp2DateOnly(CcDateUtil.getCurrentTime()) + "点赞了";
-        messageService.addMessage(content.getUserId(), message, MessageType.SYSTEM, msgId);
+
+        MessageSend.send(MessageModel.builder()
+                .toUserId(content.getUserId())
+                .messageType(MessageType.SYSTEM)
+                .innerModel(MessageModel.InnerModel.builder()
+                        .message(message).build())
+                .messageId(msgId)
+                .build());
+
     }
 
 
