@@ -30,7 +30,6 @@
 package com.upupor.service.business.member.business;
 
 import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.RedisUtil;
@@ -40,7 +39,6 @@ import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.dto.OperateMemberDto;
 import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.member.AddMemberReq;
-import com.upupor.service.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -92,12 +90,6 @@ public class Register extends AbstractMember<AddMemberReq> {
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.REGISTER_FAILED);
         }
-
-        // 注册成功后自动登录
-        // 设置登录成功Session
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_ID, member.getUserId());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_NAME, member.getUserName());
 
         // 注册消息
         MemberRegisterEvent memberRegisterEvent = new MemberRegisterEvent();

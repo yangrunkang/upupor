@@ -54,6 +54,7 @@ import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.member.*;
 import com.upupor.service.types.*;
 import com.upupor.service.utils.*;
+import com.upupor.service.utils.oss.enums.FileDic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
@@ -125,6 +126,8 @@ public class MemberServiceImpl implements MemberService {
         int addMemberConfig = initMemberConfig(member.getUserId());
         int total = addMemberExtend + addMember + addMemberConfig;
         if (total == 3) {
+            // 注册成功后,自动登录设置session
+            setLoginUserSession(member, memberExtend);
             return member;
         }
         return null;
@@ -193,19 +196,35 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 设置登录成功Session
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_ID, member.getUserId());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_NAME, member.getUserName());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.IS_ADMIN, MemberIsAdmin.ADMIN.equals(member.getIsAdmin()));
-        if (!StringUtils.isEmpty(memberExtend.getBgImg())) {
-            ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
-        }
+        setLoginUserSession(member, memberExtend);
+
         // 发送登录成功事件
         MemberLoginEvent memberLoginEvent = new MemberLoginEvent();
         memberLoginEvent.setUserId(member.getUserId());
         eventPublisher.publishEvent(memberLoginEvent);
 
         return Boolean.TRUE;
+    }
+
+    private void setLoginUserSession(Member member, MemberExtend memberExtend) {
+        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_ID, member.getUserId());
+        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
+        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_NAME, member.getUserName());
+        ServletUtils.getSession().setAttribute(CcConstant.Session.IS_ADMIN, MemberIsAdmin.ADMIN.equals(member.getIsAdmin()));
+        ServletUtils.getSession().setAttribute(CcConstant.Session.LONG_TIME_UN_UPDATE_PROFILE_PHOTO, isReplaceSystemProfilePhoto(member));
+        if (!StringUtils.isEmpty(memberExtend.getBgImg())) {
+            ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
+        }
+    }
+
+    private Boolean isReplaceSystemProfilePhoto(Member member) {
+        long currentTime = CcDateUtil.getCurrentTime();
+        Long createTime = member.getCreateTime();
+        // 超过7天,未更换头像,给予提示
+        if (currentTime - createTime > 60 * 60 * 24 * 7 && member.getVia().contains(FileDic.PROFILE_SYSTEM.getDic())) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 
     private List<Member> selectByEmail(String email) {

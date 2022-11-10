@@ -81,6 +81,7 @@ public class UploadController {
         member.setVia(FileUpload.upload(file, FileDic.PROFILE));
         // 重新设置头像
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
+        ServletUtils.getSession().setAttribute(CcConstant.Session.LONG_TIME_UN_UPDATE_PROFILE_PHOTO, Boolean.FALSE);
         Boolean update = memberService.update(member);
         if (!update) {
             throw new BusinessException(ErrorCode.UPLOAD_MEMBER_INFO_ERROR);
@@ -88,15 +89,17 @@ public class UploadController {
         ccResponse.setData(member.getVia());
         return ccResponse;
     }
+
     /**
      * 返回上传文件的地址
+     *
      * @param file
      * @return
      */
     @ApiOperation("上传文件")
     @PostMapping(value = "/upload/{fileDic}", consumes = "multipart/form-data")
     @UpuporLimit(limitType = UPLOAD_CONTENT_IMAGE, needSpendMoney = true)
-    public CcResponse uploadFile(@RequestParam("file") MultipartFile file, @PathVariable(value = "fileDic",required = true)FileDic dic) throws IOException {
-        return new CcResponse(FileUpload.upload(file,dic));
+    public CcResponse uploadFile(@RequestParam("file") MultipartFile file, @PathVariable(value = "fileDic", required = true) FileDic dic) throws IOException {
+        return new CcResponse(FileUpload.upload(file, dic));
     }
 }

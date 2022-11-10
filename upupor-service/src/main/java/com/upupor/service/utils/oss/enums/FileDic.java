@@ -28,6 +28,7 @@
  */
 
 package com.upupor.service.utils.oss.enums;
+
 import lombok.Getter;
 
 /**
@@ -39,7 +40,7 @@ public enum FileDic {
 
     // 广告申请文件
     APPLY("/apply/"),
-    // 系统生成的图片
+    // 系统生成的用户头像图片
     PROFILE_SYSTEM("/profile_system/", IsImg.YES, 0.75D),
     // 用户头像
     PROFILE("/profile/", IsImg.YES, 0.75D),
