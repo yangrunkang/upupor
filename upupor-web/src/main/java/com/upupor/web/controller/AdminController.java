@@ -121,7 +121,7 @@ public class AdminController {
     @ApiOperation("handle-user")
     @PostMapping(value = "/handle-user")
     public CcResponse handleUser(BatchHandleExceptionUserReq batchHandleExceptionUserReq) {
-        List<String> userIdList = Arrays.asList(batchHandleExceptionUserReq.getUserIdListStr().split("\n"));
+        List<String> userIdList = Arrays.asList(batchHandleExceptionUserReq.getUserId());
         List<Member> memberList = memberService.listByUserIdList(userIdList);
         if (CollectionUtils.isEmpty(memberList)) {
             return new CcResponse(false);

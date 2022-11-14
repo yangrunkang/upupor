@@ -61,7 +61,7 @@
                                             <p th:utext="${integral.integralText}"></p>
                                         </td>
                                         <td style="text-align: center">
-                                            <p th:utext="${integral.integralValue}"></p>
+                                            <p th:text="${integral.integralValue}"></p>
                                         </td>
                                         <td style="text-align: center" th:text="${integral.createDate}">创建时间</td>
                                     </tr>
@@ -72,9 +72,7 @@
                     <div th:if="${#lists.isEmpty(memberIndexDto.listIntegralDto.memberIntegralList)}" th:include="fragments/index::empty_content"></div>
                     <div th:replace="fragments/page::page(${memberIndexDto.listIntegralDto.pageDtoList})"></div>
                     <div class="border-bottom my-2"></div>
-                    <div class="alert alert-primary">
-                        <a class="alert-link" href="/integral-rules">点击查看积分规则</a>
-                    </div>
+                    <a class="fw-light text-black-50" href="/integral-rules"><i class="bi bi-arrow-up-right-circle"></i> 点击查看积分规则</a>
                 </div>
             </div>
             <!--左列-用户信息-->
