@@ -60,25 +60,3 @@ function setContentStatus(contentId) {
         }
     });
 }
-
-function handleExceptionUser() {
-    console.log('处理用户信息');
-    let userIdListStr = $(".handle-exception-userId").val();
-    if (cvIsNull(userIdListStr)) {
-        $.cvError("请输入用户Id,一行一个");
-        return;
-    }
-
-    $.cvPost('/admin/handle-user', {
-        userIdListStr
-    }, function (res) {
-        if (respSuccess(res)) {
-            $.cvSuccess("处理用户信息成功");
-            setTimeout(function () {
-                history.go(0);
-            }, 1600)
-        } else {
-            $.cvError("处理用户信息失败")
-        }
-    });
-}

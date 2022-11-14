@@ -41,5 +41,5 @@ import javax.validation.constraints.NotEmpty;
 @Data
 public class BatchHandleExceptionUserReq {
     @NotEmpty(message = "userIdListStr不能为空")
-    private String userIdListStr;
+    private String userId;
 }

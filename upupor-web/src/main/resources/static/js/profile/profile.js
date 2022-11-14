@@ -28,3 +28,36 @@
 $(function () {
 
 });
+function handleExceptionUser(userId) {
+    swal({
+        title: '确定该危险操作?',
+        text: "提示",
+        icon: "warning",
+        buttons: [{
+            text: "确认",
+            value: true,
+            visible: true,
+        }, {
+            text: "取消",
+            value: false,
+            visible: true,
+        }],
+        closeOnClickOutside: false,
+        closeOnEsc: false,
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.cvPost('/admin/handle-user', {
+                userId
+            }, function (res) {
+                if (respSuccess(res)) {
+                    $.cvSuccess("处理用户信息成功");
+                    setTimeout(function () {
+                        history.go(0);
+                    }, 1600)
+                } else {
+                    $.cvError("处理用户信息失败")
+                }
+            });
+        }
+    });
+}
