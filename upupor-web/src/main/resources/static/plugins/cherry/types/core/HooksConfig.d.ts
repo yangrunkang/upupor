@@ -3,8 +3,7 @@ export default hooksConfig;
  * 引擎各语法的配置
  * 主要决定支持哪些语法，以及各语法的执行顺序
  */
-declare const hooksConfig: (typeof Size | typeof Strikethrough | typeof CodeBlock | typeof InlineCode | typeof Link | typeof Emphasis | typeof Header | typeof Transfer | typeof Table | typeof Br | typeof Hr | typeof Image | typeof List | typeof AutoLink | typeof MathBlock | typeof InlineMath | typeof Toc | typeof Footnote | typeof CommentReference | typeof HtmlBlock | typeof Emoji | typeof Suggester)[];
-import Size from "./hooks/Size";
+declare const hooksConfig: (typeof Strikethrough | typeof CodeBlock | typeof InlineCode | typeof Link | typeof Emphasis | typeof Header | typeof Transfer | typeof Table | typeof Br | typeof Hr | typeof Image | typeof List | typeof AutoLink | typeof MathBlock | typeof InlineMath | typeof Toc | typeof Footnote | typeof CommentReference | typeof HtmlBlock | typeof Emoji | typeof Underline | typeof Suggester)[];
 import Strikethrough from "./hooks/Strikethrough";
 import CodeBlock from "./hooks/CodeBlock";
 import InlineCode from "./hooks/InlineCode";
@@ -25,4 +24,5 @@ import Footnote from "./hooks/Footnote";
 import CommentReference from "./hooks/CommentReference";
 import HtmlBlock from "./hooks/HtmlBlock";
 import Emoji from "./hooks/Emoji";
+import Underline from "./hooks/Underline";
 import Suggester from "./hooks/Suggester";

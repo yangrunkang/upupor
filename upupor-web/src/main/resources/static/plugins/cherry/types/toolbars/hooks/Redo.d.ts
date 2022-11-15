@@ -3,6 +3,6 @@
  * 依赖codemirror的undo接口
  */
 export default class Redo extends MenuBase {
-    constructor(editor: any);
+    constructor($cherry: any);
 }
 import MenuBase from "@/toolbars/MenuBase";

@@ -2,6 +2,6 @@
  * 插入换行
  */
 export default class Br extends MenuBase {
-    constructor(editor: any);
+    constructor($cherry: any);
 }
 import MenuBase from "@/toolbars/MenuBase";

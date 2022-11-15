@@ -4,7 +4,7 @@
  * 只能切换成纯编辑模式和纯预览模式
  **/
 export default class SwitchModel extends MenuBase {
-    constructor(editor: any, engine: any, toolbar: any);
+    constructor($cherry: any);
     instanceId: any;
     attachEventListeners(): void;
 }

@@ -140,26 +140,22 @@ export default class Cherry extends CherryStatic {
     wrapperDom: HTMLDivElement;
     /**
      * @private
-     * @param {import('@/Editor').default} editor
      * @returns
      */
     private createToolbar;
     /**
      * @private
-     * @param {import('@/Editor').default} editor
      * @returns
      */
     private createSidebar;
     /**
      * @private
-     * @param {import('@/Editor').default} editor
      * @returns
      */
     private createFloatMenu;
     floatMenu: FloatMenu;
     /**
      * @private
-     * @param {import('@/Editor').default} editor
      * @returns
      */
     private createBubble;
@@ -196,7 +192,6 @@ export default class Cherry extends CherryStatic {
     /**
      * @private
      * @param {*} evt
-     * @param {*} codemirror
      */
     private fireShortcutKey;
     /**

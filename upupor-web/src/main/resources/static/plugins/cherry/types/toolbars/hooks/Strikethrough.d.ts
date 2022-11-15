@@ -2,6 +2,7 @@
  * 删除线的按钮
  */
 export default class Strikethrough extends MenuBase {
-    constructor(editor: any);
+    constructor($cherry: any);
+    $testIsStrike(selection: any): boolean;
 }
 import MenuBase from "@/toolbars/MenuBase";

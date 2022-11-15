@@ -60,6 +60,10 @@ declare namespace pasteHelper {
      * @returns null
      */
     function bindListener(): boolean;
+    function isHidden(): boolean;
+    function isHidden(): boolean;
+    function toggleBubbleDisplay(): void;
+    function toggleBubbleDisplay(): void;
     function hideBubble(): boolean;
     function hideBubble(): boolean;
     function updatePositionWhenScroll(): void;
@@ -75,17 +79,13 @@ declare namespace pasteHelper {
     function switchTextClick(event: any): void;
     function switchTextClick(event: any): void;
     function getLastSelectedPosition(): {
-        width?: undefined;
         top?: undefined;
     } | {
-        width: number;
         top: number;
     };
     function getLastSelectedPosition(): {
-        width?: undefined;
         top?: undefined;
     } | {
-        width: number;
         top: number;
     };
 }

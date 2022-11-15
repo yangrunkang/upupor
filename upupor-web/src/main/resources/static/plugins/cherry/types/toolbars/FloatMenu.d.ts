@@ -2,6 +2,7 @@
  * 当光标处于编辑器新行起始位置时出现的浮动工具栏
  */
 export default class FloatMenu extends Toolbar {
+    editor: any;
     editorDom: any;
     initAction(): void;
     update(evt: any, codeMirror: any): boolean;

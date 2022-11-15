@@ -4,6 +4,6 @@
  * 该表格语法不是markdown通用语法，请慎用
  */
 export default class QuickTable extends MenuBase {
-    constructor(editor: any);
+    constructor($cherry: any);
 }
 import MenuBase from "@/toolbars/MenuBase";

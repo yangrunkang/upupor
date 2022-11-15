@@ -3,7 +3,7 @@
  * 该操作会将预览区的css样式以行内样式的形式插入到html内容里，从而保证粘贴时样式一致
  */
 export default class Copy extends MenuBase {
-    constructor(editor: any, engine: any, toolbar: any);
+    constructor($cherry: any);
     previewer: any;
     isLoading: boolean;
     adaptWechat(rawHtml: any): Promise<any>;

@@ -10,6 +10,7 @@ declare var _default: {
         editorOpen: string;
         toolbarHide: string;
         toolbarShow: string;
+        cleanAllSubMenus: string;
     };
     /**
      * @property

@@ -2,7 +2,7 @@
  * 插入有序/无序/checklist列表的按钮
  */
 export default class List extends MenuBase {
-    constructor(editor: any);
+    constructor($cherry: any);
     /**
      * 处理编辑区域有选中文字时的操作
      * @param {string} selection 编辑区选中的文本内容

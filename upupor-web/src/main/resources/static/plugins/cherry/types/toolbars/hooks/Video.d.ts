@@ -1,7 +1,7 @@
 /**
  * 插入视频
  */
-export default class H1 extends MenuBase {
-    constructor(editor: any);
+export default class Video extends MenuBase {
+    constructor($cherry: any);
 }
 import MenuBase from "@/toolbars/MenuBase";

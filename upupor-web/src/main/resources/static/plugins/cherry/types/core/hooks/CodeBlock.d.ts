@@ -9,6 +9,7 @@ export default class CodeBlock extends ParagraphBase {
     customParser: any;
     wrap: any;
     lineNumber: any;
+    copyCode: any;
     indentedCodeBlock: any;
     customHighlighter: any;
     $codeCache(sign: any, str: any): any;

@@ -1,7 +1,7 @@
 /**
  * 插入图片
  */
-export default class H1 extends MenuBase {
-    constructor(editor: any);
+export default class Image extends MenuBase {
+    constructor($cherry: any);
 }
 import MenuBase from "@/toolbars/MenuBase";

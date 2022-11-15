@@ -1,4 +1,4 @@
 export default class Export extends MenuBase {
-    constructor(editor: any);
+    constructor($cherry: any);
 }
 import MenuBase from "@/toolbars/MenuBase";

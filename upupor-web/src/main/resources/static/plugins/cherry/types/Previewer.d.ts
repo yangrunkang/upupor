@@ -49,11 +49,20 @@ export default class Previewer {
      */
     private disableScrollListener;
     editor: any;
+    lazyLoadImg: LazyLoadImg;
     $initPreviewerBubble(): void;
     previewerBubble: PreviewerBubble;
-    getDomContainer: () => HTMLDivElement;
+    /**
+     * @returns {HTMLElement}
+     */
+    getDomContainer(): HTMLElement;
     getDom(): HTMLDivElement;
-    getValue(): string;
+    /**
+     * 获取预览区内的html内容
+     * @param {boolean} wrapTheme 是否在外层包裹主题class
+     * @returns html内容
+     */
+    getValue(wrapTheme?: boolean): string;
     isPreviewerHidden(): boolean;
     calculateRealLayout(editorWidth: any): {
         editorPercentage: string;
@@ -117,4 +126,5 @@ export default class Previewer {
      */
     public export(type?: string): void;
 }
+import LazyLoadImg from "@/utils/lazyLoadImg";
 import PreviewerBubble from "./toolbars/PreviewerBubble";

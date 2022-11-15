@@ -20,3 +20,28 @@
  * @returns
  */
 export function customizer(objValue: any, srcValue: any): any[];
+/**
+ * 检查本地有没有值
+ * @param {string} key
+ */
+export function testKeyInLocal(key: string): boolean;
+/**
+ * 保存是否经典换行
+ * @param {boolean} isClassicBr
+ */
+export function saveIsClassicBrToLocal(isClassicBr: boolean): void;
+/**
+ * 是否经典换行
+ */
+export function getIsClassicBrFromLocal(): boolean;
+/**
+ * 获取当前主题
+ * @returns {string} 主题名
+ */
+export function getThemeFromLocal(fullClass?: boolean): string;
+/**
+ * 修改主题
+ * @param {object} $cherry
+ * @param {string} theme 如果没有传theme，则从本地缓存里取
+ */
+export function changeTheme($cherry: object, theme?: string): void;

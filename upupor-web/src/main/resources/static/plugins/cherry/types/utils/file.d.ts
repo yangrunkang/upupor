@@ -14,7 +14,16 @@
  * limitations under the License.
  */
 /**
- * 上传文件的逻辑
+ * 上传文件的逻辑，如果有callback，则不再走默认的替换文本的逻辑，而是调用callback
  * @param {string} type 上传文件的类型
  */
-export function handleUpload(editor: any, type?: string): void;
+export function handleUpload(editor: any, type?: string, accept?: string, callback?: any): void;
+/**
+ * 解析params参数
+ * @param params?.isBorder 是否有边框样式（图片场景下生效）
+ * @param params?.isShadow 是否有阴影样式（图片场景下生效）
+ * @param params?.isRadius 是否有圆角样式（图片场景下生效）
+ * @param params?.width 设置宽度，可以是像素、也可以是百分比（图片、视频场景下生效）
+ * @param params?.height 设置高度，可以是像素、也可以是百分比（图片、视频场景下生效）
+ */
+export function handelParams(params: any): string;

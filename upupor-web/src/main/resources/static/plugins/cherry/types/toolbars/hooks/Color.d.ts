@@ -2,15 +2,16 @@
  * 插入字体颜色或者字体背景颜色的按钮
  */
 export default class Color extends MenuBase {
-    constructor(editor: any);
+    constructor($cherry: any);
     bubbleColor: BubbleColor;
+    $testIsColor(type: any, selection: any): boolean;
 }
 import MenuBase from "@/toolbars/MenuBase";
 /**
  * 调色盘
  */
 declare class BubbleColor {
-    constructor(editor: any);
+    constructor($cherry: any);
     editor: any;
     /**
      * 定义调色盘每个色块的颜色值
@@ -34,6 +35,7 @@ declare class BubbleColor {
      * 在对应的坐标展示调色盘
      * @param {Object} 坐标
      */
-    show({ left, top }: any): void;
+    show({ left, top, $color }: any): void;
+    $color: any;
 }
 export {};

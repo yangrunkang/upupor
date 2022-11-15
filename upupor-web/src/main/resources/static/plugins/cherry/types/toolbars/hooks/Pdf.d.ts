@@ -2,6 +2,6 @@
  * 插入pdf
  */
 export default class Pdf extends MenuBase {
-    constructor(editor: any);
+    constructor($cherry: any);
 }
 import MenuBase from "@/toolbars/MenuBase";

@@ -2,6 +2,12 @@
  * 在编辑区域选中文本时浮现的bubble工具栏
  */
 export default class Bubble extends Toolbar {
+    /**
+     * @type {'flex' | 'block'}
+     */
+    static displayType: 'flex' | 'block';
+    set visible(arg: boolean);
+    get visible(): boolean;
     bubbleDom: HTMLDivElement;
     editorDom: any;
     /**

@@ -18,6 +18,7 @@ export default class PreviewerBubble {
      */
     editor: import('../Editor').default;
     previewerDom: HTMLDivElement;
+    enablePreviewerBubble: boolean;
     /**
      * @property
      * @type {{ emit: (...args: any[]) => any}}
@@ -27,6 +28,10 @@ export default class PreviewerBubble {
     };
     init(): void;
     $onClick(e: any): void;
+    /**
+     * 处理复制代码块的操作
+     */
+    $dealCopyCodeBlock(e: any): boolean;
     /**
      * 隐藏预览区域已经激活的工具栏
      */
