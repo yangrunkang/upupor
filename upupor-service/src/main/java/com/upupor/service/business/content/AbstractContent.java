@@ -63,7 +63,7 @@ public abstract class AbstractContent {
     @Resource
     private TagService tagService;
     @Getter
-    private final ContentIndexDto contentIndexDto = new ContentIndexDto();
+    private ContentIndexDto contentIndexDto;
     @Getter
     private String contentId;
     @Getter
@@ -157,6 +157,7 @@ public abstract class AbstractContent {
         this.pageNum = pageNum;
         this.pageSize = pageSize;
         this.contentId = contentId;
+        this.contentIndexDto = new ContentIndexDto();
 
         // 获取文章
         this.content = queryContent();
