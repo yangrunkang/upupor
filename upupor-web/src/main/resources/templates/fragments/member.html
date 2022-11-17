@@ -80,5 +80,14 @@
     <span th:if="${isAdmin.name()== 'ADMIN'}" class="badge bg-gradient rounded-3 bg-dark text-white fw-light small">admin</span>
 </div>
 
+
+<div th:fragment="memberEmail">
+    <div class="ui left icon input fluid">
+        <input type="email" id="email" placeholder="邮箱">
+        <i class="bi bi-envelope icon"></i>
+    </div>
+</div>
+
+
 </body>
 </html>
