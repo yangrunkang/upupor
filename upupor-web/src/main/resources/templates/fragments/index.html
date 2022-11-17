@@ -449,7 +449,10 @@ fromPage: 来自于页面
 </div>
 
 <div th:fragment="global_search_clean">
-    <input type="text" class="form-control" placeholder="输入关键字" id="cv_navbar_search_input">
+    <div class="ui icon input w-100">
+        <input type="text" placeholder="输入关键字" id="cv_navbar_search_input">
+        <i class="inverted circular search link icon" onclick="cvNavbarSearch()"></i>
+    </div>
 </div>
 
 <div th:fragment="statement">
