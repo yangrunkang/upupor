@@ -89,16 +89,16 @@
                                             <span th:include="fragments/index::content_type"></span>
                                         </td>
                                         <td style="text-align: center">
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'Applying'">审核中</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-danger" th:if="${content.status.name()} == 'EXCEPTION'">异常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-danger" th:if="${content.status.name()} == 'DELETED'">删除</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'Applying'">审核中</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${content.status.name()} == 'EXCEPTION'">异常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${content.status.name()} == 'DELETED'">删除</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
                                         </td>
                                         <td>
                                             <span th:each="tagDto : ${content.tagDtoList}" style="float: left">
-                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
+                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
                                             </span>
                                             <span th:if="${#lists.isEmpty(content.tagDtoList)}">
                                                 无

@@ -126,7 +126,11 @@ public class TagServiceImpl implements TagService {
         List<Tag> tags = this.listByTagIdList(Collections.singletonList(tagIds));
         if (!CollectionUtils.isEmpty(tags)) {
             List<TagDto> tagDtoList = tags.stream()
-                    .map(tag -> TagDto.builder().tagId(tag.getTagId()).tagName(tag.getTagName()).build())
+                    .map(tag -> TagDto.builder()
+                            .tagId(tag.getTagId())
+                            .tagName(tag.getTagName())
+                            .icon(tag.getIcon())
+                            .build())
                     .distinct().collect(Collectors.toList());
             tagDtoSet.addAll(tagDtoList);
         }

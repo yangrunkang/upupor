@@ -296,7 +296,7 @@ fromPage: 来自于页面
 <div th:fragment="content_tag(content,fromPage)">
     <span th:if="!${#lists.isEmpty(content.tagDtoList)}">
         <a th:each="tag : ${content.tagDtoList}"
-           class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark cv-link"
+           class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link"
            th:href="@{${fromPage == 'profile-content'?'/profile/'+content.userId+'/content/':'/tag/'}+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
     </span>
     <a th:if="${content.newContent}"

@@ -80,9 +80,9 @@
                                             <a class="cv-link up-text-overflow" th:href="'/r/'+${radio.radioId}" th:text="${radio.radioIntro}"></a>
                                         </td>
                                         <td style="text-align: center">
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-success" th:if="${radio.status.name()} == 'NORMAL'">正常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark" th:if="${radio.status.name()} == 'HIDE'">隐藏</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal fw-normal bg-danger" th:if="${radio.status.name()} == 'DELETED'">删除</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${radio.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${radio.status.name()} == 'HIDE'">隐藏</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${radio.status.name()} == 'DELETED'">删除</span>
                                         </td>
                                         <td style="text-align: center" th:text="${radio.createDate}">创建时间</td>
                                         <td style="text-align: center">

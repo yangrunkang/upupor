@@ -106,7 +106,7 @@
                                     <td>
                                             <span th:each="tagDto : ${content.tagDtoList}" style="float: left">
                                                 <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}"
-                                                   class="badge bg-gradient rounded-3 fw-normal fw-normal bg-warning text-dark">[[${tagDto.tagName}]]</a>
+                                                   class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${tagDto.tagName}]]</a>
                                             </span>
                                         <span th:if="${#lists.isEmpty(content.tagDtoList)}">
                                                 无

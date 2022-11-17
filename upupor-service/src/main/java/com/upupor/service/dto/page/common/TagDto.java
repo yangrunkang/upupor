@@ -50,4 +50,9 @@ public class TagDto {
      */
     private String tagId;
 
+    /**
+     * 图标
+     */
+    private String icon;
+
 }
