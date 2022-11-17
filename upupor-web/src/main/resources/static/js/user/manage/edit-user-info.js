@@ -35,18 +35,17 @@ $(function () {
 });
 
 
-
 function editUserInfo() {
     $("form").submit(function () {
         console.log("个人中心");
         let userName = $("#userName").val();
         let introduce = $("#introduce").val();
-        let openEmail = $("#openEmail").val();
+        let isOpenEmail = $("#openEmail").is(':checked');
 
         let editData = {
-            userName:userName,
-            introduce:introduce,
-            openEmail:openEmail,
+            userName: userName,
+            introduce: introduce,
+            openEmail: isOpenEmail ? 'SUBSCRIBE_EMAIL' : 'UN_SUBSCRIBE_EMAIL',
         }
 
         $.cvPost('/member/edit', editData, function (data) {
@@ -64,7 +63,7 @@ function editUserInfo() {
     });
 }
 
-function userLeftContentBtnActive(){
+function userLeftContentBtnActive() {
     let path_name = window.location.pathname;
     console.log(path_name.split("/").slice(1).join("_"));
     $("." + path_name.split("/").slice(1).join("_")).addClass('active');

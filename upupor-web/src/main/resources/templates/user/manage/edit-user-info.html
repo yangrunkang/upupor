@@ -40,84 +40,23 @@
             <div class="col-lg-9 mb-2">
                 <div class="card border-0 rounded-3 p-2 mb-2">
                     <div th:replace="fragments/manage::user_settings('editUserInfo')"></div>
-                    <form>
-                        <div class="form-group row mb-3">
-                            <label for="userName" class="col-sm-2 col-form-label">用户名</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="userName"
-                                       placeholder="用户名"
-                                       title="用户名提示"
-                                       data-bs-container="body"
-                                       data-bs-toggle="popover"
-                                       data-bs-placement="right"
-                                       data-bs-content="用户名为空"
-                                       th:value="${memberIndexDto.member.userName}" />
+                    <form class="ui form">
+                        <div class="field">
+                            <label>用户名</label>
+                            <input type="text" th:value="${memberIndexDto.member.userName}" id="userName" placeholder="用户名">
+                        </div>
+                        <div class="field">
+                            <label>邮箱</label>
+                            <input type="text" th:value="${memberIndexDto.member.email}" id="email" disabled placeholder="邮箱">
+                        </div>
+                        <div class="field">
+                            <label>邮件开关</label>
+                            <div class="ui toggle checkbox">
+                                <input th:checked="${memberIndexDto.member.memberConfig?.openEmail.name() == 'SUBSCRIBE_EMAIL'}" type="checkbox" id="openEmail">
+                                <label></label>
                             </div>
                         </div>
-                        <div class="form-group row mb-3">
-                            <label for="email" class="col-sm-2 col-form-label">邮箱</label>
-                            <div class="col-sm-10">
-                                <input type="email" class="form-control" disabled id="email" placeholder="邮箱" readonly
-                                       title="邮箱提示"
-                                       data-bs-container="body"
-                                       data-bs-toggle="popover"
-                                       data-bs-placement="right"
-                                       data-bs-content="邮箱输入不正确,请检查"
-                                       th:value="${memberIndexDto.member.email}" />
-                            </div>
-                        </div>
-<!--                        <div class="form-group row mb-3">-->
-<!--                            <label for="phone" class="col-sm-2 col-form-label">手机号</label>-->
-<!--                            <div class="col-sm-10">-->
-<!--                                <input type="text" class="form-control" id="phone" placeholder="手机号"-->
-<!--                                       title="手机号提示"-->
-<!--                                       data-bs-container="body"-->
-<!--                                       data-bs-toggle="popover"-->
-<!--                                       data-bs-placement="right"-->
-<!--                                       data-bs-content="手机号输入不正确,请检查"-->
-<!--                                       th:value="${memberIndexDto.member.phone}" />-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="form-group row mb-3">-->
-<!--                            <label for="birthday" class="col-sm-2 col-form-label">生日</label>-->
-<!--                            <div class="col-sm-10">-->
-<!--                                <input type="text" class="form-control" id="birthday"-->
-<!--                                       placeholder="生日"-->
-<!--                                       title="生日提示"-->
-<!--                                       data-bs-container="body"-->
-<!--                                       data-bs-toggle="popover"-->
-<!--                                       data-bs-placement="right"-->
-<!--                                       data-bs-content="生日输入不正确,请检查"-->
-<!--                                       th:value="${memberIndexDto.member.memberExtend.birthday}" />-->
-<!--                            </div>-->
-<!--                        </div>-->
-                        <div class="form-group row mb-3">
-                            <label for="introduce" class="col-sm-2 col-form-label">个人简介</label>
-                            <div class="col-sm-10">
-                                <textarea type="text" class="form-control" id="introduce" rows="4"
-                                       placeholder="个人简介"
-                                       th:text="${memberIndexDto.member.memberExtend.introduce}"
-                                ></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row mb-3">
-                            <label for="introduce" class="col-sm-2 col-form-label">邮件开关</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="openEmail">
-                                    <option value="SUBSCRIBE_EMAIL" th:selected="${memberIndexDto.member.memberConfig?.openEmail.name() == 'SUBSCRIBE_EMAIL'}">开启</option>
-                                    <option value="UN_SUBSCRIBE_EMAIL" th:selected="${memberIndexDto.member.memberConfig?.openEmail.name() == 'UN_SUBSCRIBE_EMAIL'}">关闭</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group mb-3">
-                            <div class="row g-2">
-                                <div class="col-lg-4"></div>
-                                <div class="col-lg-4">
-                                    <button type="submit" id="register" class="btn rounded-3 bg-gradient btn-primary">更新用户信息</button>
-                                    <button type="button" class="btn rounded-3 bg-gradient btn-secondary">取消</button>
-                                </div>
-                            </div>
-                        </div>
+                        <button class="ui button" type="submit" id="register">更新用户信息</button>
                     </form>
                 </div>
             </div>
