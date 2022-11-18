@@ -83,10 +83,7 @@
                                     <label for="verifyCode" class="control-label"></label>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="ui action fluid input">
-                                        <input type="text" placeholder="输入验证码" id="verifyCode">
-                                        <button class="ui button" id="send-verify-code-btn" onclick="sendVerifyCode()">发送验证码</button>
-                                    </div>
+                                    <div th:include="fragments/member::memberVerifyCode"></div>
                                 </div>
                                 <div class="col-lg-3"></div>
                             </div>
