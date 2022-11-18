@@ -52,8 +52,8 @@
         <div id="vcr_editor" style="height: 300px; overflow:hidden"></div>
         <input type="hidden" id="reply_to_user" />
         <div id="comment_btn_group" style="display: none">
-            <button class="btn rounded-3 bg-gradient btn-primary btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]],[[${text}]])">[[${text}]]</button>
-            <button class="btn rounded-3 bg-gradient btn-secondary btn-sm my-2" th:onclick="cancel()">清空</button>
+            <button class="ui primary button btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]],[[${text}]])">[[${text}]]</button>
+            <button class="ui button btn-sm my-2" th:onclick="cancel()">清空</button>
             <div class="btn rounded-3 bg-gradient btn-link cv-link btn-sm my-2" th:include="fragments/common::markdown"></div>
         </div>
     </div>

@@ -51,7 +51,7 @@
                 <div class="col-11">
                     <input class="form-control" type="text" id="keywords"
                            th:value="${contentIndexDto.content.keywords}"/>
-                    <button class="btn rounded-3 bg-gradient btn-primary mt-2"
+                    <button class="ui primary button mt-2"
                             th:onclick="setKeywords([[${contentIndexDto.content.contentId}]])">设置
                     </button>
                 </div>
@@ -75,7 +75,7 @@
                             [[${contentStatus.name}]]
                         </option>
                     </select>
-                    <button class="btn rounded-3 bg-gradient btn-primary mt-2"
+                    <button class="ui primary button mt-2"
                             th:onclick="setContentStatus([[${contentIndexDto.content.contentId}]])">设置
                     </button>
                 </div>

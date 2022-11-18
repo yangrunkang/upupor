@@ -95,7 +95,7 @@
                                                 <a class="cv-link dropdown-item small" th:onclick="applyOperate('delete',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                             </div>
                                         </div>
-                                        <a class="btn rounded-3 bg-gradient btn-primary btn-sm"
+                                        <a class="ui primary button btn-sm"
                                            th:if="${apply.applySource.name()} == 'AD' and ${apply.applyStatus.name()} == 'APPLY_PASS'"
                                            th:href="'/user/manage/apply/commit/'+${apply.applyId}">提交材料</a>
                                     </td>
