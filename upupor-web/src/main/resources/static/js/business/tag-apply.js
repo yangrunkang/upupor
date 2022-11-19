@@ -60,7 +60,10 @@ function addAdApply() {
 
         $.cvPost('/apply/addTag', adReq, function (data) {
             if (respSuccess(data)) {
-                window.location.href = '/user/manage/apply';
+                $.cvSuccess("申请成功");
+                setTimeout(function () {
+                    window.location.href = '/user/manage/apply';
+                }, 1600)
             } else {
                 $.cvError(data)
             }

@@ -58,41 +58,37 @@
                     [[${editorIndexDto.createContentDesc.tips}]]
                 </div>
                 <div class="card border-0 rounded-3 p-2">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group mb-3">
-                            <label for="title" class="col-lg-1 control-label text-black-50">标题</label>
-                            <div class="col-lg-11">
-                                <textarea type="text" class="form-control " id="title"
+                    <form class="ui form">
+                        <div class="mb-3 field">
+                            <label for="title" class="text-black-50">标题</label>
+                            <div>
+                                <textarea type="text" class="fluid" id="title" rows="2"
                                           placeholder="如果内容标题可以描述清楚,内容可以不用填写"
                                           th:text="${editorIndexDto?.content?.title}"
                                 ></textarea>
                             </div>
                         </div>
-                        <div class="form-group mb-3" th:if="!${#lists.isEmpty(editorIndexDto.tagList)}">
-                            <label for="title" class="col-lg-1 control-label text-black-50">标签</label>
-                            <div class="col-lg-4">
-                                <select class="form-select" id="cv_selectpicker">
-                                    <option value="">无</option>
-                                    <option th:each="tag : ${editorIndexDto.tagList}"
-                                            th:value="${tag.tagId}"
-                                            th:selected="${#strings.contains(editorIndexDto?.content?.tagIds,tag.tagId) or editorIndexDto?.createTag == tag.tagId}"
-                                    >
-                                        [[${tag.tagName}]]
-                                    </option>
-                                </select>
-                            </div>
+                        <div class="mb-3 field" th:if="!${#lists.isEmpty(editorIndexDto.tagList)}">
+                            <label for="title" class="text-black-50">标签</label>
+                            <select id="cv_selectpicker" class="ui dropdown simple fluid">
+                                <option value="">无</option>
+                                <option th:each="tag : ${editorIndexDto.tagList}"
+                                        th:value="${tag.tagId}"
+                                        th:selected="${#strings.contains(editorIndexDto?.content?.tagIds,tag.tagId) or editorIndexDto?.createTag == tag.tagId}"
+                                >
+                                    [[${tag.tagName}]]
+                                </option>
+                            </select>
                         </div>
-                        <div class="form-group mb-3">
-                            <div class="col-lg-12">
-                                <div th:replace="fragments/comment::loading_editor(false)"></div>
-                                <!--编辑器-->
-                                <input type="hidden" id="md_value"
-                                       th:value="${editorIndexDto?.content?.contentExtend?.markdownContent}"/>
-                                <input type="hidden" id="html_value"
-                                       th:value="${editorIndexDto?.content?.contentExtend?.detailContent}"/>
-                                <div id="vcr_editor"
-                                     style="overflow:hidden">
-                                </div>
+                        <div class="mb-3 field">
+                            <div th:replace="fragments/comment::loading_editor(false)"></div>
+                            <!--编辑器-->
+                            <input type="hidden" id="md_value"
+                                   th:value="${editorIndexDto?.content?.contentExtend?.markdownContent}"/>
+                            <input type="hidden" id="html_value"
+                                   th:value="${editorIndexDto?.content?.contentExtend?.detailContent}"/>
+                            <div id="vcr_editor"
+                                 style="overflow:hidden">
                             </div>
                         </div>
                     </form>
@@ -120,28 +116,36 @@
                 </div>
                 <!--转载或者原创-->
                 <div class="card border-0 rounded-3 p-2 my-2">
-                    <div class="btn-group rounded-3 bg-gradient" style="width: 100%">
-                        <input type="radio" name="original" class="align-self-center original_radio" value="ORIGIN"
-                               th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'">&nbsp;原创
-                        <span class="me-2"></span>
-                        <input type="radio" name="original" class="align-self-center original_radio" value="NONE_ORIGIN"
-                               th:checked="${editorIndexDto.content.originType.name() == 'NONE_ORIGIN'}?'checked'">&nbsp;转载
-                    </div>
-                    <div class="original"
-                         th:style="${editorIndexDto.content.originType.name()} == 'ORIGIN' ? 'display: block':'display: none'">
-                        <div class="small border-top mt-1">
-                            原创作品将采用<a class="cv-link" target="_blank"
-                                      href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0
-                            国际》</a>许可协议进行发布
+                    <div class="ui form">
+                        <div class="inline fields mb-1">
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="original" value="ORIGIN" th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'" class="align-self-center original_radio">
+                                    <label>原创</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="original" value="NONE_ORIGIN" th:checked="${editorIndexDto.content.originType.name() == 'NONE_ORIGIN'}?'checked'" class="align-self-center original_radio">
+                                    <label>转载</label>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="none_original"
-                         th:style="${editorIndexDto.content.originType.name()} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
-                        <div class="border-top my-1"></div>
-                        <div class="form-group mb-3">
-                                <textarea class="form-control  " id="none_original_link"
+                        <div class="original ui input"
+                             th:style="${editorIndexDto.content.originType.name()} == 'ORIGIN' ? 'display: block':'display: none'">
+                            <div class="small mt-1">
+                                原创作品将采用<a class="cv-link fw-bold" target="_blank"
+                                          href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0
+                                国际》</a>许可协议进行发布
+                            </div>
+                        </div>
+                        <div class="none_original"
+                             th:style="${editorIndexDto.content.originType.name()} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
+                            <div class="mb-0">
+                                <textarea id="none_original_link" rows="2"
                                           placeholder="转载地址" th:text="${editorIndexDto.content.noneOriginLink}"
                                 ></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
