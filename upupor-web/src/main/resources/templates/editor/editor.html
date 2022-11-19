@@ -120,28 +120,36 @@
                 </div>
                 <!--转载或者原创-->
                 <div class="card border-0 rounded-3 p-2 my-2">
-                    <div class="btn-group rounded-3 bg-gradient" style="width: 100%">
-                        <input type="radio" name="original" class="align-self-center original_radio" value="ORIGIN"
-                               th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'">&nbsp;原创
-                        <span class="me-2"></span>
-                        <input type="radio" name="original" class="align-self-center original_radio" value="NONE_ORIGIN"
-                               th:checked="${editorIndexDto.content.originType.name() == 'NONE_ORIGIN'}?'checked'">&nbsp;转载
-                    </div>
-                    <div class="original"
-                         th:style="${editorIndexDto.content.originType.name()} == 'ORIGIN' ? 'display: block':'display: none'">
-                        <div class="small border-top mt-1">
-                            原创作品将采用<a class="cv-link" target="_blank"
-                                      href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0
-                            国际》</a>许可协议进行发布
+                    <div class="ui form">
+                        <div class="inline fields mb-1">
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="original" value="ORIGIN" th:checked="${editorIndexDto.content.originType.name() != 'NONE_ORIGIN'}?'checked'" class="align-self-center original_radio">
+                                    <label>原创</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="original" value="NONE_ORIGIN" th:checked="${editorIndexDto.content.originType.name() == 'NONE_ORIGIN'}?'checked'" class="align-self-center original_radio">
+                                    <label>转载</label>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="none_original"
-                         th:style="${editorIndexDto.content.originType.name()} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
-                        <div class="border-top my-1"></div>
-                        <div class="form-group mb-3">
-                                <textarea class="form-control  " id="none_original_link"
+                        <div class="original ui input"
+                             th:style="${editorIndexDto.content.originType.name()} == 'ORIGIN' ? 'display: block':'display: none'">
+                            <div class="small mt-1">
+                                原创作品将采用<a class="cv-link fw-bold" target="_blank"
+                                          href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0
+                                国际》</a>许可协议进行发布
+                            </div>
+                        </div>
+                        <div class="none_original"
+                             th:style="${editorIndexDto.content.originType.name()} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
+                            <div class="form-group mb-0">
+                                <textarea class="form-control" id="none_original_link" rows="2"
                                           placeholder="转载地址" th:text="${editorIndexDto.content.noneOriginLink}"
                                 ></textarea>
+                            </div>
                         </div>
                     </div>
                 </div>
