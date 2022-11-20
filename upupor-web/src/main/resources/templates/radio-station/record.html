@@ -46,20 +46,20 @@
                             <!-- 按钮控制区域 -->
                             <div>
                                 <div class="my-2">
-                                    <button class="btn rounded-3 bg-gradient btn-outline-primary btn-sm recOpen recOpen2" onclick="recOpen()" style="margin-right:10px">打开录音,请求权限</button>
-                                    <button class="btn rounded-3 bg-gradient btn-outline-primary btn-sm recClose recClose223 " onclick="recClose()" style="margin-right:0;display: none">关闭录音,释放资源</button>
+                                    <button class="ui primary button recOpen recOpen2" onclick="recOpen()" style="margin-right:10px">打开录音,请求权限</button>
+                                    <button class="ui primary button recClose recClose223 " onclick="recClose()" style="margin-right:0;display: none">关闭录音,释放资源</button>
                                 </div>
 
-                                <button class="btn rounded-3 bg-gradient btn-outline-primary btn-sm recClose recStart" style=";display: none" onclick="recStart()">录制</button>
-                                <button class="btn rounded-3 bg-gradient btn-outline-danger btn-sm recClose recStop recStopBtn" onclick="recStop()" style="margin-right:80px;display: none">录制完成</button>
+                                <button class="ui primary button recClose recStart" style=";display: none" onclick="recStart()">录制</button>
+                                <button class="ui red button recClose recStop recStopBtn" onclick="recStop()" style="margin-right:80px;display: none">录制完成</button>
 
                                 <span style="display: inline-block;" class="recClose recStop recPauseAndRecResume">
-                                    <button class="btn rounded-3 bg-gradient btn-outline-primary btn-sm" style=";display: none" onclick="recPause()">暂停</button>
-                                    <button class="btn rounded-3 bg-gradient btn-outline-primary btn-sm" style=";display: none" onclick="recResume()">继续</button>
+                                    <button class="ui primary button" style=";display: none" onclick="recPause()">暂停</button>
+                                    <button class="ui primary button" style=";display: none" onclick="recResume()">继续</button>
                                 </span>
                                 <span style="display: inline-block;" class="recClose recStop">
-                                    <button class="btn rounded-3 bg-gradient btn-outline-primary btn-sm recPlay" style=";display: none" onclick="recPlay()">播放</button>
-                                    <button class="btn rounded-3 bg-gradient btn-outline-primary btn-sm recUpload" style=";display: none" onclick="recUpload()">上传</button>
+                                    <button class="ui primary button recPlay" style=";display: none" onclick="recPlay()">播放</button>
+                                    <button class="ui primary button recUpload" style=";display: none" onclick="recUpload()">上传</button>
                                 </span>
                             </div>
 
@@ -83,10 +83,10 @@
                         </div>
 
                         <form class="record-form" style=";display: none">
-                            <div class="btn rounded-3 bg-gradient btn-outline-primary btn-sm" onclick="recPlay()">播放</div>
-                            <div class="form-group mb-3">
+                            <div class="ui primary button" onclick="recPlay()">播放</div>
+                            <div class="ui form mb-3">
                                 <label for="radio-intro" class="text-black-50">音频内容简介</label>
-                                <textarea type="text" rows="2" class="form-control" id="radio-intro" placeholder="简介"></textarea>
+                                <textarea type="text" rows="2" class="field" id="radio-intro" placeholder="简介"></textarea>
                             </div>
                             <button type="submit" class="ui primary button public-radio">确定</button>
                         </form>
