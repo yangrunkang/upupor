@@ -39,12 +39,16 @@
             <div class="col-lg-9 mb-2">
                 <div class="card border-0 rounded-3 p-2">
                     <h2 style="color: #6a6a6a" class="border-bottom">反馈或建议</h2>
-                    <textarea
-                            id="cv-feedback-textarea"
-                            class="form-control mb-2"
-                            placeholder="是否可以留下您宝贵的建议或者反馈,您的建议或反馈有助于我们更好的去完善该网站,谢谢,辛苦了"
-                            style="height: 200px;width: 100%;"></textarea>
-                    <input id="cv-feedback-contact" class="form-control mb-2" type="text" placeholder="联系方式,选填"/>
+                    <div class="ui form input">
+                        <textarea
+                                id="cv-feedback-textarea"
+                                class="form-control mb-2"
+                                placeholder="是否可以留下您宝贵的建议或者反馈,您的建议或反馈有助于我们更好的去完善该网站,谢谢,辛苦了"
+                                style="height: 200px;width: 100%;"></textarea>
+                    </div>
+                    <div class="ui input">
+                        <input id="cv-feedback-contact" class="form-control mb-2" type="text" placeholder="联系方式,选填"/>
+                    </div>
                     <button class="ui primary button mb-2" onclick="goToFeedback()">反馈</button>
                     <div class="card-footer bg-white">
                         <div class="text-black-50 cv-font-sm">* 在填写内容的最后,可以附加上您的联系方式,我们会及时与您沟通,进行更加详细的问题定位。当然,填写联系方式完全是自愿的,不会强制要求</div>
