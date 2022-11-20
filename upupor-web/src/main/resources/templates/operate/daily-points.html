@@ -41,14 +41,16 @@
             <div class="col-lg-9 mb-2">
                 <div class="card border-0 rounded-3 p-2">
                     <!--未登录提示-->
-                    <div th:include="fragments/index::user_not_login"></div>
+                    <div th:replace="fragments/index::user_not_login"></div>
                     <!--签到-->
                     <div class="checkin-wrapper pb-2" th:if="!${dailyPoints}">
                         <a href="javascript:;" class="checkin-btn" style="text-decoration: none" onclick="dailyPoints()">
                             立即签到
                         </a>
                     </div>
-                    <p th:if="${dailyPoints}" style="text-align: center;margin-bottom: 0;color: #7D8B99"><span style="color: #399242;font-size:50px;">已签到</span></p>
+                    <p th:if="${dailyPoints}" style="text-align: center;color: #7D8B99" class="mt-4">
+                        <span style="color: #399242;font-size:50px;">已签到</span>
+                    </p>
                     <div>
                         <div class="table-responsive fixed-table-body">
                             <table class="table table-hover">
