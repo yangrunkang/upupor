@@ -70,7 +70,7 @@
                         </div>
                         <div class="mb-3 field" th:if="!${#lists.isEmpty(editorIndexDto.tagList)}">
                             <label for="title" class="text-black-50">标签</label>
-                            <select id="cv_selectpicker" class="ui dropdown simple fluid">
+                            <select id="cv_selectpicker" class="ui updropdown fluid">
                                 <option value="">无</option>
                                 <option th:each="tag : ${editorIndexDto.tagList}"
                                         th:value="${tag.tagId}"

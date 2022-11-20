@@ -60,11 +60,10 @@ $(function () {
         arrowColor: '#edad00',
         containerClass: 'card border-0 shadow-lg'
     });
+    // semantic-ui下拉框开启
+    $('.ui.updropdown').updropdown();
     // fix 点2次才会下拉的bug
     $('.dropdown-toggle').dropdown();
-    // semantic-ui下拉框开启
-    $('.ui.dropdown')
-        .dropdown();
     // 鼠标放到用户头像,显示浮动内容
     // $('[data-toggle="popover"]').popover({
     //     html: true,
