@@ -59,6 +59,11 @@ function autoSave() {
         return false;
     }
 
+    if (cvIsNull(content.title)) {
+        let date = new Date();
+        content.title = date.toLocaleString() + ' 自动保存的草稿 ';
+    }
+
     let draft = {
         draftId: content.preContentId,
         draftContent: JSON.stringify(content),

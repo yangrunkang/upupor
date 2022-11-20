@@ -150,13 +150,13 @@
                 <div th:if="${session?.is_admin}" class="card border-0 rounded-3 p-2 mb-2">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">管理员专有权限</div>
                     <div class="media-right media-middle ms-1">
-                        <a class="btn rounded-3 bg-gradient btn-sm btn-danger" th:href="'/user/admin/content/' + ${contentIndexDto.content.contentId}">管理文章</a>
+                        <a class="ui orange button" th:href="'/user/admin/content/' + ${contentIndexDto.content.contentId}">管理</a>
                     </div>
                 </div>
                 <div class="card border-0 rounded-3 p-2 mb-2" th:if="${session?.cv_user_id == contentIndexDto.content.userId}">
                     <div class="text-black-50 small border-0 border-bottom mt-0 mb-2">操作</div>
                     <div class="media-right media-middle ms-1">
-                        <a class="btn rounded-3 bg-gradient btn-sm btn-primary" th:href="@{'/editor?type='+${contentIndexDto.content.contentType.name()}+'&contentId='+${contentIndexDto.content.contentId}}">修改文章</a>
+                        <a class="ui primary button" th:href="@{'/editor?type='+${contentIndexDto.content.contentType.name()}+'&contentId='+${contentIndexDto.content.contentId}}">修改</a>
                     </div>
                 </div>
                 <div class="card border-0 rounded-3 p-2 mb-2" th:if="${contentIndexDto.content.status.name() == 'NORMAL'}">

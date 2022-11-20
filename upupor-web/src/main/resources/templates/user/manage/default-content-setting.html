@@ -42,7 +42,7 @@
                     <div th:replace="fragments/manage::user_settings('userDefaultContent')"></div>
                     <div class="text-black-50 mb-2">选择您感兴趣的内容分类:</div>
                     <!--设置用户默认的文章类型,用于登录跳转-->
-                    <select class="ui updropdown" id="selected_content_type">
+                    <select class="form-select" id="selected_content_type">
                         <option value="">无</option>
                         <option th:each="type : ${contentTypeList}"
                                 th:value="${type.url}"

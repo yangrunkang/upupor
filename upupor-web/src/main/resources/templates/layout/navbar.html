@@ -81,16 +81,16 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg"
                              aria-labelledby="navbarDropdown">
-                            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="cv-link dropdown-item small"
+                            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="cv-link dropdown-item"
                                href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                                <img class="lazyload cv-icon" th:data-src="${ossStatic} + @{/icons/system/draft.svg}"/>
+                                <img class="lazyload cv-icon me-1" th:data-src="${ossStatic} + @{/icons/system/draft.svg}"/>
                                 草稿箱 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
                                           th:text="${draftCount}">23</span>
                             </a>
                             <div class="dropdown-divider" th:if="${draftCount} != null and ${draftCount} >= 1"></div>
-                            <a class="cv-link dropdown-item small" th:href="'/editor?type=' + ${type.typeName}"
+                            <a class="cv-link dropdown-item" th:href="'/editor?type=' + ${type.typeName}"
                                th:each="type : ${contentTypeList}"
-                               th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="@{${type.icon}}"
+                               th:title="${type.name}"><img class="lazyload cv-icon me-1" th:data-src="@{${type.icon}}"
                                                             th:alt="${type.name}"/> [[${type.name}]]</a>
                         </div>
                     </li>
