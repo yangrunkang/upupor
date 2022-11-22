@@ -75,7 +75,7 @@
                                                                             ${contentIndexDto.content.editTimes}
                                                                             )"></div>
                         <div class="collapse" id="edit-reason">
-                            <div class="card border-0 rounded-3 p-2 my-2">
+                            <div class="card card-body shadow-sm border-bottom border-2 border-top-0 border-start border-end-0 p-2 my-2">
                                 <div class="text-black-50 small" th:if="${contentIndexDto.content.editTime > 0}">最新编辑时间: [[${contentIndexDto.content.editDate}]]</div>
                                 <div class="text-black-50 small">最新编辑原因:</div>
                                 <div class="cv-font-sm" th:if="!${#strings.isEmpty(contentIndexDto.content?.contentEditReason?.reason)}">[[${contentIndexDto.content?.contentEditReason?.reason}]]</div>

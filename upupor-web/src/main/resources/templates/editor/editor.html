@@ -165,17 +165,24 @@
                      th:include="fragments/index::apply_tag"></div>
                 <div class="card border-0 rounded-3 p-2 my-2"
                      th:include="fragments/common::markdown"></div>
+                <div class=" card border-0 rounded-3 p-2 my-2">
+                    <div class="ui form">
+                        <div class="field">
+                            <label class="text-black-50 fw-light">编辑原因</label>
+                            <textarea id="edit_reason" rows="2"
+                                      placeholder="编辑原因" th:text="${editorIndexDto.content?.contentEditReason?.reason}"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
                 <div>
                     <!--隐藏域-->
                     <input type="hidden" class="hide-content-content-id"
                            th:value="${editorIndexDto?.content?.contentId}"/>
                     <input type="hidden" class="hide-content-user-id"
                            th:value="${editorIndexDto?.content?.userId}"/>
-                    <!--                    <input type="hidden" class="is-new-content-tag"-->
-                    <!--                           th:value="${new_content_tag}"/>-->
                     <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>
                     <input type="hidden" class="has-content-can-to-restore" th:value="${hasContentCanToRestore}"/>
-
                 </div>
             </div>
         </div>

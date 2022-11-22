@@ -100,6 +100,7 @@ public class Draft extends BaseEntity {
         JSONObject jsonObject = JSON.parseObject(draftContent);
         ContentExtend contentExtend = ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent"));
         content.setContentExtend(contentExtend);
+        content.setContentEditReason(ContentEditReason.create(contentId, jsonObject.getString("editReason")));
         return content;
     }
 

@@ -36,7 +36,13 @@ public class ContentEditReason extends BaseEntity {
 
     private Long createTime;
 
-
-
     private String reason;
+
+    public static ContentEditReason create(String contentId, String editReason) {
+        ContentEditReason contentEditReason = new ContentEditReason();
+        contentEditReason.setContentId(contentId);
+        contentEditReason.setReason(editReason);
+        return contentEditReason;
+    }
+
 }

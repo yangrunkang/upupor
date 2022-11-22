@@ -174,7 +174,6 @@ function updateContent(contentId) {
             return false;
         }
         content.contentId = contentId;
-        content.editReason = $("#edit_reason").val();
 
         $.cvPost('/content/edit', content, function (data) {
             if (data.data.success) {
@@ -232,11 +231,10 @@ function getCommonReq() {
     let origin_type = $('input:radio[class="align-self-center original_radio"]:checked').val();
     let contentType = getQueryVariable("type");
     let tagIds = getSelectedTagIds();
-
+    let editReason = $("#edit_reason").val();
 
     // 只有新文章才会预生成文章内容Id
     let preContentId = $('.hidden-pre-content-id').val();
-    // let edit = getQueryVariable("edit");
 
     return {
         title: title,
@@ -245,10 +243,10 @@ function getCommonReq() {
         noneOriginLink: none_origin_link,
         originType: origin_type,
         contentType: contentType,
-        // edit: edit,
         tagIds: tagIds,
         picture: null,
         preContentId: preContentId,
+        editReason: editReason,
     };
 }
 

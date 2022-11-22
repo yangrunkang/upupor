@@ -84,7 +84,7 @@ public class EditorPageJumpController {
      */
     @ApiOperation("正常流程从页面新建编辑内容")
     @GetMapping("/editor")
-    public ModelAndView editor(@RequestParam(value = "type", required = false) ContentType contentType, // 新增&编辑
+    public ModelAndView editor(@RequestParam(value = "type", required = false) ContentType contentType, // 内容类型
                                @RequestParam(value = "contentId", required = false) String contentId, // 编辑指定的文章
                                @RequestParam(value = "tag", required = false) String tag // 快捷操作新增文章会到指定tag
     ) {
