@@ -61,12 +61,14 @@ public class ContentManage extends AbstractManage {
         String userId = manageDto.getUserId();
         String searchTitle = manageDto.getSearchTitle();
         String select = manageDto.getSelect();
+        String searchContentId = manageDto.getSearchContentId();
 
         ListContentReq listContentReq = new ListContentReq();
         listContentReq.setUserId(userId);
         listContentReq.setPageSize(pageSize);
         listContentReq.setPageNum(pageNum);
         listContentReq.setSearchTitle(searchTitle);
+        listContentReq.setContentId(searchContentId);
         // 筛选
         listContentReq.setSelect(select);
 
