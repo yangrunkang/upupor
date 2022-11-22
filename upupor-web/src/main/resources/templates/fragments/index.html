@@ -539,7 +539,7 @@ fromPage: 来自于页面
     </div>
     <div class="alert alert-success mb-2 border-0" role="alert" th:if="${session?.is_admin}">
         <h4 class="alert-heading">危险操作区域</h4>
-        <button class="ui red button" th:onclick="handleExceptionUser([[${memberIndexDto.member.userId}]])">清空用户所有文章,并限制发文</button>
+        <button class="ui teal button" th:onclick="handleExceptionUser([[${memberIndexDto.member.userId}]])">清空用户所有文章,并限制发文</button>
     </div>
     <div class="card border-0 rounded-3 p-2 mb-2">
         <div style="font-size: 40px;font-weight: bold;" class="text-wrap">[[${memberIndexDto.member.userName}]]</div>
