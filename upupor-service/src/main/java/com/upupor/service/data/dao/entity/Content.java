@@ -225,6 +225,13 @@ public class Content extends BaseEntity {
     @TableField(exist = false)
     private List<ViewHistory> viewerList;
 
+    /**
+     * 针对草稿的文章,反查是否已经发布过,做一个标识,提升用户体验的
+     */
+    @TableField(exist = false)
+    private Boolean existedContent;
+
+
     public Content() {
         init();
     }

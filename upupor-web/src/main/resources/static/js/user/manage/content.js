@@ -235,3 +235,8 @@ function changeContentStatus(status, contentId) {
 function toDraft(contentId) {
     window.location.href = '/user/manage/draft?searchContentId=' + contentId;
 }
+
+
+function toExistedContent(contentId) {
+    window.location.href = '/user/manage/content?searchContentId=' + contentId;
+}
