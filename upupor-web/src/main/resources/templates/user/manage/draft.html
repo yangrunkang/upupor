@@ -99,7 +99,7 @@
                                     </td>
                                     <td>
                                         <span th:replace="fragments/index::content_manage(${content})"></span>
-                                        <span class="badge rounded-3 fw-normal" style="border: 1px solid #e3005f;color: #e3005f;background-color: #ffffff;cursor: pointer" th:onclick="toExistedContent([[${content.contentId}]])" th:if="${content.existedContent}">已发布文章的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
+                                        <span class="badge rounded-3 fw-normal" style="border: 1px solid #e3005f;color: #e3005f;background-color: #ffffff;cursor: pointer" th:onclick="toExistedContent([[${content.contentId}]])" th:if="${content.existedContent}">已有文章的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
                                         <span class="badge rounded-3 fw-normal" style="border: 1px solid #15a1ea;color: #15a1ea;background-color: #ffffff;" th:if="!${content.existedContent}">全新</span>
                                     </td>
                                     <td style="text-align: center">
