@@ -6,7 +6,10 @@
 ## 网站
 https://www.upupor.com
 
-## Upupor开发进度
+## 统计
+![Alt](https://repobeats.axiom.co/api/embed/18e821e0b79bcf13c83f8d21d669f7264abace1a.svg "Repobeats analytics image")
+
+## Upupor编码
 出于自己对技术的纯粹和要求,在upupor项目的开发过程中,会遵循以下准则:
 1. 充分使用Java基本特性: 封装、继承、多态
 2. 对类似的业务逻辑进行抽象,提取出公用的逻辑,朝着易扩展、易维护的方向前进
@@ -14,7 +17,7 @@ https://www.upupor.com
 4. 减少外部依赖。除了最基本的依赖之外,会尽可能减少外部依赖的引入。例如,upupor的全局检索,是基于lucene实现的,而不是引入ES来实现
 5. 算法的引入,会将学到的算法应用其中。例如,雪花算法,upupor的资源id生成有雪花算法的参与
 
-[开发进度面板](https://github.com/users/yangrunkang/projects/1)
+
 
 ## 部署文档
 - [Docker部署](docs/deploy/docker部署文档.md)
@@ -69,3 +72,6 @@ upupor用 thymeleaf 的原因是为了做SEO,目前所有页面均采用服务�
 
 ## Stargazers over time
 [![Stargazers over time](https://starchart.cc/yangrunkang/upupor.svg)](https://starchart.cc/yangrunkang/upupor)
+
+## Upupor开发进度
+[开发进度面板](https://github.com/users/yangrunkang/projects/1)
