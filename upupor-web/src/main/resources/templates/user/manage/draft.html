@@ -64,28 +64,14 @@
                         </div>
                     </div>
                     <div>
-                        <input type="hidden" id="content_more_alert_value"
-                               th:value="${memberIndexDto.listContentDto.total}"/>
-                        <div id="content_more_alert" class="alert alert-danger alert-dismissible fade show mb-2"
-                             role="alert" style="display: none">
-                            搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
-                            <br/>
-                            根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder"
-                                             th:text="${memberIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
-                            <button type="button" class="btn btn-close rounded-3 bg-gradient-close"
-                                    data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    </div>
-                    <div>
                         <!--文章列表-->
                         <div class="table-responsive fixed-table-body">
                             <table class="table table-hover" id="manage_content_table">
                                 <thead>
                                 <tr>
                                     <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
-                                    <td class="fw-bold" style="width: 38%;">内容标题</td>
+                                    <td class="fw-bold" style="width: 48%;">内容标题</td>
                                     <td class="fw-bold" style="width: 9%;text-align: center">类型</td>
-                                    <td class="fw-bold" style="width: 10%;">标签</td>
                                     <td class="fw-bold" style="width: 21%;text-align: center">创建时间</td>
                                     <td class="fw-bold" style="width: 14%;text-align: center">操作</td>
                                 </tr>
@@ -98,21 +84,10 @@
                                         <span th:text="${ite.count}"></span>
                                     </td>
                                     <td>
-                                        <span th:replace="fragments/index::content_manage(${content})"></span>
-                                        <span class="badge rounded-3 fw-normal" style="border: 1px solid #e3005f;color: #e3005f;background-color: #ffffff;cursor: pointer" th:onclick="toExistedContent([[${content.contentId}]])" th:if="${content.existedContent}">已有文章的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
-                                        <span class="badge rounded-3 fw-normal" style="border: 1px solid #15a1ea;color: #15a1ea;background-color: #ffffff;" th:if="!${content.existedContent}">全新</span>
+                                        <span th:replace="fragments/index::content_manage(${content},'manage_draft')"></span>
                                     </td>
                                     <td style="text-align: center">
                                         <span th:include="fragments/index::content_type"></span>
-                                    </td>
-                                    <td>
-                                            <span th:each="tagDto : ${content.tagDtoList}" style="float: left">
-                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}"
-                                                   class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${tagDto.tagName}]]</a>
-                                            </span>
-                                        <span th:if="${#lists.isEmpty(content.tagDtoList)}">
-                                                无
-                                            </span>
                                     </td>
                                     <td style="text-align: center" th:text="${content.createDate}">创建时间</td>
                                     <td style="text-align: center">

@@ -90,7 +90,7 @@
                             th:each="content,ite : ${commonPageIndexDto.latestContentList}"
                         >
                             <td class="p-1">
-                                <span th:replace="fragments/index::content_manage(${content})"></span>
+                                <span th:replace="fragments/index::content_manage(${content},'content_list')"></span>
                             </td>
 
                             <td class="p-1" style="text-align: right">

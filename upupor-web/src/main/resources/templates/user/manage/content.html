@@ -52,25 +52,16 @@
                         </div>
                     </div>
                     <div>
-                        <input type="hidden" id="content_more_alert_value" th:value="${memberIndexDto.listContentDto.total}"/>
-                        <div id="content_more_alert" class="alert alert-danger alert-dismissible fade show mb-2" role="alert" style="display: none">
-                            搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
-                            <br />
-                            根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${memberIndexDto.listContentDto.total}"></span>条数据,只显示了最新的300条
-                            <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    </div>
-                    <div>
                         <!--文章列表-->
                         <div class="table-responsive fixed-table-body">
                             <table class="table table-hover" id="manage_content_table">
                                 <thead>
                                     <tr>
                                         <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
-                                        <td class="fw-bold" style="width: 38%;">内容标题</td>
-                                        <td class="fw-bold" style="width: 9%;text-align: center">类型</td>
+                                        <td class="fw-bold" style="width: 57%;">内容标题</td>
+<!--                                        <td class="fw-bold" style="width: 9%;text-align: center">类型</td>-->
                                         <td class="fw-bold" style="width: 6%;text-align: center">状态</td>
-                                        <td class="fw-bold" style="width: 10%;text-align: center">标签</td>
+<!--                                        <td class="fw-bold" style="width: 10%;text-align: center">标签</td>-->
                                         <td class="fw-bold" style="width: 21%;">创建时间</td>
                                         <td class="fw-bold" style="width: 8%;text-align: center">操作</td>
                                     </tr>
@@ -83,10 +74,7 @@
                                             <span th:text="${ite.count}"></span>
                                         </td>
                                         <td>
-                                            <span th:replace="fragments/index::content_manage(${content})"></span>
-                                        </td>
-                                        <td style="text-align: center">
-                                            <span th:include="fragments/index::content_type"></span>
+                                            <span th:replace="fragments/index::content_manage(${content},'manage_content')"></span>
                                         </td>
                                         <td style="text-align: center">
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
@@ -95,14 +83,6 @@
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${content.status.name()} == 'DELETED'">删除</span>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
-                                        </td>
-                                        <td>
-                                            <span th:each="tagDto : ${content.tagDtoList}" style="float: left">
-                                                <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link">[[${tagDto.tagName}]]</a>
-                                            </span>
-                                            <span th:if="${#lists.isEmpty(content.tagDtoList)}">
-                                                无
-                                            </span>
                                         </td>
                                         <td th:text="${content.createDate}">创建时间</td>
                                         <td style="text-align: center">

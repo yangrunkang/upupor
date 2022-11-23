@@ -52,6 +52,13 @@
     </nav>
 </div>
 
+<span th:fragment="manage_content_tag(content)">
+    <span th:each="tagDto : ${content.tagDtoList}">
+            <a th:href="'/tag/'+${tagDto.tagName}" th:title="${tagDto.tagName}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link me-1">[[${tagDto.tagName}]]</a>
+    </span>
+</span>
+
+
 
 </body>
 </html>
