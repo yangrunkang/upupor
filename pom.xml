@@ -35,6 +35,7 @@
         <module>upupor-framework</module>
         <module>upupor-lucene</module>
         <module>upupor-security</module>
+        <module>upupor-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
