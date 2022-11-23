@@ -185,7 +185,7 @@
 <div th:fragment="top_content(pinnedContnet,fromPage)">
     <div class="card border-0 rounded-3 p-2 mb-2"
          th:if="${pinnedContnet != null}">
-        <div class="border-bottom pb-1 text-black-50">
+        <div class="border-bottom pb-1 text-black-50 mb-2">
             <span th:include="fragments/icon::top"></span> 置顶文章
             <span class="text-sm-end border p-1 rounded-2" style="cursor: pointer" th:if="${fromPage == 'manage-content'}"
                   th:onclick="pinned([[${pinnedContnet.contentId}]],'cancel')">取消</span>
