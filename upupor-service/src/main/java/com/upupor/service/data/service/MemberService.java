@@ -215,8 +215,6 @@ public interface MemberService {
 
     Integer sumIntegral(String userId);
 
-    void renderCardHtml(Member member);
-
     void bindRadioMember(Radio radio);
 
     /**

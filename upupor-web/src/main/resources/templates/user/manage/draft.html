@@ -69,28 +69,28 @@
                             <table class="table table-hover" id="manage_content_table">
                                 <thead>
                                 <tr>
-                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 8%;">序号</td>
                                     <td class="fw-bold" style="width: 48%;">内容标题</td>
-                                    <td class="fw-bold" style="width: 9%;text-align: center">类型</td>
-                                    <td class="fw-bold" style="width: 21%;text-align: center">创建时间</td>
-                                    <td class="fw-bold" style="width: 14%;text-align: center">操作</td>
+                                    <td class="fw-bold" style="width: 9%;">类型</td>
+                                    <td class="fw-bold" style="width: 21%;">创建时间</td>
+                                    <td class="fw-bold" style="width: 14%;">操作</td>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:if="!${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}"
                                     th:each="content,ite : ${memberIndexDto.listContentDto.contentList}"
                                 >
-                                    <td style="text-align: center">
+                                    <td>
                                         <span th:text="${ite.count}"></span>
                                     </td>
                                     <td>
                                         <span th:replace="fragments/index::content_manage(${content},'manage_draft')"></span>
                                     </td>
-                                    <td style="text-align: center">
+                                    <td>
                                         <span th:include="fragments/index::content_type"></span>
                                     </td>
-                                    <td style="text-align: center" th:text="${content.createDate}">创建时间</td>
-                                    <td style="text-align: center">
+                                    <td th:text="${content.createDate}">创建时间</td>
+                                    <td>
                                         <div class="btn-group rounded-3 bg-gradient" role="group"
                                              aria-label="Second group">
                                             <button type="button"

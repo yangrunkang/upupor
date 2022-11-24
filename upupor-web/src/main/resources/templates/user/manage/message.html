@@ -62,27 +62,27 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                        <td class="fw-bold" style="width: 8%;">序号</td>
                                         <td class="fw-bold" style="width: 39%;">消息</td>
-                                        <td class="fw-bold" style="width: 12%;text-align: center">消息类型</td>
+                                        <td class="fw-bold" style="width: 12%;">消息类型</td>
                                         <td class="fw-bold hidden-xs" style="width: 16%;">创建时间</td>
-                                        <td class="fw-bold" style="width: 15%;text-align: center">操作</td>
+                                        <td class="fw-bold" style="width: 15%;">操作</td>
                                     </tr>
                                 </thead>
                             	<tbody>
                                     <tr th:if="!${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}"
                                         th:each="message,ite : ${memberIndexDto.listMessageDto.messageList}"
                                     >
-                                        <td th:text="${ite.count}" style="text-align: center"></td>
+                                        <td th:text="${ite.count}"></td>
                                         <td>
                                             <div class="text-wrap" th:utext="${message.message}"></div>
                                         </td>
-                                        <td style="text-align: center">
+                                        <td>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${message.messageType.name()} == 'SYSTEM'">系统消息</span>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${message.messageType.name()} == 'USER_REPLAY'">用户消息</span>
                                         </td>
                                         <td class="hidden-xs" th:text="${message.createDate}">创建时间</td>
-                                        <td style="text-align: center">
+                                        <td>
                                             <div class="btn-group rounded-3 bg-gradient" role="group">
                                                 <!--状态是未读时显示已读和删除-->
                                                 <button class="btn bg-gradient btn-sm btn-outline-success" th:if="${message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('READ',[[${message.messageId}]],[[${message.userId}]])">已读</button>

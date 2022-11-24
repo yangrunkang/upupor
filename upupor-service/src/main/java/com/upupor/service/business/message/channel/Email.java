@@ -31,7 +31,7 @@ import com.upupor.service.business.message.AbstractMessage;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.data.dao.entity.Member;
 import com.upupor.service.data.service.MemberService;
-import com.upupor.service.dto.email.SendEmailEvent;
+import com.upupor.service.dto.email.EmailEvent;
 import com.upupor.service.types.OpenEmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +88,7 @@ public class Email extends AbstractMessage {
         }
 
         try {
-            SendEmailEvent sendEmailEvent = new SendEmailEvent();
+            EmailEvent sendEmailEvent = new EmailEvent();
             sendEmailEvent.setToAddress(email);
             sendEmailEvent.setTitle(emailModel.getTitle());
             sendEmailEvent.setContent(emailModel.getContent());

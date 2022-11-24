@@ -82,7 +82,6 @@
             <artifactId>lucene-analyzers-smartcn</artifactId>
             <version>${upupor.lucene.version}</version>
         </dependency>
-
     </dependencies>
 
 </project>

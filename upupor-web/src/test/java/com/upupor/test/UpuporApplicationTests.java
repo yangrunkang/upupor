@@ -35,12 +35,9 @@ import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.data.dao.mapper.ContentExtendMapper;
 import com.upupor.service.data.dao.mapper.ContentMapper;
 import com.upupor.service.data.service.ContentService;
-import com.upupor.service.scheduled.DetectUserOperationScheduled;
-import com.upupor.service.scheduled.GenerateSiteMapScheduled;
 import com.upupor.service.utils.AvatarHelper;
-import com.upupor.service.utils.CcEmailUtils;
-import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.web.UpuporWebApplication;
+import com.upupor.web.utils.HtmlTemplateUtils;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,7 +52,7 @@ public class UpuporApplicationTests {
 
     private final ContentService contentService;
 
-    private final GenerateSiteMapScheduled generateSiteMapScheduled;
+//    private final GenerateSiteMapScheduled generateSiteMapScheduled;
 
     @Test
     void testDeadEvent() {
@@ -75,18 +72,18 @@ public class UpuporApplicationTests {
      */
     @Test
     void testSendEmail() {
-        CcEmailUtils.sendEmail("1743703238@qq.com", "使用阿里云测试邮件发送", null, "<h1>我是邮件正文</h1>");
+//        CcEmailUtils.sendEmail("1743703238@qq.com", "使用阿里云测试邮件发送", null, "<h1>我是邮件正文</h1>");
     }
 
     /**
      * 邮件发送测试
      */
-    private final DetectUserOperationScheduled detectUserOperationScheduled;
+//    private final DetectUserOperationScheduled detectUserOperationScheduled;
 
-    @Test
-    void detectUserOperationScheduled() {
-        detectUserOperationScheduled.detectUserNotLogin();
-    }
+//    @Test
+//    void detectUserOperationScheduled() {
+//        detectUserOperationScheduled.detectUserNotLogin();
+//    }
 
     /**
      * 测试使用模板发送邮件
@@ -98,13 +95,13 @@ public class UpuporApplicationTests {
         maps.put(CcTemplateConstant.TITLE, "注册邮件测试");
         maps.put(CcTemplateConstant.CONTENT, "341754");
         String render = HtmlTemplateUtils.renderEmail(CcTemplateConstant.TEMPLATE_EMAIL, maps);
-        CcEmailUtils.sendEmail("1743703238@qq.com", "使用阿里云测试邮件发送", null, render);
+//        CcEmailUtils.sendEmail("1743703238@qq.com", "使用阿里云测试邮件发送", null, render);
     }
-
-    @Test
-    void testUseTemplateGoogleSeoSiteMap() {
-        generateSiteMapScheduled.scheduled();
-    }
+//
+//    @Test
+//    void testUseTemplateGoogleSeoSiteMap() {
+//        generateSiteMapScheduled.scheduled();
+//    }
 
 
     @Test

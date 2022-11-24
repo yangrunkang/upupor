@@ -31,7 +31,7 @@ package com.upupor.web.aspects.service.view;
 
 import com.alibaba.fastjson2.JSON;
 import com.upupor.framework.utils.RedisUtil;
-import com.upupor.service.scheduled.CountTagScheduled;
+import com.upupor.service.business.task.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -51,7 +51,7 @@ import static com.upupor.framework.CcRedisKey.TAG_COUNT;
 @Order(8)
 @RequiredArgsConstructor
 public class TagCountFromRedis implements PrepareData {
-    private final CountTagScheduled countTagScheduled;
+    private final TaskService taskService;
 
     @Override
     public void prepare(ViewData viewData) {
@@ -61,7 +61,7 @@ public class TagCountFromRedis implements PrepareData {
         if (Objects.isNull(result)) {
             modelAndView.addObject(CV_TAG_LIST, new ArrayList<>());
             // 刷新下
-            countTagScheduled.refreshTag();
+            taskService.refreshTag();
         }
 
         modelAndView.addObject(CV_TAG_LIST, result);

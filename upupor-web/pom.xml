@@ -45,6 +45,29 @@
             <artifactId>upupor-service</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!--spring-boot-web & thymeleaf-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!-- 允许使用非严格的 HTML 语法 -->
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+        <!--knife4j接口管理-->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>3.0</version>
+        </dependency>
+        <!-- Thymeleaf 模板引擎工具类使用 -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>3.0.11.RELEASE</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

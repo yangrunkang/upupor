@@ -47,29 +47,29 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 8%;">序号</td>
                                     <td class="fw-bold" style="width: 56%;">收藏内容</td>
-                                    <td class="fw-bold" style="width: 6%;text-align: center">状态</td>
+                                    <td class="fw-bold" style="width: 6%;">状态</td>
                                     <td class="w-bold hidden-xs" style="width: 20%;">创建时间</td>
-                                    <td class="fw-bold" style="width: 10%;text-align: center">操作</td>
+                                    <td class="fw-bold" style="width: 10%;">操作</td>
                                 </tr>
                                 </thead>
                             	<tbody>
                                     <tr th:if="!${#lists.isEmpty(memberIndexDto.listCollectDto.collectList)}"
                                         th:each="collect,ite : ${memberIndexDto.listCollectDto.collectList}"
                                     >
-                                        <td th:text="${ite.count}" style="text-align: center"></td>
+                                        <td th:text="${ite.count}"></td>
                                         <td>
                                             <a class="cv-link" th:utext="${collect?.content?.title}"
                                                th:href="@{'/u/'+${collect?.content?.contentId}}"></a>
                                         </td>
-                                        <td style="text-align: center">
+                                        <td>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${collect.status.name()} == 'NORMAL'">正常</span>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${collect.status.name()} == 'ONLY_SELF_SEE'">仅自己可见</span>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${collect.status.name()} == 'DELETE'">删除</span>
                                         </td>
                                         <td class="hidden-xs" th:text="${collect.createDate}">创建时间</td>
-                                        <td style="text-align: center">
+                                        <td>
                                             <div class="btn-group rounded-3 bg-gradient" role="group" aria-label="Second group">
                                                 <button type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     状态

@@ -569,9 +569,7 @@ from: 来源
         <div class="small text-black-50">以下用户访问过:</div>
         <span>
             <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}+'/content'">
-                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" data-bs-toggle="popover"
-                     th:data-bs-content="${viewer.cardHtml}" class="lazyload img rounded cv-icon"
-                     th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}"/>
+                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}"/>
             </a>
         </span>
     </div>

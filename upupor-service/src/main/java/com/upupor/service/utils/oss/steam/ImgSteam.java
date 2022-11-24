@@ -38,9 +38,9 @@ import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.utils.oss.AbstractInputSteam;
 import com.upupor.service.utils.oss.enums.IsImg;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.ArrayUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

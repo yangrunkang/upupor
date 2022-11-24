@@ -47,23 +47,23 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 8%;">序号</td>
                                     <td class="fw-bold" style="width: 30%;">用户名</td>
                                     <td class="fw-bold hidden-xs" style="width: 20%;">时间</td>
-                                    <td class="fw-bold" style="width: 18%;text-align: center">操作</td>
+                                    <td class="fw-bold" style="width: 18%;">操作</td>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:if="!${#lists.isEmpty(memberIndexDto.listAttentionDto.attentionList)}"
                                         th:each="attention,ite : ${memberIndexDto.listAttentionDto.attentionList}">
-                                        <td th:text="${ite.count}" style="text-align: center"></td>
+                                        <td th:text="${ite.count}"></td>
                                         <td>
                                             <a class="cv-link" th:href="'/profile/'+${attention?.member?.userId}+'/content'" th:title="${attention?.member?.userName}" th:inline="text">
                                                 <img class="lazyload cv-icon img rounded" th:data-src="${attention?.member?.via}" /> [[${attention?.member?.userName}]]
                                             </a>
                                         </td>
                                         <td class="hidden-xs" th:text="${attention.createDate}">时间</td>
-                                        <td style="text-align: center;">
+                                        <td style=";">
                                             <button class="btn rounded-3 bg-gradient btn-danger btn-sm" th:onclick="deleteAttention([[${attention.attentionId}]])">取消关注</button>
                                         </td>
                                     </tr>

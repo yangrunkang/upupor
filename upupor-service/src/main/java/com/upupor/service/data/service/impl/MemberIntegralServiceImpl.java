@@ -172,19 +172,12 @@ public class MemberIntegralServiceImpl implements MemberIntegralService {
     @Override
     public List<MemberIntegral> getByGetMemberIntegralReq(GetMemberIntegralReq getMemberIntegralReq) {
         LambdaQueryWrapper<MemberIntegral> query = new LambdaQueryWrapper<MemberIntegral>()
-                .eq(MemberIntegral::getIntegralUserId, getMemberIntegralReq.getUserId())
-                .eq(MemberIntegral::getIntegralRuleId, getMemberIntegralReq.getRuleId())
-                .eq(MemberIntegral::getTargetId, getMemberIntegralReq.getTargetId());
-
-        if (Objects.nonNull(getMemberIntegralReq.getStatus())) {
-            query.eq(MemberIntegral::getStatus, getMemberIntegralReq.getStatus());
-        }
-        if (Objects.nonNull(getMemberIntegralReq.getStartCreateTime())) {
-            query.lt(MemberIntegral::getCreateTime, getMemberIntegralReq.getStartCreateTime());
-        }
-        if (Objects.nonNull(getMemberIntegralReq.getEndCreateTime())) {
-            query.gt(MemberIntegral::getCreateTime, getMemberIntegralReq.getEndCreateTime());
-        }
+                .eq(Objects.nonNull(getMemberIntegralReq.getUserId()), MemberIntegral::getIntegralUserId, getMemberIntegralReq.getUserId())
+                .eq(Objects.nonNull(getMemberIntegralReq.getRuleId()), MemberIntegral::getIntegralRuleId, getMemberIntegralReq.getRuleId())
+                .eq(Objects.nonNull(getMemberIntegralReq.getTargetId()), MemberIntegral::getTargetId, getMemberIntegralReq.getTargetId())
+                .eq(Objects.nonNull(getMemberIntegralReq.getStatus()), MemberIntegral::getStatus, getMemberIntegralReq.getStatus())
+                .lt(Objects.nonNull(getMemberIntegralReq.getStartCreateTime()), MemberIntegral::getCreateTime, getMemberIntegralReq.getStartCreateTime())
+                .gt(Objects.nonNull(getMemberIntegralReq.getEndCreateTime()), MemberIntegral::getCreateTime, getMemberIntegralReq.getEndCreateTime());
         return memberIntegralMapper.selectList(query);
     }
 

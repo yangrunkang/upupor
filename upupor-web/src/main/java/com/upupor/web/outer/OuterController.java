@@ -30,8 +30,8 @@ package com.upupor.web.outer;
 import com.alibaba.druid.util.StringUtils;
 import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.utils.RedisUtil;
-import com.upupor.service.scheduled.GenerateSiteMapScheduled;
-import com.upupor.service.scheduled.sitemap.enums.SiteMapType;
+import com.upupor.service.business.task.TaskService;
+import com.upupor.service.business.task.sitemap.enums.SiteMapType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class OuterController {
-    private final GenerateSiteMapScheduled generateSiteMapScheduled;
+    private final TaskService taskService;
 
     @ApiOperation("站点地图")
     @GetMapping(value = "/upupor-google-sitemap-{siteMapType}.xml", produces = {"application/xml; charset=UTF-8"})
@@ -61,10 +61,9 @@ public class OuterController {
 
         String s = RedisUtil.get(siteMapKey);
         if (StringUtils.isEmpty(s)) {
-            generateSiteMapScheduled.googleSitemap();
+            taskService.googleSitemap();
             s = RedisUtil.get(siteMapKey);
         }
-
 
         return StringUtils.isEmpty(s) ? "生成SiteMap失败" : s;
     }

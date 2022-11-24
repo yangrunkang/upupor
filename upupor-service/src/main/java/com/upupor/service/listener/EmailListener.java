@@ -27,13 +27,19 @@
 
 package com.upupor.service.listener;
 
-import com.upupor.service.dto.email.SendEmailEvent;
-import com.upupor.service.utils.CcEmailUtils;
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.utils.SpringContextUtils;
+import com.upupor.service.dto.email.EmailEvent;
+import com.upupor.service.dto.email.EmailTemplateReplaceAndSendEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 
 /**
  * 消息事件总线
@@ -44,25 +50,37 @@ import org.springframework.util.StringUtils;
 @Slf4j
 @Component
 public class EmailListener {
+    @Resource
+    private ApplicationEventPublisher eventPublisher;
 
     @EventListener
     @Async
-    public void sendEmail(SendEmailEvent sendEmailEvent) {
-        if (StringUtils.isEmpty(sendEmailEvent.getToAddress())) {
+    public void sendEmail(EmailEvent emailEvent) {
+        if (StringUtils.isEmpty(emailEvent.getToAddress())) {
             log.error("发件地址为空");
             return;
         }
-        if (StringUtils.isEmpty(sendEmailEvent.getTitle())) {
+        if (StringUtils.isEmpty(emailEvent.getTitle())) {
             log.error("发件标题为空");
             return;
         }
-        if (StringUtils.isEmpty(sendEmailEvent.getContent())) {
+        if (StringUtils.isEmpty(emailEvent.getContent())) {
             log.error("发件内容为空");
             return;
         }
 
-        // 内容重新使用模板内容
-        CcEmailUtils.sendEmail(sendEmailEvent);
+        // 0-关闭 1-开启
+        String property = SpringContextUtils.getBean(UpuporConfig.class).getEmail().getOnOff().toString();
+        if (property.equals(CcConstant.CV_OFF)) {
+            log.info("邮件开关已关闭");
+            log.error("发送邮件日志[未真实发送邮件]: \n收件人:{},\n文章标题:{},\n邮件内容:{}", emailEvent.getToAddress(), emailEvent.getTitle(), emailEvent.getContent());
+        } else if (property.equals(CcConstant.CV_ON)) {
+            EmailTemplateReplaceAndSendEvent templateReplaceAndSendEvent = new EmailTemplateReplaceAndSendEvent();
+            templateReplaceAndSendEvent.setTitle(emailEvent.getTitle());
+            templateReplaceAndSendEvent.setContent(emailEvent.getContent());
+            templateReplaceAndSendEvent.setToAddress(emailEvent.getToAddress());
+            eventPublisher.publishEvent(templateReplaceAndSendEvent);
+        }
     }
 
 

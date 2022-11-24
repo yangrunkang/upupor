@@ -35,6 +35,9 @@
         <module>upupor-framework</module>
         <module>upupor-lucene</module>
         <module>upupor-security</module>
+        <module>upupor-api</module>
+        <module>upupor-app</module>
+        <module>upupor-task</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -67,11 +70,6 @@
     </issueManagement>
 
     <dependencies>
-        <!--spring-boot-web & thymeleaf-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -94,41 +92,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <!--引入spring session-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-data-redis</artifactId>
-        </dependency>
-        <!--mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!--数据库连接jdbc依赖-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-        <!--alibaba 数据源配置-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -140,103 +103,22 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- 允许使用非严格的 HTML 语法 -->
+        <!--集成flyway-->
         <dependency>
-            <groupId>net.sourceforge.nekohtml</groupId>
-            <artifactId>nekohtml</artifactId>
-            <version>1.9.22</version>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
         </dependency>
-        <!--knife4j接口管理-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
-            <version>2.0.15</version>
-        </dependency>
-        <!--分页-->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.13</version>
-        </dependency>
-        <!--使用Aliyun的邮件推送服务-->
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-core</artifactId>
-            <version>4.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-java-sdk-dm</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <!-- Thymeleaf 模板引擎工具类使用 -->
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf</artifactId>
-            <version>3.0.11.RELEASE</version>
-        </dependency>
-        <!--minio对象存储-->
-        <dependency>
-            <groupId>io.minio</groupId>
-            <artifactId>minio</artifactId>
-            <version>8.4.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.squareup.okhttp3</groupId>
-                    <artifactId>okhttp</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp -->
-        <!--miniookhttp需要到4.8.1+-->
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>4.9.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.10</version>
         </dependency>
-        <!--Java分词 https://github.com/houbb/segment-->
         <dependency>
-            <groupId>com.github.houbb</groupId>
-            <artifactId>segment</artifactId>
-            <version>0.1.8</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
-        <!--集成flyway-->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/tk.mybatis/mapper-spring-boot-starter -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.3.4</version>
-        </dependency>
-
-
-
     </dependencies>
 
 

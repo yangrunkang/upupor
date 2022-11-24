@@ -28,7 +28,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.CcResponse;
-import com.upupor.service.scheduled.GenerateSiteMapScheduled;
+import com.upupor.service.business.task.TaskService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,13 +46,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SeoController {
 
-    private final GenerateSiteMapScheduled generateSiteMapScheduled;
+    private final TaskService taskService;
 
 
     @GetMapping("/refresh-google-sitemap")
     public CcResponse googleSeo() {
         CcResponse c = new CcResponse();
-        generateSiteMapScheduled.googleSitemap();
+        taskService.googleSitemap();
         c.setData("Google站点地图已经刷新");
         return c;
     }

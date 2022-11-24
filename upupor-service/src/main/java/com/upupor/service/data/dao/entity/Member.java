@@ -144,13 +144,6 @@ public class Member extends BaseEntity {
     @TableField(exist = false)
     private Boolean active = false;
 
-
-    /**
-     * 感谢点赞的html
-     */
-    @TableField(exist = false)
-    private String cardHtml;
-
     /**
      *
      */
