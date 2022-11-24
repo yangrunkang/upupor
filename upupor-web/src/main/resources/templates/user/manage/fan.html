@@ -47,23 +47,23 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                    <td class="fw-bold" style="width: 8%;">序号</td>
                                     <td class="fw-bold" style="width: 30%;">用户名</td>
                                     <td class="fw-bold hidden-xs" style="width: 20%;">时间</td>
-                                    <td class="fw-bold" style="width: 18%;text-align: center">操作</td>
+                                    <td class="fw-bold" style="width: 18%;">操作</td>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:if="!${#lists.isEmpty(memberIndexDto.listFansDto.fansList)}"
                                         th:each="fan,ite : ${memberIndexDto.listFansDto.fansList}">
-                                        <td th:text="${ite.count}" style="text-align: center"></td>
+                                        <td th:text="${ite.count}"></td>
                                         <td>
                                             <a class="cv-link" th:href="'/profile/'+${fan?.member?.userId}+'/content'" th:title="${fan?.member?.userName}" th:inline="text">
                                                 <img class="lazyload cv-icon img rounded" th:data-src="${fan?.member?.via}" /> [[${fan?.member?.userName}]]
                                             </a>
                                         </td>
                                         <td class="hidden-xs" th:text="${fan.createDate}">时间</td>
-                                        <td style="text-align: center">
+                                        <td>
                                             <button class="btn rounded-3 bg-gradient btn-danger btn-sm" th:onclick="deleteFans([[${fan.fanId}]])">移除</button>
                                         </td>
                                     </tr>

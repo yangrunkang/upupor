@@ -602,8 +602,6 @@ public class ContentServiceImpl implements ContentService {
         if (CollectionUtils.isEmpty(memberList)) {
             return;
         }
-        // 渲染喜欢html
-        memberList.forEach(memberService::renderCardHtml);
         content.setLikesMemberList(memberList);
     }
 

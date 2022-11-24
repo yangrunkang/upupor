@@ -1,0 +1,69 @@
+# 应用程序配置
+application:
+  name: UPUPOR APP # 程序名
+  version: 1.0.0 # 版本号
+
+server:
+  port: 2022 #端口
+  servlet:
+    context-path: /
+  netty:
+    connection-timeout: 300000
+
+# spring配置
+spring:
+  #flyway
+  flyway:
+    enabled: true
+    encoding: utf-8
+    #sql文件存放位置
+    locations: classpath:db/migration
+    #版本记录表格
+    table: _upupor_db_app_version_
+    baseline-on-migrate: true
+    validate-on-migrate: true
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?useUnicode=true&useSSL=false&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 连接池配置
+    druid:
+      initial-size: 5
+      max-wait: 60000
+      max-active: 10
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+  # redis配置 redis版本 4.0.9 redis重启后spring服务会自动链接
+  redis:
+    # 需要开启redis远程访问功能 redis.conf 文件  注释掉bind 127.0.0.1 再改变protected-mode值为no
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    # 配置redis.conf文件requirepass 的值
+    # 设置了密码后,使用redis-cli时需要 auth验证 直接输入 auth sDF234sdf#@@$@$fdd即可
+    password: ${REDIS_PASSWORD}
+    database: 0
+  servlet:
+    multipart:
+      # 开启多文件上传功能
+      enabled: true
+      # 文件写入磁盘的阈值
+      file-size-threshold: 100MB
+      # 文件最大
+      max-file-size: 100MB
+      # 最大请求大小
+      max-request-size: 100MB
+  mvc:
+    async:
+      request-timeout: 300000
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-enums-package: com.upupor.service.types
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    log-impl: ${SQL_LOG:org.apache.ibatis.logging.stdout.StdOutImpl}

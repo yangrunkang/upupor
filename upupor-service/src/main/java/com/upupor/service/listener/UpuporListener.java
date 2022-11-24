@@ -29,15 +29,12 @@ package com.upupor.service.listener;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.business.lucene.LuceneService;
+import com.upupor.service.business.task.TaskService;
 import com.upupor.service.data.service.MemberService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
-import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import com.upupor.service.listener.event.InitSensitiveWordEvent;
-import com.upupor.service.scheduled.GenerateSiteMapScheduled;
-import com.upupor.service.scheduled.InitLuceneService;
-import com.upupor.service.scheduled.MemberScheduled;
-import com.upupor.service.scheduled.SystemScheduled;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -61,11 +58,9 @@ import static com.upupor.framework.CcRedisKey.refreshMemberActiveKey;
 @RequiredArgsConstructor
 @Component
 public class UpuporListener {
-    private final GenerateSiteMapScheduled generateSiteMapScheduled;
     private final MemberService memberService;
-    private final MemberScheduled memberScheduled;
-    private final InitLuceneService initLuceneService;
-    private final SystemScheduled systemScheduled;
+    private final TaskService taskService;
+    private final LuceneService luceneService;
 
     /**
      * 埋点
@@ -99,30 +94,22 @@ public class UpuporListener {
             return;
         }
         RedisUtil.set(refreshKey, refreshKey, MEMBER_ACTIVE_TIME);
-        memberScheduled.refreshActiveMember();
+        taskService.refreshActiveMember();
     }
-
-    @EventListener
-    @Async
-    public void generateGoogleSiteMapEvent(GenerateGoogleSiteMapEvent event) {
-        log.info("程序启动完毕,Event Bus事件,开始生成Google站点地图");
-        generateSiteMapScheduled.googleSitemap();
-    }
-
 
     @EventListener
     @Async
     public void initLuceneIndexEvent(InitLuceneIndexEvent event) {
         // 采用的是内存存储,目的是尽量的减少依赖包括文件依赖;不使用ES,原因是ES太重
-        log.info("开始初始胡Lucene索引....");
-        initLuceneService.init();
+        log.info("开始初始化Lucene索引....");
+        luceneService.init();
     }
 
     @EventListener
     @Async
     public void initSensitiveWordEvent(InitSensitiveWordEvent event) {
         log.info("开始初始化敏感词....");
-        systemScheduled.refreshSensitiveWord();
+        taskService.refreshSensitiveWord();
     }
 
 }

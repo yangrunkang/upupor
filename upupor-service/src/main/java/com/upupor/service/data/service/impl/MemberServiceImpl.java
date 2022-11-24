@@ -41,7 +41,6 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.common.CcTemplateConstant;
 import com.upupor.service.common.IntegralEnum;
 import com.upupor.service.common.UserCheckFieldType;
 import com.upupor.service.data.dao.entity.*;
@@ -53,7 +52,10 @@ import com.upupor.service.listener.event.MemberLoginEvent;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.member.*;
 import com.upupor.service.types.*;
-import com.upupor.service.utils.*;
+import com.upupor.service.utils.Asserts;
+import com.upupor.service.utils.AvatarHelper;
+import com.upupor.service.utils.PasswordUtils;
+import com.upupor.service.utils.ServletUtils;
 import com.upupor.service.utils.oss.enums.FileDic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -569,20 +571,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Integer sumIntegral(String userId) {
         return memberIntegralService.getUserIntegral(userId);
-    }
-
-    @Override
-    public void renderCardHtml(Member member) {
-        Map<String, Object> params = new HashMap<>();
-        params.put(CcTemplateConstant.USER_ID, member.getUserId());
-        params.put(CcTemplateConstant.USER_NAME, member.getUserName());
-
-        Integer fanNum = this.fansNum(member.getUserId());
-        Integer totalIntegral = this.sumIntegral(member.getUserId());
-        params.put(CcTemplateConstant.USER_FAN_NUM, fanNum);
-        params.put(CcTemplateConstant.USER_INTEGRAL_NUM, totalIntegral);
-
-        member.setCardHtml(HtmlTemplateUtils.renderMemberCardHtml(CcTemplateConstant.MEMBER_CARD_HTML, params));
     }
 
     @Override

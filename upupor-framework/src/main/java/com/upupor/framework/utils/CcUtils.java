@@ -35,11 +35,11 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.algorithm.SnowFlake;
 import com.upupor.framework.config.UpuporConfig;
 import lombok.Data;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
-import org.thymeleaf.util.ArrayUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

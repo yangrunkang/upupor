@@ -41,8 +41,8 @@ import com.upupor.service.data.dao.entity.Tag;
 import com.upupor.service.data.service.*;
 import com.upupor.service.dto.page.MemberIndexDto;
 import com.upupor.service.types.ViewTargetType;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.CollectionUtils;
-import org.thymeleaf.util.ArrayUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

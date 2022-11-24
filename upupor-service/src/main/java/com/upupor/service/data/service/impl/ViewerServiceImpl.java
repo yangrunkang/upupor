@@ -44,7 +44,6 @@ import com.upupor.service.listener.event.ViewerEvent;
 import com.upupor.service.types.ViewTargetType;
 import com.upupor.service.types.ViewType;
 import com.upupor.service.types.ViewerDeleteStatus;
-import com.upupor.service.utils.HtmlTemplateUtils;
 import com.upupor.service.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -119,7 +118,6 @@ public class ViewerServiceImpl implements ViewerService {
 
                     viewer.setViewerUserVia(member.getVia());
                     viewer.setViewerUserName(member.getUserName());
-                    viewer.setCardHtml(HtmlTemplateUtils.renderMemberCardHtml(CcTemplateConstant.MEMBER_CARD_HTML, params));
                 }
             });
         });

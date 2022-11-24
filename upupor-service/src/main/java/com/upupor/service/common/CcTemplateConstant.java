@@ -52,6 +52,5 @@ public class CcTemplateConstant {
      */
     public static final String TEMPLATE_EMAIL = "templates/email/email-template";
     public static final String TEMPLATE_GOOGLE_SEO = "templates/seo/google-sitemap";
-    public static final String MEMBER_CARD_HTML = "templates/templates/user-like";
 
 }

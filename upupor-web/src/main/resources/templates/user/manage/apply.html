@@ -46,37 +46,37 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
-                                    <td class="fw-bold" style="width: 26%;text-align: center">申请内容</td>
-                                    <td class="fw-bold" style="width: 10%;text-align: center">申请类型</td>
-                                    <td class="fw-bold" style="width: 6%;text-align: center">状态</td>
-                                    <td class="fw-bold" style="width: 6%;text-align: center">进度</td>
+                                    <td class="fw-bold" style="width: 8%;">序号</td>
+                                    <td class="fw-bold" style="width: 26%;">申请内容</td>
+                                    <td class="fw-bold" style="width: 10%;">申请类型</td>
+                                    <td class="fw-bold" style="width: 6%;">状态</td>
+                                    <td class="fw-bold" style="width: 6%;">进度</td>
                                     <td class="fw-bold hidden-xs" style="width: 20%;">创建时间</td>
-                                    <td class="fw-bold" style="width: 24%;text-align: center">操作</td>
+                                    <td class="fw-bold" style="width: 24%;">操作</td>
                                     </tr>
                             	</thead>
                             	<tbody>
                                     <tr th:if="!${#lists.isEmpty(memberIndexDto.listApplyDto.applyList)}"
                                     th:each="apply,ite : ${memberIndexDto.listApplyDto.applyList}"
                                 >
-                                    <td th:text="${ite.count}" style="text-align: center"></td>
+                                    <td th:text="${ite.count}"></td>
                                     <td>
                                         <p th:utext="${apply.applyContent}"></p>
                                     </td>
-                                    <td style="text-align: center">
+                                    <td>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applySource.name()} == 'CONSULTING_SERVICE'">咨询服务</span>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applySource.name()} == 'NEW_FEATURES'">新功能建议</span>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applySource.name()} == 'AD'">广告</span>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applySource.name()} == 'TAG'">标签</span>
                                     </td>
                                     <!--状态-->
-                                    <td style="text-align: center">
+                                    <td>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${apply.applyStatus.name()} == 'WAIT_APPLY' or ${apply.applyStatus.name()} == 'APPLYING' or ${apply.applyStatus.name()} == 'APPLY_PASS' or ${apply.applyStatus.name()} == 'APPLY_DOCUMENT_COMMIT'">正常</span>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${apply.applyStatus.name()} == 'APPLY_REFUSE'">拒绝</span>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${apply.applyStatus.name()} == 'APPLY_TERMINATE'">结束</span>
                                     </td>
                                     <!--进度-->
-                                    <td style="text-align: center">
+                                    <td>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-primary" th:if="${apply.applyStatus.name()} == 'WAIT_APPLY'">待审核</span>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applyStatus.name()} == 'APPLYING'">审核中</span>
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${apply.applyStatus.name()} == 'APPLY_PASS'">已通过</span>
@@ -85,7 +85,7 @@
                                         <span class="badge bg-gradient rounded-3 fw-normal bg-primary" th:if="${apply.applyStatus.name()} == 'APPLY_DOCUMENT_COMMIT'">材料已提交</span>
                                     </td>
                                     <td class="hidden-xs" th:text="${apply.createDate}">创建时间</td>
-                                    <td style="text-align: center;">
+                                    <td style=";">
                                         <div class="btn-group rounded-3 bg-gradient" role="group" aria-label="Second group">
                                             <button type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 操作

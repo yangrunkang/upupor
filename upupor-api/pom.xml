@@ -36,7 +36,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.upupor.api</groupId>
     <artifactId>upupor-api</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

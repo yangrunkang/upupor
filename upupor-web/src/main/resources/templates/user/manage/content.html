@@ -57,26 +57,24 @@
                             <table class="table table-hover" id="manage_content_table">
                                 <thead>
                                     <tr>
-                                        <td class="fw-bold" style="width: 8%;text-align: center">序号</td>
+                                        <td class="fw-bold" style="width: 8%;">序号</td>
                                         <td class="fw-bold" style="width: 57%;">内容标题</td>
-<!--                                        <td class="fw-bold" style="width: 9%;text-align: center">类型</td>-->
-                                        <td class="fw-bold" style="width: 6%;text-align: center">状态</td>
-<!--                                        <td class="fw-bold" style="width: 10%;text-align: center">标签</td>-->
+                                        <td class="fw-bold" style="width: 6%;">状态</td>
                                         <td class="fw-bold" style="width: 21%;">创建时间</td>
-                                        <td class="fw-bold" style="width: 8%;text-align: center">操作</td>
+                                        <td class="fw-bold" style="width: 8%;">操作</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr th:if="!${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}"
                                         th:each="content,ite : ${memberIndexDto.listContentDto.contentList}"
                                     >
-                                        <td style="text-align: center">
+                                        <td>
                                             <span th:text="${ite.count}"></span>
                                         </td>
                                         <td>
                                             <span th:replace="fragments/index::content_manage(${content},'manage_content')"></span>
                                         </td>
-                                        <td style="text-align: center">
+                                        <td>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'Applying'">审核中</span>
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${content.status.name()} == 'EXCEPTION'">异常</span>
@@ -85,13 +83,12 @@
                                             <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
                                         </td>
                                         <td th:text="${content.createDate}">创建时间</td>
-                                        <td style="text-align: center">
+                                        <td>
                                             <div class="btn-group rounded-3 bg-gradient" role="group" aria-label="Second group">
                                                 <button type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     操作
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg">
-                                                    <!--&from=m 代表从管理后台来-->
                                                     <a class="cv-link dropdown-item small" th:href="@{'/editor?type='+${content.contentType.name()}+'&contentId='+${content.contentId}}"><span th:include="fragments/icon::edit"></span>编辑</a>
                                                     <div class="dropdown-divider"></div>
                                                     <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus.name()} == 'UN_PINNED'" th:onclick="pinned([[${content.contentId}]],'pinned')"><span th:include="fragments/icon::top"></span>置顶</a>

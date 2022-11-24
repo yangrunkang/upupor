@@ -62,9 +62,6 @@ function submitLike(contentId) {
                 $("#like_text").text("已点赞");
             }
             $("#like_badge").html(newLike);
-            // 异步刷新
-            $("#sync_like_area").load('/sync/content/like?contentId=' + contentId);
-        } else {
         }
     });
 }

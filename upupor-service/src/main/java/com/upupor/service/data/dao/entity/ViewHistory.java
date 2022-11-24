@@ -69,12 +69,6 @@ public class ViewHistory extends BaseEntity {
      * 渲染url
      */
     @TableField(exist = false)
-    private String cardHtml;
-
-    /**
-     * 渲染url
-     */
-    @TableField(exist = false)
     private String viewerUserName;
 
     /**
