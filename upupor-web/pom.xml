@@ -45,6 +45,18 @@
             <artifactId>upupor-service</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <!--添加定时任务模块-->
+        <dependency>
+            <groupId>com.upupor.task</groupId>
+            <artifactId>upupor-task</artifactId>
+            <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.upupor.service</groupId>
+                    <artifactId>upupor-service</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!--spring-boot-web & thymeleaf-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

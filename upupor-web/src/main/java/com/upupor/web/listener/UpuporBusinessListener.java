@@ -59,7 +59,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class UpuporWebListener {
+public class UpuporBusinessListener {
     private final TaskService taskService;
 
     @EventListener

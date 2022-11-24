@@ -31,7 +31,7 @@ import com.upupor.service.business.task.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 
 /**
@@ -41,15 +41,23 @@ import org.springframework.stereotype.Service;
  * @date 2020/03/12 03:35
  */
 @Slf4j
-@Service
+@Component
 @RequiredArgsConstructor
 public class GenerateSiteMapScheduled {
     private final TaskService taskService;
 
     /**
+     * 每2s
+     */
+    @Scheduled(cron = "0/2 * * * * ?")
+    public void s1() {
+        log.info("定时任务执行检测,每2s打印一条日志");
+    }
+
+    /**
      * 每5分钟
      */
-    @Scheduled(cron = "0 0/5 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void scheduled() {
         log.info("定时任务执行检测,每5分钟打印一条日志");
     }
@@ -57,7 +65,7 @@ public class GenerateSiteMapScheduled {
     /**
      * 每30分钟
      */
-    @Scheduled(cron = "0 0/30 * * * ? ")
+    @Scheduled(cron = "0 0/30 * * * ?")
     public void googleSitemap() {
         taskService.googleSitemap();
     }

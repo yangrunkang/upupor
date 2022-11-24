@@ -70,7 +70,7 @@ public class LuceneService {
             upuporLuceneService.addDocument(member.getUserName(), member.getUserId(), LuceneDataType.MEMBER);
         }
 
-        log.info("初始化用户索引完成...........");
+        log.info("初始化用户索引完成");
     }
 
     private void initRadioLucene() {
@@ -82,7 +82,7 @@ public class LuceneService {
             upuporLuceneService.addDocument(radio.getRadioIntro(), radio.getRadioId(), LuceneDataType.RADIO);
         }
 
-        log.info("初始化电台索引完成...........");
+        log.info("初始化电台索引完成");
 
 
     }
@@ -97,6 +97,6 @@ public class LuceneService {
             upuporLuceneService.addDocument(content.getTitle(), content.getContentId(), LuceneDataType.CONTENT);
         }
 
-        log.info("初始化文章内容索引完成...........");
+        log.info("初始化文章内容索引完成");
     }
 }
