@@ -29,8 +29,8 @@ package com.upupor.data.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.data.dao.entity.Comment;
-import com.upupor.data.dto.query.ListCommentQuery;
 import com.upupor.data.dto.dao.CommentNumDto;
+import com.upupor.data.dto.query.ListCommentQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -30,8 +30,8 @@ package com.upupor.service.base;
 import com.upupor.data.dao.entity.Comment;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Radio;
-import com.upupor.data.dto.query.ListCommentQuery;
 import com.upupor.data.dto.page.common.ListCommentDto;
+import com.upupor.data.dto.query.ListCommentQuery;
 import com.upupor.service.outer.req.AddCommentReq;
 
 import java.util.List;

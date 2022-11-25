@@ -27,9 +27,9 @@
 
 package com.upupor.service.business.profile;
 
-import com.upupor.data.dto.query.ListCommentQuery;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.dto.page.common.ListCommentDto;
+import com.upupor.data.dto.query.ListCommentQuery;
 import com.upupor.data.types.CommentStatus;
 import com.upupor.data.types.ContentType;
 import com.upupor.data.types.ViewTargetType;
