@@ -28,7 +28,7 @@
 package com.upupor.service.listener.event;
 
 
-import com.upupor.service.types.ViewTargetType;
+import com.upupor.data.types.ViewTargetType;
 import lombok.Data;
 
 /**

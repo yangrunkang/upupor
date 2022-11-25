@@ -28,10 +28,10 @@
 package com.upupor.service.business.search;
 
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.service.ContentService;
-import com.upupor.service.dto.page.search.SearchDataDto;
-import com.upupor.service.types.ContentStatus;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.service.base.ContentService;
+import com.upupor.data.dto.page.search.SearchDataDto;
+import com.upupor.data.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

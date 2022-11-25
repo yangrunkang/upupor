@@ -29,15 +29,16 @@
 
 package com.upupor.service.business.editor;
 
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.ContentExtend;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.data.dao.mapper.MemberConfigMapper;
+import com.upupor.data.dto.OperateContentDto;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.MemberConfig;
-import com.upupor.service.data.dao.mapper.MemberConfigMapper;
-import com.upupor.service.dto.OperateContentDto;
 import com.upupor.service.listener.event.PublishContentEvent;
 import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.utils.Asserts;
@@ -84,7 +85,7 @@ public class Create extends AbstractEditor<CreateContentReq> {
         CreateContentReq createContentReq = getReq();
         Member member = getMember();
         String contentId = generateContentId();
-        Content content = Content.create(contentId, createContentReq);
+        Content content = create(contentId, createContentReq);
         content.setUserId(member.getUserId());
         content.setStatementId(member.getStatementId());
         contentService.initContendData(content.getContentId());
@@ -185,5 +186,28 @@ public class Create extends AbstractEditor<CreateContentReq> {
         eventPublisher.publishEvent(createContentEvent);
     }
 
+    public static Content create(String contentId, CreateContentReq createContentReq) {
+        Content content = new Content();
+        content.setContentId(contentId);
+        content.setTitle(createContentReq.getTitle());
+        content.setContentType(createContentReq.getContentType());
+        content.setShortContent(createContentReq.getShortContent());
+        content.setTagIds(CcUtils.removeLastComma(createContentReq.getTagIds()));
+        // 初始化文章拓展表
+        content.setContentExtend(
+                ContentExtend.create(
+                        contentId,
+                        createContentReq.getContent(),
+                        createContentReq.getMdContent()
+                )
+        );
 
+        // 原创处理
+        if (Objects.nonNull(createContentReq.getOriginType())) {
+            content.setOriginType(createContentReq.getOriginType());
+            content.setNoneOriginLink(createContentReq.getNoneOriginLink());
+        }
+
+        return content;
+    }
 }

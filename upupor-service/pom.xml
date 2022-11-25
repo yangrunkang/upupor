@@ -48,20 +48,14 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.upupor.framework</groupId>
-            <artifactId>upupor-framework</artifactId>
+            <groupId>com.upupor.data</groupId>
+            <artifactId>upupor-data</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.upupor.security</groupId>
-            <artifactId>upupor-security</artifactId>
+            <groupId>com.upupor.framework</groupId>
+            <artifactId>upupor-framework</artifactId>
             <version>1.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.upupor.framework</groupId>
-                    <artifactId>upupor-framework</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!--minio对象存储-->
         <dependency>
@@ -82,38 +76,10 @@
             <artifactId>okhttp</artifactId>
             <version>4.9.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/tk.mybatis/mapper-spring-boot-starter -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.3.4</version>
-        </dependency>
-        <!--mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!--数据库连接jdbc依赖-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-        <!--alibaba 数据源配置-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.2.4</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-        <!--分页-->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.2.13</version>
         </dependency>
         <!--使用Aliyun的邮件推送服务-->
         <dependency>

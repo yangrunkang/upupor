@@ -27,8 +27,8 @@
 
 package com.upupor.web.router;
 
-import com.upupor.service.business.pages.footer.AboutAdView;
-import com.upupor.service.business.pages.footer.DeveloperView;
+import com.upupor.web.page.view.footer.AboutAdView;
+import com.upupor.web.page.view.footer.DeveloperView;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -27,7 +27,7 @@
 
 package com.upupor.service.outer.req;
 
-import com.upupor.service.types.ContentStatus;
+import com.upupor.data.types.ContentStatus;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;

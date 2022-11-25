@@ -28,7 +28,7 @@
 package com.upupor.service.business.task.sitemap.model;
 
 import com.upupor.service.business.task.sitemap.enums.SiteMapType;
-import com.upupor.service.dto.seo.GoogleSeoDto;
+import com.upupor.data.dto.seo.GoogleSeoDto;
 import lombok.Builder;
 import lombok.Data;
 

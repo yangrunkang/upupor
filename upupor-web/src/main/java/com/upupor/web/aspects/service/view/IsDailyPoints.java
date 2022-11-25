@@ -29,7 +29,7 @@
 
 package com.upupor.web.aspects.service.view;
 
-import com.upupor.service.data.service.MemberService;
+import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -39,6 +39,7 @@ import static com.upupor.framework.CcConstant.DAILY_POINTS;
 
 /**
  * 每日签到
+ *
  * @author cruise
  * @createTime 2022-01-19 18:01
  */
@@ -47,6 +48,7 @@ import static com.upupor.framework.CcConstant.DAILY_POINTS;
 @Order(4)
 public class IsDailyPoints implements PrepareData {
     private final MemberService memberService;
+
     @Override
     public void prepare(ViewData viewData) {
         ModelAndView modelAndView = viewData.getModelAndView();

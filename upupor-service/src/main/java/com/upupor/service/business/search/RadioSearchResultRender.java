@@ -28,9 +28,9 @@
 package com.upupor.service.business.search;
 
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.data.dao.entity.Radio;
-import com.upupor.service.data.service.RadioService;
-import com.upupor.service.dto.page.search.SearchDataDto;
+import com.upupor.data.dao.entity.Radio;
+import com.upupor.service.base.RadioService;
+import com.upupor.data.dto.page.search.SearchDataDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

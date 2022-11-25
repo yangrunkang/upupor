@@ -29,10 +29,10 @@ package com.upupor.service.business.message.channel;
 
 import com.upupor.service.business.message.AbstractMessage;
 import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.MemberService;
-import com.upupor.service.dto.email.EmailEvent;
-import com.upupor.service.types.OpenEmail;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.service.base.MemberService;
+import com.upupor.data.dto.email.EmailEvent;
+import com.upupor.data.types.OpenEmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

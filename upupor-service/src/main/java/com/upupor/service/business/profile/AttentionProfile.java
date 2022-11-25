@@ -27,11 +27,11 @@
 
 package com.upupor.service.business.profile;
 
-import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.data.service.AttentionService;
+import com.upupor.data.dto.page.ad.AbstractAd;
+import com.upupor.data.dto.page.common.ListAttentionDto;
+import com.upupor.data.types.ViewTargetType;
+import com.upupor.service.base.AttentionService;
 import com.upupor.service.business.profile.dto.Query;
-import com.upupor.service.dto.page.common.ListAttentionDto;
-import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -29,7 +29,7 @@ package com.upupor.service.business.lucene.get_id;
 
 import com.upupor.lucene.AbstractGetTargetId;
 import com.upupor.framework.CcResponse;
-import com.upupor.service.dto.OperateMemberDto;
+import com.upupor.data.dto.OperateMemberDto;
 
 /**
  * 用户处理

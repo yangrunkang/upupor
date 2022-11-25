@@ -28,7 +28,7 @@
 package com.upupor.service.business.task.sitemap;
 
 import com.upupor.service.business.task.sitemap.enums.SiteMapType;
-import com.upupor.service.dto.seo.GoogleSeoDto;
+import com.upupor.data.dto.seo.GoogleSeoDto;
 import org.springframework.util.CollectionUtils;
 
 import java.text.SimpleDateFormat;

@@ -29,8 +29,8 @@
 
 package com.upupor.service.outer.req.content;
 
-import com.upupor.service.types.ContentType;
-import com.upupor.service.types.OriginType;
+import com.upupor.data.types.ContentType;
+import com.upupor.data.types.OriginType;
 import lombok.Data;
 import org.apache.logging.log4j.util.Strings;
 import org.hibernate.validator.constraints.Length;

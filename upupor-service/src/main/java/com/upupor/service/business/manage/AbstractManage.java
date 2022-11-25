@@ -28,10 +28,10 @@
 package com.upupor.service.business.manage;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.MemberService;
-import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.service.base.MemberService;
+import com.upupor.data.dto.page.MemberIndexDto;
+import com.upupor.framework.utils.ServletUtils;
 
 import javax.annotation.Resource;
 
@@ -56,7 +56,7 @@ public abstract class AbstractManage {
      */
     public MemberIndexDto initMemberInfo() {
         memberIndexDto = new MemberIndexDto();
-        String userId =ServletUtils.getUserId();
+        String userId = ServletUtils.getUserId();
         Member member = memberService.memberInfoData(userId);
         member.setMemberConfig(member.getMemberConfig());
         memberIndexDto.setMember(member);
@@ -76,20 +76,23 @@ public abstract class AbstractManage {
 
     /**
      * 路径
+     *
      * @return
      */
     public abstract String viewName();
 
     /**
      * 前缀
+     *
      * @return
      */
-    public String prefix(){
+    public String prefix() {
         return CcConstant.UserManageView.BASE_PATH;
     }
 
     /**
      * 页面描述
+     *
      * @return
      */
     public abstract String viewDesc();

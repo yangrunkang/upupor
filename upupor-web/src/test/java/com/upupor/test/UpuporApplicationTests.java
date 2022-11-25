@@ -31,10 +31,10 @@ package com.upupor.test;
 
 
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.common.CcTemplateConstant;
-import com.upupor.service.data.dao.mapper.ContentExtendMapper;
-import com.upupor.service.data.dao.mapper.ContentMapper;
-import com.upupor.service.data.service.ContentService;
+import com.upupor.framework.common.CcTemplateConstant;
+import com.upupor.data.dao.mapper.ContentExtendMapper;
+import com.upupor.data.dao.mapper.ContentMapper;
+import com.upupor.service.base.ContentService;
 import com.upupor.service.utils.AvatarHelper;
 import com.upupor.web.UpuporWebApplication;
 import com.upupor.web.utils.HtmlTemplateUtils;

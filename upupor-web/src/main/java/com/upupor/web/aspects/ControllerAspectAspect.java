@@ -32,8 +32,8 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
-import com.upupor.service.types.PointType;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.data.types.PointType;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.web.aspects.service.checker.controller.ControllerAspectChecker;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +53,7 @@ import static com.upupor.web.aspects.service.OrderConstant.CONTROLLER_ORDER;
 
 /**
  * restful 接口切面
+ *
  * @author: YangRunkang(cruise)
  * @created: 2019/12/23 02:29
  */

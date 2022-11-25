@@ -28,7 +28,7 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.service.BusinessConfigService;
+import com.upupor.service.base.BusinessConfigService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import org.springframework.stereotype.Component;
@@ -41,7 +41,7 @@ import javax.annotation.Resource;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class BgStyleManage  extends AbstractManage {
+public class BgStyleManage extends AbstractManage {
 
     @Resource
     private BusinessConfigService businessConfigService;

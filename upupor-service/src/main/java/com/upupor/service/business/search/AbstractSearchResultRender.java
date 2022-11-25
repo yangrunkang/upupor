@@ -31,7 +31,7 @@ package com.upupor.service.business.search;
 
 import com.upupor.lucene.dto.LuceneQueryResultDto;
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.dto.page.search.SearchDataDto;
+import com.upupor.data.dto.page.search.SearchDataDto;
 import lombok.Getter;
 
 import java.util.ArrayList;

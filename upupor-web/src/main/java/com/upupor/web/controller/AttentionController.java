@@ -32,7 +32,7 @@ package com.upupor.web.controller;
 import com.upupor.framework.CcResponse;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.service.data.service.AttentionService;
+import com.upupor.service.base.AttentionService;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.DelAttentionReq;
 import io.swagger.annotations.Api;

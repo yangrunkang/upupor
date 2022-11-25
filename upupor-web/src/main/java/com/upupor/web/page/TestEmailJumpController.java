@@ -27,7 +27,7 @@
 
 package com.upupor.web.page;
 
-import com.upupor.service.common.CcTemplateConstant;
+import com.upupor.framework.common.CcTemplateConstant;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

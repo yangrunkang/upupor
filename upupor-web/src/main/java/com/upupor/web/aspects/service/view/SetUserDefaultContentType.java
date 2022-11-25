@@ -32,11 +32,11 @@ package com.upupor.web.aspects.service.view;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.MemberConfig;
-import com.upupor.service.data.service.MemberService;
-import com.upupor.service.dto.ContentTypeData;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.service.base.MemberService;
+import com.upupor.data.dto.ContentTypeData;
+import com.upupor.framework.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -49,7 +49,7 @@ import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.SUPPORT_CONTENT_TYPE_LIST;
 import static com.upupor.framework.CcConstant.USER_SETTING_DEFAULT_CONTENT;
-import static com.upupor.service.dto.ContentTypeData.FIRST;
+import static com.upupor.data.dto.ContentTypeData.FIRST;
 
 /**
  * 这里要优先展示用户喜爱的文章类型

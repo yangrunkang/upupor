@@ -31,7 +31,7 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.lucene.LuceneService;
 import com.upupor.service.business.task.TaskService;
-import com.upupor.service.data.service.MemberService;
+import com.upupor.service.base.MemberService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import com.upupor.service.listener.event.InitSensitiveWordEvent;

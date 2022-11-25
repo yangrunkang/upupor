@@ -27,7 +27,7 @@
 
 package com.upupor.service.outer.req;
 
-import com.upupor.service.types.CommentStatus;
+import com.upupor.data.types.CommentStatus;
 import lombok.Data;
 
 import javax.validation.constraints.Max;

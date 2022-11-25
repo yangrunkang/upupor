@@ -30,7 +30,7 @@
 package com.upupor.web.aspects.service.view;
 
 
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.framework.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -42,6 +42,7 @@ import static com.upupor.framework.CcConstant.Session.USER_BG_IMG;
 
 /**
  * 设置背景图
+ *
  * @author cruise
  * @createTime 2022-01-19 18:01
  */

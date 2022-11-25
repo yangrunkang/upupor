@@ -38,6 +38,7 @@
         <module>upupor-api</module>
         <module>upupor-app</module>
         <module>upupor-task</module>
+        <module>upupor-data</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

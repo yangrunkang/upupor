@@ -31,12 +31,12 @@ package com.upupor.service.business.replay;
 
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.MemberService;
-import com.upupor.service.data.service.MessageService;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.service.base.MemberService;
+import com.upupor.service.base.MessageService;
 import com.upupor.service.listener.event.ReplayCommentEvent;
-import com.upupor.service.types.ContentType;
-import com.upupor.service.types.MessageType;
+import com.upupor.data.types.ContentType;
+import com.upupor.data.types.MessageType;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 

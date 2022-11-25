@@ -34,7 +34,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.business.ApplyCommitManage;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.framework.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

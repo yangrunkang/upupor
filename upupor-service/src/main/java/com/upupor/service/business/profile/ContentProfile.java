@@ -27,15 +27,15 @@
 
 package com.upupor.service.business.profile;
 
-import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.data.service.ContentService;
-import com.upupor.service.data.service.TagService;
+import com.upupor.data.dto.page.MemberIndexDto;
+import com.upupor.data.dto.page.ad.AbstractAd;
+import com.upupor.data.dto.page.common.ListContentDto;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.data.types.ViewTargetType;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.TagService;
 import com.upupor.service.business.profile.dto.Query;
-import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.ListContentReq;
-import com.upupor.service.types.ContentStatus;
-import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -78,9 +78,9 @@ public class ContentProfile extends AbstractProfile {
         memberIndexDto.setTagName(tagName);
         memberIndexDto.setListContentDto(new ListContentDto());
 
-        if(StringUtils.isNotEmpty(tagName)){
+        if (StringUtils.isNotEmpty(tagName)) {
             List<String> tagIdList = tagService.getTagListByName(tagName);
-            if(CollectionUtils.isEmpty(tagIdList)){
+            if (CollectionUtils.isEmpty(tagIdList)) {
                 return;
             }
             listContentReq.setTagIdList(tagIdList);

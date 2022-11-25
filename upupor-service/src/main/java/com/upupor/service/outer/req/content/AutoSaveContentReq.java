@@ -30,7 +30,7 @@
 package com.upupor.service.outer.req.content;
 
 import com.upupor.service.outer.NotValid;
-import com.upupor.service.types.DraftSource;
+import com.upupor.data.types.DraftSource;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;

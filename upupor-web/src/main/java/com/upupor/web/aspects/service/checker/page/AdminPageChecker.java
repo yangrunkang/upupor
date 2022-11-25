@@ -29,7 +29,7 @@
 
 package com.upupor.web.aspects.service.checker.page;
 
-import com.upupor.service.data.service.MemberService;
+import com.upupor.service.base.MemberService;
 import com.upupor.web.aspects.service.checker.page.dto.PageCheckDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -43,7 +43,7 @@ import org.springframework.stereotype.Service;
 @Order(3)
 @RequiredArgsConstructor
 public class AdminPageChecker implements PageAspectChecker {
-    private  final MemberService memberService;
+    private final MemberService memberService;
 
     @Override
     public void check(PageCheckDto pageCheckDto) {

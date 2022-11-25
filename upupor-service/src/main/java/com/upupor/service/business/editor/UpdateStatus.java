@@ -30,12 +30,12 @@
 package com.upupor.service.business.editor;
 
 import com.upupor.framework.BusinessException;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.dto.OperateContentDto;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dto.OperateContentDto;
 import com.upupor.service.outer.req.content.UpdateStatusReq;
-import com.upupor.service.types.ContentStatus;
-import com.upupor.service.types.PinnedStatus;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.data.types.PinnedStatus;
+import com.upupor.framework.utils.ServletUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

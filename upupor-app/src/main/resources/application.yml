@@ -63,7 +63,7 @@ spring:
       request-timeout: 300000
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
-  type-enums-package: com.upupor.service.types
+  type-enums-package: com.upupor.data.types
   configuration:
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
     log-impl: ${SQL_LOG:org.apache.ibatis.logging.stdout.StdOutImpl}

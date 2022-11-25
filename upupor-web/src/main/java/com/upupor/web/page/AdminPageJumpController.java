@@ -28,8 +28,8 @@
 package com.upupor.web.page;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.aggregation.AdminAggregateService;
-import com.upupor.service.types.ContentStatus;
+import com.upupor.service.aggregation.AdminAggregateService;
+import com.upupor.data.types.ContentStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

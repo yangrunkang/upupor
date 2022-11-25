@@ -29,7 +29,7 @@
 
 package com.upupor.service.business.manage.service;
 
-import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.data.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.ListContentReq;
 
 /**

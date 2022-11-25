@@ -29,8 +29,8 @@ package com.upupor.web.utils;
 
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.business.email.TrueSend;
-import com.upupor.service.common.CcTemplateConstant;
-import com.upupor.service.dto.email.EmailTemplateReplaceAndSendEvent;
+import com.upupor.framework.common.CcTemplateConstant;
+import com.upupor.data.dto.email.EmailTemplateReplaceAndSendEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;

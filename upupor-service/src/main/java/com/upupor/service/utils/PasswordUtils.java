@@ -29,7 +29,7 @@
 
 package com.upupor.service.utils;
 
-import com.upupor.service.data.dao.entity.Member;
+import com.upupor.data.dao.entity.Member;
 import org.springframework.util.DigestUtils;
 
 /**

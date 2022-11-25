@@ -28,9 +28,9 @@
 package com.upupor.service.business.viewhistory;
 
 
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.ViewHistory;
-import com.upupor.service.types.ViewTargetType;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
 /**
@@ -43,13 +43,14 @@ public class ProfileContentViewHistory extends ProfileAttentionViewHistory {
     public ViewTargetType viewTargetType() {
         return ViewTargetType.PROFILE_CONTENT;
     }
+
     @Override
     public void setViewHistoryTitleAndUrl() {
         for (ViewHistory viewHistory : getSpecifyViewHistory()) {
             for (Member member : getTargetList()) {
                 if (member.getUserId().equals(viewHistory.getTargetId())) {
-                    viewHistory.setTitle(member.getUserName()+"的主页");
-                    viewHistory.setUrl("/profile/" + member.getUserId()+"/content");
+                    viewHistory.setTitle(member.getUserName() + "的主页");
+                    viewHistory.setUrl("/profile/" + member.getUserId() + "/content");
                     viewHistory.setSource(viewTargetType().getName());
                 }
             }

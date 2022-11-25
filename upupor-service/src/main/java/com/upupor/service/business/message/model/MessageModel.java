@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.message.model;
 
-import com.upupor.service.types.MessageType;
+import com.upupor.data.types.MessageType;
 import lombok.Builder;
 import lombok.Data;
 

@@ -30,7 +30,7 @@
 package com.upupor.web.aspects.service.sensitive;
 
 import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
-import com.upupor.service.data.dao.entity.Member;
+import com.upupor.data.dao.entity.Member;
 
 /**
  * @author Yang Runkang (cruise)

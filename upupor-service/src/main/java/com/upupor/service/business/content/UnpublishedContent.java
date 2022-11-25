@@ -30,13 +30,13 @@
 package com.upupor.service.business.content;
 
 import com.upupor.framework.BusinessException;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.ContentData;
-import com.upupor.service.data.dao.entity.Draft;
-import com.upupor.service.data.service.ContentService;
-import com.upupor.service.data.service.DraftService;
-import com.upupor.service.types.ContentStatus;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.ContentData;
+import com.upupor.data.dao.entity.Draft;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.DraftService;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

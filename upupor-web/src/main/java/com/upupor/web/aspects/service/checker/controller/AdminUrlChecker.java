@@ -29,7 +29,7 @@
 
 package com.upupor.web.aspects.service.checker.controller;
 
-import com.upupor.service.data.service.MemberService;
+import com.upupor.service.base.MemberService;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -43,7 +43,7 @@ import org.springframework.stereotype.Service;
 @Order(1)
 @RequiredArgsConstructor
 public class AdminUrlChecker implements ControllerAspectChecker {
-    private  final MemberService memberService;
+    private final MemberService memberService;
 
     @Override
     public void check(ControllerCheckerDto controllerCheckerDto) {

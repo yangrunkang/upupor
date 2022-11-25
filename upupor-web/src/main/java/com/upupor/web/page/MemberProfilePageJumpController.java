@@ -27,15 +27,15 @@
 
 package com.upupor.web.page;
 
+import com.upupor.data.dto.page.MemberIndexDto;
+import com.upupor.data.utils.PageUtils;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
+import com.upupor.service.base.CommentService;
+import com.upupor.service.base.MessageService;
 import com.upupor.service.business.profile.AbstractProfile;
 import com.upupor.service.business.profile.dto.Query;
-import com.upupor.service.data.service.CommentService;
-import com.upupor.service.data.service.MessageService;
-import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.utils.PageUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -77,7 +77,7 @@ public class MemberProfilePageJumpController {
     })
     public ModelAndView profile(@PathVariable("userId") String userId,
                                 @PathVariable("path") String path,
-                                @PathVariable(value="tagName",required = false) String tagName,
+                                @PathVariable(value = "tagName", required = false) String tagName,
                                 Integer pageNum, Integer pageSize,
                                 String msgId) {
         if (Objects.isNull(pageNum)) {

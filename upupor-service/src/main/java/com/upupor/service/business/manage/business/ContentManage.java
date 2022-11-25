@@ -34,8 +34,8 @@ import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ContentManageService;
-import com.upupor.service.data.service.ContentService;
-import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.service.base.ContentService;
+import com.upupor.data.dto.page.common.ListContentDto;
 import com.upupor.service.outer.req.ListContentReq;
 import org.springframework.stereotype.Component;
 

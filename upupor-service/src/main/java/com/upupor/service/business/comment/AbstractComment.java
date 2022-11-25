@@ -27,9 +27,9 @@
 
 package com.upupor.service.business.comment;
 
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.MemberService;
-import com.upupor.service.types.ContentType;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.service.base.MemberService;
+import com.upupor.data.types.ContentType;
 import com.upupor.framework.utils.CcUtils;
 
 /**
@@ -41,13 +41,14 @@ import com.upupor.framework.utils.CcUtils;
 public abstract class AbstractComment<T> {
     private final MemberService memberService;
 
-    public AbstractComment( MemberService memberService) {
+    public AbstractComment(MemberService memberService) {
         this.memberService = memberService;
     }
 
     /**
      * 评论
-     *  @param targetId        评论目标
+     *
+     * @param targetId        评论目标
      * @param commenterUserId 评论者id
      * @param commentId       评论记录的id
      */
@@ -87,9 +88,10 @@ public abstract class AbstractComment<T> {
 
     /**
      * 更新目标的评论者信息
+     *
      * @param targetId
      * @param commenterUserId
      */
-    public abstract void updateTargetCommentCreatorInfo(String targetId,String commenterUserId);
+    public abstract void updateTargetCommentCreatorInfo(String targetId, String commenterUserId);
 
 }

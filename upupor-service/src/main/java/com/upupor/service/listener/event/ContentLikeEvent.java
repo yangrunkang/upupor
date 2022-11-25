@@ -27,7 +27,7 @@
 
 package com.upupor.service.listener.event;
 
-import com.upupor.service.data.dao.entity.Content;
+import com.upupor.data.dao.entity.Content;
 import lombok.Data;
 
 /**

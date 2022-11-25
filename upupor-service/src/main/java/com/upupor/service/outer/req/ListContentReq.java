@@ -27,8 +27,8 @@
 
 package com.upupor.service.outer.req;
 
-import com.upupor.service.types.ContentStatus;
-import com.upupor.service.types.ContentType;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.data.types.ContentType;
 import lombok.Data;
 
 import java.util.List;

@@ -29,23 +29,24 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.data.dao.entity.Comment;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dto.ListCommentQuery;
+import com.upupor.data.types.CommentStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.service.data.dao.entity.Comment;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.CommentService;
-import com.upupor.service.data.service.MemberService;
+import com.upupor.service.base.CommentService;
+import com.upupor.service.base.MemberService;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.outer.req.AddCommentReq;
 import com.upupor.service.outer.req.ListCommentReq;
 import com.upupor.service.outer.req.UpdateCommentReq;
-import com.upupor.service.types.CommentStatus;
-import com.upupor.service.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -158,16 +159,21 @@ public class CommentController {
     @PostMapping("/list")
     public CcResponse list(ListCommentReq listCommentReq) {
         CcResponse cc = new CcResponse();
-        if (StringUtils.isEmpty(listCommentReq.getPageNum())) {
-            listCommentReq.setPageNum(CcConstant.Page.NUM);
-        }
 
-        if (StringUtils.isEmpty(listCommentReq.getPageSize())) {
-            listCommentReq.setPageSize(CcConstant.Page.SIZE);
-        }
+        ListCommentQuery listCommentQuery = new ListCommentQuery();
+        listCommentQuery.setTargetId(listCommentReq.getTargetId());
+        listCommentQuery.setUserId(listCommentReq.getUserId());
+        listCommentQuery.setCommentId(listCommentReq.getCommentId());
+        listCommentQuery.setCommentSource(listCommentReq.getCommentSource());
         // 正常的
-        listCommentReq.setStatus(CommentStatus.NORMAL);
-        cc.setData(commentService.listComment(listCommentReq));
+        listCommentQuery.setStatus(CommentStatus.NORMAL);
+        Integer pageNum = Objects.isNull(listCommentReq.getPageNum()) ? CcConstant.Page.NUM : listCommentReq.getPageNum();
+        Integer pageSize = Objects.isNull(listCommentReq.getPageSize()) ? CcConstant.Page.SIZE : listCommentReq.getPageSize();
+        listCommentQuery.setPageNum(pageNum);
+        listCommentQuery.setPageSize(pageSize);
+
+
+        cc.setData(commentService.listComment(listCommentQuery));
         return cc;
     }
 

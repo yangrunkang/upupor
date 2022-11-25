@@ -27,7 +27,7 @@
 
 package com.upupor.service.outer.req;
 
-import com.upupor.service.types.CollectType;
+import com.upupor.data.types.CollectType;
 import lombok.Data;
 
 /**

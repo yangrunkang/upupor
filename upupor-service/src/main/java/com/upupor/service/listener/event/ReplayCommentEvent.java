@@ -27,7 +27,7 @@
 
 package com.upupor.service.listener.event;
 
-import com.upupor.service.types.ContentType;
+import com.upupor.data.types.ContentType;
 import lombok.Builder;
 import lombok.Data;
 

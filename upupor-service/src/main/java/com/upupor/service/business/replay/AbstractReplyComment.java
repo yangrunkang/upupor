@@ -27,11 +27,11 @@
 
 package com.upupor.service.business.replay;
 
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.MemberService;
-import com.upupor.service.data.service.MessageService;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.service.base.MemberService;
+import com.upupor.service.base.MessageService;
 import com.upupor.service.listener.event.ReplayCommentEvent;
-import com.upupor.service.types.ContentType;
+import com.upupor.data.types.ContentType;
 import com.upupor.framework.utils.CcUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +47,10 @@ public abstract class AbstractReplyComment<T> {
     private final MemberService memberService;
     @Getter
     private final MessageService messageService;
+
     /**
      * 是否需要处理
+     *
      * @param targetId
      * @param contentType
      * @return
@@ -57,34 +59,37 @@ public abstract class AbstractReplyComment<T> {
 
     /**
      * 回复
+     *
      * @param replayCommentEvent
      */
     public abstract void reply(ReplayCommentEvent replayCommentEvent);
 
     /**
      * 更新目标的评论者信息
+     *
      * @param targetId
      * @param commenterUserId
      */
-    public abstract void updateTargetCommentCreatorInfo(String targetId,String commenterUserId);
+    public abstract void updateTargetCommentCreatorInfo(String targetId, String commenterUserId);
 
 
     /**
      * 获取目标对象
+     *
      * @param targetId
      * @return
      */
     protected abstract T getTarget(String targetId);
 
-    protected String msgId(){
+    protected String msgId() {
         return CcUtils.getUuId();
     }
 
-    protected Member getMember(String userId){
+    protected Member getMember(String userId) {
         return memberService.memberInfo(userId);
     }
 
-    protected String title(){
+    protected String title() {
         return "您的评论收到了新的回复";
     }
 

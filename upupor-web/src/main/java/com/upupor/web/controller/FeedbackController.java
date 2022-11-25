@@ -29,7 +29,7 @@ package com.upupor.web.controller;
 
 import com.upupor.framework.CcResponse;
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.service.data.service.FeedbackService;
+import com.upupor.service.base.FeedbackService;
 import com.upupor.service.outer.req.AddFeedbackReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -57,7 +57,7 @@ public class FeedbackController {
 
     @ApiOperation("添加反馈")
     @PostMapping("/add")
-    @UpuporLimit(limitType = FEED_BACK,needLogin = false,needSpendMoney = true)
+    @UpuporLimit(limitType = FEED_BACK, needLogin = false, needSpendMoney = true)
     public CcResponse add(AddFeedbackReq add) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(feedbackService.addFeedBack(add) > 0);

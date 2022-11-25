@@ -28,10 +28,10 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.service.MemberIntegralService;
+import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.dto.page.common.ListIntegralDto;
+import com.upupor.data.dto.page.common.ListIntegralDto;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

@@ -28,10 +28,10 @@
 package com.upupor.service.business.viewhistory;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.ViewHistory;
-import com.upupor.service.data.dao.mapper.ContentMapper;
-import com.upupor.service.types.ViewTargetType;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.mapper.ContentMapper;
+import com.upupor.data.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

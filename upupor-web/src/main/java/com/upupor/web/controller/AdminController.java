@@ -30,16 +30,16 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.CcResponse;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.MemberConfig;
-import com.upupor.service.data.service.ContentService;
-import com.upupor.service.data.service.MemberService;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.MemberService;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.outer.req.BatchHandleExceptionUserReq;
 import com.upupor.service.outer.req.SetContentStatusReq;
 import com.upupor.service.outer.req.SetKeywordsReq;
-import com.upupor.service.types.ContentStatus;
+import com.upupor.data.types.ContentStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

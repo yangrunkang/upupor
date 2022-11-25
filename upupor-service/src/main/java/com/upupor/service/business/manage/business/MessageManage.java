@@ -28,15 +28,15 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.service.MessageService;
+import com.upupor.service.base.MessageService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.dto.page.common.ListMessageDto;
+import com.upupor.data.dto.page.common.ListMessageDto;
 import com.upupor.service.outer.req.ListMessageReq;
-import com.upupor.service.types.MessageStatus;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.data.types.MessageStatus;
+import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

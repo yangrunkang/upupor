@@ -28,10 +28,10 @@
 package com.upupor.service.business.task.sitemap;
 
 import com.upupor.service.business.task.sitemap.enums.SiteMapType;
-import com.upupor.service.data.dao.entity.BusinessConfig;
-import com.upupor.service.data.service.BusinessConfigService;
-import com.upupor.service.dto.seo.GoogleSeoDto;
-import com.upupor.service.types.BusinessConfigType;
+import com.upupor.data.dao.entity.BusinessConfig;
+import com.upupor.service.base.BusinessConfigService;
+import com.upupor.data.dto.seo.GoogleSeoDto;
+import com.upupor.data.types.BusinessConfigType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

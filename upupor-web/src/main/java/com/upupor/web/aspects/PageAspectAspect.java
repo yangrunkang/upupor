@@ -32,7 +32,7 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
-import com.upupor.service.types.PointType;
+import com.upupor.data.types.PointType;
 import com.upupor.web.aspects.service.checker.page.PageAspectChecker;
 import com.upupor.web.aspects.service.checker.page.dto.PageCheckDto;
 import com.upupor.web.aspects.service.view.PrepareData;

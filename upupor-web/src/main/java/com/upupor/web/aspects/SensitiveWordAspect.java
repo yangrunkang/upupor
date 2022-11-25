@@ -77,7 +77,7 @@ public class SensitiveWordAspect {
 
     private SensitiveWord sensitiveWord;
 
-    @Pointcut("execution(public * com.upupor.service.data.dao.mapper..*.*(..))")
+    @Pointcut("execution(public * com.upupor.data.dao.mapper..*.*(..))")
     public void sensitiveAnno() {
     }
 

@@ -34,11 +34,11 @@ import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.MemberConfig;
-import com.upupor.service.data.dao.mapper.MemberConfigMapper;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.data.dao.mapper.MemberConfigMapper;
 import com.upupor.service.outer.req.member.UpdateDefaultContentTypeReq;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

@@ -29,10 +29,11 @@ package com.upupor.service.business.lucene.get_id;
 
 import com.upupor.lucene.AbstractGetTargetId;
 import com.upupor.framework.CcResponse;
-import com.upupor.service.dto.OperateContentDto;
+import com.upupor.data.dto.OperateContentDto;
 
 /**
  * 文章处理
+ *
  * @author Yang Runkang (cruise)
  * @date 2022年04月04日 11:40
  * @email: yangrunkang53@gmail.com
@@ -42,7 +43,7 @@ public class ContentHandler extends AbstractGetTargetId {
     @Override
     public String targetId() {
         CcResponse sourceData = (CcResponse) this.sourceData;
-        if(sourceData.getData() instanceof OperateContentDto){
+        if (sourceData.getData() instanceof OperateContentDto) {
             return ((OperateContentDto) sourceData.getData()).getContentId();
         }
         return null;

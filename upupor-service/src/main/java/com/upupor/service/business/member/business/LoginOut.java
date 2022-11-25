@@ -33,7 +33,7 @@ import com.upupor.framework.CcResponse;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.BaseMemberReq;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 

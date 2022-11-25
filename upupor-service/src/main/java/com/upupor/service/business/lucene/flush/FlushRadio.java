@@ -28,8 +28,8 @@
 package com.upupor.service.business.lucene.flush;
 
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.data.dao.entity.Radio;
-import com.upupor.service.data.service.RadioService;
+import com.upupor.data.dao.entity.Radio;
+import com.upupor.service.base.RadioService;
 import com.upupor.lucene.AbstractFlush;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

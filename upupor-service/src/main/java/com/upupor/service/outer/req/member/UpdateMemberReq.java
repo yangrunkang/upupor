@@ -30,7 +30,7 @@
 package com.upupor.service.outer.req.member;
 
 import com.upupor.service.outer.req.member.BaseMemberReq;
-import com.upupor.service.types.OpenEmail;
+import com.upupor.data.types.OpenEmail;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 

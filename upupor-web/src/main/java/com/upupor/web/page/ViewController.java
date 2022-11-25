@@ -29,21 +29,21 @@ package com.upupor.web.page;
 
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.business.pages.AbstractView;
-import com.upupor.service.business.pages.Query;
-import com.upupor.service.business.pages.business.*;
-import com.upupor.service.business.pages.content.*;
-import com.upupor.service.business.pages.footer.*;
-import com.upupor.service.business.pages.history.HistoryView;
-import com.upupor.service.business.pages.member.*;
-import com.upupor.service.business.pages.ourhome.Earth;
-import com.upupor.service.business.pages.radio.CreateRadioView;
-import com.upupor.service.business.pages.radio.RadioDetailView;
-import com.upupor.service.business.pages.radio.RadioListView;
-import com.upupor.service.business.pages.radio.RecordView;
-import com.upupor.service.business.pages.todo.TodoListView;
-import com.upupor.service.business.pages.views.MarkdownView;
-import com.upupor.service.data.service.MessageService;
+import com.upupor.service.base.MessageService;
+import com.upupor.web.page.view.AbstractView;
+import com.upupor.web.page.view.Query;
+import com.upupor.web.page.view.business.*;
+import com.upupor.web.page.view.content.*;
+import com.upupor.web.page.view.footer.*;
+import com.upupor.web.page.view.history.HistoryView;
+import com.upupor.web.page.view.member.*;
+import com.upupor.web.page.view.ourhome.Earth;
+import com.upupor.web.page.view.radio.CreateRadioView;
+import com.upupor.web.page.view.radio.RadioDetailView;
+import com.upupor.web.page.view.radio.RadioListView;
+import com.upupor.web.page.view.radio.RecordView;
+import com.upupor.web.page.view.todo.TodoListView;
+import com.upupor.web.page.view.views.MarkdownView;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -119,11 +119,11 @@ public class ViewController {
                             // 检索
                             String keyword,
                             // 内容Id
-                            @PathVariable(value = "contentId",required = false) String contentId,
+                            @PathVariable(value = "contentId", required = false) String contentId,
                             // 消息Id
                             String msgId,
                             // 电台id
-                            @PathVariable(value = "radioId",required = false) String radioId
+                            @PathVariable(value = "radioId", required = false) String radioId
     ) {
         if (Objects.nonNull(msgId)) {
             messageService.tagMsgRead(msgId);

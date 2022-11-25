@@ -35,7 +35,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
-import com.upupor.service.common.UserCheckFieldType;
+import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.service.outer.req.member.UpdatePasswordReq;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

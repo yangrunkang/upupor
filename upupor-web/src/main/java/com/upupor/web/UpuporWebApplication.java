@@ -44,7 +44,7 @@ import java.time.ZoneId;
  * @author runkangyang
  */
 @Slf4j
-@MapperScan("com.upupor.service.data.dao.mapper")
+@MapperScan("com.upupor.data.dao.mapper")
 @ComponentScan(basePackages = {
         "com.upupor.web",
         "com.upupor.service",

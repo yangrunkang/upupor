@@ -27,19 +27,19 @@
 
 package com.upupor.service.business.content;
 
-import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.data.aggregation.CommonAggregateService;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.service.*;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dto.page.ContentIndexDto;
+import com.upupor.data.dto.page.ad.AbstractAd;
+import com.upupor.data.types.CollectType;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.data.types.ViewTargetType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.common.IntegralEnum;
-import com.upupor.service.dto.page.ContentIndexDto;
+import com.upupor.framework.common.IntegralEnum;
+import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.aggregation.CommonAggregateService;
+import com.upupor.service.base.*;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
-import com.upupor.service.types.CollectType;
-import com.upupor.service.types.ContentStatus;
-import com.upupor.service.types.ViewTargetType;
-import com.upupor.service.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -139,14 +139,14 @@ public class PublishedContent extends AbstractContent {
         }, ASYNC);
 
         CompletableFuture<Void> setting = CompletableFuture.runAsync(() -> {
-            settingIsAttention(contentIndexDto,content);
-            settingIsLike(contentIndexDto,content);
-            settingIsCollect(contentIndexDto,content);
+            settingIsAttention(contentIndexDto, content);
+            settingIsLike(contentIndexDto, content);
+            settingIsCollect(contentIndexDto, content);
         }, ASYNC);
 
         // 快捷创建文章入库url
         CompletableFuture<Void> setCreateContentDesc = CompletableFuture.runAsync(() -> {
-            contentIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(content.getContentType(), content.getTagIds(),tagService.getNameById(content.getTagIds())));
+            contentIndexDto.setCreateContentDesc(CommonAggregateService.getCreateContentInfo(content.getContentType(), content.getTagIds(), tagService.getNameById(content.getTagIds())));
         }, ASYNC);
 
         CompletableFuture<Void> allCompletableFuture = CompletableFuture.allOf(

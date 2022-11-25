@@ -27,7 +27,7 @@
 
 package com.upupor.service.outer.req;
 
-import com.upupor.service.types.ApplyStatus;
+import com.upupor.data.types.ApplyStatus;
 import lombok.Data;
 
 /**

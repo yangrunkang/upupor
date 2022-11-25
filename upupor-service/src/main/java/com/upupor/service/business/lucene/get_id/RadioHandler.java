@@ -29,7 +29,7 @@ package com.upupor.service.business.lucene.get_id;
 
 import com.upupor.lucene.AbstractGetTargetId;
 import com.upupor.framework.CcResponse;
-import com.upupor.service.dto.OperateRadioDto;
+import com.upupor.data.dto.OperateRadioDto;
 
 /**
  * 电台处理
@@ -43,7 +43,7 @@ public class RadioHandler extends AbstractGetTargetId {
     @Override
     public String targetId() {
         CcResponse sourceData = (CcResponse) this.sourceData;
-        if(sourceData.getData() instanceof OperateRadioDto){
+        if (sourceData.getData() instanceof OperateRadioDto) {
             return ((OperateRadioDto) sourceData.getData()).getRadioId();
         }
         return null;

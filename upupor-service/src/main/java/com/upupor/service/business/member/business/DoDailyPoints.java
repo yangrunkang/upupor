@@ -34,10 +34,10 @@ import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
-import com.upupor.service.common.IntegralEnum;
-import com.upupor.service.data.service.MemberIntegralService;
+import com.upupor.framework.common.IntegralEnum;
+import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.outer.req.member.BaseMemberReq;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

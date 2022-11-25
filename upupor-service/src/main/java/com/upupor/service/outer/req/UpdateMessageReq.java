@@ -27,7 +27,7 @@
 
 package com.upupor.service.outer.req;
 
-import com.upupor.service.types.MessageStatus;
+import com.upupor.data.types.MessageStatus;
 import lombok.Data;
 
 import javax.validation.constraints.Max;

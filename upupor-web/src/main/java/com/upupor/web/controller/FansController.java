@@ -30,7 +30,7 @@
 package com.upupor.web.controller;
 
 import com.upupor.framework.CcResponse;
-import com.upupor.service.data.service.FanService;
+import com.upupor.service.base.FanService;
 import com.upupor.service.outer.req.DelFanReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

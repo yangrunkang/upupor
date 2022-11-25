@@ -32,11 +32,11 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.data.dao.entity.Apply;
-import com.upupor.service.dto.page.apply.ApplyContentDto;
+import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dto.page.apply.ApplyContentDto;
 import com.upupor.service.outer.req.AddConsultantReq;
-import com.upupor.service.types.ApplyStatus;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.data.types.ApplyStatus;
+import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

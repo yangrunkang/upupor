@@ -28,10 +28,10 @@
 package com.upupor.service.business.viewhistory;
 
 
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.ViewHistory;
-import com.upupor.service.data.dao.mapper.CommentMapper;
-import com.upupor.service.types.ViewTargetType;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.mapper.CommentMapper;
+import com.upupor.data.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -41,7 +41,7 @@ import javax.annotation.Resource;
  * @createTime 2021-12-28 18:49
  */
 @Component
-public class ProfileMessageViewHistory extends ProfileAttentionViewHistory{
+public class ProfileMessageViewHistory extends ProfileAttentionViewHistory {
     @Resource
     private CommentMapper commentMapper;
 
@@ -49,13 +49,14 @@ public class ProfileMessageViewHistory extends ProfileAttentionViewHistory{
     public ViewTargetType viewTargetType() {
         return ViewTargetType.PROFILE_MESSAGE;
     }
+
     @Override
     public void setViewHistoryTitleAndUrl() {
         for (ViewHistory viewHistory : getSpecifyViewHistory()) {
             for (Member member : getTargetList()) {
                 if (member.getUserId().equals(viewHistory.getTargetId())) {
-                    viewHistory.setTitle(member.getUserName()+"的留言板");
-                    viewHistory.setUrl("/profile/" + member.getUserId()+"/message");
+                    viewHistory.setTitle(member.getUserName() + "的留言板");
+                    viewHistory.setUrl("/profile/" + member.getUserId() + "/message");
                     viewHistory.setSource(viewTargetType().getName());
                 }
             }

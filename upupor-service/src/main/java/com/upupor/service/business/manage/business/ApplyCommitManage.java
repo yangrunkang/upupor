@@ -28,11 +28,11 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.dao.entity.Apply;
-import com.upupor.service.data.service.ApplyService;
+import com.upupor.data.dao.entity.Apply;
+import com.upupor.service.base.ApplyService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.dto.page.common.ApplyDto;
+import com.upupor.data.dto.page.common.ApplyDto;
 import com.upupor.service.utils.Asserts;
 import org.springframework.stereotype.Component;
 

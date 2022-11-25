@@ -28,9 +28,9 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.FileService;
-import com.upupor.service.data.service.MemberService;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.service.base.FileService;
+import com.upupor.service.base.MemberService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import org.springframework.stereotype.Component;

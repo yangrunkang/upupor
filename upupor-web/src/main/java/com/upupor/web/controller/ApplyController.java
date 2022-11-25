@@ -33,7 +33,7 @@ import com.upupor.framework.CcResponse;
 import com.upupor.service.business.apply.AdApply;
 import com.upupor.service.business.apply.ConsultantApply;
 import com.upupor.service.business.apply.TagApply;
-import com.upupor.service.data.service.ApplyService;
+import com.upupor.service.base.ApplyService;
 import com.upupor.service.outer.req.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

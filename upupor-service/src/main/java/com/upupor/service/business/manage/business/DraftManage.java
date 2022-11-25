@@ -34,12 +34,12 @@ import com.github.pagehelper.PageInfo;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.Draft;
-import com.upupor.service.data.service.ContentService;
-import com.upupor.service.data.service.DraftService;
-import com.upupor.service.dto.dao.ListDraftDto;
-import com.upupor.service.dto.page.common.ListContentDto;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.Draft;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.DraftService;
+import com.upupor.data.dto.dao.ListDraftDto;
+import com.upupor.data.dto.page.common.ListContentDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 

@@ -45,7 +45,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  * @email: yangrunkang53@gmail.com
  */
 @Slf4j
-@MapperScan("com.upupor.service.data.dao.mapper")
+@MapperScan("com.upupor.data.dao.mapper")
 @ComponentScan(basePackages = {
         "com.upupor.app",
         "com.upupor.service",

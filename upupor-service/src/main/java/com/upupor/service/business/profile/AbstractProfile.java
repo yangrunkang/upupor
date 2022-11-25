@@ -35,12 +35,12 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.business.profile.dto.Query;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.dao.entity.Tag;
-import com.upupor.service.data.service.*;
-import com.upupor.service.dto.page.MemberIndexDto;
-import com.upupor.service.types.ViewTargetType;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.Tag;
+import com.upupor.service.base.*;
+import com.upupor.data.dto.page.MemberIndexDto;
+import com.upupor.data.types.ViewTargetType;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.CollectionUtils;
 

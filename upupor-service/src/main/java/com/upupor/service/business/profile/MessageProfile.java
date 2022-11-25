@@ -27,14 +27,14 @@
 
 package com.upupor.service.business.profile;
 
-import com.upupor.service.business.ad.AbstractAd;
-import com.upupor.service.data.service.CommentService;
+import com.upupor.data.dto.ListCommentQuery;
+import com.upupor.data.dto.page.ad.AbstractAd;
+import com.upupor.data.dto.page.common.ListCommentDto;
+import com.upupor.data.types.CommentStatus;
+import com.upupor.data.types.ContentType;
+import com.upupor.data.types.ViewTargetType;
+import com.upupor.service.base.CommentService;
 import com.upupor.service.business.profile.dto.Query;
-import com.upupor.service.dto.page.common.ListCommentDto;
-import com.upupor.service.outer.req.ListCommentReq;
-import com.upupor.service.types.CommentStatus;
-import com.upupor.service.types.ContentType;
-import com.upupor.service.types.ViewTargetType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -61,14 +61,14 @@ public class MessageProfile extends AbstractProfile {
         Integer pageNum = query.getPageNum();
         Integer pageSize = query.getPageSize();
 
-        ListCommentReq listCommentReq = new ListCommentReq();
-        listCommentReq.setPageNum(pageNum);
-        listCommentReq.setPageSize(pageSize);
-        listCommentReq.setTargetId(userId);
-        listCommentReq.setStatus(CommentStatus.NORMAL);
-        listCommentReq.setCommentSource(ContentType.MESSAGE);
+        ListCommentQuery listCommentQuery = new ListCommentQuery();
+        listCommentQuery.setTargetId(userId);
+        listCommentQuery.setStatus(CommentStatus.NORMAL);
+        listCommentQuery.setCommentSource(ContentType.MESSAGE);
+        listCommentQuery.setPageNum(pageNum);
+        listCommentQuery.setPageSize(pageSize);
 
-        ListCommentDto listCommentDto = commentService.listComment(listCommentReq);
+        ListCommentDto listCommentDto = commentService.listComment(listCommentQuery);
         getMemberIndexDto().setListCommentDto(listCommentDto);
     }
 

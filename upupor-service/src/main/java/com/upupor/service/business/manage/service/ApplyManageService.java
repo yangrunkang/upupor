@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.manage.service;
 
-import com.upupor.service.dto.page.common.ListApplyDto;
+import com.upupor.data.dto.page.common.ListApplyDto;
 
 /**
  * 申请管理服务

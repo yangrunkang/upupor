@@ -31,7 +31,7 @@ package com.upupor.web.aspects.service.checker.controller;
 
 import com.upupor.security.limiter.AbstractLimiter;
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-import static com.upupor.service.utils.ServletUtils.checkIsLogin;
+import static com.upupor.framework.utils.ServletUtils.checkIsLogin;
 
 /**
  * @author Yang Runkang (cruise)
@@ -55,17 +55,17 @@ public class LimiterChecker extends AbstractLimiter implements ControllerAspectC
 
         MethodSignature signature = (MethodSignature) controllerCheckerDto.getProceedingJoinPoint().getSignature();
         UpuporLimit annotation = signature.getMethod().getAnnotation(UpuporLimit.class);
-        if(Objects.isNull(annotation)){
+        if (Objects.isNull(annotation)) {
             return;
         }
 
         // 如果需要登录,就使用用户id,否则使用sessionId
         String businessId;
-        if(annotation.needLogin()){
+        if (annotation.needLogin()) {
             checkIsLogin();
             businessId = ServletUtils.getUserId();
-        }else {
-            businessId=controllerCheckerDto.getRequest().getSession().getId();
+        } else {
+            businessId = controllerCheckerDto.getRequest().getSession().getId();
         }
 
         // 初始化限制器

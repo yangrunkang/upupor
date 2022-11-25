@@ -30,10 +30,10 @@ package com.upupor.service.business.task.sitemap;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.business.task.TaskCommonDataService;
 import com.upupor.service.business.task.sitemap.enums.SiteMapType;
-import com.upupor.service.data.dao.entity.Member;
-import com.upupor.service.data.service.MemberService;
-import com.upupor.service.dto.seo.GoogleSeoDto;
-import com.upupor.service.types.MemberStatus;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.service.base.MemberService;
+import com.upupor.data.dto.seo.GoogleSeoDto;
+import com.upupor.data.types.MemberStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

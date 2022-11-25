@@ -28,14 +28,14 @@
 package com.upupor.service.business.manage.business;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.dao.entity.Collect;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.service.CollectService;
-import com.upupor.service.data.service.ContentService;
+import com.upupor.data.dao.entity.Collect;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.service.base.CollectService;
+import com.upupor.service.base.ContentService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.service.dto.page.common.ListCollectDto;
-import com.upupor.service.types.CollectType;
+import com.upupor.data.dto.page.common.ListCollectDto;
+import com.upupor.data.types.CollectType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 

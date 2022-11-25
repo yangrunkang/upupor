@@ -30,8 +30,8 @@ package com.upupor.service.business.apply;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.service.data.dao.entity.Apply;
-import com.upupor.service.data.service.ApplyService;
+import com.upupor.data.dao.entity.Apply;
+import com.upupor.service.base.ApplyService;
 
 import javax.annotation.Resource;
 

@@ -30,8 +30,8 @@
 package com.upupor.web.aspects.service.view;
 
 import com.upupor.framework.CcConstant;
-import com.upupor.service.data.service.DraftService;
-import com.upupor.service.utils.ServletUtils;
+import com.upupor.service.base.DraftService;
+import com.upupor.framework.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;

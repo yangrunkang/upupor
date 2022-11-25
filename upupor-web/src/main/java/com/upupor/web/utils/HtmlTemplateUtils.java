@@ -29,7 +29,7 @@ package com.upupor.web.utils;
 
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.common.CcTemplateConstant;
+import com.upupor.framework.common.CcTemplateConstant;
 import org.springframework.util.CollectionUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;

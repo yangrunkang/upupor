@@ -28,10 +28,10 @@
 package com.upupor.service.business.lucene.flush;
 
 import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.service.ContentService;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.service.base.ContentService;
 import com.upupor.lucene.AbstractFlush;
-import com.upupor.service.types.ContentStatus;
+import com.upupor.data.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -50,7 +50,7 @@ public class FlushContent extends AbstractFlush<Content> {
 
     @Override
     protected void add() {
-        getUpuporLuceneService().addDocument(content.getTitle(),content.getContentId(), runDataType());
+        getUpuporLuceneService().addDocument(content.getTitle(), content.getContentId(), runDataType());
     }
 
     @Override
@@ -71,9 +71,9 @@ public class FlushContent extends AbstractFlush<Content> {
 
     @Override
     protected void update() {
-        if(!ContentStatus.NORMAL.equals(this.content.getStatus())) {
+        if (!ContentStatus.NORMAL.equals(this.content.getStatus())) {
             delete();
-        }else {
+        } else {
             delete();
             add();
         }

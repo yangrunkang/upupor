@@ -27,8 +27,8 @@
 
 package com.upupor.service.utils;
 
-import com.upupor.service.data.dao.entity.Content;
-import com.upupor.service.data.dao.entity.ContentExtend;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.ContentExtend;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 

@@ -28,8 +28,8 @@
 package com.upupor.service.business.viewhistory;
 
 
-import com.upupor.service.data.dao.entity.ViewHistory;
-import com.upupor.service.types.ViewTargetType;
+import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.types.ViewTargetType;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,6 +64,7 @@ public abstract class AbstractViewHistory<T> {
 
     /**
      * 获取用户浏览历史
+     *
      * @return
      */
     public void initData(List<ViewHistory> viewHistoryList) {
