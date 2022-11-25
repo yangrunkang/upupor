@@ -45,7 +45,13 @@ import java.time.ZoneId;
  */
 @Slf4j
 @MapperScan("com.upupor.service.data.dao.mapper")
-@ComponentScan("com.upupor")
+@ComponentScan(basePackages = {
+        "com.upupor.web",
+        "com.upupor.service",
+        "com.upupor.framework",
+        "com.upupor.task",
+        "com.upupor.lucene"
+})
 @SpringBootApplication
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400)
 @EnableAsync

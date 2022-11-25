@@ -27,6 +27,7 @@
 
 package com.upupor.task;
 
+import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.business.task.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,18 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class GenerateSiteMapScheduled {
     private final TaskService taskService;
+    private final UpuporConfig upuporConfig;
+
+    /**
+     * 每5分钟
+     */
+    @Scheduled(cron = "0/5 * * * * ?")
+    public void dev() {
+        if (!"prd".equals(upuporConfig.getEnv())) {
+            log.info("定时任务执行检测,每5分钟打印一条日志");
+        }
+    }
+
 
     /**
      * 每5分钟
