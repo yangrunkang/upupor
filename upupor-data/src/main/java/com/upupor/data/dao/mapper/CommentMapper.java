@@ -29,7 +29,7 @@ package com.upupor.data.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.data.dao.entity.Comment;
-import com.upupor.data.dto.ListCommentQuery;
+import com.upupor.data.dto.query.ListCommentQuery;
 import com.upupor.data.dto.dao.CommentNumDto;
 import org.apache.ibatis.annotations.Param;
 

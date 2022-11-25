@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.data.dto;
+package com.upupor.data.dto.query;
 
 import com.upupor.data.types.MemberIntegralStatus;
 import lombok.Data;

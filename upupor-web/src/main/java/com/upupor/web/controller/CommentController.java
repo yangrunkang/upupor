@@ -31,7 +31,7 @@ package com.upupor.web.controller;
 
 import com.upupor.data.dao.entity.Comment;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dto.ListCommentQuery;
+import com.upupor.data.dto.query.ListCommentQuery;
 import com.upupor.data.types.CommentStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;

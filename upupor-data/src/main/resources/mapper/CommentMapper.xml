@@ -71,7 +71,7 @@
     </select>
 
 
-    <select id="list" parameterType="com.upupor.data.dto.ListCommentQuery" resultMap="BaseResultMap">
+    <select id="list" parameterType="com.upupor.data.dto.query.ListCommentQuery" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from comment

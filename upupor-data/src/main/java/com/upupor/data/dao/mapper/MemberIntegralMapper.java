@@ -29,7 +29,7 @@ package com.upupor.data.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.data.dao.entity.MemberIntegral;
-import com.upupor.data.dto.MemberIntegralQuery;
+import com.upupor.data.dto.query.MemberIntegralQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

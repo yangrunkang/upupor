@@ -34,7 +34,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.MemberIntegral;
 import com.upupor.data.dao.mapper.MemberIntegralMapper;
-import com.upupor.data.dto.MemberIntegralQuery;
+import com.upupor.data.dto.query.MemberIntegralQuery;
 import com.upupor.data.dto.page.common.ListIntegralDto;
 import com.upupor.data.types.MemberIntegralStatus;
 import com.upupor.framework.common.IntegralEnum;
