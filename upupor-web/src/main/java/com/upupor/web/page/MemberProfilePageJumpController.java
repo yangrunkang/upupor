@@ -80,7 +80,8 @@ public class MemberProfilePageJumpController {
                                 @PathVariable(value = "tagName", required = false) String tagName,
                                 Integer pageNum, Integer pageSize,
                                 String msgId) {
-        if (Objects.isNull(pageNum)) {
+        boolean isPageNumNull = Objects.isNull(pageNum);
+        if (isPageNumNull) {
             pageNum = CcConstant.Page.NUM;
         }
 
@@ -99,8 +100,7 @@ public class MemberProfilePageJumpController {
                 modelAndView.setViewName(abstractProfile.viewName());
                 // 如果是留言板,直接跳转到最新的一页
                 if (PROFILE_MESSAGE.replace(BASE_PATH, Strings.EMPTY).equals(path)) {
-                    Integer count = commentService.countByTargetId(userId);
-                    pageNum = PageUtils.calcMaxPage(count, SIZE_COMMENT);
+                    pageNum = isPageNumNull ? PageUtils.calcMaxPage(commentService.countByTargetId(userId), SIZE_COMMENT) : pageNum;
                     pageSize = CcConstant.Page.SIZE_COMMENT;
                 }
 
