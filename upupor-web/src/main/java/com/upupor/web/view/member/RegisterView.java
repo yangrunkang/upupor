@@ -25,54 +25,45 @@
  * SOFTWARE.
  */
 
-package com.upupor.task;
+package com.upupor.web.view.member;
 
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.task.TaskService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
+import com.upupor.framework.CcConstant;
+import com.upupor.web.view.AbstractView;
 import org.springframework.stereotype.Component;
+
+import static com.upupor.framework.CcConstant.UserView.USER_REGISTER;
 
 
 /**
- * 定时任务
+ * 注册
  *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 03:35
+ * @author Yang Runkang (cruise)
+ * @date 2022年01月28日 11:09
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
 @Component
-@RequiredArgsConstructor
-public class GenerateSiteMapScheduled {
-    private final TaskService taskService;
-    private final UpuporConfig upuporConfig;
+public class RegisterView extends AbstractView {
 
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void dev() {
-        if (!"prd".equals(upuporConfig.getEnv())) {
-            log.info("定时任务执行检测,每5s打印一条日志");
-        }
+    public static final String URL = "/register";
+
+    @Override
+    public String viewName() {
+        return USER_REGISTER;
     }
 
-
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0 0/5 * * * ?")
-    public void scheduled() {
-        log.info("定时任务执行检测,每5分钟打印一条日志");
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "注册");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "注册");
     }
 
-    /**
-     * 每30分钟
-     */
-    @Scheduled(cron = "0 0/30 * * * ?")
-    public void googleSitemap() {
-        taskService.googleSitemap();
+    @Override
+    public String prefix() {
+        return CcConstant.UserView.BASE_PATH;
     }
 
+    @Override
+    protected String pageUrl() {
+        return URL;
+    }
 }

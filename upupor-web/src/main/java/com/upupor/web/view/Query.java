@@ -25,54 +25,25 @@
  * SOFTWARE.
  */
 
-package com.upupor.task;
+package com.upupor.web.view;
 
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.task.TaskService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
+import lombok.Builder;
+import lombok.Data;
 
 /**
- * 定时任务
- *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 03:35
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月09日 12:45
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
-@Component
-@RequiredArgsConstructor
-public class GenerateSiteMapScheduled {
-    private final TaskService taskService;
-    private final UpuporConfig upuporConfig;
-
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void dev() {
-        if (!"prd".equals(upuporConfig.getEnv())) {
-            log.info("定时任务执行检测,每5s打印一条日志");
-        }
-    }
-
-
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0 0/5 * * * ?")
-    public void scheduled() {
-        log.info("定时任务执行检测,每5分钟打印一条日志");
-    }
-
-    /**
-     * 每30分钟
-     */
-    @Scheduled(cron = "0 0/30 * * * ?")
-    public void googleSitemap() {
-        taskService.googleSitemap();
-    }
-
+@Data
+@Builder
+public class Query {
+    private Integer pageNum;
+    private Integer pageSize;
+    private String tagName;
+    private String keyword;
+    private String contentId;
+    private String radioId;
+    // 消息Id
+    private String msgId;
 }

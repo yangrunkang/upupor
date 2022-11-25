@@ -25,54 +25,53 @@
  * SOFTWARE.
  */
 
-package com.upupor.task;
+package com.upupor.web.view.member;
 
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.task.TaskService;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.aggregation.MemberAggregateService;
+import com.upupor.web.view.AbstractView;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import static com.upupor.framework.CcConstant.UserView.USER_LIST;
 
 /**
- * 定时任务
+ * 用户列表
  *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 03:35
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月06日 10:32
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
-@Component
 @RequiredArgsConstructor
-public class GenerateSiteMapScheduled {
-    private final TaskService taskService;
-    private final UpuporConfig upuporConfig;
+@Component
+public class UserListView extends AbstractView {
+    private final MemberAggregateService memberAggregateService;
+    public final static String URL = "/list-user";
 
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void dev() {
-        if (!"prd".equals(upuporConfig.getEnv())) {
-            log.info("定时任务执行检测,每5s打印一条日志");
-        }
+    @Override
+    public String viewName() {
+        return USER_LIST;
+    }
+
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "所有用户");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "所有用户");
+    }
+
+    @Override
+    protected void fetchData() {
+        modelAndView.addObject(memberAggregateService.userList(query.getPageNum(), query.getPageSize()));
     }
 
 
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0 0/5 * * * ?")
-    public void scheduled() {
-        log.info("定时任务执行检测,每5分钟打印一条日志");
+    @Override
+    public String prefix() {
+        return CcConstant.UserView.BASE_PATH;
     }
 
-    /**
-     * 每30分钟
-     */
-    @Scheduled(cron = "0 0/30 * * * ?")
-    public void googleSitemap() {
-        taskService.googleSitemap();
+    @Override
+    protected String pageUrl() {
+        return URL;
     }
-
 }

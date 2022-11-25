@@ -25,54 +25,58 @@
  * SOFTWARE.
  */
 
-package com.upupor.task;
+package com.upupor.web.view.member;
 
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.task.TaskService;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.base.MemberService;
+import com.upupor.web.view.AbstractView;
+import com.upupor.framework.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import static com.upupor.framework.CcConstant.UserView.UNSUBSCRIBE_MAIL;
 
 
 /**
- * 定时任务
+ * 退订邮件
  *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 03:35
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月06日 13:34
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
-@Component
 @RequiredArgsConstructor
-public class GenerateSiteMapScheduled {
-    private final TaskService taskService;
-    private final UpuporConfig upuporConfig;
+@Component
+public class UnSubscribeEmailView extends AbstractView {
+    private final MemberService memberService;
 
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void dev() {
-        if (!"prd".equals(upuporConfig.getEnv())) {
-            log.info("定时任务执行检测,每5s打印一条日志");
-        }
+    public static final String URL = "/unsubscribe-mail";
+
+    @Override
+    public String viewName() {
+        return UNSUBSCRIBE_MAIL;
     }
 
-
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0 0/5 * * * ?")
-    public void scheduled() {
-        log.info("定时任务执行检测,每5分钟打印一条日志");
+    @Override
+    public String prefix() {
+        return CcConstant.UserView.BASE_PATH;
     }
 
-    /**
-     * 每30分钟
-     */
-    @Scheduled(cron = "0 0/30 * * * ?")
-    public void googleSitemap() {
-        taskService.googleSitemap();
+    @Override
+    protected String pageUrl() {
+        return URL;
     }
 
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "退订邮件通知");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "退订,邮件");
+    }
+
+    @Override
+    protected void fetchData() {
+        String userId = ServletUtils.getUserId();
+        String result = "result";
+        Boolean success = memberService.unSubscribeMail(userId);
+        modelAndView.addObject(result, success);
+    }
 }

@@ -25,54 +25,49 @@
  * SOFTWARE.
  */
 
-package com.upupor.task;
+package com.upupor.web.view.todo;
 
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.task.TaskService;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.aggregation.TodoAggregateService;
+import com.upupor.web.view.AbstractView;
+import com.upupor.framework.utils.ServletUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import static com.upupor.framework.CcConstant.TODO_INDEX;
 
 /**
- * 定时任务
- *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 03:35
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月09日 22:52
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
 @Component
 @RequiredArgsConstructor
-public class GenerateSiteMapScheduled {
-    private final TaskService taskService;
-    private final UpuporConfig upuporConfig;
+public class TodoListView extends AbstractView {
+    private final TodoAggregateService todoAggregateService;
 
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void dev() {
-        if (!"prd".equals(upuporConfig.getEnv())) {
-            log.info("定时任务执行检测,每5s打印一条日志");
-        }
+    public static final String URL = "/todo-list";
+
+    @Override
+    public String viewName() {
+        return TODO_INDEX;
     }
 
-
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0 0/5 * * * ?")
-    public void scheduled() {
-        log.info("定时任务执行检测,每5分钟打印一条日志");
+    @Override
+    protected String pageUrl() {
+        return URL;
     }
 
-    /**
-     * 每30分钟
-     */
-    @Scheduled(cron = "0 0/30 * * * ?")
-    public void googleSitemap() {
-        taskService.googleSitemap();
+    @Override
+    protected void seoInfo() {
+
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "待办");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "待办");
     }
 
+    @Override
+    protected void fetchData() {
+        String userId = ServletUtils.getUserId();
+        modelAndView.addObject(todoAggregateService.index(userId, query.getPageNum(), query.getPageSize()));
+    }
 }

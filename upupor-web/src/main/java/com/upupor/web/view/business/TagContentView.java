@@ -25,54 +25,56 @@
  * SOFTWARE.
  */
 
-package com.upupor.task;
+package com.upupor.web.view.business;
 
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.task.TaskService;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.aggregation.TagAggregateService;
+import com.upupor.web.view.AbstractView;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import static com.upupor.framework.CcConstant.TAG_INDEX;
 
 /**
- * 定时任务
- *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 03:35
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月09日 12:41
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
 @Component
 @RequiredArgsConstructor
-public class GenerateSiteMapScheduled {
-    private final TaskService taskService;
-    private final UpuporConfig upuporConfig;
+public class TagContentView extends AbstractView {
+    public static final String URL = "/tag/{tagName}";
+    private final TagAggregateService tagAggregateService;
 
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void dev() {
-        if (!"prd".equals(upuporConfig.getEnv())) {
-            log.info("定时任务执行检测,每5s打印一条日志");
+    @Override
+    public String viewName() {
+        return TAG_INDEX;
+    }
+
+    @Override
+    protected String pageUrl() {
+        return URL;
+    }
+
+    @Override
+    public String adapterUrlToViewName(String pageUrl) {
+        if (pageUrl.startsWith("/tag/")) {
+            return viewName();
         }
+        return pageUrl;
     }
 
-
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0 0/5 * * * ?")
-    public void scheduled() {
-        log.info("定时任务执行检测,每5分钟打印一条日志");
+    @Override
+    protected void seoInfo() {
+        // Seo
+        String tagName = query.getTagName();
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "标签-" + tagName);
+        modelAndView.addObject(CcConstant.SeoKey.KEYWORDS, tagName);
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "标签:" + tagName);
     }
 
-    /**
-     * 每30分钟
-     */
-    @Scheduled(cron = "0 0/30 * * * ?")
-    public void googleSitemap() {
-        taskService.googleSitemap();
+    @Override
+    protected void fetchData() {
+        modelAndView.addObject(tagAggregateService.index(query.getTagName(), query.getPageNum(), query.getPageSize()));
     }
-
 }

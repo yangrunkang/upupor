@@ -25,54 +25,36 @@
  * SOFTWARE.
  */
 
-package com.upupor.task;
+package com.upupor.web.view.footer;
 
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.business.task.TaskService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Scheduled;
+import com.upupor.framework.CcConstant;
+import com.upupor.web.view.AbstractView;
 import org.springframework.stereotype.Component;
 
+import static com.upupor.framework.CcConstant.OPEN;
 
 /**
- * 定时任务
- *
- * @author YangRunkang(cruise)
- * @date 2020/03/12 03:35
+ * @author Yang Runkang (cruise)
+ * @date 2022年02月09日 12:14
+ * @email: yangrunkang53@gmail.com
  */
-@Slf4j
 @Component
-@RequiredArgsConstructor
-public class GenerateSiteMapScheduled {
-    private final TaskService taskService;
-    private final UpuporConfig upuporConfig;
+public class OpenSourceView extends AbstractView {
+    public static final String URL = "/open";
 
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0/5 * * * * ?")
-    public void dev() {
-        if (!"prd".equals(upuporConfig.getEnv())) {
-            log.info("定时任务执行检测,每5s打印一条日志");
-        }
+    @Override
+    public String viewName() {
+        return OPEN;
     }
 
-
-    /**
-     * 每5分钟
-     */
-    @Scheduled(cron = "0 0/5 * * * ?")
-    public void scheduled() {
-        log.info("定时任务执行检测,每5分钟打印一条日志");
+    @Override
+    protected String pageUrl() {
+        return URL;
     }
 
-    /**
-     * 每30分钟
-     */
-    @Scheduled(cron = "0 0/30 * * * ?")
-    public void googleSitemap() {
-        taskService.googleSitemap();
+    @Override
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "upupor开源");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "upupor开源");
     }
-
 }
