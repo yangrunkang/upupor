@@ -46,7 +46,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
  */
 @Slf4j
 @MapperScan("com.upupor.service.data.dao.mapper")
-@ComponentScan("com.upupor.app")
+@ComponentScan("com.upupor")
 @SpringBootApplication
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400)
 @EnableAsync
