@@ -47,14 +47,6 @@ public class GenerateSiteMapScheduled {
     private final TaskService taskService;
 
     /**
-     * 每2s
-     */
-    @Scheduled(cron = "0/2 * * * * ?")
-    public void s1() {
-        log.info("定时任务执行检测,每2s打印一条日志");
-    }
-
-    /**
      * 每5分钟
      */
     @Scheduled(cron = "0 0/5 * * * ?")
