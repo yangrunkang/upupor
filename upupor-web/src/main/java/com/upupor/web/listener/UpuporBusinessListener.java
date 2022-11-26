@@ -33,7 +33,7 @@ import com.upupor.service.business.task.TaskService;
 import com.upupor.service.business.task.sitemap.enums.SiteMapType;
 import com.upupor.service.business.task.sitemap.model.SiteDataModel;
 import com.upupor.framework.common.CcTemplateConstant;
-import com.upupor.data.dto.email.EmailTemplateReplaceAndSendEvent;
+import com.upupor.service.listener.event.EmailTemplateReplaceAndSendEvent;
 import com.upupor.data.dto.seo.GoogleSeoDto;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.listener.event.RenderSiteMapEvent;
