@@ -38,6 +38,7 @@ import com.upupor.data.types.UploadStatus;
 import com.upupor.framework.utils.CcDateUtil;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
@@ -49,6 +50,7 @@ import java.util.Objects;
  */
 @Data
 @Builder
+@NoArgsConstructor
 public class RadioEnhance {
     private Radio radio;
 

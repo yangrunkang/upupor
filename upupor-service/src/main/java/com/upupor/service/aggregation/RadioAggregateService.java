@@ -29,6 +29,7 @@ package com.upupor.service.aggregation;
 
 import com.upupor.data.dao.entity.File;
 import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.RadioIndexDto;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.dto.page.common.ListRadioDto;
@@ -76,12 +77,14 @@ public class RadioAggregateService {
         if (Objects.isNull(radio)) {
             throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
         }
+        RadioEnhance radioEnhance = new RadioEnhance();
+        radioEnhance.setRadio(radio);
 
-        File fileByFileUrl = fileService.selectByFileUrl(radio.getRadioUrl());
+        File fileByFileUrl = fileService.selectByFileUrl(radioEnhance.getRadio().getRadioUrl());
         if (Objects.nonNull(fileByFileUrl)) {
-            radio.setUploadStatus(fileByFileUrl.getUploadStatus());
+            radioEnhance.setUploadStatus(fileByFileUrl.getUploadStatus());
         } else {
-            radio.setUploadStatus(UploadStatus.UPLOAD_FAILED);
+            radioEnhance.setUploadStatus(UploadStatus.UPLOAD_FAILED);
         }
 
         contentService.viewNumPlusOne(radioId);
@@ -96,7 +99,7 @@ public class RadioAggregateService {
         contentService.bindRadioContentData(Collections.singletonList(radio));
 
         // 绑定访问者
-        radio.setViewerList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));
+        radioEnhance.setViewerList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));
 
         RadioIndexDto radioIndexDto = new RadioIndexDto();
         radioIndexDto.setRadio(radio);
