@@ -27,6 +27,7 @@
 
 package com.upupor.data.dao.entity;
 
+import com.upupor.data.dao.BaseEntity;
 import lombok.Data;
 
 /**

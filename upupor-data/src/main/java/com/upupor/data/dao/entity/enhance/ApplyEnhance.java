@@ -27,33 +27,39 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.BaseEntity;
+import com.alibaba.fastjson2.JSON;
+import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dto.page.apply.ApplyContentDto;
+import com.upupor.framework.utils.CcDateUtil;
 import lombok.Data;
 
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-11-27 03:35
+ * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ContentExtend extends BaseEntity {
+public class ApplyEnhance {
+    private Apply apply;
 
-    private String contentId;
 
-    private String detailContent;
-    private String markdownContent;
+    private String createDate;
 
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
+    private ApplyContentDto applyContentDto;
+
+    private String createDateDiff;
+
+    public String getCreateDate() {
+        return CcDateUtil.timeStamp2Date(apply.getCreateTime());
     }
 
+    public String getCreateDateDiff() {
+        return CcDateUtil.timeStamp2DateOnly(apply.getCreateTime());
+    }
+
+    public ApplyContentDto getApplyContentDto() {
+        return JSON.parseObject(apply.getApplyContent(), ApplyContentDto.class);
+    }
 }

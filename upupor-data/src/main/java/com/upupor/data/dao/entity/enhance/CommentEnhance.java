@@ -27,33 +27,54 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.BaseEntity;
-import lombok.Data;
+import com.upupor.data.dao.entity.Comment;
+import com.upupor.framework.utils.CcDateUtil;
+import org.apache.logging.log4j.util.Strings;
+
+import java.util.Objects;
 
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-11-27 03:44
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class ContentExtend extends BaseEntity {
+public class CommentEnhance {
+    private Comment comment;
 
-    private String contentId;
+    /*******************/
 
-    private String detailContent;
-    private String markdownContent;
+    /**
+     * 被评论的文章标题
+     */
+    private ContentEnhance content;
 
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
+    /**
+     * 评论者自己
+     */
+    private MemberEnhance member;
+
+    /**
+     * 创建时间
+     */
+    private String createDate;
+
+    private String createDateDiff;
+
+    private String floorNum;
+
+
+    public String getCreateDate() {
+        return CcDateUtil.timeStamp2Date(comment.getCreateTime());
     }
+
+    public String getCreateDateDiff() {
+        if (Objects.isNull(comment.getCreateTime())) {
+            return Strings.EMPTY;
+        }
+        return CcDateUtil.timeStamp2DateOnly(comment.getCreateTime());
+    }
+
 
 }

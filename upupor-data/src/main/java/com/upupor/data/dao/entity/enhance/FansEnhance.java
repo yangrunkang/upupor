@@ -27,33 +27,34 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.BaseEntity;
+import com.upupor.data.dao.entity.Fans;
+import com.upupor.framework.utils.CcDateUtil;
 import lombok.Data;
 
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-11-27 03:46
+ * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ContentExtend extends BaseEntity {
+public class FansEnhance {
+    private Fans fans;
 
-    private String contentId;
 
-    private String detailContent;
-    private String markdownContent;
+    private MemberEnhance member;
 
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
+    private String createDate;
+
+    private String createDateDiff;
+
+    public String getCreateDate() {
+        return CcDateUtil.timeStamp2Date(fans.getCreateTime());
+    }
+
+    public String getCreateDateDiff() {
+        return CcDateUtil.timeStamp2DateOnly(fans.getCreateTime());
     }
 
 }

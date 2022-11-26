@@ -27,33 +27,50 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.BaseEntity;
-import lombok.Data;
+import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.framework.utils.CcDateUtil;
 
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-11-27 03:56
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class ContentExtend extends BaseEntity {
+public class ViewHistoryEnhance {
+    private ViewHistory viewHistory;
 
-    private String contentId;
+    /**
+     * 访问者用户头像
+     */
+    private String viewerUserVia;
 
-    private String detailContent;
-    private String markdownContent;
+    /**
+     * 渲染url
+     */
+    private String viewerUserName;
 
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
+    /**
+     * 浏览标题
+     */
+    private String title;
+
+    /**
+     * 来源
+     */
+    private String source;
+
+    /**
+     * 浏览url
+     */
+    private String url;
+
+    /**
+     * 创建时间
+     */
+    private String createDate;
+
+    public String getCreateDate() {
+        return CcDateUtil.timeStamp2DateOnly(viewHistory.getCreateTime());
     }
-
 }

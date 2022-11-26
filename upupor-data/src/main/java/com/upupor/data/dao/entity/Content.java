@@ -32,6 +32,7 @@ package com.upupor.data.dao.entity;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.google.common.collect.Lists;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.dto.dao.LastAndNextContentDto;
 import com.upupor.data.dto.page.common.ListCommentDto;
 import com.upupor.data.dto.page.common.TagDto;

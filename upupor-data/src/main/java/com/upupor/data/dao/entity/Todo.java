@@ -27,12 +27,9 @@
 
 package com.upupor.data.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.TodoStatus;
 import lombok.Data;
-
-import java.util.Objects;
 
 /**
  * 待办
@@ -55,28 +52,5 @@ public class Todo extends BaseEntity {
 
     private Long createTime;
 
-
-    /**
-     * 明细
-     */
-    @TableField(exist = false)
-    private TodoDetail todoDetail;
-
-    /**
-     * 用户
-     */
-    @TableField(exist = false)
-    private Member member;
-
-
-    @TableField(exist = false)
-    private String createDate;
-
-    public String getCreateDate() {
-        if (Objects.nonNull(createTime) && createTime > 0) {
-            return CcDateUtil.timeStamp2Date(createTime);
-        }
-        return createDate;
-    }
 
 }

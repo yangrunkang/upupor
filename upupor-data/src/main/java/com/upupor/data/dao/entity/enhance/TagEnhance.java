@@ -27,33 +27,18 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.BaseEntity;
-import lombok.Data;
+import com.upupor.data.dao.entity.Tag;
 
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-11-27 03:55
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class ContentExtend extends BaseEntity {
+public class TagEnhance {
+    private Tag tag;
 
-    private String contentId;
 
-    private String detailContent;
-    private String markdownContent;
-
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
-    }
-
+    private Integer count = 0;
 }

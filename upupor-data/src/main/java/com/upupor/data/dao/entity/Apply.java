@@ -27,11 +27,7 @@
 
 package com.upupor.data.dao.entity;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.data.dto.page.apply.ApplyContentDto;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.ApplySource;
 import com.upupor.data.types.ApplyStatus;
 import lombok.Data;
@@ -69,25 +65,4 @@ public class Apply extends BaseEntity {
 
     private String replyContent;
 
-    @TableField(exist = false)
-    private String createDate;
-
-    @TableField(exist = false)
-    private ApplyContentDto applyContentDto;
-
-    @TableField(exist = false)
-    private String createDateDiff;
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
-    }
-
-    @JSONField(serialize = false)
-    public String getCreateDateDiff() {
-        return CcDateUtil.timeStamp2DateOnly(createTime);
-    }
-
-    public ApplyContentDto getApplyContentDto() {
-        return JSON.parseObject(applyContent, ApplyContentDto.class);
-    }
 }

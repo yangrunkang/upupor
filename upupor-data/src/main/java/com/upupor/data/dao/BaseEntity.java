@@ -27,33 +27,20 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao;
 
-import com.upupor.data.dao.BaseEntity;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @date 2021年12月28日 23:31
+ * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ContentExtend extends BaseEntity {
+public class BaseEntity {
+    private Long id;
 
-    private String contentId;
-
-    private String detailContent;
-    private String markdownContent;
-
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
-    }
-
+    private Date sysUpdateTime = new Date();
 }

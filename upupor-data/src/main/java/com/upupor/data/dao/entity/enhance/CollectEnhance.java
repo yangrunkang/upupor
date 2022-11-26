@@ -27,33 +27,36 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.BaseEntity;
+import com.upupor.data.dao.entity.Collect;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.framework.utils.CcDateUtil;
 import lombok.Data;
 
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-11-27 03:43
+ * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ContentExtend extends BaseEntity {
+public class CollectEnhance {
+    private Collect collect;
 
-    private String contentId;
+    private String createDate;
 
-    private String detailContent;
-    private String markdownContent;
+    private String createDateDiff;
 
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
+    /**
+     * 收藏对象——内容
+     */
+    private Content content;
+
+    public String getCreateDate() {
+        return CcDateUtil.timeStamp2Date(collect.getCreateTime());
     }
 
+    public String getCreateDateDiff() {
+        return CcDateUtil.timeStamp2DateOnly(collect.getCreateTime());
+    }
 }

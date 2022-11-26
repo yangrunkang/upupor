@@ -27,33 +27,39 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.BaseEntity;
+import com.alibaba.fastjson2.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.upupor.data.dao.entity.Attention;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.framework.utils.CcDateUtil;
 import lombok.Data;
 
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-11-27 03:41
+ * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ContentExtend extends BaseEntity {
+public class AttentionEnhance {
+    private Attention attention;
 
-    private String contentId;
 
-    private String detailContent;
-    private String markdownContent;
+    private String createDate;
 
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
+    private String createDateDiff;
+
+    /**
+     * 关注/粉丝 (根据url来)
+     */
+    private Member member;
+
+    public String getCreateDate() {
+        return CcDateUtil.timeStamp2Date(attention.getCreateTime());
     }
 
+    public String getCreateDateDiff() {
+        return CcDateUtil.timeStamp2DateOnly(attention.getCreateTime());
+    }
 }

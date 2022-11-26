@@ -31,6 +31,7 @@ package com.upupor.data.dao.entity;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.DraftSource;
 import com.upupor.framework.BusinessException;

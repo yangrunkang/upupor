@@ -27,6 +27,7 @@
 
 package com.upupor.data.dto.page.ad;
 
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.dao.entity.*;
 import com.upupor.framework.CcConstant;
 import org.springframework.util.CollectionUtils;

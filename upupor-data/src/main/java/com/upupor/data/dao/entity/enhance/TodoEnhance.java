@@ -27,33 +27,42 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.BaseEntity;
-import lombok.Data;
+import com.upupor.data.dao.entity.Todo;
+import com.upupor.data.dao.entity.TodoDetail;
+import com.upupor.framework.utils.CcDateUtil;
+
+import java.util.Objects;
 
 /**
- * 文章拓展
- *
- * @author runkangyang
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-11-27 03:55
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class ContentExtend extends BaseEntity {
+public class TodoEnhance {
+    private Todo todo;
 
-    private String contentId;
 
-    private String detailContent;
-    private String markdownContent;
+    /**
+     * 明细
+     */
+    private TodoDetail todoDetail;
 
-    public static ContentExtend create(String contentId,
-                                       String detailContent,
-                                       String markDownContent
-    ) {
-        ContentExtend contentExtend = new ContentExtend();
-        contentExtend.setContentId(contentId);
-        contentExtend.setDetailContent(detailContent);
-        contentExtend.setMarkdownContent(markDownContent);
-        return contentExtend;
+
+    /**
+     * 用户
+     */
+    private MemberEnhance member;
+
+
+    private String createDate;
+
+    public String getCreateDate() {
+        Long createTime = todo.getCreateTime();
+        if (Objects.nonNull(createTime) && createTime > 0) {
+            return CcDateUtil.timeStamp2Date(createTime);
+        }
+        return createDate;
     }
-
 }

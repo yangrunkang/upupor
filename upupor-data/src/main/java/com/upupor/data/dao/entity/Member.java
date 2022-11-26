@@ -29,18 +29,10 @@
 
 package com.upupor.data.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.MemberIsAdmin;
 import com.upupor.data.types.MemberStatus;
 import lombok.Data;
-import org.apache.logging.log4j.util.Strings;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
 
 @Data
 public class Member extends BaseEntity {
@@ -72,122 +64,5 @@ public class Member extends BaseEntity {
      */
     private Long lastLoginTime;
 
-    /**
-     * 系统更新时间
-     */
 
-/********************************************/
-    /**
-     * 页面冗余字段
-     */
-    @TableField(exist = false)
-    private String createDate;
-    @TableField(exist = false)
-    private String createDateDiff;
-    @TableField(exist = false)
-    private String lastLoginDate;
-    /**
-     * 创建时间短 年-月-日
-     */
-    @TableField(exist = false)
-    private String createDateShort;
-
-    /**
-     * 页面冗余字段
-     */
-    @TableField(exist = false)
-    private String sysUpdateDate;
-
-    /**
-     * 粉丝数
-     */
-    @TableField(exist = false)
-    private Integer fansNum;
-
-    /**
-     * 关注数
-     */
-    @TableField(exist = false)
-    private Integer attentionNum;
-
-    /**
-     * 积分总数
-     */
-    @TableField(exist = false)
-    private Integer totalIntegral;
-
-    /**
-     * 文章总数
-     */
-    @TableField(exist = false)
-    private Integer totalContentNum;
-
-    /**
-     * 用户拓展信息
-     */
-    @TableField(exist = false)
-    private MemberExtend memberExtend;
-
-    /**
-     * 用户配置信息
-     */
-    @TableField(exist = false)
-    private MemberConfig memberConfig;
-
-    @TableField(exist = false)
-    private Statement statement;
-
-
-    /**
-     * 是否活跃
-     */
-    @TableField(exist = false)
-    private Boolean active = false;
-
-    /**
-     *
-     */
-    @TableField(exist = false)
-    private List<String> historyViaList;
-
-    public Member() {
-        this.fansNum = 0;
-        this.attentionNum = 0;
-        this.totalIntegral = 0;
-        this.historyViaList = new ArrayList<>();
-        this.createDateDiff = Strings.EMPTY;
-    }
-
-    public String getCreateDate() {
-        if (Objects.nonNull(createTime) && createTime > 0) {
-            return CcDateUtil.timeStamp2Date(createTime);
-        }
-        return createDate;
-    }
-
-    public String getLastLoginDate() {
-        if (Objects.nonNull(lastLoginTime) && lastLoginTime > 0) {
-            return CcDateUtil.timeStamp2Date(lastLoginTime);
-        }
-        return lastLoginDate;
-    }
-
-    public String getCreateDateShort() {
-        if (Objects.nonNull(createTime) && createTime > 0) {
-            return CcDateUtil.timeStamp2DateShort(createTime);
-        }
-        return createDate;
-    }
-
-    public String getVia() {
-        return via;
-    }
-
-    public Boolean getActive() {
-        if (Objects.isNull(lastLoginTime)) {
-            return active;
-        }
-        // 1小时以内都算活跃用户
-        return CcDateUtil.getCurrentTime() - lastLoginTime <= MEMBER_ACTIVE_TIME;
-    }
 }
