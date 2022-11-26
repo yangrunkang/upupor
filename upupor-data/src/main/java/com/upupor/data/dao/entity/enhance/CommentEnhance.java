@@ -31,6 +31,8 @@ package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Comment;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.Builder;
+import lombok.Data;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.Objects;
@@ -40,10 +42,11 @@ import java.util.Objects;
  * @createTime 2022-11-27 03:44
  * @email: yangrunkang53@gmail.com
  */
+@Data
+@Builder
 public class CommentEnhance {
     private Comment comment;
 
-    /*******************/
 
     /**
      * 被评论的文章标题

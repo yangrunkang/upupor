@@ -27,11 +27,12 @@
 
 package com.upupor.service.business.apply;
 
+import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dao.entity.enhance.ApplyEnhance;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.base.ApplyService;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.data.dao.entity.Apply;
-import com.upupor.service.base.ApplyService;
 
 import javax.annotation.Resource;
 
@@ -53,8 +54,10 @@ public abstract class AbstractApply<T> {
 
     /**
      * 通知管理员
+     *
+     * @param applyEnhance
      */
-    protected abstract void notifyAdministrator(Apply apply);
+    protected abstract void notifyAdministrator(ApplyEnhance applyEnhance);
 
     /**
      * 申请
@@ -62,7 +65,7 @@ public abstract class AbstractApply<T> {
      * @param t
      * @return
      */
-    protected abstract Boolean apply(T t);
+    protected abstract Apply apply(T t);
 
     protected void sendMessage(String title, String content) {
         MessageSend.send(MessageModel.builder()
@@ -75,15 +78,14 @@ public abstract class AbstractApply<T> {
                 .build());
     }
 
-    protected Boolean apply(Apply apply) {
-        applyEntity = apply;
+    protected Boolean insertApply(Apply apply) {
         return applyService.addApply(apply) > 0;
     }
 
     public Boolean doBusiness(T t) {
-        Boolean success = apply(t);
-        notifyAdministrator(applyEntity);
-        return success;
+        Apply apply = apply(t);
+        notifyAdministrator(ApplyEnhance.builder().apply(apply).build());
+        return Boolean.TRUE;
     }
 
 }

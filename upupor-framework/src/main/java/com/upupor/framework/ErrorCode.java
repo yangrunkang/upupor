@@ -157,6 +157,9 @@ public enum ErrorCode {
     DRAFT_SOURCE_NOT_EXISTS(182, "草稿来源不存在"),
     MEMBER_IMPL_NOT_EXISTS(183, "未找到对应的用户抽象行为实现"),
     USER_NAME_ALREADY_USED_BY_OTHERS(184, "用户名已被其他用户使用"),
+    APPLY_AD_FAILER(185, "申请广告失败"),
+    APPLY_CONSULTANT_FAILER(186, "申请咨询服务失败"),
+    APPLY_TAG_FAILER(187, "申请标签失败"),
 
 
     //占位 兜底异常

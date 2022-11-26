@@ -34,6 +34,8 @@ import com.upupor.data.dao.entity.MemberConfig;
 import com.upupor.data.dao.entity.MemberExtend;
 import com.upupor.data.dao.entity.Statement;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.Builder;
+import lombok.Data;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
  * @createTime 2022-11-27 03:46
  * @email: yangrunkang53@gmail.com
  */
+@Data
+@Builder
 public class MemberEnhance {
     private Member member;
     /**

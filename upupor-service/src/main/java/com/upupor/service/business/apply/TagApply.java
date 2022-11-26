@@ -28,14 +28,17 @@
 package com.upupor.service.business.apply;
 
 import com.alibaba.fastjson2.JSON;
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.framework.utils.CcUtils;
 import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dao.entity.enhance.ApplyEnhance;
 import com.upupor.data.dto.page.apply.ApplyContentDto;
-import com.upupor.service.outer.req.AddTagReq;
 import com.upupor.data.types.ApplySource;
 import com.upupor.data.types.ApplyStatus;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.outer.req.AddTagReq;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -48,7 +51,7 @@ import java.util.Date;
 @Component
 public class TagApply extends AbstractApply<AddTagReq> {
     @Override
-    protected void notifyAdministrator(Apply apply) {
+    protected void notifyAdministrator(ApplyEnhance applyEnhance) {
 
         String emailContent = "申请id:%s" + "\n" +
                 "用户id:%s" + "\n" +
@@ -56,10 +59,10 @@ public class TagApply extends AbstractApply<AddTagReq> {
                 "申请标签:%s" + "\n" +
                 "申请子标签:%s";
 
-        String applyIntro = apply.getApplyContentDto().getApplyIntro();
+        String applyIntro = applyEnhance.getApplyContentDto().getApplyIntro();
         AddTagReq addTagReq = JSON.parseObject(applyIntro, AddTagReq.class);
-        emailContent = String.format(emailContent, apply.getApplyId(),
-                apply.getUserId(),
+        emailContent = String.format(emailContent, applyEnhance.getApply().getApplyId(),
+                applyEnhance.getApply().getUserId(),
                 addTagReq.getPageName(),
                 addTagReq.getTagName(),
                 addTagReq.getChildTagName()
@@ -69,7 +72,7 @@ public class TagApply extends AbstractApply<AddTagReq> {
     }
 
     @Override
-    protected Boolean apply(AddTagReq addTagReq) {
+    protected Apply apply(AddTagReq addTagReq) {
 
         ApplyContentDto applyContentDto = new ApplyContentDto();
         applyContentDto.setApplyIntro(JSON.toJSONString(addTagReq));
@@ -83,6 +86,9 @@ public class TagApply extends AbstractApply<AddTagReq> {
         apply.setCreateTime(CcDateUtil.getCurrentTime());
         apply.setSysUpdateTime(new Date());
 
-        return apply(apply);
+        if (insertApply(apply)) {
+            return apply;
+        }
+        throw new BusinessException(ErrorCode.APPLY_TAG_FAILER);
     }
 }

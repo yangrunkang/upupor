@@ -30,12 +30,16 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Tag;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-11-27 03:55
  * @email: yangrunkang53@gmail.com
  */
+@Data
+@Builder
 public class TagEnhance {
     private Tag tag;
 

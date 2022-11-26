@@ -29,11 +29,10 @@
 
 package com.upupor.data.dao.entity.enhance;
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.upupor.data.dao.entity.Attention;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -42,6 +41,7 @@ import lombok.Data;
  * @email: yangrunkang53@gmail.com
  */
 @Data
+@Builder
 public class AttentionEnhance {
     private Attention attention;
 

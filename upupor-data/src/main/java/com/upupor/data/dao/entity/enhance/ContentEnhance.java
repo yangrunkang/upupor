@@ -30,12 +30,16 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Content;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-11-27 03:46
  * @email: yangrunkang53@gmail.com
  */
+@Data
+@Builder
 public class ContentEnhance {
     private Content content;
 }

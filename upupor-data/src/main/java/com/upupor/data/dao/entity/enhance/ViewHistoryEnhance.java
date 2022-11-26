@@ -31,12 +31,16 @@ package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.ViewHistory;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-11-27 03:56
  * @email: yangrunkang53@gmail.com
  */
+@Data
+@Builder
 public class ViewHistoryEnhance {
     private ViewHistory viewHistory;
 

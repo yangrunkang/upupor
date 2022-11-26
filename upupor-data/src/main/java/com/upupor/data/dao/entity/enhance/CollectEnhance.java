@@ -32,6 +32,7 @@ package com.upupor.data.dao.entity.enhance;
 import com.upupor.data.dao.entity.Collect;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -40,6 +41,7 @@ import lombok.Data;
  * @email: yangrunkang53@gmail.com
  */
 @Data
+@Builder
 public class CollectEnhance {
     private Collect collect;
 

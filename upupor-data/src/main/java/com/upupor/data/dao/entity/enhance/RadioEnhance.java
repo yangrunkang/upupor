@@ -36,6 +36,8 @@ import com.upupor.data.dao.entity.ViewHistory;
 import com.upupor.data.dto.page.common.ListCommentDto;
 import com.upupor.data.types.UploadStatus;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,6 +47,8 @@ import java.util.Objects;
  * @createTime 2022-11-27 03:54
  * @email: yangrunkang53@gmail.com
  */
+@Data
+@Builder
 public class RadioEnhance {
     private Radio radio;
 

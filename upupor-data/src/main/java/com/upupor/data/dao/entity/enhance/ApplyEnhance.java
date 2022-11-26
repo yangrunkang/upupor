@@ -33,6 +33,7 @@ import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dao.entity.Apply;
 import com.upupor.data.dto.page.apply.ApplyContentDto;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -41,6 +42,7 @@ import lombok.Data;
  * @email: yangrunkang53@gmail.com
  */
 @Data
+@Builder
 public class ApplyEnhance {
     private Apply apply;
 

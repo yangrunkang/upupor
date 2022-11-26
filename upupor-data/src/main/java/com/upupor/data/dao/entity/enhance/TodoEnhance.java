@@ -32,6 +32,8 @@ package com.upupor.data.dao.entity.enhance;
 import com.upupor.data.dao.entity.Todo;
 import com.upupor.data.dao.entity.TodoDetail;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.Builder;
+import lombok.Data;
 
 import java.util.Objects;
 
@@ -40,6 +42,8 @@ import java.util.Objects;
  * @createTime 2022-11-27 03:55
  * @email: yangrunkang53@gmail.com
  */
+@Data
+@Builder
 public class TodoEnhance {
     private Todo todo;
 
