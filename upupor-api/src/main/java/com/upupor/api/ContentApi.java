@@ -28,11 +28,11 @@
 package com.upupor.api;
 
 import com.upupor.api.common.ApiResp;
-import com.upupor.api.request.content.CreateResp;
-import com.upupor.api.request.content.DeleteResp;
+import com.upupor.api.request.content.CreateReq;
+import com.upupor.api.request.content.DeleteReq;
 import com.upupor.api.request.content.DetailReq;
-import com.upupor.api.response.content.CreateReq;
-import com.upupor.api.response.content.DeleteReq;
+import com.upupor.api.response.content.CreateResp;
+import com.upupor.api.response.content.DeleteResp;
 
 /**
  * @author Yang Runkang (cruise)

@@ -28,6 +28,7 @@
 package com.upupor.api.response.content;
 
 import com.upupor.api.response.content.dto.ContentDto;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,6 +38,7 @@ import java.util.List;
  * @date 2022年11月23日
  * @email: yangrunkang53@gmail.com
  */
+@Data
 public class ListResp implements Serializable {
     private List<ContentDto> contentList;
 }

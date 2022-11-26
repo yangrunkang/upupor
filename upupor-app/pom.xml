@@ -47,8 +47,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.upupor.service</groupId>
-            <artifactId>upupor-service</artifactId>
+            <groupId>com.upupor.data</groupId>
+            <artifactId>upupor-data</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.upupor.api</groupId>
+            <artifactId>upupor-api</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>
