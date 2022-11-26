@@ -41,3 +41,5 @@ build
 codingvcr.iml
 out
 doc/*.adoc
+.DS_Store
+*/.DS_Store 
