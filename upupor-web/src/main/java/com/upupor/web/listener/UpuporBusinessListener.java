@@ -27,14 +27,14 @@
 
 package com.upupor.web.listener;
 
+import com.upupor.data.dto.seo.GoogleSeoDto;
 import com.upupor.framework.CcRedisKey;
+import com.upupor.framework.common.CcTemplateConstant;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.task.TaskService;
 import com.upupor.service.business.task.sitemap.enums.SiteMapType;
 import com.upupor.service.business.task.sitemap.model.SiteDataModel;
-import com.upupor.framework.common.CcTemplateConstant;
 import com.upupor.service.listener.event.EmailTemplateReplaceAndSendEvent;
-import com.upupor.data.dto.seo.GoogleSeoDto;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.listener.event.RenderSiteMapEvent;
 import com.upupor.web.utils.CcEmailUtils;
