@@ -28,7 +28,6 @@
 package com.upupor.service.business.content;
 
 import com.google.common.collect.Lists;
-import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dto.page.ContentIndexDto;
 import com.upupor.data.dto.page.common.ListContentDto;
@@ -136,9 +135,8 @@ public abstract class AbstractContent {
             List<ContentEnhance> contentEnhanceList = listContentDto.getContentList();
             if (!CollectionUtils.isEmpty(contentEnhanceList)) {
                 // 排除当前用户正在浏览的文章
-                List<Content> otherContentList = contentEnhanceList.stream()
+                List<ContentEnhance> otherContentList = contentEnhanceList.stream()
                         .filter(c -> !c.getContent().getContentId().equals(contentIndexDto.getContent().getContent().getContentId()))
-                        .map(ContentEnhance::getContent)
                         .collect(Collectors.toList());
                 if (!CollectionUtils.isEmpty(otherContentList)) {
                     contentIndexDto.setAuthorOtherContentList(otherContentList);

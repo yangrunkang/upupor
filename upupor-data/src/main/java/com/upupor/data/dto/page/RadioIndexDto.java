@@ -27,7 +27,7 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.common.ListRadioDto;
 import lombok.Data;
 
@@ -43,7 +43,7 @@ public class RadioIndexDto {
     /**
      * 电台
      */
-    private Radio radio;
+    private RadioEnhance radio;
 
     private ListRadioDto listRadioDto;
 

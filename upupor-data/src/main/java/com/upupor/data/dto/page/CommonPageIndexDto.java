@@ -27,8 +27,8 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.dto.page.common.ListBannerDto;
@@ -71,12 +71,12 @@ public class CommonPageIndexDto {
     /**
      * 活跃用户
      */
-    private List<Member> memberList;
+    private List<MemberEnhance> memberList;
 
     /**
      * 最近一周新增文章
      */
-    private List<Content> latestContentList;
+    private List<ContentEnhance> latestContentList;
 
     /**
      * 是否领取过今天积分

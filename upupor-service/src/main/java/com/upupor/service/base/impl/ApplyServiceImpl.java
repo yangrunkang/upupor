@@ -30,11 +30,11 @@ package com.upupor.service.base.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.data.dao.entity.Apply;
 import com.upupor.data.dao.entity.ApplyDocument;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.ApplyEnhance;
 import com.upupor.data.dao.mapper.ApplyDocumentMapper;
 import com.upupor.data.dao.mapper.ApplyMapper;
-import com.upupor.service.base.ApplyService;
-import com.upupor.service.base.FileService;
-import com.upupor.service.base.MessageService;
+import com.upupor.data.types.ApplyStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
@@ -42,12 +42,14 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.FileUtils;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.base.ApplyService;
+import com.upupor.service.base.FileService;
+import com.upupor.service.base.MessageService;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.outer.req.AddApplyDocumentReq;
 import com.upupor.service.outer.req.DelApplyReq;
 import com.upupor.service.outer.req.UpdateApplyReq;
-import com.upupor.data.types.ApplyStatus;
 import com.upupor.service.utils.oss.FileUpload;
 import com.upupor.service.utils.oss.enums.FileDic;
 import lombok.RequiredArgsConstructor;
@@ -82,9 +84,13 @@ public class ApplyServiceImpl implements ApplyService {
     }
 
     @Override
-    public Apply getByApplyId(String applyId) {
+    public ApplyEnhance getByApplyId(String applyId) {
         LambdaQueryWrapper<Apply> query = new LambdaQueryWrapper<Apply>().eq(Apply::getApplyId, applyId);
-        return applyMapper.selectOne(query);
+        Apply apply = applyMapper.selectOne(query);
+        if (Objects.isNull(apply)) {
+            throw new BusinessException(ErrorCode.NOT_EXISTS_APPLY);
+        }
+        return Converter.applyEnhance(apply);
     }
 
     @Override
@@ -93,13 +99,9 @@ public class ApplyServiceImpl implements ApplyService {
         ServletUtils.checkOperatePermission(reqUserId);
 
         String applyId = updateApplyReq.getApplyId();
-        Apply apply = getByApplyId(applyId);
-        if (Objects.isNull(apply)) {
-            throw new BusinessException(ErrorCode.NOT_EXISTS_APPLY);
-        }
+        ApplyEnhance applyEnhance = getByApplyId(applyId);
+        Apply apply = applyEnhance.getApply();
         apply.setApplyStatus(updateApplyReq.getStatus());
-
-
         return applyMapper.updateById(apply) > 0;
     }
 
@@ -113,11 +115,8 @@ public class ApplyServiceImpl implements ApplyService {
         }
 
         String applyId = addApplyDocumentReq.getApplyId();
-        Apply apply = getByApplyId(applyId);
-        if (Objects.isNull(apply)) {
-            throw new BusinessException(ErrorCode.NOT_EXISTS_APPLY);
-        }
-
+        ApplyEnhance applyEnhance = getByApplyId(applyId);
+        Apply apply = applyEnhance.getApply();
         ApplyDocument applyDocument = new ApplyDocument();
         applyDocument.setApplyDocumentId(CcUtils.getUuId());
         applyDocument.setApplyId(applyId);
@@ -159,7 +158,8 @@ public class ApplyServiceImpl implements ApplyService {
 
         ServletUtils.checkOperatePermission(reqUserId);
 
-        Apply apply = getByApplyId(applyId);
+        ApplyEnhance applyEnhance = getByApplyId(applyId);
+        Apply apply = applyEnhance.getApply();
         if (Objects.isNull(apply)) {
             throw new BusinessException(ErrorCode.NOT_EXISTS_APPLY);
         }

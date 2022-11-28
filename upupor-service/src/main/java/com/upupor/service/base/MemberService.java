@@ -151,7 +151,7 @@ public interface MemberService {
      *
      * @return
      */
-    List<Member> activeMember();
+    List<MemberEnhance> activeMember();
 
     /**
      * 获取每日签到用户

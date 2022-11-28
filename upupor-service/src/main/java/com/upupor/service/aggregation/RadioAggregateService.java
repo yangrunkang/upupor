@@ -28,7 +28,6 @@
 package com.upupor.service.aggregation;
 
 import com.upupor.data.dao.entity.File;
-import com.upupor.data.dao.entity.Radio;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.RadioIndexDto;
 import com.upupor.data.dto.page.ad.AbstractAd;
@@ -74,8 +73,7 @@ public class RadioAggregateService {
     public RadioIndexDto detail(String radioId, Integer pageNum, Integer pageSize) {
 
         RadioEnhance radioEnhance = radioService.getByRadioId(radioId);
-        Radio radio = radioEnhance.getRadio();
-        if (Objects.isNull(radio)) {
+        if (Objects.isNull(radioEnhance.getRadio())) {
             throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
         }
 
@@ -102,7 +100,7 @@ public class RadioAggregateService {
         radioEnhance.setViewerList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));
 
         RadioIndexDto radioIndexDto = new RadioIndexDto();
-        radioIndexDto.setRadio(radio);
+        radioIndexDto.setRadio(radioEnhance);
         return radioIndexDto;
     }
 

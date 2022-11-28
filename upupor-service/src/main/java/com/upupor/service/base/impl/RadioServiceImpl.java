@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.File;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
-import com.upupor.data.dao.entity.enhance.Converter;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.RadioMapper;
@@ -105,12 +105,12 @@ public class RadioServiceImpl implements RadioService {
 
         PageHelper.startPage(pageNum, pageSize);
         List<Radio> radioList = radioMapper.selectList(query);
+        List<RadioEnhance> radioEnhanceList = Converter.radioEnhanceList(radioList);
         PageInfo<Radio> pageInfo = new PageInfo<>(radioList);
 
         ListRadioDto listRadioDto = new ListRadioDto(pageInfo);
-        listRadioDto.setRadioList(pageInfo.getList());
+        listRadioDto.setRadioList(radioEnhanceList);
 
-        List<RadioEnhance> radioEnhanceList = Converter.radioEnhanceList(listRadioDto.getRadioList());
         // 绑定电台用户
         bindRadioMember(radioEnhanceList);
         // 绑定数据
@@ -154,12 +154,12 @@ public class RadioServiceImpl implements RadioService {
 
         PageHelper.startPage(pageNum, pageSize);
         List<Radio> radioList = radioMapper.list();
-        PageInfo<Radio> pageInfo = new PageInfo<>(radioList);
+        List<RadioEnhance> radioEnhanceList = Converter.radioEnhanceList(radioList);
+        PageInfo<RadioEnhance> pageInfo = new PageInfo<>(radioEnhanceList);
 
         ListRadioDto listRadioDto = new ListRadioDto(pageInfo);
         listRadioDto.setRadioList(pageInfo.getList());
 
-        List<RadioEnhance> radioEnhanceList = Converter.radioEnhanceList(listRadioDto.getRadioList());
         // 绑定电台用户
         bindRadioMember(radioEnhanceList);
 

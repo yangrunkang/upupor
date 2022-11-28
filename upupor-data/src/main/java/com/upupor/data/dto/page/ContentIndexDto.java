@@ -27,7 +27,6 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.ContentEditReason;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import lombok.Data;
@@ -47,7 +46,7 @@ public class ContentIndexDto {
     /**
      * 作者其他的文章
      */
-    List<Content> authorOtherContentList;
+    List<ContentEnhance> authorOtherContentList;
     private ContentEnhance content;
     /**
      * true:已经收藏  false:未收藏

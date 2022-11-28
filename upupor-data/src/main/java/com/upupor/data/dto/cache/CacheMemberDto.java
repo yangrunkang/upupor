@@ -27,7 +27,7 @@
 
 package com.upupor.data.dto.cache;
 
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ import java.util.List;
 @Data
 public class CacheMemberDto {
 
-    private List<Member> memberList;
+    private List<MemberEnhance> memberList;
 
     public CacheMemberDto() {
         this.memberList = new ArrayList<>();

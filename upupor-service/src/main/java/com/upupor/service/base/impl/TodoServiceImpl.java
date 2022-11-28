@@ -32,6 +32,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Todo;
 import com.upupor.data.dao.entity.TodoDetail;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.TodoEnhance;
 import com.upupor.data.dao.mapper.TodoDetailMapper;
 import com.upupor.data.dao.mapper.TodoMapper;
@@ -110,10 +111,11 @@ public class TodoServiceImpl implements TodoService {
 
         PageHelper.startPage(pageNum, pageSize);
         List<Todo> todoList = todoMapper.selectList(todoLambdaQueryWrapper);
-        PageInfo<Todo> pageInfo = new PageInfo<>(todoList);
+        List<TodoEnhance> todoEnhanceList = Converter.todoEnhanceList(todoList);
+        PageInfo<TodoEnhance> pageInfo = new PageInfo<>(todoEnhanceList);
 
         ListTodoDto listTodoDto = new ListTodoDto(pageInfo);
-        listTodoDto.setTodoList(todoList);
+        listTodoDto.setTodoList(todoEnhanceList);
         return listTodoDto;
     }
 

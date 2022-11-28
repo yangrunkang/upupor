@@ -27,6 +27,7 @@
 
 package com.upupor.web.view.radio;
 
+import com.upupor.data.dao.entity.Radio;
 import com.upupor.data.dto.page.RadioIndexDto;
 import com.upupor.data.types.ViewTargetType;
 import com.upupor.data.utils.PageUtils;
@@ -81,8 +82,9 @@ public class RadioDetailView extends AbstractView {
         for (Object value : modelAndView.getModelMap().values()) {
             if (value instanceof RadioIndexDto) {
                 RadioIndexDto detail = (RadioIndexDto) value;
-                modelAndView.addObject(CcConstant.SeoKey.TITLE, detail.getRadio().getRadioIntro());
-                modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, detail.getRadio().getRadioIntro());
+                Radio radio = detail.getRadio().getRadio();
+                modelAndView.addObject(CcConstant.SeoKey.TITLE, radio.getRadioIntro());
+                modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, radio.getRadioIntro());
                 break;
             }
         }

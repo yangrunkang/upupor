@@ -29,8 +29,8 @@ package com.upupor.service.business.comment.comment;
 
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
-import com.upupor.data.dao.entity.enhance.Converter;
 import com.upupor.data.types.ContentType;
 import com.upupor.data.types.MessageType;
 import com.upupor.framework.common.IntegralEnum;

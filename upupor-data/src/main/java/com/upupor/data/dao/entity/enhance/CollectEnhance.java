@@ -30,7 +30,6 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Collect;
-import com.upupor.data.dao.entity.Content;
 import com.upupor.framework.utils.CcDateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,7 +55,7 @@ public class CollectEnhance {
     /**
      * 收藏对象——内容
      */
-    private Content content;
+    private ContentEnhance content;
 
     public String getCreateDate() {
         return CcDateUtil.timeStamp2Date(collect.getCreateTime());

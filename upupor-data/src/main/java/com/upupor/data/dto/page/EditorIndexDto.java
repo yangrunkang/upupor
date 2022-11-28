@@ -29,8 +29,8 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.Tag;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class EditorIndexDto {
     /**
      * 所有的标签
      */
-    private List<Tag> tagList;
+    private List<TagEnhance> tagList;
 
     /**
      * 创建文章-指定的Tag

@@ -28,7 +28,7 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ import java.util.List;
 @Data
 public class ListViewHistoryDto extends BaseListDto {
 
-    private List<ViewHistory> viewHistoryList;
+    private List<ViewHistoryEnhance> viewHistoryList;
 
     public ListViewHistoryDto(PageInfo pageInfo) {
         super(pageInfo);

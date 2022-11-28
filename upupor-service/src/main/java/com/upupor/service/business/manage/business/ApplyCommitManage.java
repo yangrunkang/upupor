@@ -27,18 +27,15 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.data.dao.entity.enhance.ApplyEnhance;
+import com.upupor.data.dto.page.common.ApplyDto;
 import com.upupor.framework.CcConstant;
-import com.upupor.data.dao.entity.Apply;
 import com.upupor.service.base.ApplyService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.data.dto.page.common.ApplyDto;
-import com.upupor.service.utils.Asserts;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-
-import static com.upupor.framework.ErrorCode.NOT_EXISTS_APPLY;
 
 /**
  * @author cruise
@@ -51,12 +48,10 @@ public class ApplyCommitManage extends AbstractManage {
 
     @Override
     protected void specifyDtoHandle(ManageDto manageDto) {
-
-        Apply apply = applyService.getByApplyId(manageDto.getApplyId());
-        Asserts.notNull(apply, NOT_EXISTS_APPLY);
+        ApplyEnhance applyEnhance = applyService.getByApplyId(manageDto.getApplyId());
 
         ApplyDto applyDto = new ApplyDto();
-        applyDto.setApply(apply);
+        applyDto.setApply(applyEnhance);
         getMemberIndexDto().setApplyDto(applyDto);
     }
 

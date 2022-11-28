@@ -29,7 +29,7 @@ package com.upupor.web.controller;
 
 import com.upupor.data.dao.entity.Todo;
 import com.upupor.data.dao.entity.TodoDetail;
-import com.upupor.data.dao.entity.enhance.Converter;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.types.TodoStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;

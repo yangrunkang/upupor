@@ -34,7 +34,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.*;
-import com.upupor.data.dao.entity.enhance.Converter;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.*;
@@ -440,11 +440,10 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public List<Member> activeMember() {
+    public List<MemberEnhance> activeMember() {
         PageHelper.startPage(CcConstant.Page.NUM, CcConstant.Page.SIZE_TEN);
         List<Member> memberList = memberMapper.activeMember();
-        PageInfo<Member> pageInfo = new PageInfo<>(memberList);
-        return pageInfo.getList();
+        return Converter.memberEnhance(memberList);
     }
 
     @Override

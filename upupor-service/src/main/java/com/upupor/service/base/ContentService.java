@@ -314,7 +314,7 @@ public interface ContentService {
      * @return
      * @note: 只显示15条
      */
-    List<Content> latestContentList();
+    List<ContentEnhance> latestContentList();
 
     /**
      * 是否存在

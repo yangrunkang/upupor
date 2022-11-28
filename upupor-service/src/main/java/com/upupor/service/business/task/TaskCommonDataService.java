@@ -31,6 +31,7 @@ import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.common.ListMemberDto;
 import com.upupor.data.dto.page.common.ListRadioDto;
 import com.upupor.framework.CcConstant;
@@ -105,7 +106,7 @@ public class TaskCommonDataService {
             if (CollectionUtils.isEmpty(listRadioDto.getRadioList())) {
                 break;
             }
-            radioAllList.addAll(listRadioDto.getRadioList());
+            radioAllList.addAll(listRadioDto.getRadioList().stream().map(RadioEnhance::getRadio).collect(Collectors.toList()));
         }
         return radioAllList;
     }

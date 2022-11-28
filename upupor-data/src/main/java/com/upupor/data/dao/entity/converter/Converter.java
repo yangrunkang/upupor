@@ -27,9 +27,10 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity.enhance;
+package com.upupor.data.dao.entity.converter;
 
 import com.upupor.data.dao.entity.*;
+import com.upupor.data.dao.entity.enhance.*;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -127,14 +128,17 @@ public class Converter {
 
 
     public static List<ApplyEnhance> applyEnhanceList(List<Apply> applyList) {
-
         if (CollectionUtils.isEmpty(applyList)) {
             return new ArrayList<>();
         }
 
         return applyList.stream().map(a -> {
-            return ApplyEnhance.builder().apply(a).build();
+            return applyEnhance(a);
         }).collect(Collectors.toList());
+    }
+
+    public static ApplyEnhance applyEnhance(Apply apply) {
+        return ApplyEnhance.builder().apply(apply).build();
     }
 
     public static List<RadioEnhance> radioEnhanceList(List<Radio> radioList) {
@@ -166,4 +170,35 @@ public class Converter {
     }
 
 
+    public static List<ViewHistoryEnhance> viewHistoryEnhanceList(List<ViewHistory> viewHistoryList) {
+        if (CollectionUtils.isEmpty(viewHistoryList)) {
+            return new ArrayList<>();
+        }
+
+        return viewHistoryList.stream().map(a -> {
+            return ViewHistoryEnhance.builder().viewHistory(a).build();
+        }).collect(Collectors.toList());
+    }
+
+
+    public static List<TodoEnhance> todoEnhanceList(List<Todo> todoList) {
+        if (CollectionUtils.isEmpty(todoList)) {
+            return new ArrayList<>();
+        }
+
+        return todoList.stream().map(a -> {
+            return TodoEnhance.builder().todo(a).build();
+        }).collect(Collectors.toList());
+    }
+
+    public static List<TagEnhance> tagEnhanceList(List<Tag> tags) {
+
+        if (CollectionUtils.isEmpty(tags)) {
+            return new ArrayList<>();
+        }
+
+        return tags.stream().map(a -> {
+            return TagEnhance.builder().tag(a).build();
+        }).collect(Collectors.toList());
+    }
 }

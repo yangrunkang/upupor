@@ -28,8 +28,8 @@
 package com.upupor.service.aggregation;
 
 import com.alibaba.fastjson2.JSON;
-import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dto.cache.CacheMemberDto;
 import com.upupor.data.dto.page.CommonPageIndexDto;
@@ -113,7 +113,7 @@ public class CommonAggregateService {
             return listContentDto;
         });
         // 最近一周新增的文章
-        CompletableFuture<List<Content>> latestContentListFuture = CompletableFuture.supplyAsync(contentService::latestContentList);
+        CompletableFuture<List<ContentEnhance>> latestContentListFuture = CompletableFuture.supplyAsync(contentService::latestContentList);
         // 获取Banner栏
         CompletableFuture<ListBannerDto> listBannerDtoFuture = CompletableFuture.supplyAsync(() -> bannerService.listBannerByStatus(BannerStatus.NORMAL, CcConstant.Page.NUM, CcConstant.Page.SIZE));
 
@@ -121,13 +121,7 @@ public class CommonAggregateService {
         CompletableFuture<List<TagEnhance>> tagListFuture = CompletableFuture.supplyAsync(() -> {
             List<TagEnhance> tagEnhanceList = new ArrayList<>();
             if (Objects.nonNull(getCommonReq.getContentType())) {
-                tagEnhanceList = tagService.getTagsByType(getCommonReq.getContentType())
-                        .stream().map(s -> {
-                            TagEnhance tagEnhance = new TagEnhance();
-                            tagEnhance.setTag(s);
-                            return tagEnhance;
-                        }).collect(Collectors.toList());
-                ;
+                tagEnhanceList = tagService.getTagsByType(getCommonReq.getContentType());
             }
             if (!CollectionUtils.isEmpty(tagEnhanceList)) {
                 List<String> tagIdList = tagEnhanceList.stream()

@@ -28,21 +28,21 @@
 package com.upupor.service.business.task;
 
 import com.alibaba.fastjson2.JSON;
-import com.upupor.framework.CcRedisKey;
-import com.upupor.framework.utils.RedisUtil;
-import com.upupor.security.sensitive.SensitiveWord;
-import com.upupor.service.business.task.sitemap.AbstractSiteMap;
-import com.upupor.service.business.task.sitemap.model.SiteDataModel;
 import com.upupor.data.dao.entity.BusinessConfig;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.BusinessConfigService;
-import com.upupor.service.base.ContentService;
-import com.upupor.service.base.MemberService;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.cache.CacheMemberDto;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.seo.GoogleSeoDto;
-import com.upupor.service.listener.event.RenderSiteMapEvent;
 import com.upupor.data.types.BusinessConfigType;
+import com.upupor.framework.CcRedisKey;
+import com.upupor.framework.utils.RedisUtil;
+import com.upupor.security.sensitive.SensitiveWord;
+import com.upupor.service.base.BusinessConfigService;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.MemberService;
+import com.upupor.service.business.task.sitemap.AbstractSiteMap;
+import com.upupor.service.business.task.sitemap.model.SiteDataModel;
+import com.upupor.service.listener.event.RenderSiteMapEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -94,12 +94,12 @@ public class TaskService {
 
     public void refreshActiveMember() {
         log.info("统计活跃用户任务启动");
-        List<Member> memberList = memberService.activeMember();
-        if (CollectionUtils.isEmpty(memberList)) {
-            memberList = new ArrayList<>();
+        List<MemberEnhance> memberEnhanceList = memberService.activeMember();
+        if (CollectionUtils.isEmpty(memberEnhanceList)) {
+            memberEnhanceList = new ArrayList<>();
         }
         CacheMemberDto cacheMemberDto = new CacheMemberDto();
-        cacheMemberDto.setMemberList(memberList);
+        cacheMemberDto.setMemberList(memberEnhanceList);
         RedisUtil.set(ACTIVE_USER_LIST, JSON.toJSONString(cacheMemberDto));
     }
 

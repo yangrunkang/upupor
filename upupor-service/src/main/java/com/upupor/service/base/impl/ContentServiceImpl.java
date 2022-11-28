@@ -34,8 +34,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.*;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
-import com.upupor.data.dao.entity.enhance.Converter;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.*;
 import com.upupor.data.dto.OperateContentDto;
@@ -684,7 +684,7 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public List<Content> latestContentList() {
+    public List<ContentEnhance> latestContentList() {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
                 .eq(Content::getStatus, ContentStatus.NORMAL)
                 .ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - NEW_CONTENT_TIME)
@@ -692,9 +692,9 @@ public class ContentServiceImpl implements ContentService {
 
         PageHelper.startPage(CcConstant.Page.NUM, CcConstant.Page.SIZE_HALF);
         List<Content> contentList = contentMapper.selectList(query);
-
-        this.bindContentMember(Converter.contentEnhance(contentList));
-        return contentList;
+        List<ContentEnhance> contentEnhanceList = Converter.contentEnhance(contentList);
+        this.bindContentMember(contentEnhanceList);
+        return contentEnhanceList;
     }
 
     @Override

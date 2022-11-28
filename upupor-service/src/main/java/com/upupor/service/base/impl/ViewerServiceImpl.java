@@ -34,6 +34,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.dao.mapper.ViewHistoryMapper;
@@ -144,7 +145,8 @@ public class ViewerServiceImpl implements ViewerService {
                 .orderByDesc(ViewHistory::getCreateTime);
         PageHelper.startPage(pageNum, pageSize);
         List<ViewHistory> viewHistories = viewHistoryMapper.selectList(query);
-        PageInfo<ViewHistory> pageInfo = new PageInfo<>(viewHistories);
+        List<ViewHistoryEnhance> viewHistoryEnhanceList = Converter.viewHistoryEnhanceList(viewHistories);
+        PageInfo<ViewHistoryEnhance> pageInfo = new PageInfo<>(viewHistoryEnhanceList);
 
         ListViewHistoryDto listViewHistoryDto = new ListViewHistoryDto(pageInfo);
         setViewHistoryTitle(pageInfo.getList());
@@ -159,12 +161,14 @@ public class ViewerServiceImpl implements ViewerService {
      *
      * @param viewHistoryList
      */
-    private void setViewHistoryTitle(List<ViewHistory> viewHistoryList) {
+    private void setViewHistoryTitle(List<ViewHistoryEnhance> viewHistoryList) {
         if (CollectionUtils.isEmpty(viewHistoryList)) {
             return;
         }
 
-        Map<ViewTargetType, List<ViewHistory>> map = viewHistoryList.stream().collect(Collectors.groupingBy(ViewHistory::getTargetType));
+        Map<ViewTargetType, List<ViewHistory>> map = viewHistoryList.stream()
+                .map(ViewHistoryEnhance::getViewHistory)
+                .collect(Collectors.groupingBy(ViewHistory::getTargetType));
 
         for (ViewTargetType targetType : map.keySet()) {
             for (AbstractViewHistory<?> abstractViewHistory : abstractViewHistoryList) {

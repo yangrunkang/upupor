@@ -33,8 +33,8 @@ import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.ContentExtend;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
-import com.upupor.data.dao.entity.enhance.Converter;
 import com.upupor.data.dao.mapper.MemberConfigMapper;
 import com.upupor.data.dto.OperateContentDto;
 import com.upupor.framework.BusinessException;
@@ -100,7 +100,7 @@ public class Create extends AbstractEditor<CreateContentReq> {
         ContentEnhance contentEnhance = createNewContent();
         boolean addSuccess = contentService.insertContent(contentEnhance);
         Content content = contentEnhance.getContent();
-        
+
         if (addSuccess) {
             // 发送创建文章成功事件
             publishContentEvent(content);
