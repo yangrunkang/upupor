@@ -29,17 +29,18 @@
 
 package com.upupor.service.business.replay;
 
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.business.message.MessageSend;
-import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
+import com.upupor.data.types.ContentType;
+import com.upupor.data.types.MessageType;
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
 import com.upupor.service.base.RadioService;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ReplayCommentEvent;
-import com.upupor.data.types.ContentType;
-import com.upupor.data.types.MessageType;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -54,7 +55,7 @@ import static com.upupor.framework.CcConstant.MsgTemplate.*;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class RadioReply extends AbstractReplyComment<Radio> {
+public class RadioReply extends AbstractReplyComment<RadioEnhance> {
     @Resource
     private RadioService radioService;
 
@@ -75,7 +76,7 @@ public class RadioReply extends AbstractReplyComment<Radio> {
         String beRepliedUserId = replayCommentEvent.getBeRepliedUserId();
         Member beReplayedUser = getMember(beRepliedUserId);
 
-        Radio radio = getTarget(replayCommentEvent.getTargetId());
+        Radio radio = getTarget(replayCommentEvent.getTargetId()).getRadio();
         String innerMsg = buildByTemplate(creatorReplayUserId, creatorReplayUserName, msgId, radio, RADIO_INNER_MSG);
         String emailMsg = buildByTemplate(creatorReplayUserId, creatorReplayUserName, msgId, radio, RADIO_EMAIL);
 
@@ -101,13 +102,13 @@ public class RadioReply extends AbstractReplyComment<Radio> {
     }
 
     @Override
-    protected Radio getTarget(String targetId) {
+    protected RadioEnhance getTarget(String targetId) {
         return radioService.getByRadioId(targetId);
     }
 
     @Override
     public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
-        Radio radio = getTarget(targetId);
+        Radio radio = getTarget(targetId).getRadio();
         radio.setLatestCommentTime(CcDateUtil.getCurrentTime());
         radio.setLatestCommentUserId(commenterUserId);
         radioService.updateRadio(radio);

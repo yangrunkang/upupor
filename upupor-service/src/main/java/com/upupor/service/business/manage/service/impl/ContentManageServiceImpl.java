@@ -32,15 +32,17 @@ package com.upupor.service.business.manage.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.Converter;
+import com.upupor.data.dao.mapper.ContentMapper;
+import com.upupor.data.dto.page.common.ListContentDto;
+import com.upupor.data.types.ContentStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.business.manage.service.ContentManageService;
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.mapper.ContentMapper;
 import com.upupor.service.base.ContentService;
-import com.upupor.data.dto.page.common.ListContentDto;
+import com.upupor.service.business.manage.service.ContentManageService;
 import com.upupor.service.outer.req.ListContentReq;
-import com.upupor.data.types.ContentStatus;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
@@ -82,9 +84,10 @@ public class ContentManageServiceImpl implements ContentManageService {
 
         PageHelper.startPage(listContentReq.getPageNum(), listContentReq.getPageSize());
         List<Content> contents = contentMapper.selectList(listQuery);
-        PageInfo<Content> pageInfo = new PageInfo<>(contents);
+        List<ContentEnhance> contentEnhances = Converter.contentEnhance(contents);
+        PageInfo<ContentEnhance> pageInfo = new PageInfo<>(contentEnhances);
 
-        contentService.bindContentMember(contents);
+        contentService.bindContentMember(contentEnhances);
 
         ListContentDto listContentDto = new ListContentDto(pageInfo);
         listContentDto.setContentList(pageInfo.getList());

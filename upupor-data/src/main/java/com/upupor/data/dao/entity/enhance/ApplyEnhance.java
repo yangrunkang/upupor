@@ -33,8 +33,10 @@ import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dao.entity.Apply;
 import com.upupor.data.dto.page.apply.ApplyContentDto;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Yang Runkang (cruise)
@@ -43,6 +45,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApplyEnhance {
     private Apply apply;
 

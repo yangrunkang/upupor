@@ -27,7 +27,7 @@
 
 package com.upupor.data.dto.dao;
 
-import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import lombok.Data;
 
 /**
@@ -38,6 +38,6 @@ import lombok.Data;
  */
 @Data
 public class LastAndNextContentDto {
-    private Content nextContent;
-    private Content lastContent;
+    private ContentEnhance nextContent;
+    private ContentEnhance lastContent;
 }

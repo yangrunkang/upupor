@@ -32,7 +32,8 @@ package com.upupor.service.base;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.ContentData;
 import com.upupor.data.dao.entity.ContentEditReason;
-import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.OperateContentDto;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.page.common.ListContentDto;
@@ -59,7 +60,7 @@ public interface ContentService {
      * @param contentId
      * @return
      */
-    Content getContentDetail(String contentId);
+    ContentEnhance getContentDetail(String contentId);
 
     /**
      * 获取文章
@@ -67,10 +68,10 @@ public interface ContentService {
      * @param contentId
      * @return
      */
-    Content getNormalContent(String contentId);
+    ContentEnhance getNormalContent(String contentId);
 
 
-    Content getContentByContentIdNoStatus(String contentId);
+    ContentEnhance getContentByContentIdNoStatus(String contentId);
 
     /**
      * 获取文章列表
@@ -115,7 +116,7 @@ public interface ContentService {
      * @param content
      * @return
      */
-    Boolean insertContent(Content content);
+    Boolean insertContent(ContentEnhance content);
 
 
     /**
@@ -132,7 +133,7 @@ public interface ContentService {
      * @param content
      * @return
      */
-    Boolean updateContent(Content content);
+    Boolean updateContent(ContentEnhance content);
 
     /**
      * 根据内容Id集合获取内容
@@ -140,7 +141,7 @@ public interface ContentService {
      * @param contentIdList
      * @return
      */
-    List<Content> listByContentIdList(List<String> contentIdList);
+    List<ContentEnhance> listByContentIdList(List<String> contentIdList);
 
     /**
      * 根据用户id查询所有文章
@@ -149,7 +150,7 @@ public interface ContentService {
      * @author runkangyang (cruise)
      * @date 2020.01.26 19:59
      */
-    List<Content> listAllByUserId(List<String> userIdList);
+    List<ContentEnhance> listAllByUserId(List<String> userIdList);
 
     /**
      * 文章总数
@@ -161,14 +162,14 @@ public interface ContentService {
      *
      * @param contentList
      */
-    void bindContentData(List<Content> contentList);
+    void bindContentData(List<ContentEnhance> contentList);
 
     /**
      * 绑定电台数据
      *
      * @param radioList
      */
-    void bindRadioContentData(List<Radio> radioList);
+    void bindRadioContentData(List<RadioEnhance> radioList);
 
 
     /**
@@ -176,7 +177,7 @@ public interface ContentService {
      *
      * @param content
      */
-    void bindContentExtend(Content content);
+    void bindContentExtend(ContentEnhance content);
 
     /**
      * 绑定用户名
@@ -190,14 +191,14 @@ public interface ContentService {
      *
      * @param content
      */
-    void bindContentMember(Content content);
+    void bindContentMember(ContentEnhance content);
 
     /**
      * 绑定用户名
      *
      * @param contentList
      */
-    void bindContentMember(List<Content> contentList);
+    void bindContentMember(List<ContentEnhance> contentList);
 
 
     Boolean currentUserIsAttentionAuthor(String contentUserId);
@@ -208,7 +209,7 @@ public interface ContentService {
      * @param contentId
      * @return
      */
-    Content getManageContentDetail(String contentId);
+    ContentEnhance getManageContentDetail(String contentId);
 
     /**
      * 获取文章
@@ -237,7 +238,7 @@ public interface ContentService {
      * @param pinnedStatus
      * @return
      */
-    List<Content> getContentListByPinned(PinnedStatus pinnedStatus, String userId);
+    List<ContentEnhance> getContentListByPinned(PinnedStatus pinnedStatus, String userId);
 
 
     void handlePinnedContent(ListContentDto listContentDto, String userId);
@@ -245,9 +246,9 @@ public interface ContentService {
     ContentEditReason latestEditReason(String contentId);
 
 
-    void bindContentEditReason(Content content);
+    void bindContentEditReason(ContentEnhance content);
 
-    void bindContentStatement(Content content);
+    void bindContentStatement(ContentEnhance content);
 
     /**
      * 罗列所有的标签
@@ -263,21 +264,22 @@ public interface ContentService {
      *
      * @param content
      */
-    void bindLikesMember(Content content);
+    void bindLikesMember(ContentEnhance content);
 
     /*
      * 绑定文章标签
      *
      * @param content
      */
-    void bindContentTag(List<Content> contentList);
+    void bindContentTag(List<ContentEnhance> contentList);
 
     /**
      * 上一篇、下一篇
      *
+     * @param content
      * @return
      */
-    void lastAndNextContent(Content content);
+    void lastAndNextContent(ContentEnhance content);
 
 
     /**
@@ -294,7 +296,7 @@ public interface ContentService {
      *
      * @return
      */
-    List<Content> randomContent(String notUserId);
+    List<ContentEnhance> randomContent(String notUserId);
 
     /**
      * 获取文章总数

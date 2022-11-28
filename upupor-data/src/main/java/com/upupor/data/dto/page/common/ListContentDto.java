@@ -29,7 +29,7 @@ package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
@@ -48,12 +48,12 @@ public class ListContentDto extends BaseListDto {
     /**
      * 内容集合
      */
-    private List<Content> contentList;
+    private List<ContentEnhance> contentList;
 
     /**
      * 置顶的文章
      */
-    private Content pinnedContent;
+    private ContentEnhance pinnedContent;
 
     public ListContentDto(PageInfo pageInfo) {
         super(pageInfo);
@@ -64,7 +64,7 @@ public class ListContentDto extends BaseListDto {
         this.contentList = new ArrayList();
     }
 
-    public List<Content> getContentList() {
+    public List<ContentEnhance> getContentList() {
         if (CollectionUtils.isEmpty(contentList)) {
             return new ArrayList<>();
         }

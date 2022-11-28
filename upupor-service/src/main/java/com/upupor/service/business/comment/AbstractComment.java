@@ -27,10 +27,10 @@
 
 package com.upupor.service.business.comment;
 
-import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.MemberService;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.types.ContentType;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.base.MemberService;
 
 /**
  * 评论抽象
@@ -75,7 +75,7 @@ public abstract class AbstractComment<T> {
      * @param userId
      * @return
      */
-    protected Member getMemberInfo(String userId) {
+    protected MemberEnhance getMemberInfo(String userId) {
         return memberService.memberInfo(userId);
     }
 

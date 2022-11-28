@@ -30,8 +30,10 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Tag;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Yang Runkang (cruise)
@@ -40,6 +42,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TagEnhance {
     private Tag tag;
 

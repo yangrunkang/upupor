@@ -27,8 +27,8 @@
 
 package com.upupor.service.business.manage.business;
 
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.framework.CcConstant;
-import com.upupor.data.dao.entity.Member;
 import com.upupor.service.base.FileService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.business.manage.AbstractManage;
@@ -56,13 +56,13 @@ public class ProfilePhotoManage extends AbstractManage {
     protected void specifyDtoHandle(ManageDto manageDto) {
         String userId = manageDto.getUserId();
 
-        Member member = memberService.memberInfoData(userId);
+        MemberEnhance memberEnhance = memberService.memberInfoData(userId);
         // 获取用户历史头像
-        List<String> userHistoryViaList = fileService.getUserHistoryViaList(member.getUserId());
+        List<String> userHistoryViaList = fileService.getUserHistoryViaList(memberEnhance.getMember().getUserId());
         if (!CollectionUtils.isEmpty(userHistoryViaList)) {
-            member.setHistoryViaList(userHistoryViaList);
+            memberEnhance.setHistoryViaList(userHistoryViaList);
         }
-        getMemberIndexDto().setMember(member);
+        getMemberIndexDto().setMember(memberEnhance);
 
     }
 

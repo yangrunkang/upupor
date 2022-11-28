@@ -29,7 +29,7 @@ package com.upupor.service.business.viewhistory;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.dao.mapper.MemberMapper;
 import com.upupor.data.types.ViewTargetType;
 import org.springframework.stereotype.Component;
@@ -61,12 +61,12 @@ public class ProfileAttentionViewHistory extends AbstractViewHistory<Member> {
 
     @Override
     public void setViewHistoryTitleAndUrl() {
-        for (ViewHistory viewHistory : getSpecifyViewHistory()) {
+        for (ViewHistoryEnhance viewHistoryEnhance : getSpecifyViewHistory()) {
             for (Member member : getTargetList()) {
-                if (member.getUserId().equals(viewHistory.getTargetId())) {
-                    viewHistory.setTitle(member.getUserName() + "的关注");
-                    viewHistory.setUrl("/profile/" + member.getUserId() + "/attention");
-                    viewHistory.setSource(viewTargetType().getName());
+                if (member.getUserId().equals(viewHistoryEnhance.getViewHistory().getTargetId())) {
+                    viewHistoryEnhance.setTitle(member.getUserName() + "的关注");
+                    viewHistoryEnhance.setUrl("/profile/" + member.getUserId() + "/attention");
+                    viewHistoryEnhance.setSource(viewTargetType().getName());
                 }
             }
         }

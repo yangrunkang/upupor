@@ -27,6 +27,7 @@
 
 package com.upupor.web.view.content;
 
+import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dto.page.ContentIndexDto;
 import com.upupor.data.utils.PageUtils;
 import com.upupor.framework.CcConstant;
@@ -79,13 +80,15 @@ public class ContentDetailView extends AbstractView {
         for (Object value : modelAndView.getModelMap().values()) {
             if (value instanceof ContentIndexDto) {
                 ContentIndexDto contentIndexDto = (ContentIndexDto) value;
-                modelAndView.addObject(CcConstant.SeoKey.TITLE, contentIndexDto.getContent().getTitle());
-                modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, contentIndexDto.getContent().getTitle());
+                Content content = contentIndexDto.getContent().getContent();
+                
+                modelAndView.addObject(CcConstant.SeoKey.TITLE, content.getTitle());
+                modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, content.getTitle());
                 // 文章详情设置关键字
-                if (!StringUtils.isEmpty(contentIndexDto.getContent().getKeywords())) {
-                    modelAndView.addObject(CcConstant.SeoKey.KEYWORDS, contentIndexDto.getContent().getKeywords());
+                if (!StringUtils.isEmpty(content.getKeywords())) {
+                    modelAndView.addObject(CcConstant.SeoKey.KEYWORDS, content.getKeywords());
                 } else {
-                    modelAndView.addObject(CcConstant.SeoKey.KEYWORDS, CcUtils.getSegmentResult(contentIndexDto.getContent().getTitle()));
+                    modelAndView.addObject(CcConstant.SeoKey.KEYWORDS, CcUtils.getSegmentResult(content.getTitle()));
                 }
                 break;
             }

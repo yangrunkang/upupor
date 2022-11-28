@@ -29,7 +29,7 @@ package com.upupor.service.business.viewhistory;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.dao.mapper.ContentMapper;
 import com.upupor.data.types.ViewTargetType;
 import org.springframework.stereotype.Component;
@@ -61,12 +61,12 @@ public class ContentViewHistory extends AbstractViewHistory<Content> {
 
     @Override
     public void setViewHistoryTitleAndUrl() {
-        for (ViewHistory viewHistory : getSpecifyViewHistory()) {
+        for (ViewHistoryEnhance viewHistoryEnhance : getSpecifyViewHistory()) {
             for (Content content : getTargetList()) {
-                if (content.getContentId().equals(viewHistory.getTargetId())) {
-                    viewHistory.setTitle(content.getTitle());
-                    viewHistory.setUrl("/u/" + content.getContentId());
-                    viewHistory.setSource(viewTargetType().getName());
+                if (content.getContentId().equals(viewHistoryEnhance.getViewHistory().getTargetId())) {
+                    viewHistoryEnhance.setTitle(content.getTitle());
+                    viewHistoryEnhance.setUrl("/u/" + content.getContentId());
+                    viewHistoryEnhance.setSource(viewTargetType().getName());
                 }
             }
         }

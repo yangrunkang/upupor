@@ -31,8 +31,10 @@ package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Comment;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.Objects;
@@ -44,6 +46,8 @@ import java.util.Objects;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentEnhance {
     private Comment comment;
 

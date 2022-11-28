@@ -29,17 +29,18 @@
 
 package com.upupor.service.business.member.business;
 
+import com.upupor.data.dao.entity.File;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.base.FileService;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
-import com.upupor.data.dao.entity.File;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.FileService;
 import com.upupor.service.outer.req.member.UpdateViaReq;
-import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -74,10 +75,11 @@ public class Via extends AbstractMember<UpdateViaReq> {
             throw new BusinessException(ErrorCode.SELECTED_VIA_NOT_EXISTS);
         }
         String userId = ServletUtils.getUserId();
-        Member member = memberService.memberInfo(userId);
+        MemberEnhance memberEnhance = memberService.memberInfo(userId);
+        Member member = memberEnhance.getMember();
         member.setVia(via);
         member.setSysUpdateTime(new Date());
-        Boolean result = memberService.update(member);
+        Boolean result = memberService.update(memberEnhance);
         if (result) {
             ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, via);
         }

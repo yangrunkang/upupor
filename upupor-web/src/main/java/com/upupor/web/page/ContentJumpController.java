@@ -27,18 +27,18 @@
 
 package com.upupor.web.page;
 
+import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.types.ContentType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.aggregation.CommonAggregateService;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.MemberConfig;
-import com.upupor.data.dao.entity.Tag;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.TagService;
 import com.upupor.service.outer.req.GetCommonReq;
-import com.upupor.data.types.ContentType;
-import com.upupor.framework.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -93,8 +93,8 @@ public class ContentJumpController {
             try {
                 String userId = ServletUtils.getUserId();
 
-                Member member = memberService.memberInfo(userId);
-                MemberConfig memberConfig = member.getMemberConfig();
+                MemberEnhance memberEnhance = memberService.memberInfo(userId);
+                MemberConfig memberConfig = memberEnhance.getMemberConfig();
                 if (Objects.isNull(memberConfig)) {
                     throw new BusinessException(ErrorCode.MEMBER_CONFIG_LESS);
                 }

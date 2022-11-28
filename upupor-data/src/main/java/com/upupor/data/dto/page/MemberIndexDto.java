@@ -29,10 +29,10 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Statement;
 import com.upupor.data.dao.entity.Tag;
-import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.dto.page.common.*;
 import lombok.Data;
 
@@ -51,7 +51,7 @@ public class MemberIndexDto {
     /**
      * 用户信息
      */
-    private Member member;
+    private MemberEnhance member;
 
     /**
      * 内容列表对象
@@ -117,7 +117,7 @@ public class MemberIndexDto {
     /**
      * 文章访问者
      */
-    private List<ViewHistory> viewerList;
+    private List<ViewHistoryEnhance> viewerList;
 
     /**
      * 标签名
@@ -125,7 +125,7 @@ public class MemberIndexDto {
     private String tagName;
 
     public MemberIndexDto() {
-        this.member = new Member();
+        this.member = new MemberEnhance();
         this.listContentDto = new ListContentDto();
         this.listApplyDto = new ListApplyDto();
         this.listCommentDto = new ListCommentDto();

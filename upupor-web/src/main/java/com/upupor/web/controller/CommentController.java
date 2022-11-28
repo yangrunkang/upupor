@@ -94,7 +94,7 @@ public class CommentController {
             Comment comment = commentService.toComment(addCommentReq);
 
             // 评论的人(当前用户)
-            Member currentUser = memberService.memberInfo(ServletUtils.getUserId());
+            Member currentUser = memberService.memberInfo(ServletUtils.getUserId()).getMember();
             if (StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {
                 // 常规的评论
                 normalCommentEvent(addCommentReq.getTargetId(), comment);

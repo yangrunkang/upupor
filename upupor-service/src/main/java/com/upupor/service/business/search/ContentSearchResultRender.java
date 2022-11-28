@@ -27,11 +27,12 @@
 
 package com.upupor.service.business.search;
 
-import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.data.dao.entity.Content;
-import com.upupor.service.base.ContentService;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dto.page.search.SearchDataDto;
 import com.upupor.data.types.ContentStatus;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.base.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -44,7 +45,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Component
-public class ContentSearchResultRender extends AbstractSearchResultRender<Content> {
+public class ContentSearchResultRender extends AbstractSearchResultRender<ContentEnhance> {
 
     private final ContentService contentService;
 
@@ -54,18 +55,19 @@ public class ContentSearchResultRender extends AbstractSearchResultRender<Conten
     }
 
     @Override
-    protected void bindMemberList(List<Content> contents) {
+    protected void bindMemberList(List<ContentEnhance> contents) {
         contentService.bindContentMember(contents);
     }
 
     @Override
-    protected List<Content> getDataList() {
+    protected List<ContentEnhance> getDataList() {
         return contentService.listByContentIdList(getTargetIdList());
     }
 
     @Override
-    protected void transferToSearchDataDtoList(List<Content> contents) {
-        for (Content content : contents) {
+    protected void transferToSearchDataDtoList(List<ContentEnhance> contents) {
+        for (ContentEnhance contentEnhance : contents) {
+            Content content = contentEnhance.getContent();
             if (!ContentStatus.NORMAL.equals(content.getStatus())) {
                 continue;
             }
@@ -73,7 +75,7 @@ public class ContentSearchResultRender extends AbstractSearchResultRender<Conten
             searchDataDto.setDataType(dataType());
             searchDataDto.setResultTitle(content.getTitle());
             searchDataDto.setResultId(content.getContentId());
-            searchDataDto.setMember(content.getMember());
+            searchDataDto.setMember(contentEnhance.getMember());
             getSearchDataDtoList().add(searchDataDto);
         }
     }

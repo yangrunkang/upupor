@@ -38,21 +38,26 @@ import java.util.List;
  * @date 2021年12月29日 20:53
  * @email: yangrunkang53@gmail.com
  */
-public class CommentAd extends AbstractAd<Comment> {
-    public CommentAd(List<Comment> comments) {
+public class CommentAd extends AbstractAd<CommentEnhance> {
+    public CommentAd(List<CommentEnhance> comments) {
         super(comments);
     }
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getCommentId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getComment().getCommentId().equals(CcConstant.GoogleAd.FEED_AD));
     }
 
     @Override
     protected void insertAd(int adIndex) {
-        Comment ad = new Comment();
-        ad.setCommentId(CcConstant.GoogleAd.FEED_AD);
-        ad.setMember(new Member());
+        CommentEnhance ad = new CommentEnhance();
+
+        Comment empty = Comment.empty();
+        empty.setCommentId(CcConstant.GoogleAd.FEED_AD);
+
+        ad.setComment(empty);
+        // todo 调整一下前端渲染,看能不能去掉Member
+        ad.setMember(new MemberEnhance());
         getVoList().add(adIndex, ad);
     }
 }

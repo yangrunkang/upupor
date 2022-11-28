@@ -31,15 +31,15 @@ package com.upupor.service.business.manage.business;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.upupor.framework.CcConstant;
-import com.upupor.service.business.manage.AbstractManage;
-import com.upupor.service.business.manage.ManageDto;
-import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Draft;
-import com.upupor.service.base.ContentService;
-import com.upupor.service.base.DraftService;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dto.dao.ListDraftDto;
 import com.upupor.data.dto.page.common.ListContentDto;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.DraftService;
+import com.upupor.service.business.manage.AbstractManage;
+import com.upupor.service.business.manage.ManageDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -85,15 +85,15 @@ public class DraftManage extends AbstractManage {
     }
 
 
-    private List<Content> parseToContentList(List<Draft> draftList) {
-        List<Content> contentList = new ArrayList<>();
+    private List<ContentEnhance> parseToContentList(List<Draft> draftList) {
+        List<ContentEnhance> contentList = new ArrayList<>();
         if (CollectionUtils.isEmpty(draftList)) {
             return new ArrayList<>();
         }
         draftList.forEach(draft -> {
-            Content content = Draft.parseContent(draft);
-            content.setExistedContent(contentService.exists(content.getContentId()));
-            contentList.add(content);
+            ContentEnhance contentEnhance = Draft.parseContent(draft);
+            contentEnhance.setExistedContent(contentService.exists(contentEnhance.getContent().getContentId()));
+            contentList.add(contentEnhance);
         });
         return contentList;
     }

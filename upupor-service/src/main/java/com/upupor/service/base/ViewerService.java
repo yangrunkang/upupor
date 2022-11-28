@@ -30,7 +30,7 @@
 package com.upupor.service.base;
 
 
-import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.dto.page.common.ListViewHistoryDto;
 import com.upupor.data.types.ViewTargetType;
 
@@ -60,7 +60,7 @@ public interface ViewerService {
      * @param targetId
      * @return
      */
-    List<ViewHistory> listViewerByTargetIdAndType(String targetId, ViewTargetType targetType);
+    List<ViewHistoryEnhance> listViewerByTargetIdAndType(String targetId, ViewTargetType targetType);
 
 
     /**

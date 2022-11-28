@@ -29,19 +29,19 @@
 
 package com.upupor.service.business.editor;
 
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.data.dao.entity.Draft;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.mapper.ContentExtendMapper;
 import com.upupor.data.dao.mapper.ContentMapper;
+import com.upupor.data.dto.OperateContentDto;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.ServletUtils;
+import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.base.MemberService;
-import com.upupor.data.dto.OperateContentDto;
 import com.upupor.service.outer.req.content.BaseContentReq;
-import com.upupor.framework.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
 
 import javax.annotation.Resource;
@@ -101,7 +101,7 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
         UPDATE_STATUS,
     }
 
-    public Member getMember() {
+    public MemberEnhance getMember() {
         return memberService.memberInfo(ServletUtils.getUserId());
     }
 

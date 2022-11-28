@@ -29,16 +29,16 @@
 
 package com.upupor.service.business.member.business;
 
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dto.OperateMemberDto;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dto.OperateMemberDto;
 import com.upupor.service.outer.req.member.UpdateMemberReq;
-import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -75,7 +75,7 @@ public class EditProfile extends AbstractMember<UpdateMemberReq> {
         // 变更用户名
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_NAME, updateMemberReq.getUserName());
 
-        Member reGet = memberService.memberInfo(userId);
+        Member reGet = memberService.memberInfo(userId).getMember();
 
         OperateMemberDto operateMemberDto = new OperateMemberDto();
         operateMemberDto.setMemberId(reGet.getUserId());

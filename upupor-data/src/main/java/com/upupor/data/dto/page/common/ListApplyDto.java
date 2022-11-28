@@ -28,7 +28,7 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dao.entity.enhance.ApplyEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import java.util.List;
  */
 @Data
 public class ListApplyDto extends BaseListDto {
-    private List<Apply> applyList;
+    private List<ApplyEnhance> applyList;
 
 
     public ListApplyDto(PageInfo pageInfo) {

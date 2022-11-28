@@ -29,17 +29,17 @@
 
 package com.upupor.web.controller;
 
-import com.upupor.framework.CcResponse;
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.framework.CcResponse;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.outer.req.BatchHandleExceptionUserReq;
 import com.upupor.service.outer.req.SetContentStatusReq;
 import com.upupor.service.outer.req.SetKeywordsReq;
-import com.upupor.data.types.ContentStatus;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -76,10 +76,10 @@ public class AdminController {
 
         String contentId = setKeywordsReq.getContentId();
         String keywords = setKeywordsReq.getKeywords();
-        Content content = contentService.getContentByContentIdNoStatus(contentId);
-        content.setKeywords(keywords);
+        ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);
+        contentEnhance.getContent().setKeywords(keywords);
         CcResponse ccResponse = new CcResponse();
-        ccResponse.setData(contentService.updateContent(content));
+        ccResponse.setData(contentService.updateContent(contentEnhance));
         return ccResponse;
     }
 
@@ -90,10 +90,10 @@ public class AdminController {
         String contentId = setContentStatusReq.getContentId();
         ContentStatus status = setContentStatusReq.getStatus();
 
-        Content content = contentService.getContentByContentIdNoStatus(contentId);
-        content.setStatus(status);
+        ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);
+        contentEnhance.getContent().setStatus(status);
 
-        Boolean result = contentService.updateContent(content);
+        Boolean result = contentService.updateContent(contentEnhance);
         if (result) {
             // 重新生成站点地图
             eventPublisher.publishEvent(new GenerateGoogleSiteMapEvent());
@@ -122,23 +122,23 @@ public class AdminController {
     @PostMapping(value = "/handle-user")
     public CcResponse handleUser(BatchHandleExceptionUserReq batchHandleExceptionUserReq) {
         List<String> userIdList = Arrays.asList(batchHandleExceptionUserReq.getUserId());
-        List<Member> memberList = memberService.listByUserIdList(userIdList);
-        if (CollectionUtils.isEmpty(memberList)) {
+        List<MemberEnhance> memberEnhanceList = memberService.listByUserIdList(userIdList);
+        if (CollectionUtils.isEmpty(memberEnhanceList)) {
             return new CcResponse(false);
         }
 
         // 首先设置用户为恶意刷文用户
-        memberList.forEach(member -> {
-            member.setStatementId(3); // 主键Id,这里先写死
-            memberService.update(member);
+        memberEnhanceList.forEach(memberEnhance -> {
+            memberEnhance.getMember().setStatementId(3); // 主键Id,这里先写死
+            memberService.update(memberEnhance);
         });
 
 
         // 将用户的所有文章设置为审核中
-        List<Content> contentList = contentService.listAllByUserId(userIdList);
-        if (!CollectionUtils.isEmpty(contentList)) {
-            contentList.forEach(content -> {
-                content.setStatus(ContentStatus.Applying);
+        List<ContentEnhance> contentEnhanceList = contentService.listAllByUserId(userIdList);
+        if (!CollectionUtils.isEmpty(contentEnhanceList)) {
+            contentEnhanceList.forEach(content -> {
+                content.getContent().setStatus(ContentStatus.Applying);
                 contentService.updateContent(content);
             });
         }

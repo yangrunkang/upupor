@@ -34,17 +34,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.dao.mapper.ViewHistoryMapper;
 import com.upupor.data.dto.page.common.ListViewHistoryDto;
-import com.upupor.service.base.MemberService;
-import com.upupor.service.base.ViewerService;
-import com.upupor.framework.utils.ServletUtils;
-import com.upupor.service.business.viewhistory.AbstractViewHistory;
-import com.upupor.framework.common.CcTemplateConstant;
-import com.upupor.service.listener.event.ViewerEvent;
 import com.upupor.data.types.ViewTargetType;
 import com.upupor.data.types.ViewType;
 import com.upupor.data.types.ViewerDeleteStatus;
+import com.upupor.framework.common.CcTemplateConstant;
+import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.base.MemberService;
+import com.upupor.service.base.ViewerService;
+import com.upupor.service.business.viewhistory.AbstractViewHistory;
+import com.upupor.service.listener.event.ViewerEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -85,7 +87,7 @@ public class ViewerServiceImpl implements ViewerService {
     }
 
     @Override
-    public List<ViewHistory> listViewerByTargetIdAndType(String targetId, ViewTargetType targetType) {
+    public List<ViewHistoryEnhance> listViewerByTargetIdAndType(String targetId, ViewTargetType targetType) {
 
         LambdaQueryWrapper<ViewHistory> queryViewHistory = new LambdaQueryWrapper<ViewHistory>()
                 .eq(ViewHistory::getTargetId, targetId)
@@ -97,16 +99,26 @@ public class ViewerServiceImpl implements ViewerService {
         if (CollectionUtils.isEmpty(viewerList)) {
             return new ArrayList<>();
         }
+        List<ViewHistoryEnhance> viewHistoryEnhanceList = viewerList.stream().map(v -> {
+            ViewHistoryEnhance viewHistoryEnhance = new ViewHistoryEnhance();
+            viewHistoryEnhance.setViewHistory(v);
+            return viewHistoryEnhance;
+        }).collect(Collectors.toList());
 
-        List<String> userIdList = viewerList.stream().map(ViewHistory::getViewerUserId).distinct().collect(Collectors.toList());
-        List<Member> members = memberService.listByUserIdList(userIdList);
-        if (CollectionUtils.isEmpty(members)) {
-            return viewerList;
+
+        List<String> userIdList = viewHistoryEnhanceList.stream()
+                .map(ViewHistoryEnhance::getViewHistory)
+                .map(ViewHistory::getViewerUserId)
+                .distinct().collect(Collectors.toList());
+        List<MemberEnhance> memberEnhanceList = memberService.listByUserIdList(userIdList);
+        if (CollectionUtils.isEmpty(memberEnhanceList)) {
+            return viewHistoryEnhanceList;
         }
 
-        viewerList.forEach(viewer -> {
-            members.forEach(member -> {
-                if (member.getUserId().equals(viewer.getViewerUserId())) {
+        viewHistoryEnhanceList.forEach(viewHistoryEnhance -> {
+            memberEnhanceList.forEach(memberEnhance -> {
+                Member member = memberEnhance.getMember();
+                if (member.getUserId().equals(viewHistoryEnhance.getViewHistory().getViewerUserId())) {
                     Integer fanNum = memberService.fansNum(member.getUserId());
                     Integer totalIntegral = memberService.sumIntegral(member.getUserId());
 
@@ -116,12 +128,12 @@ public class ViewerServiceImpl implements ViewerService {
                     params.put(CcTemplateConstant.USER_FAN_NUM, fanNum);
                     params.put(CcTemplateConstant.USER_INTEGRAL_NUM, totalIntegral);
 
-                    viewer.setViewerUserVia(member.getVia());
-                    viewer.setViewerUserName(member.getUserName());
+                    viewHistoryEnhance.setViewerUserVia(member.getVia());
+                    viewHistoryEnhance.setViewerUserName(member.getUserName());
                 }
             });
         });
-        return viewerList;
+        return viewHistoryEnhanceList;
     }
 
     @Override
@@ -157,7 +169,11 @@ public class ViewerServiceImpl implements ViewerService {
         for (ViewTargetType targetType : map.keySet()) {
             for (AbstractViewHistory<?> abstractViewHistory : abstractViewHistoryList) {
                 if (abstractViewHistory.viewTargetType().equals(targetType)) {
-                    abstractViewHistory.initData(map.get(targetType));
+                    abstractViewHistory.initData(map.get(targetType).stream().map(v -> {
+                        ViewHistoryEnhance viewHistoryEnhance = new ViewHistoryEnhance();
+                        viewHistoryEnhance.setViewHistory(v);
+                        return viewHistoryEnhance;
+                    }).collect(Collectors.toList()));
                     abstractViewHistory.setViewHistoryTitleAndUrl();
                 }
             }

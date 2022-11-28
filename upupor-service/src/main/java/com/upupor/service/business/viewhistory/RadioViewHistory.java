@@ -29,7 +29,7 @@ package com.upupor.service.business.viewhistory;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.data.dao.entity.Radio;
-import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.dao.mapper.RadioMapper;
 import com.upupor.data.types.ViewTargetType;
 import org.springframework.stereotype.Component;
@@ -55,12 +55,12 @@ public class RadioViewHistory extends AbstractViewHistory<Radio> {
 
     @Override
     public void setViewHistoryTitleAndUrl() {
-        for (ViewHistory viewHistory : getSpecifyViewHistory()) {
+        for (ViewHistoryEnhance viewHistoryEnhance : getSpecifyViewHistory()) {
             for (Radio radio : getTargetList()) {
-                if (radio.getRadioId().equals(viewHistory.getTargetId())) {
-                    viewHistory.setTitle(radio.getRadioIntro());
-                    viewHistory.setUrl("/r/" + radio.getRadioId());
-                    viewHistory.setSource(viewTargetType().getName());
+                if (radio.getRadioId().equals(viewHistoryEnhance.getViewHistory().getTargetId())) {
+                    viewHistoryEnhance.setTitle(radio.getRadioIntro());
+                    viewHistoryEnhance.setUrl("/r/" + radio.getRadioId());
+                    viewHistoryEnhance.setSource(viewTargetType().getName());
                 }
             }
         }

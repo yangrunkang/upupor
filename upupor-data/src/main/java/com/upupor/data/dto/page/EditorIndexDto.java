@@ -29,8 +29,8 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class EditorIndexDto {
     /**
      * 文章
      */
-    private Content content;
+    private ContentEnhance content;
 
     /**
      * 根据当前用户点击的文章类型来创建内容
@@ -67,6 +67,6 @@ public class EditorIndexDto {
 
     public EditorIndexDto() {
         this.tagList = new ArrayList<>();
-        this.content = new Content();
+        this.content = new ContentEnhance();
     }
 }

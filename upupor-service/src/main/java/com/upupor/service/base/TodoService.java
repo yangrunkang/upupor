@@ -28,6 +28,7 @@
 package com.upupor.service.base;
 
 import com.upupor.data.dao.entity.Todo;
+import com.upupor.data.dao.entity.enhance.TodoEnhance;
 import com.upupor.data.dto.page.common.ListTodoDto;
 
 /**
@@ -38,12 +39,12 @@ public interface TodoService {
     /**
      * 添加todo
      */
-    Integer addTodo(Todo todo);
+    Integer addTodo(TodoEnhance todoEnhance);
 
     /**
      * 更新
      */
-    Integer update(Todo todo);
+    Integer update(TodoEnhance todoEnhance);
 
     /**
      * 根据UserId获取

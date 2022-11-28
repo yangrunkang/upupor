@@ -31,8 +31,10 @@ package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Message;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Yang Runkang (cruise)
@@ -41,6 +43,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageEnhance {
     private Message message;
 

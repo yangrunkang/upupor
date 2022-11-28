@@ -29,6 +29,7 @@ package com.upupor.data.dto.page;
 
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.ContentEditReason;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class ContentIndexDto {
      * 作者其他的文章
      */
     List<Content> authorOtherContentList;
-    private Content content;
+    private ContentEnhance content;
     /**
      * true:已经收藏  false:未收藏
      */
@@ -69,7 +70,7 @@ public class ContentIndexDto {
     /**
      * 推荐文章
      */
-    private List<Content> randomContentList;
+    private List<ContentEnhance> randomContentList;
 
     /**
      * 根据当前用户点击的文章类型来创建内容

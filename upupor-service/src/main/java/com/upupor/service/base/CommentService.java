@@ -28,8 +28,9 @@
 package com.upupor.service.base;
 
 import com.upupor.data.dao.entity.Comment;
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.CommentEnhance;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.common.ListCommentDto;
 import com.upupor.data.dto.query.ListCommentQuery;
 import com.upupor.service.outer.req.AddCommentReq;
@@ -80,11 +81,11 @@ public interface CommentService {
      *
      * @param commentList
      */
-    void bindCommentUser(List<Comment> commentList);
+    void bindCommentUser(List<CommentEnhance> commentList);
 
-    void bindContentComment(Content content, Integer pageNum, Integer pageSize);
+    void bindContentComment(ContentEnhance content, Integer pageNum, Integer pageSize);
 
-    void bindRadioComment(Radio radio, Integer pageNum, Integer pageSize);
+    void bindRadioComment(RadioEnhance radio, Integer pageNum, Integer pageSize);
 
     /**
      * 根据目标id统计评论数

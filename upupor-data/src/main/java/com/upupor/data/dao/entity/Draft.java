@@ -32,6 +32,7 @@ package com.upupor.data.dao.entity;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.upupor.data.dao.BaseEntity;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.DraftSource;
 import com.upupor.framework.BusinessException;
@@ -62,7 +63,7 @@ public class Draft extends BaseEntity {
      * @param draft
      * @return
      */
-    public static Content parseContent(Draft draft) {
+    public static ContentEnhance parseContent(Draft draft) {
         String draftContent = draft.getDraftContent();
         String contentId = draft.getDraftId();
         String userId = draft.getUserId();
@@ -72,18 +73,20 @@ public class Draft extends BaseEntity {
         }
 
         if (StringUtils.isEmpty(draftContent)) {
-            return Content.empty();
+            return new ContentEnhance();
         }
+
         Content content = JSON.parseObject(draftContent, Content.class);
         content.setContentId(contentId);
         content.setUserId(userId);
         content.setStatus(ContentStatus.DRAFT); // 兼容
         content.setCreateTime(draft.getCreateTime());
         JSONObject jsonObject = JSON.parseObject(draftContent);
-        ContentExtend contentExtend = ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent"));
-        content.setContentExtend(contentExtend);
-        content.setContentEditReason(ContentEditReason.create(contentId, jsonObject.getString("editReason")));
-        return content;
+        return ContentEnhance.builder()
+                .content(content)
+                .contentExtend(ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent")))
+                .contentEditReason(ContentEditReason.create(contentId, jsonObject.getString("editReason")))
+                .build();
     }
 
 }

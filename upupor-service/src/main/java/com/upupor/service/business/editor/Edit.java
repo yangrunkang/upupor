@@ -29,19 +29,21 @@
 
 package com.upupor.service.business.editor;
 
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.ContentEditReason;
+import com.upupor.data.dao.entity.ContentExtend;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.mapper.ContentEditReasonMapper;
+import com.upupor.data.dto.OperateContentDto;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.data.types.OriginType;
+import com.upupor.data.types.PinnedStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.ContentEditReason;
-import com.upupor.data.dao.mapper.ContentEditReasonMapper;
-import com.upupor.data.dto.OperateContentDto;
-import com.upupor.service.outer.req.content.UpdateContentReq;
-import com.upupor.data.types.ContentStatus;
-import com.upupor.data.types.OriginType;
-import com.upupor.data.types.PinnedStatus;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.outer.req.content.UpdateContentReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -65,7 +67,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
     @Resource
     private ContentEditReasonMapper contentEditReasonMapper;
 
-    private Content editContent;
+    private ContentEnhance editContentEnhance;
 
     @Override
     protected EditorType editorType() {
@@ -75,7 +77,8 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
     @Override
     protected void check() {
         UpdateContentReq updateContentReq = getReq();
-        editContent = contentService.getManageContentDetail(updateContentReq.getContentId());
+        editContentEnhance = contentService.getManageContentDetail(updateContentReq.getContentId());
+        Content editContent = editContentEnhance.getContent();
 
         // 校验内容所属的用户id是否是当前用户
         ServletUtils.checkOperatePermission(editContent.getUserId());
@@ -86,10 +89,10 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
 
     @Override
     protected OperateContentDto doBusiness() {
-
+        Content editContent = editContentEnhance.getContent();
         // 只在文章状态正常的情况下,记录变更次数
         if (ContentStatus.NORMAL.equals(editContent.getStatus())) {
-            updateEditTimes(editContent);
+            updateEditTimes(editContentEnhance);
         }
 
         UpdateContentReq updateContentReq = getReq();
@@ -109,20 +112,21 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         int totalUpdateCount = contentMapper.updateById(editContent);
 
         // 内容不等时再变更
-        String markdownContent = editContent.getContentExtend().getMarkdownContent();
+        ContentExtend contentExtend = editContentEnhance.getContentExtend();
+        String markdownContent = contentExtend.getMarkdownContent();
         if (!updateContentReq.getMdContent().equals(markdownContent)) {
-            editContent.getContentExtend().setDetailContent(updateContentReq.getContent());
-            editContent.getContentExtend().setMarkdownContent(updateContentReq.getMdContent());
-            editContent.getContentExtend().setSysUpdateTime(new Date());
-            totalUpdateCount = totalUpdateCount + contentExtendMapper.updateById(editContent.getContentExtend());
+            contentExtend.setDetailContent(updateContentReq.getContent());
+            contentExtend.setMarkdownContent(updateContentReq.getMdContent());
+            contentExtend.setSysUpdateTime(new Date());
+            totalUpdateCount = totalUpdateCount + contentExtendMapper.updateById(contentExtend);
         }
         boolean updateSuccess = totalUpdateCount > 0;
 
-        Content reGet = contentService.getContentByContentIdNoStatus(updateContentReq.getContentId());
+        ContentEnhance reGet = contentService.getContentByContentIdNoStatus(updateContentReq.getContentId());
         return OperateContentDto.builder()
                 .contentId(editContent.getContentId())
                 .success(updateSuccess)
-                .status(reGet.getStatus())
+                .status(reGet.getContent().getStatus())
                 .build();
     }
 
@@ -136,10 +140,11 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
     }
 
 
-    private void updateEditTimes(Content editContent) {
+    private void updateEditTimes(ContentEnhance editContentEnhance) {
+        Content editContent = editContentEnhance.getContent();
         UpdateContentReq updateContentReq = getReq();
         String updateTitleContent = updateContentReq.getTitle() + updateContentReq.getContent();
-        String originTitleContent = editContent.getTitle() + editContent.getContentExtend().getDetailContent();
+        String originTitleContent = editContent.getTitle() + editContentEnhance.getContentExtend().getDetailContent();
         if (!updateTitleContent.equals(originTitleContent)) {
             Integer editTimes = editContent.getEditTimes();
             if (Objects.isNull(editTimes)) {

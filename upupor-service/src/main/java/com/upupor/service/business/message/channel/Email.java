@@ -27,7 +27,7 @@
 
 package com.upupor.service.business.message.channel;
 
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.types.OpenEmail;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.business.message.AbstractMessage;
@@ -77,13 +77,13 @@ public class Email extends AbstractMessage {
             if (NOTIFY_ADMIN.equals(toUserId)) {
                 email = UPUPOR_EMAIL;
             } else {
-                Member member = memberService.memberInfo(toUserId);
-                boolean openEmail = OpenEmail.SUBSCRIBE_EMAIL.equals(member.getMemberConfig().getOpenEmail());
+                MemberEnhance memberEnhance = memberService.memberInfo(toUserId);
+                boolean openEmail = OpenEmail.SUBSCRIBE_EMAIL.equals(memberEnhance.getMemberConfig().getOpenEmail());
                 if (!openEmail) {
                     log.warn("用户:{}未开启邮件", toUserId);
                     return;
                 }
-                email = member.getEmail();
+                email = memberEnhance.getMember().getEmail();
             }
         }
 

@@ -30,6 +30,7 @@
 package com.upupor.data.dto.page.ad;
 
 import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.framework.CcConstant;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class ContentAd extends AbstractAd<Content> {
 
     @Override
     protected void insertAd(int adIndex) {
-        Content adContent = Content.empty();
+        Content adContent = ContentEnhance.empty();
         adContent.setContentId(CcConstant.GoogleAd.FEED_AD);
         getVoList().add(adIndex, adContent);
     }

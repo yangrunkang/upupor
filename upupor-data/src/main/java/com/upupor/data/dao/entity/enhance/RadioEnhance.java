@@ -30,12 +30,11 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.ContentData;
-import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
-import com.upupor.data.dao.entity.ViewHistory;
 import com.upupor.data.dto.page.common.ListCommentDto;
 import com.upupor.data.types.UploadStatus;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,6 +50,7 @@ import java.util.Objects;
 @Data
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class RadioEnhance {
     private Radio radio;
 
@@ -69,7 +69,7 @@ public class RadioEnhance {
     /**
      * 电台创作者
      */
-    private Member member;
+    private MemberEnhance member;
 
     /**
      * 评论内容
@@ -89,7 +89,7 @@ public class RadioEnhance {
 
     private String latestCommentUserName;
 
-    private List<ViewHistory> viewerList;
+    private List<ViewHistoryEnhance> viewerList;
 
     public String getLatestCommentDate() {
         Long latestCommentTime = radio.getLatestCommentTime();

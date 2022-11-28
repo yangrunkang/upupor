@@ -30,6 +30,7 @@ package com.upupor.service.aggregation;
 import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dto.cache.CacheMemberDto;
 import com.upupor.data.dto.page.CommonPageIndexDto;
 import com.upupor.data.dto.page.HrefDesc;
@@ -117,22 +118,32 @@ public class CommonAggregateService {
         CompletableFuture<ListBannerDto> listBannerDtoFuture = CompletableFuture.supplyAsync(() -> bannerService.listBannerByStatus(BannerStatus.NORMAL, CcConstant.Page.NUM, CcConstant.Page.SIZE));
 
         // 获取左边菜单栏list
-        CompletableFuture<List<Tag>> tagListFuture = CompletableFuture.supplyAsync(() -> {
-            List<Tag> tagList = new ArrayList<>();
+        CompletableFuture<List<TagEnhance>> tagListFuture = CompletableFuture.supplyAsync(() -> {
+            List<TagEnhance> tagEnhanceList = new ArrayList<>();
             if (Objects.nonNull(getCommonReq.getContentType())) {
-                tagList = tagService.getTagsByType(getCommonReq.getContentType());
+                tagEnhanceList = tagService.getTagsByType(getCommonReq.getContentType())
+                        .stream().map(s -> {
+                            TagEnhance tagEnhance = new TagEnhance();
+                            tagEnhance.setTag(s);
+                            return tagEnhance;
+                        }).collect(Collectors.toList());
+                ;
             }
-            if (!CollectionUtils.isEmpty(tagList)) {
-                List<String> tagIdList = tagList.stream().map(Tag::getTagId).collect(Collectors.toList());
+            if (!CollectionUtils.isEmpty(tagEnhanceList)) {
+                List<String> tagIdList = tagEnhanceList.stream()
+                        .map(TagEnhance::getTag)
+                        .map(Tag::getTagId).
+                        collect(Collectors.toList());
+
                 List<CountTagDto> countTagDtos = contentService.listCountByTagIds(tagIdList);
-                tagList.forEach(tagItem -> countTagDtos.forEach(countTagDto -> {
-                    if (tagItem.getTagId().equals(countTagDto.getTagId())) {
+                tagEnhanceList.forEach(tagItem -> countTagDtos.forEach(countTagDto -> {
+                    if (tagItem.getTag().getTagId().equals(countTagDto.getTagId())) {
                         tagItem.setCount(countTagDto.getCount());
                     }
                 }));
-                tagList.sort(Comparator.comparingInt(Tag::getCount).reversed());
+                tagEnhanceList.sort(Comparator.comparingInt(TagEnhance::getCount).reversed());
             }
-            return tagList;
+            return tagEnhanceList;
         });
 
         // 活跃用户

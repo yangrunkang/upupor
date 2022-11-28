@@ -29,7 +29,7 @@ package com.upupor.data.dto.page;
 
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.dto.page.common.ListBannerDto;
 import com.upupor.data.dto.page.common.ListContentDto;
@@ -56,7 +56,7 @@ public class CommonPageIndexDto {
     /**
      * 左边的栏目
      */
-    private List<Tag> tagList;
+    private List<TagEnhance> tagList;
 
     /**
      * 文章列表

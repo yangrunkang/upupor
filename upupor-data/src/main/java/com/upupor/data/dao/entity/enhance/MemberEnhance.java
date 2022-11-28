@@ -34,6 +34,7 @@ import com.upupor.data.dao.entity.MemberConfig;
 import com.upupor.data.dao.entity.MemberExtend;
 import com.upupor.data.dao.entity.Statement;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.logging.log4j.util.Strings;
@@ -51,6 +52,7 @@ import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
  */
 @Data
 @Builder
+@AllArgsConstructor
 public class MemberEnhance {
     private Member member;
     /**

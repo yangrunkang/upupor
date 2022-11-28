@@ -27,15 +27,16 @@
 
 package com.upupor.service.aggregation;
 
-import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.ContentService;
-import com.upupor.service.base.MemberService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.ContentIndexDto;
 import com.upupor.data.dto.page.MemberIndexDto;
 import com.upupor.data.types.MemberIsAdmin;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -58,19 +59,20 @@ public class AdminAggregateService {
     public MemberIndexDto admin(Integer pageNum, Integer pageSize) {
         MemberIndexDto memberIndexDto = new MemberIndexDto();
         String userId = getUserId();
-        Member member = memberService.memberInfoData(userId);
+        MemberEnhance memberEnhance = memberService.memberInfoData(userId);
+        Member member = memberEnhance.getMember();
         if (!member.getIsAdmin().equals(MemberIsAdmin.ADMIN)) {
             throw new BusinessException(ErrorCode.USER_NOT_ADMIN);
         }
-        memberIndexDto.setMember(member);
+        memberIndexDto.setMember(memberEnhance);
         return memberIndexDto;
     }
 
 
     public ContentIndexDto adminContent(Integer pageNum, Integer pageSize, String contentId) {
-        Content content = contentService.getContentByContentIdNoStatus(contentId);
+        ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);
         ContentIndexDto contentIndexDto = new ContentIndexDto();
-        contentIndexDto.setContent(content);
+        contentIndexDto.setContent(contentEnhance);
         return contentIndexDto;
     }
 

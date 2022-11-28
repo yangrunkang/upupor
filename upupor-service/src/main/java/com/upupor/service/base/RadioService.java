@@ -28,6 +28,7 @@
 package com.upupor.service.base;
 
 import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.OperateRadioDto;
 import com.upupor.data.dto.page.common.ListRadioDto;
 import com.upupor.service.outer.req.AddRadioReq;
@@ -47,7 +48,7 @@ public interface RadioService {
 
     ListRadioDto listRadioByUserId(Integer pageNum, Integer pageSize, String userId, String searchTitle);
 
-    Radio getByRadioId(String radioId);
+    RadioEnhance getByRadioId(String radioId);
 
     /**
      * 根据 RadioId 获取集合
@@ -57,7 +58,7 @@ public interface RadioService {
      */
     List<Radio> listByRadioId(List<String> radioIdList);
 
-    void bindRadioMember(List<Radio> radioList);
+    void bindRadioMember(List<RadioEnhance> radioList);
 
     Integer updateRadio(Radio radio);
 

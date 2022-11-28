@@ -27,11 +27,11 @@
 
 package com.upupor.service.business.manage;
 
-import com.upupor.framework.CcConstant;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.MemberService;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.MemberIndexDto;
+import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.base.MemberService;
 
 import javax.annotation.Resource;
 
@@ -57,9 +57,9 @@ public abstract class AbstractManage {
     public MemberIndexDto initMemberInfo() {
         memberIndexDto = new MemberIndexDto();
         String userId = ServletUtils.getUserId();
-        Member member = memberService.memberInfoData(userId);
-        member.setMemberConfig(member.getMemberConfig());
-        memberIndexDto.setMember(member);
+        MemberEnhance memberEnhance = memberService.memberInfoData(userId);
+        memberEnhance.setMemberConfig(memberEnhance.getMemberConfig());
+        memberIndexDto.setMember(memberEnhance);
         return memberIndexDto;
     }
 

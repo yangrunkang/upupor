@@ -27,8 +27,11 @@
 
 package com.upupor.data.dto.page.ad;
 
-import com.upupor.data.dao.BaseEntity;
-import com.upupor.data.dao.entity.*;
+import com.upupor.data.dao.entity.Comment;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import com.upupor.framework.CcConstant;
 import org.springframework.util.CollectionUtils;
 
@@ -43,7 +46,7 @@ import java.util.Random;
  * @date 2021年12月29日 20:44
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractAd<T extends BaseEntity> {
+public abstract class AbstractAd<T> {
 
     /**
      * vo列表
@@ -105,7 +108,7 @@ public abstract class AbstractAd<T extends BaseEntity> {
             if (o instanceof Content) {
                 new ContentAd((List<Content>) list).ad();
             } else if (o instanceof Comment) {
-                new CommentAd((List<Comment>) list).ad();
+                new CommentAd((List<CommentEnhance>) list).ad();
             } else if (o instanceof Member) {
                 new MemberAd((List<Member>) list).ad();
             } else if (o instanceof Radio) {

@@ -29,12 +29,13 @@
 
 package com.upupor.service.base;
 
-import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.MemberConfig;
-import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.data.dto.page.common.ListMemberDto;
+import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.service.outer.req.member.*;
 
 import java.util.List;
@@ -76,7 +77,7 @@ public interface MemberService {
      * @param userId
      * @return
      */
-    Member memberInfo(String userId);
+    MemberEnhance memberInfo(String userId);
 
     /**
      * 包含粉丝数,关注数等数据
@@ -84,7 +85,7 @@ public interface MemberService {
      * @param userId
      * @return
      */
-    Member memberInfoData(String userId);
+    MemberEnhance memberInfoData(String userId);
 
     /**
      * 编辑用户信息
@@ -98,10 +99,10 @@ public interface MemberService {
     /**
      * 更新
      *
-     * @param member
+     * @param memberEnhance
      * @return
      */
-    Boolean update(Member member);
+    Boolean update(MemberEnhance memberEnhance);
 
     /**
      * 重设密码
@@ -125,7 +126,7 @@ public interface MemberService {
      * @param userIdList
      * @return
      */
-    List<Member> listByUserIdList(List<String> userIdList);
+    List<MemberEnhance> listByUserIdList(List<String> userIdList);
 
     /**
      * 校验用户是否存在
@@ -192,16 +193,16 @@ public interface MemberService {
     /**
      * 绑定用户声明
      *
-     * @param member
+     * @param memberEnhance
      */
-    void bindStatement(Member member);
+    void bindStatement(MemberEnhance memberEnhance);
 
     /**
      * 检查Null
      *
-     * @param member
+     * @param memberEnhance
      */
-    void checkNull(Member member);
+    void checkNull(MemberEnhance memberEnhance);
 
     /**
      * 编辑网站样式
@@ -215,7 +216,7 @@ public interface MemberService {
 
     Integer sumIntegral(String userId);
 
-    void bindRadioMember(Radio radio);
+    void bindRadioMember(RadioEnhance radioEnhance);
 
     /**
      * 退订邮件

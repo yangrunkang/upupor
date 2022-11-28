@@ -29,7 +29,7 @@ package com.upupor.service.business.viewhistory;
 
 
 import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.types.ViewTargetType;
 import org.springframework.stereotype.Component;
 
@@ -47,12 +47,12 @@ public class ProfileRadioViewHistory extends ProfileAttentionViewHistory {
 
     @Override
     public void setViewHistoryTitleAndUrl() {
-        for (ViewHistory viewHistory : getSpecifyViewHistory()) {
+        for (ViewHistoryEnhance viewHistoryEnhance : getSpecifyViewHistory()) {
             for (Member member : getTargetList()) {
-                if (member.getUserId().equals(viewHistory.getTargetId())) {
-                    viewHistory.setTitle(member.getUserName() + "的电台");
-                    viewHistory.setUrl("/profile/" + member.getUserId() + "/radio");
-                    viewHistory.setSource(viewTargetType().getName());
+                if (member.getUserId().equals(viewHistoryEnhance.getViewHistory().getTargetId())) {
+                    viewHistoryEnhance.setTitle(member.getUserName() + "的电台");
+                    viewHistoryEnhance.setUrl("/profile/" + member.getUserId() + "/radio");
+                    viewHistoryEnhance.setSource(viewTargetType().getName());
                 }
             }
         }

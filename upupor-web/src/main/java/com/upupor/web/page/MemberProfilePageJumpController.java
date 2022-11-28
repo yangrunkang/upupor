@@ -112,7 +112,7 @@ public class MemberProfilePageJumpController {
                         .build();
                 MemberIndexDto memberIndexDto = abstractProfile.getBusinessData(build);
                 modelAndView.addObject(memberIndexDto);
-                modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getUserName());
+                modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getMember().getUserName());
                 modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
                 return modelAndView;
             }

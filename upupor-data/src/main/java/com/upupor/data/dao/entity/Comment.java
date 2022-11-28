@@ -56,4 +56,7 @@ public class Comment extends BaseEntity {
 
     private String mdCommentContent;
 
+    public static Comment empty() {
+        return new Comment();
+    }
 }

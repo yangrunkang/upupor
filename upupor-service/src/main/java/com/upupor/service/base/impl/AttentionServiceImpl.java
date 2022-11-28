@@ -34,23 +34,26 @@ import com.upupor.data.dao.entity.Attention;
 import com.upupor.data.dao.entity.Fans;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.comparator.MemberLastLoginTimeComparator;
+import com.upupor.data.dao.entity.enhance.AttentionEnhance;
+import com.upupor.data.dao.entity.enhance.Converter;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.mapper.AttentionMapper;
 import com.upupor.data.dao.mapper.FansMapper;
 import com.upupor.data.dto.page.common.ListAttentionDto;
+import com.upupor.data.types.AttentionStatus;
+import com.upupor.data.types.FansStatus;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
+import com.upupor.framework.common.IntegralEnum;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.base.AttentionService;
 import com.upupor.service.base.FanService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
-import com.upupor.framework.common.IntegralEnum;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.DelAttentionReq;
-import com.upupor.data.types.AttentionStatus;
-import com.upupor.data.types.FansStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -90,14 +93,20 @@ public class AttentionServiceImpl implements AttentionService {
     public ListAttentionDto getAttentions(String userId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Attention> fans = attentionMapper.getAttentions(userId);
-        PageInfo<Attention> pageInfo = new PageInfo<>(fans);
+        if (CollectionUtils.isEmpty(fans)) {
+            return new ListAttentionDto();
+        }
+
+        PageInfo<AttentionEnhance> pageInfo = new PageInfo<>(Converter.attentionEnhance(fans));
         ListAttentionDto listAttentionDto = new ListAttentionDto(pageInfo);
         listAttentionDto.setAttentionList(pageInfo.getList());
 
-        List<Attention> attentionList = listAttentionDto.getAttentionList();
+        List<AttentionEnhance> attentionList = listAttentionDto.getAttentionList();
         if (!CollectionUtils.isEmpty(attentionList)) {
             bindAttentionMemberInfo(attentionList);
-            listAttentionDto.setMemberList(attentionList.stream().map(Attention::getMember).sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
+            listAttentionDto.setMemberList(attentionList.stream()
+                    .map(AttentionEnhance::getMember)
+                    .sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }
         return listAttentionDto;
     }
@@ -107,18 +116,21 @@ public class AttentionServiceImpl implements AttentionService {
      *
      * @param attentionList
      */
-    private void bindAttentionMemberInfo(List<Attention> attentionList) {
-        List<String> attentionUserIdList = attentionList.stream().map(Attention::getAttentionUserId).distinct().collect(Collectors.toList());
-        List<Member> memberList = memberService.listByUserIdList(attentionUserIdList);
+    private void bindAttentionMemberInfo(List<AttentionEnhance> attentionList) {
+        List<String> attentionUserIdList = attentionList.stream()
+                .map(AttentionEnhance::getAttention)
+                .map(Attention::getAttentionUserId)
+                .distinct().collect(Collectors.toList());
+        List<MemberEnhance> memberList = memberService.listByUserIdList(attentionUserIdList);
 
         if (CollectionUtils.isEmpty(memberList)) {
             return;
         }
 
-        for (Attention attention : attentionList) {
-            for (Member member : memberList) {
-                if (attention.getAttentionUserId().equals(member.getUserId())) {
-                    attention.setMember(member);
+        for (AttentionEnhance attentionEnhance : attentionList) {
+            for (MemberEnhance memberEnhance : memberList) {
+                if (attentionEnhance.getAttention().getAttentionUserId().equals(memberEnhance.getMember().getUserId())) {
+                    attentionEnhance.setMember(memberEnhance);
                 }
             }
         }
@@ -199,7 +211,8 @@ public class AttentionServiceImpl implements AttentionService {
 
             // 添加积分
             String attentionUserId = addAttentionReq.getAttentionUserId();
-            Member member = memberService.memberInfo(attentionUserId);
+            MemberEnhance memberEnhance = memberService.memberInfo(attentionUserId);
+            Member member = memberEnhance.getMember();
             String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
             String text = "关注 " + userName + " ,增加积分";
             memberIntegralService.addIntegral(IntegralEnum.ATTENTION_AUTHOR, text, userId, fans.getFanId());
@@ -232,7 +245,8 @@ public class AttentionServiceImpl implements AttentionService {
         boolean delAttention = (deleteFans + deleteAttention) > 0;
         if (delAttention) {
             String attentionUserId = attention.getUserId();
-            Member member = memberService.memberInfo(attentionUserId);
+            MemberEnhance memberEnhance = memberService.memberInfo(attentionUserId);
+            Member member = memberEnhance.getMember();
             String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
             String text = "取消关注 " + userName + " ,扣减积分";
             memberIntegralService.reduceIntegral(IntegralEnum.ATTENTION_AUTHOR, text, member.getUserId(), attention.getAttentionUserId());

@@ -28,8 +28,8 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.Attention;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.AttentionEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -44,8 +44,8 @@ import java.util.List;
 @Data
 public class ListAttentionDto extends BaseListDto {
 
-    private List<Attention> attentionList;
-    private List<Member> memberList;
+    private List<AttentionEnhance> attentionList;
+    private List<MemberEnhance> memberList;
 
     public ListAttentionDto(PageInfo pageInfo) {
         super(pageInfo);

@@ -31,15 +31,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Collect;
+import com.upupor.data.dao.entity.enhance.CollectEnhance;
+import com.upupor.data.dao.entity.enhance.Converter;
 import com.upupor.data.dao.mapper.CollectMapper;
-import com.upupor.service.base.CollectService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
 import com.upupor.data.dto.page.common.ListCollectDto;
 import com.upupor.data.types.CollectType;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.base.CollectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -58,8 +61,11 @@ public class CollectServiceImpl implements CollectService {
     @Override
     public ListCollectDto listByUserIdManage(String userId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Collect> hottestContentIdList = collectMapper.listByUserIdManage(userId);
-        PageInfo<Collect> pageInfo = new PageInfo<>(hottestContentIdList);
+        List<Collect> collectList = collectMapper.listByUserIdManage(userId);
+        if (CollectionUtils.isEmpty(collectList)) {
+            return new ListCollectDto();
+        }
+        PageInfo<CollectEnhance> pageInfo = new PageInfo<>(Converter.collectEnhance(collectList));
 
         ListCollectDto listCollectDto = new ListCollectDto(pageInfo);
         listCollectDto.setCollectList(pageInfo.getList());

@@ -27,11 +27,12 @@
 
 package com.upupor.service.business.lucene.flush;
 
-import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.data.dao.entity.Content;
-import com.upupor.service.base.ContentService;
-import com.upupor.lucene.AbstractFlush;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.types.ContentStatus;
+import com.upupor.lucene.AbstractFlush;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.base.ContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -42,26 +43,27 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class FlushContent extends AbstractFlush<Content> {
+public class FlushContent extends AbstractFlush<ContentEnhance> {
 
     private final ContentService contentService;
 
-    private Content content;
+    private ContentEnhance contentEnhance;
 
     @Override
     protected void add() {
+        Content content = contentEnhance.getContent();
         getUpuporLuceneService().addDocument(content.getTitle(), content.getContentId(), runDataType());
     }
 
     @Override
     protected void delete() {
-        getUpuporLuceneService().deleteDocumentByTargetId(content.getContentId());
+        getUpuporLuceneService().deleteDocumentByTargetId(contentEnhance.getContent().getContentId());
     }
 
     @Override
     protected void initTargetObject() {
         String targetId = event.getTargetId();
-        this.content = contentService.getContentByContentIdNoStatus(targetId);
+        this.contentEnhance = contentService.getContentByContentIdNoStatus(targetId);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class FlushContent extends AbstractFlush<Content> {
 
     @Override
     protected void update() {
-        if (!ContentStatus.NORMAL.equals(this.content.getStatus())) {
+        if (!ContentStatus.NORMAL.equals(this.contentEnhance.getContent().getStatus())) {
             delete();
         } else {
             delete();

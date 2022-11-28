@@ -30,10 +30,11 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Attention;
-import com.upupor.data.dao.entity.Member;
 import com.upupor.framework.utils.CcDateUtil;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Yang Runkang (cruise)
@@ -42,6 +43,8 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AttentionEnhance {
     private Attention attention;
 
@@ -53,7 +56,7 @@ public class AttentionEnhance {
     /**
      * 关注/粉丝 (根据url来)
      */
-    private Member member;
+    private MemberEnhance member;
 
     public String getCreateDate() {
         return CcDateUtil.timeStamp2Date(attention.getCreateTime());

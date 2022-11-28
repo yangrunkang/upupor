@@ -73,12 +73,12 @@ public class RadioAggregateService {
 
     public RadioIndexDto detail(String radioId, Integer pageNum, Integer pageSize) {
 
-        Radio radio = radioService.getByRadioId(radioId);
+        RadioEnhance radioEnhance = radioService.getByRadioId(radioId);
+        Radio radio = radioEnhance.getRadio();
         if (Objects.isNull(radio)) {
             throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
         }
-        RadioEnhance radioEnhance = new RadioEnhance();
-        radioEnhance.setRadio(radio);
+
 
         File fileByFileUrl = fileService.selectByFileUrl(radioEnhance.getRadio().getRadioUrl());
         if (Objects.nonNull(fileByFileUrl)) {
@@ -90,13 +90,13 @@ public class RadioAggregateService {
         contentService.viewNumPlusOne(radioId);
 
         // 绑定评论
-        commentService.bindRadioComment(radio, pageNum, pageSize);
+        commentService.bindRadioComment(radioEnhance, pageNum, pageSize);
 
         // 绑定作者
-        memberService.bindRadioMember(radio);
+        memberService.bindRadioMember(radioEnhance);
 
         // 绑定数据
-        contentService.bindRadioContentData(Collections.singletonList(radio));
+        contentService.bindRadioContentData(Collections.singletonList(radioEnhance));
 
         // 绑定访问者
         radioEnhance.setViewerList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));

@@ -29,14 +29,14 @@
 
 package com.upupor.service.business.content;
 
-import com.upupor.framework.BusinessException;
-import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.ContentData;
 import com.upupor.data.dao.entity.Draft;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
-import com.upupor.data.types.ContentStatus;
-import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -60,25 +60,25 @@ public class UnpublishedContent extends AbstractContent {
     private ContentService contentService;
 
     @Override
-    protected Content queryContent() {
-        Content content = null;
+    protected ContentEnhance queryContent() {
+        ContentEnhance contentEnhance = null;
         Draft draft = draftService.getByDraftId(getContentId());
         if (Objects.isNull(draft)) { // 草稿不存在,则查询文章仅自己可见的内容
-            content = contentService.getManageContentDetail(getContentId());
-            if (Objects.isNull(content) || !ContentStatus.ONLY_SELF_CAN_SEE.equals(content.getStatus())) {
+            contentEnhance = contentService.getManageContentDetail(getContentId());
+            if (Objects.isNull(contentEnhance) || !ContentStatus.ONLY_SELF_CAN_SEE.equals(contentEnhance.getContent().getStatus())) {
                 throw new BusinessException(DRAFT_NOT_EXISTS);
             }
         } else {
-            content = Draft.parseContent(draft);
-            content.setContentData(ContentData.empty(content.getContentId()));
+            contentEnhance = Draft.parseContent(draft);
+            contentEnhance.setContentData(ContentData.empty(contentEnhance.getContent().getContentId()));
         }
 
         // 校验文章所属人
         String userId = ServletUtils.getUserId();
-        if (!content.getUserId().equals(userId)) {
+        if (!contentEnhance.getContent().getUserId().equals(userId)) {
             throw new BusinessException(ARTICLE_NOT_BELONG_TO_YOU);
         }
-        return content;
+        return contentEnhance;
     }
 
     @Override
