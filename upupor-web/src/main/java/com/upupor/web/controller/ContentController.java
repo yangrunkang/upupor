@@ -143,7 +143,7 @@ public class ContentController {
         ContentEnhance normalContent = contentService.getNormalContent(contentId);
         Content content = normalContent.getContent();
         // 获取文章数据
-        ContentData contentData = normalContent.getContentData();
+        ContentData contentData = normalContent.getContentDataEnhance().getContentData();
 
         // 检查是否已经点过赞
         GetMemberIntegralReq getMemberIntegralReq = new GetMemberIntegralReq();

@@ -29,77 +29,19 @@
 
 package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.entity.Radio;
-import com.upupor.data.dto.page.common.ListCommentDto;
-import com.upupor.data.types.UploadStatus;
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.data.dao.entity.ContentData;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Yang Runkang (cruise)
- * @createTime 2022-11-27 03:54
+ * @createTime 2022-11-29 01:13
  * @email: yangrunkang53@gmail.com
  */
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class RadioEnhance {
-    private Radio radio;
-
-
-    /****************************************/
-    /**
-     * 当前电台上传状态
-     */
-    private UploadStatus uploadStatus;
-
-    /**
-     * 评论数
-     */
-    private Integer commentTotal;
-
-    /**
-     * 电台创作者
-     */
-    private MemberEnhance member;
-
-    /**
-     * 评论内容
-     *
-     * @return
-     */
-    private ListCommentDto listCommentDto;
-
-    /**
-     * 文章数据
-     */
-    private ContentDataEnhance contentData;
-
-    private String createDate;
-
-    private String latestCommentDate;
-
-    private String latestCommentUserName;
-
-    private List<ViewHistoryEnhance> viewerList;
-
-    public String getLatestCommentDate() {
-        Long latestCommentTime = radio.getLatestCommentTime();
-        if (Objects.isNull(latestCommentTime)) {
-            return latestCommentDate;
-        }
-        return CcDateUtil.timeStamp2Date(latestCommentTime);
-    }
-
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(radio.getCreateTime());
-    }
+public class ContentDataEnhance {
+    private ContentData contentData;
 }

@@ -29,7 +29,8 @@
 
 package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.entity.*;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.Statement;
 import com.upupor.data.dto.dao.LastAndNextContentDto;
 import com.upupor.data.dto.page.common.ListCommentDto;
 import com.upupor.data.dto.page.common.TagDto;
@@ -55,14 +56,14 @@ import static com.upupor.framework.CcConstant.Time.NEW_CONTENT_TIME;
 public class ContentEnhance {
     private Content content;
 
-    private ContentExtend contentExtend;
+    private ContentExtendEnhance contentExtendEnhance;
 
     /**
      * 文章数据
      **/
-    private ContentData contentData;
+    private ContentDataEnhance contentDataEnhance;
 
-    private ContentEditReason contentEditReason;
+    private ContentEditReasonEnhance contentEditReasonEnhance;
 
     /**
      * 页面冗余字段 创建日记-年月日
@@ -118,7 +119,7 @@ public class ContentEnhance {
     /**
      * 点赞的用户
      */
-    private List<Member> likesMemberList;
+    private List<MemberEnhance> likesMemberEnhanceList;
 
     /**
      * 绑定本文的上一篇及下一篇

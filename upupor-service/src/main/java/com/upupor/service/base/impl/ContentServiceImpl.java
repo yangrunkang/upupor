@@ -35,6 +35,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.*;
 import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.ContentDataEnhance;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.*;
@@ -135,7 +136,7 @@ public class ContentServiceImpl implements ContentService {
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
 
         ContentEnhance contentEnhance = Converter.contentEnhance(content);
-        contentEnhance.setContentData(getContentData(Lists.newArrayList(contentId)).get(0));
+        contentEnhance.setContentDataEnhance(getContentData(Lists.newArrayList(contentId)).get(0));
         return contentEnhance;
     }
 
@@ -267,14 +268,14 @@ public class ContentServiceImpl implements ContentService {
         LambdaQueryWrapper<ContentExtend> query = new LambdaQueryWrapper<ContentExtend>().eq(ContentExtend::getContentId, content.getContentId());
         ContentExtend contentExtend = contentExtendMapper.selectOne(query);
         Asserts.notNull(contentExtend, DATA_MISSING);
-        contentEnhance.setContentExtend(contentExtend);
+        contentEnhance.setContentExtendEnhance(Converter.contentExtendEnhance(contentExtend));
     }
 
     @Override
     public Boolean insertContent(ContentEnhance contentEnhance) {
         Content content = contentEnhance.getContent();
         int count = contentMapper.insert(content);
-        return contentExtendMapper.insert(contentEnhance.getContentExtend()) + count > 1;
+        return contentExtendMapper.insert(contentEnhance.getContentExtendEnhance().getContentExtend()) + count > 1;
     }
 
     @Override
@@ -299,7 +300,7 @@ public class ContentServiceImpl implements ContentService {
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         Boolean updateContent, updateContentExtend = Boolean.FALSE;
         updateContent = contentMapper.updateById(content) > 0;
-        ContentExtend contentExtend = contentEnhance.getContentExtend();
+        ContentExtend contentExtend = contentEnhance.getContentExtendEnhance().getContentExtend();
         if (Objects.nonNull(contentExtend)) {
             updateContentExtend = contentExtendMapper.updateById(contentExtend) > 0;
         }
@@ -338,8 +339,8 @@ public class ContentServiceImpl implements ContentService {
                 .map(Content::getContentId)
                 .distinct().collect(Collectors.toList());
 
-        List<ContentData> contentDataList = getContentData(contentIdList);
-        if (CollectionUtils.isEmpty(contentDataList)) {
+        List<ContentDataEnhance> contentDataEnhanceList = getContentData(contentIdList);
+        if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
             return;
         }
         // 浏览数不用处理
@@ -347,26 +348,27 @@ public class ContentServiceImpl implements ContentService {
         // 需要处理评论数
         List<CommentNumDto> commentNumDtoList = commentMapper.selectByCommentIdList(contentIdList);
         if (!CollectionUtils.isEmpty(commentNumDtoList)) {
-            contentDataList.forEach(contentData -> commentNumDtoList.forEach(commentNumDto -> {
-                if (contentData.getContentId().equals(commentNumDto.getContentId())) {
-                    contentData.setCommentNum(commentNumDto.getTotal());
+            contentDataEnhanceList.forEach(contentData -> commentNumDtoList.forEach(commentNumDto -> {
+                if (contentData.getContentData().getContentId().equals(commentNumDto.getContentId())) {
+                    contentData.getContentData().setCommentNum(commentNumDto.getTotal());
                 }
             }));
         }
 
         // 绑定文章数据
-        contentDataList.forEach(contentData -> {
+        contentDataEnhanceList.forEach(contentDataEnhance -> {
             contentEnhanceList.forEach(contentEnhance -> {
-                if (contentData.getContentId().equals(contentEnhance.getContent().getContentId())) {
-                    contentEnhance.setContentData(contentData);
+                if (contentDataEnhance.getContentData().getContentId().equals(contentEnhance.getContent().getContentId())) {
+                    contentEnhance.setContentDataEnhance(contentDataEnhance);
                 }
             });
         });
     }
 
-    private List<ContentData> getContentData(List<String> targetIdList) {
+    private List<ContentDataEnhance> getContentData(List<String> targetIdList) {
         LambdaQueryWrapper<ContentData> query = new LambdaQueryWrapper<ContentData>().in(ContentData::getContentId, targetIdList);
-        return contentDataMapper.selectList(query);
+        List<ContentData> contentDataList = contentDataMapper.selectList(query);
+        return Converter.contentDataEnhance(contentDataList);
     }
 
     @Override
@@ -380,7 +382,7 @@ public class ContentServiceImpl implements ContentService {
                 .map(RadioEnhance::getRadio)
                 .map(Radio::getRadioId).
                 distinct().collect(Collectors.toList());
-        List<ContentData> radioDataList = getContentData(radioIdList);
+        List<ContentDataEnhance> radioDataList = getContentData(radioIdList);
         if (CollectionUtils.isEmpty(radioDataList)) {
             return;
         }
@@ -390,8 +392,8 @@ public class ContentServiceImpl implements ContentService {
         List<CommentNumDto> commentNumDtoList = commentMapper.selectByCommentIdList(radioIdList);
         if (!CollectionUtils.isEmpty(commentNumDtoList)) {
             radioDataList.forEach(radioData -> commentNumDtoList.forEach(commentNumDto -> {
-                if (radioData.getContentId().equals(commentNumDto.getContentId())) {
-                    radioData.setCommentNum(commentNumDto.getTotal());
+                if (radioData.getContentData().getContentId().equals(commentNumDto.getContentId())) {
+                    radioData.getContentData().setCommentNum(commentNumDto.getTotal());
                 }
             }));
         }
@@ -399,7 +401,7 @@ public class ContentServiceImpl implements ContentService {
         // 绑定文章数据
         radioDataList.forEach(radioData -> {
             radioList.forEach(radio -> {
-                if (radioData.getContentId().equals(radio.getRadio().getRadioId())) {
+                if (radioData.getContentData().getContentId().equals(radio.getRadio().getRadioId())) {
                     radio.setContentData(radioData);
                 }
             });
@@ -502,8 +504,8 @@ public class ContentServiceImpl implements ContentService {
         }
 
         try {
-            List<ContentData> contentDataList = getContentData(Lists.newArrayList(targetId));
-            if (CollectionUtils.isEmpty(contentDataList)) {
+            List<ContentDataEnhance> contentDataEnhanceList = getContentData(Lists.newArrayList(targetId));
+            if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
                 // 初始化
                 ContentData contentData = new ContentData();
                 contentData.setContentId(targetId);
@@ -522,15 +524,15 @@ public class ContentServiceImpl implements ContentService {
     public void viewNumPlusOne(String targetId) {
         try {
 
-            List<ContentData> contentDataList = getContentData(Lists.newArrayList(targetId));
-            if (CollectionUtils.isEmpty(contentDataList)) {
+            List<ContentDataEnhance> contentDataEnhanceList = getContentData(Lists.newArrayList(targetId));
+            if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
                 initContendData(targetId);
                 return;
             }
 
-            ContentData contentData = contentDataList.get(0);
-            contentData.incrementViewNum();
-            contentDataMapper.updateById(contentData);
+            ContentDataEnhance contentData = contentDataEnhanceList.get(0);
+            contentData.getContentData().incrementViewNum();
+            contentDataMapper.updateById(contentData.getContentData());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -567,7 +569,7 @@ public class ContentServiceImpl implements ContentService {
         Content content = contentEnhance.getContent();
         ContentEditReason contentEditReason = latestEditReason(content.getContentId());
         if (Objects.nonNull(contentEditReason)) {
-            contentEnhance.setContentEditReason(contentEditReason);
+            contentEnhance.setContentEditReasonEnhance(Converter.contentEditReason(contentEditReason));
         }
     }
 
@@ -631,7 +633,7 @@ public class ContentServiceImpl implements ContentService {
         if (CollectionUtils.isEmpty(memberList)) {
             return;
         }
-        contentEnhance.setLikesMemberList(memberList);
+        contentEnhance.setLikesMemberEnhanceList(Converter.memberEnhance(memberList));
     }
 
     @Override

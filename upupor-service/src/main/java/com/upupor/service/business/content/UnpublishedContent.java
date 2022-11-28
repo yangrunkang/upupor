@@ -31,6 +31,7 @@ package com.upupor.service.business.content;
 
 import com.upupor.data.dao.entity.ContentData;
 import com.upupor.data.dao.entity.Draft;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.framework.BusinessException;
@@ -70,7 +71,7 @@ public class UnpublishedContent extends AbstractContent {
             }
         } else {
             contentEnhance = Draft.parseContent(draft);
-            contentEnhance.setContentData(ContentData.empty(contentEnhance.getContent().getContentId()));
+            contentEnhance.setContentDataEnhance(Converter.contentDataEnhance(ContentData.empty(contentEnhance.getContent().getContentId())));
         }
 
         // 校验文章所属人

@@ -32,6 +32,7 @@ package com.upupor.data.dao.entity;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.upupor.data.dao.BaseEntity;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.DraftSource;
@@ -84,8 +85,8 @@ public class Draft extends BaseEntity {
         JSONObject jsonObject = JSON.parseObject(draftContent);
         return ContentEnhance.builder()
                 .content(content)
-                .contentExtend(ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent")))
-                .contentEditReason(ContentEditReason.create(contentId, jsonObject.getString("editReason")))
+                .contentExtendEnhance(Converter.contentExtendEnhance(ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent"))))
+                .contentEditReasonEnhance(Converter.enhanceEditReason(ContentEditReason.create(contentId, jsonObject.getString("editReason"))))
                 .build();
     }
 

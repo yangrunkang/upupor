@@ -129,8 +129,12 @@ public class Converter {
     public static ContentEnhance contentEnhance(Content content, ContentExtend contentExtend) {
         return ContentEnhance.builder()
                 .content(content)
-                .contentExtend(contentExtend)
+                .contentExtendEnhance(contentExtendEnhance(contentExtend))
                 .build();
+    }
+
+    public static ContentExtendEnhance contentExtendEnhance(ContentExtend contentExtend) {
+        return ContentExtendEnhance.builder().contentExtend(contentExtend).build();
     }
 
     public static List<ContentEnhance> contentEnhance(List<Content> contentList) {
@@ -248,6 +252,28 @@ public class Converter {
 
         return messageList.stream().map(a -> {
             return MessageEnhance.builder().message(a).build();
+        }).collect(Collectors.toList());
+    }
+
+    public static ContentEditReasonEnhance enhanceEditReason(ContentEditReason editReason) {
+        return ContentEditReasonEnhance.builder().contentEditReason(editReason).build();
+    }
+
+    public static ContentDataEnhance contentDataEnhance(ContentData contentData) {
+        return ContentDataEnhance.builder().contentData(contentData).build();
+    }
+
+    public static ContentEditReasonEnhance contentEditReason(ContentEditReason contentEditReason) {
+        return ContentEditReasonEnhance.builder().contentEditReason(contentEditReason).build();
+    }
+
+    public static List<ContentDataEnhance> contentDataEnhance(List<ContentData> contentDataList) {
+        if (CollectionUtils.isEmpty(contentDataList)) {
+            return new ArrayList<>();
+        }
+
+        return contentDataList.stream().map(a -> {
+            return Converter.contentDataEnhance(a);
         }).collect(Collectors.toList());
     }
 }
