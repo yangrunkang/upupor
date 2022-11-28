@@ -41,16 +41,16 @@ import java.util.List;
 @Data
 public class ListRadioDto extends BaseListDto {
 
-    private List<RadioEnhance> radioList;
+    private List<RadioEnhance> radioEnhanceList;
 
 
     public ListRadioDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.radioList = new ArrayList<>();
+        this.radioEnhanceList = new ArrayList<>();
     }
 
     public ListRadioDto() {
-        this.radioList = new ArrayList<>();
+        this.radioEnhanceList = new ArrayList<>();
     }
 
 }

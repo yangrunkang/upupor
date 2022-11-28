@@ -51,7 +51,7 @@ public class ApplyCommitManage extends AbstractManage {
         ApplyEnhance applyEnhance = applyService.getByApplyId(manageDto.getApplyId());
 
         ApplyDto applyDto = new ApplyDto();
-        applyDto.setApply(applyEnhance);
+        applyDto.setApplyEnhance(applyEnhance);
         getMemberIndexDto().setApplyDto(applyDto);
     }
 

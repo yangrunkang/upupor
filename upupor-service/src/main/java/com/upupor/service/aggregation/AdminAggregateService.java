@@ -64,7 +64,7 @@ public class AdminAggregateService {
         if (!member.getIsAdmin().equals(MemberIsAdmin.ADMIN)) {
             throw new BusinessException(ErrorCode.USER_NOT_ADMIN);
         }
-        memberIndexDto.setMember(memberEnhance);
+        memberIndexDto.setMemberEnhance(memberEnhance);
         return memberIndexDto;
     }
 
@@ -72,7 +72,7 @@ public class AdminAggregateService {
     public ContentIndexDto adminContent(Integer pageNum, Integer pageSize, String contentId) {
         ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);
         ContentIndexDto contentIndexDto = new ContentIndexDto();
-        contentIndexDto.setContent(contentEnhance);
+        contentIndexDto.setContentEnhance(contentEnhance);
         return contentIndexDto;
     }
 

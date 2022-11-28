@@ -43,14 +43,14 @@ import java.util.List;
 @Data
 public class ListViewHistoryDto extends BaseListDto {
 
-    private List<ViewHistoryEnhance> viewHistoryList;
+    private List<ViewHistoryEnhance> viewHistoryEnhanceList;
 
     public ListViewHistoryDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.viewHistoryList = new ArrayList<>();
+        this.viewHistoryEnhanceList = new ArrayList<>();
     }
 
     public ListViewHistoryDto() {
-        this.viewHistoryList = new ArrayList<>();
+        this.viewHistoryEnhanceList = new ArrayList<>();
     }
 }

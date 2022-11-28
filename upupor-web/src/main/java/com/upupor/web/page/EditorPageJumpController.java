@@ -129,7 +129,7 @@ public class EditorPageJumpController {
                     }
 
 
-                    editorIndexDto.setContent(contentEnhanceDraft);
+                    editorIndexDto.setContentEnhance(contentEnhanceDraft);
                 } else {
                     setDbContent(contentId, editorIndexDto);
                 }
@@ -163,7 +163,7 @@ public class EditorPageJumpController {
         if (!contentEnhance.getContent().getUserId().equals(ServletUtils.getUserId())) {
             throw new BusinessException(ErrorCode.BAN_EDIT_OTHERS_CONTENT);
         }
-        editorIndexDto.setContent(contentEnhance);
+        editorIndexDto.setContentEnhance(contentEnhance);
     }
 
 }

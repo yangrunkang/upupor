@@ -109,7 +109,7 @@ public class RadioServiceImpl implements RadioService {
         PageInfo<Radio> pageInfo = new PageInfo<>(radioList);
 
         ListRadioDto listRadioDto = new ListRadioDto(pageInfo);
-        listRadioDto.setRadioList(radioEnhanceList);
+        listRadioDto.setRadioEnhanceList(radioEnhanceList);
 
         // 绑定电台用户
         bindRadioMember(radioEnhanceList);
@@ -158,7 +158,7 @@ public class RadioServiceImpl implements RadioService {
         PageInfo<RadioEnhance> pageInfo = new PageInfo<>(radioEnhanceList);
 
         ListRadioDto listRadioDto = new ListRadioDto(pageInfo);
-        listRadioDto.setRadioList(pageInfo.getList());
+        listRadioDto.setRadioEnhanceList(pageInfo.getList());
 
         // 绑定电台用户
         bindRadioMember(radioEnhanceList);

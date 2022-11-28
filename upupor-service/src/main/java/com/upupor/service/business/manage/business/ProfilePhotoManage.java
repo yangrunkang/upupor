@@ -62,7 +62,7 @@ public class ProfilePhotoManage extends AbstractManage {
         if (!CollectionUtils.isEmpty(userHistoryViaList)) {
             memberEnhance.setHistoryViaList(userHistoryViaList);
         }
-        getMemberIndexDto().setMember(memberEnhance);
+        getMemberIndexDto().setMemberEnhance(memberEnhance);
 
     }
 

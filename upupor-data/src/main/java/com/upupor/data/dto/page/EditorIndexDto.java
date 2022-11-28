@@ -48,7 +48,7 @@ public class EditorIndexDto {
     /**
      * 所有的标签
      */
-    private List<TagEnhance> tagList;
+    private List<TagEnhance> tagEnhanceList;
 
     /**
      * 创建文章-指定的Tag
@@ -58,7 +58,7 @@ public class EditorIndexDto {
     /**
      * 文章
      */
-    private ContentEnhance content;
+    private ContentEnhance contentEnhance;
 
     /**
      * 根据当前用户点击的文章类型来创建内容
@@ -66,7 +66,7 @@ public class EditorIndexDto {
     private HrefDesc createContentDesc;
 
     public EditorIndexDto() {
-        this.tagList = new ArrayList<>();
-        this.content = new ContentEnhance();
+        this.tagEnhanceList = new ArrayList<>();
+        this.contentEnhance = new ContentEnhance();
     }
 }

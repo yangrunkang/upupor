@@ -81,6 +81,13 @@ public class Converter {
         }).collect(Collectors.toList());
     }
 
+    public static CommentEnhance commentEnhance(Comment comment, MemberEnhance memberEnhance) {
+        return CommentEnhance.builder()
+                .comment(comment)
+                .member(memberEnhance)
+                .build();
+    }
+
     public static MemberEnhance memberEnhance(Member member) {
         return MemberEnhance.builder()
                 .member(member)
@@ -93,6 +100,15 @@ public class Converter {
         }
         return memberList.stream().map(member -> {
             return memberEnhance(member);
+        }).collect(Collectors.toList());
+    }
+
+    public static List<MemberIntegralEnhance> memberIntegralEnhance(List<MemberIntegral> memberIntegralList) {
+        if (CollectionUtils.isEmpty(memberIntegralList)) {
+            return new ArrayList<>();
+        }
+        return memberIntegralList.stream().map(memberIntegral -> {
+            return MemberIntegralEnhance.builder().memberIntegral(memberIntegral).build();
         }).collect(Collectors.toList());
     }
 
@@ -199,6 +215,39 @@ public class Converter {
 
         return tags.stream().map(a -> {
             return TagEnhance.builder().tag(a).build();
+        }).collect(Collectors.toList());
+    }
+
+    public static List<BusinessConfigEnhance> businessConfigEnhanceList(List<BusinessConfig> businessConfigList) {
+
+        if (CollectionUtils.isEmpty(businessConfigList)) {
+            return new ArrayList<>();
+        }
+
+        return businessConfigList.stream().map(a -> {
+            return BusinessConfigEnhance.builder().businessConfig(a).build();
+        }).collect(Collectors.toList());
+    }
+
+    public static List<BannerEnhance> bannerEnhanceList(List<Banner> bannerList) {
+
+        if (CollectionUtils.isEmpty(bannerList)) {
+            return new ArrayList<>();
+        }
+
+        return bannerList.stream().map(a -> {
+            return BannerEnhance.builder().banner(a).build();
+        }).collect(Collectors.toList());
+    }
+
+
+    public static List<MessageEnhance> messageEnhance(List<Message> messageList) {
+        if (CollectionUtils.isEmpty(messageList)) {
+            return new ArrayList<>();
+        }
+
+        return messageList.stream().map(a -> {
+            return MessageEnhance.builder().message(a).build();
         }).collect(Collectors.toList());
     }
 }

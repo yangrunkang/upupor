@@ -71,7 +71,7 @@ public class MemberAggregateService {
         ListMemberDto listMemberDto = memberService.list(pageNum, pageSize);
 
         // 完整用户拓展信息
-        List<String> userIdList = listMemberDto.getMemberList().stream()
+        List<String> userIdList = listMemberDto.getMemberEnhanceList().stream()
                 .map(MemberEnhance::getMember)
                 .map(Member::getUserId)
                 .distinct().collect(Collectors.toList());
@@ -80,9 +80,9 @@ public class MemberAggregateService {
             return new MemberListDto();
         }
 
-        AbstractAd.ad(listMemberDto.getMemberList());
+        AbstractAd.ad(listMemberDto.getMemberEnhanceList());
 
-        listMemberDto.getMemberList().forEach(memberEnhance -> {
+        listMemberDto.getMemberEnhanceList().forEach(memberEnhance -> {
             for (MemberExtend memberExtend : memberExtends) {
                 if (memberEnhance.getMember().getUserId().equals(memberExtend.getUserId())) {
                     memberEnhance.setMemberExtend(memberExtend);

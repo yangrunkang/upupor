@@ -39,14 +39,14 @@ import java.util.List;
  */
 @Data
 public class ListTodoDto extends BaseListDto {
-    private List<TodoEnhance> todoList;
+    private List<TodoEnhance> todoEnhanceList;
 
     public ListTodoDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.todoList = new ArrayList<>();
+        this.todoEnhanceList = new ArrayList<>();
     }
 
     public ListTodoDto() {
-        this.todoList = new ArrayList<>();
+        this.todoEnhanceList = new ArrayList<>();
     }
 }

@@ -78,8 +78,8 @@ public class DraftManage extends AbstractManage {
         PageInfo<Draft> pageInfo = new PageInfo<>(draftList);
 
         ListContentDto listContentDto = new ListContentDto(pageInfo);
-        listContentDto.setContentList(parseToContentList(draftList));
-        contentService.bindContentTag(listContentDto.getContentList());
+        listContentDto.setContentEnhanceList(parseToContentList(draftList));
+        contentService.bindContentTag(listContentDto.getContentEnhanceList());
         getMemberIndexDto().setListContentDto(listContentDto);
 
     }

@@ -27,34 +27,23 @@
  *   -->
  */
 
-package com.upupor.data.dto.page.ad;
+package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.converter.Converter;
-import com.upupor.data.dao.entity.enhance.ContentEnhance;
-import com.upupor.framework.CcConstant;
-
-import java.util.List;
+import com.upupor.data.dao.entity.Banner;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Yang Runkang (cruise)
- * @date 2021年12月29日 20:51
+ * @createTime 2022-11-28 23:44
  * @email: yangrunkang53@gmail.com
  */
-public class ContentAd extends AbstractAd<ContentEnhance> {
-    public ContentAd(List<ContentEnhance> contentEnhanceList) {
-        super(contentEnhanceList);
-    }
-
-    @Override
-    protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getContent().getContentId().equals(CcConstant.GoogleAd.FEED_AD));
-    }
-
-    @Override
-    protected void insertAd(int adIndex) {
-        Content ad = new Content();
-        ad.setContentId(CcConstant.GoogleAd.FEED_AD);
-        getVoList().add(adIndex, Converter.contentEnhance(ad));
-    }
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class BannerEnhance {
+    private Banner banner;
 }

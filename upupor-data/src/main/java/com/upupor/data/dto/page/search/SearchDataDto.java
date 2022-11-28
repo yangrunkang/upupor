@@ -59,6 +59,6 @@ public class SearchDataDto {
     /**
      * 结果所属用户对象绑定
      */
-    private MemberEnhance member;
+    private MemberEnhance memberEnhance;
 
 }

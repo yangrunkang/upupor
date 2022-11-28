@@ -38,6 +38,6 @@ import lombok.Data;
  */
 @Data
 public class LastAndNextContentDto {
-    private ContentEnhance nextContent;
-    private ContentEnhance lastContent;
+    private ContentEnhance nextContentEnhance;
+    private ContentEnhance lastContentEnhance;
 }

@@ -65,7 +65,7 @@ public class FansProfile extends AbstractProfile {
     @Override
     protected void addAd() {
         ListFansDto listFansDto = getMemberIndexDto().getListFansDto();
-        AbstractAd.ad(listFansDto.getMemberList());
+        AbstractAd.ad(listFansDto.getMemberEnhanceList());
     }
 
 

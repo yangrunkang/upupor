@@ -107,7 +107,7 @@ public class CommonAggregateService {
         CompletableFuture<ListContentDto> listContentDtoFuture = CompletableFuture.supplyAsync(() -> {
             ListContentDto listContentDto = contentService.listContentByContentType(getCommonReq.getContentType(), getCommonReq.getPageNum(), getCommonReq.getPageSize(), tag);
             // 如果点击了[技术]-[SEO]中的二级分类(例如:SEO),则不设置tagDtoList,不然界面上都是二级分类的标识
-            if (!StringUtils.isEmpty(getCommonReq.getTagId()) && !CollectionUtils.isEmpty(listContentDto.getContentList())) {
+            if (!StringUtils.isEmpty(getCommonReq.getTagId()) && !CollectionUtils.isEmpty(listContentDto.getContentEnhanceList())) {
                 listContentDto.removeTag();
             }
             return listContentDto;
@@ -162,7 +162,7 @@ public class CommonAggregateService {
         CommonPageIndexDto commonPageIndexDto = new CommonPageIndexDto(Boolean.FALSE);
         try {
             commonPageIndexDto.setTagList(tagListFuture.get());
-            commonPageIndexDto.setMemberList(cacheMemberDtoFuture.get().getMemberList());
+            commonPageIndexDto.setMemberList(cacheMemberDtoFuture.get().getMemberEnhanceList());
             commonPageIndexDto.setListContentDto(listContentDtoFuture.get());
             commonPageIndexDto.setListBannerDto(listBannerDtoFuture.get());
             commonPageIndexDto.setCurrentRootUrl(ContentType.getUrl(getCommonReq.getContentType()));

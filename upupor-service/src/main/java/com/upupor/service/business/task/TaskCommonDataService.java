@@ -86,10 +86,10 @@ public class TaskCommonDataService {
         List<Member> memberList = new ArrayList<>();
         for (int i = 0; i < pageNum; i++) {
             ListMemberDto listMemberDto = memberService.list(i + 1, CcConstant.Page.SIZE);
-            if (CollectionUtils.isEmpty(listMemberDto.getMemberList())) {
+            if (CollectionUtils.isEmpty(listMemberDto.getMemberEnhanceList())) {
                 continue;
             }
-            List<MemberEnhance> memberEnhanceList = listMemberDto.getMemberList();
+            List<MemberEnhance> memberEnhanceList = listMemberDto.getMemberEnhanceList();
             memberList.addAll(memberEnhanceList.stream().map(MemberEnhance::getMember).collect(Collectors.toList()));
         }
 
@@ -103,10 +103,10 @@ public class TaskCommonDataService {
         List<Radio> radioAllList = new ArrayList<>();
         for (int i = 0; i < pageNum; i++) {
             ListRadioDto listRadioDto = radioService.list(i + 1, CcConstant.Page.SIZE);
-            if (CollectionUtils.isEmpty(listRadioDto.getRadioList())) {
+            if (CollectionUtils.isEmpty(listRadioDto.getRadioEnhanceList())) {
                 break;
             }
-            radioAllList.addAll(listRadioDto.getRadioList().stream().map(RadioEnhance::getRadio).collect(Collectors.toList()));
+            radioAllList.addAll(listRadioDto.getRadioEnhanceList().stream().map(RadioEnhance::getRadio).collect(Collectors.toList()));
         }
         return radioAllList;
     }

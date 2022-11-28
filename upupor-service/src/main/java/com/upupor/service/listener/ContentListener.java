@@ -156,11 +156,11 @@ public class ContentListener {
             if (Objects.isNull(fans)) {
                 continue;
             }
-            if (CollectionUtils.isEmpty(fans.getFansList())) {
+            if (CollectionUtils.isEmpty(fans.getFansEnhanceList())) {
                 continue;
             }
 
-            List<FansEnhance> fansEnhanceList = fans.getFansList();
+            List<FansEnhance> fansEnhanceList = fans.getFansEnhanceList();
             for (FansEnhance fansEnhance : fansEnhanceList) {
                 String msgId = CcUtils.getUuId();
                 String emailUser = String.format(PROFILE_EMAIL, contentMember.getUserId(), msgId, contentMember.getUserName());

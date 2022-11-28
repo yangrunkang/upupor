@@ -57,7 +57,7 @@ public class ApplyManageServiceImpl implements ApplyManageService {
         PageInfo<Apply> pageInfo = new PageInfo<>(applyList);
 
         ListApplyDto listApplyDto = new ListApplyDto(pageInfo);
-        listApplyDto.setApplyList(Converter.applyEnhanceList(applyList));
+        listApplyDto.setApplyEnhanceList(Converter.applyEnhanceList(applyList));
 
         return listApplyDto;
     }

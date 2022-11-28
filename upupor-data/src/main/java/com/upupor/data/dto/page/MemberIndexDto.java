@@ -30,8 +30,8 @@
 package com.upupor.data.dto.page;
 
 import com.upupor.data.dao.entity.Statement;
-import com.upupor.data.dao.entity.Tag;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.dto.page.common.*;
 import lombok.Data;
@@ -51,7 +51,7 @@ public class MemberIndexDto {
     /**
      * 用户信息
      */
-    private MemberEnhance member;
+    private MemberEnhance memberEnhance;
 
     /**
      * 内容列表对象
@@ -105,7 +105,7 @@ public class MemberIndexDto {
      * 作者标签
      * (作者写过的文章中做包含的标签)
      */
-    private List<Tag> tagList;
+    private List<TagEnhance> tagEnhanceList;
     /**
      * 作者是否已经被你关注
      */
@@ -125,7 +125,7 @@ public class MemberIndexDto {
     private String tagName;
 
     public MemberIndexDto() {
-        this.member = new MemberEnhance();
+        this.memberEnhance = new MemberEnhance();
         this.listContentDto = new ListContentDto();
         this.listApplyDto = new ListApplyDto();
         this.listCommentDto = new ListCommentDto();
@@ -136,7 +136,7 @@ public class MemberIndexDto {
         this.listIntegralDto = new ListIntegralDto();
         this.listRadioDto = new ListRadioDto();
 
-        this.tagList = new ArrayList<>();
+        this.tagEnhanceList = new ArrayList<>();
         this.viewerList = new ArrayList<>();
         this.currUserIsAttention = false;
     }

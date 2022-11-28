@@ -29,8 +29,8 @@
 
 package com.upupor.service.aggregation;
 
-import com.upupor.service.base.TagService;
 import com.upupor.data.dto.page.EditorIndexDto;
+import com.upupor.service.base.TagService;
 import com.upupor.service.outer.req.GetEditorReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -57,7 +57,7 @@ public class EditorAggregateService {
      */
     public EditorIndexDto index(GetEditorReq getEditorReq) {
         EditorIndexDto editorIndexDto = new EditorIndexDto();
-        editorIndexDto.setTagList(tagService.getTagsByType(getEditorReq.getContentType()));
+        editorIndexDto.setTagEnhanceList(tagService.getTagsByType(getEditorReq.getContentType()));
         editorIndexDto.setCreateTag(getEditorReq.getTag());
         editorIndexDto.setCreateContentDesc(getCreateContentInfo(getEditorReq.getContentType(), getEditorReq.getTag()));
         return editorIndexDto;

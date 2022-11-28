@@ -43,17 +43,17 @@ import java.util.List;
  */
 @Data
 public class ListFansDto extends BaseListDto {
-    private List<FansEnhance> fansList;
-    private List<MemberEnhance> memberList;
+    private List<FansEnhance> fansEnhanceList;
+    private List<MemberEnhance> memberEnhanceList;
 
     public ListFansDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.fansList = new ArrayList<>();
-        this.memberList = new ArrayList<>();
+        this.fansEnhanceList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 
     public ListFansDto() {
-        this.fansList = new ArrayList<>();
-        this.memberList = new ArrayList<>();
+        this.fansEnhanceList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 }

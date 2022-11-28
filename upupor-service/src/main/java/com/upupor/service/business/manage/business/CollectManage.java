@@ -77,11 +77,11 @@ public class CollectManage extends AbstractManage {
             return;
         }
 
-        if (CollectionUtils.isEmpty(listCollectDto.getCollectList())) {
+        if (CollectionUtils.isEmpty(listCollectDto.getCollectEnhanceList())) {
             return;
         }
 
-        List<String> contentIdList = listCollectDto.getCollectList().stream()
+        List<String> contentIdList = listCollectDto.getCollectEnhanceList().stream()
                 .filter(collect -> collect.getCollect().getCollectType().equals(CollectType.CONTENT))
                 .map(CollectEnhance::getCollect)
                 .map(Collect::getCollectValue)
@@ -93,7 +93,7 @@ public class CollectManage extends AbstractManage {
         if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return;
         }
-        listCollectDto.getCollectList().forEach(collect -> {
+        listCollectDto.getCollectEnhanceList().forEach(collect -> {
             contentEnhanceList.forEach(contentEnhance -> {
                 Content content = contentEnhance.getContent();
                 if (collect.getCollect().getCollectValue().equals(content.getContentId())) {

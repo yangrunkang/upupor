@@ -67,7 +67,7 @@ public class MemberSearchResultRender extends AbstractSearchResultRender<MemberE
             searchDataDto.setDataType(dataType());
             searchDataDto.setResultTitle(member.getUserName());
             searchDataDto.setResultId(member.getUserId());
-            searchDataDto.setMember(memberEnhance);
+            searchDataDto.setMemberEnhance(memberEnhance);
             getSearchDataDtoList().add(searchDataDto);
         }
     }

@@ -44,17 +44,17 @@ import java.util.List;
 @Data
 public class ListAttentionDto extends BaseListDto {
 
-    private List<AttentionEnhance> attentionList;
-    private List<MemberEnhance> memberList;
+    private List<AttentionEnhance> attentionEnhanceList;
+    private List<MemberEnhance> memberEnhanceList;
 
     public ListAttentionDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.attentionList = new ArrayList<>();
-        this.memberList = new ArrayList<>();
+        this.attentionEnhanceList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 
     public ListAttentionDto() {
-        this.attentionList = new ArrayList<>();
-        this.memberList = new ArrayList<>();
+        this.attentionEnhanceList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 }

@@ -71,7 +71,7 @@ public class DraftContentDetailView extends AbstractView {
         for (Object value : modelAndView.getModelMap().values()) {
             if (value instanceof ContentIndexDto) {
                 ContentIndexDto contentIndexDto = (ContentIndexDto) value;
-                Content content = contentIndexDto.getContent().getContent();
+                Content content = contentIndexDto.getContentEnhance().getContent();
 
                 modelAndView.addObject(CcConstant.SeoKey.TITLE, content.getTitle());
                 modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, content.getTitle());

@@ -90,7 +90,7 @@ public class ContentManageServiceImpl implements ContentManageService {
         contentService.bindContentMember(contentEnhances);
 
         ListContentDto listContentDto = new ListContentDto(pageInfo);
-        listContentDto.setContentList(pageInfo.getList());
+        listContentDto.setContentEnhanceList(pageInfo.getList());
         return listContentDto;
     }
 

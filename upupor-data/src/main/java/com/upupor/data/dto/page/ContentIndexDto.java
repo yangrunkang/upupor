@@ -27,7 +27,7 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.ContentEditReason;
+import com.upupor.data.dao.entity.enhance.ContentEditReasonEnhance;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import lombok.Data;
 
@@ -46,8 +46,8 @@ public class ContentIndexDto {
     /**
      * 作者其他的文章
      */
-    List<ContentEnhance> authorOtherContentList;
-    private ContentEnhance content;
+    List<ContentEnhance> authorOtherContentEnhanceList;
+    private ContentEnhance contentEnhance;
     /**
      * true:已经收藏  false:未收藏
      */
@@ -64,12 +64,12 @@ public class ContentIndexDto {
      * 是否有电台
      */
     private Boolean hasRadio;
-    private ContentEditReason contentEditReason;
+    private ContentEditReasonEnhance contentEditReasonEnhance;
 
     /**
      * 推荐文章
      */
-    private List<ContentEnhance> randomContentList;
+    private List<ContentEnhance> randomContentEnhanceList;
 
     /**
      * 根据当前用户点击的文章类型来创建内容
@@ -80,7 +80,7 @@ public class ContentIndexDto {
         this.currUserIsCollect = false;
         this.currUserIsAttention = false;
         this.hasRadio = false;
-        this.authorOtherContentList = new ArrayList<>();
-        this.randomContentList = new ArrayList<>();
+        this.authorOtherContentEnhanceList = new ArrayList<>();
+        this.randomContentEnhanceList = new ArrayList<>();
     }
 }

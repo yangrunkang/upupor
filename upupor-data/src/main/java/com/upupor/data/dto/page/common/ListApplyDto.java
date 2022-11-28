@@ -39,16 +39,16 @@ import java.util.List;
  */
 @Data
 public class ListApplyDto extends BaseListDto {
-    private List<ApplyEnhance> applyList;
+    private List<ApplyEnhance> applyEnhanceList;
 
 
     public ListApplyDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.applyList = new ArrayList<>();
+        this.applyEnhanceList = new ArrayList<>();
     }
 
     public ListApplyDto() {
-        this.applyList = new ArrayList<>();
+        this.applyEnhanceList = new ArrayList<>();
     }
 
 }

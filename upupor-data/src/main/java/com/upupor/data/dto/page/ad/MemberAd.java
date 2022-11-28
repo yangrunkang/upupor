@@ -28,6 +28,8 @@
 package com.upupor.data.dto.page.ad;
 
 import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.framework.CcConstant;
 
 import java.util.List;
@@ -37,21 +39,21 @@ import java.util.List;
  * @date 2021年12月29日 20:48
  * @email: yangrunkang53@gmail.com
  */
-public class MemberAd extends AbstractAd<Member> {
+public class MemberAd extends AbstractAd<MemberEnhance> {
 
-    public MemberAd(List<Member> members) {
-        super(members);
+    public MemberAd(List<MemberEnhance> memberEnhanceList) {
+        super(memberEnhanceList);
     }
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getUserId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getMember().getUserId().equals(CcConstant.GoogleAd.FEED_AD));
     }
 
     @Override
     protected void insertAd(int adIndex) {
-        Member ad = new Member();
-        ad.setUserId(CcConstant.GoogleAd.FEED_AD);
-        getVoList().add(adIndex, ad);
+        Member member = new Member();
+        member.setUserId(CcConstant.GoogleAd.FEED_AD);
+        getVoList().add(adIndex, Converter.memberEnhance(member));
     }
 }

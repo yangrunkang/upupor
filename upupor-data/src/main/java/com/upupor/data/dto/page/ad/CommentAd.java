@@ -28,6 +28,7 @@
 package com.upupor.data.dto.page.ad;
 
 import com.upupor.data.dao.entity.Comment;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.framework.CcConstant;
@@ -51,14 +52,8 @@ public class CommentAd extends AbstractAd<CommentEnhance> {
 
     @Override
     protected void insertAd(int adIndex) {
-        CommentEnhance ad = new CommentEnhance();
-
         Comment empty = Comment.empty();
         empty.setCommentId(CcConstant.GoogleAd.FEED_AD);
-
-        ad.setComment(empty);
-        // todo 调整一下前端渲染,看能不能去掉Member
-        ad.setMember(new MemberEnhance());
-        getVoList().add(adIndex, ad);
+        getVoList().add(adIndex, Converter.commentEnhance(empty, new MemberEnhance()));
     }
 }

@@ -50,7 +50,7 @@
                 </div>
                 <div class="col-11">
                     <input class="form-control" type="text" id="keywords"
-                           th:value="${contentIndexDto.content.keywords}"/>
+                           th:value="${contentIndexDto.getContentEnhance.keywords}"/>
                     <button class="ui primary button mt-2"
                             th:onclick="setKeywords([[${contentIndexDto.content.contentId}]])">设置
                     </button>
@@ -70,7 +70,7 @@
                     <select class="form-select" id="admin_set_content_status">
                         <option th:each="contentStatus : ${contentStatusList}"
                                 th:value="${contentStatus.name()}"
-                                th:selected="${contentIndexDto?.content?.status.name() == contentStatus.name()}"
+                                th:selected="${contentIndexDto?.getContentEnhance?.status.name() == contentStatus.name()}"
                         >
                             [[${contentStatus.name}]]
                         </option>

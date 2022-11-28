@@ -37,6 +37,6 @@ import lombok.Data;
 @Data
 public class ApplyDto {
 
-    private ApplyEnhance apply;
+    private ApplyEnhance applyEnhance;
 
 }

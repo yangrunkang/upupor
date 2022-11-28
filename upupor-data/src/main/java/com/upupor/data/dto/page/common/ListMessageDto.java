@@ -28,7 +28,7 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.Message;
+import com.upupor.data.dao.entity.enhance.MessageEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -43,14 +43,14 @@ import java.util.List;
 @Data
 public class ListMessageDto extends BaseListDto {
 
-    private List<Message> messageList;
+    private List<MessageEnhance> messageEnhanceList;
 
     public ListMessageDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.messageList = new ArrayList<>();
+        this.messageEnhanceList = new ArrayList<>();
     }
 
     public ListMessageDto() {
-        this.messageList = new ArrayList<>();
+        this.messageEnhanceList = new ArrayList<>();
     }
 }

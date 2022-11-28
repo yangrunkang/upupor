@@ -32,8 +32,10 @@ package com.upupor.service.business.profile;
 import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dto.page.MemberIndexDto;
 import com.upupor.data.types.ViewTargetType;
 import com.upupor.framework.BusinessException;
@@ -123,7 +125,7 @@ public abstract class AbstractProfile {
 
         // 设置标签
         CompletableFuture<Void> setTagList = CompletableFuture.runAsync(() -> {
-            memberIndexDto.setTagList(getUserTagList(userId));
+            memberIndexDto.setTagEnhanceList(getUserTagList(userId));
         }, ASYNC);
 
         // 设置当前用户是否已关注该profile
@@ -149,7 +151,7 @@ public abstract class AbstractProfile {
         allCompletableFuture.join();
 
         // 获取用户属性
-        memberIndexDto.setMember(memberEnhance);
+        memberIndexDto.setMemberEnhance(memberEnhance);
     }
 
     /**
@@ -191,8 +193,7 @@ public abstract class AbstractProfile {
     protected abstract void setSpecifyData(Query query);
 
 
-    private List<Tag> getUserTagList(String userId) {
-
+    private List<TagEnhance> getUserTagList(String userId) {
         // 获取用户标签
         List<ContentEnhance> contentEnhanceList = contentService.listAllByUserId(Lists.newArrayList(userId));
 
@@ -217,7 +218,7 @@ public abstract class AbstractProfile {
         if (CollectionUtils.isEmpty(tags)) {
             return new ArrayList<>();
         }
-        return tags;
+        return Converter.tagEnhanceList(tags);
     }
 
 }

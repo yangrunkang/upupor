@@ -27,6 +27,7 @@
 
 package com.upupor.web.page;
 
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.MemberIndexDto;
 import com.upupor.data.utils.PageUtils;
 import com.upupor.framework.BusinessException;
@@ -111,9 +112,10 @@ public class MemberProfilePageJumpController {
                         .tagName(tagName)
                         .build();
                 MemberIndexDto memberIndexDto = abstractProfile.getBusinessData(build);
+                MemberEnhance memberEnhance = memberIndexDto.getMemberEnhance();
                 modelAndView.addObject(memberIndexDto);
-                modelAndView.addObject(SeoKey.TITLE, memberIndexDto.getMember().getMember().getUserName());
-                modelAndView.addObject(SeoKey.DESCRIPTION, memberIndexDto.getMember().getMemberExtend().getIntroduce());
+                modelAndView.addObject(SeoKey.TITLE, memberEnhance.getMember().getUserName());
+                modelAndView.addObject(SeoKey.DESCRIPTION, memberEnhance.getMemberExtend().getIntroduce());
                 return modelAndView;
             }
         }

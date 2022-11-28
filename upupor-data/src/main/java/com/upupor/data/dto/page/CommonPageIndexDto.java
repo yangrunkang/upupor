@@ -110,7 +110,7 @@ public class CommonPageIndexDto {
 
     public ListContentDto getListContentDto() {
         if (this.isLoadAd) {
-            AbstractAd.ad(listContentDto.getContentList());
+            AbstractAd.ad(listContentDto.getContentEnhanceList());
         }
         return listContentDto;
     }

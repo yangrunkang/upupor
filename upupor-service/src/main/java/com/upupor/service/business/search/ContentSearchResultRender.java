@@ -75,7 +75,7 @@ public class ContentSearchResultRender extends AbstractSearchResultRender<Conten
             searchDataDto.setDataType(dataType());
             searchDataDto.setResultTitle(content.getTitle());
             searchDataDto.setResultId(content.getContentId());
-            searchDataDto.setMember(contentEnhance.getMember());
+            searchDataDto.setMemberEnhance(contentEnhance.getMember());
             getSearchDataDtoList().add(searchDataDto);
         }
     }

@@ -99,12 +99,12 @@ public class AttentionServiceImpl implements AttentionService {
 
         PageInfo<AttentionEnhance> pageInfo = new PageInfo<>(Converter.attentionEnhance(fans));
         ListAttentionDto listAttentionDto = new ListAttentionDto(pageInfo);
-        listAttentionDto.setAttentionList(pageInfo.getList());
+        listAttentionDto.setAttentionEnhanceList(pageInfo.getList());
 
-        List<AttentionEnhance> attentionList = listAttentionDto.getAttentionList();
+        List<AttentionEnhance> attentionList = listAttentionDto.getAttentionEnhanceList();
         if (!CollectionUtils.isEmpty(attentionList)) {
             bindAttentionMemberInfo(attentionList);
-            listAttentionDto.setMemberList(attentionList.stream()
+            listAttentionDto.setMemberEnhanceList(attentionList.stream()
                     .map(AttentionEnhance::getMember)
                     .sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }

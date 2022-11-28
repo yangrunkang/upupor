@@ -115,7 +115,7 @@ public class TodoServiceImpl implements TodoService {
         PageInfo<TodoEnhance> pageInfo = new PageInfo<>(todoEnhanceList);
 
         ListTodoDto listTodoDto = new ListTodoDto(pageInfo);
-        listTodoDto.setTodoList(todoEnhanceList);
+        listTodoDto.setTodoEnhanceList(todoEnhanceList);
         return listTodoDto;
     }
 

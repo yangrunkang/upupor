@@ -152,7 +152,7 @@ public class ViewerServiceImpl implements ViewerService {
         setViewHistoryTitle(pageInfo.getList());
 
         listViewHistoryDto.setTotal(pageInfo.getTotal());
-        listViewHistoryDto.setViewHistoryList(pageInfo.getList());
+        listViewHistoryDto.setViewHistoryEnhanceList(pageInfo.getList());
         return listViewHistoryDto;
     }
 

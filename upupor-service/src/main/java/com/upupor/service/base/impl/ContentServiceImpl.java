@@ -176,7 +176,7 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
 
-        if (CollectionUtils.isEmpty(listContentDto.getContentList())) {
+        if (CollectionUtils.isEmpty(listContentDto.getContentEnhanceList())) {
             return;
         }
 
@@ -190,7 +190,7 @@ public class ContentServiceImpl implements ContentService {
         }
         this.bindContentData(pinnedContentList);
         this.bindContentMember(pinnedContentList);
-        listContentDto.setPinnedContent(pinnedContentList.get(0));
+        listContentDto.setPinnedContentEnhance(pinnedContentList.get(0));
     }
 
 
@@ -228,7 +228,7 @@ public class ContentServiceImpl implements ContentService {
 
         // 数据组装
         ListContentDto listContentDto = new ListContentDto(pageInfo);
-        listContentDto.setContentList(contentEnhanceList);
+        listContentDto.setContentEnhanceList(contentEnhanceList);
         return listContentDto;
     }
 
@@ -422,16 +422,16 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
 
-        if (CollectionUtils.isEmpty(listContentDto.getContentList())) {
+        if (CollectionUtils.isEmpty(listContentDto.getContentEnhanceList())) {
             return;
         }
 
-        List<String> userIdList = listContentDto.getContentList().stream()
+        List<String> userIdList = listContentDto.getContentEnhanceList().stream()
                 .map(ContentEnhance::getContent)
                 .map(Content::getUserId).
                 distinct().collect(Collectors.toList());
 
-        List<String> latestCommentUserId = listContentDto.getContentList().stream()
+        List<String> latestCommentUserId = listContentDto.getContentEnhanceList().stream()
                 .map(ContentEnhance::getContent)
                 .map(Content::getLatestCommentUserId)
                 .filter(Objects::nonNull).distinct().collect(Collectors.toList());
@@ -449,7 +449,7 @@ public class ContentServiceImpl implements ContentService {
         if (CollectionUtils.isEmpty(memberList)) {
             return;
         }
-        listContentDto.getContentList().forEach(contentEnhance -> {
+        listContentDto.getContentEnhanceList().forEach(contentEnhance -> {
             memberList.forEach(member -> {
                 Content content = contentEnhance.getContent();
                 if (content.getUserId().equals(member.getUserId())) {
@@ -470,7 +470,7 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
         ListContentDto listContentDto = new ListContentDto();
-        listContentDto.setContentList(Collections.singletonList(content));
+        listContentDto.setContentEnhanceList(Collections.singletonList(content));
         this.bindContentMember(listContentDto);
     }
 
@@ -480,7 +480,7 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
         ListContentDto listContentDto = new ListContentDto();
-        listContentDto.setContentList(contentList);
+        listContentDto.setContentEnhanceList(contentList);
         this.bindContentMember(listContentDto);
     }
 
@@ -649,9 +649,9 @@ public class ContentServiceImpl implements ContentService {
         for (String cId : idList) {
             ContentEnhance contentIdAndTitleEnhance = getNormalContent(cId);
             if (contentIdAndTitleEnhance.getContent().getLatestCommentTime() > content.getLatestCommentTime()) {
-                lastAndNextContentDto.setNextContent(contentIdAndTitleEnhance);
+                lastAndNextContentDto.setNextContentEnhance(contentIdAndTitleEnhance);
             } else {
-                lastAndNextContentDto.setLastContent(contentIdAndTitleEnhance);
+                lastAndNextContentDto.setLastContentEnhance(contentIdAndTitleEnhance);
             }
         }
 
@@ -712,7 +712,7 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public void handleExistsDraft(ListContentDto listContentDto) {
-        List<ContentEnhance> contentEnhanceList = listContentDto.getContentList();
+        List<ContentEnhance> contentEnhanceList = listContentDto.getContentEnhanceList();
         if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return;
         }

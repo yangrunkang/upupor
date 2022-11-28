@@ -43,14 +43,14 @@ import java.util.List;
 @Data
 public class ListCollectDto extends BaseListDto {
 
-    private List<CollectEnhance> collectList;
+    private List<CollectEnhance> collectEnhanceList;
 
     public ListCollectDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.collectList = new ArrayList<>();
+        this.collectEnhanceList = new ArrayList<>();
     }
 
     public ListCollectDto() {
-        this.collectList = new ArrayList<>();
+        this.collectEnhanceList = new ArrayList<>();
     }
 }

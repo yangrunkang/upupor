@@ -63,7 +63,7 @@ public class RadioAggregateService {
 
     public RadioIndexDto index(Integer pageNum, Integer pageSize) {
         ListRadioDto listRadioDto = radioService.list(pageNum, pageSize);
-        AbstractAd.ad(listRadioDto.getRadioList());
+        AbstractAd.ad(listRadioDto.getRadioEnhanceList());
         RadioIndexDto radioIndexDto = new RadioIndexDto();
         radioIndexDto.setListRadioDto(listRadioDto);
         return radioIndexDto;

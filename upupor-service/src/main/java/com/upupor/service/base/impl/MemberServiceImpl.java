@@ -431,7 +431,7 @@ public class MemberServiceImpl implements MemberService {
         PageInfo<Member> pageInfo = new PageInfo<>(memberList);
 
         ListMemberDto listMemberDto = new ListMemberDto(pageInfo);
-        listMemberDto.setMemberList(pageInfo.getList().stream().map(s -> {
+        listMemberDto.setMemberEnhanceList(pageInfo.getList().stream().map(s -> {
             return Converter.memberEnhance(s);
         }).collect(Collectors.toList()));
 
@@ -468,7 +468,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         ListDailyPointsMemberDto listDailyPointsMemberDto = new ListDailyPointsMemberDto(pageInfo);
-        listDailyPointsMemberDto.setMemberList(memberList);
+        listDailyPointsMemberDto.setMemberEnhanceList(memberList);
         return listDailyPointsMemberDto;
     }
 

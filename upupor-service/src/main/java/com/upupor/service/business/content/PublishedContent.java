@@ -126,8 +126,8 @@ public class PublishedContent extends AbstractContent {
 
         // 推荐文章
         CompletableFuture<Void> setRandomContentList = CompletableFuture.runAsync(() -> {
-            contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
-            AbstractAd.ad(contentIndexDto.getRandomContentList());
+            contentIndexDto.setRandomContentEnhanceList(contentService.randomContent(content.getUserId()));
+            AbstractAd.ad(contentIndexDto.getRandomContentEnhanceList());
         }, ASYNC);
 
         // 记录访问者

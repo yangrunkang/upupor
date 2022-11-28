@@ -43,14 +43,14 @@ import java.util.List;
 @Data
 public class ListMemberDto extends BaseListDto {
 
-    private List<MemberEnhance> memberList;
+    private List<MemberEnhance> memberEnhanceList;
 
     public ListMemberDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.memberList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 
     public ListMemberDto() {
-        this.memberList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 }

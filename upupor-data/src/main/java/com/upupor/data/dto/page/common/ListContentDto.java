@@ -48,33 +48,33 @@ public class ListContentDto extends BaseListDto {
     /**
      * 内容集合
      */
-    private List<ContentEnhance> contentList;
+    private List<ContentEnhance> contentEnhanceList;
 
     /**
      * 置顶的文章
      */
-    private ContentEnhance pinnedContent;
+    private ContentEnhance pinnedContentEnhance;
 
     public ListContentDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.contentList = new ArrayList();
+        this.contentEnhanceList = new ArrayList();
     }
 
     public ListContentDto() {
-        this.contentList = new ArrayList();
+        this.contentEnhanceList = new ArrayList();
     }
 
-    public List<ContentEnhance> getContentList() {
-        if (CollectionUtils.isEmpty(contentList)) {
+    public List<ContentEnhance> getContentEnhanceList() {
+        if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return new ArrayList<>();
         }
-        return contentList;
+        return contentEnhanceList;
     }
 
     public void removeTag() {
-        if (CollectionUtils.isEmpty(contentList)) {
+        if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return;
         }
-        contentList.forEach(s -> s.setTagDtoList(Lists.newArrayList()));
+        contentEnhanceList.forEach(s -> s.setTagDtoList(Lists.newArrayList()));
     }
 }

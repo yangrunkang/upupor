@@ -99,7 +99,7 @@ public class TaskService {
             memberEnhanceList = new ArrayList<>();
         }
         CacheMemberDto cacheMemberDto = new CacheMemberDto();
-        cacheMemberDto.setMemberList(memberEnhanceList);
+        cacheMemberDto.setMemberEnhanceList(memberEnhanceList);
         RedisUtil.set(ACTIVE_USER_LIST, JSON.toJSONString(cacheMemberDto));
     }
 

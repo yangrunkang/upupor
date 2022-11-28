@@ -86,7 +86,7 @@ public class ContentManage extends AbstractManage {
         }
         // 处理标签
         assert listContentDto != null;
-        contentService.bindContentTag(listContentDto.getContentList());
+        contentService.bindContentTag(listContentDto.getContentEnhanceList());
         // 处理置顶
         contentService.handlePinnedContent(listContentDto, userId);
         // 处理是否有草稿

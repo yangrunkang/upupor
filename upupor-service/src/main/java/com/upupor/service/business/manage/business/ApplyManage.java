@@ -72,11 +72,11 @@ public class ApplyManage extends AbstractManage {
         if (Objects.isNull(listApplyDto)) {
             return;
         }
-        if (CollectionUtils.isEmpty(listApplyDto.getApplyList())) {
+        if (CollectionUtils.isEmpty(listApplyDto.getApplyEnhanceList())) {
             return;
         }
 
-        listApplyDto.getApplyList().forEach(applyEnhance -> {
+        listApplyDto.getApplyEnhanceList().forEach(applyEnhance -> {
             if (applyEnhance.getApply().getApplySource().equals(ApplySource.AD)) {
                 ApplyContentDto applyContentDto = JSON.parseObject(applyEnhance.getApply().getApplyContent(), ApplyContentDto.class);
                 applyEnhance.getApply().setApplyContent(applyContentDto.getApplyIntro());

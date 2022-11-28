@@ -33,6 +33,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.MemberIntegral;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.mapper.MemberIntegralMapper;
 import com.upupor.data.dto.page.common.ListIntegralDto;
 import com.upupor.data.dto.query.MemberIntegralQuery;
@@ -114,7 +115,7 @@ public class MemberIntegralServiceImpl implements MemberIntegralService {
         PageInfo<MemberIntegral> pageInfo = new PageInfo<>(memberIntegralList);
 
         ListIntegralDto listIntegralDto = new ListIntegralDto(pageInfo);
-        listIntegralDto.setMemberIntegralList(pageInfo.getList());
+        listIntegralDto.setMemberIntegralEnhanceList(Converter.memberIntegralEnhance(pageInfo.getList()));
         return listIntegralDto;
     }
 
@@ -130,7 +131,7 @@ public class MemberIntegralServiceImpl implements MemberIntegralService {
 
         PageInfo<MemberIntegral> pageInfo = new PageInfo<>(memberIntegralList);
         ListIntegralDto listIntegralDto = new ListIntegralDto(pageInfo);
-        listIntegralDto.setMemberIntegralList(pageInfo.getList());
+        listIntegralDto.setMemberIntegralEnhanceList(Converter.memberIntegralEnhance(pageInfo.getList()));
 
         return listIntegralDto;
     }

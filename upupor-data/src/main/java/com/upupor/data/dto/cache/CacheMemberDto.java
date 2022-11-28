@@ -42,9 +42,9 @@ import java.util.List;
 @Data
 public class CacheMemberDto {
 
-    private List<MemberEnhance> memberList;
+    private List<MemberEnhance> memberEnhanceList;
 
     public CacheMemberDto() {
-        this.memberList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 }

@@ -128,18 +128,18 @@ public abstract class AbstractContent {
         ListContentReq listContentReq = new ListContentReq();
         listContentReq.setPageNum(CcConstant.Page.NUM);
         listContentReq.setPageSize(CcConstant.Page.SIZE);
-        listContentReq.setUserId(contentIndexDto.getContent().getContent().getUserId());
+        listContentReq.setUserId(contentIndexDto.getContentEnhance().getContent().getUserId());
         listContentReq.setStatus(ContentStatus.NORMAL);
         ListContentDto listContentDto = contentService.listContent(listContentReq);
         if (Objects.nonNull(listContentDto)) {
-            List<ContentEnhance> contentEnhanceList = listContentDto.getContentList();
+            List<ContentEnhance> contentEnhanceList = listContentDto.getContentEnhanceList();
             if (!CollectionUtils.isEmpty(contentEnhanceList)) {
                 // 排除当前用户正在浏览的文章
                 List<ContentEnhance> otherContentList = contentEnhanceList.stream()
-                        .filter(c -> !c.getContent().getContentId().equals(contentIndexDto.getContent().getContent().getContentId()))
+                        .filter(c -> !c.getContent().getContentId().equals(contentIndexDto.getContentEnhance().getContent().getContentId()))
                         .collect(Collectors.toList());
                 if (!CollectionUtils.isEmpty(otherContentList)) {
-                    contentIndexDto.setAuthorOtherContentList(otherContentList);
+                    contentIndexDto.setAuthorOtherContentEnhanceList(otherContentList);
                 }
             }
         }
@@ -163,7 +163,7 @@ public abstract class AbstractContent {
 
         // 获取文章
         this.contentEnhance = queryContent();
-        contentIndexDto.setContent(this.contentEnhance);
+        contentIndexDto.setContentEnhance(this.contentEnhance);
         // 共用逻辑
         commonLogic();
         // 个性化业务
