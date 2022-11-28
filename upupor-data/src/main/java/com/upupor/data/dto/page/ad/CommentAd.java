@@ -28,7 +28,8 @@
 package com.upupor.data.dto.page.ad;
 
 import com.upupor.data.dao.entity.Comment;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.CommentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.framework.CcConstant;
 
 import java.util.List;
