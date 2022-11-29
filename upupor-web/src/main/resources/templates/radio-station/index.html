@@ -65,7 +65,7 @@
                 <div>
                     <!--未登录提示-->
                     <div class="mt-2" th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
-                    <div th:include="fragments/comment::commentList(${radioIndexDto.radio.listCommentDto.commentList},
+                    <div th:include="fragments/comment::commentList(${radioIndexDto.radio.listCommentDto.commentEnhanceList},
                                                                     ${radioIndexDto.radio.listCommentDto.pageDtoList},
                                                                     ${radioIndexDto.radio.listCommentDto.total},
                                                                     'radio-detail',

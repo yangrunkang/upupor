@@ -184,11 +184,11 @@
 -->
 <div th:fragment="top_content(pinnedContentEnhance,fromPage)">
     <div class="card border-0 rounded-3 p-2 mb-2"
-         th:if="${pinnedContentEnhance.content != null}">
+         th:if="${pinnedContentEnhance?.content != null}">
         <div class="border-bottom pb-1 text-black-50 mb-2">
             <span th:include="fragments/icon::top"></span> 置顶文章
             <span class="text-sm-end border p-1 rounded-2" style="cursor: pointer" th:if="${fromPage == 'manage-content'}"
-                  th:onclick="pinned([[${pinnedContentEnhance.content.contentId}]],'cancel')">取消</span>
+                  th:onclick="pinned([[${pinnedContentEnhance?.content?.contentId}]],'cancel')">取消</span>
         </div>
         <div th:include="fragments/index::content_media(${pinnedContentEnhance},true)"></div>
     </div>
@@ -615,13 +615,13 @@ from: 来源
     <!---->
     <div class="card border-0 rounded-3 p-2 my-2">
         <div class="lead mb-1">内容标签</div>
-        <div th:if="${#lists.isEmpty(memberIndexDto.tagList)}" th:include="fragments/index::empty_content"></div>
+        <div th:if="${#lists.isEmpty(memberIndexDto.tagEnhanceList)}" th:include="fragments/index::empty_content"></div>
         <div>
-            <a th:if="!${#lists.isEmpty(memberIndexDto.tagList)}"
-               th:each="tag : ${memberIndexDto.tagList}"
+            <a th:if="!${#lists.isEmpty(memberIndexDto.tagEnhanceList)}"
+               th:each="tagEnhance : ${memberIndexDto.tagEnhanceList}"
                class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link ms-1"
-               th:href="@{'/profile/' + ${memberIndexDto.memberEnhance.member.userId} + '/content/'+${tag.tagName}}"
-               th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
+               th:href="@{'/profile/' + ${memberIndexDto.memberEnhance.member.userId} + '/content/'+${tagEnhance.tag.tagName}}"
+               th:text="${tagEnhance.tag.tagName}" th:title="${tagEnhance.tag.tagName}"></a>
         </div>
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
     </div>

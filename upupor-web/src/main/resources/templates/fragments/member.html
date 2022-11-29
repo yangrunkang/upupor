@@ -38,7 +38,7 @@
             <div th:if="${memberEnhance.member.userId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
             <div th:if="${memberEnhance.member.userId != 'google-ad-feed'}" class="d-flex align-items-center my-1 ">
                 <img class="lazyload img rounded cv-icon-50 me-1"
-                     th:if="!${#strings.isEmpty(member.via)}"
+                     th:if="!${#strings.isEmpty(memberEnhance.member.via)}"
                      th:data-src="${memberEnhance.member.via}"
                      th:alt="${memberEnhance.member.userName}"
                 />
