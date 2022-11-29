@@ -338,16 +338,16 @@ from: 来源
 <!--页面Slogan-->
 <div th:fragment="page_banner">
     <div class="card border-0 rounded-3 p-2 mb-2"
-         th:if="!${#lists.isEmpty(commonPageIndexDto.listBannerDto.bannerList)}">
+         th:if="!${#lists.isEmpty(commonPageIndexDto.listBannerDto.bannerEnhanceList)}">
         <div class="border-bottom text-secondary mb-2">
             <img th:data-src="${ossStatic} + @{/icons/system/recommand.png}" class="lazyload cv-icon-item" alt="广而告之"/>
             广而告之
         </div>
-        <div th:each="banner,ite : ${commonPageIndexDto.listBannerDto.bannerList}">
+        <div th:each="bannerEnhance,ite : ${commonPageIndexDto.listBannerDto.bannerEnhanceList}">
             <a class="cv-link text-secondary"
-               th:href="${banner.bannerHref}"
-               th:title="${banner.bannerTitle} + ' ' + ${#strings.isEmpty(banner.bannerDesc)?'':banner.bannerDesc}"
-               th:utext="${banner.bannerTitle}"
+               th:href="${bannerEnhance.banner.bannerHref}"
+               th:title="${bannerEnhance.banner.bannerTitle} + ' ' + ${#strings.isEmpty(bannerEnhance.banner.bannerDesc)?'':bannerEnhance.banner.bannerDesc}"
+               th:utext="${bannerEnhance.banner.bannerTitle}"
             >
             </a>
         </div>
@@ -362,16 +362,16 @@ from: 来源
                th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}"/> [[${type.name}]]</a>
         </li>
     </ul>
-    <div class="d-xl-none" th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
+    <div class="d-xl-none" th:if="!${#lists.isEmpty(commonPageIndexDto.tagEnhanceList)}">
         <div class="border-bottom my-1"></div>
         <ul class="nav nav-pills">
             <!--如果以后涵盖子类，可以使用展开按钮-->
-            <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">
-                <a th:class="'nav-link cv-link small ' + ${menu.tagId}"
-                   th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}"
+            <li th:each="menu : ${commonPageIndexDto.tagEnhanceList}" class="nav-item me-1">
+                <a th:class="'nav-link cv-link small ' + ${menu.tag.tagId}"
+                   th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tag.tagId}}" th:title="${menu.tag.tagName}"
                    th:inline="text">
-                    <img th:data-src="${menu.icon}" class="lazyload cv-icon"/>
-                    [[${menu.tagName}]]
+                    <img th:data-src="${menu.tag.icon}" class="lazyload cv-icon"/>
+                    [[${menu.tag.tagName}]]
                 </a>
             </li>
         </ul>

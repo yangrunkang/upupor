@@ -161,7 +161,7 @@ public class CommonAggregateService {
 
         CommonPageIndexDto commonPageIndexDto = new CommonPageIndexDto(Boolean.FALSE);
         try {
-            commonPageIndexDto.setTagList(tagListFuture.get());
+            commonPageIndexDto.setTagEnhanceList(tagListFuture.get());
             commonPageIndexDto.setMemberList(cacheMemberDtoFuture.get().getMemberEnhanceList());
             commonPageIndexDto.setListContentDto(listContentDtoFuture.get());
             commonPageIndexDto.setListBannerDto(listBannerDtoFuture.get());

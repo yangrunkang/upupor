@@ -56,7 +56,7 @@ public class CommonPageIndexDto {
     /**
      * 左边的栏目
      */
-    private List<TagEnhance> tagList;
+    private List<TagEnhance> tagEnhanceList;
 
     /**
      * 文章列表
@@ -99,7 +99,7 @@ public class CommonPageIndexDto {
 
     private void init() {
         this.listContentDto = new ListContentDto();
-        this.tagList = new ArrayList<>();
+        this.tagEnhanceList = new ArrayList<>();
         this.latestContentList = new ArrayList<>();
     }
 

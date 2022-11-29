@@ -68,15 +68,15 @@
                                 ></textarea>
                             </div>
                         </div>
-                        <div class="mb-3" th:if="!${#lists.isEmpty(editorIndexDto.getTagEnhanceList)}">
+                        <div class="mb-3" th:if="!${#lists.isEmpty(editorIndexDto.tagEnhanceList)}">
                             <label for="title" class="text-black-50">标签</label>
                             <select id="cv_selectpicker" class="form-select">
                                 <option value="">无</option>
-                                <option th:each="tag : ${editorIndexDto.getTagEnhanceList}"
-                                        th:value="${tag.tagId}"
-                                        th:selected="${#strings.contains(editorIndexDto?.getContentEnhance?.tagIds,tag.tagId) or editorIndexDto?.createTag == tag.tagId}"
+                                <option th:each="menu : ${editorIndexDto.tagEnhanceList}"
+                                        th:value="${menu.tag.tagId}"
+                                        th:selected="${#strings.contains(editorIndexDto?.contentEnhance?.tagIds,menu.tag.tagId) or editorIndexDto?.createTag == menu.tag.tagId}"
                                 >
-                                    [[${tag.tagName}]]
+                                    [[${menu.tag.tagName}]]
                                 </option>
                             </select>
                         </div>
