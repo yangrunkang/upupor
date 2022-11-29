@@ -58,7 +58,7 @@ public abstract class AbstractManage {
         memberIndexDto = new MemberIndexDto();
         String userId = ServletUtils.getUserId();
         MemberEnhance memberEnhance = memberService.memberInfoData(userId);
-        memberEnhance.setMemberConfig(memberEnhance.getMemberConfig());
+        memberEnhance.setMemberConfigEnhance(memberEnhance.getMemberConfigEnhance());
         memberIndexDto.setMemberEnhance(memberEnhance);
         return memberIndexDto;
     }

@@ -115,9 +115,17 @@ public class Converter {
     public static MemberEnhance memberEnhance(Member member, MemberExtend memberExtend, MemberConfig memberConfig) {
         return MemberEnhance.builder()
                 .member(member)
-                .memberExtend(memberExtend)
-                .memberConfig(memberConfig)
+                .memberExtendEnhance(Converter.memberExtendEnhance(memberExtend))
+                .memberConfigEnhance(Converter.memberConfigEnhance(memberConfig))
                 .build();
+    }
+
+    public static MemberConfigEnhance memberConfigEnhance(MemberConfig memberConfig) {
+        return MemberConfigEnhance.builder().memberConfig(memberConfig).build();
+    }
+
+    public static MemberExtendEnhance memberExtendEnhance(MemberExtend memberExtend) {
+        return MemberExtendEnhance.builder().memberExtend(memberExtend).build();
     }
 
     public static ContentEnhance contentEnhance(Content content) {
@@ -218,7 +226,10 @@ public class Converter {
         }
 
         return tags.stream().map(a -> {
-            return TagEnhance.builder().tag(a).build();
+            return TagEnhance.builder()
+                    .tag(a)
+                    .count(0)
+                    .build();
         }).collect(Collectors.toList());
     }
 
@@ -276,4 +287,9 @@ public class Converter {
             return Converter.contentDataEnhance(a);
         }).collect(Collectors.toList());
     }
+
+    public static StatementEnhance statementEnhance(Statement statement) {
+        return StatementEnhance.builder().statement(statement).build();
+    }
+
 }

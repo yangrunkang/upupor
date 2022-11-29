@@ -115,7 +115,7 @@ public class MemberProfilePageJumpController {
                 MemberEnhance memberEnhance = memberIndexDto.getMemberEnhance();
                 modelAndView.addObject(memberIndexDto);
                 modelAndView.addObject(SeoKey.TITLE, memberEnhance.getMember().getUserName());
-                modelAndView.addObject(SeoKey.DESCRIPTION, memberEnhance.getMemberExtend().getIntroduce());
+                modelAndView.addObject(SeoKey.DESCRIPTION, memberEnhance.getMemberExtendEnhance().getMemberExtend().getIntroduce());
                 return modelAndView;
             }
         }

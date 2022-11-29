@@ -94,7 +94,7 @@ public class ContentJumpController {
                 String userId = ServletUtils.getUserId();
 
                 MemberEnhance memberEnhance = memberService.memberInfo(userId);
-                MemberConfig memberConfig = memberEnhance.getMemberConfig();
+                MemberConfig memberConfig = memberEnhance.getMemberConfigEnhance().getMemberConfig();
                 if (Objects.isNull(memberConfig)) {
                     throw new BusinessException(ErrorCode.MEMBER_CONFIG_LESS);
                 }

@@ -71,7 +71,7 @@ public class CommonPageIndexDto {
     /**
      * 活跃用户
      */
-    private List<MemberEnhance> memberList;
+    private List<MemberEnhance> memberEnhanceList;
 
     /**
      * 最近一周新增文章

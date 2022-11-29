@@ -29,19 +29,21 @@
 
 package com.upupor.data.dao.entity.enhance;
 
-import com.upupor.data.dao.entity.ContentExtend;
+import com.upupor.data.dao.entity.MemberConfig;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 /**
  * @author Yang Runkang (cruise)
- * @createTime 2022-11-29 4:14
+ * @createTime 2022-11-29 4:56
  * @email: yangrunkang53@gmail.com
  */
 @Data
 @Builder
 @AllArgsConstructor
-public class ContentExtendEnhance {
-    private ContentExtend contentExtend;
+public class MemberConfigEnhance {
+
+    private MemberConfig memberConfig;
+
 }

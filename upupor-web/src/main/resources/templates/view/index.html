@@ -40,20 +40,20 @@
             <div class="col-lg-9 mb-2">
                 <div class="card border-0 rounded-3 p-2">
                     <div class="lead border-bottom">浏览记录</div>
-                    <div th:if="${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}" th:include="fragments/index::empty_content"></div>
+                    <div th:if="${#lists.isEmpty(listViewHistoryDto.viewHistoryEnhanceList)}" th:include="fragments/index::empty_content"></div>
 
                     <ul class="mt-2 list-group list-group-flush"
-                        th:if="!${#lists.isEmpty(listViewHistoryDto.viewHistoryList)}">
-                        <li class="list-group-item p-1" th:each="view,ite : ${listViewHistoryDto.viewHistoryList}">
+                        th:if="!${#lists.isEmpty(listViewHistoryDto.viewHistoryEnhanceList)}">
+                        <li class="list-group-item p-1" th:each="viewEnhance,ite : ${listViewHistoryDto.viewHistoryEnhanceList}">
                             <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
                                     <p class="font-weight-bold mb-1">
-                                        <a th:href="${view.url}" class="cv-link"
-                                           th:title="${view?.title}"><span th:text="${view?.title}">标题</span></a>
-                                        <span class="badge bg-gradient bg-light text-dark float-end" th:text="${view.source}"></span>
+                                        <a th:href="${viewEnhance.url}" class="cv-link"
+                                           th:title="${viewEnhance.title}"><span th:text="${viewEnhance.title}">标题</span></a>
+                                        <span class="badge bg-gradient bg-light text-dark float-end" th:text="${viewEnhance.source}"></span>
                                     </p>
                                     <div class="mb-0 text-black-50 small">
-                                        <span th:text="${view.createDate}"></span>
+                                        <span th:text="${viewEnhance.createDate}"></span>
                                     </div>
                                 </div>
                             </div>

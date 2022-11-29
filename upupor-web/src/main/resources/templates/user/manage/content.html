@@ -65,8 +65,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}"
-                                        th:each="content,ite : ${memberIndexDto.listContentDto.contentList}"
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listContentDto.contentEnhanceList)}"
+                                        th:each="content,ite : ${memberIndexDto.listContentDto.contentEnhanceList}"
                                     >
                                         <td>
                                             <span th:text="${ite.count}"></span>
@@ -104,7 +104,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}" th:include="fragments/index::empty_content"></div>
+                        <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentEnhanceList)}" th:include="fragments/index::empty_content"></div>
                         <div th:replace="fragments/page::page(${memberIndexDto.listContentDto.pageDtoList})"></div>
                     </div>
                 </div>

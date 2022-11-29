@@ -132,7 +132,7 @@ public class Create extends AbstractEditor<CreateContentReq> {
             return timeCreateContentInterval;
         }
         // 获取配置的发文限制
-        MemberConfig memberConfig = memberService.memberInfoData(userId).getMemberConfig();
+        MemberConfig memberConfig = memberService.memberInfoData(userId).getMemberConfigEnhance().getMemberConfig();
         timeCreateContentInterval = memberConfig.getIntervalTimeCreateContent();
 
         String limited = RedisUtil.get(createContentIntervalKey(userId));

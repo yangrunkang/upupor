@@ -65,8 +65,8 @@ public class ContentSearchResultRender extends AbstractSearchResultRender<Conten
     }
 
     @Override
-    protected void transferToSearchDataDtoList(List<ContentEnhance> contents) {
-        for (ContentEnhance contentEnhance : contents) {
+    protected void transferToSearchDataDtoList(List<ContentEnhance> contentEnhanceList) {
+        for (ContentEnhance contentEnhance : contentEnhanceList) {
             Content content = contentEnhance.getContent();
             if (!ContentStatus.NORMAL.equals(content.getStatus())) {
                 continue;
@@ -75,7 +75,7 @@ public class ContentSearchResultRender extends AbstractSearchResultRender<Conten
             searchDataDto.setDataType(dataType());
             searchDataDto.setResultTitle(content.getTitle());
             searchDataDto.setResultId(content.getContentId());
-            searchDataDto.setMemberEnhance(contentEnhance.getMember());
+            searchDataDto.setMemberEnhance(contentEnhance.getMemberEnhance());
             getSearchDataDtoList().add(searchDataDto);
         }
     }

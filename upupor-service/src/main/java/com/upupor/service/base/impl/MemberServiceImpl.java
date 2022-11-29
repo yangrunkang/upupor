@@ -36,6 +36,7 @@ import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.*;
 import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.MemberExtendEnhance;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.*;
 import com.upupor.data.dto.page.common.ListDailyPointsMemberDto;
@@ -296,14 +297,15 @@ public class MemberServiceImpl implements MemberService {
     public Boolean editMember(UpdateMemberReq updateMemberReq) {
         String userId = updateMemberReq.getUserId();
         MemberEnhance memberEnhance = memberInfo(userId);
+        Member member = memberEnhance.getMember();
         // 编辑用户信息
-        BeanUtils.copyProperties(updateMemberReq, memberEnhance);
+        BeanUtils.copyProperties(updateMemberReq, member);
         // 邮箱不能编辑
-        memberEnhance.getMember().setEmail(null);
+        member.setEmail(null);
         // 编辑用户拓展信息
-        MemberExtend memberExtend = memberEnhance.getMemberExtend();
+        MemberExtendEnhance memberExtendEnhance = memberEnhance.getMemberExtendEnhance();
+        MemberExtend memberExtend = memberExtendEnhance.getMemberExtend();
         BeanUtils.copyProperties(updateMemberReq, memberExtend);
-        memberEnhance.setMemberExtend(memberExtend);
         // 编辑用户配置信息
         MemberConfig memberConfig = getMemberConfig(userId);
         if (Objects.nonNull(memberConfig)) {
@@ -312,7 +314,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 更新
-        int updateMember = memberMapper.updateById(memberEnhance.getMember());
+        int updateMember = memberMapper.updateById(member);
         int updateMemberExtend = memberExtendMapper.updateById(memberExtend);
 
         return updateMember + updateMemberExtend > 0;
@@ -331,7 +333,8 @@ public class MemberServiceImpl implements MemberService {
     public Boolean editMemberBgStyle(UpdateCssReq updateCssReq) {
         String userId = updateCssReq.getUserId();
         MemberEnhance memberEnhance = memberInfo(userId);
-        MemberExtend memberExtend = memberEnhance.getMemberExtend();
+        MemberExtendEnhance memberExtendEnhance = memberEnhance.getMemberExtendEnhance();
+        MemberExtend memberExtend = memberExtendEnhance.getMemberExtend();
 
         // 如果不为空则是自定义的样式
         if (!StringUtils.isEmpty(updateCssReq.getSelfDefineCss())) {
@@ -376,8 +379,9 @@ public class MemberServiceImpl implements MemberService {
     public Boolean update(MemberEnhance memberEnhance) {
         int total = 0;
         total = total + memberMapper.updateById(memberEnhance.getMember());
-        if (Objects.nonNull(memberEnhance.getMemberExtend())) {
-            total = total + memberExtendMapper.updateById(memberEnhance.getMemberExtend());
+        MemberExtendEnhance memberExtendEnhance = memberEnhance.getMemberExtendEnhance();
+        if (Objects.nonNull(memberExtendEnhance)) {
+            total = total + memberExtendMapper.updateById(memberExtendEnhance.getMemberExtend());
         }
         return total > 0;
     }
@@ -551,11 +555,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void bindStatement(MemberEnhance memberEnhance) {
         checkNull(memberEnhance);
-        Integer statementId = memberEnhance.getStatement().getStatementId();
+        Integer statementId = memberEnhance.getStatementEnhance().getStatement().getStatementId();
         if (Objects.nonNull(statementId)) {
             Statement statement = statementMapper.getByStatementId(statementId);
             if (Objects.nonNull(statement)) {
-                memberEnhance.setStatement(statement);
+                memberEnhance.setStatementEnhance(Converter.statementEnhance(statement));
             }
         }
     }

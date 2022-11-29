@@ -130,9 +130,9 @@ public class CommonAggregateService {
                         collect(Collectors.toList());
 
                 List<CountTagDto> countTagDtos = contentService.listCountByTagIds(tagIdList);
-                tagEnhanceList.forEach(tagItem -> countTagDtos.forEach(countTagDto -> {
-                    if (tagItem.getTag().getTagId().equals(countTagDto.getTagId())) {
-                        tagItem.setCount(countTagDto.getCount());
+                tagEnhanceList.forEach(tagEnhance -> countTagDtos.forEach(countTagDto -> {
+                    if (tagEnhance.getTag().getTagId().equals(countTagDto.getTagId())) {
+                        tagEnhance.setCount(countTagDto.getCount());
                     }
                 }));
                 tagEnhanceList.sort(Comparator.comparingInt(TagEnhance::getCount).reversed());
@@ -162,7 +162,7 @@ public class CommonAggregateService {
         CommonPageIndexDto commonPageIndexDto = new CommonPageIndexDto(Boolean.FALSE);
         try {
             commonPageIndexDto.setTagEnhanceList(tagListFuture.get());
-            commonPageIndexDto.setMemberList(cacheMemberDtoFuture.get().getMemberEnhanceList());
+            commonPageIndexDto.setMemberEnhanceList(cacheMemberDtoFuture.get().getMemberEnhanceList());
             commonPageIndexDto.setListContentDto(listContentDtoFuture.get());
             commonPageIndexDto.setListBannerDto(listBannerDtoFuture.get());
             commonPageIndexDto.setCurrentRootUrl(ContentType.getUrl(getCommonReq.getContentType()));

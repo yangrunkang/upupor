@@ -78,7 +78,7 @@ public class Email extends AbstractMessage {
                 email = UPUPOR_EMAIL;
             } else {
                 MemberEnhance memberEnhance = memberService.memberInfo(toUserId);
-                boolean openEmail = OpenEmail.SUBSCRIBE_EMAIL.equals(memberEnhance.getMemberConfig().getOpenEmail());
+                boolean openEmail = OpenEmail.SUBSCRIBE_EMAIL.equals(memberEnhance.getMemberConfigEnhance().getMemberConfig().getOpenEmail());
                 if (!openEmail) {
                     log.warn("用户:{}未开启邮件", toUserId);
                     return;

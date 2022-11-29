@@ -30,7 +30,6 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Statement;
 import com.upupor.data.dto.dao.LastAndNextContentDto;
 import com.upupor.data.dto.page.common.ListCommentDto;
 import com.upupor.data.dto.page.common.TagDto;
@@ -66,6 +65,14 @@ public class ContentEnhance {
     private ContentEditReasonEnhance contentEditReasonEnhance;
 
     /**
+     * 用户
+     */
+    private MemberEnhance memberEnhance;
+
+    private StatementEnhance statementEnhance;
+
+
+    /**
      * 页面冗余字段 创建日记-年月日
      */
     private String createDate;
@@ -90,10 +97,7 @@ public class ContentEnhance {
      */
     private ListCommentDto listCommentDto;
 
-    /**
-     * 用户
-     */
-    private MemberEnhance member;
+
     /**
      * 用户
      */
@@ -113,8 +117,6 @@ public class ContentEnhance {
      * 收藏数
      */
     private Integer collectNum;
-
-    private Statement statement;
 
     /**
      * 点赞的用户

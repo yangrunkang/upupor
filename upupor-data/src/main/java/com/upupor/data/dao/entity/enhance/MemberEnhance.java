@@ -30,9 +30,6 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.MemberConfig;
-import com.upupor.data.dao.entity.MemberExtend;
-import com.upupor.data.dao.entity.Statement;
 import com.upupor.framework.utils.CcDateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -58,17 +55,17 @@ public class MemberEnhance {
     /**
      * 用户拓展信息
      */
-    private MemberExtend memberExtend;
+    private MemberExtendEnhance memberExtendEnhance;
 
     /**
      * 用户配置信息
      */
-    private MemberConfig memberConfig;
+    private MemberConfigEnhance memberConfigEnhance;
 
     /**
      * 用户状态信息
      */
-    private Statement statement;
+    private StatementEnhance statementEnhance;
 
     private String createDate;
     private String createDateDiff;

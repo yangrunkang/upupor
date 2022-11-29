@@ -54,8 +54,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listFansDto.fansList)}"
-                                        th:each="fan,ite : ${memberIndexDto.listFansDto.fansList}">
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listFansDto.fansEnhanceList)}"
+                                        th:each="fan,ite : ${memberIndexDto.listFansDto.fansEnhanceList}">
                                         <td th:text="${ite.count}"></td>
                                         <td>
                                             <a class="cv-link" th:href="'/profile/'+${fan?.member?.userId}+'/content'" th:title="${fan?.member?.userName}" th:inline="text">
@@ -71,7 +71,7 @@
                             </table>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listFansDto.fansList)}" th:include="fragments/index::empty_content"></div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listFansDto.fansEnhanceList)}" th:include="fragments/index::empty_content"></div>
                     <div th:replace="fragments/page::page(${memberIndexDto.listFansDto.pageDtoList})"></div>
                 </div>
             </div>

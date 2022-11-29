@@ -75,7 +75,7 @@ public class SetUserDefaultContentType implements PrepareData {
             String userId = ServletUtils.getUserId();
             MemberEnhance memberEnhance = memberService.memberInfo(userId);
             Member member = memberEnhance.getMember();
-            MemberConfig memberConfig = memberEnhance.getMemberConfig();
+            MemberConfig memberConfig = memberEnhance.getMemberConfigEnhance().getMemberConfig();
             if (Objects.isNull(memberConfig)) {
                 throw new BusinessException(ErrorCode.MEMBER_CONFIG_LESS);
             }

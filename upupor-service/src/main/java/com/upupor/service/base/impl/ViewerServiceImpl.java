@@ -147,43 +147,36 @@ public class ViewerServiceImpl implements ViewerService {
         List<ViewHistory> viewHistories = viewHistoryMapper.selectList(query);
         List<ViewHistoryEnhance> viewHistoryEnhanceList = Converter.viewHistoryEnhanceList(viewHistories);
         PageInfo<ViewHistoryEnhance> pageInfo = new PageInfo<>(viewHistoryEnhanceList);
+        setViewHistoryTitle(viewHistoryEnhanceList);
 
         ListViewHistoryDto listViewHistoryDto = new ListViewHistoryDto(pageInfo);
-        setViewHistoryTitle(pageInfo.getList());
-
         listViewHistoryDto.setTotal(pageInfo.getTotal());
-        listViewHistoryDto.setViewHistoryEnhanceList(pageInfo.getList());
+        listViewHistoryDto.setViewHistoryEnhanceList(viewHistoryEnhanceList);
         return listViewHistoryDto;
     }
 
     /**
      * 设置浏览记录的title
      *
-     * @param viewHistoryList
+     * @param viewHistoryEnhanceList
      */
-    private void setViewHistoryTitle(List<ViewHistoryEnhance> viewHistoryList) {
-        if (CollectionUtils.isEmpty(viewHistoryList)) {
+    private void setViewHistoryTitle(List<ViewHistoryEnhance> viewHistoryEnhanceList) {
+        if (CollectionUtils.isEmpty(viewHistoryEnhanceList)) {
             return;
         }
 
-        Map<ViewTargetType, List<ViewHistory>> map = viewHistoryList.stream()
-                .map(ViewHistoryEnhance::getViewHistory)
-                .collect(Collectors.groupingBy(ViewHistory::getTargetType));
-
-        for (ViewTargetType targetType : map.keySet()) {
+        Map<ViewTargetType, List<ViewHistoryEnhance>> viewTargetTypeListMap = viewHistoryEnhanceList.stream()
+                .collect(Collectors.groupingBy(g -> {
+                    return g.getViewHistory().getTargetType();
+                }));
+        for (ViewTargetType targetType : viewTargetTypeListMap.keySet()) {
             for (AbstractViewHistory<?> abstractViewHistory : abstractViewHistoryList) {
                 if (abstractViewHistory.viewTargetType().equals(targetType)) {
-                    abstractViewHistory.initData(map.get(targetType).stream().map(v -> {
-                        ViewHistoryEnhance viewHistoryEnhance = new ViewHistoryEnhance();
-                        viewHistoryEnhance.setViewHistory(v);
-                        return viewHistoryEnhance;
-                    }).collect(Collectors.toList()));
+                    abstractViewHistory.initData(viewTargetTypeListMap.get(targetType));
                     abstractViewHistory.setViewHistoryTitleAndUrl();
                 }
             }
         }
-
-
     }
 
 

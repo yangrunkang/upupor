@@ -31,6 +31,7 @@ package com.upupor.service.aggregation;
 
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.MemberExtend;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.MemberListDto;
 import com.upupor.data.dto.page.ad.AbstractAd;
@@ -85,7 +86,7 @@ public class MemberAggregateService {
         listMemberDto.getMemberEnhanceList().forEach(memberEnhance -> {
             for (MemberExtend memberExtend : memberExtends) {
                 if (memberEnhance.getMember().getUserId().equals(memberExtend.getUserId())) {
-                    memberEnhance.setMemberExtend(memberExtend);
+                    memberEnhance.setMemberExtendEnhance(Converter.memberExtendEnhance(memberExtend));
                 }
             }
         });

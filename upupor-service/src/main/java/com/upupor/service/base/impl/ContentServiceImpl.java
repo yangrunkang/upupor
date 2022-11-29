@@ -455,7 +455,7 @@ public class ContentServiceImpl implements ContentService {
             memberList.forEach(member -> {
                 Content content = contentEnhance.getContent();
                 if (content.getUserId().equals(member.getUserId())) {
-                    contentEnhance.setMember(Converter.memberEnhance(member));
+                    contentEnhance.setMemberEnhance(Converter.memberEnhance(member));
                 }
                 if (Objects.nonNull(content.getLatestCommentTime()) && Objects.nonNull(content.getLatestCommentUserId())) {
                     if (content.getLatestCommentUserId().equals(member.getUserId())) {
@@ -608,9 +608,10 @@ public class ContentServiceImpl implements ContentService {
         }
         Statement statement = statementMapper.getByStatementId(content.getStatementId());
         if (Objects.nonNull(statement)) {
-            contentEnhance.setStatement(statement);
+            contentEnhance.setStatementEnhance(Converter.statementEnhance(statement));
         }
     }
+
 
     @Override
     public void bindLikesMember(ContentEnhance contentEnhance) {

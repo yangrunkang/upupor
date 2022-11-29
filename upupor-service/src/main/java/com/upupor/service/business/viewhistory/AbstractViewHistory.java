@@ -71,8 +71,8 @@ public abstract class AbstractViewHistory<T> {
      *
      * @return
      */
-    public void initData(List<ViewHistoryEnhance> viewHistoryList) {
-        this.viewHistoryList = viewHistoryList;
+    public void initData(List<ViewHistoryEnhance> viewHistoryEnhanceList) {
+        this.viewHistoryList = viewHistoryEnhanceList;
     }
 
     /**
