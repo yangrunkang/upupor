@@ -63,26 +63,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listRadioDto.radioEnhanceList)}" th:each="radio,ite : ${memberIndexDto.listRadioDto.radioEnhanceList}" >
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listRadioDto.radioEnhanceList)}" th:each="radioEnhance,ite : ${memberIndexDto.listRadioDto.radioEnhanceList}" >
                                         <td>
                                             <span th:text="${ite.count}"></span>
                                         </td>
                                         <td>
-                                            <a class="cv-link up-text-overflow" th:href="'/r/'+${radio.radioId}" th:text="${radio.radioIntro}"></a>
+                                            <a class="cv-link up-text-overflow" th:href="'/r/'+${radioEnhance.radio.radioId}" th:text="${radioEnhance.radio.radioIntro}"></a>
                                         </td>
                                         <td>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${radio.status.name()} == 'NORMAL'">正常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${radio.status.name()} == 'HIDE'">隐藏</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${radio.status.name()} == 'DELETED'">删除</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${radioEnhance.radio.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${radioEnhance.radio.status.name()} == 'HIDE'">隐藏</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${radioEnhance.radio.status.name()} == 'DELETED'">删除</span>
                                         </td>
-                                        <td th:text="${radio.createDate}">创建时间</td>
+                                        <td th:text="${radioEnhance.createDate}">创建时间</td>
                                         <td>
                                             <div class="btn-group rounded-3 bg-gradient" role="group" aria-label="Second group">
                                                 <button type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     操作
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg">
-                                                    <a class="cv-link dropdown-item small" th:onclick="deleteRadio([[${radio.radioId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="deleteRadio([[${radioEnhance.radio.radioId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                                 </div>
                                             </div>
                                         </td>

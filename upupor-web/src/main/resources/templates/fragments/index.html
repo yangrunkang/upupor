@@ -182,15 +182,15 @@
 <!--
 置顶
 -->
-<div th:fragment="top_content(pinnedContnet,fromPage)">
+<div th:fragment="top_content(pinnedContentEnhance,fromPage)">
     <div class="card border-0 rounded-3 p-2 mb-2"
-         th:if="${pinnedContnet != null}">
+         th:if="${pinnedContentEnhance.content != null}">
         <div class="border-bottom pb-1 text-black-50 mb-2">
             <span th:include="fragments/icon::top"></span> 置顶文章
             <span class="text-sm-end border p-1 rounded-2" style="cursor: pointer" th:if="${fromPage == 'manage-content'}"
-                  th:onclick="pinned([[${pinnedContnet.contentId}]],'cancel')">取消</span>
+                  th:onclick="pinned([[${pinnedContentEnhance.content.contentId}]],'cancel')">取消</span>
         </div>
-        <div th:include="fragments/index::content_media(${pinnedContnet},true)"></div>
+        <div th:include="fragments/index::content_media(${pinnedContentEnhance},true)"></div>
     </div>
 </div>
 
@@ -280,10 +280,10 @@ from: 来源
     <span th:replace="fragments/manage::manage_content_tag(${contentEnhance})"></span>
 
     <span th:if="${from == 'manage_draft'}">
-        <span class="badge rounded-3 fw-normal" style="border: 1px solid #e3005f;color: #e3005f;background-color: #ffffff;cursor: pointer" th:onclick="toExistedContent([[${contentEnhance.content.contentId}]])" th:if="${contentEnhance.content.existedContent}">已有文章的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
+        <span class="badge rounded-3 fw-normal" style="border: 1px solid #e3005f;color: #e3005f;background-color: #ffffff;cursor: pointer" th:onclick="toExistedContent([[${contentEnhance.content.contentId}]])" th:if="${contentEnhance.existedContent}">已有文章的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
     </span>
     <span th:if="${from == 'manage_content'}">
-        <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;cursor: pointer" th:onclick="toDraft([[${contentEnhance.content.contentId}]])" th:if="${contentEnhance.content.hasDraft}">有未完成的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
+        <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;cursor: pointer" th:onclick="toDraft([[${contentEnhance.content.contentId}]])" th:if="${contentEnhance.hasDraft}">有未完成的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
     </span>
 </div>
 
