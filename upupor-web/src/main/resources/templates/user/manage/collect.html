@@ -55,29 +55,28 @@
                                 </tr>
                                 </thead>
                             	<tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listCollectDto.collectList)}"
-                                        th:each="collect,ite : ${memberIndexDto.listCollectDto.collectList}"
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listCollectDto.collectEnhanceList)}"
+                                        th:each="collectEnhance,ite : ${memberIndexDto.listCollectDto.collectEnhanceList}"
                                     >
                                         <td th:text="${ite.count}"></td>
                                         <td>
-                                            <a class="cv-link" th:utext="${collect?.content?.title}"
-                                               th:href="@{'/u/'+${collect?.content?.contentId}}"></a>
+                                            <a class="cv-link" th:utext="${collectEnhance.contentEnhance?.content?.title}"
+                                               th:href="@{'/u/'+${collectEnhance.contentEnhance?.content?.contentId}}"></a>
                                         </td>
                                         <td>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${collect.status.name()} == 'NORMAL'">正常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${collect.status.name()} == 'ONLY_SELF_SEE'">仅自己可见</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${collect.status.name()} == 'DELETE'">删除</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${collectEnhance.collect.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${collectEnhance.collect.status.name()} == 'ONLY_SELF_SEE'">仅自己可见</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${collectEnhance.collect.status.name()} == 'DELETE'">删除</span>
                                         </td>
-                                        <td class="hidden-xs" th:text="${collect.createDate}">创建时间</td>
+                                        <td class="hidden-xs" th:text="${collectEnhance.createDate}">创建时间</td>
                                         <td>
                                             <div class="btn-group rounded-3 bg-gradient" role="group" aria-label="Second group">
                                                 <button type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     状态
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg">
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('NORMAL',[[${collect.collectId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
-<!--                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('ONLY_SELF_SEE',[[${collect.collectId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>-->
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('DELETE',[[${collect.collectId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('NORMAL',[[${collectEnhance.collect.collectId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeCollectStatus('DELETE',[[${collectEnhance.collect.collectId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -86,7 +85,7 @@
                             </table>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listCollectDto.collectList)}" th:include="fragments/index::empty_content"></div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listCollectDto.collectEnhanceList)}" th:include="fragments/index::empty_content"></div>
                     <div th:replace="fragments/page::page(${memberIndexDto.listCollectDto.pageDtoList})"></div>
                     <hr />
                     <strong>说明</strong>

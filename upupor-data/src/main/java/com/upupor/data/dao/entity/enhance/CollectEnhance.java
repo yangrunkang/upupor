@@ -55,7 +55,7 @@ public class CollectEnhance {
     /**
      * 收藏对象——内容
      */
-    private ContentEnhance content;
+    private ContentEnhance contentEnhance;
 
     public String getCreateDate() {
         return CcDateUtil.timeStamp2Date(collect.getCreateTime());

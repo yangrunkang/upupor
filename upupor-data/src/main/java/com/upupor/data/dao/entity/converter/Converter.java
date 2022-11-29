@@ -247,8 +247,12 @@ public class Converter {
         }
 
         return businessConfigList.stream().map(a -> {
-            return BusinessConfigEnhance.builder().businessConfig(a).build();
+            return businessConfigEnhance(a);
         }).collect(Collectors.toList());
+    }
+
+    public static BusinessConfigEnhance businessConfigEnhance(BusinessConfig businessConfig) {
+        return BusinessConfigEnhance.builder().businessConfig(businessConfig).build();
     }
 
     public static List<BannerEnhance> bannerEnhanceList(List<Banner> bannerList) {

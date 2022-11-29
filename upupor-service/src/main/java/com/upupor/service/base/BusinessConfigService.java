@@ -102,14 +102,14 @@ public class BusinessConfigService {
         }
 
         ListCssPatternDto listCssPatternDto = new ListCssPatternDto();
-        listCssPatternDto.setPatternList(Converter.businessConfigEnhanceList(cssPatternList));
+        listCssPatternDto.setPatternEnhanceList(Converter.businessConfigEnhanceList(cssPatternList));
         listCssPatternDto.setTotal((long) cssPatternList.size());
         listCssPatternDto.setPageDtoList(PageUtils.Page.renderEmpty());
 
         if (!StringUtils.isEmpty(userId)) {
             BusinessConfig userDefinedBgStyle = getUserDefinedBgStyle(userId);
             if (Objects.nonNull(userDefinedBgStyle)) {
-                listCssPatternDto.setUserDefinedCss(userDefinedBgStyle);
+                listCssPatternDto.setUserDefinedCssEnhance(Converter.businessConfigEnhance(userDefinedBgStyle));
             }
         }
 

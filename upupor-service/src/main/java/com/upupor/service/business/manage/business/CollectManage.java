@@ -97,7 +97,7 @@ public class CollectManage extends AbstractManage {
             contentEnhanceList.forEach(contentEnhance -> {
                 Content content = contentEnhance.getContent();
                 if (collect.getCollect().getCollectValue().equals(content.getContentId())) {
-                    collect.setContent(contentEnhance);
+                    collect.setContentEnhance(contentEnhance);
                 }
             });
         });

@@ -46,7 +46,7 @@
                                 <div class="col float-start">
                                     <div class="text-start">
                                         <input type="radio" name="pattern_select" class="css_pattern_radio"
-                                               th:checked="${cv_user_bg_img == memberIndexDto.listCssPatternDto?.userDefinedCss?.value}?'checked'"
+                                               th:checked="${cv_user_bg_img == memberIndexDto.listCssPatternDto?.userDefinedCssEnhance?.businessConfig?.value}?'checked'"
                                                th:value="self-define"
                                         >
                                         自定义
@@ -57,11 +57,11 @@
                                               th:text="
                                               ${
                                                 (
-                                                    session?.cv_user_id == memberIndexDto.listCssPatternDto?.userDefinedCss?.userId
+                                                    session?.cv_user_id == memberIndexDto.listCssPatternDto?.userDefinedCssEnhance?.businessConfig?.userId
                                                     and
-                                                    !#strings.isEmpty(memberIndexDto.listCssPatternDto?.userDefinedCss?.value)
+                                                    !#strings.isEmpty(memberIndexDto.listCssPatternDto?.userDefinedCssEnhance?.businessConfig?.value)
                                                 )?
-                                                memberIndexDto.listCssPatternDto?.userDefinedCss?.value:''
+                                                memberIndexDto.listCssPatternDto?.userDefinedCssEnhance?.businessConfig?.value:''
                                               }"
                                     ></textarea>
                                 </div>
@@ -73,20 +73,20 @@
                                 <small class="form-text text-muted">* 更多样式,请访问<a class="cv-link text-muted" target="_blank" href="https://gradienta.io?utm_source=https://upupor.com">https://gradienta.io</a></small>
                             </div>
                         </div>
-                        <div class="form-group mt-2" th:if="!${#lists.isEmpty(memberIndexDto.listCssPatternDto.patternList)}">
-                            <div th:each="pattern : ${memberIndexDto.listCssPatternDto.patternList}">
+                        <div class="form-group mt-2" th:if="!${#lists.isEmpty(memberIndexDto.listCssPatternDto.patternEnhanceList)}">
+                            <div th:each="patternEnhance : ${memberIndexDto.listCssPatternDto.patternEnhanceList}">
                                 <div class="border rounded my-2 p-1">
                                     <div class="row container my-1" style="height: 60px">
                                         <div class="col float-start">
                                             <div class="text-start">
                                                 <input type="radio" name="pattern_select" class="css_pattern_radio"
-                                                       th:checked="${memberIndexDto?.member?.memberExtend?.bgImg == pattern?.value}?'checked'"
-                                                       th:value="${pattern.value}">
-                                                [[${pattern.name}]]
+                                                       th:checked="${memberIndexDto?.memberEnhance?.memberExtendEnhance?.memberExtend?.bgImg == patternEnhance?.businessConfig?.value}?'checked'"
+                                                       th:value="${patternEnhance?.businessConfig?.value}">
+                                                [[${patternEnhance?.businessConfig?.name}]]
                                             </div>
                                         </div>
                                         <div class="col float-start">
-                                            <div class="w-100 h-100 rounded" th:style="${pattern.value}"></div>
+                                            <div class="w-100 h-100 rounded" th:style="${patternEnhance?.businessConfig?.value}"></div>
                                         </div>
                                     </div>
                                 </div>
