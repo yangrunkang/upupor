@@ -64,7 +64,7 @@
                             <div>
                                 <textarea type="text" class="fluid" id="title" rows="2"
                                           placeholder="如果内容标题可以描述清楚,内容可以不用填写"
-                                          th:text="${editorIndexDto?.getContentEnhance?.title}"
+                                          th:text="${editorIndexDto?.contentEnhance?.content?.title}"
                                 ></textarea>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                 <option value="">无</option>
                                 <option th:each="menu : ${editorIndexDto.tagEnhanceList}"
                                         th:value="${menu.tag.tagId}"
-                                        th:selected="${#strings.contains(editorIndexDto?.contentEnhance?.tagIds,menu.tag.tagId) or editorIndexDto?.createTag == menu.tag.tagId}"
+                                        th:selected="${#strings.contains(editorIndexDto?.contentEnhance?.content?.tagIds,menu.tag.tagId) or editorIndexDto?.createTag == menu.tag.tagId}"
                                 >
                                     [[${menu.tag.tagName}]]
                                 </option>
@@ -84,9 +84,9 @@
                             <div th:replace="fragments/comment::loading_editor(false)"></div>
                             <!--编辑器-->
                             <input type="hidden" id="md_value"
-                                   th:value="${editorIndexDto?.getContentEnhance?.contentExtend?.markdownContent}"/>
+                                   th:value="${editorIndexDto?.contentEnhance?.contentExtendEnhance?.contentExtend?.markdownContent}"/>
                             <input type="hidden" id="html_value"
-                                   th:value="${editorIndexDto?.getContentEnhance?.contentExtend?.detailContent}"/>
+                                   th:value="${editorIndexDto?.contentEnhance?.contentExtendEnhance?.contentExtend?.detailContent}"/>
                             <div id="vcr_editor"
                                  style="overflow:hidden">
                             </div>
@@ -107,8 +107,8 @@
                         <div class="card border-0-title" th:text="${cvException}"></div>
                     </div>
                     <div>
-                        <button th:if="${editorIndexDto.getContentEnhance.status.name() == 'NORMAL' or editorIndexDto.getContentEnhance.status.name() == 'DRAFT'}" type="button" class="ui primary button" onclick="saveOrUpdateContent()">发布</button>
-                        <button th:if="${editorIndexDto.getContentEnhance.status.name() == 'ONLY_SELF_CAN_SEE'}" type="button" class="ui primary button" onclick="saveOrUpdateContent()">编辑完成</button>
+                        <button th:if="${editorIndexDto?.contentEnhance?.content?.status.name() == 'NORMAL' or editorIndexDto?.contentEnhance?.content?.status.name() == 'DRAFT'}" type="button" class="ui primary button" onclick="saveOrUpdateContent()">发布</button>
+                        <button th:if="${editorIndexDto?.contentEnhance?.content?.status.name() == 'ONLY_SELF_CAN_SEE'}" type="button" class="ui primary button" onclick="saveOrUpdateContent()">编辑完成</button>
                         <button type="button" class="ui button"
                                 onclick="draftSave()">暂存
                         </button>
@@ -120,19 +120,19 @@
                         <div class="inline fields mb-1">
                             <div class="field">
                                 <div class="ui radio checkbox">
-                                    <input type="radio" name="original" value="ORIGIN" th:checked="${editorIndexDto.getContentEnhance.originType.name() != 'NONE_ORIGIN'}?'checked'" class="align-self-center original_radio">
+                                    <input type="radio" name="original" value="ORIGIN" th:checked="${editorIndexDto?.contentEnhance?.content?.originType.name() != 'NONE_ORIGIN'}?'checked'" class="align-self-center original_radio">
                                     <label>原创</label>
                                 </div>
                             </div>
                             <div class="field">
                                 <div class="ui radio checkbox">
-                                    <input type="radio" name="original" value="NONE_ORIGIN" th:checked="${editorIndexDto.getContentEnhance.originType.name() == 'NONE_ORIGIN'}?'checked'" class="align-self-center original_radio">
+                                    <input type="radio" name="original" value="NONE_ORIGIN" th:checked="${editorIndexDto?.contentEnhance?.content?.originType.name() == 'NONE_ORIGIN'}?'checked'" class="align-self-center original_radio">
                                     <label>转载</label>
                                 </div>
                             </div>
                         </div>
                         <div class="original ui input"
-                             th:style="${editorIndexDto.getContentEnhance.originType.name()} == 'ORIGIN' ? 'display: block':'display: none'">
+                             th:style="${editorIndexDto?.contentEnhance?.content?.originType.name()} == 'ORIGIN' ? 'display: block':'display: none'">
                             <div class="small mt-1">
                                 原创作品将采用<a class="cv-link fw-bold" target="_blank"
                                           href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh">《署名-非商业性使用-禁止演绎4.0
@@ -140,10 +140,10 @@
                             </div>
                         </div>
                         <div class="none_original"
-                             th:style="${editorIndexDto.getContentEnhance.originType.name()} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
+                             th:style="${editorIndexDto?.contentEnhance?.content?.originType.name()} == 'NONE_ORIGIN' ? 'display: block':'display: none'">
                             <div class="mb-0">
                                 <textarea id="none_original_link" rows="2"
-                                          placeholder="转载地址" th:text="${editorIndexDto.getContentEnhance.noneOriginLink}"
+                                          placeholder="转载地址" th:text="${editorIndexDto?.contentEnhance?.content?.noneOriginLink}"
                                 ></textarea>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                         <div class="field">
                             <label class="text-black-50 fw-light">编辑原因</label>
                             <textarea id="edit_reason" rows="2"
-                                      placeholder="编辑原因" th:text="${editorIndexDto.getContentEnhance?.contentEditReason?.reason}"
+                                      placeholder="编辑原因" th:text="${editorIndexDto.contentEnhance?.contentEditReasonEnhance?.contentEditReason?.reason}"
                             ></textarea>
                         </div>
                     </div>
@@ -178,9 +178,9 @@
                 <div>
                     <!--隐藏域-->
                     <input type="hidden" class="hide-content-content-id"
-                           th:value="${editorIndexDto?.getContentEnhance?.contentId}"/>
+                           th:value="${editorIndexDto?.contentEnhance?.content?.contentId}"/>
                     <input type="hidden" class="hide-content-user-id"
-                           th:value="${editorIndexDto?.getContentEnhance?.userId}"/>
+                           th:value="${editorIndexDto?.contentEnhance?.content?.userId}"/>
                     <input type="hidden" class="hidden-pre-content-id" th:value="${pre_content_id}"/>
                     <input type="hidden" class="has-content-can-to-restore" th:value="${hasContentCanToRestore}"/>
                 </div>

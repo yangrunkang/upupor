@@ -46,7 +46,7 @@
                             <a class="btn btn-outline-secondary btn-sm user_manage_message_all" href="/user/manage/message/all">所有消息</a>
                         </div>
 
-                        <div class="btn-group me-2" role="group" aria-label="Second group" th:if="!${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}">
+                        <div class="btn-group me-2" role="group" aria-label="Second group" th:if="!${#lists.isEmpty(memberIndexDto.listMessageDto.messageEnhanceList)}">
                             <button type="button" class="btn btn-outline-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 操作
                             </button>
@@ -70,31 +70,31 @@
                                     </tr>
                                 </thead>
                             	<tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}"
-                                        th:each="message,ite : ${memberIndexDto.listMessageDto.messageList}"
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listMessageDto.messageEnhanceList)}"
+                                        th:each="messageEnhance,ite : ${memberIndexDto.listMessageDto.messageEnhanceList}"
                                     >
                                         <td th:text="${ite.count}"></td>
                                         <td>
-                                            <div class="text-wrap" th:utext="${message.message}"></div>
+                                            <div class="text-wrap" th:utext="${messageEnhance.message.message}"></div>
                                         </td>
                                         <td>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${message.messageType.name()} == 'SYSTEM'">系统消息</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${message.messageType.name()} == 'USER_REPLAY'">用户消息</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${messageEnhance.message.messageType.name()} == 'SYSTEM'">系统消息</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${messageEnhance.message.messageType.name()} == 'USER_REPLAY'">用户消息</span>
                                         </td>
-                                        <td class="hidden-xs" th:text="${message.createDate}">创建时间</td>
+                                        <td class="hidden-xs" th:text="${messageEnhance.createDate}">创建时间</td>
                                         <td>
                                             <div class="btn-group rounded-3 bg-gradient" role="group">
                                                 <!--状态是未读时显示已读和删除-->
-                                                <button class="btn bg-gradient btn-sm btn-outline-success" th:if="${message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('READ',[[${message.messageId}]],[[${message.userId}]])">已读</button>
-                                                <button class="btn bg-gradient btn-sm btn-outline-danger" th:if="${message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('DELETED',[[${message.messageId}]],[[${message.userId}]])">删除</button>
-                                                <button class="btn bg-gradient btn-sm btn-outline-danger" th:if="${message.status.name()} == 'READ'" th:onclick="changeMessageStatus('DELETED',[[${message.messageId}]],[[${message.userId}]])">删除</button>
+                                                <button class="btn bg-gradient btn-sm btn-outline-success" th:if="${messageEnhance.message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('READ',[[${messageEnhance.message.messageId}]],[[${messageEnhance.message.userId}]])">已读</button>
+                                                <button class="btn bg-gradient btn-sm btn-outline-danger" th:if="${messageEnhance.message.status.name()} == 'UN_READ'" th:onclick="changeMessageStatus('DELETED',[[${messageEnhance.message.messageId}]],[[${messageEnhance.message.userId}]])">删除</button>
+                                                <button class="btn bg-gradient btn-sm btn-outline-danger" th:if="${messageEnhance.message.status.name()} == 'READ'" th:onclick="changeMessageStatus('DELETED',[[${messageEnhance.message.messageId}]],[[${messageEnhance.message.userId}]])">删除</button>
                                             </div>
                                         </td>
                                     </tr>
                             	</tbody>
                             </table>
                         </div>
-                        <div th:if="${#lists.isEmpty(memberIndexDto.listMessageDto.messageList)}" th:include="fragments/index::empty_content"></div>
+                        <div th:if="${#lists.isEmpty(memberIndexDto.listMessageDto.messageEnhanceList)}" th:include="fragments/index::empty_content"></div>
                         <div th:replace="fragments/page::page(${memberIndexDto.listMessageDto.pageDtoList})"></div>
                     </div>
                 </div>
