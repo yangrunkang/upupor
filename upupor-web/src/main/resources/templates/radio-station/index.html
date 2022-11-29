@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <!--访问者-->
-                <div th:include="fragments/index::viewList(${radioIndexDto.radio.viewerList})"></div>
+                <div th:include="fragments/index::viewList(${radioIndexDto.radioEnhance.viewHistoryEnhanceList})"></div>
                 <!--社交模板-->
                 <div th:include="fragments/social::social_box('r/','电台',${radioIndexDto.radio.radioId},${radioIndexDto.radio.radioIntro})" th:if="${radioIndexDto.radio.status.name() == 'NORMAL'}"></div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>

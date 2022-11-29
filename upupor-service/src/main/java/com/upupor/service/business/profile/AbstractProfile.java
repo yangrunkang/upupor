@@ -163,7 +163,7 @@ public abstract class AbstractProfile {
         // 记录访问者
         viewerService.addViewer(userId, viewTargetType());
         // 设置访问者
-        memberIndexDto.setViewerList(viewerService.listViewerByTargetIdAndType(userId, viewTargetType()));
+        memberIndexDto.setViewHistoryEnhanceList(viewerService.listViewerByTargetIdAndType(userId, viewTargetType()));
     }
 
     /**

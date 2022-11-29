@@ -97,10 +97,10 @@ public class RadioAggregateService {
         contentService.bindRadioContentData(Collections.singletonList(radioEnhance));
 
         // 绑定访问者
-        radioEnhance.setViewerList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));
+        radioEnhance.setViewHistoryEnhanceList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));
 
         RadioIndexDto radioIndexDto = new RadioIndexDto();
-        radioIndexDto.setRadio(radioEnhance);
+        radioIndexDto.setRadioEnhance(radioEnhance);
         return radioIndexDto;
     }
 

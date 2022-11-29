@@ -465,25 +465,16 @@ from: 来源
     </div>
 </div>
 
-<div th:fragment="statement">
+<div th:fragment="statement(statementEnhance)">
     <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert"
-         th:if="${contentIndexDto.content.statement} != null">
-        <strong th:text="${contentIndexDto.content.statement.title}" style="font-size:17px"></strong>
-        <span th:text="${contentIndexDto.content.statement.statement}"></span>
+         th:if="${statementEnhance.statement} != null">
+        <strong th:text="${statementEnhance.statement.title}" style="font-size:17px"></strong>
+        <span th:text="${statementEnhance.statement.statement}"></span>
         <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
                 aria-label="Close"></button>
     </div>
 </div>
 
-<div th:fragment="member_statement">
-    <div class="alert alert-danger alert-dismissible fade show mb-2 border-0" role="alert"
-         th:if="${memberIndexDto.memberEnhance.statementEnhance.statement} != null">
-        <strong th:text="${memberIndexDto.memberEnhance.statementEnhance.statement.title}" style="font-size:17px"></strong>
-        <span th:text="${memberIndexDto.memberEnhance.statementEnhance.statement.statement}"></span>
-        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
-                aria-label="Close"></button>
-    </div>
-</div>
 
 <div th:fragment="login_tips">
     <div class="alert alert-danger alert-dismissible fade show mb-2 mt-2" th:if="!${session?.cv_user_id}" role="alert">
@@ -538,7 +529,7 @@ from: 来源
 
 <!--个人中心公共部分-->
 <div th:fragment="profile_common">
-    <div th:if="${memberIndexDto.memberEnhance.statementEnhance.statement} != null" th:include="fragments/index::member_statement"></div>
+    <div th:if="${memberIndexDto?.memberEnhance?.statementEnhance?.statement} != null" th:include="fragments/index::statement(${memberIndexDto.memberEnhance.statementEnhance})"></div>
     <div class="alert alert-warning alert-dismissible fade show mb-2" role="alert"
          th:if="${session?.long_time_un_update_profile_photo}">
         <a  href="/user/manage/upload-profile-photo" class="text-dark fw-bold">
@@ -553,7 +544,7 @@ from: 来源
     </div>
     <div class="card border-0 rounded-3 p-2 mb-2">
         <div style="font-size: 40px;font-weight: bold;" class="text-wrap">[[${memberIndexDto.memberEnhance.member.userName}]]</div>
-        <span th:include="fragments/member::memberTag(${memberIndexDto.memberEnhance.member})"></span>
+        <span th:include="fragments/member::memberTag(${memberIndexDto.memberEnhance})"></span>
         <div th:switch="${memberIndexDto.memberEnhance.memberExtendEnhance.memberExtend.introduce != null && memberIndexDto.memberEnhance.memberExtendEnhance.memberExtend.introduce != ''}">
             <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="true"
                  th:text="${memberIndexDto.memberEnhance.memberExtendEnhance.memberExtend.introduce}"></div>
@@ -562,13 +553,13 @@ from: 来源
     </div>
 </div>
 
-<div th:fragment="viewList(list)">
+<div th:fragment="viewList(viewHistoryEnhanceList)">
     <div class="card border-0 rounded-3 p-2 my-2"
-         th:if="!${#lists.isEmpty(list)}">
+         th:if="!${#lists.isEmpty(viewHistoryEnhanceList)}">
         <div class="small text-black-50">以下用户访问过:</div>
         <span>
-            <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}+'/content'">
-                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}"/>
+            <a th:each="viewHistoryEnhance : ${viewHistoryEnhanceList}" class="cv-link" th:href="'/profile/'+${viewHistoryEnhance.viewHistory.viewerUserId}+'/content'">
+                <img th:if="!${#strings.isEmpty(viewHistoryEnhance.viewerUserVia)}" class="lazyload img rounded cv-icon" th:data-src="${viewHistoryEnhance.viewerUserVia}" th:alt="${viewHistoryEnhance.viewerUserName}"/>
             </a>
         </span>
     </div>
@@ -635,7 +626,7 @@ from: 来源
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
     </div>
     <!--访问者-->
-    <div th:include="fragments/index::viewList(${memberIndexDto.viewerList})"></div>
+    <div th:include="fragments/index::viewList(${memberIndexDto.viewHistoryEnhanceList})"></div>
     <div th:if="${session?.cv_user_id == memberIndexDto.memberEnhance.member.userId}"
          class="card border-0 rounded-3 p-2 my-2">
         <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>我的浏览记录</a>

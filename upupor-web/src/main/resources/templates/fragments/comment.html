@@ -60,32 +60,32 @@
 </div>
 
 
-<div th:fragment="commentList(commentList,pageDtoList,total,fromPage,targetUserId)">
+<div th:fragment="commentList(commentEnhance,pageDtoList,total,fromPage,targetUserId)">
     <div th:class="${fromPage == 'profile-message'}?'':'card border-0 rounded-3 p-2 my-2'">
-        <div th:if="${#lists.isEmpty(commentList)}" th:include="fragments/index::empty_content"></div>
-        <div th:if="!${#lists.isEmpty(commentList)}">
+        <div th:if="${#lists.isEmpty(commentEnhance)}" th:include="fragments/index::empty_content"></div>
+        <div th:if="!${#lists.isEmpty(commentEnhance)}">
             <div class="border-bottom mb-2" th:if="${fromPage != 'profile-message'}">
                 <span class="lead">评论<span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1" th:text="${total}"></span></span>
             </div>
             <div class="list-group list-group-flush">
-                <div class="d-flex align-items-top list-group-item p-1 mt-1" th:if="${comment.commentId != 'google-ad-feed'}" th:each="comment : ${commentList}">
-                    <a class="cv-link" th:href="'/profile/'+${comment.member.userId}+'/content'">
-                        <img th:data-src="${comment.member.via}" class="lazyload align-self-center me-1 mb-1 cv-icon-50 img rounded" th:alt="${comment.member.userName}"/>
+                <div class="d-flex align-items-top list-group-item p-1 mt-1" th:if="${commentEnhance.comment.commentId != 'google-ad-feed'}" th:each="commentEnhance : ${commentEnhance}">
+                    <a class="cv-link" th:href="'/profile/'+${commentEnhance.memberEnhance.member.userId}+'/content'">
+                        <img th:data-src="${commentEnhance.memberEnhance.member.via}" class="lazyload align-self-center me-1 mb-1 cv-icon-50 img rounded" th:alt="${commentEnhance.memberEnhance.member.userName}"/>
                     </a>
                     <div class="flex-grow-1" style="overflow:hidden;">
                         <div class="mt-0">
-                            <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${comment.member.userId}+'/content'">
-                                [[${comment.member.userName}]] <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;" th:if="${comment.member.userId == targetUserId}">楼主</span>
-                                <span th:include="fragments/member::memberTag(${comment.member})"></span>
+                            <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${commentEnhance.memberEnhance.member.userId}+'/content'">
+                                [[${commentEnhance.memberEnhance.member.userName}]] <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;" th:if="${commentEnhance.memberEnhance.member.userId == targetUserId}">楼主</span>
+                                <span th:include="fragments/member::memberTag(${commentEnhance.memberEnhance})"></span>
                             </a>
                             <div class="float-end text-black-50 small">
-                                <span class="d-none d-sm-block float-start text-black-50 ">[[${comment.createDateDiff}]]&nbsp;·&nbsp;</span>
-                                <span style="cursor: pointer" th:if="${session?.cv_user_id}" th:onclick="renderReplayUserName([[${comment.member.userName}]],[[${comment.member.userId}]])">回复<i class="bi bi-reply-fill"></i></span>
+                                <span class="d-none d-sm-block float-start text-black-50 ">[[${commentEnhance.createDateDiff}]]&nbsp;·&nbsp;</span>
+                                <span style="cursor: pointer" th:if="${session?.cv_user_id}" th:onclick="renderReplayUserName([[${commentEnhance.memberEnhance.member.userName}]],[[${commentEnhance.memberEnhance.member.userId}]])">回复<i class="bi bi-reply-fill"></i></span>
                                 <span style="cursor: pointer" th:if="!${session?.cv_user_id}" th:onclick="window.location.href='/login?back=' + window.location.pathname">回复<i class="bi bi-reply-fill"></i></span>
-                                ·&nbsp;<span class="badge bg-gradient bg-light text-black-50" th:text="${comment.floorNum} + '#'"></span>
+                                ·&nbsp;<span class="badge bg-gradient bg-light text-black-50" th:text="${commentEnhance.floorNum} + '#'"></span>
                             </div>
                         </div>
-                        <article class="cherry-markdown" th:utext="${comment.commentContent}">评论内容</article>
+                        <article class="cherry-markdown" th:utext="${commentEnhance.comment.commentContent}">评论内容</article>
                     </div>
                 </div>
             </div>

@@ -597,7 +597,7 @@ public class MemberServiceImpl implements MemberService {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
 
-        radioEnhance.setMember(memberEnhance);
+        radioEnhance.setMemberEnhance(memberEnhance);
     }
 
     @Override

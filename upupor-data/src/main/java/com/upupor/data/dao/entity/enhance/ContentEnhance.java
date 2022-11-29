@@ -131,7 +131,7 @@ public class ContentEnhance {
     /**
      * 文章访问者
      */
-    private List<ViewHistoryEnhance> viewerList;
+    private List<ViewHistoryEnhance> viewHistoryEnhanceList;
 
     /**
      * 针对草稿的文章,反查是否已经发布过,做一个标识,提升用户体验的

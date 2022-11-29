@@ -84,7 +84,7 @@ public class Converter {
     public static CommentEnhance commentEnhance(Comment comment, MemberEnhance memberEnhance) {
         return CommentEnhance.builder()
                 .comment(comment)
-                .member(memberEnhance)
+                .memberEnhance(memberEnhance)
                 .build();
     }
 

@@ -55,12 +55,12 @@ public class CommentEnhance {
     /**
      * 被评论的文章标题
      */
-    private ContentEnhance content;
+    private ContentEnhance contentEnhance;
 
     /**
      * 评论者自己
      */
-    private MemberEnhance member;
+    private MemberEnhance memberEnhance;
 
     /**
      * 创建时间

@@ -43,7 +43,7 @@ public class RadioIndexDto {
     /**
      * 电台
      */
-    private RadioEnhance radio;
+    private RadioEnhance radioEnhance;
 
     private ListRadioDto listRadioDto;
 

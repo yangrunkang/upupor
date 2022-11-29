@@ -117,7 +117,7 @@ public class MemberIndexDto {
     /**
      * 文章访问者
      */
-    private List<ViewHistoryEnhance> viewerList;
+    private List<ViewHistoryEnhance> viewHistoryEnhanceList;
 
     /**
      * 标签名
@@ -137,7 +137,7 @@ public class MemberIndexDto {
         this.listRadioDto = new ListRadioDto();
 
         this.tagEnhanceList = new ArrayList<>();
-        this.viewerList = new ArrayList<>();
+        this.viewHistoryEnhanceList = new ArrayList<>();
         this.currUserIsAttention = false;
     }
 

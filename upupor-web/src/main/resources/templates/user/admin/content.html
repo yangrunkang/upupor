@@ -39,7 +39,7 @@
         <div class="card border-0 rounded-3 p-2 mb-2">
             <div class="lead border-bottom mb-2">文章管理</div>
             <div class="mb-1">标题:</div>
-            <h3> [[${contentIndexDto.content.title}]]</h3>
+            <h3> [[${contentIndexDto.contentEnhance.content.title}]]</h3>
         </div>
 
         <div class="card border-0 rounded-3 p-2 mb-2">
@@ -52,7 +52,7 @@
                     <input class="form-control" type="text" id="keywords"
                            th:value="${contentIndexDto.getContentEnhance.keywords}"/>
                     <button class="ui primary button mt-2"
-                            th:onclick="setKeywords([[${contentIndexDto.content.contentId}]])">设置
+                            th:onclick="setKeywords([[${contentIndexDto.contentEnhance.content.contentId}]])">设置
                     </button>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                         </option>
                     </select>
                     <button class="ui primary button mt-2"
-                            th:onclick="setContentStatus([[${contentIndexDto.content.contentId}]])">设置
+                            th:onclick="setContentStatus([[${contentIndexDto.contentEnhance.content.contentId}]])">设置
                     </button>
                 </div>
             </div>

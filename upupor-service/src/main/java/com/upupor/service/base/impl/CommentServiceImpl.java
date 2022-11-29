@@ -126,7 +126,7 @@ public class CommentServiceImpl implements CommentService {
         setCommentFloorNumber(pageInfo.getList(), query.getPageNum(), query.getPageSize());
 
         ListCommentDto listCommentDto = new ListCommentDto(pageInfo);
-        listCommentDto.setCommentList(pageInfo.getList());
+        listCommentDto.setCommentEnhanceList(pageInfo.getList());
         // 评论特殊翻页,默认翻到最新一页,用户可以看到最新的评论
         listCommentDto.setPageDtoList(PageUtils.buildPageDtoListForComment(pageInfo.getTotal(), pageInfo.getPageNum(), query.getPageSize()));
 
@@ -168,7 +168,7 @@ public class CommentServiceImpl implements CommentService {
         memberEnhanceList.forEach(memberEnhance -> {
             commentList.forEach(comment -> {
                 if (comment.getComment().getUserId().equals(memberEnhance.getMember().getUserId())) {
-                    comment.setMember(memberEnhance);
+                    comment.setMemberEnhance(memberEnhance);
                 }
             });
         });

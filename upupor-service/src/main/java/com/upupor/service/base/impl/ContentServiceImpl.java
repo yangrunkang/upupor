@@ -372,18 +372,18 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public void bindRadioContentData(List<RadioEnhance> radioList) {
+    public void bindRadioContentData(List<RadioEnhance> radioEnhanceList) {
 
-        if (CollectionUtils.isEmpty(radioList)) {
+        if (CollectionUtils.isEmpty(radioEnhanceList)) {
             return;
         }
 
-        List<String> radioIdList = radioList.stream()
+        List<String> radioIdList = radioEnhanceList.stream()
                 .map(RadioEnhance::getRadio)
                 .map(Radio::getRadioId).
                 distinct().collect(Collectors.toList());
-        List<ContentDataEnhance> radioDataList = getContentData(radioIdList);
-        if (CollectionUtils.isEmpty(radioDataList)) {
+        List<ContentDataEnhance> contentDataEnhanceList = getContentData(radioIdList);
+        if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
             return;
         }
         // 浏览数不用处理
@@ -391,7 +391,7 @@ public class ContentServiceImpl implements ContentService {
         // 需要处理评论数
         List<CommentNumDto> commentNumDtoList = commentMapper.selectByCommentIdList(radioIdList);
         if (!CollectionUtils.isEmpty(commentNumDtoList)) {
-            radioDataList.forEach(radioData -> commentNumDtoList.forEach(commentNumDto -> {
+            contentDataEnhanceList.forEach(radioData -> commentNumDtoList.forEach(commentNumDto -> {
                 if (radioData.getContentData().getContentId().equals(commentNumDto.getContentId())) {
                     radioData.getContentData().setCommentNum(commentNumDto.getTotal());
                 }
@@ -399,10 +399,10 @@ public class ContentServiceImpl implements ContentService {
         }
 
         // 绑定文章数据
-        radioDataList.forEach(radioData -> {
-            radioList.forEach(radio -> {
-                if (radioData.getContentData().getContentId().equals(radio.getRadio().getRadioId())) {
-                    radio.setContentData(radioData);
+        contentDataEnhanceList.forEach(contentDataEnhance -> {
+            radioEnhanceList.forEach(radio -> {
+                if (contentDataEnhance.getContentData().getContentId().equals(radio.getRadio().getRadioId())) {
+                    radio.setContentDataEnhance(contentDataEnhance);
                 }
             });
         });

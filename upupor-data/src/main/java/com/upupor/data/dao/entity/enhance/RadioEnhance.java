@@ -68,7 +68,7 @@ public class RadioEnhance {
     /**
      * 电台创作者
      */
-    private MemberEnhance member;
+    private MemberEnhance memberEnhance;
 
     /**
      * 评论内容
@@ -80,7 +80,7 @@ public class RadioEnhance {
     /**
      * 文章数据
      */
-    private ContentDataEnhance contentData;
+    private ContentDataEnhance contentDataEnhance;
 
     private String createDate;
 
@@ -88,7 +88,7 @@ public class RadioEnhance {
 
     private String latestCommentUserName;
 
-    private List<ViewHistoryEnhance> viewerList;
+    private List<ViewHistoryEnhance> viewHistoryEnhanceList;
 
     public String getLatestCommentDate() {
         Long latestCommentTime = radio.getLatestCommentTime();

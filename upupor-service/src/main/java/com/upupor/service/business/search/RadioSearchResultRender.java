@@ -71,7 +71,7 @@ public class RadioSearchResultRender extends AbstractSearchResultRender<RadioEnh
             searchDataDto.setDataType(dataType());
             searchDataDto.setResultTitle(radioEnhance.getRadio().getRadioIntro());
             searchDataDto.setResultId(radioEnhance.getRadio().getRadioId());
-            searchDataDto.setMemberEnhance(radioEnhance.getMember());
+            searchDataDto.setMemberEnhance(radioEnhance.getMemberEnhance());
             getSearchDataDtoList().add(searchDataDto);
         }
 

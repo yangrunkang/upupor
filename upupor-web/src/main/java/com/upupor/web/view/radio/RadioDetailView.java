@@ -82,7 +82,7 @@ public class RadioDetailView extends AbstractView {
         for (Object value : modelAndView.getModelMap().values()) {
             if (value instanceof RadioIndexDto) {
                 RadioIndexDto detail = (RadioIndexDto) value;
-                Radio radio = detail.getRadio().getRadio();
+                Radio radio = detail.getRadioEnhance().getRadio();
                 modelAndView.addObject(CcConstant.SeoKey.TITLE, radio.getRadioIntro());
                 modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, radio.getRadioIntro());
                 break;

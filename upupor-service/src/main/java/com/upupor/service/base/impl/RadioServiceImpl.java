@@ -202,7 +202,7 @@ public class RadioServiceImpl implements RadioService {
                 Radio radio = radioEnhance.getRadio();
                 Member member = memberEnhance.getMember();
                 if (radio.getUserId().equals(member.getUserId())) {
-                    radioEnhance.setMember(memberEnhance);
+                    radioEnhance.setMemberEnhance(memberEnhance);
                 }
                 if (Objects.nonNull(radio.getLatestCommentTime()) && Objects.nonNull(radio.getLatestCommentUserId())) {
                     if (radio.getLatestCommentUserId().equals(member.getUserId())) {

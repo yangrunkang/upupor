@@ -113,7 +113,7 @@ public class PublishedContent extends AbstractContent {
 
         // 记录访问者
         CompletableFuture<Void> setViewerList = CompletableFuture.runAsync(() -> {
-            contentEnhance.setViewerList(viewerService.listViewerByTargetIdAndType(content.getContentId(), ViewTargetType.CONTENT));
+            contentEnhance.setViewHistoryEnhanceList(viewerService.listViewerByTargetIdAndType(content.getContentId(), ViewTargetType.CONTENT));
         }, ASYNC);
 
         // 文章浏览数数据+1
