@@ -55,16 +55,16 @@
                                 </thead>
                                 <tbody>
                                     <tr th:if="!${#lists.isEmpty(memberIndexDto.listFansDto.fansEnhanceList)}"
-                                        th:each="fan,ite : ${memberIndexDto.listFansDto.fansEnhanceList}">
+                                        th:each="fansEnhance,ite : ${memberIndexDto.listFansDto.fansEnhanceList}">
                                         <td th:text="${ite.count}"></td>
                                         <td>
-                                            <a class="cv-link" th:href="'/profile/'+${fan?.member?.userId}+'/content'" th:title="${fan?.member?.userName}" th:inline="text">
-                                                <img class="lazyload cv-icon img rounded" th:data-src="${fan?.member?.via}" /> [[${fan?.member?.userName}]]
+                                            <a class="cv-link" th:href="'/profile/'+${fansEnhance?.memberEnhance?.member?.userId}+'/content'" th:title="${fansEnhance?.memberEnhance?.member?.userName}" th:inline="text">
+                                                <img class="lazyload cv-icon img rounded" th:data-src="${fansEnhance?.memberEnhance?.member?.via}" /> [[${fansEnhance?.memberEnhance?.member?.userName}]]
                                             </a>
                                         </td>
-                                        <td class="hidden-xs" th:text="${fan.createDate}">时间</td>
+                                        <td class="hidden-xs" th:text="${fansEnhance?.createDate}">时间</td>
                                         <td>
-                                            <button class="btn rounded-3 bg-gradient btn-danger btn-sm" th:onclick="deleteFans([[${fan.fanId}]])">移除</button>
+                                            <button class="btn rounded-3 bg-gradient btn-danger btn-sm" th:onclick="deleteFans([[${fansEnhance?.fans.fanId}]])">移除</button>
                                         </td>
                                     </tr>
                             	</tbody>

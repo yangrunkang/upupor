@@ -145,8 +145,9 @@ public class ViewerServiceImpl implements ViewerService {
                 .orderByDesc(ViewHistory::getCreateTime);
         PageHelper.startPage(pageNum, pageSize);
         List<ViewHistory> viewHistories = viewHistoryMapper.selectList(query);
+        PageInfo<ViewHistory> pageInfo = new PageInfo<>(viewHistories);
+
         List<ViewHistoryEnhance> viewHistoryEnhanceList = Converter.viewHistoryEnhanceList(viewHistories);
-        PageInfo<ViewHistoryEnhance> pageInfo = new PageInfo<>(viewHistoryEnhanceList);
         setViewHistoryTitle(viewHistoryEnhanceList);
 
         ListViewHistoryDto listViewHistoryDto = new ListViewHistoryDto(pageInfo);

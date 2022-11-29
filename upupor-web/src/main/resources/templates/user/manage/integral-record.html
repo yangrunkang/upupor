@@ -72,7 +72,7 @@
                     <div th:if="${#lists.isEmpty(memberIndexDto.listIntegralDto.memberIntegralEnhanceList)}" th:include="fragments/index::empty_content"></div>
                     <div th:replace="fragments/page::page(${memberIndexDto.listIntegralDto.pageDtoList})"></div>
                     <div class="border-bottom my-2"></div>
-                    <a class="fw-light text-black-50" href="/integral-rules"><i class="bi bi-arrow-up-right-circle"></i> 点击查看积分规则</a>
+                    <a class="text-black-50" href="/integral-rules"><i class="bi bi-arrow-up-right-circle"></i> 点击查看积分规则</a>
                 </div>
             </div>
             <!--左列-用户信息-->

@@ -33,6 +33,7 @@ import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Attention;
 import com.upupor.data.dao.entity.Fans;
 import com.upupor.data.dao.entity.comparator.MemberLastLoginTimeComparator;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.FansEnhance;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.mapper.AttentionMapper;
@@ -79,25 +80,19 @@ public class FanServiceImpl implements FanService {
     public ListFansDto getFans(String userId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Fans> fans = fansMapper.getFans(userId);
-
-
         if (CollectionUtils.isEmpty(fans)) {
             return new ListFansDto();
         }
-        List<FansEnhance> fansEnhanceList = fans.stream().map(s -> {
-            return FansEnhance.builder().fans(s).build();
-        }).collect(Collectors.toList());
+        PageInfo<Fans> pageInfo = new PageInfo<>(fans);
 
-
-        PageInfo<FansEnhance> pageInfo = new PageInfo<>(fansEnhanceList);
 
         ListFansDto listFansDto = new ListFansDto(pageInfo);
-        listFansDto.setFansEnhanceList(pageInfo.getList());
+        listFansDto.setFansEnhanceList(Converter.fansEnhance(fans));
 
         List<FansEnhance> fansList = listFansDto.getFansEnhanceList();
         if (!CollectionUtils.isEmpty(fansList)) {
             bindFansMemberInfo(fansList);
-            listFansDto.setMemberEnhanceList(fansList.stream().map(FansEnhance::getMember).sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
+            listFansDto.setMemberEnhanceList(fansList.stream().map(FansEnhance::getMemberEnhance).sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }
 
         return listFansDto;
@@ -116,7 +111,7 @@ public class FanServiceImpl implements FanService {
         for (FansEnhance fansEnhance : fansList) {
             for (MemberEnhance memberEnhance : memberEnhanceList) {
                 if (fansEnhance.getFans().getFanUserId().equals(memberEnhance.getMember().getUserId())) {
-                    fansEnhance.setMember(memberEnhance);
+                    fansEnhance.setMemberEnhance(memberEnhance);
                 }
             }
         }

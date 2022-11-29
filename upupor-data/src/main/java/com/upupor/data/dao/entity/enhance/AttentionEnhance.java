@@ -56,7 +56,7 @@ public class AttentionEnhance {
     /**
      * 关注/粉丝 (根据url来)
      */
-    private MemberEnhance member;
+    private MemberEnhance memberEnhance;
 
     public String getCreateDate() {
         return CcDateUtil.timeStamp2Date(attention.getCreateTime());

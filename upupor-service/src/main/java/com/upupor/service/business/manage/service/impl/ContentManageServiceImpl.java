@@ -84,13 +84,13 @@ public class ContentManageServiceImpl implements ContentManageService {
 
         PageHelper.startPage(listContentReq.getPageNum(), listContentReq.getPageSize());
         List<Content> contents = contentMapper.selectList(listQuery);
+        PageInfo<Content> pageInfo = new PageInfo<>(contents);
         List<ContentEnhance> contentEnhances = Converter.contentEnhance(contents);
-        PageInfo<ContentEnhance> pageInfo = new PageInfo<>(contentEnhances);
 
         contentService.bindContentMember(contentEnhances);
 
         ListContentDto listContentDto = new ListContentDto(pageInfo);
-        listContentDto.setContentEnhanceList(pageInfo.getList());
+        listContentDto.setContentEnhanceList(contentEnhances);
         return listContentDto;
     }
 

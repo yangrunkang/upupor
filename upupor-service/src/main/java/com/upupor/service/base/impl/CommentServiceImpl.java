@@ -119,17 +119,16 @@ public class CommentServiceImpl implements CommentService {
         }
         PageHelper.startPage(query.getPageNum(), query.getPageSize());
         List<Comment> commentList = commentMapper.list(query);
-        PageInfo<CommentEnhance> pageInfo = new PageInfo<>(Converter.commentEnhance(commentList));
+        PageInfo<Comment> pageInfo = new PageInfo<>(commentList);
 
-        bindCommentUser(pageInfo.getList());
-
-        setCommentFloorNumber(pageInfo.getList(), query.getPageNum(), query.getPageSize());
+        List<CommentEnhance> commentEnhanceList = Converter.commentEnhance(commentList);
+        bindCommentUser(commentEnhanceList);
+        setCommentFloorNumber(commentEnhanceList, query.getPageNum(), query.getPageSize());
 
         ListCommentDto listCommentDto = new ListCommentDto(pageInfo);
-        listCommentDto.setCommentEnhanceList(pageInfo.getList());
+        listCommentDto.setCommentEnhanceList(commentEnhanceList);
         // 评论特殊翻页,默认翻到最新一页,用户可以看到最新的评论
         listCommentDto.setPageDtoList(PageUtils.buildPageDtoListForComment(pageInfo.getTotal(), pageInfo.getPageNum(), query.getPageSize()));
-
         return listCommentDto;
     }
 

@@ -184,6 +184,13 @@ public class Converter {
         return RadioEnhance.builder().radio(radio).build();
     }
 
+    public static List<FansEnhance> fansEnhance(List<Fans> fansList) {
+        return fansList.stream().map(s -> {
+            return FansEnhance.builder().fans(s).build();
+        }).collect(Collectors.toList());
+    }
+
+
     public static TodoEnhance todoEnhance(Todo todo, TodoDetail todoDetail) {
         return TodoEnhance.builder()
                 .todo(todo)

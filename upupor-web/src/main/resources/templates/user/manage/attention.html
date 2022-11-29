@@ -54,24 +54,24 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listAttentionDto.attentionList)}"
-                                        th:each="attention,ite : ${memberIndexDto.listAttentionDto.attentionList}">
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listAttentionDto.attentionEnhanceList)}"
+                                        th:each="attentionEnhance,ite : ${memberIndexDto.listAttentionDto.attentionEnhanceList}">
                                         <td th:text="${ite.count}"></td>
                                         <td>
-                                            <a class="cv-link" th:href="'/profile/'+${attention?.member?.userId}+'/content'" th:title="${attention?.member?.userName}" th:inline="text">
-                                                <img class="lazyload cv-icon img rounded" th:data-src="${attention?.member?.via}" /> [[${attention?.member?.userName}]]
+                                            <a class="cv-link" th:href="'/profile/'+${attentionEnhance?.memberEnhance?.member?.userId}+'/content'" th:title="${attentionEnhance?.memberEnhance?.member?.userName}" th:inline="text">
+                                                <img class="lazyload cv-icon img rounded" th:data-src="${attentionEnhance?.memberEnhance?.member?.via}" /> [[${attentionEnhance?.memberEnhance?.member?.userName}]]
                                             </a>
                                         </td>
-                                        <td class="hidden-xs" th:text="${attention.createDate}">时间</td>
+                                        <td class="hidden-xs" th:text="${attentionEnhance?.createDate}">时间</td>
                                         <td style=";">
-                                            <button class="btn rounded-3 bg-gradient btn-danger btn-sm" th:onclick="deleteAttention([[${attention.attentionId}]])">取消关注</button>
+                                            <button class="btn rounded-3 bg-gradient btn-danger btn-sm" th:onclick="deleteAttention([[${attentionEnhance?.attention.attentionId}]])">取消关注</button>
                                         </td>
                                     </tr>
                             	</tbody>
                             </table>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listAttentionDto.attentionList)}" th:include="fragments/index::empty_content"></div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listAttentionDto.attentionEnhanceList)}" th:include="fragments/index::empty_content"></div>
                     <div th:replace="fragments/page::page(${memberIndexDto.listAttentionDto.pageDtoList})"></div>
                 </div>
             </div>

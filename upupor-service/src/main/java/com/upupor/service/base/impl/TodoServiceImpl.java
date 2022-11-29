@@ -111,8 +111,9 @@ public class TodoServiceImpl implements TodoService {
 
         PageHelper.startPage(pageNum, pageSize);
         List<Todo> todoList = todoMapper.selectList(todoLambdaQueryWrapper);
+        PageInfo<Todo> pageInfo = new PageInfo<>(todoList);
+
         List<TodoEnhance> todoEnhanceList = Converter.todoEnhanceList(todoList);
-        PageInfo<TodoEnhance> pageInfo = new PageInfo<>(todoEnhanceList);
 
         ListTodoDto listTodoDto = new ListTodoDto(pageInfo);
         listTodoDto.setTodoEnhanceList(todoEnhanceList);

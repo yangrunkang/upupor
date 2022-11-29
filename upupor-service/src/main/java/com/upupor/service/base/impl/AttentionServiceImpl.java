@@ -92,20 +92,20 @@ public class AttentionServiceImpl implements AttentionService {
     @Override
     public ListAttentionDto getAttentions(String userId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Attention> fans = attentionMapper.getAttentions(userId);
-        if (CollectionUtils.isEmpty(fans)) {
+        List<Attention> attentions = attentionMapper.getAttentions(userId);
+        if (CollectionUtils.isEmpty(attentions)) {
             return new ListAttentionDto();
         }
-
-        PageInfo<AttentionEnhance> pageInfo = new PageInfo<>(Converter.attentionEnhance(fans));
+        PageInfo<Attention> pageInfo = new PageInfo<>(attentions);
         ListAttentionDto listAttentionDto = new ListAttentionDto(pageInfo);
-        listAttentionDto.setAttentionEnhanceList(pageInfo.getList());
 
-        List<AttentionEnhance> attentionList = listAttentionDto.getAttentionEnhanceList();
+        List<AttentionEnhance> attentionList = Converter.attentionEnhance(attentions);
+        listAttentionDto.setAttentionEnhanceList(attentionList);
+
         if (!CollectionUtils.isEmpty(attentionList)) {
             bindAttentionMemberInfo(attentionList);
             listAttentionDto.setMemberEnhanceList(attentionList.stream()
-                    .map(AttentionEnhance::getMember)
+                    .map(AttentionEnhance::getMemberEnhance)
                     .sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }
         return listAttentionDto;
@@ -130,7 +130,7 @@ public class AttentionServiceImpl implements AttentionService {
         for (AttentionEnhance attentionEnhance : attentionList) {
             for (MemberEnhance memberEnhance : memberList) {
                 if (attentionEnhance.getAttention().getAttentionUserId().equals(memberEnhance.getMember().getUserId())) {
-                    attentionEnhance.setMember(memberEnhance);
+                    attentionEnhance.setMemberEnhance(memberEnhance);
                 }
             }
         }

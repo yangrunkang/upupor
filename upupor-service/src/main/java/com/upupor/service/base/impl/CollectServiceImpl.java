@@ -65,10 +65,12 @@ public class CollectServiceImpl implements CollectService {
         if (CollectionUtils.isEmpty(collectList)) {
             return new ListCollectDto();
         }
-        PageInfo<CollectEnhance> pageInfo = new PageInfo<>(Converter.collectEnhance(collectList));
+        PageInfo<Collect> pageInfo = new PageInfo<>(collectList);
+
+        List<CollectEnhance> collectEnhances = Converter.collectEnhance(collectList);
 
         ListCollectDto listCollectDto = new ListCollectDto(pageInfo);
-        listCollectDto.setCollectEnhanceList(pageInfo.getList());
+        listCollectDto.setCollectEnhanceList(collectEnhances);
         return listCollectDto;
     }
 

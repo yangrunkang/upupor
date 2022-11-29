@@ -49,7 +49,7 @@ public class FansEnhance {
     private Fans fans;
 
 
-    private MemberEnhance member;
+    private MemberEnhance memberEnhance;
 
     private String createDate;
 

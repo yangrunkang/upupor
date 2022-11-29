@@ -154,11 +154,11 @@ public class RadioServiceImpl implements RadioService {
 
         PageHelper.startPage(pageNum, pageSize);
         List<Radio> radioList = radioMapper.list();
+        PageInfo<Radio> pageInfo = new PageInfo<>(radioList);
         List<RadioEnhance> radioEnhanceList = Converter.radioEnhanceList(radioList);
-        PageInfo<RadioEnhance> pageInfo = new PageInfo<>(radioEnhanceList);
 
         ListRadioDto listRadioDto = new ListRadioDto(pageInfo);
-        listRadioDto.setRadioEnhanceList(pageInfo.getList());
+        listRadioDto.setRadioEnhanceList(radioEnhanceList);
 
         // 绑定电台用户
         bindRadioMember(radioEnhanceList);
