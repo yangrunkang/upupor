@@ -42,37 +42,37 @@
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div class="card border-0 rounded-3 p-2" th:inline="text">
-                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOADED'">
-                        <audio style="width: 100%" th:src="${radioIndexDto.radio.radioUrl}" preload="auto" controls></audio>
+                    <div th:if="${radioIndexDto.radioEnhance.uploadStatus.name()} == 'UPLOADED'">
+                        <audio style="width: 100%" th:src="${radioIndexDto.radioEnhance.radio.radioUrl}" preload="auto" controls></audio>
                     </div>
-                    <h5 class="mt-2">[[${radioIndexDto.radio.radioIntro}]]</h5>
-                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOADING'" class="card border-0 rounded-3 p-2 mb-2 alert alert-warning">
+                    <h5 class="mt-2">[[${radioIndexDto.radioEnhance.radio.radioIntro}]]</h5>
+                    <div th:if="${radioIndexDto.radioEnhance.uploadStatus.name()} == 'UPLOADING'" class="card border-0 rounded-3 p-2 mb-2 alert alert-warning">
                         为了不影响您的使用体验,电台文件技术上做了异步上传。<br/>
                         所以此时此刻,您的电台文件正在努力的上传中,请耐心等待~
                     </div>
-                    <div th:if="${radioIndexDto.radio.uploadStatus.name()} == 'UPLOAD_FAILED'" class="card border-0 rounded-3 p-2 mb-2 alert alert-danger">
+                    <div th:if="${radioIndexDto.radioEnhance.uploadStatus.name()} == 'UPLOAD_FAILED'" class="card border-0 rounded-3 p-2 mb-2 alert alert-danger">
                         电台上传失败
                     </div>
-                    <div th:replace="fragments/index::content_data_show(${radioIndexDto.radio.userId},
-                                                                            ${radioIndexDto.radio.member.userName},
-                                                                            ${radioIndexDto.radio.member.via},
-                                                                            ${radioIndexDto.radio.contentData.viewNum},
-                                                                            ${radioIndexDto.radio.contentData.commentNum},
-                                                                            ${radioIndexDto.radio.createDate},
+                    <div th:replace="fragments/index::content_data_show(${radioIndexDto.radioEnhance.radio.userId},
+                                                                            ${radioIndexDto.radioEnhance.memberEnhance.member.userName},
+                                                                            ${radioIndexDto.radioEnhance.memberEnhance.member.via},
+                                                                            ${radioIndexDto.radioEnhance.contentDataEnhance.contentData.viewNum},
+                                                                            ${radioIndexDto.radioEnhance.contentDataEnhance.contentData.commentNum},
+                                                                            ${radioIndexDto.radioEnhance.createDate},
                                                                             0
                                                                             )"></div>
                 </div>
                 <div>
                     <!--未登录提示-->
                     <div class="mt-2" th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
-                    <div th:include="fragments/comment::commentList(${radioIndexDto.radio.listCommentDto.commentEnhanceList},
-                                                                    ${radioIndexDto.radio.listCommentDto.pageDtoList},
-                                                                    ${radioIndexDto.radio.listCommentDto.total},
+                    <div th:include="fragments/comment::commentList(${radioIndexDto.radioEnhance.listCommentDto.commentEnhanceList},
+                                                                    ${radioIndexDto.radioEnhance.listCommentDto.pageDtoList},
+                                                                    ${radioIndexDto.radioEnhance.listCommentDto.total},
                                                                     'radio-detail',
-                                                                    ${radioIndexDto.radio.userId})"></div>
-                    <div class="card border-0 rounded-3 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radio.status.name() == 'NORMAL'}">
+                                                                    ${radioIndexDto.radioEnhance.radio.userId})"></div>
+                    <div class="card border-0 rounded-3 p-2 my-2" th:if="${session?.cv_user_id} and ${radioIndexDto.radioEnhance.radio.status.name() == 'NORMAL'}">
                         <div id="comment_area">
-                            <div th:include="fragments/comment::comment_box(${radioIndexDto.radio.radioId},'RADIO','评论')"></div>
+                            <div th:include="fragments/comment::comment_box(${radioIndexDto.radioEnhance.radio.radioId},'RADIO','评论')"></div>
                         </div>
                     </div>
                 </div>
@@ -81,29 +81,29 @@
                 <div th:include="fragments/index::create_radio"></div>
                 <div th:include="fragments/index::global_search"></div>
                 <div class="card border-0 rounded-3 p-2 mb-2">
-                    <p style="text-align: center" class="m-0 p-1" th:if="!${#strings.isEmpty(radioIndexDto.radio.member.via)}">
-                        <a th:href="'/profile/'+${radioIndexDto.radio.member.userId}+'/content'">
-                            <img class="lazyload img rounded" th:data-src="${radioIndexDto.radio.member.via}" style="width: 90px;height: 90px;"/>
+                    <p style="text-align: center" class="m-0 p-1" th:if="!${#strings.isEmpty(radioIndexDto.radioEnhance.memberEnhance.member.via)}">
+                        <a th:href="'/profile/'+${radioIndexDto.radioEnhance.memberEnhance.member.userId}+'/content'">
+                            <img class="lazyload img rounded" th:data-src="${radioIndexDto.radioEnhance.memberEnhance.member.via}" style="width: 90px;height: 90px;"/>
                         </a>
                     </p>
                     <p style="text-align: center" class="m-0 p-1">
-                        <a th:inline="text" th:href="'/profile/' + ${radioIndexDto.radio.userId}+'/content'" class="text-black-50 cv-link" style="font-size: 14px">
-                            [[${radioIndexDto.radio.member.userName}]]
+                        <a th:inline="text" th:href="'/profile/' + ${radioIndexDto.radioEnhance.radio.userId}+'/content'" class="text-black-50 cv-link" style="font-size: 14px">
+                            [[${radioIndexDto.radioEnhance.memberEnhance.member.userName}]]
                         </a>
                     </p>
                     <div>
                         <p style="text-align: center" class="m-0 p-1">
-                            <a class="cv-link text-black-50 small" th:inline="text" th:href="'/profile/'+${radioIndexDto.radio.member.userId}+'/message'"><img style=" width: 20px;height: 20px" class="lazyload" th:data-src="${ossStatic} + @{/icons/system/goutong.png}"> 和作者沟通</a>
+                            <a class="cv-link text-black-50 small" th:inline="text" th:href="'/profile/'+${radioIndexDto.radioEnhance.memberEnhance.member.userId}+'/message'"><img style=" width: 20px;height: 20px" class="lazyload" th:data-src="${ossStatic} + @{/icons/system/goutong.png}"> 和作者沟通</a>
                         </p>
                     </div>
                     <div>
-                        <p style="text-align: center" class="text-black-50 small m-0 p-1" th:if="!${#strings.isEmpty(radioIndexDto.radio.member.lastLoginDate)}" th:inline="text">最近活跃: [[${radioIndexDto.radio.member.lastLoginDate}]]</p>
+                        <p style="text-align: center" class="text-black-50 small m-0 p-1" th:if="!${#strings.isEmpty(radioIndexDto.radioEnhance.memberEnhance.lastLoginDate)}" th:inline="text">最近活跃: [[${radioIndexDto.radioEnhance.memberEnhance.lastLoginDate}]]</p>
                     </div>
                 </div>
                 <!--访问者-->
                 <div th:include="fragments/index::viewList(${radioIndexDto.radioEnhance.viewHistoryEnhanceList})"></div>
                 <!--社交模板-->
-                <div th:include="fragments/social::social_box('r/','电台',${radioIndexDto.radio.radioId},${radioIndexDto.radio.radioIntro})" th:if="${radioIndexDto.radio.status.name() == 'NORMAL'}"></div>
+                <div th:include="fragments/social::social_box('r/','电台',${radioIndexDto.radioEnhance.radio.radioId},${radioIndexDto.radioEnhance.radio.radioIntro})" th:if="${radioIndexDto.radioEnhance.radio.status.name() == 'NORMAL'}"></div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <div  th:include="fragments/index::google_right_ad"></div>
             </div>
