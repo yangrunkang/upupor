@@ -29,7 +29,6 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.Statement;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
@@ -110,10 +109,6 @@ public class MemberIndexDto {
      * 作者是否已经被你关注
      */
     private Boolean currUserIsAttention;
-    /**
-     * 备注
-     */
-    private Statement statement;
     /**
      * 文章访问者
      */

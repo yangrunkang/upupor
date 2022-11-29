@@ -38,6 +38,7 @@ import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.MemberExtendEnhance;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
+import com.upupor.data.dao.entity.enhance.StatementEnhance;
 import com.upupor.data.dao.mapper.*;
 import com.upupor.data.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.data.dto.page.common.ListMemberDto;
@@ -555,8 +556,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void bindStatement(MemberEnhance memberEnhance) {
         checkNull(memberEnhance);
-        Integer statementId = memberEnhance.getStatementEnhance().getStatement().getStatementId();
-        if (Objects.nonNull(statementId)) {
+        StatementEnhance statementEnhance = memberEnhance.getStatementEnhance();
+        if (Objects.nonNull(statementEnhance)) {
+            Integer statementId = statementEnhance.getStatement().getStatementId();
             Statement statement = statementMapper.getByStatementId(statementId);
             if (Objects.nonNull(statement)) {
                 memberEnhance.setStatementEnhance(Converter.statementEnhance(statement));

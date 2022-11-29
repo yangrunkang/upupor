@@ -52,10 +52,10 @@
                                                                     ${memberIndexDto.listCommentDto.pageDtoList},
                                                                     ${memberIndexDto.listCommentDto.total},
                                                                     'profile-message',
-                                                                    ${memberIndexDto.member.userId})"></div>
+                                                                    ${memberIndexDto.memberEnhance.member.userId})"></div>
                     <div class="my-2" th:if="${session?.cv_user_id}">
                         <div id="comment_area">
-                            <div th:include="fragments/comment::comment_box(${memberIndexDto.member.userId},'MESSAGE','留言')"></div>
+                            <div th:include="fragments/comment::comment_box(${memberIndexDto.memberEnhance.member.userId},'MESSAGE','留言')"></div>
                         </div>
                     </div>
                 </div>
