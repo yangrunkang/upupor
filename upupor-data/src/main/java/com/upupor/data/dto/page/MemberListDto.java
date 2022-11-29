@@ -41,4 +41,7 @@ public class MemberListDto {
 
     private ListMemberDto listMemberDto;
 
+    public MemberListDto() {
+        this.listMemberDto = new ListMemberDto();
+    }
 }
