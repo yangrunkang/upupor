@@ -53,7 +53,8 @@ public class ContentAd extends AbstractAd<ContentEnhance> {
 
     @Override
     protected void insertAd(int adIndex) {
-        Content ad = new Content();
+        Content ad = Content.init();
+        ;
         ad.setContentId(CcConstant.GoogleAd.FEED_AD);
         getVoList().add(adIndex, Converter.contentEnhance(ad));
     }

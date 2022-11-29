@@ -126,7 +126,7 @@ public class ContentListener {
 
         ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);
         Content content = contentEnhance.getContent();
-        if (Objects.isNull(content) || !content.getStatus().equals(ContentStatus.NORMAL)) {
+        if (Objects.isNull(content) || !ContentStatus.NORMAL.equals(content.getStatus())) {
             log.warn("文章不存在或者状态不正常,不执行后续事件");
             return;
         }

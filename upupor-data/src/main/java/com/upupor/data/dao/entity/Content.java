@@ -112,6 +112,10 @@ public class Content extends BaseEntity {
      */
     private String keywords;
 
+    private Content() {
+    }
+
+
     public static Content init() {
         Content newContent = new Content();
         newContent.setTagIds(CcConstant.EMPTY_STR);
@@ -123,5 +127,5 @@ public class Content extends BaseEntity {
         newContent.setLatestCommentTime(CcDateUtil.getCurrentTime());
         return newContent;
     }
-    
+
 }

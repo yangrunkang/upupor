@@ -144,7 +144,7 @@ public class ContentEnhance {
     }
 
     public static Content empty() {
-        return new Content();
+        return Content.init();
     }
 
     private void init() {

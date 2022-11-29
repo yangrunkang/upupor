@@ -49,7 +49,7 @@
                         <span th:include="fragments/member::memberTag(${memberEnhance})"></span>
                     </a>
                     <div class="text-black-50"
-                         th:text="${#strings.isEmpty(memberEnhance?.memberExtendEnhance?.memberExtend?.introduce)?'':memberEnhance?.memberExtendEnhance?.memberExtend?.introduce}">
+                         th:text="${#strings.isEmpty(memberEnhance?.memberExtendEnhance?.memberExtend?.introduce)?'该用户暂未填写个人简介':memberEnhance?.memberExtendEnhance?.memberExtend?.introduce}">
                     </div>
                 </div>
                 <span class="text-black-50 small" th:if="!${#strings.isEmpty(memberEnhance?.lastLoginDate)}"

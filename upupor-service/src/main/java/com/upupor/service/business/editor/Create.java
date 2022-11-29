@@ -192,7 +192,7 @@ public class Create extends AbstractEditor<CreateContentReq> {
     }
 
     public static ContentEnhance create(String contentId, CreateContentReq createContentReq) {
-        Content content = new Content();
+        Content content = Content.init();
         content.setContentId(contentId);
         content.setTitle(createContentReq.getTitle());
         content.setContentType(createContentReq.getContentType());

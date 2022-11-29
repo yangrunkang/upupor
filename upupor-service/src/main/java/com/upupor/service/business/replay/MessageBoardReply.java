@@ -37,9 +37,9 @@ import com.upupor.service.base.MessageService;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ReplayCommentEvent;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.*;
