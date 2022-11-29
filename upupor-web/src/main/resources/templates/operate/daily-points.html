@@ -62,31 +62,31 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:if="!${#lists.isEmpty(listIntegralDto.memberIntegralList)}"
-                                    th:each="integral,ite : ${listIntegralDto.memberIntegralList}"
+                                <tr th:if="!${#lists.isEmpty(listIntegralDto.memberIntegralEnhanceList)}"
+                                    th:each="memberIntegralEnhance,ite : ${listIntegralDto.memberIntegralEnhanceList}"
                                 >
                                     <td th:text="${ite.count}" style="text-align: center"></td>
                                     <td>
-                                        <p th:utext="${integral.integralText} +${integral.integralValue > 0 ? ' +':' '}+ ${integral.integralValue}"></p>
+                                        <p th:utext="${memberIntegralEnhance.memberIntegral.integralText} +${memberIntegralEnhance.memberIntegral.integralValue > 0 ? ' +':' '}+ ${memberIntegralEnhance.memberIntegral.integralValue}"></p>
                                     </td>
-                                    <td th:text="${integral.createDate}">创建时间</td>
+                                    <td th:text="${memberIntegralEnhance.createDate}">创建时间</td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(listIntegralDto.memberIntegralList)}" th:include="fragments/index::empty_content"></div>
+                    <div th:if="${#lists.isEmpty(listIntegralDto.memberIntegralEnhanceList)}" th:include="fragments/index::empty_content"></div>
                     <div th:replace="fragments/page::page(${listIntegralDto.pageDtoList})"></div>
                 </div>
             </div>
             <div class="col-lg-3">
-                <div class="card border-0 rounded-3 p-2 mb-2" th:if="!${#lists.isEmpty(listDailyPointsMemberDto.memberList)}">
+                <div class="card border-0 rounded-3 p-2 mb-2" th:if="!${#lists.isEmpty(listDailyPointsMemberDto.memberEnhanceList)}">
                     <div class="border-bottom mb-2">今天签到用户</div>
                     <a class="cv-link"
-                       th:each="member,ite : ${listDailyPointsMemberDto.memberList}"
+                       th:each="memberEnhance,ite : ${listDailyPointsMemberDto.memberEnhanceList}"
                        th:inline="text"
-                       th:href="${'/profile/'+ member.userId}+'/content'">
-                        [[${ite.count} +'. ']]<img th:data-src="${member.via}" class="lazyload cv-icon img rounded" th:alt="${member.userName}" /> [[${member.userName}]]
+                       th:href="${'/profile/'+ memberEnhance.member.userId}+'/content'">
+                        [[${ite.count} +'. ']]<img th:data-src="${memberEnhance.member.via}" class="lazyload cv-icon img rounded" th:alt="${memberEnhance.member.userName}" /> [[${memberEnhance.member.userName}]]
                         <br />
                     </a>
                 </div>
