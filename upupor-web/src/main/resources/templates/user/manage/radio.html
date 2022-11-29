@@ -63,7 +63,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listRadioDto.radioList)}" th:each="radio,ite : ${memberIndexDto.listRadioDto.radioList}" >
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listRadioDto.radioEnhanceList)}" th:each="radio,ite : ${memberIndexDto.listRadioDto.radioEnhanceList}" >
                                         <td>
                                             <span th:text="${ite.count}"></span>
                                         </td>
@@ -90,7 +90,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div th:if="${#lists.isEmpty(memberIndexDto.listRadioDto.radioList)}" th:include="fragments/index::empty_content"></div>
+                        <div th:if="${#lists.isEmpty(memberIndexDto.listRadioDto.radioEnhanceList)}" th:include="fragments/index::empty_content"></div>
                         <div th:replace="fragments/page::page(${memberIndexDto.listRadioDto.pageDtoList})"></div>
                     </div>
                 </div>

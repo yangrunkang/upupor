@@ -39,8 +39,8 @@
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div class="card border-0 rounded-3 p-2">
-                    <div th:if="${#lists.isEmpty(radioIndexDto.listRadioDto.radioList)}" th:include="fragments/index::empty_content"></div>
-                    <div th:replace="fragments/index::radio_list(${radioIndexDto.listRadioDto.radioList},'radio-list')"></div>
+                    <div th:if="${#lists.isEmpty(radioIndexDto.listRadioDto.radioEnhanceList)}" th:include="fragments/index::empty_content"></div>
+                    <div th:replace="fragments/index::radio_list(${radioIndexDto.listRadioDto.radioEnhanceList},'radio-list')"></div>
                     <div th:replace="fragments/page::page(${radioIndexDto.listRadioDto.pageDtoList})"></div>
                 </div>
             </div>

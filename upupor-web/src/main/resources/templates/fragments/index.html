@@ -216,21 +216,19 @@ fromPage: 来自于页面
 list: 电台列表列表
 fromPage: 来自于页面
 -->
-<div th:fragment="radio_list(list,fromPage)">
-
+<div th:fragment="radio_list(radioEnhanceList,fromPage)">
     <ul class="list-group list-group-flush">
-        <li class="list-group-item p-1" th:each="radio,ite : ${list}">
+        <li class="list-group-item p-1" th:each="radioEnhance,ite : ${radioEnhanceList}">
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <div th:if="${radio.radioId != 'google-ad-feed'}" th:include="fragments/index::radio-item"></div>
-                    <div th:if="${radio.radioId == 'google-ad-feed'}"
-                         th:include="fragments/index::google_feed_ad"></div>
+                    <div th:if="${radioEnhance.radio.radioId != 'google-ad-feed'}" th:include="fragments/index::radio-item(${radioEnhance})"></div>
+                    <div th:if="${radioEnhance.radio.radioId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
                 </div>
-                <a th:if="${fromPage != 'profile-radio' && radio.radioId != 'google-ad-feed'}"
-                   class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radio.member.userId}+'/content'"
-                   th:title="${radio.member.userName}">
-                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${radio.member.via}"
-                         th:alt="${radio.member.userName}">
+                <a th:if="${fromPage != 'profile-radio' && radioEnhance.radio.radioId != 'google-ad-feed'}"
+                   class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radioEnhance.memberEnhance.member.userId}+'/content'"
+                   th:title="${radioEnhance.memberEnhance.member.userName}">
+                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${radioEnhance.memberEnhance.member.via}"
+                         th:alt="${radioEnhance.memberEnhance.member.userName}">
                 </a>
             </div>
         </li>
@@ -409,8 +407,7 @@ from: 来源
             <span>签到领积分</span>
         </a>
     </div>
-    <div class="card border-0 rounded-3 p-2 mb-2 p-2"
-         th:if="${session?.cv_user_id}">
+    <div class="card border-0 rounded-3 p-2 mb-2 p-2" th:if="${session?.cv_user_id}">
         <figure class="figure text-center mb-0">
             <a th:href="'/profile/' + ${session?.cv_user_id}+'/content'">
                 <img class="img rounded " th:src="${session?.cv_user_via}" style="width: 90px;height: 90px;"/>
@@ -422,24 +419,27 @@ from: 来源
                 </a>
             </figcaption>
         </figure>
-        <div class="border-bottom my-2"></div>
-        <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft"
-               th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}"/> 草稿箱</span>
-                <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
-                      th:text="${draftCount}">23</span>
-            </a>
-            <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
-                <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
-                <span>签到领积分</span>
-            </a>
-            <a th:if="!${isSettingDefaultContent}" class="nav-link cv-link" href="/user/manage/default-content-setting"
-               title="内容喜好设置">
+        <div>
+            <!--显示分割线,有数据再显示-->
+            <div class="border-bottom my-2" th:if="(${draftCount} != null and ${draftCount} >= 1) or (!${dailyPoints}) or (!${isSettingDefaultContent})"></div>
+            <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft"
+                   th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
+                    <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}"/> 草稿箱</span>
+                    <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                          th:text="${draftCount}">23</span>
+                </a>
+                <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
+                    <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
+                    <span>签到领积分</span>
+                </a>
+                <a th:if="!${isSettingDefaultContent}" class="nav-link cv-link" href="/user/manage/default-content-setting"
+                   title="内容喜好设置">
                 <span><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item"
                            alt="内容喜好设置"/></span>
-                <span>内容喜好设置</span>
-            </a>
+                    <span>内容喜好设置</span>
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -689,22 +689,22 @@ from: 来源
 </div>
 
 
-<div th:fragment="radio-item">
+<div th:fragment="radio-item(radioEnhance)">
     <div class="mt-0">
-        <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow fs-6 fst-normal"
-           th:title="${radio.radioIntro}" th:text="${radio.radioIntro}"></a>
+        <a th:href="@{'/r/'+${radioEnhance.radio.radioId}}" class="cv-link up-text-overflow fs-6 fst-normal"
+           th:title="${radioEnhance.radio.radioIntro}" th:text="${radioEnhance.radio.radioIntro}"></a>
     </div>
     <div>
         <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span
-            class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>
+            class="text-black-50 small" th:text="${radioEnhance?.contentDataEnhance?.contentData?.viewNum}">0</span>
         <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span
-            class="text-black-50 small" th:text="${radio?.createDate}"></span>
-        <span th:if="${radio?.latestCommentUserId} != null">
+            class="text-black-50 small" th:text="${radioEnhance?.createDate}"></span>
+        <span th:if="${radioEnhance.radio?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold">·&nbsp;</span>最后回复:</span>
             <a class="cv-link fw-bold text-black-50 small"
-               th:href="'/profile/'+${radio?.latestCommentUserId}+'/content'" th:inline="text">[[${radio?.latestCommentUserName}]]</a>
+               th:href="'/profile/'+${radioEnhance.radio?.latestCommentUserId}+'/content'" th:inline="text">[[${radioEnhance?.latestCommentUserName}]]</a>
             <span class="fw-bold text-black-50">·</span>
-            <span class="text-black-50 small" th:text="${radio?.latestCommentDate}"></span>
+            <span class="text-black-50 small" th:text="${radioEnhance?.latestCommentDate}"></span>
         </span>
     </div>
 </div>
