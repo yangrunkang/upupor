@@ -134,11 +134,11 @@ public class AdminController {
         });
 
 
-        // 将用户的所有文章设置为审核中
+        // 将用户的所有文章设置为 仅自己可见
         List<ContentEnhance> contentEnhanceList = contentService.listAllByUserId(userIdList);
         if (!CollectionUtils.isEmpty(contentEnhanceList)) {
             contentEnhanceList.forEach(content -> {
-                content.getContent().setStatus(ContentStatus.Applying);
+                content.getContent().setStatus(ContentStatus.ONLY_SELF_CAN_SEE);
                 contentService.updateContent(content);
             });
         }

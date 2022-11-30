@@ -97,7 +97,7 @@ public class RadioAggregateService {
         contentService.bindRadioContentData(Collections.singletonList(radioEnhance));
 
         // 绑定访问者
-        radioEnhance.setViewHistoryEnhanceList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));
+        radioEnhance.setViewHistoryEnhanceList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.RADIO));
 
         RadioIndexDto radioIndexDto = new RadioIndexDto();
         radioIndexDto.setRadioEnhance(radioEnhance);

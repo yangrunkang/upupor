@@ -300,8 +300,8 @@ public class ContentServiceImpl implements ContentService {
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         Boolean updateContent, updateContentExtend = Boolean.FALSE;
         updateContent = contentMapper.updateById(content) > 0;
-        ContentExtend contentExtend = contentEnhance.getContentExtendEnhance().getContentExtend();
-        if (Objects.nonNull(contentExtend)) {
+        if (Objects.nonNull(contentEnhance.getContentExtendEnhance())) {
+            ContentExtend contentExtend = contentEnhance.getContentExtendEnhance().getContentExtend();
             updateContentExtend = contentExtendMapper.updateById(contentExtend) > 0;
         }
 

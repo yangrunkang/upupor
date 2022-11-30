@@ -99,16 +99,16 @@
                 <!--上一篇/下一篇-->
                 <div class="list-group list-group-horizontal" th:if="${contentIndexDto.contentEnhance.lastAndNextContentDto} != null">
                     <a class="list-group-item list-group-item-action flex-grow-1 text-start flex-fill cv-link text-truncate border-0"
-                       th:if="${contentIndexDto.contentEnhance.lastAndNextContentDto.nextContentEnhance.content} != null"
-                       th:href="'/u/'+${contentIndexDto.contentEnhance.lastAndNextContentDto.nextContentEnhance.content.contentId}"
-                       th:title="${contentIndexDto.contentEnhance.lastAndNextContentDto.nextContentEnhance.content.title}"
-                       th:inline="text">上一篇: 《[[${contentIndexDto.contentEnhance.lastAndNextContentDto.nextContentEnhance.content.title}]]》</a>
+                       th:if="${contentIndexDto?.contentEnhance?.lastAndNextContentDto?.nextContentEnhance?.content} != null"
+                       th:href="'/u/'+${contentIndexDto?.contentEnhance?.lastAndNextContentDto?.nextContentEnhance?.content.contentId}"
+                       th:title="${contentIndexDto?.contentEnhance?.lastAndNextContentDto?.nextContentEnhance?.content.title}"
+                       th:inline="text">上一篇: 《[[${contentIndexDto?.contentEnhance?.lastAndNextContentDto?.nextContentEnhance?.content.title}]]》</a>
 
                     <a class="list-group-item list-group-item-action flex-grow-1 text-start flex-fill cv-link text-truncate border-0"
-                       th:if="${contentIndexDto.contentEnhance.lastAndNextContentDto.lastContentEnhance.content} != null"
-                       th:href="'/u/'+${contentIndexDto.contentEnhance.lastAndNextContentDto.lastContentEnhance.content.contentId}"
-                       th:title="${contentIndexDto.contentEnhance.lastAndNextContentDto.lastContentEnhance.content.title}"
-                       th:inline="text">下一篇: 《[[${contentIndexDto.contentEnhance.lastAndNextContentDto.lastContentEnhance.content.title}]]》</a>
+                       th:if="${contentIndexDto?.contentEnhance?.lastAndNextContentDto?.lastContentEnhance?.content} != null"
+                       th:href="'/u/'+${contentIndexDto?.contentEnhance?.lastAndNextContentDto?.lastContentEnhance?.content.contentId}"
+                       th:title="${contentIndexDto?.contentEnhance?.lastAndNextContentDto?.lastContentEnhance?.content.title}"
+                       th:inline="text">下一篇: 《[[${contentIndexDto?.contentEnhance?.lastAndNextContentDto?.lastContentEnhance?.content.title}]]》</a>
                 </div>
                 <!--未登录提示-->
                 <div th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
@@ -195,7 +195,7 @@
                         <div class="border-0 mt-2 small text-black-50">以下用户觉得很赞:</div>
                         <span th:each="memberEnhance : ${contentIndexDto.contentEnhance.likesMemberEnhanceList}">
                             <a class="cv-link" th:href="'/profile/'+${memberEnhance.member.userId}+'/content'">
-                                <span th:if="!${#strings.isEmpty(member.via)}"><img  class="lazyload img rounded cv-icon" th:data-src="${memberEnhance.member.via}" th:alt="${memberEnhance.member.userName}" /></span>
+                                <span th:if="!${#strings.isEmpty(memberEnhance.member.via)}"><img  class="lazyload img rounded cv-icon" th:data-src="${memberEnhance.member.via}" th:alt="${memberEnhance.member.userName}" /></span>
                             </a>
                         </span>
                     </div>

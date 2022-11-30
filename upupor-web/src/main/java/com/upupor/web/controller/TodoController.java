@@ -127,7 +127,7 @@ public class TodoController {
             throw new BusinessException(ErrorCode.TODO_STATUS_ERROR);
         }
 
-        Integer result = todoService.update(Converter.todoEnhance(todo));
+        Integer result = todoService.update(Converter.todoEnhance(update));
         ccResponse.setData(result > 0);
         return ccResponse;
     }

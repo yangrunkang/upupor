@@ -101,4 +101,11 @@ public enum ContentStatus {
             ContentStatus.EXCEPTION.getStatus(), ContentStatus.DELETED.getStatus()
     );
 
+    /**
+     * 管理员可操作的状态
+     */
+    public static List<Integer> adminCanOperateStatusList = Lists.newArrayList(
+            ContentStatus.ONLY_SELF_CAN_SEE.getStatus(), ContentStatus.NORMAL.getStatus(), ContentStatus.DELETED.getStatus()
+    );
+
 }
