@@ -27,7 +27,7 @@
 
 package com.upupor.data.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.ContentType;
 import lombok.Data;
 
@@ -62,7 +62,5 @@ public class Tag extends BaseEntity {
 
     private String icon;
 
-    @TableField(exist = false)
-    private Integer count = 0;
 
 }

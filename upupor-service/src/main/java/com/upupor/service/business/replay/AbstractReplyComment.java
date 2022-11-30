@@ -28,11 +28,11 @@
 package com.upupor.service.business.replay;
 
 import com.upupor.data.dao.entity.Member;
+import com.upupor.data.types.ContentType;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
 import com.upupor.service.listener.event.ReplayCommentEvent;
-import com.upupor.data.types.ContentType;
-import com.upupor.framework.utils.CcUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -86,7 +86,7 @@ public abstract class AbstractReplyComment<T> {
     }
 
     protected Member getMember(String userId) {
-        return memberService.memberInfo(userId);
+        return memberService.memberInfo(userId).getMember();
     }
 
     protected String title() {

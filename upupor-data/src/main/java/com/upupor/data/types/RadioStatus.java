@@ -28,7 +28,10 @@
 package com.upupor.data.types;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.google.common.collect.Lists;
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * 电台状态
@@ -61,5 +64,9 @@ public enum RadioStatus {
     RadioStatus(Integer status, String name) {
         this.status = status;
         this.name = name;
+    }
+
+    public static List<RadioStatus> notDeleteStatus() {
+        return Lists.newArrayList(RadioStatus.NORMAL, RadioStatus.HIDE);
     }
 }

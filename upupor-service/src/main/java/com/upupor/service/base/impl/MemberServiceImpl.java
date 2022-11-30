@@ -34,6 +34,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.*;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.MemberExtendEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
+import com.upupor.data.dao.entity.enhance.StatementEnhance;
 import com.upupor.data.dao.mapper.*;
 import com.upupor.data.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.data.dto.page.common.ListMemberDto;
@@ -64,6 +69,7 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.upupor.framework.ErrorCode.DATA_EXCEPTION;
 
@@ -247,16 +253,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member memberInfo(String userId) {
+    public MemberEnhance memberInfo(String userId) {
         Member member = getMember(userId);
         MemberExtend memberExtend = getMemberExtend(userId);
         // 检查用户状态
         if (!member.getStatus().equals(MemberStatus.NORMAL)) {
             throw new BusinessException(ErrorCode.USER_STATUS_EXCEPTION);
         }
-        member.setMemberExtend(memberExtend);
-        member.setMemberConfig(getMemberConfig(userId));
-        return member;
+        return Converter.memberEnhance(member, memberExtend, getMemberConfig(userId));
     }
 
     private MemberExtend getMemberExtend(String userId) {
@@ -274,34 +278,35 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member memberInfoData(String userId) {
-        Member member = memberInfo(userId);
+    public MemberEnhance memberInfoData(String userId) {
+        MemberEnhance memberEnhance = memberInfo(userId);
 
         // 获取粉丝数
-        member.setFansNum(fanService.getFansNum(member.getUserId()));
+        memberEnhance.setFansNum(fanService.getFansNum(memberEnhance.getMember().getUserId()));
 
         // 获取关注数
         AttentionService attentionService = SpringContextUtils.getBean(AttentionService.class);
-        member.setAttentionNum(attentionService.getAttentionNum(member.getUserId()));
+        memberEnhance.setAttentionNum(attentionService.getAttentionNum(memberEnhance.getMember().getUserId()));
 
         // 获取积分数
-        member.setTotalIntegral(memberIntegralService.getUserIntegral(userId));
+        memberEnhance.setTotalIntegral(memberIntegralService.getUserIntegral(userId));
 
-        return member;
+        return memberEnhance;
     }
 
     @Override
     public Boolean editMember(UpdateMemberReq updateMemberReq) {
         String userId = updateMemberReq.getUserId();
-        Member member = memberInfo(userId);
+        MemberEnhance memberEnhance = memberInfo(userId);
+        Member member = memberEnhance.getMember();
         // 编辑用户信息
         BeanUtils.copyProperties(updateMemberReq, member);
         // 邮箱不能编辑
         member.setEmail(null);
         // 编辑用户拓展信息
-        MemberExtend memberExtend = member.getMemberExtend();
+        MemberExtendEnhance memberExtendEnhance = memberEnhance.getMemberExtendEnhance();
+        MemberExtend memberExtend = memberExtendEnhance.getMemberExtend();
         BeanUtils.copyProperties(updateMemberReq, memberExtend);
-        member.setMemberExtend(memberExtend);
         // 编辑用户配置信息
         MemberConfig memberConfig = getMemberConfig(userId);
         if (Objects.nonNull(memberConfig)) {
@@ -328,8 +333,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Boolean editMemberBgStyle(UpdateCssReq updateCssReq) {
         String userId = updateCssReq.getUserId();
-        Member member = memberInfo(userId);
-        MemberExtend memberExtend = member.getMemberExtend();
+        MemberEnhance memberEnhance = memberInfo(userId);
+        MemberExtendEnhance memberExtendEnhance = memberEnhance.getMemberExtendEnhance();
+        MemberExtend memberExtend = memberExtendEnhance.getMemberExtend();
 
         // 如果不为空则是自定义的样式
         if (!StringUtils.isEmpty(updateCssReq.getSelfDefineCss())) {
@@ -371,11 +377,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean update(Member member) {
+    public Boolean update(MemberEnhance memberEnhance) {
         int total = 0;
-        total = total + memberMapper.updateById(member);
-        if (Objects.nonNull(member.getMemberExtend())) {
-            total = total + memberExtendMapper.updateById(member.getMemberExtend());
+        total = total + memberMapper.updateById(memberEnhance.getMember());
+        MemberExtendEnhance memberExtendEnhance = memberEnhance.getMemberExtendEnhance();
+        if (Objects.nonNull(memberExtendEnhance)) {
+            total = total + memberExtendMapper.updateById(memberExtendEnhance.getMemberExtend());
         }
         return total > 0;
     }
@@ -388,8 +395,8 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public List<Member> listByUserIdList(List<String> userIdList) {
-        return memberMapper.listByUserIdList(userIdList);
+    public List<MemberEnhance> listByUserIdList(List<String> userIdList) {
+        return Converter.memberEnhance(memberMapper.listByUserIdList(userIdList));
     }
 
     @Override
@@ -429,18 +436,19 @@ public class MemberServiceImpl implements MemberService {
         PageInfo<Member> pageInfo = new PageInfo<>(memberList);
 
         ListMemberDto listMemberDto = new ListMemberDto(pageInfo);
-        listMemberDto.setMemberList(pageInfo.getList());
+        listMemberDto.setMemberEnhanceList(pageInfo.getList().stream().map(s -> {
+            return Converter.memberEnhance(s);
+        }).collect(Collectors.toList()));
 
         return listMemberDto;
     }
 
 
     @Override
-    public List<Member> activeMember() {
+    public List<MemberEnhance> activeMember() {
         PageHelper.startPage(CcConstant.Page.NUM, CcConstant.Page.SIZE_TEN);
         List<Member> memberList = memberMapper.activeMember();
-        PageInfo<Member> pageInfo = new PageInfo<>(memberList);
-        return pageInfo.getList();
+        return Converter.memberEnhance(memberList);
     }
 
     @Override
@@ -459,13 +467,13 @@ public class MemberServiceImpl implements MemberService {
             return new ListDailyPointsMemberDto();
         }
 
-        List<Member> memberList = listByUserIdList(userIdList);
+        List<MemberEnhance> memberList = listByUserIdList(userIdList);
         if (CollectionUtils.isEmpty(memberList)) {
             return new ListDailyPointsMemberDto();
         }
 
         ListDailyPointsMemberDto listDailyPointsMemberDto = new ListDailyPointsMemberDto(pageInfo);
-        listDailyPointsMemberDto.setMemberList(memberList);
+        listDailyPointsMemberDto.setMemberEnhanceList(memberList);
         return listDailyPointsMemberDto;
     }
 
@@ -546,20 +554,21 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void bindStatement(Member member) {
-        checkNull(member);
-        Integer statementId = member.getStatementId();
-        if (Objects.nonNull(statementId)) {
+    public void bindStatement(MemberEnhance memberEnhance) {
+        checkNull(memberEnhance);
+        StatementEnhance statementEnhance = memberEnhance.getStatementEnhance();
+        if (Objects.nonNull(statementEnhance)) {
+            Integer statementId = statementEnhance.getStatement().getStatementId();
             Statement statement = statementMapper.getByStatementId(statementId);
             if (Objects.nonNull(statement)) {
-                member.setStatement(statement);
+                memberEnhance.setStatementEnhance(Converter.statementEnhance(statement));
             }
         }
     }
 
     @Override
-    public void checkNull(Member member) {
-        if (Objects.isNull(member)) {
+    public void checkNull(MemberEnhance memberEnhance) {
+        if (Objects.isNull(memberEnhance.getMember())) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
     }
@@ -575,22 +584,22 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void bindRadioMember(Radio radio) {
-        if (Objects.isNull(radio)) {
+    public void bindRadioMember(RadioEnhance radioEnhance) {
+        if (Objects.isNull(radioEnhance)) {
             throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
         }
 
-        if (StringUtils.isEmpty(radio.getUserId())) {
+        if (StringUtils.isEmpty(radioEnhance.getRadio().getUserId())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
 
-        String userId = radio.getUserId();
-        Member member = this.memberInfo(userId);
-        if (Objects.isNull(member)) {
+        String userId = radioEnhance.getRadio().getUserId();
+        MemberEnhance memberEnhance = this.memberInfo(userId);
+        if (Objects.isNull(memberEnhance)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
 
-        radio.setMember(member);
+        radioEnhance.setMemberEnhance(memberEnhance);
     }
 
     @Override
@@ -646,8 +655,8 @@ public class MemberServiceImpl implements MemberService {
 
         String userId = ServletUtils.getUserId();
         if (!StringUtils.isEmpty(userId)) {
-            Member member = memberInfo(userId);
-            if (!member.getIsAdmin().equals(MemberIsAdmin.ADMIN)) {
+            MemberEnhance memberEnhance = memberInfo(userId);
+            if (!memberEnhance.getMember().getIsAdmin().equals(MemberIsAdmin.ADMIN)) {
                 throw new BusinessException(ErrorCode.USER_NOT_ADMIN);
             }
         }

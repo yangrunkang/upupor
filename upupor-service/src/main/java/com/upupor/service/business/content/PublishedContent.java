@@ -28,6 +28,7 @@
 package com.upupor.service.business.content;
 
 import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dto.page.ContentIndexDto;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.types.CollectType;
@@ -72,23 +73,24 @@ public class PublishedContent extends AbstractContent {
     private TagService tagService;
 
     @Override
-    protected Content queryContent() {
-        Content content = contentService.getContentDetail(getContentId());
+    protected ContentEnhance queryContent() {
+        ContentEnhance contentEnhance = contentService.getContentDetail(getContentId());
         // 提示文章已删除
-        if (content.getStatus().equals(ContentStatus.DELETED)) {
+        if (contentEnhance.getContent().getStatus().equals(ContentStatus.DELETED)) {
             throw new BusinessException(ErrorCode.ARTICLE_DELETED);
         }
         // 进一步校验访问来源
-        if (!content.getStatus().equals(ContentStatus.NORMAL)) {
+        if (!contentEnhance.getContent().getStatus().equals(ContentStatus.NORMAL)) {
             throw new BusinessException(ErrorCode.ILLEGAL_PATH_TO_VIEW_CONTENT);
         }
-        return content;
+        return contentEnhance;
     }
 
 
     @Override
     protected void individuateBusiness() {
-        Content content = getContent();
+        ContentEnhance contentEnhance = getContentEnhance();
+        Content content = contentEnhance.getContent();
         Integer pageNum = getPageNum();
         Integer pageSize = getPageSize();
         ContentIndexDto contentIndexDto = getContentIndexDto();
@@ -96,22 +98,22 @@ public class PublishedContent extends AbstractContent {
 
         // 获取评论信息
         CompletableFuture<Void> bindContentComment = CompletableFuture.runAsync(() -> {
-            commentService.bindContentComment(content, pageNum, pageSize);
+            commentService.bindContentComment(contentEnhance, pageNum, pageSize);
         }, ASYNC);
 
         // 绑定点赞的人
         CompletableFuture<Void> bindLikesMember = CompletableFuture.runAsync(() -> {
-            contentService.bindLikesMember(content);
+            contentService.bindLikesMember(contentEnhance);
         }, ASYNC);
 
         // 上一篇下一篇
         CompletableFuture<Void> lastAndNextContent = CompletableFuture.runAsync(() -> {
-            contentService.lastAndNextContent(content);
+            contentService.lastAndNextContent(contentEnhance);
         }, ASYNC);
 
         // 记录访问者
         CompletableFuture<Void> setViewerList = CompletableFuture.runAsync(() -> {
-            content.setViewerList(viewerService.listViewerByTargetIdAndType(content.getContentId(), ViewTargetType.CONTENT));
+            contentEnhance.setViewHistoryEnhanceList(viewerService.listViewerByTargetIdAndType(content.getContentId(), ViewTargetType.CONTENT));
         }, ASYNC);
 
         // 文章浏览数数据+1
@@ -124,8 +126,8 @@ public class PublishedContent extends AbstractContent {
 
         // 推荐文章
         CompletableFuture<Void> setRandomContentList = CompletableFuture.runAsync(() -> {
-            contentIndexDto.setRandomContentList(contentService.randomContent(content.getUserId()));
-            AbstractAd.ad(contentIndexDto.getRandomContentList());
+            contentIndexDto.setRandomContentEnhanceList(contentService.randomContent(content.getUserId()));
+            AbstractAd.ad(contentIndexDto.getRandomContentEnhanceList());
         }, ASYNC);
 
         // 记录访问者
@@ -170,12 +172,12 @@ public class PublishedContent extends AbstractContent {
      * 处理文章收藏数
      */
     private void handleContentCollectNum() {
-        Content content = getContent();
-        if (Objects.isNull(content)) {
+        ContentEnhance contentEnhance = getContentEnhance();
+        if (Objects.isNull(contentEnhance.getContent())) {
             throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
         }
-        Integer collectNum = collectService.collectNum(CollectType.CONTENT, content.getContentId());
-        content.setCollectNum(collectNum);
+        Integer collectNum = collectService.collectNum(CollectType.CONTENT, contentEnhance.getContent().getContentId());
+        contentEnhance.setCollectNum(collectNum);
     }
 
 

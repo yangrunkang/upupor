@@ -30,6 +30,7 @@
 package com.upupor.data.types;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -95,4 +96,16 @@ public enum ContentStatus {
         statusList.add(ContentStatus.DELETED);
         return statusList;
     }
+
+    public static List<Integer> manageStatusList = Lists.newArrayList(
+            ContentStatus.EXCEPTION.getStatus(), ContentStatus.DELETED.getStatus()
+    );
+
+    /**
+     * 管理员可操作的状态
+     */
+    public static List<Integer> adminCanOperateStatusList = Lists.newArrayList(
+            ContentStatus.ONLY_SELF_CAN_SEE.getStatus(), ContentStatus.NORMAL.getStatus(), ContentStatus.DELETED.getStatus()
+    );
+
 }

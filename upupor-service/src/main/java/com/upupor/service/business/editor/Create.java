@@ -33,6 +33,8 @@ import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.ContentExtend;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dao.mapper.MemberConfigMapper;
 import com.upupor.data.dto.OperateContentDto;
 import com.upupor.framework.BusinessException;
@@ -77,32 +79,35 @@ public class Create extends AbstractEditor<CreateContentReq> {
 
     @Override
     protected void check() {
-        Member member = getMember();
+        Member member = getMember().getMember();
         limitedInterval = checkIntervalLimit(member.getUserId());
     }
 
-    private Content createNewContent() {
+    private ContentEnhance createNewContent() {
         CreateContentReq createContentReq = getReq();
-        Member member = getMember();
+        Member member = getMember().getMember();
         String contentId = generateContentId();
-        Content content = create(contentId, createContentReq);
+        ContentEnhance contentEnhance = create(contentId, createContentReq);
+        Content content = contentEnhance.getContent();
         content.setUserId(member.getUserId());
         content.setStatementId(member.getStatementId());
         contentService.initContendData(content.getContentId());
-        return content;
+        return contentEnhance;
     }
 
     @Override
     protected OperateContentDto doBusiness() {
-        Content content = createNewContent();
-        boolean addSuccess = contentService.insertContent(content);
+        ContentEnhance contentEnhance = createNewContent();
+        boolean addSuccess = contentService.insertContent(contentEnhance);
+        Content content = contentEnhance.getContent();
+
         if (addSuccess) {
             // 发送创建文章成功事件
             publishContentEvent(content);
 
             // 缓存创建文章的动作(标识),用于限制某一用户恶意刷文
             if (Objects.nonNull(limitedInterval)) {
-                RedisUtil.set(createContentIntervalKey(getMember().getUserId()), content.getContentId(), limitedInterval);
+                RedisUtil.set(createContentIntervalKey(getMember().getMember().getUserId()), content.getContentId(), limitedInterval);
             }
         }
 
@@ -127,7 +132,7 @@ public class Create extends AbstractEditor<CreateContentReq> {
             return timeCreateContentInterval;
         }
         // 获取配置的发文限制
-        MemberConfig memberConfig = memberService.memberInfoData(userId).getMemberConfig();
+        MemberConfig memberConfig = memberService.memberInfoData(userId).getMemberConfigEnhance().getMemberConfig();
         timeCreateContentInterval = memberConfig.getIntervalTimeCreateContent();
 
         String limited = RedisUtil.get(createContentIntervalKey(userId));
@@ -156,7 +161,7 @@ public class Create extends AbstractEditor<CreateContentReq> {
             // 检查preContentId是否已经使用
             try {
                 // 检查重复提交
-                Content normalContent = contentService.getNormalContent(createContentReq.getPreContentId());
+                ContentEnhance normalContent = contentService.getNormalContent(createContentReq.getPreContentId());
                 if (Objects.nonNull(normalContent)) {
                     throw new BusinessException(ErrorCode.SUBMIT_REPEAT);
                 }
@@ -186,28 +191,22 @@ public class Create extends AbstractEditor<CreateContentReq> {
         eventPublisher.publishEvent(createContentEvent);
     }
 
-    public static Content create(String contentId, CreateContentReq createContentReq) {
-        Content content = new Content();
+    public static ContentEnhance create(String contentId, CreateContentReq createContentReq) {
+        Content content = Content.init();
         content.setContentId(contentId);
         content.setTitle(createContentReq.getTitle());
         content.setContentType(createContentReq.getContentType());
         content.setShortContent(createContentReq.getShortContent());
         content.setTagIds(CcUtils.removeLastComma(createContentReq.getTagIds()));
-        // 初始化文章拓展表
-        content.setContentExtend(
-                ContentExtend.create(
-                        contentId,
-                        createContentReq.getContent(),
-                        createContentReq.getMdContent()
-                )
-        );
-
         // 原创处理
         if (Objects.nonNull(createContentReq.getOriginType())) {
             content.setOriginType(createContentReq.getOriginType());
             content.setNoneOriginLink(createContentReq.getNoneOriginLink());
         }
-
-        return content;
+        return Converter.contentEnhance(content, ContentExtend.create(
+                contentId,
+                createContentReq.getContent(),
+                createContentReq.getMdContent()
+        ));
     }
 }

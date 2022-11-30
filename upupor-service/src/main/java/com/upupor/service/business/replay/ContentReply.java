@@ -29,21 +29,22 @@
 
 package com.upupor.service.business.replay;
 
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.business.message.MessageSend;
-import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.types.ContentType;
+import com.upupor.data.types.MessageType;
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ReplayCommentEvent;
-import com.upupor.data.types.ContentType;
-import com.upupor.data.types.MessageType;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.*;
@@ -54,7 +55,7 @@ import static com.upupor.framework.CcConstant.MsgTemplate.*;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ContentReply extends AbstractReplyComment<Content> {
+public class ContentReply extends AbstractReplyComment<ContentEnhance> {
     @Resource
     private ContentService contentService;
 
@@ -76,7 +77,7 @@ public class ContentReply extends AbstractReplyComment<Content> {
         String createReplayUserId = replayCommentEvent.getCreateReplayUserId();
         String createReplayUserName = replayCommentEvent.getCreateReplayUserName();
 
-        Content content = getTarget(replayCommentEvent.getTargetId());
+        Content content = getTarget(replayCommentEvent.getTargetId()).getContent();
 
         // 评论回复站内信
         String innerMsg = buildByTemplate(msgId, createReplayUserId, createReplayUserName, content, CONTENT_INNER_MSG);
@@ -104,15 +105,16 @@ public class ContentReply extends AbstractReplyComment<Content> {
     }
 
     @Override
-    protected Content getTarget(String targetId) {
+    protected ContentEnhance getTarget(String targetId) {
         return contentService.getNormalContent(targetId);
     }
 
     @Override
     public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
-        Content content = getTarget(targetId);
+        ContentEnhance contentEnhance = getTarget(targetId);
+        Content content = contentEnhance.getContent();
         content.setLatestCommentTime(CcDateUtil.getCurrentTime());
         content.setLatestCommentUserId(commenterUserId);
-        contentService.updateContent(content);
+        contentService.updateContent(contentEnhance);
     }
 }

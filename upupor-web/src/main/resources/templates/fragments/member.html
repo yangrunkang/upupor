@@ -32,44 +32,43 @@
       xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<div th:fragment="render_user_list(userList)">
-    <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(userList)}">
-        <li class="list-group-item p-0" th:each="member,ite : ${userList}">
-            <div th:if="${member.userId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
-            <div th:if="${member.userId != 'google-ad-feed'}" class="d-flex align-items-center my-1 ">
+<div th:fragment="render_user_list(memberEnhanceList)">
+    <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(memberEnhanceList)}">
+        <li class="list-group-item p-0" th:each="memberEnhance,ite : ${memberEnhanceList}">
+            <div th:if="${memberEnhance.member.userId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
+            <div th:if="${memberEnhance.member.userId != 'google-ad-feed'}" class="d-flex align-items-center my-1 ">
                 <img class="lazyload img rounded cv-icon-50 me-1"
-                     th:if="!${#strings.isEmpty(member.via)}"
-                     th:data-src="${member.via}"
-                     th:alt="${member.userName}"
+                     th:if="!${#strings.isEmpty(memberEnhance.member.via)}"
+                     th:data-src="${memberEnhance.member.via}"
+                     th:alt="${memberEnhance.member.userName}"
                 />
                 <div class="flex-grow-1">
-                    <a th:href="@{'/profile/'+${member.userId}+'/content'}" class="cv-link fs-6 fst-normal"
-                       th:title="${member.userName} + ' ' + ${#strings.isEmpty(member?.memberExtend?.introduce)?'':member?.memberExtend?.introduce}">
-                        <span>[[${member.userName}]]</span>
-                        <span th:include="fragments/member::memberTag(${member})"></span>
+                    <a th:href="@{'/profile/'+${memberEnhance.member.userId}+'/content'}" class="cv-link fs-6 fst-normal"
+                       th:title="${memberEnhance.member.userName} + ' ' + ${#strings.isEmpty(memberEnhance?.memberExtendEnhance?.memberExtend?.introduce)?'':memberEnhance?.memberExtendEnhance?.memberExtend?.introduce}">
+                        <span>[[${memberEnhance.member.userName}]]</span>
+                        <span th:include="fragments/member::memberTag(${memberEnhance})"></span>
                     </a>
                     <div class="text-black-50"
-                         th:text="${#strings.isEmpty(member?.memberExtend?.introduce)?member?.userName:member?.memberExtend?.introduce}">
-                        内容简介
+                         th:text="${#strings.isEmpty(memberEnhance?.memberExtendEnhance?.memberExtend?.introduce)?'该用户暂未填写个人简介':memberEnhance?.memberExtendEnhance?.memberExtend?.introduce}">
                     </div>
                 </div>
-                <span class="text-black-50 small" th:if="!${#strings.isEmpty(member?.lastLoginDate)}"
-                      th:text="${member?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
+                <span class="text-black-50 small" th:if="!${#strings.isEmpty(memberEnhance?.lastLoginDate)}"
+                      th:text="${memberEnhance?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
                 <a class="btn rounded-3 bg-gradient btn-warning btn-sm"
-                   th:href="'/profile/' + ${member.userId}+'/message'" th:inline="text">
+                   th:href="'/profile/' + ${memberEnhance.member.userId}+'/message'" th:inline="text">
                     <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item"
                          alt="留言"/> 留言
                 </a>
             </div>
         </li>
     </ul>
-    <div th:if="${#lists.isEmpty(userList)}" th:include="fragments/index::empty_content"></div>
+    <div th:if="${#lists.isEmpty(memberEnhanceList)}" th:include="fragments/index::empty_content"></div>
 </div>
 
 <!--用户标签-->
-<div th:fragment="memberTag(member)">
-    <span th:include="fragments/member::memberAdmin(${member.isAdmin})"></span>
-    <span th:include="fragments/member::memberActive(${member.active})"></span>
+<div th:fragment="memberTag(memberEnhance)">
+    <span th:include="fragments/member::memberAdmin(${memberEnhance.member.isAdmin})"></span>
+    <span th:include="fragments/member::memberActive(${memberEnhance.active})"></span>
 </div>
 
 <div th:fragment="memberActive(active)">

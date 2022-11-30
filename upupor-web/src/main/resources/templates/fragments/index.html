@@ -35,30 +35,30 @@
 <div th:fragment="user_index_left">
     <div class="card border-0 rounded-3 p-2">
         <div>
-            <div th:if="${memberIndexDto} != null and ${memberIndexDto.member} != null">
-                <figure class="figure text-center mb-1 d-block" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
+            <div th:if="${memberIndexDto} != null and ${memberIndexDto.memberEnhance.member} != null">
+                <figure class="figure text-center mb-1 d-block" th:if="!${#strings.isEmpty(memberIndexDto.memberEnhance.member.via)}">
                     <a href="/user/manage/upload-profile-photo" title="我的">
-                        <img class="img rounded" th:src="${memberIndexDto.member.via}" style="width: 90px;height: 90px;"
+                        <img class="img rounded" th:src="${memberIndexDto.memberEnhance.member.via}" style="width: 90px;height: 90px;"
                              alt="头像"/>
                     </a>
                 </figure>
                 <div>
                     <p>
                         <img th:src="${ossStatic} + @{/icons/system/email.png}" class="cv-icon-item" alt="邮箱"/></span>
-                        <span th:text="${memberIndexDto.member.email}">yangrunkang@qq.com</span>
+                        <span th:text="${memberIndexDto.memberEnhance.member.email}">yangrunkang@qq.com</span>
                     </p>
                     <p><img th:src="${ossStatic} + @{/icons/system/nickname.png}" class="cv-icon-item" alt="昵称"/> 昵称: <a
-                            class="cv-link" th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'"
-                            th:text="${memberIndexDto.member.userName}"
-                            th:title="${memberIndexDto.member.userName}"></a></p>
+                            class="cv-link" th:href="'/profile/'+${memberIndexDto.memberEnhance.member.userId}+'/content'"
+                            th:text="${memberIndexDto.memberEnhance.member.userName}"
+                            th:title="${memberIndexDto.memberEnhance.member.userName}"></a></p>
                     <p><span><img th:src="${ossStatic} + @{/icons/system/register-time.png}" class="cv-icon-item"
                                   alt="注册时间"/> 注册时间: </span><span
-                            th:text="${memberIndexDto.member.createDate}">2019.1.2</span></p>
+                            th:text="${memberIndexDto.memberEnhance.createDate}">2019.1.2</span></p>
                     <div class="row g-2">
                         <div class="col-lg-12">
                             <img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="积分数"/> <a
                                 href="/user/manage/integral-record" class="cv-link" title="积分数">积分数: <span
-                                th:text="${memberIndexDto.member.totalIntegral}">2019.1.2</span></a>
+                                th:text="${memberIndexDto.memberEnhance.totalIntegral}">2019.1.2</span></a>
                         </div>
                     </div>
                     <div class="border-bottom my-2"></div>
@@ -67,13 +67,13 @@
                             <a class="cv-link" href="/user/manage/fan" title="粉丝"><img
                                     th:src="${ossStatic} + @{/icons/system/fans.png}" class="cv-icon-item" alt=""/> 粉丝
                                 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md"
-                                      th:text="${ memberIndexDto.member.fansNum}">42</span></a>
+                                      th:text="${ memberIndexDto.memberEnhance.fansNum}">42</span></a>
                         </div>
                         <div class="col-lg-6">
                             <a class="cv-link" href="/user/manage/attention" title="关注"><img
                                     th:src="${ossStatic} + @{/icons/system/attention.png}" class="cv-icon-item" alt=""/>
                                 关注 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark hidden-md"
-                                         th:text="${memberIndexDto.member.attentionNum}">42</span></a>
+                                         th:text="${memberIndexDto.memberEnhance.attentionNum}">42</span></a>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
     <div th:replace="fragments/index::user_manage_fragment(false)"></div>
     <div class="card border-0 rounded-3 p-2 my-2">
         <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.member.userId}+'/content'" title="我的主页"><img
+            <a class="nav-link cv-link" th:href="'/profile/' + ${memberIndexDto.memberEnhance.member.userId}+'/content'" title="我的主页"><img
                     th:src="${ossStatic} + @{/icons/system/profile.svg}" class="cv-icon-item" alt="我的主页"/> 我的主页</a>
             <a class="nav-link cv-link user_manage_apply" href="/user/manage/apply" title="申请管理"><img
                     th:src="${ossStatic} + @{/icons/system/apply.png}" class="cv-icon-item" alt="申请管理"/> 申请管理</a>
@@ -132,18 +132,18 @@
 
 
 <!--文章数据-->
-<div th:fragment="content_data(content)">
+<div th:fragment="content_data(contentEnhance)">
     <div>
         <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span
-            class="text-black-50 small" th:text="${content.contentData.viewNum}"></span>
+            class="text-black-50 small" th:text="${contentEnhance.contentDataEnhance.contentData.viewNum}"></span>
         <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span
-            class="text-black-50 small" th:text="${content.createDate}"></span>
-        <span th:if="${content?.latestCommentUserId} != null">
+            class="text-black-50 small" th:text="${contentEnhance.createDate}"></span>
+        <span th:if="${contentEnhance.content?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold text-black-50">·&nbsp;</span>最后回复:</span>
             <a class="cv-link fw-bold text-black-50 small"
-               th:href="'/profile/'+${content?.latestCommentUserId}+'/content'" th:inline="text">[[${content?.latestCommentUserName}]]</a>
+               th:href="'/profile/'+${contentEnhance.content?.latestCommentUserId}+'/content'" th:inline="text">[[${contentEnhance?.latestCommentUserName}]]</a>
             <span class="fw-bold text-black-50">&nbsp;·&nbsp;</span>
-            <span class="text-black-50 small" th:text="${content?.latestCommentDate}"></span>
+            <span class="text-black-50 small" th:text="${contentEnhance?.latestCommentDate}"></span>
         </span>
     </div>
 </div>
@@ -162,19 +162,19 @@
     </div>
 </div>
 <!--文章类型-->
-<span th:fragment="content_type">
+<span th:fragment="content_type(contentEnhance)">
     <a class="cv-link badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
        th:each="type : ${contentTypeList}"
        th:href="${type.url}"
        th:title="${type.name}"
-       th:if="${content.contentType.name() == type.typeName}">[[${type.name}]]</a>
+       th:if="${contentEnhance.content.contentType.name() == type.typeName}">[[${type.name}]]</a>
 </span>
 
 <!--ListContentDto通用渲染模板-->
 <div th:fragment="list_content_dto(listContentDto,fromPage)">
-    <div th:if="${#lists.isEmpty(listContentDto.contentList)}" th:include="fragments/index::empty_content"></div>
-    <div th:if="!${#lists.isEmpty(listContentDto.contentList)}">
-        <div th:replace="fragments/index::content_list(${listContentDto.contentList},${fromPage})"></div>
+    <div th:if="${#lists.isEmpty(listContentDto.contentEnhanceList)}" th:include="fragments/index::empty_content"></div>
+    <div th:if="!${#lists.isEmpty(listContentDto.contentEnhanceList)}">
+        <div th:replace="fragments/index::content_list(${listContentDto.contentEnhanceList},${fromPage})"></div>
         <div th:replace="fragments/page::page(${listContentDto.pageDtoList})"></div>
     </div>
 </div>
@@ -182,15 +182,15 @@
 <!--
 置顶
 -->
-<div th:fragment="top_content(pinnedContnet,fromPage)">
+<div th:fragment="top_content(pinnedContentEnhance,fromPage)">
     <div class="card border-0 rounded-3 p-2 mb-2"
-         th:if="${pinnedContnet != null}">
+         th:if="${pinnedContentEnhance?.content != null}">
         <div class="border-bottom pb-1 text-black-50 mb-2">
             <span th:include="fragments/icon::top"></span> 置顶文章
             <span class="text-sm-end border p-1 rounded-2" style="cursor: pointer" th:if="${fromPage == 'manage-content'}"
-                  th:onclick="pinned([[${pinnedContnet.contentId}]],'cancel')">取消</span>
+                  th:onclick="pinned([[${pinnedContentEnhance?.content?.contentId}]],'cancel')">取消</span>
         </div>
-        <div th:include="fragments/index::content_media(${pinnedContnet},true)"></div>
+        <div th:include="fragments/index::content_media(${pinnedContentEnhance},true)"></div>
     </div>
 </div>
 
@@ -200,12 +200,12 @@
 list: 文章列表
 fromPage: 来自于页面
 -->
-<div th:fragment="content_list(list,fromPage)">
+<div th:fragment="content_list(contentEnhanceList,fromPage)">
     <ul class="list-group list-group-flush">
-        <li class="list-group-item p-1" th:each="content,ite : ${list}">
-            <div th:if="${content.contentId != 'google-ad-feed'}"
-                 th:include="fragments/index::content_media(${content},${fromPage})"></div>
-            <div th:if="${content.contentId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
+        <li class="list-group-item p-1" th:each="contentEnhance,ite : ${contentEnhanceList}">
+            <div th:if="${contentEnhance.content.contentId != 'google-ad-feed'}"
+                 th:include="fragments/index::content_media(${contentEnhance},${fromPage})"></div>
+            <div th:if="${contentEnhance.content.contentId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
         </li>
     </ul>
 </div>
@@ -216,21 +216,19 @@ fromPage: 来自于页面
 list: 电台列表列表
 fromPage: 来自于页面
 -->
-<div th:fragment="radio_list(list,fromPage)">
-
+<div th:fragment="radio_list(radioEnhanceList,fromPage)">
     <ul class="list-group list-group-flush">
-        <li class="list-group-item p-1" th:each="radio,ite : ${list}">
+        <li class="list-group-item p-1" th:each="radioEnhance,ite : ${radioEnhanceList}">
             <div class="d-flex align-items-center">
                 <div class="flex-grow-1">
-                    <div th:if="${radio.radioId != 'google-ad-feed'}" th:include="fragments/index::radio-item"></div>
-                    <div th:if="${radio.radioId == 'google-ad-feed'}"
-                         th:include="fragments/index::google_feed_ad"></div>
+                    <div th:if="${radioEnhance.radio.radioId != 'google-ad-feed'}" th:include="fragments/index::radio-item(${radioEnhance})"></div>
+                    <div th:if="${radioEnhance.radio.radioId == 'google-ad-feed'}" th:include="fragments/index::google_feed_ad"></div>
                 </div>
-                <a th:if="${fromPage != 'profile-radio' && radio.radioId != 'google-ad-feed'}"
-                   class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radio.member.userId}+'/content'"
-                   th:title="${radio.member.userName}">
-                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${radio.member.via}"
-                         th:alt="${radio.member.userName}">
+                <a th:if="${fromPage != 'profile-radio' && radioEnhance.radio.radioId != 'google-ad-feed'}"
+                   class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${radioEnhance.memberEnhance.member.userId}+'/content'"
+                   th:title="${radioEnhance.memberEnhance.member.userName}">
+                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${radioEnhance.memberEnhance.member.via}"
+                         th:alt="${radioEnhance.memberEnhance.member.userName}">
                 </a>
             </div>
         </li>
@@ -277,51 +275,50 @@ from: 来源
       manage_content: 个人中心文章管理
       manage_draft: 个人中心草稿
 -->
-<div th:fragment="content_manage(content,from)">
-    <a th:href="(${content.status.name()} == 'NORMAL'?'/u/':'/m/') + ${content.contentId}" th:text="${content.title}" class="cv-link up-text-overflow text-break" th:title="${content.title}"></a>
-    <span th:replace="fragments/manage::manage_content_tag(${content})"></span>
+<div th:fragment="content_manage(contentEnhance,from)">
+    <a th:href="(${contentEnhance.content.status.name()} == 'NORMAL'?'/u/':'/m/') + ${contentEnhance.content.contentId}" th:text="${contentEnhance.content.title}" class="cv-link up-text-overflow text-break" th:title="${contentEnhance.content.title}"></a>
+    <span th:replace="fragments/manage::manage_content_tag(${contentEnhance})"></span>
 
     <span th:if="${from == 'manage_draft'}">
-        <span class="badge rounded-3 fw-normal" style="border: 1px solid #e3005f;color: #e3005f;background-color: #ffffff;cursor: pointer" th:onclick="toExistedContent([[${content.contentId}]])" th:if="${content.existedContent}">已有文章的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
-<!--        <span class="badge rounded-3 fw-normal" style="border: 1px solid #15a1ea;color: #15a1ea;background-color: #ffffff;" th:if="!${content.existedContent}">全新</span>-->
+        <span class="badge rounded-3 fw-normal" style="border: 1px solid #e3005f;color: #e3005f;background-color: #ffffff;cursor: pointer" th:onclick="toExistedContent([[${contentEnhance.content.contentId}]])" th:if="${contentEnhance.existedContent}">已有文章的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
     </span>
     <span th:if="${from == 'manage_content'}">
-        <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;cursor: pointer" th:onclick="toDraft([[${content.contentId}]])" th:if="${content.hasDraft}">有未完成的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
+        <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;cursor: pointer" th:onclick="toDraft([[${contentEnhance.content.contentId}]])" th:if="${contentEnhance.hasDraft}">有未完成的草稿 <i class="bi bi-box-arrow-up-right"></i></span>
     </span>
 </div>
 
-<div th:fragment="content_media(content,fromPage)">
+<div th:fragment="content_media(contentEnhance,fromPage)">
     <div class="d-flex align-items-center">
         <div class="flex-grow-1">
             <div class="mt-0">
-                <a th:href="@{'/u/'+${content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal"
-                   th:title="${content.title}">[[${content.title}]]</a>
+                <a th:href="@{'/u/'+${contentEnhance.content.contentId}}" class="cv-link up-text-overflow fs-6 fst-normal"
+                   th:title="${contentEnhance.content.title}">[[${contentEnhance.content.title}]]</a>
             </div>
-            <div th:replace="fragments/index::content_tag(${content},${fromPage})"></div>
-            <div class="mb-0" th:if="${content.contentData != null}" th:include="fragments/index::content_data(${content})"></div>
+            <div th:replace="fragments/index::content_tag(${contentEnhance},${fromPage})"></div>
+            <div class="mb-0" th:if="${contentEnhance.contentDataEnhance.contentData != null}" th:include="fragments/index::content_data(${contentEnhance})"></div>
         </div>
-        <div th:if="${fromPage != 'profile-content'}" th:include="fragments/index::content_profile_via(${content})"></div>
+        <div th:if="${fromPage != 'profile-content'}" th:include="fragments/index::content_profile_via(${contentEnhance})"></div>
     </div>
 </div>
 
-<div th:fragment="content_tag(content,fromPage)">
-    <span th:if="!${#lists.isEmpty(content.tagDtoList)}">
-        <a th:each="tag : ${content.tagDtoList}"
+<div th:fragment="content_tag(contentEnhance,fromPage)">
+    <span th:if="!${#lists.isEmpty(contentEnhance.tagDtoList)}">
+        <a th:each="tag : ${contentEnhance.tagDtoList}"
            class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link"
-           th:href="@{${fromPage == 'profile-content'?'/profile/'+content.userId+'/content/':'/tag/'}+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
+           th:href="@{${fromPage == 'profile-content'?'/profile/'+contentEnhance.content.userId+'/content/':'/tag/'}+${tag.tagName}}" th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
     </span>
-    <a th:if="${content.newContent}"
+    <a th:if="${contentEnhance.newContent}"
        class="badge bg-gradient bg-danger fw-light rounded-3 small d-inline-flex text-white" href="/content/new">新内容</a>
-    <a th:if="${content.hasLatestEdit}"
+    <a th:if="${contentEnhance.hasLatestEdit}"
        class="badge bg-gradient bg-secondary fw-light rounded-3 small d-inline-flex text-white"
-       href="/content/recently-edited">内容有更新 · [[${content.editDate}]]</a>
+       href="/content/recently-edited">内容有更新 · [[${contentEnhance.editDate}]]</a>
 </div>
 
-<div th:fragment="content_profile_via(content)">
-    <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${content.userId}+'/content'"
-       th:title="${content.member.userName}">
-        <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${content.member.via}"
-             th:alt="${content.member.userName}">
+<div th:fragment="content_profile_via(contentEnhance)">
+    <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${contentEnhance.content.userId}+'/content'"
+       th:title="${contentEnhance.memberEnhance.member.userName}">
+        <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${contentEnhance.memberEnhance.member.via}"
+             th:alt="${contentEnhance.memberEnhance.member.userName}">
     </a>
 </div>
 
@@ -338,16 +335,16 @@ from: 来源
 <!--页面Slogan-->
 <div th:fragment="page_banner">
     <div class="card border-0 rounded-3 p-2 mb-2"
-         th:if="!${#lists.isEmpty(commonPageIndexDto.listBannerDto.bannerList)}">
+         th:if="!${#lists.isEmpty(commonPageIndexDto.listBannerDto.bannerEnhanceList)}">
         <div class="border-bottom text-secondary mb-2">
             <img th:data-src="${ossStatic} + @{/icons/system/recommand.png}" class="lazyload cv-icon-item" alt="广而告之"/>
             广而告之
         </div>
-        <div th:each="banner,ite : ${commonPageIndexDto.listBannerDto.bannerList}">
+        <div th:each="bannerEnhance,ite : ${commonPageIndexDto.listBannerDto.bannerEnhanceList}">
             <a class="cv-link text-secondary"
-               th:href="${banner.bannerHref}"
-               th:title="${banner.bannerTitle} + ' ' + ${#strings.isEmpty(banner.bannerDesc)?'':banner.bannerDesc}"
-               th:utext="${banner.bannerTitle}"
+               th:href="${bannerEnhance.banner.bannerHref}"
+               th:title="${bannerEnhance.banner.bannerTitle} + ' ' + ${#strings.isEmpty(bannerEnhance.banner.bannerDesc)?'':bannerEnhance.banner.bannerDesc}"
+               th:utext="${bannerEnhance.banner.bannerTitle}"
             >
             </a>
         </div>
@@ -362,16 +359,16 @@ from: 来源
                th:title="${type.name}"><img class="lazyload cv-icon" th:data-src="${type.icon}"/> [[${type.name}]]</a>
         </li>
     </ul>
-    <div class="d-xl-none" th:if="!${#lists.isEmpty(commonPageIndexDto.tagList)}">
+    <div class="d-xl-none" th:if="!${#lists.isEmpty(commonPageIndexDto.tagEnhanceList)}">
         <div class="border-bottom my-1"></div>
         <ul class="nav nav-pills">
             <!--如果以后涵盖子类，可以使用展开按钮-->
-            <li th:each="menu : ${commonPageIndexDto.tagList}" class="nav-item me-1">
-                <a th:class="'nav-link cv-link small ' + ${menu.tagId}"
-                   th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tagId}}" th:title="${menu.tagName}"
+            <li th:each="menu : ${commonPageIndexDto.tagEnhanceList}" class="nav-item me-1">
+                <a th:class="'nav-link cv-link small ' + ${menu.tag.tagId}"
+                   th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tag.tagId}}" th:title="${menu.tag.tagName}"
                    th:inline="text">
-                    <img th:data-src="${menu.icon}" class="lazyload cv-icon"/>
-                    [[${menu.tagName}]]
+                    <img th:data-src="${menu.tag.icon}" class="lazyload cv-icon"/>
+                    [[${menu.tag.tagName}]]
                 </a>
             </li>
         </ul>
@@ -410,8 +407,7 @@ from: 来源
             <span>签到领积分</span>
         </a>
     </div>
-    <div class="card border-0 rounded-3 p-2 mb-2 p-2"
-         th:if="${session?.cv_user_id}">
+    <div class="card border-0 rounded-3 p-2 mb-2 p-2" th:if="${session?.cv_user_id}">
         <figure class="figure text-center mb-0">
             <a th:href="'/profile/' + ${session?.cv_user_id}+'/content'">
                 <img class="img rounded " th:src="${session?.cv_user_via}" style="width: 90px;height: 90px;"/>
@@ -423,24 +419,27 @@ from: 来源
                 </a>
             </figcaption>
         </figure>
-        <div class="border-bottom my-2"></div>
-        <div class="nav flex-column nav-pills" aria-orientation="vertical">
-            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft"
-               th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}"/> 草稿箱</span>
-                <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
-                      th:text="${draftCount}">23</span>
-            </a>
-            <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
-                <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
-                <span>签到领积分</span>
-            </a>
-            <a th:if="!${isSettingDefaultContent}" class="nav-link cv-link" href="/user/manage/default-content-setting"
-               title="内容喜好设置">
+        <div>
+            <!--显示分割线,有数据再显示-->
+            <div class="border-bottom my-2" th:if="(${draftCount} != null and ${draftCount} >= 1) or (!${dailyPoints}) or (!${isSettingDefaultContent})"></div>
+            <div class="nav flex-column nav-pills" aria-orientation="vertical">
+                <a th:if="${draftCount} != null and ${draftCount} >= 1" class="nav-link cv-link" href="/user/manage/draft"
+                   th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
+                    <span><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}"/> 草稿箱</span>
+                    <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                          th:text="${draftCount}">23</span>
+                </a>
+                <a th:if="!${dailyPoints}" class="nav-link cv-link" href="/daily-points" title="签到领积分">
+                    <span><img th:src="${ossStatic} + @{/icons/system/jifen2.svg}" class="cv-icon-item" alt="签到领积分"/></span>
+                    <span>签到领积分</span>
+                </a>
+                <a th:if="!${isSettingDefaultContent}" class="nav-link cv-link" href="/user/manage/default-content-setting"
+                   title="内容喜好设置">
                 <span><img th:src="${ossStatic} + @{/icons/system/settings.svg}" class="cv-icon-item"
                            alt="内容喜好设置"/></span>
-                <span>内容喜好设置</span>
-            </a>
+                    <span>内容喜好设置</span>
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -466,25 +465,16 @@ from: 来源
     </div>
 </div>
 
-<div th:fragment="statement">
+<div th:fragment="statement(statementEnhance)">
     <div class="alert alert-danger alert-dismissible fade show mb-2" role="alert"
-         th:if="${contentIndexDto.content.statement} != null">
-        <strong th:text="${contentIndexDto.content.statement.title}" style="font-size:17px"></strong>
-        <span th:text="${contentIndexDto.content.statement.statement}"></span>
+         th:if="${statementEnhance.statement} != null">
+        <strong th:text="${statementEnhance.statement.title}" style="font-size:17px"></strong>
+        <span th:text="${statementEnhance.statement.statement}"></span>
         <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
                 aria-label="Close"></button>
     </div>
 </div>
 
-<div th:fragment="member_statement">
-    <div class="alert alert-danger alert-dismissible fade show mb-2 border-0" role="alert"
-         th:if="${memberIndexDto.member.statement} != null">
-        <strong th:text="${memberIndexDto.member.statement.title}" style="font-size:17px"></strong>
-        <span th:text="${memberIndexDto.member.statement.statement}"></span>
-        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
-                aria-label="Close"></button>
-    </div>
-</div>
 
 <div th:fragment="login_tips">
     <div class="alert alert-danger alert-dismissible fade show mb-2 mt-2" th:if="!${session?.cv_user_id}" role="alert">
@@ -539,7 +529,7 @@ from: 来源
 
 <!--个人中心公共部分-->
 <div th:fragment="profile_common">
-    <div th:if="${memberIndexDto.member.statement} != null" th:include="fragments/index::member_statement"></div>
+    <div th:if="${memberIndexDto?.memberEnhance?.statementEnhance?.statement} != null" th:include="fragments/index::statement(${memberIndexDto.memberEnhance.statementEnhance})"></div>
     <div class="alert alert-warning alert-dismissible fade show mb-2" role="alert"
          th:if="${session?.long_time_un_update_profile_photo}">
         <a  href="/user/manage/upload-profile-photo" class="text-dark fw-bold">
@@ -550,26 +540,26 @@ from: 来源
     </div>
     <div class="alert alert-success mb-2 border-0" role="alert" th:if="${session?.is_admin}">
         <h4 class="alert-heading">危险操作区域</h4>
-        <button class="ui teal button" th:onclick="handleExceptionUser([[${memberIndexDto.member.userId}]])">清空用户所有文章,并限制发文</button>
+        <button class="ui teal button" th:onclick="handleExceptionUser([[${memberIndexDto.memberEnhance.member.userId}]])">清空用户所有文章,并限制发文</button>
     </div>
     <div class="card border-0 rounded-3 p-2 mb-2">
-        <div style="font-size: 40px;font-weight: bold;" class="text-wrap">[[${memberIndexDto.member.userName}]]</div>
-        <span th:include="fragments/member::memberTag(${memberIndexDto.member})"></span>
-        <div th:switch="${memberIndexDto.member.memberExtend.introduce != null && memberIndexDto.member.memberExtend.introduce != ''}">
+        <div style="font-size: 40px;font-weight: bold;" class="text-wrap">[[${memberIndexDto.memberEnhance.member.userName}]]</div>
+        <span th:include="fragments/member::memberTag(${memberIndexDto.memberEnhance})"></span>
+        <div th:switch="${memberIndexDto.memberEnhance.memberExtendEnhance.memberExtend.introduce != null && memberIndexDto.memberEnhance.memberExtendEnhance.memberExtend.introduce != ''}">
             <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="true"
-                 th:text="${memberIndexDto.member.memberExtend.introduce}"></div>
+                 th:text="${memberIndexDto.memberEnhance.memberExtendEnhance.memberExtend.introduce}"></div>
             <div style="font-size: 17px;color: #7D8B99" class="text-wrap" th:case="false">该作者个人简介未填写</div>
         </div>
     </div>
 </div>
 
-<div th:fragment="viewList(list)">
+<div th:fragment="viewList(viewHistoryEnhanceList)">
     <div class="card border-0 rounded-3 p-2 my-2"
-         th:if="!${#lists.isEmpty(list)}">
+         th:if="!${#lists.isEmpty(viewHistoryEnhanceList)}">
         <div class="small text-black-50">以下用户访问过:</div>
         <span>
-            <a th:each="viewer : ${list}" class="cv-link" th:href="'/profile/'+${viewer.viewerUserId}+'/content'">
-                <img th:if="!${#strings.isEmpty(viewer.viewerUserVia)}" class="lazyload img rounded cv-icon" th:data-src="${viewer.viewerUserVia}" th:alt="${viewer.viewerUserName}"/>
+            <a th:each="viewHistoryEnhance : ${viewHistoryEnhanceList}" class="cv-link" th:href="'/profile/'+${viewHistoryEnhance.viewHistory.viewerUserId}+'/content'">
+                <img th:if="!${#strings.isEmpty(viewHistoryEnhance.viewerUserVia)}" class="lazyload img rounded cv-icon" th:data-src="${viewHistoryEnhance.viewerUserVia}" th:alt="${viewHistoryEnhance.viewerUserName}"/>
             </a>
         </span>
     </div>
@@ -579,69 +569,69 @@ from: 来源
 <div th:fragment="profile_right">
     <div class="card border-0 rounded-3 p-2">
         <div>
-            <figure class="figure text-center mb-0 d-block" th:if="!${#strings.isEmpty(memberIndexDto.member.via)}">
-                <img class="lazyload img rounded" th:data-src="${memberIndexDto.member.via}"
+            <figure class="figure text-center mb-0 d-block" th:if="!${#strings.isEmpty(memberIndexDto.memberEnhance.member.via)}">
+                <img class="lazyload img rounded" th:data-src="${memberIndexDto.memberEnhance.member.via}"
                      style="width: 90px;height: 90px;"/>
             </figure>
             <div>
                 <div class="mt-2">拥有 <a class="cv-link active"
-                                        th:href="'/profile/'+${memberIndexDto.member.userId}+'/fans'"><span
+                                        th:href="'/profile/'+${memberIndexDto.memberEnhance.member.userId}+'/fans'"><span
                         class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
-                        th:text="${memberIndexDto.member.fansNum}">42</span></a> 个粉丝
+                        th:text="${memberIndexDto.memberEnhance.fansNum}">42</span></a> 个粉丝
                 </div>
                 <div class="mt-2">关注 <a class="cv-link"
-                                        th:href="'/profile/'+${memberIndexDto.member.userId}+'/attention'"><span
+                                        th:href="'/profile/'+${memberIndexDto.memberEnhance.member.userId}+'/attention'"><span
                         class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
-                        th:text="${memberIndexDto.member.attentionNum}">42</span></a> 个作者
+                        th:text="${memberIndexDto.memberEnhance.attentionNum}">42</span></a> 个作者
                 </div>
                 <div class="mt-2">一共写了 <a class="cv-link active"
-                                          th:href="'/profile/'+${memberIndexDto.member.userId}+'/content'"><span
+                                          th:href="'/profile/'+${memberIndexDto.memberEnhance.member.userId}+'/content'"><span
                         class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
-                        th:text="${memberIndexDto.member.totalContentNum}">42</span></a> 篇文章
+                        th:text="${memberIndexDto.memberEnhance.totalContentNum}">42</span></a> 篇文章
                 </div>
                 <div class="mt-2">于 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
-                                          th:text="${memberIndexDto.member.createDateShort}">42</span> 加入Upupor大家庭
+                                          th:text="${memberIndexDto.memberEnhance.createDateShort}">42</span> 加入Upupor大家庭
                 </div>
-                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.member.lastLoginDate)}" th:inline="text">
-                    最近活跃: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.lastLoginDate}]]</span>
+                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.memberEnhance.lastLoginDate)}" th:inline="text">
+                    最近活跃: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.memberEnhance.lastLoginDate}]]</span>
                 </div>
                 <div class="mt-2 mb-1" th:inline="text">积分: <span
-                        class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.member.totalIntegral}]]</span>
+                        class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.memberEnhance.totalIntegral}]]</span>
                 </div>
             </div>
             <!--关注按钮-->
-            <div th:if="${session?.cv_user_id != memberIndexDto.member.userId} and !${memberIndexDto.currUserIsAttention}"
+            <div th:if="${session?.cv_user_id != memberIndexDto.memberEnhance.member.userId} and !${memberIndexDto.currUserIsAttention}"
                  class="mb-1">
                 <button class="btn rounded-3 bg-gradient btn-warning btn-sm w-100"
-                        th:onclick="attentionAuthor([[${memberIndexDto.member.userId}]])" id="attention_btn">
+                        th:onclick="attentionAuthor([[${memberIndexDto.memberEnhance.member.userId}]])" id="attention_btn">
                     <span th:text="${memberIndexDto.currUserIsAttention} == false ? '关注作者':'已关注作者'"
                           id="attention_tips"></span>
                 </button>
             </div>
         </div>
     </div>
-    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}"
+    <div th:if="${session?.cv_user_id == memberIndexDto.memberEnhance.member.userId}"
          th:include="fragments/index::user_manage_fragment(true)"></div>
     <!---->
     <div class="card border-0 rounded-3 p-2 my-2">
         <div class="lead mb-1">内容标签</div>
-        <div th:if="${#lists.isEmpty(memberIndexDto.tagList)}" th:include="fragments/index::empty_content"></div>
+        <div th:if="${#lists.isEmpty(memberIndexDto.tagEnhanceList)}" th:include="fragments/index::empty_content"></div>
         <div>
-            <a th:if="!${#lists.isEmpty(memberIndexDto.tagList)}"
-               th:each="tag : ${memberIndexDto.tagList}"
+            <a th:if="!${#lists.isEmpty(memberIndexDto.tagEnhanceList)}"
+               th:each="tagEnhance : ${memberIndexDto.tagEnhanceList}"
                class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark cv-link ms-1"
-               th:href="@{'/profile/' + ${memberIndexDto.member.userId} + '/content/'+${tag.tagName}}"
-               th:text="${tag.tagName}" th:title="${tag.tagName}"></a>
+               th:href="@{'/profile/' + ${memberIndexDto.memberEnhance.member.userId} + '/content/'+${tagEnhance.tag.tagName}}"
+               th:text="${tagEnhance.tag.tagName}" th:title="${tagEnhance.tag.tagName}"></a>
         </div>
         <div class="cv-font-sm text-black-50 mt-3">* 标签取自作者发布的内容</div>
     </div>
     <!--访问者-->
-    <div th:include="fragments/index::viewList(${memberIndexDto.viewerList})"></div>
-    <div th:if="${session?.cv_user_id == memberIndexDto.member.userId}"
+    <div th:include="fragments/index::viewList(${memberIndexDto.viewHistoryEnhanceList})"></div>
+    <div th:if="${session?.cv_user_id == memberIndexDto.memberEnhance.member.userId}"
          class="card border-0 rounded-3 p-2 my-2">
         <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>我的浏览记录</a>
     </div>
-    <div th:include="fragments/social::social_box('profile/','主页',${memberIndexDto.member.userId},${memberIndexDto.member.userName})"></div>
+    <div th:include="fragments/social::social_box('profile/','主页',${memberIndexDto.memberEnhance.member.userId},${memberIndexDto.memberEnhance.member.userName})"></div>
     <div th:include="fragments/index::global_search"></div>
     <div th:include="fragments/index::google_right_ad"></div>
 </div>
@@ -699,22 +689,22 @@ from: 来源
 </div>
 
 
-<div th:fragment="radio-item">
+<div th:fragment="radio-item(radioEnhance)">
     <div class="mt-0">
-        <a th:href="@{'/r/'+${radio.radioId}}" class="cv-link up-text-overflow fs-6 fst-normal"
-           th:title="${radio.radioIntro}" th:text="${radio.radioIntro}"></a>
+        <a th:href="@{'/r/'+${radioEnhance.radio.radioId}}" class="cv-link up-text-overflow fs-6 fst-normal"
+           th:title="${radioEnhance.radio.radioIntro}" th:text="${radioEnhance.radio.radioIntro}"></a>
     </div>
     <div>
         <img th:data-src="${ossStatic} + @{/icons/system/liulan.png}" class="lazyload cv-icon-small"/> <span
-            class="text-black-50 small" th:text="${radio?.contentData?.viewNum}">0</span>
+            class="text-black-50 small" th:text="${radioEnhance?.contentDataEnhance?.contentData?.viewNum}">0</span>
         <img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <span
-            class="text-black-50 small" th:text="${radio?.createDate}"></span>
-        <span th:if="${radio?.latestCommentUserId} != null">
+            class="text-black-50 small" th:text="${radioEnhance?.createDate}"></span>
+        <span th:if="${radioEnhance.radio?.latestCommentUserId} != null">
             <span class="text-black-50 small"><span class="fw-bold">·&nbsp;</span>最后回复:</span>
             <a class="cv-link fw-bold text-black-50 small"
-               th:href="'/profile/'+${radio?.latestCommentUserId}+'/content'" th:inline="text">[[${radio?.latestCommentUserName}]]</a>
+               th:href="'/profile/'+${radioEnhance.radio?.latestCommentUserId}+'/content'" th:inline="text">[[${radioEnhance?.latestCommentUserName}]]</a>
             <span class="fw-bold text-black-50">·</span>
-            <span class="text-black-50 small" th:text="${radio?.latestCommentDate}"></span>
+            <span class="text-black-50 small" th:text="${radioEnhance?.latestCommentDate}"></span>
         </span>
     </div>
 </div>
@@ -773,6 +763,14 @@ from: 来源
     </div>
 </div>
 
+
+<div th:fragment="listContentDtoSearch(listContentDto,tag)">
+    <div class="alert alert-primary alert-dismissible fade show mb-2 from-content-to-draft" role="alert" th:if="${listContentDto.total}>0" style="display: none">
+        按内容id检索[[${tag}]],共搜到了<span style="font-weight: bolder" th:text="${listContentDto.total}"></span>条数据
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
+    </div>
+</div>
 
 </body>
 </html>

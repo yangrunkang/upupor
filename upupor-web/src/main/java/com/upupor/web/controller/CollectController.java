@@ -30,26 +30,26 @@
 package com.upupor.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcResponse;
-import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.framework.utils.CcUtils;
-import com.upupor.security.limiter.LimitType;
-import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.framework.common.IntegralEnum;
 import com.upupor.data.dao.entity.Collect;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.mapper.CollectMapper;
+import com.upupor.data.types.CollectStatus;
+import com.upupor.data.types.CollectType;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcResponse;
+import com.upupor.framework.ErrorCode;
+import com.upupor.framework.common.IntegralEnum;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.ServletUtils;
+import com.upupor.security.limiter.LimitType;
+import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.CollectService;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.outer.req.AddCollectReq;
 import com.upupor.service.outer.req.UpdateCollectReq;
-import com.upupor.data.types.CollectStatus;
-import com.upupor.data.types.CollectType;
 import com.upupor.service.utils.Asserts;
-import com.upupor.framework.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -113,7 +113,7 @@ public class CollectController {
                 Content content = null;
                 String text = null;
                 if (addCollectReq.getCollectType().equals(CollectType.CONTENT)) {
-                    content = contentService.getNormalContent(addCollectReq.getCollectValue());
+                    content = contentService.getNormalContent(addCollectReq.getCollectValue()).getContent();
                 }
 
                 if (Objects.nonNull(content)) {
@@ -129,7 +129,7 @@ public class CollectController {
 
             Content content = null;
             if (addCollectReq.getCollectType().equals(CollectType.CONTENT)) {
-                content = contentService.getNormalContent(addCollectReq.getCollectValue());
+                content = contentService.getNormalContent(addCollectReq.getCollectValue()).getContent();
                 if (content.getUserId().equals(userId)) {
                     throw new BusinessException(ErrorCode.FORBIDDEN_COLLECT_SELF_CONTENT);
                 }

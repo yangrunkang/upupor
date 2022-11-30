@@ -29,6 +29,7 @@ package com.upupor.data.dao.entity;
 
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.data.types.CollectStatus;
 import com.upupor.data.types.CollectType;
@@ -55,25 +56,5 @@ public class Collect extends BaseEntity {
 
     private Long createTime;
 
-    @TableField(exist = false)
-    private String createDate;
-
-    @TableField(exist = false)
-    private String createDateDiff;
-
-    /**
-     * 收藏对象——内容
-     */
-    @TableField(exist = false)
-    private Content content;
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
-    }
-
-    @JSONField(serialize = false)
-    public String getCreateDateDiff() {
-        return CcDateUtil.timeStamp2DateOnly(createTime);
-    }
 
 }

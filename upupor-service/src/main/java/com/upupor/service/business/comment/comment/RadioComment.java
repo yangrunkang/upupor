@@ -27,18 +27,19 @@
 
 package com.upupor.service.business.comment.comment;
 
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.business.comment.AbstractComment;
-import com.upupor.service.business.message.MessageSend;
-import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
+import com.upupor.data.types.ContentType;
+import com.upupor.data.types.MessageType;
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.CommentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
 import com.upupor.service.base.RadioService;
-import com.upupor.data.types.ContentType;
-import com.upupor.data.types.MessageType;
+import com.upupor.service.business.comment.AbstractComment;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -52,7 +53,7 @@ import static com.upupor.framework.CcConstant.MsgTemplate.*;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class RadioComment extends AbstractComment<Radio> {
+public class RadioComment extends AbstractComment<RadioEnhance> {
     @Resource
     private RadioService radioService;
 
@@ -67,14 +68,14 @@ public class RadioComment extends AbstractComment<Radio> {
     public void comment(String targetId, String commenterUserId, String commentId) {
         String msgId = getMsgId();
 
-        Radio radio = radioService.getByRadioId(targetId);
+        Radio radio = radioService.getByRadioId(targetId).getRadio();
         String radioName = radio.getRadioIntro();
 
-        Member radioAuthor = getMemberInfo(radio.getUserId());
+        Member radioAuthor = getMemberInfo(radio.getUserId()).getMember();
         String radioAuthorUserId = radioAuthor.getUserId();
 
         // 获取评论者信息
-        Member commenter = getMemberInfo(commenterUserId);
+        Member commenter = getMemberInfo(commenterUserId).getMember();
         String commenterUserName = commenter.getUserName();
 
         // 如果作者自己评论自己就不用发邮件了
@@ -106,7 +107,7 @@ public class RadioComment extends AbstractComment<Radio> {
     }
 
     @Override
-    protected Radio getTarget(String targetId) {
+    protected RadioEnhance getTarget(String targetId) {
         return radioService.getByRadioId(targetId);
     }
 
@@ -117,7 +118,7 @@ public class RadioComment extends AbstractComment<Radio> {
 
     @Override
     public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
-        Radio radio = getTarget(targetId);
+        Radio radio = getTarget(targetId).getRadio();
         radio.setLatestCommentTime(CcDateUtil.getCurrentTime());
         radio.setLatestCommentUserId(commenterUserId);
         radioService.updateRadio(radio);

@@ -28,14 +28,14 @@
 package com.upupor.service.business.manage.business;
 
 import com.alibaba.fastjson2.JSON;
+import com.upupor.data.dto.page.apply.ApplyContentDto;
+import com.upupor.data.dto.page.common.ListApplyDto;
+import com.upupor.data.types.ApplySource;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ApplyManageService;
-import com.upupor.data.dto.page.apply.ApplyContentDto;
-import com.upupor.data.dto.page.common.ListApplyDto;
 import com.upupor.service.outer.req.AddTagReq;
-import com.upupor.data.types.ApplySource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -72,17 +72,17 @@ public class ApplyManage extends AbstractManage {
         if (Objects.isNull(listApplyDto)) {
             return;
         }
-        if (CollectionUtils.isEmpty(listApplyDto.getApplyList())) {
+        if (CollectionUtils.isEmpty(listApplyDto.getApplyEnhanceList())) {
             return;
         }
 
-        listApplyDto.getApplyList().forEach(apply -> {
-            if (apply.getApplySource().equals(ApplySource.AD)) {
-                ApplyContentDto applyContentDto = JSON.parseObject(apply.getApplyContent(), ApplyContentDto.class);
-                apply.setApplyContent(applyContentDto.getApplyIntro());
+        listApplyDto.getApplyEnhanceList().forEach(applyEnhance -> {
+            if (applyEnhance.getApply().getApplySource().equals(ApplySource.AD)) {
+                ApplyContentDto applyContentDto = JSON.parseObject(applyEnhance.getApply().getApplyContent(), ApplyContentDto.class);
+                applyEnhance.getApply().setApplyContent(applyContentDto.getApplyIntro());
             }
-            if (apply.getApplySource().equals(ApplySource.TAG)) {
-                AddTagReq addTagReq = JSON.parseObject(apply.getApplyContentDto().getApplyIntro(), AddTagReq.class);
+            if (applyEnhance.getApply().getApplySource().equals(ApplySource.TAG)) {
+                AddTagReq addTagReq = JSON.parseObject(applyEnhance.getApplyContentDto().getApplyIntro(), AddTagReq.class);
                 StringBuilder str = new StringBuilder();
                 str.append("<strong>页面</strong>: ").append(addTagReq.getPageName()).append(CcConstant.HTML_BREAK_LINE);
                 if (!StringUtils.isEmpty(addTagReq.getTagName())) {
@@ -91,16 +91,16 @@ public class ApplyManage extends AbstractManage {
                 if (!StringUtils.isEmpty(addTagReq.getChildTagName())) {
                     str.append(CcConstant.HTML_BREAK_LINE).append("<strong>子标签名</strong>: ").append(addTagReq.getChildTagName());
                 }
-                apply.setApplyContent(str.toString());
+                applyEnhance.getApply().setApplyContent(str.toString());
             }
-            if (apply.getApplySource().equals(ApplySource.CONSULTING_SERVICE)) {
-                ApplyContentDto applyContentDto = JSON.parseObject(apply.getApplyContent(), ApplyContentDto.class);
+            if (applyEnhance.getApply().getApplySource().equals(ApplySource.CONSULTING_SERVICE)) {
+                ApplyContentDto applyContentDto = JSON.parseObject(applyEnhance.getApply().getApplyContent(), ApplyContentDto.class);
                 StringBuilder str = new StringBuilder();
                 str.append("<strong>主题</strong>: ").append(applyContentDto.getApplyProject()).append(CcConstant.HTML_BREAK_LINE);
                 if (!StringUtils.isEmpty(applyContentDto.getApplyIntro())) {
                     str.append("<strong>描述</strong>: ").append(applyContentDto.getApplyIntro());
                 }
-                apply.setApplyContent(str.toString());
+                applyEnhance.getApply().setApplyContent(str.toString());
             }
         });
 

@@ -40,15 +40,16 @@
         <div class="row g-2">
             <!--右列-->
             <div class="col-lg-9 mb-2">
-                <div th:replace="fragments/index::top_content(${memberIndexDto.listContentDto.pinnedContent},'manage-content')"></div>
+                <div th:replace="fragments/index::top_content(${memberIndexDto.listContentDto.pinnedContentEnhance},'manage-content')"></div>
+                <div th:replace="fragments/index::listContentDtoSearch(${memberIndexDto.listContentDto},'文章管理')"></div>
                 <div class="card border-0 rounded-3 p-2 mb-2">
                     <div th:replace="fragments/manage::nav_content(${memberIndexDto.listContentDto.total},'content')"></div>
                     <div class="mb-2">
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="根据标题搜索" id="searchTitle" aria-label="Recipient's username with two button addons">
                             <button class="btn btn-outline-secondary btn-sm" type="button" onclick="manageContentSearch('title')">搜索</button>
-                            <button class="btn btn-outline-secondary btn-sm" type="button" onclick="removeAll()">所有</button>
                             <button class="btn btn-outline-secondary btn-sm" type="button" onclick="select('ONLY_SELF_SEE')">仅自己可见</button>
+                            <button class="btn btn-outline-danger btn-sm" type="button" onclick="removeAll()">所有</button>
                         </div>
                     </div>
                     <div>
@@ -65,38 +66,38 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}"
-                                        th:each="content,ite : ${memberIndexDto.listContentDto.contentList}"
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listContentDto.contentEnhanceList)}"
+                                        th:each="contentEnhance,ite : ${memberIndexDto.listContentDto.contentEnhanceList}"
                                     >
                                         <td>
                                             <span th:text="${ite.count}"></span>
                                         </td>
                                         <td>
-                                            <span th:replace="fragments/index::content_manage(${content},'manage_content')"></span>
+                                            <span th:replace="fragments/index::content_manage(${contentEnhance},'manage_content')"></span>
                                         </td>
                                         <td>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${content.status.name()} == 'NORMAL'">正常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'Applying'">审核中</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${content.status.name()} == 'EXCEPTION'">异常</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${content.status.name()} == 'DELETED'">删除</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-dark" th:if="${content.status.name()} == 'RUBBISH'">回收站</span>
-                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${contentEnhance.content.status.name()} == 'NORMAL'">正常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${contentEnhance.content.status.name()} == 'Applying'">审核中</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${contentEnhance.content.status.name()} == 'EXCEPTION'">异常</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${contentEnhance.content.status.name()} == 'DELETED'">删除</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-dark" th:if="${contentEnhance.content.status.name()} == 'RUBBISH'">回收站</span>
+                                            <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${contentEnhance.content.status.name()} == 'ONLY_SELF_CAN_SEE'">仅自己可见</span>
                                         </td>
-                                        <td th:text="${content.createDate}">创建时间</td>
+                                        <td th:text="${contentEnhance.createDate}">创建时间</td>
                                         <td>
                                             <div class="btn-group rounded-3 bg-gradient" role="group" aria-label="Second group">
                                                 <button type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     操作
                                                 </button>
                                                 <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg">
-                                                    <a class="cv-link dropdown-item small" th:href="@{'/editor?type='+${content.contentType.name()}+'&contentId='+${content.contentId}}"><span th:include="fragments/icon::edit"></span>编辑</a>
+                                                    <a class="cv-link dropdown-item small" th:href="@{'/editor?type='+${contentEnhance.content.contentType.name()}+'&contentId='+${contentEnhance.content.contentId}}"><span th:include="fragments/icon::edit"></span>编辑</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus.name()} == 'UN_PINNED'" th:onclick="pinned([[${content.contentId}]],'pinned')"><span th:include="fragments/icon::top"></span>置顶</a>
-                                                    <a class="cv-link dropdown-item small" th:if="${content.pinnedStatus.name()} == 'PINNED'" th:onclick="pinned([[${content.contentId}]],'cancel')"><span th:include="fragments/icon::top_cancel"></span>取消置顶</a>
+                                                    <a class="cv-link dropdown-item small" th:if="${contentEnhance.content.pinnedStatus.name()} == 'UN_PINNED'" th:onclick="pinned([[${contentEnhance.content.contentId}]],'pinned')"><span th:include="fragments/icon::top"></span>置顶</a>
+                                                    <a class="cv-link dropdown-item small" th:if="${contentEnhance.content.pinnedStatus.name()} == 'PINNED'" th:onclick="pinned([[${contentEnhance.content.contentId}]],'cancel')"><span th:include="fragments/icon::top_cancel"></span>取消置顶</a>
                                                     <div class="dropdown-divider"></div>
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('NORMAL',[[${content.contentId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('ONLY_SELF_CAN_SEE',[[${content.contentId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
-                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('DELETED',[[${content.contentId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('NORMAL',[[${contentEnhance.content.contentId}]])"><span th:include="fragments/icon::zhengchang"></span>正常</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('ONLY_SELF_CAN_SEE',[[${contentEnhance.content.contentId}]])"><span th:include="fragments/icon::yincang"></span>仅自己可见</a>
+                                                    <a class="cv-link dropdown-item small" th:onclick="changeContentStatus('DELETED',[[${contentEnhance.content.contentId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -104,7 +105,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentList)}" th:include="fragments/index::empty_content"></div>
+                        <div th:if="${#lists.isEmpty(memberIndexDto.listContentDto.contentEnhanceList)}" th:include="fragments/index::empty_content"></div>
                         <div th:replace="fragments/page::page(${memberIndexDto.listContentDto.pageDtoList})"></div>
                     </div>
                 </div>

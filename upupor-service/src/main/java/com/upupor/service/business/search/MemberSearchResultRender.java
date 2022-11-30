@@ -27,10 +27,11 @@
 
 package com.upupor.service.business.search;
 
-import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.MemberService;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.search.SearchDataDto;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +44,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Component
-public class MemberSearchResultRender extends AbstractSearchResultRender<Member> {
+public class MemberSearchResultRender extends AbstractSearchResultRender<MemberEnhance> {
 
     private final MemberService memberService;
 
@@ -53,18 +54,20 @@ public class MemberSearchResultRender extends AbstractSearchResultRender<Member>
     }
 
     @Override
-    protected List<Member> getDataList() {
+    protected List<MemberEnhance> getDataList() {
         return memberService.listByUserIdList(getTargetIdList());
     }
 
     @Override
-    protected void transferToSearchDataDtoList(List<Member> members) {
-        for (Member member : members) {
+    protected void transferToSearchDataDtoList(List<MemberEnhance> memberEnhanceList) {
+        for (MemberEnhance memberEnhance : memberEnhanceList) {
+            Member member = memberEnhance.getMember();
+
             SearchDataDto searchDataDto = new SearchDataDto();
             searchDataDto.setDataType(dataType());
             searchDataDto.setResultTitle(member.getUserName());
             searchDataDto.setResultId(member.getUserId());
-            searchDataDto.setMember(member);
+            searchDataDto.setMemberEnhance(memberEnhance);
             getSearchDataDtoList().add(searchDataDto);
         }
     }

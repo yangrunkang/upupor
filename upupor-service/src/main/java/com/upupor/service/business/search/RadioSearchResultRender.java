@@ -27,14 +27,15 @@
 
 package com.upupor.service.business.search;
 
-import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.data.dao.entity.Radio;
-import com.upupor.service.base.RadioService;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.search.SearchDataDto;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.base.RadioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Yang Runkang (cruise)
@@ -43,7 +44,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Component
-public class RadioSearchResultRender extends AbstractSearchResultRender<Radio> {
+public class RadioSearchResultRender extends AbstractSearchResultRender<RadioEnhance> {
     private final RadioService radioService;
 
     @Override
@@ -52,23 +53,25 @@ public class RadioSearchResultRender extends AbstractSearchResultRender<Radio> {
     }
 
     @Override
-    protected void bindMemberList(List<Radio> radios) {
-        radioService.bindRadioMember(radios);
+    protected void bindMemberList(List<RadioEnhance> radioEnhanceList) {
+        radioService.bindRadioMember(radioEnhanceList);
     }
 
     @Override
-    protected List<Radio> getDataList() {
-        return radioService.listByRadioId(getTargetIdList());
+    protected List<RadioEnhance> getDataList() {
+        return radioService.listByRadioId(getTargetIdList()).stream().map(s -> {
+            return RadioEnhance.builder().radio(s).build();
+        }).collect(Collectors.toList());
     }
 
     @Override
-    protected void transferToSearchDataDtoList(List<Radio> radios) {
-        for (Radio radio : radios) {
+    protected void transferToSearchDataDtoList(List<RadioEnhance> radios) {
+        for (RadioEnhance radioEnhance : radios) {
             SearchDataDto searchDataDto = new SearchDataDto();
             searchDataDto.setDataType(dataType());
-            searchDataDto.setResultTitle(radio.getRadioIntro());
-            searchDataDto.setResultId(radio.getRadioId());
-            searchDataDto.setMember(radio.getMember());
+            searchDataDto.setResultTitle(radioEnhance.getRadio().getRadioIntro());
+            searchDataDto.setResultId(radioEnhance.getRadio().getRadioId());
+            searchDataDto.setMemberEnhance(radioEnhance.getMemberEnhance());
             getSearchDataDtoList().add(searchDataDto);
         }
 

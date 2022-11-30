@@ -43,16 +43,20 @@
                     <form class="ui form">
                         <div class="field">
                             <label>用户名</label>
-                            <input type="text" th:value="${memberIndexDto.member.userName}" id="userName" placeholder="用户名">
+                            <input type="text" th:value="${memberIndexDto.memberEnhance.member.userName}" id="userName" placeholder="用户名">
                         </div>
                         <div class="field">
                             <label>邮箱</label>
-                            <input type="text" th:value="${memberIndexDto.member.email}" id="email" disabled placeholder="邮箱">
+                            <input type="text" th:value="${memberIndexDto.memberEnhance.member.email}" id="email" disabled placeholder="邮箱">
+                        </div>
+                        <div class="field">
+                            <label>简介</label>
+                            <textarea type="text" rows="2" class="field" id="introduce" th:text="${memberIndexDto.memberEnhance?.memberExtendEnhance?.memberExtend.introduce}" placeholder="简介"></textarea>
                         </div>
                         <div class="field">
                             <label>邮件开关</label>
                             <div class="ui toggle checkbox">
-                                <input th:checked="${memberIndexDto.member.memberConfig?.openEmail.name() == 'SUBSCRIBE_EMAIL'}" type="checkbox" id="openEmail">
+                                <input th:checked="${memberIndexDto?.memberEnhance?.memberConfigEnhance?.memberConfig?.openEmail.name() == 'SUBSCRIBE_EMAIL'}" type="checkbox" id="openEmail">
                                 <label></label>
                             </div>
                         </div>

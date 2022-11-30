@@ -27,22 +27,23 @@
 
 package com.upupor.service.listener;
 
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.business.message.MessageSend;
-import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.framework.common.IntegralEnum;
 import com.upupor.data.dao.entity.Attention;
 import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.types.MessageType;
+import com.upupor.framework.common.IntegralEnum;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.listener.event.MemberLoginEvent;
 import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
-import com.upupor.data.types.MessageType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -100,12 +101,13 @@ public class MemberEventListener {
         if (StringUtils.isEmpty(userId)) {
             return;
         }
-        Member member = memberService.memberInfo(userId);
+        MemberEnhance memberEnhance = memberService.memberInfo(userId);
+        Member member = memberEnhance.getMember();
         if (Objects.isNull(member)) {
             return;
         }
         member.setLastLoginTime(CcDateUtil.getCurrentTime());
-        memberService.update(member);
+        memberService.update(memberEnhance);
     }
 
     /**
@@ -168,13 +170,13 @@ public class MemberEventListener {
     public void attentionMessage(AttentionUserEvent attentionUserEvent) {
         AddAttentionReq addAttentionReq = attentionUserEvent.getAddAttentionReq();
         Attention attention = attentionUserEvent.getAttention();
-        Member attentionUser = memberService.memberInfo(attention.getUserId());
+        Member attentionUser = memberService.memberInfo(attention.getUserId()).getMember();
         String msgId = CcUtils.getUuId();
         String msg = "您有新的关注者 " + String.format(PROFILE_INNER_MSG, attentionUser.getUserId(), msgId, attentionUser.getUserName())
                 + " 去Ta的主页看看吧";
 
         // 发送邮件 被关注的人要通知ta
-        Member member = memberService.memberInfo(addAttentionReq.getAttentionUserId());
+        Member member = memberService.memberInfo(addAttentionReq.getAttentionUserId()).getMember();
         String emailTitle = "您有新的关注者";
         String emailContent = "点击" + String.format(PROFILE_EMAIL, attentionUser.getUserId(), msgId, attentionUser.getUserName()) + " 去Ta的主页看看吧";
 

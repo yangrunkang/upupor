@@ -29,15 +29,9 @@
 
 package com.upupor.data.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.data.dto.page.common.ListCommentDto;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.RadioStatus;
-import com.upupor.data.types.UploadStatus;
 import lombok.Data;
-
-import java.util.List;
-import java.util.Objects;
 
 @Data
 public class Radio extends BaseEntity {
@@ -65,61 +59,6 @@ public class Radio extends BaseEntity {
      * 最新回复的人
      */
     private String latestCommentUserId;
-    /****************************************/
-    /**
-     * 当前电台上传状态
-     */
-    @TableField(exist = false)
-    private UploadStatus uploadStatus;
 
-    /**
-     * 评论数
-     */
-    @TableField(exist = false)
-    private Integer commentTotal;
-
-    /**
-     * 电台创作者
-     */
-    @TableField(exist = false)
-    private Member member;
-
-    /**
-     * 评论内容
-     *
-     * @return
-     */
-    @TableField(exist = false)
-    private ListCommentDto listCommentDto;
-
-    /**
-     * 文章数据
-     */
-    @TableField(exist = false)
-    private ContentData contentData;
-
-    @TableField(exist = false)
-    private String createDate;
-
-    @TableField(exist = false)
-    private String latestCommentDate;
-
-    @TableField(exist = false)
-    private String latestCommentUserName;
-
-    @TableField(exist = false)
-    private List<ViewHistory> viewerList;
-
-    public String getLatestCommentDate() {
-        if (Objects.isNull(latestCommentTime)) {
-            return latestCommentDate;
-        }
-        return CcDateUtil.timeStamp2Date(latestCommentTime);
-    }
-
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
-    }
 
 }

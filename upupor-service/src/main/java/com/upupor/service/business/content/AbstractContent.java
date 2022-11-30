@@ -28,14 +28,14 @@
 package com.upupor.service.business.content;
 
 import com.google.common.collect.Lists;
-import com.upupor.framework.CcConstant;
-import com.upupor.data.dao.entity.Content;
-import com.upupor.service.base.ContentService;
-import com.upupor.service.base.TagService;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dto.page.ContentIndexDto;
 import com.upupor.data.dto.page.common.ListContentDto;
-import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.data.types.ContentStatus;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.TagService;
+import com.upupor.service.outer.req.ListContentReq;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.CollectionUtils;
@@ -67,7 +67,7 @@ public abstract class AbstractContent {
     @Getter
     private String contentId;
     @Getter
-    private Content content;
+    private ContentEnhance contentEnhance;
     @Getter
     private Integer pageNum;
     @Getter
@@ -78,7 +78,7 @@ public abstract class AbstractContent {
      *
      * @return
      */
-    protected abstract Content queryContent();
+    protected abstract ContentEnhance queryContent();
 
     /**
      * 共用逻辑
@@ -87,27 +87,27 @@ public abstract class AbstractContent {
 
         // 获取文章数据
         CompletableFuture<Void> bindContentData = CompletableFuture.runAsync(() -> {
-            contentService.bindContentData(Collections.singletonList(content));
+            contentService.bindContentData(Collections.singletonList(contentEnhance));
         }, ASYNC);
 
         // 绑定文章作者
         CompletableFuture<Void> bindContentMember = CompletableFuture.runAsync(() -> {
-            contentService.bindContentMember(content);
+            contentService.bindContentMember(contentEnhance);
         }, ASYNC);
 
         // 绑定文章声明
         CompletableFuture<Void> bindContentStatement = CompletableFuture.runAsync(() -> {
-            contentService.bindContentStatement(content);
+            contentService.bindContentStatement(contentEnhance);
         }, ASYNC);
 
         // 绑定最近编辑的原因
         CompletableFuture<Void> bindContentEditReason = CompletableFuture.runAsync(() -> {
-            contentService.bindContentEditReason(content);
+            contentService.bindContentEditReason(contentEnhance);
         }, ASYNC);
 
         // 获取文章标签
         CompletableFuture<Void> setTagDtoList = CompletableFuture.runAsync(() -> {
-            contentService.bindContentTag(Lists.newArrayList(content));
+            contentService.bindContentTag(Lists.newArrayList(contentEnhance));
         }, ASYNC);
 
         // 作者其他的文章
@@ -128,16 +128,18 @@ public abstract class AbstractContent {
         ListContentReq listContentReq = new ListContentReq();
         listContentReq.setPageNum(CcConstant.Page.NUM);
         listContentReq.setPageSize(CcConstant.Page.SIZE);
-        listContentReq.setUserId(contentIndexDto.getContent().getUserId());
+        listContentReq.setUserId(contentIndexDto.getContentEnhance().getContent().getUserId());
         listContentReq.setStatus(ContentStatus.NORMAL);
         ListContentDto listContentDto = contentService.listContent(listContentReq);
         if (Objects.nonNull(listContentDto)) {
-            List<Content> contentList = listContentDto.getContentList();
-            if (!CollectionUtils.isEmpty(contentList)) {
+            List<ContentEnhance> contentEnhanceList = listContentDto.getContentEnhanceList();
+            if (!CollectionUtils.isEmpty(contentEnhanceList)) {
                 // 排除当前用户正在浏览的文章
-                List<Content> otherContentList = contentList.stream().filter(c -> !c.getContentId().equals(contentIndexDto.getContent().getContentId())).collect(Collectors.toList());
+                List<ContentEnhance> otherContentList = contentEnhanceList.stream()
+                        .filter(c -> !c.getContent().getContentId().equals(contentIndexDto.getContentEnhance().getContent().getContentId()))
+                        .collect(Collectors.toList());
                 if (!CollectionUtils.isEmpty(otherContentList)) {
-                    contentIndexDto.setAuthorOtherContentList(otherContentList);
+                    contentIndexDto.setAuthorOtherContentEnhanceList(otherContentList);
                 }
             }
         }
@@ -160,8 +162,8 @@ public abstract class AbstractContent {
         this.contentIndexDto = new ContentIndexDto();
 
         // 获取文章
-        this.content = queryContent();
-        contentIndexDto.setContent(this.content);
+        this.contentEnhance = queryContent();
+        contentIndexDto.setContentEnhance(this.contentEnhance);
         // 共用逻辑
         commonLogic();
         // 个性化业务

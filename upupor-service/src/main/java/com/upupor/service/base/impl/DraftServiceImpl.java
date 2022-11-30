@@ -93,7 +93,7 @@ public class DraftServiceImpl implements DraftService {
             }
             draft.setDraftContent(autoSaveContentReq.getDraftContent());
             draft.setDraftSource(autoSaveContentReq.getDraftSource());
-            draft.setTitle(Draft.parseContent(draft).getTitle());
+            draft.setTitle(Draft.parseContent(draft).getContent().getTitle());
             draft.setSysUpdateTime(new Date());
             autoSave = this.update(draft);
         }
@@ -155,7 +155,7 @@ public class DraftServiceImpl implements DraftService {
         draft.setDraftId(autoSaveContentReq.getDraftId());
         draft.setDraftContent(autoSaveContentReq.getDraftContent());
         draft.setDraftSource(autoSaveContentReq.getDraftSource());
-        draft.setTitle(Draft.parseContent(draft).getTitle());
+        draft.setTitle(Draft.parseContent(draft).getContent().getTitle());
         draft.setCreateTime(CcDateUtil.getCurrentTime());
         return draft;
     }

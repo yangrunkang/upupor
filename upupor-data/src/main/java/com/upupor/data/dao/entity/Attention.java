@@ -27,10 +27,9 @@
 
 package com.upupor.data.dao.entity;
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.AttentionStatus;
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import lombok.Data;
 
@@ -48,31 +47,6 @@ public class Attention extends BaseEntity {
     private AttentionStatus attentionStatus;
 
     private Long createTime;
-
-
-    /**
-     * 冗余字段
-     */
-    @TableField(exist = false)
-    private String createDate;
-
-    @TableField(exist = false)
-    private String createDateDiff;
-
-    /**
-     * 关注/粉丝 (根据url来)
-     */
-    @TableField(exist = false)
-    private Member member;
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
-    }
-
-    @JSONField(serialize = false)
-    public String getCreateDateDiff() {
-        return CcDateUtil.timeStamp2DateOnly(createTime);
-    }
 
     public static Attention init() {
         Attention attention = new Attention();

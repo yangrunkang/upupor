@@ -28,7 +28,7 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.Comment;
+import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -43,14 +43,14 @@ import java.util.List;
 @Data
 public class ListCommentDto extends BaseListDto {
 
-    private List<Comment> commentList;
+    private List<CommentEnhance> commentEnhanceList;
 
     public ListCommentDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.commentList = new ArrayList<>();
+        this.commentEnhanceList = new ArrayList<>();
     }
 
     public ListCommentDto() {
-        this.commentList = new ArrayList<>();
+        this.commentEnhanceList = new ArrayList<>();
     }
 }

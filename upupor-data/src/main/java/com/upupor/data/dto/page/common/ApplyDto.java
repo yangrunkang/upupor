@@ -27,7 +27,7 @@
 
 package com.upupor.data.dto.page.common;
 
-import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dao.entity.enhance.ApplyEnhance;
 import lombok.Data;
 
 /**
@@ -37,6 +37,6 @@ import lombok.Data;
 @Data
 public class ApplyDto {
 
-    private Apply apply;
+    private ApplyEnhance applyEnhance;
 
 }

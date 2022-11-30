@@ -46,8 +46,8 @@
                 <div class="card border-0 rounded-3 p-2 mb-2">
                     <div th:replace="fragments/manage::user_settings('uploadUserVia')"></div>
                     <div class="container mb-3">
-                        <div th:if="!${#strings.isEmpty(memberIndexDto.member.via)}" class="d-block text-center">
-                            <img class="lazyload rounded" style="width: 90px;height: 90px" id="avatar" th:data-src="${memberIndexDto.member.via}" alt="avatar">
+                        <div th:if="!${#strings.isEmpty(memberIndexDto.memberEnhance.member.via)}" class="d-block text-center">
+                            <img class="lazyload rounded" style="width: 90px;height: 90px" id="avatar" th:data-src="${memberIndexDto.memberEnhance.member.via}" alt="avatar">
                         </div>
 
 
@@ -85,10 +85,10 @@
                             </div>
                         </div>
                     </div>
-                    <div th:if="!${#lists.isEmpty(memberIndexDto.member.historyViaList)}">
+                    <div th:if="!${#lists.isEmpty(memberIndexDto.memberEnhance.historyViaList)}">
                         <div class="border-bottom"></div>
                         <div class="lead mb-2 text-black-50">历史头像</div>
-                        <div style="display: inline-block" class="border-0 rounded m-2 px-2 pt-2 pb-1" th:each="historyVia : ${memberIndexDto.member.historyViaList}">
+                        <div style="display: inline-block" class="border-0 rounded m-2 px-2 pt-2 pb-1" th:each="historyVia : ${memberIndexDto.memberEnhance.historyViaList}">
                             <img class="lazyload rounded" style="width: 90px;height: 90px" th:data-src="${historyVia}" />
                             <div class="text-center">
                                 <button class="btn rounded-3 bg-gradient btn-outline-secondary btn-sm mt-1" th:onclick="selectVia([[${historyVia}]])">选择</button>

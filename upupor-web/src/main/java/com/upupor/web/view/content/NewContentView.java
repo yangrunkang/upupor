@@ -72,7 +72,7 @@ public class NewContentView extends AbstractView {
         Integer pageNum = query.getPageNum();
         Integer pageSize = query.getPageSize();
         ListContentDto listContentDto = contentService.typeContentList(SearchContentType.getByUrl(URL), pageNum, pageSize);
-        AbstractAd.ad(listContentDto.getContentList());
+        AbstractAd.ad(listContentDto.getContentEnhanceList());
         modelAndView.addObject(listContentDto);
     }
 

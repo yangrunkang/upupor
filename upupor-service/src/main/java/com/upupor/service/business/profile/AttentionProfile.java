@@ -64,7 +64,7 @@ public class AttentionProfile extends AbstractProfile {
     @Override
     protected void addAd() {
         ListAttentionDto listAttentionDto = getMemberIndexDto().getListAttentionDto();
-        AbstractAd.ad(listAttentionDto.getMemberList());
+        AbstractAd.ad(listAttentionDto.getMemberEnhanceList());
     }
 
     @Override

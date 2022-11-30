@@ -27,9 +27,7 @@
 
 package com.upupor.data.dao.entity;
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.MessageStatus;
 import com.upupor.data.types.MessageType;
 import lombok.Data;
@@ -51,23 +49,5 @@ public class Message extends BaseEntity {
     private MessageStatus status;
 
     private Long createTime;
-
-
-    /**
-     * 冗余字段
-     */
-    @TableField(exist = false)
-    private String createDate;
-    @TableField(exist = false)
-    private String createDateDiff;
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
-    }
-
-    @JSONField(serialize = false)
-    public String getCreateDateDiff() {
-        return CcDateUtil.timeStamp2DateOnly(createTime);
-    }
 
 }

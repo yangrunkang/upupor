@@ -28,6 +28,8 @@
 package com.upupor.data.dto.page.ad;
 
 import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
 
@@ -38,15 +40,15 @@ import java.util.List;
  * @date 2021年12月29日 20:52
  * @email: yangrunkang53@gmail.com
  */
-public class RadioAd extends AbstractAd<Radio> {
+public class RadioAd extends AbstractAd<RadioEnhance> {
 
-    public RadioAd(List<Radio> radios) {
-        super(radios);
+    public RadioAd(List<RadioEnhance> radioEnhanceList) {
+        super(radioEnhanceList);
     }
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getRadioId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getRadio().getRadioId().equals(CcConstant.GoogleAd.FEED_AD));
     }
 
     @Override
@@ -55,6 +57,6 @@ public class RadioAd extends AbstractAd<Radio> {
         radio.setRadioId(CcConstant.GoogleAd.FEED_AD);
         radio.setUserId(CcConstant.GoogleAd.FEED_AD);
         radio.setCreateTime(CcDateUtil.getCurrentTime());
-        getVoList().add(adIndex, radio);
+        getVoList().add(adIndex, Converter.radioEnhance(radio));
     }
 }

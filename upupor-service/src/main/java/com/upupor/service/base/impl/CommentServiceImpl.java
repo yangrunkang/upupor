@@ -34,8 +34,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Comment;
 import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.CommentEnhance;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.CommentMapper;
 import com.upupor.data.dto.page.common.ListCommentDto;
 import com.upupor.data.dto.query.ListCommentQuery;
@@ -117,51 +121,53 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> commentList = commentMapper.list(query);
         PageInfo<Comment> pageInfo = new PageInfo<>(commentList);
 
-        bindCommentUser(pageInfo.getList());
-
-        setCommentFloorNumber(pageInfo.getList(), query.getPageNum(), query.getPageSize());
+        List<CommentEnhance> commentEnhanceList = Converter.commentEnhance(commentList);
+        bindCommentUser(commentEnhanceList);
+        setCommentFloorNumber(commentEnhanceList, query.getPageNum(), query.getPageSize());
 
         ListCommentDto listCommentDto = new ListCommentDto(pageInfo);
-        listCommentDto.setCommentList(pageInfo.getList());
+        listCommentDto.setCommentEnhanceList(commentEnhanceList);
         // 评论特殊翻页,默认翻到最新一页,用户可以看到最新的评论
         listCommentDto.setPageDtoList(PageUtils.buildPageDtoListForComment(pageInfo.getTotal(), pageInfo.getPageNum(), query.getPageSize()));
-
         return listCommentDto;
     }
 
-    private void setCommentFloorNumber(List<Comment> list, Integer pageNum, Integer pageSize) {
+    private void setCommentFloorNumber(List<CommentEnhance> list, Integer pageNum, Integer pageSize) {
         if (CollectionUtils.isEmpty(list)) {
             return;
         }
 
         for (int i = 0; i < list.size(); i++) {
-            Comment comment = list.get(i);
+            CommentEnhance commentEnhance = list.get(i);
             int toAdd = 0;
             if (pageNum > 1) {
                 toAdd = (pageNum - 1) * pageSize;
             }
-            comment.setFloorNum(String.valueOf((i + 1) + toAdd));
+            commentEnhance.setFloorNum(String.valueOf((i + 1) + toAdd));
         }
     }
 
 
     @Override
-    public void bindCommentUser(List<Comment> commentList) {
+    public void bindCommentUser(List<CommentEnhance> commentList) {
         if (CollectionUtils.isEmpty(commentList)) {
             return;
         }
-        List<String> userIdList = commentList.stream().map(Comment::getUserId).distinct().collect(Collectors.toList());
+        List<String> userIdList = commentList.stream()
+                .map(CommentEnhance::getComment)
+                .map(Comment::getUserId)
+                .distinct().collect(Collectors.toList());
         if (CollectionUtils.isEmpty(userIdList)) {
             return;
         }
-        List<Member> memberList = memberService.listByUserIdList(userIdList);
-        if (CollectionUtils.isEmpty(memberList)) {
+        List<MemberEnhance> memberEnhanceList = memberService.listByUserIdList(userIdList);
+        if (CollectionUtils.isEmpty(memberEnhanceList)) {
             return;
         }
-        memberList.forEach(member -> {
+        memberEnhanceList.forEach(memberEnhance -> {
             commentList.forEach(comment -> {
-                if (comment.getUserId().equals(member.getUserId())) {
-                    comment.setMember(member);
+                if (comment.getComment().getUserId().equals(memberEnhance.getMember().getUserId())) {
+                    comment.setMemberEnhance(memberEnhance);
                 }
             });
         });
@@ -169,7 +175,8 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public void bindContentComment(Content content, Integer pageNum, Integer pageSize) {
+    public void bindContentComment(ContentEnhance contentEnhance, Integer pageNum, Integer pageSize) {
+        Content content = contentEnhance.getContent();
         if (Objects.isNull(content) || StringUtils.isEmpty(content.getContentId())) {
             return;
         }
@@ -195,12 +202,13 @@ public class CommentServiceImpl implements CommentService {
         listCommentQuery.setPageSize(pageSize);
 
         ListCommentDto listCommentDto = this.listComment(listCommentQuery);
-        content.setListCommentDto(listCommentDto);
+        contentEnhance.setListCommentDto(listCommentDto);
     }
 
 
     @Override
-    public void bindRadioComment(Radio radio, Integer pageNum, Integer pageSize) {
+    public void bindRadioComment(RadioEnhance radioEnhance, Integer pageNum, Integer pageSize) {
+        Radio radio = radioEnhance.getRadio();
         if (Objects.isNull(radio) || StringUtils.isEmpty(radio.getRadioId())) {
             return;
         }
@@ -223,7 +231,7 @@ public class CommentServiceImpl implements CommentService {
         listCommentQuery.setPageNum(pageNum);
         listCommentQuery.setPageSize(pageSize);
         ListCommentDto listCommentDto = this.listComment(listCommentQuery);
-        radio.setListCommentDto(listCommentDto);
+        radioEnhance.setListCommentDto(listCommentDto);
     }
 
     @Override

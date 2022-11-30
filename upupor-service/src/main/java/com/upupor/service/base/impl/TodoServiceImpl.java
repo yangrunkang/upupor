@@ -32,13 +32,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Todo;
 import com.upupor.data.dao.entity.TodoDetail;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.TodoEnhance;
 import com.upupor.data.dao.mapper.TodoDetailMapper;
 import com.upupor.data.dao.mapper.TodoMapper;
-import com.upupor.service.base.TodoService;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
 import com.upupor.data.dto.page.common.ListTodoDto;
 import com.upupor.data.types.TodoStatus;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
+import com.upupor.service.base.TodoService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -66,9 +68,9 @@ public class TodoServiceImpl implements TodoService {
      * @param todo
      */
     @Override
-    public Integer addTodo(Todo todo) {
-        int addTodo = todoMapper.insert(todo);
-        int addTodoDetail = todoDetailMapper.insert(todo.getTodoDetail());
+    public Integer addTodo(TodoEnhance todoEnhance) {
+        int addTodo = todoMapper.insert(todoEnhance.getTodo());
+        int addTodoDetail = todoDetailMapper.insert(todoEnhance.getTodoDetail());
         return addTodo + addTodoDetail;
     }
 
@@ -78,15 +80,17 @@ public class TodoServiceImpl implements TodoService {
      * @param todo
      */
     @Override
-    public Integer update(Todo todo) {
+    public Integer update(TodoEnhance todoEnhance) {
+        Todo todo = todoEnhance.getTodo();
+        TodoDetail todoDetail = todoEnhance.getTodoDetail();
         if (Objects.isNull(todo) || Objects.isNull(todo.getId())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
 
         int update = 0;
         update = update + todoMapper.updateById(todo);
-        if (Objects.nonNull(todo.getTodoDetail())) {
-            update = update + todoDetailMapper.updateById(todo.getTodoDetail());
+        if (Objects.nonNull(todoDetail)) {
+            update = update + todoDetailMapper.updateById(todoDetail);
         }
         return update;
     }
@@ -109,8 +113,10 @@ public class TodoServiceImpl implements TodoService {
         List<Todo> todoList = todoMapper.selectList(todoLambdaQueryWrapper);
         PageInfo<Todo> pageInfo = new PageInfo<>(todoList);
 
+        List<TodoEnhance> todoEnhanceList = Converter.todoEnhanceList(todoList);
+
         ListTodoDto listTodoDto = new ListTodoDto(pageInfo);
-        listTodoDto.setTodoList(todoList);
+        listTodoDto.setTodoEnhanceList(todoEnhanceList);
         return listTodoDto;
     }
 

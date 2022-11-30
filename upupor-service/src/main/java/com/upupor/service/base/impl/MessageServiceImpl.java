@@ -33,6 +33,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Message;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.mapper.MessageMapper;
 import com.upupor.data.dto.page.common.ListMessageDto;
 import com.upupor.data.types.MessageStatus;
@@ -94,9 +95,10 @@ public class MessageServiceImpl implements MessageService {
         PageInfo<Message> pageInfo = new PageInfo<>(messages);
 
         ListMessageDto listMessageDto = new ListMessageDto(pageInfo);
-        listMessageDto.setMessageList(pageInfo.getList());
+        listMessageDto.setMessageEnhanceList(Converter.messageEnhance(pageInfo.getList()));
         return listMessageDto;
     }
+
 
     @Override
     public Message getMessage(String messageId) {

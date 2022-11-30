@@ -31,6 +31,8 @@ package com.upupor.service.aggregation;
 
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.MemberExtend;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.MemberListDto;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.dto.page.common.ListIntegralDto;
@@ -70,19 +72,21 @@ public class MemberAggregateService {
         ListMemberDto listMemberDto = memberService.list(pageNum, pageSize);
 
         // 完整用户拓展信息
-        List<String> userIdList = listMemberDto.getMemberList().stream()
-                .map(Member::getUserId).distinct().collect(Collectors.toList());
+        List<String> userIdList = listMemberDto.getMemberEnhanceList().stream()
+                .map(MemberEnhance::getMember)
+                .map(Member::getUserId)
+                .distinct().collect(Collectors.toList());
         List<MemberExtend> memberExtends = memberExtendService.extendInfoByUserIdList(userIdList);
         if (CollectionUtils.isEmpty(memberExtends)) {
             return new MemberListDto();
         }
 
-        AbstractAd.ad(listMemberDto.getMemberList());
+        AbstractAd.ad(listMemberDto.getMemberEnhanceList());
 
-        listMemberDto.getMemberList().forEach(member -> {
+        listMemberDto.getMemberEnhanceList().forEach(memberEnhance -> {
             for (MemberExtend memberExtend : memberExtends) {
-                if (member.getUserId().equals(memberExtend.getUserId())) {
-                    member.setMemberExtend(memberExtend);
+                if (memberEnhance.getMember().getUserId().equals(memberExtend.getUserId())) {
+                    memberEnhance.setMemberExtendEnhance(Converter.memberExtendEnhance(memberExtend));
                 }
             }
         });

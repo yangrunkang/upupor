@@ -75,7 +75,7 @@ public class MessageProfile extends AbstractProfile {
     @Override
     protected void addAd() {
         ListCommentDto listCommentDto = getMemberIndexDto().getListCommentDto();
-        AbstractAd.ad(listCommentDto.getCommentList());
+        AbstractAd.ad(listCommentDto.getCommentEnhanceList());
     }
 
     @Override

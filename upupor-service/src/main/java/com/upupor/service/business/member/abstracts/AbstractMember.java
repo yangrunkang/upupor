@@ -29,18 +29,18 @@
 
 package com.upupor.service.business.member.abstracts;
 
+import com.upupor.data.dao.entity.BusinessConfig;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.types.BusinessConfigType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.framework.common.UserCheckFieldType;
-import com.upupor.data.dao.entity.BusinessConfig;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.base.BusinessConfigService;
 import com.upupor.service.base.MemberService;
+import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.BaseMemberReq;
-import com.upupor.data.types.BusinessConfigType;
-import com.upupor.framework.utils.ServletUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -85,7 +85,7 @@ public abstract class AbstractMember<T extends BaseMemberReq> {
 
         if (logined) {
             String userId = ServletUtils.getUserId();
-            Member member = memberService.memberInfo(userId);
+            Member member = memberService.memberInfo(userId).getMember();
             if (!member.getUserName().equals(userName)) {
                 checkUserNameInDB(userName);
             }

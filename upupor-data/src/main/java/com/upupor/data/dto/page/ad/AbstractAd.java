@@ -27,7 +27,10 @@
 
 package com.upupor.data.dto.page.ad;
 
-import com.upupor.data.dao.entity.*;
+import com.upupor.data.dao.entity.enhance.CommentEnhance;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.framework.CcConstant;
 import org.springframework.util.CollectionUtils;
 
@@ -42,7 +45,7 @@ import java.util.Random;
  * @date 2021年12月29日 20:44
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractAd<T extends BaseEntity> {
+public abstract class AbstractAd<T> {
 
     /**
      * vo列表
@@ -101,14 +104,14 @@ public abstract class AbstractAd<T extends BaseEntity> {
         Optional<?> first = list.stream().findFirst();
         if (first.isPresent()) {
             Object o = first.get();
-            if (o instanceof Content) {
-                new ContentAd((List<Content>) list).ad();
-            } else if (o instanceof Comment) {
-                new CommentAd((List<Comment>) list).ad();
-            } else if (o instanceof Member) {
-                new MemberAd((List<Member>) list).ad();
-            } else if (o instanceof Radio) {
-                new RadioAd((List<Radio>) list).ad();
+            if (o instanceof ContentEnhance) {
+                new ContentAd((List<ContentEnhance>) list).ad();
+            } else if (o instanceof CommentEnhance) {
+                new CommentAd((List<CommentEnhance>) list).ad();
+            } else if (o instanceof MemberEnhance) {
+                new MemberAd((List<MemberEnhance>) list).ad();
+            } else if (o instanceof RadioEnhance) {
+                new RadioAd((List<RadioEnhance>) list).ad();
             }
         }
     }

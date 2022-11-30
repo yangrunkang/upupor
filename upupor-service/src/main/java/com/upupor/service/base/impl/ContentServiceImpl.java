@@ -34,6 +34,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.*;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.ContentDataEnhance;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.*;
 import com.upupor.data.dto.OperateContentDto;
 import com.upupor.data.dto.dao.CommentNumDto;
@@ -42,20 +46,20 @@ import com.upupor.data.dto.dao.ListDraftDto;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.page.common.ListContentDto;
 import com.upupor.data.dto.page.common.TagDto;
-import com.upupor.service.base.*;
+import com.upupor.data.types.*;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.base.*;
 import com.upupor.service.business.editor.AbstractEditor;
-import com.upupor.framework.common.IntegralEnum;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.ListContentReq;
 import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.outer.req.content.UpdateStatusReq;
-import com.upupor.data.types.*;
 import com.upupor.service.utils.Asserts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -96,22 +100,24 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public Content getContentDetail(String contentId) {
+    public ContentEnhance getContentDetail(String contentId) {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId).eq(Content::getStatus, ContentStatus.NORMAL);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
-        bindContentExtend(content);
-        return content;
+        ContentEnhance contentEnhance = Converter.contentEnhance(content);
+        bindContentExtend(contentEnhance);
+        return contentEnhance;
     }
 
 
     @Override
-    public Content getManageContentDetail(String contentId) {
-        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId).notIn(Content::getStatus, Content.manageStatusList);
+    public ContentEnhance getManageContentDetail(String contentId) {
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId).notIn(Content::getStatus, ContentStatus.manageStatusList);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
-        bindContentExtend(content);
-        return content;
+        ContentEnhance contentEnhance = Converter.contentEnhance(content);
+        bindContentExtend(contentEnhance);
+        return contentEnhance;
     }
 
     @Override
@@ -124,25 +130,28 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public Content getNormalContent(String contentId) {
+    public ContentEnhance getNormalContent(String contentId) {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId).eq(Content::getStatus, ContentStatus.NORMAL);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
-        content.setContentData(getContentData(Lists.newArrayList(contentId)).get(0));
-        return content;
+
+        ContentEnhance contentEnhance = Converter.contentEnhance(content);
+        contentEnhance.setContentDataEnhance(getContentData(Lists.newArrayList(contentId)).get(0));
+        return contentEnhance;
     }
 
 
     @Override
-    public Content getContentByContentIdNoStatus(String contentId) {
+    public ContentEnhance getContentByContentIdNoStatus(String contentId) {
         if (StringUtils.isEmpty(contentId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getContentId, contentId);
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
-        bindContentExtend(content);
-        return content;
+        ContentEnhance contentEnhance = Converter.contentEnhance(content);
+        bindContentExtend(contentEnhance);
+        return contentEnhance;
     }
 
     @Override
@@ -168,7 +177,7 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
 
-        if (CollectionUtils.isEmpty(listContentDto.getContentList())) {
+        if (CollectionUtils.isEmpty(listContentDto.getContentEnhanceList())) {
             return;
         }
 
@@ -176,13 +185,13 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
 
-        List<Content> pinnedContentList = getContentListByPinned(PinnedStatus.PINNED, userId);
+        List<ContentEnhance> pinnedContentList = getContentListByPinned(PinnedStatus.PINNED, userId);
         if (CollectionUtils.isEmpty(pinnedContentList)) {
             return;
         }
         this.bindContentData(pinnedContentList);
         this.bindContentMember(pinnedContentList);
-        listContentDto.setPinnedContent(pinnedContentList.get(0));
+        listContentDto.setPinnedContentEnhance(pinnedContentList.get(0));
     }
 
 
@@ -210,16 +219,17 @@ public class ContentServiceImpl implements ContentService {
         List<Content> contents = contentMapper.selectList(query);
         PageInfo<Content> pageInfo = new PageInfo<>(contents);
 
+        List<ContentEnhance> contentEnhanceList = Converter.contentEnhance(contents);
         // 封装文章数据
-        this.bindContentData(pageInfo.getList());
-        this.bindContentMember(contents);
-        this.bindContentTag(contents);
+        this.bindContentData(contentEnhanceList);
+        this.bindContentMember(contentEnhanceList);
+        this.bindContentTag(contentEnhanceList);
         // 不能添加广告,会引起首页文章列表布局紊乱问题,如果需要添加广告,请在各业务外面添加
 //        AbstractAd.ad(pageInfo.getList());
 
         // 数据组装
         ListContentDto listContentDto = new ListContentDto(pageInfo);
-        listContentDto.setContentList(pageInfo.getList());
+        listContentDto.setContentEnhanceList(contentEnhanceList);
         return listContentDto;
     }
 
@@ -250,20 +260,22 @@ public class ContentServiceImpl implements ContentService {
     /**
      * 绑定详细文章
      *
-     * @param content
+     * @param contentEnhance
      */
     @Override
-    public void bindContentExtend(Content content) {
+    public void bindContentExtend(ContentEnhance contentEnhance) {
+        Content content = contentEnhance.getContent();
         LambdaQueryWrapper<ContentExtend> query = new LambdaQueryWrapper<ContentExtend>().eq(ContentExtend::getContentId, content.getContentId());
         ContentExtend contentExtend = contentExtendMapper.selectOne(query);
         Asserts.notNull(contentExtend, DATA_MISSING);
-        content.setContentExtend(contentExtend);
+        contentEnhance.setContentExtendEnhance(Converter.contentExtendEnhance(contentExtend));
     }
 
     @Override
-    public Boolean insertContent(Content content) {
+    public Boolean insertContent(ContentEnhance contentEnhance) {
+        Content content = contentEnhance.getContent();
         int count = contentMapper.insert(content);
-        return contentExtendMapper.insert(content.getContentExtend()) + count > 1;
+        return contentExtendMapper.insert(contentEnhance.getContentExtendEnhance().getContentExtend()) + count > 1;
     }
 
     @Override
@@ -283,12 +295,13 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public Boolean updateContent(Content content) {
+    public Boolean updateContent(ContentEnhance contentEnhance) {
+        Content content = contentEnhance.getContent();
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         Boolean updateContent, updateContentExtend = Boolean.FALSE;
         updateContent = contentMapper.updateById(content) > 0;
-        ContentExtend contentExtend = content.getContentExtend();
-        if (Objects.nonNull(contentExtend)) {
+        if (Objects.nonNull(contentEnhance.getContentExtendEnhance())) {
+            ContentExtend contentExtend = contentEnhance.getContentExtendEnhance().getContentExtend();
             updateContentExtend = contentExtendMapper.updateById(contentExtend) > 0;
         }
 
@@ -301,13 +314,14 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public List<Content> listByContentIdList(List<String> contentIdList) {
+    public List<ContentEnhance> listByContentIdList(List<String> contentIdList) {
         List<Content> contents = contentMapper.listByContentIdList(contentIdList);
         if (CollectionUtils.isEmpty(contents)) {
             return new ArrayList<>();
         }
-        this.bindContentData(contents);
-        return contents;
+        List<ContentEnhance> contentEnhanceList = Converter.contentEnhance(contents);
+        this.bindContentData(contentEnhanceList);
+        return contentEnhanceList;
     }
 
     @Override
@@ -316,14 +330,17 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public void bindContentData(List<Content> contentList) {
-        if (CollectionUtils.isEmpty(contentList)) {
+    public void bindContentData(List<ContentEnhance> contentEnhanceList) {
+        if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return;
         }
-        List<String> contentIdList = contentList.stream().map(Content::getContentId).distinct().collect(Collectors.toList());
+        List<String> contentIdList = contentEnhanceList.stream()
+                .map(ContentEnhance::getContent)
+                .map(Content::getContentId)
+                .distinct().collect(Collectors.toList());
 
-        List<ContentData> contentDataList = getContentData(contentIdList);
-        if (CollectionUtils.isEmpty(contentDataList)) {
+        List<ContentDataEnhance> contentDataEnhanceList = getContentData(contentIdList);
+        if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
             return;
         }
         // 浏览数不用处理
@@ -331,38 +348,42 @@ public class ContentServiceImpl implements ContentService {
         // 需要处理评论数
         List<CommentNumDto> commentNumDtoList = commentMapper.selectByCommentIdList(contentIdList);
         if (!CollectionUtils.isEmpty(commentNumDtoList)) {
-            contentDataList.forEach(contentData -> commentNumDtoList.forEach(commentNumDto -> {
-                if (contentData.getContentId().equals(commentNumDto.getContentId())) {
-                    contentData.setCommentNum(commentNumDto.getTotal());
+            contentDataEnhanceList.forEach(contentData -> commentNumDtoList.forEach(commentNumDto -> {
+                if (contentData.getContentData().getContentId().equals(commentNumDto.getContentId())) {
+                    contentData.getContentData().setCommentNum(commentNumDto.getTotal());
                 }
             }));
         }
 
         // 绑定文章数据
-        contentDataList.forEach(contentData -> {
-            contentList.forEach(content -> {
-                if (contentData.getContentId().equals(content.getContentId())) {
-                    content.setContentData(contentData);
+        contentDataEnhanceList.forEach(contentDataEnhance -> {
+            contentEnhanceList.forEach(contentEnhance -> {
+                if (contentDataEnhance.getContentData().getContentId().equals(contentEnhance.getContent().getContentId())) {
+                    contentEnhance.setContentDataEnhance(contentDataEnhance);
                 }
             });
         });
     }
 
-    private List<ContentData> getContentData(List<String> targetIdList) {
+    private List<ContentDataEnhance> getContentData(List<String> targetIdList) {
         LambdaQueryWrapper<ContentData> query = new LambdaQueryWrapper<ContentData>().in(ContentData::getContentId, targetIdList);
-        return contentDataMapper.selectList(query);
+        List<ContentData> contentDataList = contentDataMapper.selectList(query);
+        return Converter.contentDataEnhance(contentDataList);
     }
 
     @Override
-    public void bindRadioContentData(List<Radio> radioList) {
+    public void bindRadioContentData(List<RadioEnhance> radioEnhanceList) {
 
-        if (CollectionUtils.isEmpty(radioList)) {
+        if (CollectionUtils.isEmpty(radioEnhanceList)) {
             return;
         }
 
-        List<String> radioIdList = radioList.stream().map(Radio::getRadioId).distinct().collect(Collectors.toList());
-        List<ContentData> radioDataList = getContentData(radioIdList);
-        if (CollectionUtils.isEmpty(radioDataList)) {
+        List<String> radioIdList = radioEnhanceList.stream()
+                .map(RadioEnhance::getRadio)
+                .map(Radio::getRadioId).
+                distinct().collect(Collectors.toList());
+        List<ContentDataEnhance> contentDataEnhanceList = getContentData(radioIdList);
+        if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
             return;
         }
         // 浏览数不用处理
@@ -370,18 +391,18 @@ public class ContentServiceImpl implements ContentService {
         // 需要处理评论数
         List<CommentNumDto> commentNumDtoList = commentMapper.selectByCommentIdList(radioIdList);
         if (!CollectionUtils.isEmpty(commentNumDtoList)) {
-            radioDataList.forEach(radioData -> commentNumDtoList.forEach(commentNumDto -> {
-                if (radioData.getContentId().equals(commentNumDto.getContentId())) {
-                    radioData.setCommentNum(commentNumDto.getTotal());
+            contentDataEnhanceList.forEach(radioData -> commentNumDtoList.forEach(commentNumDto -> {
+                if (radioData.getContentData().getContentId().equals(commentNumDto.getContentId())) {
+                    radioData.getContentData().setCommentNum(commentNumDto.getTotal());
                 }
             }));
         }
 
         // 绑定文章数据
-        radioDataList.forEach(radioData -> {
-            radioList.forEach(radio -> {
-                if (radioData.getContentId().equals(radio.getRadioId())) {
-                    radio.setContentData(radioData);
+        contentDataEnhanceList.forEach(contentDataEnhance -> {
+            radioEnhanceList.forEach(radio -> {
+                if (contentDataEnhance.getContentData().getContentId().equals(radio.getRadio().getRadioId())) {
+                    radio.setContentDataEnhance(contentDataEnhance);
                 }
             });
         });
@@ -390,11 +411,11 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public List<Content> listAllByUserId(List<String> userIdList) {
+    public List<ContentEnhance> listAllByUserId(List<String> userIdList) {
         if (StringUtils.isEmpty(userIdList)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
         }
-        return contentMapper.listAllByUserId(userIdList);
+        return Converter.contentEnhance(contentMapper.listAllByUserId(userIdList));
     }
 
     @Override
@@ -403,13 +424,19 @@ public class ContentServiceImpl implements ContentService {
             return;
         }
 
-        if (CollectionUtils.isEmpty(listContentDto.getContentList())) {
+        if (CollectionUtils.isEmpty(listContentDto.getContentEnhanceList())) {
             return;
         }
 
-        List<String> userIdList = listContentDto.getContentList().stream().map(Content::getUserId).distinct().collect(Collectors.toList());
+        List<String> userIdList = listContentDto.getContentEnhanceList().stream()
+                .map(ContentEnhance::getContent)
+                .map(Content::getUserId).
+                distinct().collect(Collectors.toList());
 
-        List<String> latestCommentUserId = listContentDto.getContentList().stream().map(Content::getLatestCommentUserId).filter(Objects::nonNull).distinct().collect(Collectors.toList());
+        List<String> latestCommentUserId = listContentDto.getContentEnhanceList().stream()
+                .map(ContentEnhance::getContent)
+                .map(Content::getLatestCommentUserId)
+                .filter(Objects::nonNull).distinct().collect(Collectors.toList());
 
         if (!CollectionUtils.isEmpty(latestCommentUserId)) {
             userIdList.addAll(latestCommentUserId);
@@ -424,14 +451,15 @@ public class ContentServiceImpl implements ContentService {
         if (CollectionUtils.isEmpty(memberList)) {
             return;
         }
-        listContentDto.getContentList().forEach(content -> {
+        listContentDto.getContentEnhanceList().forEach(contentEnhance -> {
             memberList.forEach(member -> {
+                Content content = contentEnhance.getContent();
                 if (content.getUserId().equals(member.getUserId())) {
-                    content.setMember(member);
+                    contentEnhance.setMemberEnhance(Converter.memberEnhance(member));
                 }
                 if (Objects.nonNull(content.getLatestCommentTime()) && Objects.nonNull(content.getLatestCommentUserId())) {
                     if (content.getLatestCommentUserId().equals(member.getUserId())) {
-                        content.setLatestCommentUserName(member.getUserName());
+                        contentEnhance.setLatestCommentUserName(member.getUserName());
                     }
                 }
             });
@@ -439,22 +467,22 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public void bindContentMember(Content content) {
+    public void bindContentMember(ContentEnhance content) {
         if (Objects.isNull(content)) {
             return;
         }
         ListContentDto listContentDto = new ListContentDto();
-        listContentDto.setContentList(Collections.singletonList(content));
+        listContentDto.setContentEnhanceList(Collections.singletonList(content));
         this.bindContentMember(listContentDto);
     }
 
     @Override
-    public void bindContentMember(List<Content> contentList) {
+    public void bindContentMember(List<ContentEnhance> contentList) {
         if (CollectionUtils.isEmpty(contentList)) {
             return;
         }
         ListContentDto listContentDto = new ListContentDto();
-        listContentDto.setContentList(contentList);
+        listContentDto.setContentEnhanceList(contentList);
         this.bindContentMember(listContentDto);
     }
 
@@ -476,8 +504,8 @@ public class ContentServiceImpl implements ContentService {
         }
 
         try {
-            List<ContentData> contentDataList = getContentData(Lists.newArrayList(targetId));
-            if (CollectionUtils.isEmpty(contentDataList)) {
+            List<ContentDataEnhance> contentDataEnhanceList = getContentData(Lists.newArrayList(targetId));
+            if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
                 // 初始化
                 ContentData contentData = new ContentData();
                 contentData.setContentId(targetId);
@@ -496,15 +524,15 @@ public class ContentServiceImpl implements ContentService {
     public void viewNumPlusOne(String targetId) {
         try {
 
-            List<ContentData> contentDataList = getContentData(Lists.newArrayList(targetId));
-            if (CollectionUtils.isEmpty(contentDataList)) {
+            List<ContentDataEnhance> contentDataEnhanceList = getContentData(Lists.newArrayList(targetId));
+            if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
                 initContendData(targetId);
                 return;
             }
 
-            ContentData contentData = contentDataList.get(0);
-            contentData.incrementViewNum();
-            contentDataMapper.updateById(contentData);
+            ContentDataEnhance contentData = contentDataEnhanceList.get(0);
+            contentData.getContentData().incrementViewNum();
+            contentDataMapper.updateById(contentData.getContentData());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -512,7 +540,7 @@ public class ContentServiceImpl implements ContentService {
 
 
     @Override
-    public List<Content> getContentListByPinned(PinnedStatus pinnedStatus, String userId) {
+    public List<ContentEnhance> getContentListByPinned(PinnedStatus pinnedStatus, String userId) {
 
         if (Objects.isNull(pinnedStatus)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
@@ -523,7 +551,7 @@ public class ContentServiceImpl implements ContentService {
         }
 
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>().eq(Content::getUserId, userId).eq(Content::getPinnedStatus, pinnedStatus);
-        return contentMapper.selectList(query);
+        return Converter.contentEnhance(contentMapper.selectList(query));
     }
 
 
@@ -537,10 +565,11 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public void bindContentEditReason(Content content) {
+    public void bindContentEditReason(ContentEnhance contentEnhance) {
+        Content content = contentEnhance.getContent();
         ContentEditReason contentEditReason = latestEditReason(content.getContentId());
         if (Objects.nonNull(contentEditReason)) {
-            content.setContentEditReason(contentEditReason);
+            contentEnhance.setContentEditReasonEnhance(Converter.contentEditReason(contentEditReason));
         }
     }
 
@@ -572,18 +601,21 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public void bindContentStatement(Content content) {
+    public void bindContentStatement(ContentEnhance contentEnhance) {
+        Content content = contentEnhance.getContent();
         if (Objects.isNull(content.getStatementId())) {
             return;
         }
         Statement statement = statementMapper.getByStatementId(content.getStatementId());
         if (Objects.nonNull(statement)) {
-            content.setStatement(statement);
+            contentEnhance.setStatementEnhance(Converter.statementEnhance(statement));
         }
     }
 
+
     @Override
-    public void bindLikesMember(Content content) {
+    public void bindLikesMember(ContentEnhance contentEnhance) {
+        Content content = contentEnhance.getContent();
         if (Objects.isNull(content)) {
             return;
         }
@@ -602,11 +634,12 @@ public class ContentServiceImpl implements ContentService {
         if (CollectionUtils.isEmpty(memberList)) {
             return;
         }
-        content.setLikesMemberList(memberList);
+        contentEnhance.setLikesMemberEnhanceList(Converter.memberEnhance(memberList));
     }
 
     @Override
-    public void lastAndNextContent(Content content) {
+    public void lastAndNextContent(ContentEnhance contentEnhance) {
+        Content content = contentEnhance.getContent();
         if (Objects.isNull(content)) {
             return;
         }
@@ -617,25 +650,25 @@ public class ContentServiceImpl implements ContentService {
 
         LastAndNextContentDto lastAndNextContentDto = new LastAndNextContentDto();
         for (String cId : idList) {
-            Content contentIdAndTitle = getNormalContent(cId);
-            if (contentIdAndTitle.getLatestCommentTime() > content.getLatestCommentTime()) {
-                lastAndNextContentDto.setNextContent(contentIdAndTitle);
+            ContentEnhance contentIdAndTitleEnhance = getNormalContent(cId);
+            if (contentIdAndTitleEnhance.getContent().getLatestCommentTime() > content.getLatestCommentTime()) {
+                lastAndNextContentDto.setNextContentEnhance(contentIdAndTitleEnhance);
             } else {
-                lastAndNextContentDto.setLastContent(contentIdAndTitle);
+                lastAndNextContentDto.setLastContentEnhance(contentIdAndTitleEnhance);
             }
         }
 
-        content.setLastAndNextContentDto(lastAndNextContentDto);
+        contentEnhance.setLastAndNextContentDto(lastAndNextContentDto);
 
     }
 
     @Override
-    public List<Content> randomContent(String notUserId) {
+    public List<ContentEnhance> randomContent(String notUserId) {
         List<String> contentIdList = contentMapper.randomContent(notUserId);
         if (CollectionUtils.isEmpty(contentIdList)) {
             return new ArrayList<>(1);
         }
-        List<Content> contentList = listByContentIdList(contentIdList);
+        List<ContentEnhance> contentList = listByContentIdList(contentIdList);
         contentList.forEach(this::bindContentMember);
         return contentList;
     }
@@ -654,7 +687,7 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public List<Content> latestContentList() {
+    public List<ContentEnhance> latestContentList() {
         LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
                 .eq(Content::getStatus, ContentStatus.NORMAL)
                 .ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - NEW_CONTENT_TIME)
@@ -662,14 +695,14 @@ public class ContentServiceImpl implements ContentService {
 
         PageHelper.startPage(CcConstant.Page.NUM, CcConstant.Page.SIZE_HALF);
         List<Content> contentList = contentMapper.selectList(query);
-
-        this.bindContentMember(contentList);
-        return contentList;
+        List<ContentEnhance> contentEnhanceList = Converter.contentEnhance(contentList);
+        this.bindContentMember(contentEnhanceList);
+        return contentEnhanceList;
     }
 
     @Override
     public Boolean exists(String contentId) {
-        Content manageContentDetail = null;
+        ContentEnhance manageContentDetail = null;
         try {
             manageContentDetail = this.getManageContentDetail(contentId);
         } catch (Exception e) {
@@ -682,35 +715,38 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public void handleExistsDraft(ListContentDto listContentDto) {
-        List<Content> contentList = listContentDto.getContentList();
-        if (CollectionUtils.isEmpty(contentList)) {
+        List<ContentEnhance> contentEnhanceList = listContentDto.getContentEnhanceList();
+        if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return;
         }
 
-        List<String> contentIdList = contentList.stream().map(Content::getContentId).distinct().collect(Collectors.toList());
+        List<String> contentIdList = contentEnhanceList.stream()
+                .map(ContentEnhance::getContent)
+                .map(Content::getContentId)
+                .distinct().collect(Collectors.toList());
         List<Draft> drafts = draftService.listByDto(ListDraftDto.builder().draftIdList(contentIdList).build());
         if (CollectionUtils.isEmpty(drafts)) {
             return;
         }
 
-        for (Content content : contentList) {
+        for (ContentEnhance contentEnhance : contentEnhanceList) {
             for (Draft draft : drafts) {
-                if (content.getContentId().equals(draft.getDraftId())) {
-                    content.setHasDraft(Boolean.TRUE);
+                if (contentEnhance.getContent().getContentId().equals(draft.getDraftId())) {
+                    contentEnhance.setHasDraft(Boolean.TRUE);
                 }
             }
         }
     }
 
     @Override
-    public void bindContentTag(List<Content> contentList) {
+    public void bindContentTag(List<ContentEnhance> contentList) {
         if (CollectionUtils.isEmpty(contentList)) {
             return;
         }
 
-        for (Content content : contentList) {
-            List<TagDto> tagDtoList = tagService.listTagNameByTagId(content.getTagIds());
-            content.setTagDtoList(tagDtoList);
+        for (ContentEnhance contentEnhance : contentList) {
+            List<TagDto> tagDtoList = tagService.listTagNameByTagId(contentEnhance.getContent().getTagIds());
+            contentEnhance.setTagDtoList(tagDtoList);
         }
 
     }

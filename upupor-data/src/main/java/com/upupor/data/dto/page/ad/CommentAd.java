@@ -28,7 +28,9 @@
 package com.upupor.data.dto.page.ad;
 
 import com.upupor.data.dao.entity.Comment;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.CommentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.framework.CcConstant;
 
 import java.util.List;
@@ -38,21 +40,20 @@ import java.util.List;
  * @date 2021年12月29日 20:53
  * @email: yangrunkang53@gmail.com
  */
-public class CommentAd extends AbstractAd<Comment> {
-    public CommentAd(List<Comment> comments) {
+public class CommentAd extends AbstractAd<CommentEnhance> {
+    public CommentAd(List<CommentEnhance> comments) {
         super(comments);
     }
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getCommentId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getComment().getCommentId().equals(CcConstant.GoogleAd.FEED_AD));
     }
 
     @Override
     protected void insertAd(int adIndex) {
-        Comment ad = new Comment();
-        ad.setCommentId(CcConstant.GoogleAd.FEED_AD);
-        ad.setMember(new Member());
-        getVoList().add(adIndex, ad);
+        Comment empty = Comment.empty();
+        empty.setCommentId(CcConstant.GoogleAd.FEED_AD);
+        getVoList().add(adIndex, Converter.commentEnhance(empty, new MemberEnhance()));
     }
 }

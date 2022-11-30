@@ -29,11 +29,11 @@
 
 package com.upupor.data.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.ViewTargetType;
 import com.upupor.data.types.ViewType;
 import com.upupor.data.types.ViewerDeleteStatus;
+import com.upupor.framework.utils.CcDateUtil;
 import lombok.Data;
 
 import java.util.Date;
@@ -57,47 +57,6 @@ public class ViewHistory extends BaseEntity {
     private ViewerDeleteStatus deleteStatus;
 
     private Long createTime;
-
-    /****************************/
-    /**
-     * 访问者用户头像
-     */
-    @TableField(exist = false)
-    private String viewerUserVia;
-
-    /**
-     * 渲染url
-     */
-    @TableField(exist = false)
-    private String viewerUserName;
-
-    /**
-     * 浏览标题
-     */
-    @TableField(exist = false)
-    private String title;
-
-    /**
-     * 来源
-     */
-    @TableField(exist = false)
-    private String source;
-
-    /**
-     * 浏览url
-     */
-    @TableField(exist = false)
-    private String url;
-
-    /**
-     * 创建时间
-     */
-    @TableField(exist = false)
-    private String createDate;
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2DateOnly(createTime);
-    }
 
     public static ViewHistory create(String targetId, ViewTargetType targetType, String viewerUserId, ViewType viewType) {
         ViewHistory viewHistory = new ViewHistory();

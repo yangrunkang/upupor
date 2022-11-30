@@ -29,17 +29,17 @@
 
 package com.upupor.service.business.replay;
 
-import com.upupor.service.business.message.MessageSend;
-import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.MemberService;
-import com.upupor.service.base.MessageService;
-import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.data.types.ContentType;
 import com.upupor.data.types.MessageType;
-import org.jetbrains.annotations.NotNull;
+import com.upupor.service.base.MemberService;
+import com.upupor.service.base.MessageService;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
+import com.upupor.service.listener.event.ReplayCommentEvent;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.*;
@@ -105,7 +105,7 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
 
     @Override
     protected Member getTarget(String targetId) {
-        return getMemberService().memberInfo(targetId);
+        return getMemberService().memberInfo(targetId).getMember();
     }
 
     @Override

@@ -152,8 +152,7 @@ upupor:
     - /radio-station/create
     - /todo-list
     - /user/manage
-    - /m
-    - /before-editor
+    - /m/
     - /user/admin
     - /view/history
     - /unsubscribe-mail

@@ -28,8 +28,8 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.Fans;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.FansEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -43,17 +43,17 @@ import java.util.List;
  */
 @Data
 public class ListFansDto extends BaseListDto {
-    private List<Fans> fansList;
-    private List<Member> memberList;
+    private List<FansEnhance> fansEnhanceList;
+    private List<MemberEnhance> memberEnhanceList;
 
     public ListFansDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.fansList = new ArrayList<>();
-        this.memberList = new ArrayList<>();
+        this.fansEnhanceList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 
     public ListFansDto() {
-        this.fansList = new ArrayList<>();
-        this.memberList = new ArrayList<>();
+        this.fansEnhanceList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 }

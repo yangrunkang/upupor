@@ -30,9 +30,10 @@ package com.upupor.service.business.manage.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.mapper.ApplyMapper;
-import com.upupor.service.business.manage.service.ApplyManageService;
 import com.upupor.data.dto.page.common.ListApplyDto;
+import com.upupor.service.business.manage.service.ApplyManageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +57,7 @@ public class ApplyManageServiceImpl implements ApplyManageService {
         PageInfo<Apply> pageInfo = new PageInfo<>(applyList);
 
         ListApplyDto listApplyDto = new ListApplyDto(pageInfo);
-        listApplyDto.setApplyList(applyList);
+        listApplyDto.setApplyEnhanceList(Converter.applyEnhanceList(applyList));
 
         return listApplyDto;
     }

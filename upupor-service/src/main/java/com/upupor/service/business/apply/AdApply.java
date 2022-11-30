@@ -28,15 +28,16 @@
 package com.upupor.service.business.apply;
 
 import com.alibaba.fastjson2.JSON;
+import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dao.entity.enhance.ApplyEnhance;
+import com.upupor.data.dto.page.apply.ApplyContentDto;
+import com.upupor.data.types.ApplyStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.data.dao.entity.Apply;
-import com.upupor.data.dto.page.apply.ApplyContentDto;
-import com.upupor.service.outer.req.AddApplyReq;
-import com.upupor.data.types.ApplyStatus;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.outer.req.AddApplyReq;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -52,22 +53,22 @@ public class AdApply extends AbstractApply<AddApplyReq> {
 
 
     @Override
-    protected void notifyAdministrator(Apply apply) {
+    protected void notifyAdministrator(ApplyEnhance applyEnhance) {
         String emailContent = "申请id:%s" + "\n" +
                 "用户id:%s" + "\n" +
                 "申请简介:%s" + "\n" +
                 "申请项目:%s" + "\n";
 
-        emailContent = String.format(emailContent, apply.getApplyId(),
-                apply.getUserId(),
-                apply.getApplyContentDto().getApplyIntro(),
-                apply.getApplyContentDto().getApplyProject()
+        emailContent = String.format(emailContent, applyEnhance.getApply().getApplyId(),
+                applyEnhance.getApply().getUserId(),
+                applyEnhance.getApplyContentDto().getApplyIntro(),
+                applyEnhance.getApplyContentDto().getApplyProject()
         );
         sendMessage("您有新的广告申请!!!请尽快处理", emailContent);
     }
 
     @Override
-    protected Boolean apply(AddApplyReq adApplyReq) {
+    protected Apply apply(AddApplyReq adApplyReq) {
         if (CcUtils.isAllEmpty(adApplyReq.getApplyUserEmail(), adApplyReq.getApplyUserPhone(),
                 adApplyReq.getApplyUserQq(), adApplyReq.getApplyUserWechat())) {
             throw new BusinessException(ErrorCode.AD_APPLY_LEAST_CONTACT);
@@ -86,6 +87,9 @@ public class AdApply extends AbstractApply<AddApplyReq> {
         apply.setApplyStatus(ApplyStatus.WAIT_APPLY);
         apply.setCreateTime(CcDateUtil.getCurrentTime());
         apply.setSysUpdateTime(new Date());
-        return apply(apply);
+        if (insertApply(apply)) {
+            return apply;
+        }
+        throw new BusinessException(ErrorCode.APPLY_AD_FAILER);
     }
 }

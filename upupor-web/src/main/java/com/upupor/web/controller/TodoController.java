@@ -27,19 +27,20 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.data.dao.entity.Todo;
+import com.upupor.data.dao.entity.TodoDetail;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.types.TodoStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.data.dao.entity.Todo;
-import com.upupor.data.dao.entity.TodoDetail;
 import com.upupor.service.base.TodoService;
 import com.upupor.service.outer.req.AddTodoReq;
 import com.upupor.service.outer.req.UpdateTodoDoneStatus;
-import com.upupor.data.types.TodoStatus;
-import com.upupor.framework.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -90,9 +91,7 @@ public class TodoController {
         todoDetail.setSysUpdateTime(new Date());
         todoDetail.setDetail(addTodoReq.getTodoDetail());
 
-        todo.setTodoDetail(todoDetail);
-
-        Integer result = todoService.addTodo(todo);
+        Integer result = todoService.addTodo(Converter.todoEnhance(todo, todoDetail));
         ccResponse.setData(result > 0);
         return ccResponse;
     }
@@ -128,7 +127,7 @@ public class TodoController {
             throw new BusinessException(ErrorCode.TODO_STATUS_ERROR);
         }
 
-        Integer result = todoService.update(update);
+        Integer result = todoService.update(Converter.todoEnhance(update));
         ccResponse.setData(result > 0);
         return ccResponse;
     }
@@ -160,7 +159,7 @@ public class TodoController {
         delete.setId(todo.getId());
         delete.setStatus(TodoStatus.DELETE);
 
-        Integer result = todoService.update(delete);
+        Integer result = todoService.update(Converter.todoEnhance(delete));
         ccResponse.setData(result > 0);
         return ccResponse;
     }

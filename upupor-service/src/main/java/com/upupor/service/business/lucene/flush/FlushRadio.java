@@ -27,10 +27,11 @@
 
 package com.upupor.service.business.lucene.flush;
 
-import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.data.dao.entity.Radio;
-import com.upupor.service.base.RadioService;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.lucene.AbstractFlush;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.base.RadioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -44,21 +45,22 @@ import org.springframework.stereotype.Component;
 public class FlushRadio extends AbstractFlush<Radio> {
 
     private final RadioService radioService;
-    private Radio radio;
+    private RadioEnhance radioEnhance;
 
     @Override
     protected void add() {
+        Radio radio = radioEnhance.getRadio();
         getUpuporLuceneService().addDocument(radio.getRadioIntro(), radio.getRadioId(), runDataType());
     }
 
     @Override
     protected void delete() {
-        getUpuporLuceneService().deleteDocumentByTargetId(radio.getRadioId());
+        getUpuporLuceneService().deleteDocumentByTargetId(radioEnhance.getRadio().getRadioId());
     }
 
     @Override
     protected void initTargetObject() {
-        this.radio = radioService.getByRadioId(event.getTargetId());
+        this.radioEnhance = radioService.getByRadioId(event.getTargetId());
     }
 
     @Override

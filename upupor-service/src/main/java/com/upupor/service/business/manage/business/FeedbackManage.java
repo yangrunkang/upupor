@@ -48,7 +48,7 @@ public class FeedbackManage extends AbstractManage {
     @Override
     protected void specifyDtoHandle(ManageDto manageDto) {
 
-        getMemberIndexDto().setMember(memberService.memberInfoData(manageDto.getUserId()));
+        getMemberIndexDto().setMemberEnhance(memberService.memberInfoData(manageDto.getUserId()));
 
     }
 

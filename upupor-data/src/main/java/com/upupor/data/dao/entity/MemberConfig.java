@@ -27,6 +27,7 @@
 
 package com.upupor.data.dao.entity;
 
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.OpenEmail;
 import lombok.Data;
 

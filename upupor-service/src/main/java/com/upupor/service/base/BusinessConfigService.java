@@ -31,6 +31,7 @@ package com.upupor.service.base;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.data.dao.entity.BusinessConfig;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.mapper.BusinessConfigMapper;
 import com.upupor.data.dto.page.common.ListCssPatternDto;
 import com.upupor.data.types.BusinessConfigStatus;
@@ -101,14 +102,14 @@ public class BusinessConfigService {
         }
 
         ListCssPatternDto listCssPatternDto = new ListCssPatternDto();
-        listCssPatternDto.setPatternList(cssPatternList);
+        listCssPatternDto.setPatternEnhanceList(Converter.businessConfigEnhanceList(cssPatternList));
         listCssPatternDto.setTotal((long) cssPatternList.size());
         listCssPatternDto.setPageDtoList(PageUtils.Page.renderEmpty());
 
         if (!StringUtils.isEmpty(userId)) {
             BusinessConfig userDefinedBgStyle = getUserDefinedBgStyle(userId);
             if (Objects.nonNull(userDefinedBgStyle)) {
-                listCssPatternDto.setUserDefinedCss(userDefinedBgStyle);
+                listCssPatternDto.setUserDefinedCssEnhance(Converter.businessConfigEnhance(userDefinedBgStyle));
             }
         }
 

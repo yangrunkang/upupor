@@ -27,15 +27,17 @@
 
 package com.upupor.service.business.manage.business;
 
-import com.upupor.framework.CcConstant;
 import com.upupor.data.dao.entity.Collect;
 import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.enhance.CollectEnhance;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dto.page.common.ListCollectDto;
+import com.upupor.data.types.CollectType;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.base.CollectService;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
-import com.upupor.data.dto.page.common.ListCollectDto;
-import com.upupor.data.types.CollectType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -75,24 +77,27 @@ public class CollectManage extends AbstractManage {
             return;
         }
 
-        if (CollectionUtils.isEmpty(listCollectDto.getCollectList())) {
+        if (CollectionUtils.isEmpty(listCollectDto.getCollectEnhanceList())) {
             return;
         }
 
-        List<String> contentIdList = listCollectDto.getCollectList().stream()
-                .filter(collect -> collect.getCollectType().equals(CollectType.CONTENT))
-                .map(Collect::getCollectValue).distinct().collect(Collectors.toList());
+        List<String> contentIdList = listCollectDto.getCollectEnhanceList().stream()
+                .filter(collect -> collect.getCollect().getCollectType().equals(CollectType.CONTENT))
+                .map(CollectEnhance::getCollect)
+                .map(Collect::getCollectValue)
+                .distinct().collect(Collectors.toList());
         if (CollectionUtils.isEmpty(contentIdList)) {
             return;
         }
-        List<Content> contents = contentService.listByContentIdList(contentIdList);
-        if (CollectionUtils.isEmpty(contents)) {
+        List<ContentEnhance> contentEnhanceList = contentService.listByContentIdList(contentIdList);
+        if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return;
         }
-        listCollectDto.getCollectList().forEach(collect -> {
-            contents.forEach(content -> {
-                if (collect.getCollectValue().equals(content.getContentId())) {
-                    collect.setContent(content);
+        listCollectDto.getCollectEnhanceList().forEach(collect -> {
+            contentEnhanceList.forEach(contentEnhance -> {
+                Content content = contentEnhance.getContent();
+                if (collect.getCollect().getCollectValue().equals(content.getContentId())) {
+                    collect.setContentEnhance(contentEnhance);
                 }
             });
         });

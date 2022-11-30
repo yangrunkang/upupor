@@ -29,12 +29,7 @@
 
 package com.upupor.data.dao.entity;
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.google.common.collect.Lists;
-import com.upupor.data.dto.dao.LastAndNextContentDto;
-import com.upupor.data.dto.page.common.ListCommentDto;
-import com.upupor.data.dto.page.common.TagDto;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.ContentType;
 import com.upupor.data.types.OriginType;
@@ -42,12 +37,6 @@ import com.upupor.data.types.PinnedStatus;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcDateUtil;
 import lombok.Data;
-
-import java.util.List;
-import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.Time.CONTENT_UPDATE_TIME;
-import static com.upupor.framework.CcConstant.Time.NEW_CONTENT_TIME;
 
 /**
  * 内容
@@ -123,203 +112,20 @@ public class Content extends BaseEntity {
      */
     private String keywords;
 
-
-    /**********************非DB字段*****************************/
-    public static List<Integer> manageStatusList = Lists.newArrayList(
-            ContentStatus.EXCEPTION.getStatus(), ContentStatus.DELETED.getStatus()
-    );
-
-    @TableField(exist = false)
-    private ContentExtend contentExtend;
-
-    /**
-     * 文章数据
-     **/
-    @TableField(exist = false)
-    private ContentData contentData;
-
-    @TableField(exist = false)
-    private ContentEditReason contentEditReason;
-
-    /**
-     * 页面冗余字段 创建日记-年月日
-     */
-    @TableField(exist = false)
-    private String createDate;
-    @TableField(exist = false)
-    private String latestCommentDate;
-    @TableField(exist = false)
-    private String createDateDiff;
-    @TableField(exist = false)
-    private String editDate;
-
-    /**
-     * 页面冗余字段
-     */
-    @TableField(exist = false)
-    private String sysUpdateDate;
-
-    /**
-     * 页面冗余字段-标签名
-     */
-    @TableField(exist = false)
-    private List<TagDto> tagDtoList;
-
-    /**
-     * 评论内容
-     *
-     * @return
-     */
-    @TableField(exist = false)
-    private ListCommentDto listCommentDto;
-
-    /**
-     * 用户
-     */
-    @TableField(exist = false)
-    private Member member;
-    /**
-     * 用户
-     */
-    @TableField(exist = false)
-    private String contentTypeDesc;
-
-    /**
-     * 收藏数
-     */
-    @TableField(exist = false)
-    private Integer collectTotal;
-
-    /**
-     * 评论数
-     */
-    @TableField(exist = false)
-    private Integer commentTotal;
-
-    /**
-     * 收藏数
-     */
-    @TableField(exist = false)
-    private Integer collectNum;
-
-    @TableField(exist = false)
-    private Statement statement;
-
-    /**
-     * 点赞的用户
-     */
-    @TableField(exist = false)
-    private List<Member> likesMemberList;
-
-    /**
-     * 绑定本文的上一篇及下一篇
-     */
-    @TableField(exist = false)
-    private LastAndNextContentDto lastAndNextContentDto;
-
-    /**
-     * 文章访问者
-     */
-    @TableField(exist = false)
-    private List<ViewHistory> viewerList;
-
-    /**
-     * 针对草稿的文章,反查是否已经发布过,做一个标识,提升用户体验的
-     */
-    @TableField(exist = false)
-    private Boolean existedContent;
-
-
-    public Content() {
-        init();
-    }
-
-    public static Content empty() {
-        return new Content();
-    }
-
-    private void init() {
-        this.collectTotal = 0;
-        this.commentTotal = 0;
-        this.collectNum = 0;
-        this.listCommentDto = new ListCommentDto();
-        this.tagIds = CcConstant.EMPTY_STR;
-        this.status = ContentStatus.NORMAL;
-        this.editTimes = 0;
-        this.pinnedStatus = PinnedStatus.UN_PINNED;
-        this.originType = OriginType.ORIGIN;
-        this.createTime = CcDateUtil.getCurrentTime();
-        this.latestCommentTime = CcDateUtil.getCurrentTime();
+    private Content() {
     }
 
 
-    public String getCreateDate() {
-        if (Objects.isNull(createTime)) {
-            return createDate;
-        }
-        return CcDateUtil.timeStamp2Date(createTime);
+    public static Content init() {
+        Content newContent = new Content();
+        newContent.setTagIds(CcConstant.EMPTY_STR);
+        newContent.setStatus(ContentStatus.NORMAL);
+        newContent.setEditTimes(0);
+        newContent.setPinnedStatus(PinnedStatus.UN_PINNED);
+        newContent.setOriginType(OriginType.ORIGIN);
+        newContent.setCreateTime(CcDateUtil.getCurrentTime());
+        newContent.setLatestCommentTime(CcDateUtil.getCurrentTime());
+        return newContent;
     }
 
-    public String getEditDate() {
-        if (Objects.isNull(editTime)) {
-            return editDate;
-        }
-        return CcDateUtil.timeStamp2Date(editTime);
-    }
-
-    public String getLatestCommentDate() {
-        if (Objects.isNull(latestCommentTime)) {
-            return latestCommentDate;
-        }
-        return CcDateUtil.timeStamp2Date(latestCommentTime);
-    }
-
-    /**
-     * 最新回复的人姓名
-     */
-    @TableField(exist = false)
-    private String latestCommentUserName;
-
-    @JSONField(serialize = false)
-    public String getCreateDateDiff() {
-        return CcDateUtil.timeStamp2DateOnly(createTime);
-    }
-
-    public String getContentTypeDesc() {
-        ContentType byContentType = ContentType.getByContentType(contentType);
-        if (Objects.isNull(byContentType)) {
-            return "内容";
-        }
-        return byContentType.getName();
-    }
-
-    /**
-     * 最近是否更新过
-     */
-    @TableField(exist = false)
-    private Boolean hasLatestEdit = Boolean.FALSE;
-
-    public Boolean getHasLatestEdit() {
-        if (Objects.isNull(editTime)) {
-            return hasLatestEdit;
-        }
-        // 在一天内更新都算最新更新过
-        return CcDateUtil.getCurrentTime() - editTime <= CONTENT_UPDATE_TIME;
-    }
-
-    /**
-     * 是否是最近的新文章
-     */
-    @TableField(exist = false)
-    private Boolean newContent = Boolean.FALSE;
-
-    public Boolean getNewContent() {
-        if (Objects.isNull(createTime)) {
-            return newContent;
-        }
-        return CcDateUtil.getCurrentTime() - createTime <= NEW_CONTENT_TIME;
-    }
-
-    @TableField(exist = false)
-    private Boolean hasDraft = Boolean.FALSE;
 }

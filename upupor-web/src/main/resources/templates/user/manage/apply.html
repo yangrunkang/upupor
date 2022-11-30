@@ -56,55 +56,55 @@
                                     </tr>
                             	</thead>
                             	<tbody>
-                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listApplyDto.applyList)}"
-                                    th:each="apply,ite : ${memberIndexDto.listApplyDto.applyList}"
+                                    <tr th:if="!${#lists.isEmpty(memberIndexDto.listApplyDto.applyEnhanceList)}"
+                                    th:each="applyEnhance,ite : ${memberIndexDto.listApplyDto.applyEnhanceList}"
                                 >
                                     <td th:text="${ite.count}"></td>
                                     <td>
-                                        <p th:utext="${apply.applyContent}"></p>
+                                        <p th:utext="${applyEnhance.apply.applyContent}"></p>
                                     </td>
                                     <td>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applySource.name()} == 'CONSULTING_SERVICE'">咨询服务</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applySource.name()} == 'NEW_FEATURES'">新功能建议</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applySource.name()} == 'AD'">广告</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applySource.name()} == 'TAG'">标签</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${applyEnhance.apply.applySource.name()} == 'CONSULTING_SERVICE'">咨询服务</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${applyEnhance.apply.applySource.name()} == 'NEW_FEATURES'">新功能建议</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${applyEnhance.apply.applySource.name()} == 'AD'">广告</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${applyEnhance.apply.applySource.name()} == 'TAG'">标签</span>
                                     </td>
                                     <!--状态-->
                                     <td>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${apply.applyStatus.name()} == 'WAIT_APPLY' or ${apply.applyStatus.name()} == 'APPLYING' or ${apply.applyStatus.name()} == 'APPLY_PASS' or ${apply.applyStatus.name()} == 'APPLY_DOCUMENT_COMMIT'">正常</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${apply.applyStatus.name()} == 'APPLY_REFUSE'">拒绝</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${apply.applyStatus.name()} == 'APPLY_TERMINATE'">结束</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${applyEnhance.apply.applyStatus.name()} == 'WAIT_APPLY' or ${applyEnhance.apply.applyStatus.name()} == 'APPLYING' or ${applyEnhance.apply.applyStatus.name()} == 'APPLY_PASS' or ${applyEnhance.apply.applyStatus.name()} == 'APPLY_DOCUMENT_COMMIT'">正常</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${applyEnhance.apply.applyStatus.name()} == 'APPLY_REFUSE'">拒绝</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${applyEnhance.apply.applyStatus.name()} == 'APPLY_TERMINATE'">结束</span>
                                     </td>
                                     <!--进度-->
                                     <td>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-primary" th:if="${apply.applyStatus.name()} == 'WAIT_APPLY'">待审核</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${apply.applyStatus.name()} == 'APPLYING'">审核中</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${apply.applyStatus.name()} == 'APPLY_PASS'">已通过</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${apply.applyStatus.name()} == 'APPLY_REFUSE'">已拒绝</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${apply.applyStatus.name()} == 'APPLY_TERMINATE'">已终止</span>
-                                        <span class="badge bg-gradient rounded-3 fw-normal bg-primary" th:if="${apply.applyStatus.name()} == 'APPLY_DOCUMENT_COMMIT'">材料已提交</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-primary" th:if="${applyEnhance.apply.applyStatus.name()} == 'WAIT_APPLY'">待审核</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark" th:if="${applyEnhance.apply.applyStatus.name()} == 'APPLYING'">审核中</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-success" th:if="${applyEnhance.apply.applyStatus.name()} == 'APPLY_PASS'">已通过</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${applyEnhance.apply.applyStatus.name()} == 'APPLY_REFUSE'">已拒绝</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-danger" th:if="${applyEnhance.apply.applyStatus.name()} == 'APPLY_TERMINATE'">已终止</span>
+                                        <span class="badge bg-gradient rounded-3 fw-normal bg-primary" th:if="${applyEnhance.apply.applyStatus.name()} == 'APPLY_DOCUMENT_COMMIT'">材料已提交</span>
                                     </td>
-                                    <td class="hidden-xs" th:text="${apply.createDate}">创建时间</td>
+                                    <td class="hidden-xs" th:text="${applyEnhance.createDate}">创建时间</td>
                                     <td style=";">
                                         <div class="btn-group rounded-3 bg-gradient" role="group" aria-label="Second group">
                                             <button type="button" class="btn rounded-3 bg-gradient btn-outline-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 操作
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg">
-                                                <a class="cv-link dropdown-item small" th:onclick="applyOperate('stop',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::zhongzhi"></span>终止</a>
-                                                <a class="cv-link dropdown-item small" th:onclick="applyOperate('delete',[[${apply.applyId}]],[[${apply.userId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
+                                                <a class="cv-link dropdown-item small" th:onclick="applyOperate('stop',[[${applyEnhance.apply.applyId}]],[[${applyEnhance.apply.userId}]])"><span th:include="fragments/icon::zhongzhi"></span>终止</a>
+                                                <a class="cv-link dropdown-item small" th:onclick="applyOperate('delete',[[${applyEnhance.apply.applyId}]],[[${applyEnhance.apply.userId}]])"><span th:include="fragments/icon::shanchu"></span>删除</a>
                                             </div>
                                         </div>
-                                        <a class="ui primary button btn-sm"
-                                           th:if="${apply.applySource.name()} == 'AD' and ${apply.applyStatus.name()} == 'APPLY_PASS'"
-                                           th:href="'/user/manage/apply/commit/'+${apply.applyId}">提交材料</a>
+                                        <a class="btn rounded-3 bg-gradient btn-outline-dark btn-sm"
+                                           th:if="${applyEnhance.apply.applySource.name()} == 'AD' and ${applyEnhance.apply.applyStatus.name()} == 'APPLY_PASS'"
+                                           th:href="'/user/manage/apply/commit/'+${applyEnhance.apply.applyId}">提交材料</a>
                                     </td>
                                 </tr>
                             	</tbody>
                             </table>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(memberIndexDto.listApplyDto.applyList)}" th:include="fragments/index::empty_content"></div>
+                    <div th:if="${#lists.isEmpty(memberIndexDto.listApplyDto.applyEnhanceList)}" th:include="fragments/index::empty_content"></div>
                     <div th:replace="fragments/page::page(${memberIndexDto.listApplyDto.pageDtoList})"></div>
                     <hr />
                     <strong>说明</strong>

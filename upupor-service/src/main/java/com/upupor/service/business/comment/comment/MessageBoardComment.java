@@ -27,16 +27,17 @@
 
 package com.upupor.service.business.comment.comment;
 
-import com.upupor.service.business.comment.AbstractComment;
-import com.upupor.service.business.message.MessageSend;
-import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.framework.common.IntegralEnum;
 import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.types.ContentType;
+import com.upupor.data.types.MessageType;
+import com.upupor.framework.common.IntegralEnum;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
-import com.upupor.data.types.ContentType;
-import com.upupor.data.types.MessageType;
+import com.upupor.service.business.comment.AbstractComment;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -52,7 +53,7 @@ import static com.upupor.framework.CcConstant.MsgTemplate.*;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class MessageBoardComment extends AbstractComment<Member> {
+public class MessageBoardComment extends AbstractComment<MemberEnhance> {
 
     @Resource
     private MessageService messageService;
@@ -69,11 +70,11 @@ public class MessageBoardComment extends AbstractComment<Member> {
         String msgId = getMsgId();
 
         // 获取被评论的用户
-        Member targetMember = getTarget(targetId);
+        Member targetMember = getTarget(targetId).getMember();
         String targetUserId = targetMember.getUserId();
 
         // 获取评论者信息
-        Member commenter = getMemberInfo(commenterUserId);
+        Member commenter = getMemberInfo(commenterUserId).getMember();
         String commenterUserName = commenter.getUserName();
 
         // 如果作者自己评论自己就不用发邮件了
@@ -111,7 +112,7 @@ public class MessageBoardComment extends AbstractComment<Member> {
     }
 
     @Override
-    protected Member getTarget(String targetId) {
+    protected MemberEnhance getTarget(String targetId) {
         return getMemberInfo(targetId);
     }
 

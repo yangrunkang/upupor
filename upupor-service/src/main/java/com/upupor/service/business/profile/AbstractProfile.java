@@ -30,17 +30,20 @@
 package com.upupor.service.business.profile;
 
 import com.google.common.collect.Lists;
+import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
+import com.upupor.data.dto.page.MemberIndexDto;
+import com.upupor.data.types.ViewTargetType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.business.profile.dto.Query;
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.Tag;
 import com.upupor.service.base.*;
-import com.upupor.data.dto.page.MemberIndexDto;
-import com.upupor.data.types.ViewTargetType;
+import com.upupor.service.business.profile.dto.Query;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -92,37 +95,37 @@ public abstract class AbstractProfile {
     }
 
     private void setMember(String userId) {
-        Member member = memberService.memberInfo(userId);
-        if (Objects.isNull(member)) {
+        MemberEnhance memberEnhance = memberService.memberInfo(userId);
+        if (Objects.isNull(memberEnhance)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
         // 设置用户粉丝数
         CompletableFuture<Void> getFansNum = CompletableFuture.runAsync(() -> {
-            int fansNum = fanService.getFansNum(member.getUserId());
-            member.setFansNum(fansNum);
+            int fansNum = fanService.getFansNum(memberEnhance.getMember().getUserId());
+            memberEnhance.setFansNum(fansNum);
         }, ASYNC);
 
         // 设置用户关注数
         CompletableFuture<Void> getAttentionNum = CompletableFuture.runAsync(() -> {
-            Integer attentionNum = attentionService.getAttentionNum(member.getUserId());
-            member.setAttentionNum(attentionNum);
+            Integer attentionNum = attentionService.getAttentionNum(memberEnhance.getMember().getUserId());
+            memberEnhance.setAttentionNum(attentionNum);
         }, ASYNC);
 
         // 设置文章总数
         CompletableFuture<Void> getUserTotalContentNum = CompletableFuture.runAsync(() -> {
-            Integer totalContentNum = contentService.getUserTotalContentNum(member.getUserId());
-            member.setTotalContentNum(totalContentNum);
+            Integer totalContentNum = contentService.getUserTotalContentNum(memberEnhance.getMember().getUserId());
+            memberEnhance.setTotalContentNum(totalContentNum);
         }, ASYNC);
 
         // 获取用户总积分值
         CompletableFuture<Void> getTotalIntegral = CompletableFuture.runAsync(() -> {
-            Integer totalIntegral = memberService.totalIntegral(member.getUserId());
-            member.setTotalIntegral(totalIntegral);
+            Integer totalIntegral = memberService.totalIntegral(memberEnhance.getMember().getUserId());
+            memberEnhance.setTotalIntegral(totalIntegral);
         }, ASYNC);
 
         // 设置标签
         CompletableFuture<Void> setTagList = CompletableFuture.runAsync(() -> {
-            memberIndexDto.setTagList(getUserTagList(userId));
+            memberIndexDto.setTagEnhanceList(getUserTagList(userId));
         }, ASYNC);
 
         // 设置当前用户是否已关注该profile
@@ -132,7 +135,7 @@ public abstract class AbstractProfile {
 
         // 设置用户声明
         CompletableFuture<Void> bindStatement = CompletableFuture.runAsync(() -> {
-            memberService.bindStatement(member);
+            memberService.bindStatement(memberEnhance);
         }, ASYNC);
 
         CompletableFuture<Void> allCompletableFuture = CompletableFuture.allOf(
@@ -148,7 +151,7 @@ public abstract class AbstractProfile {
         allCompletableFuture.join();
 
         // 获取用户属性
-        memberIndexDto.setMember(member);
+        memberIndexDto.setMemberEnhance(memberEnhance);
     }
 
     /**
@@ -160,7 +163,7 @@ public abstract class AbstractProfile {
         // 记录访问者
         viewerService.addViewer(userId, viewTargetType());
         // 设置访问者
-        memberIndexDto.setViewerList(viewerService.listViewerByTargetIdAndType(userId, viewTargetType()));
+        memberIndexDto.setViewHistoryEnhanceList(viewerService.listViewerByTargetIdAndType(userId, viewTargetType()));
     }
 
     /**
@@ -190,17 +193,18 @@ public abstract class AbstractProfile {
     protected abstract void setSpecifyData(Query query);
 
 
-    private List<Tag> getUserTagList(String userId) {
-
+    private List<TagEnhance> getUserTagList(String userId) {
         // 获取用户标签
-        List<Content> contentList = contentService.listAllByUserId(Lists.newArrayList(userId));
+        List<ContentEnhance> contentEnhanceList = contentService.listAllByUserId(Lists.newArrayList(userId));
 
-        if (CollectionUtils.isEmpty(contentList)) {
+        if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return new ArrayList<>();
         }
 
-        List<String> tagIdList = contentList.stream()
-                .map(Content::getTagIds).distinct().collect(Collectors.toList());
+        List<String> tagIdList = contentEnhanceList.stream()
+                .map(ContentEnhance::getContent)
+                .map(Content::getTagIds)
+                .distinct().collect(Collectors.toList());
         if (CollectionUtils.isEmpty(tagIdList)) {
             return new ArrayList<>();
         }
@@ -214,7 +218,7 @@ public abstract class AbstractProfile {
         if (CollectionUtils.isEmpty(tags)) {
             return new ArrayList<>();
         }
-        return tags;
+        return Converter.tagEnhanceList(tags);
     }
 
 }

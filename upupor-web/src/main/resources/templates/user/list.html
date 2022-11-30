@@ -40,7 +40,7 @@
             <div class="col-lg-9 mb-2">
                 <div class="card border-0 rounded-3 p-2">
                     <div class="lead border-bottom mb-2">所有用户</div>
-                    <div class="mt-2" th:replace="fragments/member::render_user_list(${memberListDto.listMemberDto.memberList})"></div>
+                    <div class="mt-2" th:replace="fragments/member::render_user_list(${memberListDto.listMemberDto.memberEnhanceList})"></div>
                     <div th:replace="fragments/page::page(${memberListDto.listMemberDto.pageDtoList})"></div>
                 </div>
             </div>

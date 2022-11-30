@@ -186,5 +186,19 @@ public enum ContentType {
         return contentTypeList;
     }
 
+    /**
+     * 获取内容描述
+     *
+     * @param contentType
+     * @return
+     */
+    public String getContentTypeDesc(ContentType contentType) {
+        ContentType byContentType = ContentType.getByContentType(contentType);
+        if (Objects.isNull(byContentType)) {
+            return "内容";
+        }
+        return byContentType.getName();
+    }
+
 
 }

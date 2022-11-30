@@ -27,14 +27,15 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.MemberService;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.security.limiter.UpuporLimit;
+import com.upupor.service.base.MemberService;
 import com.upupor.service.utils.oss.FileUpload;
 import com.upupor.service.utils.oss.enums.FileDic;
 import io.swagger.annotations.Api;
@@ -74,7 +75,8 @@ public class UploadController {
         }
 
         // 获取用户
-        Member member = memberService.memberInfo(ServletUtils.getUserId());
+        MemberEnhance memberEnhance = memberService.memberInfo(ServletUtils.getUserId());
+        Member member = memberEnhance.getMember();
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
@@ -82,7 +84,7 @@ public class UploadController {
         // 重新设置头像
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
         ServletUtils.getSession().setAttribute(CcConstant.Session.LONG_TIME_UN_UPDATE_PROFILE_PHOTO, Boolean.FALSE);
-        Boolean update = memberService.update(member);
+        Boolean update = memberService.update(memberEnhance);
         if (!update) {
             throw new BusinessException(ErrorCode.UPLOAD_MEMBER_INFO_ERROR);
         }

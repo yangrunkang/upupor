@@ -46,7 +46,7 @@
                         <option value="">无</option>
                         <option th:each="type : ${contentTypeList}"
                                 th:value="${type.url}"
-                                th:selected="${memberIndexDto?.member?.memberConfig.defaultContentType == type.url}"
+                                th:selected="${memberIndexDto?.memberEnhance?.memberConfigEnhance?.memberConfig.defaultContentType == type.url}"
                         >
                             [[${type.name}]]
                         </option>

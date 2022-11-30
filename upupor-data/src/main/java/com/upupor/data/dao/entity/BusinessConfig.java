@@ -27,6 +27,7 @@
 
 package com.upupor.data.dao.entity;
 
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.BusinessConfigStatus;
 import com.upupor.data.types.BusinessConfigType;
 import lombok.Data;

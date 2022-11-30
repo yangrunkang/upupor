@@ -28,7 +28,7 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -41,16 +41,16 @@ import java.util.List;
 @Data
 public class ListRadioDto extends BaseListDto {
 
-    private List<Radio> radioList;
+    private List<RadioEnhance> radioEnhanceList;
 
 
     public ListRadioDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.radioList = new ArrayList<>();
+        this.radioEnhanceList = new ArrayList<>();
     }
 
     public ListRadioDto() {
-        this.radioList = new ArrayList<>();
+        this.radioEnhanceList = new ArrayList<>();
     }
 
 }

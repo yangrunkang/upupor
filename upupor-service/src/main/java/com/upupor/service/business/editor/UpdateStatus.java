@@ -29,13 +29,14 @@
 
 package com.upupor.service.business.editor;
 
-import com.upupor.framework.BusinessException;
 import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dto.OperateContentDto;
-import com.upupor.service.outer.req.content.UpdateStatusReq;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.PinnedStatus;
+import com.upupor.framework.BusinessException;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.outer.req.content.UpdateStatusReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -57,14 +58,15 @@ public class UpdateStatus extends AbstractEditor<UpdateStatusReq> {
         return EditorType.UPDATE_STATUS;
     }
 
-    private Content editContent;
+    private ContentEnhance editContentEnhance;
 
     @Override
     protected void check() {
         UpdateStatusReq updateStatusReq = getReq();
         // check
         String contentId = updateStatusReq.getContentId();
-        editContent = contentService.getManageContentDetail(contentId);
+        editContentEnhance = contentService.getManageContentDetail(contentId);
+        Content editContent = editContentEnhance.getContent();
         // 校验内容所属的用户id是否是当前用户
         ServletUtils.checkOperatePermission(editContent.getUserId());
 
@@ -76,7 +78,7 @@ public class UpdateStatus extends AbstractEditor<UpdateStatusReq> {
     @Override
     protected OperateContentDto doBusiness() {
         UpdateStatusReq updateStatusReq = getReq();
-
+        Content editContent = editContentEnhance.getContent();
         editContent.setStatus(updateStatusReq.getStatus());
         editContent.setSysUpdateTime(new Date());
         boolean result = contentMapper.updateById(editContent) > 0;

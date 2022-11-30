@@ -29,7 +29,7 @@
 
 package com.upupor.data.dao.entity.comparator;
 
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -39,9 +39,9 @@ import java.util.Comparator;
  * @createTime 2022-05-21 23:46
  * @email: yangrunkang53@gmail.com
  */
-public class MemberLastLoginTimeComparator implements Comparator<Member> {
+public class MemberLastLoginTimeComparator implements Comparator<MemberEnhance> {
     @Override
-    public int compare(Member o1, Member o2) {
-        return BigDecimal.valueOf(o2.getLastLoginTime()).compareTo(BigDecimal.valueOf(o1.getLastLoginTime()));
+    public int compare(MemberEnhance o1, MemberEnhance o2) {
+        return BigDecimal.valueOf(o2.getMember().getLastLoginTime()).compareTo(BigDecimal.valueOf(o1.getMember().getLastLoginTime()));
     }
 }

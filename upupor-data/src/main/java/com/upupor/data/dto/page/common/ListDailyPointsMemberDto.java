@@ -28,7 +28,7 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -43,14 +43,14 @@ import java.util.List;
 @Data
 public class ListDailyPointsMemberDto extends BaseListDto {
 
-    private List<Member> memberList;
+    private List<MemberEnhance> memberEnhanceList;
 
     public ListDailyPointsMemberDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.memberList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 
     public ListDailyPointsMemberDto() {
-        this.memberList = new ArrayList<>();
+        this.memberEnhanceList = new ArrayList<>();
     }
 }

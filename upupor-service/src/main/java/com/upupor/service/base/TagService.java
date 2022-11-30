@@ -30,6 +30,7 @@
 package com.upupor.service.base;
 
 import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.page.common.TagDto;
 import com.upupor.data.types.ContentType;
@@ -65,7 +66,7 @@ public interface TagService {
      * @param tagType
      * @return
      */
-    List<Tag> getTagsByType(ContentType tagType);
+    List<TagEnhance> getTagsByType(ContentType tagType);
 
 
     /**

@@ -28,7 +28,7 @@
 package com.upupor.service.aggregation;
 
 import com.upupor.data.dao.entity.File;
-import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.RadioIndexDto;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.dto.page.common.ListRadioDto;
@@ -63,7 +63,7 @@ public class RadioAggregateService {
 
     public RadioIndexDto index(Integer pageNum, Integer pageSize) {
         ListRadioDto listRadioDto = radioService.list(pageNum, pageSize);
-        AbstractAd.ad(listRadioDto.getRadioList());
+        AbstractAd.ad(listRadioDto.getRadioEnhanceList());
         RadioIndexDto radioIndexDto = new RadioIndexDto();
         radioIndexDto.setListRadioDto(listRadioDto);
         return radioIndexDto;
@@ -72,34 +72,35 @@ public class RadioAggregateService {
 
     public RadioIndexDto detail(String radioId, Integer pageNum, Integer pageSize) {
 
-        Radio radio = radioService.getByRadioId(radioId);
-        if (Objects.isNull(radio)) {
+        RadioEnhance radioEnhance = radioService.getByRadioId(radioId);
+        if (Objects.isNull(radioEnhance.getRadio())) {
             throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
         }
 
-        File fileByFileUrl = fileService.selectByFileUrl(radio.getRadioUrl());
+
+        File fileByFileUrl = fileService.selectByFileUrl(radioEnhance.getRadio().getRadioUrl());
         if (Objects.nonNull(fileByFileUrl)) {
-            radio.setUploadStatus(fileByFileUrl.getUploadStatus());
+            radioEnhance.setUploadStatus(fileByFileUrl.getUploadStatus());
         } else {
-            radio.setUploadStatus(UploadStatus.UPLOAD_FAILED);
+            radioEnhance.setUploadStatus(UploadStatus.UPLOAD_FAILED);
         }
 
         contentService.viewNumPlusOne(radioId);
 
         // 绑定评论
-        commentService.bindRadioComment(radio, pageNum, pageSize);
+        commentService.bindRadioComment(radioEnhance, pageNum, pageSize);
 
         // 绑定作者
-        memberService.bindRadioMember(radio);
+        memberService.bindRadioMember(radioEnhance);
 
         // 绑定数据
-        contentService.bindRadioContentData(Collections.singletonList(radio));
+        contentService.bindRadioContentData(Collections.singletonList(radioEnhance));
 
         // 绑定访问者
-        radio.setViewerList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.CONTENT));
+        radioEnhance.setViewHistoryEnhanceList(viewerService.listViewerByTargetIdAndType(radioId, ViewTargetType.RADIO));
 
         RadioIndexDto radioIndexDto = new RadioIndexDto();
-        radioIndexDto.setRadio(radio);
+        radioIndexDto.setRadioEnhance(radioEnhance);
         return radioIndexDto;
     }
 

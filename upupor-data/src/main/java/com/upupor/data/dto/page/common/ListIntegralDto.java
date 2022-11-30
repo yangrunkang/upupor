@@ -28,7 +28,7 @@
 package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
-import com.upupor.data.dao.entity.MemberIntegral;
+import com.upupor.data.dao.entity.enhance.MemberIntegralEnhance;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -46,15 +46,15 @@ public class ListIntegralDto extends BaseListDto {
      * 总积分
      */
     private Integer totalIntegral = 0;
-    private List<MemberIntegral> memberIntegralList;
+    private List<MemberIntegralEnhance> memberIntegralEnhanceList;
 
 
     public ListIntegralDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.memberIntegralList = new ArrayList<>();
+        this.memberIntegralEnhanceList = new ArrayList<>();
     }
 
     public ListIntegralDto() {
-        this.memberIntegralList = new ArrayList<>();
+        this.memberIntegralEnhanceList = new ArrayList<>();
     }
 }

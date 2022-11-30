@@ -27,21 +27,24 @@
 
 package com.upupor.service.business.task;
 
-import com.upupor.framework.CcConstant;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
+import com.upupor.data.dto.page.common.ListMemberDto;
+import com.upupor.data.dto.page.common.ListRadioDto;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.RadioService;
-import com.upupor.data.dto.page.common.ListMemberDto;
-import com.upupor.data.dto.page.common.ListRadioDto;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 任务数据公共服务
@@ -83,10 +86,11 @@ public class TaskCommonDataService {
         List<Member> memberList = new ArrayList<>();
         for (int i = 0; i < pageNum; i++) {
             ListMemberDto listMemberDto = memberService.list(i + 1, CcConstant.Page.SIZE);
-            if (CollectionUtils.isEmpty(listMemberDto.getMemberList())) {
+            if (CollectionUtils.isEmpty(listMemberDto.getMemberEnhanceList())) {
                 continue;
             }
-            memberList.addAll(listMemberDto.getMemberList());
+            List<MemberEnhance> memberEnhanceList = listMemberDto.getMemberEnhanceList();
+            memberList.addAll(memberEnhanceList.stream().map(MemberEnhance::getMember).collect(Collectors.toList()));
         }
 
         return memberList;
@@ -99,10 +103,10 @@ public class TaskCommonDataService {
         List<Radio> radioAllList = new ArrayList<>();
         for (int i = 0; i < pageNum; i++) {
             ListRadioDto listRadioDto = radioService.list(i + 1, CcConstant.Page.SIZE);
-            if (CollectionUtils.isEmpty(listRadioDto.getRadioList())) {
+            if (CollectionUtils.isEmpty(listRadioDto.getRadioEnhanceList())) {
                 break;
             }
-            radioAllList.addAll(listRadioDto.getRadioList());
+            radioAllList.addAll(listRadioDto.getRadioEnhanceList().stream().map(RadioEnhance::getRadio).collect(Collectors.toList()));
         }
         return radioAllList;
     }

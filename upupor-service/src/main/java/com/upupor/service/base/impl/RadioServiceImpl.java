@@ -34,21 +34,24 @@ import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.File;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.RadioMapper;
 import com.upupor.data.dto.OperateRadioDto;
 import com.upupor.data.dto.page.common.ListRadioDto;
-import com.upupor.service.base.ContentService;
-import com.upupor.service.base.FileService;
-import com.upupor.service.base.MemberService;
-import com.upupor.service.base.RadioService;
+import com.upupor.data.types.RadioStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.base.ContentService;
+import com.upupor.service.base.FileService;
+import com.upupor.service.base.MemberService;
+import com.upupor.service.base.RadioService;
 import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
-import com.upupor.data.types.RadioStatus;
 import com.upupor.service.utils.Asserts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -102,26 +105,28 @@ public class RadioServiceImpl implements RadioService {
 
         PageHelper.startPage(pageNum, pageSize);
         List<Radio> radioList = radioMapper.selectList(query);
+        List<RadioEnhance> radioEnhanceList = Converter.radioEnhanceList(radioList);
         PageInfo<Radio> pageInfo = new PageInfo<>(radioList);
 
         ListRadioDto listRadioDto = new ListRadioDto(pageInfo);
-        listRadioDto.setRadioList(pageInfo.getList());
+        listRadioDto.setRadioEnhanceList(radioEnhanceList);
 
         // 绑定电台用户
-        bindRadioMember(listRadioDto.getRadioList());
+        bindRadioMember(radioEnhanceList);
         // 绑定数据
-        contentService.bindRadioContentData(listRadioDto.getRadioList());
+        contentService.bindRadioContentData(radioEnhanceList);
 
         return listRadioDto;
     }
 
     @Override
-    public Radio getByRadioId(String radioId) {
+    public RadioEnhance getByRadioId(String radioId) {
         LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
-                .eq(Radio::getRadioId, radioId);
+                .eq(Radio::getRadioId, radioId)
+                .in(Radio::getStatus, RadioStatus.notDeleteStatus());
         Radio radio = radioMapper.selectOne(query);
         Asserts.notNull(radio, ErrorCode.RADIO_NOT_EXISTS);
-        return radio;
+        return Converter.radioEnhance(radio);
     }
 
     @Override
@@ -151,29 +156,35 @@ public class RadioServiceImpl implements RadioService {
         PageHelper.startPage(pageNum, pageSize);
         List<Radio> radioList = radioMapper.list();
         PageInfo<Radio> pageInfo = new PageInfo<>(radioList);
+        List<RadioEnhance> radioEnhanceList = Converter.radioEnhanceList(radioList);
 
         ListRadioDto listRadioDto = new ListRadioDto(pageInfo);
-        listRadioDto.setRadioList(pageInfo.getList());
+        listRadioDto.setRadioEnhanceList(radioEnhanceList);
 
         // 绑定电台用户
-        bindRadioMember(listRadioDto.getRadioList());
+        bindRadioMember(radioEnhanceList);
 
         // 绑定数据
-        contentService.bindRadioContentData(listRadioDto.getRadioList());
+        contentService.bindRadioContentData(radioEnhanceList);
 
         return listRadioDto;
     }
 
 
     @Override
-    public void bindRadioMember(List<Radio> radioList) {
+    public void bindRadioMember(List<RadioEnhance> radioList) {
         if (CollectionUtils.isEmpty(radioList)) {
             return;
         }
 
         // 绑定用户
-        Set<String> userIdList = radioList.stream().map(Radio::getUserId).collect(Collectors.toSet());
-        List<String> latestCommentUserId = radioList.stream().map(Radio::getLatestCommentUserId).filter(Objects::nonNull)
+        Set<String> userIdList = radioList.stream()
+                .map(RadioEnhance::getRadio)
+                .map(Radio::getUserId)
+                .collect(Collectors.toSet());
+        List<String> latestCommentUserId = radioList.stream()
+                .map(RadioEnhance::getRadio)
+                .map(Radio::getLatestCommentUserId).filter(Objects::nonNull)
                 .distinct().collect(Collectors.toList());
 
         if (!CollectionUtils.isEmpty(latestCommentUserId)) {
@@ -182,19 +193,21 @@ public class RadioServiceImpl implements RadioService {
         List<String> userIdDistinct = userIdList.stream().distinct().collect(Collectors.toList());
 
 
-        List<Member> memberList = memberService.listByUserIdList(Lists.newArrayList(userIdDistinct));
-        if (CollectionUtils.isEmpty(memberList)) {
+        List<MemberEnhance> memberEnhanceList = memberService.listByUserIdList(Lists.newArrayList(userIdDistinct));
+        if (CollectionUtils.isEmpty(memberEnhanceList)) {
             return;
         }
 
-        radioList.forEach(radio -> {
-            memberList.forEach(member -> {
+        radioList.forEach(radioEnhance -> {
+            memberEnhanceList.forEach(memberEnhance -> {
+                Radio radio = radioEnhance.getRadio();
+                Member member = memberEnhance.getMember();
                 if (radio.getUserId().equals(member.getUserId())) {
-                    radio.setMember(member);
+                    radioEnhance.setMemberEnhance(memberEnhance);
                 }
                 if (Objects.nonNull(radio.getLatestCommentTime()) && Objects.nonNull(radio.getLatestCommentUserId())) {
                     if (radio.getLatestCommentUserId().equals(member.getUserId())) {
-                        radio.setLatestCommentUserName(member.getUserName());
+                        radioEnhance.setLatestCommentUserName(member.getUserName());
                     }
                 }
             });
@@ -225,7 +238,7 @@ public class RadioServiceImpl implements RadioService {
         }
 
         // 获取用户
-        Member member = memberService.memberInfo(ServletUtils.getUserId());
+        Member member = memberService.memberInfo(ServletUtils.getUserId()).getMember();
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
@@ -272,7 +285,8 @@ public class RadioServiceImpl implements RadioService {
 
         String userId = ServletUtils.getUserId();
 
-        Radio radio = this.getByRadioId(delRadioReq.getRadioId());
+        RadioEnhance radioEnhance = this.getByRadioId(delRadioReq.getRadioId());
+        Radio radio = radioEnhance.getRadio();
         if (Objects.isNull(radio)) {
             throw new BusinessException(ErrorCode.RADIO_NOT_EXISTS);
         }

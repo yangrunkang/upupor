@@ -28,6 +28,7 @@
 package com.upupor.service.base;
 
 import com.upupor.data.dao.entity.Apply;
+import com.upupor.data.dao.entity.enhance.ApplyEnhance;
 import com.upupor.service.outer.req.AddApplyDocumentReq;
 import com.upupor.service.outer.req.DelApplyReq;
 import com.upupor.service.outer.req.UpdateApplyReq;
@@ -52,8 +53,9 @@ public interface ApplyService {
 
     /**
      * 根据申请id获取申请
+     * @return
      */
-    Apply getByApplyId(String applyId);
+    ApplyEnhance getByApplyId(String applyId);
 
     /**
      * 更新申请

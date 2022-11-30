@@ -30,6 +30,8 @@
 package com.upupor.data.dto.page.ad;
 
 import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.framework.CcConstant;
 
 import java.util.List;
@@ -39,20 +41,21 @@ import java.util.List;
  * @date 2021年12月29日 20:51
  * @email: yangrunkang53@gmail.com
  */
-public class ContentAd extends AbstractAd<Content> {
-    public ContentAd(List<Content> contents) {
-        super(contents);
+public class ContentAd extends AbstractAd<ContentEnhance> {
+    public ContentAd(List<ContentEnhance> contentEnhanceList) {
+        super(contentEnhanceList);
     }
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getContentId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getContent().getContentId().equals(CcConstant.GoogleAd.FEED_AD));
     }
 
     @Override
     protected void insertAd(int adIndex) {
-        Content adContent = Content.empty();
-        adContent.setContentId(CcConstant.GoogleAd.FEED_AD);
-        getVoList().add(adIndex, adContent);
+        Content ad = Content.init();
+        ;
+        ad.setContentId(CcConstant.GoogleAd.FEED_AD);
+        getVoList().add(adIndex, Converter.contentEnhance(ad));
     }
 }

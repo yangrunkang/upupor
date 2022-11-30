@@ -27,8 +27,7 @@
 
 package com.upupor.data.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.MemberIntegralStatus;
 import lombok.Data;
 
@@ -59,11 +58,4 @@ public class MemberIntegral extends BaseEntity {
 
     private Long createTime;
 
-
-    @TableField(exist = false)
-    private String createDate;
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
-    }
 }

@@ -29,14 +29,15 @@
 
 package com.upupor.web.aspects.service.view;
 
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.MemberConfig;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dto.ContentTypeData;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.MemberConfig;
-import com.upupor.service.base.MemberService;
-import com.upupor.data.dto.ContentTypeData;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -47,9 +48,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
+import static com.upupor.data.dto.ContentTypeData.FIRST;
 import static com.upupor.framework.CcConstant.SUPPORT_CONTENT_TYPE_LIST;
 import static com.upupor.framework.CcConstant.USER_SETTING_DEFAULT_CONTENT;
-import static com.upupor.data.dto.ContentTypeData.FIRST;
 
 /**
  * 这里要优先展示用户喜爱的文章类型
@@ -72,8 +73,9 @@ public class SetUserDefaultContentType implements PrepareData {
 
         try {
             String userId = ServletUtils.getUserId();
-            Member member = memberService.memberInfo(userId);
-            MemberConfig memberConfig = member.getMemberConfig();
+            MemberEnhance memberEnhance = memberService.memberInfo(userId);
+            Member member = memberEnhance.getMember();
+            MemberConfig memberConfig = memberEnhance.getMemberConfigEnhance().getMemberConfig();
             if (Objects.isNull(memberConfig)) {
                 throw new BusinessException(ErrorCode.MEMBER_CONFIG_LESS);
             }

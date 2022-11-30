@@ -93,7 +93,7 @@ public class ContentProfile extends AbstractProfile {
     @Override
     protected void addAd() {
         ListContentDto listContentDto = getMemberIndexDto().getListContentDto();
-        AbstractAd.ad(listContentDto.getContentList());
+        AbstractAd.ad(listContentDto.getContentEnhanceList());
     }
 
 

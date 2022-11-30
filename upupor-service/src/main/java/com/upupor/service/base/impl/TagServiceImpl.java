@@ -30,11 +30,13 @@
 package com.upupor.service.base.impl;
 
 import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dao.mapper.TagMapper;
-import com.upupor.service.base.TagService;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.page.common.TagDto;
 import com.upupor.data.types.ContentType;
+import com.upupor.service.base.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -65,7 +67,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public List<Tag> getTagsByType(ContentType tagType) {
+    public List<TagEnhance> getTagsByType(ContentType tagType) {
         if (Objects.isNull(tagType)) {
             return new ArrayList<>();
         }
@@ -75,7 +77,7 @@ public class TagServiceImpl implements TagService {
             tags = new ArrayList<>();
         }
 
-        return tags;
+        return Converter.tagEnhanceList(tags);
     }
 
 

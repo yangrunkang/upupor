@@ -29,19 +29,19 @@
 
 package com.upupor.web.page;
 
+import com.upupor.data.dao.entity.Draft;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dto.page.EditorIndexDto;
+import com.upupor.data.types.ContentType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.aggregation.EditorAggregateService;
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Draft;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
-import com.upupor.data.dto.page.EditorIndexDto;
 import com.upupor.service.outer.req.GetEditorReq;
-import com.upupor.data.types.ContentType;
-import com.upupor.framework.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -109,27 +109,27 @@ public class EditorPageJumpController {
             if (Objects.nonNull(contentId)) {
                 Draft draft = draftService.getByDraftId(contentId);
                 if (Objects.nonNull(draft)) {
-                    Content content = Draft.parseContent(draft);
+                    ContentEnhance contentEnhanceDraft = Draft.parseContent(draft);
 
                     // 查看是否有非草稿的文章
                     {
-                        Content queryContent = null;
+                        ContentEnhance dbContentEnhance = null;
                         try {
-                            queryContent = contentService.getManageContentDetail(contentId);
+                            dbContentEnhance = contentService.getManageContentDetail(contentId);
                         } catch (Exception e) {
                             if (!(e instanceof BusinessException && (((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())))) {
                                 throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
                             }
                         }
-                        boolean hasContentEmpty = Objects.nonNull(queryContent);
+                        boolean hasContentEmpty = Objects.nonNull(dbContentEnhance);
                         if (hasContentEmpty) {
-                            content.setStatus(queryContent.getStatus()); // 覆盖非草稿文章的状态
+                            contentEnhanceDraft.getContent().setStatus(dbContentEnhance.getContent().getStatus()); // 覆盖非草稿文章的状态
                         }
                         modelAndView.addObject(HAS_DRAFT, hasContentEmpty);
                     }
 
 
-                    editorIndexDto.setContent(content);
+                    editorIndexDto.setContentEnhance(contentEnhanceDraft);
                 } else {
                     setDbContent(contentId, editorIndexDto);
                 }
@@ -155,15 +155,15 @@ public class EditorPageJumpController {
 
 
     private void setDbContent(String contentId, EditorIndexDto editorIndexDto) {
-        Content content = contentService.getManageContentDetail(contentId);
-        if (Objects.isNull(content)) {
+        ContentEnhance contentEnhance = contentService.getManageContentDetail(contentId);
+        if (Objects.isNull(contentEnhance)) {
             throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
         }
         // 校验文章是否是作者本人的
-        if (!content.getUserId().equals(ServletUtils.getUserId())) {
+        if (!contentEnhance.getContent().getUserId().equals(ServletUtils.getUserId())) {
             throw new BusinessException(ErrorCode.BAN_EDIT_OTHERS_CONTENT);
         }
-        editorIndexDto.setContent(content);
+        editorIndexDto.setContentEnhance(contentEnhance);
     }
 
 }

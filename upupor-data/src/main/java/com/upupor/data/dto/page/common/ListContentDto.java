@@ -29,7 +29,7 @@ package com.upupor.data.dto.page.common;
 
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.upupor.data.dao.entity.Content;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
@@ -48,33 +48,33 @@ public class ListContentDto extends BaseListDto {
     /**
      * 内容集合
      */
-    private List<Content> contentList;
+    private List<ContentEnhance> contentEnhanceList;
 
     /**
      * 置顶的文章
      */
-    private Content pinnedContent;
+    private ContentEnhance pinnedContentEnhance;
 
     public ListContentDto(PageInfo pageInfo) {
         super(pageInfo);
-        this.contentList = new ArrayList();
+        this.contentEnhanceList = new ArrayList();
     }
 
     public ListContentDto() {
-        this.contentList = new ArrayList();
+        this.contentEnhanceList = new ArrayList();
     }
 
-    public List<Content> getContentList() {
-        if (CollectionUtils.isEmpty(contentList)) {
+    public List<ContentEnhance> getContentEnhanceList() {
+        if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return new ArrayList<>();
         }
-        return contentList;
+        return contentEnhanceList;
     }
 
     public void removeTag() {
-        if (CollectionUtils.isEmpty(contentList)) {
+        if (CollectionUtils.isEmpty(contentEnhanceList)) {
             return;
         }
-        contentList.forEach(s -> s.setTagDtoList(Lists.newArrayList()));
+        contentEnhanceList.forEach(s -> s.setTagDtoList(Lists.newArrayList()));
     }
 }

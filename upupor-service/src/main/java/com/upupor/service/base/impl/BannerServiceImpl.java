@@ -30,10 +30,11 @@ package com.upupor.service.base.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Banner;
+import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.mapper.BannerMapper;
-import com.upupor.service.base.BannerService;
 import com.upupor.data.dto.page.common.ListBannerDto;
 import com.upupor.data.types.BannerStatus;
+import com.upupor.service.base.BannerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +59,7 @@ public class BannerServiceImpl implements BannerService {
         PageInfo<Banner> pageInfo = new PageInfo<>(banners);
 
         ListBannerDto listBannerDto = new ListBannerDto(pageInfo);
-        listBannerDto.setBannerList(pageInfo.getList());
+        listBannerDto.setBannerEnhanceList(Converter.bannerEnhanceList(pageInfo.getList()));
         return listBannerDto;
     }
 }

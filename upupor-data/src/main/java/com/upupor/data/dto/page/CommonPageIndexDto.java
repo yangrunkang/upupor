@@ -27,9 +27,9 @@
 
 package com.upupor.data.dto.page;
 
-import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.Tag;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.dto.page.common.ListBannerDto;
 import com.upupor.data.dto.page.common.ListContentDto;
@@ -56,7 +56,7 @@ public class CommonPageIndexDto {
     /**
      * 左边的栏目
      */
-    private List<Tag> tagList;
+    private List<TagEnhance> tagEnhanceList;
 
     /**
      * 文章列表
@@ -71,12 +71,12 @@ public class CommonPageIndexDto {
     /**
      * 活跃用户
      */
-    private List<Member> memberList;
+    private List<MemberEnhance> memberEnhanceList;
 
     /**
      * 最近一周新增文章
      */
-    private List<Content> latestContentList;
+    private List<ContentEnhance> latestContentList;
 
     /**
      * 是否领取过今天积分
@@ -99,7 +99,7 @@ public class CommonPageIndexDto {
 
     private void init() {
         this.listContentDto = new ListContentDto();
-        this.tagList = new ArrayList<>();
+        this.tagEnhanceList = new ArrayList<>();
         this.latestContentList = new ArrayList<>();
     }
 
@@ -110,7 +110,7 @@ public class CommonPageIndexDto {
 
     public ListContentDto getListContentDto() {
         if (this.isLoadAd) {
-            AbstractAd.ad(listContentDto.getContentList());
+            AbstractAd.ad(listContentDto.getContentEnhanceList());
         }
         return listContentDto;
     }

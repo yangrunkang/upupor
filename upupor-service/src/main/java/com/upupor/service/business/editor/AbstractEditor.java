@@ -29,19 +29,21 @@
 
 package com.upupor.service.business.editor;
 
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.SpringContextUtils;
+import com.google.common.collect.Lists;
 import com.upupor.data.dao.entity.Draft;
-import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.mapper.ContentExtendMapper;
 import com.upupor.data.dao.mapper.ContentMapper;
+import com.upupor.data.dto.OperateContentDto;
+import com.upupor.data.types.ContentStatus;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.ServletUtils;
+import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.base.MemberService;
-import com.upupor.data.dto.OperateContentDto;
 import com.upupor.service.outer.req.content.BaseContentReq;
-import com.upupor.framework.utils.ServletUtils;
 import org.springframework.context.ApplicationEventPublisher;
 
 import javax.annotation.Resource;
@@ -99,9 +101,19 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
          * 更新状态
          */
         UPDATE_STATUS,
+        ;
+
+        /**
+         * 可以删除草稿的编辑类型
+         *
+         * @return
+         */
+        public static List<EditorType> canDeleteDraftEditorType() {
+            return Lists.newArrayList(EditorType.CREATE, EditorType.EDIT);
+        }
     }
 
-    public Member getMember() {
+    public MemberEnhance getMember() {
         return memberService.memberInfo(ServletUtils.getUserId());
     }
 
@@ -135,11 +147,16 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
                 abstractEditor.check();
                 OperateContentDto operateContentDto = abstractEditor.doBusiness();
                 if (operateContentDto.getSuccess()) {
+
                     // 移除草稿
-                    String preContentId = baseContentReq.getPreContentId();
-                    Draft draft = abstractEditor.draftService.getByDraftId(preContentId);
-                    if (Objects.nonNull(draft)) {
-                        abstractEditor.draftService.delete(draft.getId());
+                    if (EditorType.canDeleteDraftEditorType().contains(editorType)
+                            || (EditorType.UPDATE_STATUS.equals(editorType) && ContentStatus.DELETED.equals(operateContentDto.getStatus()))
+                    ) {
+                        String preContentId = baseContentReq.getPreContentId();
+                        Draft draft = abstractEditor.draftService.getByDraftId(preContentId);
+                        if (Objects.nonNull(draft)) {
+                            abstractEditor.draftService.delete(draft.getId());
+                        }
                     }
                 }
                 return operateContentDto;

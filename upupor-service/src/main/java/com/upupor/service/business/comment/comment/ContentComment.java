@@ -27,19 +27,21 @@
 
 package com.upupor.service.business.comment.comment;
 
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.business.comment.AbstractComment;
-import com.upupor.service.business.message.MessageSend;
-import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.framework.common.IntegralEnum;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.types.ContentType;
+import com.upupor.data.types.MessageType;
+import com.upupor.framework.common.IntegralEnum;
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
-import com.upupor.data.types.ContentType;
-import com.upupor.data.types.MessageType;
+import com.upupor.service.business.comment.AbstractComment;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -53,7 +55,7 @@ import static com.upupor.framework.CcConstant.MsgTemplate.*;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ContentComment extends AbstractComment<Content> {
+public class ContentComment extends AbstractComment<ContentEnhance> {
 
     @Resource
     private ContentService contentService;
@@ -72,13 +74,14 @@ public class ContentComment extends AbstractComment<Content> {
     public void comment(String targetId, String commenterUserId, String commentId) {
         String msgId = getMsgId();
         // 文章信息
-        Content target = getTarget(targetId);
+        ContentEnhance contentEnhance = getTarget(targetId);
+        Content target = contentEnhance.getContent();
         String contentId = target.getContentId();
         String contentTitle = target.getTitle();
-        Member contentAuthor = getMemberInfo(target.getUserId());
+        Member contentAuthor = getMemberInfo(target.getUserId()).getMember();
 
         // 获取评论者信息
-        Member commenter = getMemberInfo(commenterUserId);
+        Member commenter = getMemberInfo(commenterUserId).getMember();
         String commenterUserName = commenter.getUserName();
 
         // 如果文章作者自己评论自己就不用发邮件了
@@ -117,7 +120,7 @@ public class ContentComment extends AbstractComment<Content> {
     }
 
     @Override
-    protected Content getTarget(String targetId) {
+    protected ContentEnhance getTarget(String targetId) {
         return contentService.getNormalContent(targetId);
     }
 
@@ -128,9 +131,10 @@ public class ContentComment extends AbstractComment<Content> {
 
     @Override
     public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
-        Content content = getTarget(targetId);
+        ContentEnhance contentEnhance = getTarget(targetId);
+        Content content = contentEnhance.getContent();
         content.setLatestCommentTime(CcDateUtil.getCurrentTime());
         content.setLatestCommentUserId(commenterUserId);
-        contentService.updateContent(content);
+        contentService.updateContent(Converter.contentEnhance(content));
     }
 }

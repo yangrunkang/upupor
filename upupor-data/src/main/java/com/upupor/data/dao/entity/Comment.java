@@ -27,16 +27,11 @@
 
 package com.upupor.data.dao.entity;
 
-import com.alibaba.fastjson2.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.CommentAgree;
 import com.upupor.data.types.CommentStatus;
 import com.upupor.data.types.ContentType;
 import lombok.Data;
-import org.apache.logging.log4j.util.Strings;
-
-import java.util.Objects;
 
 @Data
 public class Comment extends BaseEntity {
@@ -61,43 +56,7 @@ public class Comment extends BaseEntity {
 
     private String mdCommentContent;
 
-    /*******************/
-
-    /**
-     * 被评论的文章标题
-     */
-    @TableField(exist = false)
-    private Content content;
-
-    /**
-     * 评论者自己
-     */
-    @TableField(exist = false)
-    private Member member;
-
-    /**
-     * 创建时间
-     */
-    @TableField(exist = false)
-    private String createDate;
-    @TableField(exist = false)
-    private String createDateDiff;
-
-    @TableField(exist = false)
-    private String floorNum;
-
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(createTime);
+    public static Comment empty() {
+        return new Comment();
     }
-
-    @JSONField(serialize = false)
-    public String getCreateDateDiff() {
-        if (Objects.isNull(createTime)) {
-            return Strings.EMPTY;
-        }
-        return CcDateUtil.timeStamp2DateOnly(createTime);
-    }
-
-
 }

@@ -29,6 +29,7 @@ package com.upupor.service.business.viewhistory;
 
 
 import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.ViewHistoryEnhance;
 import com.upupor.data.types.ViewTargetType;
 
 import java.util.List;
@@ -42,14 +43,17 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractViewHistory<T> {
 
-    protected List<ViewHistory> viewHistoryList;
+    protected List<ViewHistoryEnhance> viewHistoryList;
 
-    protected List<ViewHistory> getViewHistoryList() {
+    protected List<ViewHistoryEnhance> getViewHistoryList() {
         return viewHistoryList;
     }
 
     protected List<String> getViewHistoryTargetIdList() {
-        return viewHistoryList.stream().map(ViewHistory::getTargetId).collect(Collectors.toList());
+        return viewHistoryList.stream()
+                .map(ViewHistoryEnhance::getViewHistory)
+                .map(ViewHistory::getTargetId)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -67,8 +71,8 @@ public abstract class AbstractViewHistory<T> {
      *
      * @return
      */
-    public void initData(List<ViewHistory> viewHistoryList) {
-        this.viewHistoryList = viewHistoryList;
+    public void initData(List<ViewHistoryEnhance> viewHistoryEnhanceList) {
+        this.viewHistoryList = viewHistoryEnhanceList;
     }
 
     /**
@@ -76,9 +80,9 @@ public abstract class AbstractViewHistory<T> {
      *
      * @return
      */
-    public List<ViewHistory> getSpecifyViewHistory() {
+    public List<ViewHistoryEnhance> getSpecifyViewHistory() {
         return getViewHistoryList().stream()
-                .filter(s -> s.getTargetType().equals(viewTargetType())).collect(Collectors.toList());
+                .filter(s -> s.getViewHistory().getTargetType().equals(viewTargetType())).collect(Collectors.toList());
     }
 
     /**

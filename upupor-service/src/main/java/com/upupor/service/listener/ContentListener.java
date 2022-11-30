@@ -30,26 +30,27 @@
 package com.upupor.service.listener;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.framework.CcConstant;
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.business.message.MessageSend;
-import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.framework.common.IntegralEnum;
 import com.upupor.data.dao.entity.Content;
-import com.upupor.data.dao.entity.Fans;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.ViewHistory;
+import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.FansEnhance;
 import com.upupor.data.dao.mapper.ViewHistoryMapper;
-import com.upupor.service.base.*;
 import com.upupor.data.dto.page.common.ListFansDto;
-import com.upupor.service.listener.event.ContentLikeEvent;
-import com.upupor.service.listener.event.PublishContentEvent;
-import com.upupor.service.listener.event.ViewerEvent;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.MessageType;
 import com.upupor.data.types.ViewTargetType;
 import com.upupor.data.types.ViewType;
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.common.IntegralEnum;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.base.*;
+import com.upupor.service.business.message.MessageSend;
+import com.upupor.service.business.message.model.MessageModel;
+import com.upupor.service.listener.event.ContentLikeEvent;
+import com.upupor.service.listener.event.PublishContentEvent;
+import com.upupor.service.listener.event.ViewerEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -123,8 +124,9 @@ public class ContentListener {
             return;
         }
 
-        Content content = contentService.getContentByContentIdNoStatus(contentId);
-        if (Objects.isNull(content) || !content.getStatus().equals(ContentStatus.NORMAL)) {
+        ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);
+        Content content = contentEnhance.getContent();
+        if (Objects.isNull(content) || !ContentStatus.NORMAL.equals(content.getStatus())) {
             log.warn("文章不存在或者状态不正常,不执行后续事件");
             return;
         }
@@ -144,7 +146,7 @@ public class ContentListener {
     private void notifyFans(Content content) {
         String userId = content.getUserId();
 
-        Member contentMember = memberService.memberInfo(userId);
+        Member contentMember = memberService.memberInfo(userId).getMember();
         int total = fanService.getFansNum(userId);
 
         int pageNum = total % CcConstant.Page.SIZE == 0 ? total / CcConstant.Page.SIZE : total / CcConstant.Page.SIZE + 1;
@@ -154,12 +156,12 @@ public class ContentListener {
             if (Objects.isNull(fans)) {
                 continue;
             }
-            if (CollectionUtils.isEmpty(fans.getFansList())) {
+            if (CollectionUtils.isEmpty(fans.getFansEnhanceList())) {
                 continue;
             }
 
-            List<Fans> fansList = fans.getFansList();
-            for (Fans fan : fansList) {
+            List<FansEnhance> fansEnhanceList = fans.getFansEnhanceList();
+            for (FansEnhance fansEnhance : fansEnhanceList) {
                 String msgId = CcUtils.getUuId();
                 String emailUser = String.format(PROFILE_EMAIL, contentMember.getUserId(), msgId, contentMember.getUserName());
                 String innerMessageUser = String.format(PROFILE_INNER_MSG, contentMember.getUserId(), msgId, contentMember.getUserName());
@@ -168,8 +170,8 @@ public class ContentListener {
                 String innerMessageContentTitle = String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle());
 
 
-                String fanUserId = fan.getFanUserId();
-                Member member = memberService.memberInfo(fanUserId);
+                String fanUserId = fansEnhance.getFans().getFanUserId();
+                Member member = memberService.memberInfo(fanUserId).getMember();
                 String email = "您关注的" + emailUser + "发表了新内容《" + emailContentTitle + "》,请"
                         + String.format(CONTENT_EMAIL, content.getContentId(), msgId, "点击查看");
                 String innerMessage = "您关注的" + innerMessageUser + "发表了新内容《" + innerMessageContentTitle + "》,请"
@@ -204,7 +206,7 @@ public class ContentListener {
     public void likeMessage(ContentLikeEvent contentLikeEvent) {
         String msgId = CcUtils.getUuId();
         Content content = contentLikeEvent.getContent();
-        Member member = memberService.memberInfo(contentLikeEvent.getClickUserId());
+        Member member = memberService.memberInfo(contentLikeEvent.getClickUserId()).getMember();
 
         String message = "您的文章《" +
                 String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle()) + "》被 " +

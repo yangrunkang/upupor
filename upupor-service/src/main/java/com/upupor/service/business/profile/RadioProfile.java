@@ -66,7 +66,7 @@ public class RadioProfile extends AbstractProfile {
     @Override
     protected void addAd() {
         ListRadioDto listRadioDto = getMemberIndexDto().getListRadioDto();
-        AbstractAd.ad(listRadioDto.getRadioList());
+        AbstractAd.ad(listRadioDto.getRadioEnhanceList());
     }
 
     @Override

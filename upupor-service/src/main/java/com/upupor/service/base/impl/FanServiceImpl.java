@@ -32,16 +32,18 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.upupor.data.dao.entity.Attention;
 import com.upupor.data.dao.entity.Fans;
-import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.comparator.MemberLastLoginTimeComparator;
+import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.FansEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.mapper.AttentionMapper;
 import com.upupor.data.dao.mapper.FansMapper;
 import com.upupor.data.dto.page.common.ListFansDto;
+import com.upupor.data.types.FansStatus;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.base.FanService;
 import com.upupor.service.base.MemberService;
-import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.outer.req.DelFanReq;
-import com.upupor.data.types.FansStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -78,31 +80,38 @@ public class FanServiceImpl implements FanService {
     public ListFansDto getFans(String userId, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<Fans> fans = fansMapper.getFans(userId);
+        if (CollectionUtils.isEmpty(fans)) {
+            return new ListFansDto();
+        }
         PageInfo<Fans> pageInfo = new PageInfo<>(fans);
 
-        ListFansDto listFansDto = new ListFansDto(pageInfo);
-        listFansDto.setFansList(pageInfo.getList());
 
-        List<Fans> fansList = listFansDto.getFansList();
+        ListFansDto listFansDto = new ListFansDto(pageInfo);
+        listFansDto.setFansEnhanceList(Converter.fansEnhance(fans));
+
+        List<FansEnhance> fansList = listFansDto.getFansEnhanceList();
         if (!CollectionUtils.isEmpty(fansList)) {
             bindFansMemberInfo(fansList);
-            listFansDto.setMemberList(fansList.stream().map(Fans::getMember).sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
+            listFansDto.setMemberEnhanceList(fansList.stream().map(FansEnhance::getMemberEnhance).sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }
 
         return listFansDto;
     }
 
-    private void bindFansMemberInfo(List<Fans> fansList) {
-        List<String> fanUserIdList = fansList.stream().map(Fans::getFanUserId).distinct().collect(Collectors.toList());
-        List<Member> memberList = memberService.listByUserIdList(fanUserIdList);
-        if (CollectionUtils.isEmpty(memberList)) {
+    private void bindFansMemberInfo(List<FansEnhance> fansList) {
+        List<String> fanUserIdList = fansList.stream()
+                .map(FansEnhance::getFans)
+                .map(Fans::getFanUserId)
+                .distinct().collect(Collectors.toList());
+        List<MemberEnhance> memberEnhanceList = memberService.listByUserIdList(fanUserIdList);
+        if (CollectionUtils.isEmpty(memberEnhanceList)) {
             return;
         }
 
-        for (Fans fans : fansList) {
-            for (Member member : memberList) {
-                if (fans.getFanUserId().equals(member.getUserId())) {
-                    fans.setMember(member);
+        for (FansEnhance fansEnhance : fansList) {
+            for (MemberEnhance memberEnhance : memberEnhanceList) {
+                if (fansEnhance.getFans().getFanUserId().equals(memberEnhance.getMember().getUserId())) {
+                    fansEnhance.setMemberEnhance(memberEnhance);
                 }
             }
         }

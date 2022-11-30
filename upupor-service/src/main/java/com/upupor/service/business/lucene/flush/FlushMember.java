@@ -27,10 +27,10 @@
 
 package com.upupor.service.business.lucene.flush;
 
-import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.MemberService;
 import com.upupor.lucene.AbstractFlush;
+import com.upupor.lucene.enums.LuceneDataType;
+import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -58,7 +58,7 @@ public class FlushMember extends AbstractFlush<Member> {
 
     @Override
     protected void initTargetObject() {
-        this.member = memberService.memberInfo(event.getTargetId());
+        this.member = memberService.memberInfo(event.getTargetId()).getMember();
     }
 
 
