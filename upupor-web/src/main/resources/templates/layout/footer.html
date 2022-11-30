@@ -39,34 +39,6 @@
             <div class="row g-2">
                 <div class="col">
                     <ul class="list-inline m-0">
-                        <!--                            <li class="list-inline-item me-1"><div th:replace="fragments/business::business_cooperation"></div></li>-->
-                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-ad" title="广告位">广告位</a>
-                        </li>
-                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-consultant"
-                                                             title="咨询服务">咨询服务</a></li>
-                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-tag"
-                                                             title="标签申请">标签申请</a></li>
-                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/vision"
-                                                             title="愿景">愿景</a></li>
-                        <li class="list-inline-item me-1 text-black-50"> |</li>
-                        <!--                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/brand-story" title="品牌故事">品牌故事</a></li>-->
-                        <!--                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/thanks" title="致谢">致谢</a></li>-->
-                        <!--                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/logo-design" title="logo设计">logo设计</a></li>-->
-                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/feedback" title="反馈">反馈</a>
-                        </li>
-                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/integral-rules"
-                                                             title="积分规则">积分规则</a></li>
-                        <!--                            <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/upupor-google-sitemap.xml" title="站点地图">站点地图</a></li>-->
-                        <li class="list-inline-item me-1">
-                            <a class="cv-link text-black-50" href="https://t.me/upupor_com"><img class="operation-pic"
-                                                                                                 th:src="${ossStatic} + @{/icons/system/footer/telegram.svg}"
-                                                                                                 alt="电报: https://t.me/upupor_com"
-                                                                                                 style="height: 16px; width: 16px;"/>Telegram</a>
-                        </li>
-                        <li class="list-inline-item me-1">
-                            <a class="cv-link text-black-50" href="/view/history"><span
-                                    th:include="fragments/icon::view_record"></span>浏览记录</a>
-                        </li>
                         <li class="list-inline-item me-1">
                             <a class="cv-link text-black-50" href="/open"><span
                                     th:include="fragments/icon::github"></span>开源</a>
@@ -75,20 +47,27 @@
                             <a class="cv-link text-black-50" href="/developer" title="开发者"><i
                                     class="bi bi-code-square"></i> 开发者</a>
                         </li>
-                        <li class="list-inline-item me-1 text-black-50"> |</li>
-                        <li class="list-inline-item me-1">
-                            <a class="cv-link text-black-50" data-bs-toggle="modal" data-bs-target="#wechat"
-                               title="微信公众号: www-upupor-com">
-                                <img class="operation-pic" th:src="${ossStatic} + @{/icons/system/footer/wechat.svg}"
-                                     alt="微信公众号: www-upupor-com" style="height: 16px; width: 16px;"/> 微信
-                            </a>
+                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/vision"
+                                                             title="愿景">愿景</a></li>
+                        <li class="list-inline-item me-1 text-black-50">
+                            |
                         </li>
+                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-ad" title="广告位">广告位</a>
+                        </li>
+                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-consultant"
+                                                             title="咨询服务">咨询服务</a></li>
+                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/apply-tag"
+                                                             title="标签申请">标签申请</a></li>
+                        <li class="list-inline-item me-1 text-black-50">
+                            |
+                        </li>
+                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/feedback" title="反馈">反馈</a>
+                        </li>
+                        <li class="list-inline-item me-1"><a class="cv-link text-black-50" href="/integral-rules"
+                                                             title="积分规则">积分规则</a></li>
                         <li class="list-inline-item me-1">
-                            <a class="cv-link text-black-50" data-bs-toggle="modal" data-bs-target="#weibo"
-                               title="微博: https://weibo.com/upupor">
-                                <img class="operation-pic" th:src="${ossStatic} + @{/icons/system/footer/sina.svg}"
-                                     alt="微博: https://weibo.com/upupor" style="height: 16px; width: 16px"/> 微博
-                            </a>
+                            <a class="cv-link text-black-50" href="/view/history"><span
+                                    th:include="fragments/icon::view_record"></span>浏览记录</a>
                         </li>
                     </ul>
                 </div>
@@ -109,65 +88,6 @@
             </div>
         </div>
     </div>
-
-    <!--模态框Start-->
-    <!-- 微信公众号 -->
-    <div class="modal fade" id="wechat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header">
-                    <h5 class="modal-title">官方微信 Upupor</h5>
-                    <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="modal"
-                            aria-label="Close">
-
-                    </button>
-                </div>
-                <div class="modal-body" style="overflow:hidden;">
-                    <h4 style="text-align: center;color: #5e5e5e"><img
-                            th:data-src="${ossStatic} + @{/icons/system/footer/wechat.svg}"
-                            style="height: 30px; width: 30px" class="lazyload"/> 扫码关注: 程序员的生活记录</h4>
-                    <img class="lazyload img img-thumbnail" th:data-src="${ossStatic} + @{/asserts/upupor-wechat.png}"
-                         alt='公众号: 程序员的生活记录'/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="ui primary button" data-bs-dismiss="modal">关闭
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 微信公众号 -->
-    <div class="modal fade" id="weibo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content border-0 shadow-lg">
-                <div class="modal-header">
-                    <h5 class="modal-title">官方微博</h5>
-                    <button type="button" class="btn rounded-3 bg-gradient-close" data-bs-dismiss="modal"
-                            aria-label="Close">
-
-                    </button>
-                </div>
-                <div class="modal-body" style="overflow:hidden;">
-                    <div style="text-align: center;" class="my-2">
-                        <a class="cv-link" style="color: #db4340;font-size: 20px" href="https://weibo.com/upupor"
-                           target="_blank">微博主页</a>
-                    </div>
-                    <a class="cv-link" href="https://weibo.com/upupor" target="_blank">
-                        <img class="lazyload img img-thumbnail"
-                             th:data-src="${ossStatic} + @{/asserts/upupor-weibo.jpg}"
-                             alt='微博: https://weibo.com/upupor'/>
-                    </a>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="ui primary button" data-bs-dismiss="modal">关闭
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--模态框End-->
-
 </footer>
 </body>
 </html>
