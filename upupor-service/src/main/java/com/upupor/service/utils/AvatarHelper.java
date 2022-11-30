@@ -37,8 +37,8 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.utils.oss.enums.FileDic;
 import com.upupor.service.utils.oss.FileUpload;
+import com.upupor.service.utils.oss.enums.FileDic;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
@@ -59,11 +59,11 @@ public class AvatarHelper {
 
     public static String generateAvatar(Integer hashCode) {
         try {
+            return FileUpload.upload(FileUpload.create(FileDic.PROFILE_SYSTEM.getDic(), "png"), create(hashCode));
+        } catch (Exception e) {
             if (checkEnvIsDev()) {
                 return SpringContextUtils.getBean(UpuporConfig.class).getBusinessStaticSource() + DEFAULT_VIA;
             }
-            return FileUpload.upload(FileUpload.create(FileDic.PROFILE_SYSTEM.getDic(), "png"),create(hashCode));
-        } catch (Exception e) {
             throw new BusinessException(ErrorCode.UPLOAD_ERROR, e.getMessage());
         }
     }

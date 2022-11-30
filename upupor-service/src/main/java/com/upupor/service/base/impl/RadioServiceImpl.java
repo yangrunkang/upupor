@@ -122,7 +122,8 @@ public class RadioServiceImpl implements RadioService {
     @Override
     public RadioEnhance getByRadioId(String radioId) {
         LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
-                .eq(Radio::getRadioId, radioId);
+                .eq(Radio::getRadioId, radioId)
+                .in(Radio::getStatus, RadioStatus.notDeleteStatus());
         Radio radio = radioMapper.selectOne(query);
         Asserts.notNull(radio, ErrorCode.RADIO_NOT_EXISTS);
         return Converter.radioEnhance(radio);

@@ -61,7 +61,7 @@ import static com.upupor.framework.thread.completable.CompletableFuturePool.ASYN
  * @author YangRunkang(cruise)
  * @date 2020/02/05 00:13
  */
-@Api(tags = "活动服务")
+@Api(tags = "管理员服务")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin")

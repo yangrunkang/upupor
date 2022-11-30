@@ -112,9 +112,9 @@
                 </div>
                 <!--未登录提示-->
                 <div th:if="!${session?.cv_user_id}" th:include="fragments/index::login_tips"></div>
-                <div th:if="${contentIndexDto.contentEnhance.content.status.name()} == 'NORMAL'" th:include="fragments/comment::commentList(${contentIndexDto.contentEnhance.listCommentDto.commentEnhanceList},
-                                                                                                                            ${contentIndexDto.contentEnhance.listCommentDto.pageDtoList},
-                                                                                                                            ${contentIndexDto.contentEnhance.listCommentDto.total},
+                <div th:if="${contentIndexDto.contentEnhance.content.status.name()} == 'NORMAL'" th:include="fragments/comment::commentList(${contentIndexDto.contentEnhance?.listCommentDto?.commentEnhanceList},
+                                                                                                                            ${contentIndexDto.contentEnhance?.listCommentDto?.pageDtoList},
+                                                                                                                            ${contentIndexDto.contentEnhance?.listCommentDto?.total},
                                                                                                                             'content-detail',
                                                                                                                             ${contentIndexDto.contentEnhance.content.userId})"></div>
                 <!--评论框-->

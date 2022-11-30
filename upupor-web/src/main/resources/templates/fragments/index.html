@@ -162,12 +162,12 @@
     </div>
 </div>
 <!--文章类型-->
-<span th:fragment="content_type">
+<span th:fragment="content_type(contentEnhance)">
     <a class="cv-link badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
        th:each="type : ${contentTypeList}"
        th:href="${type.url}"
        th:title="${type.name}"
-       th:if="${content.contentType.name() == type.typeName}">[[${type.name}]]</a>
+       th:if="${contentEnhance.content.contentType.name() == type.typeName}">[[${type.name}]]</a>
 </span>
 
 <!--ListContentDto通用渲染模板-->
@@ -763,6 +763,14 @@ from: 来源
     </div>
 </div>
 
+
+<div th:fragment="listContentDtoSearch(listContentDto,tag)">
+    <div class="alert alert-primary alert-dismissible fade show mb-2 from-content-to-draft" role="alert" th:if="${listContentDto.total}>0" style="display: none">
+        按内容id检索[[${tag}]],共搜到了<span style="font-weight: bolder" th:text="${listContentDto.total}"></span>条数据
+        <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert"
+                aria-label="Close"></button>
+    </div>
+</div>
 
 </body>
 </html>
