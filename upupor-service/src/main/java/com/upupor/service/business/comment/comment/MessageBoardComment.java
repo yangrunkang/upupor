@@ -34,7 +34,6 @@ import com.upupor.data.types.MessageType;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.base.MessageService;
 import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
@@ -54,9 +53,6 @@ import static com.upupor.framework.CcConstant.MsgTemplate.*;
  */
 @Component
 public class MessageBoardComment extends AbstractComment<MemberEnhance> {
-
-    @Resource
-    private MessageService messageService;
 
     @Resource
     private MemberIntegralService memberIntegralService;

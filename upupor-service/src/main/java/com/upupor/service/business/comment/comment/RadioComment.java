@@ -33,9 +33,7 @@ import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.types.ContentType;
 import com.upupor.data.types.MessageType;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.base.CommentService;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.base.MessageService;
 import com.upupor.service.base.RadioService;
 import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
@@ -57,10 +55,7 @@ public class RadioComment extends AbstractComment<RadioEnhance> {
     @Resource
     private RadioService radioService;
 
-    @Resource
-    private MessageService messageService;
-
-    public RadioComment(CommentService commentService, MemberService memberService) {
+    public RadioComment(MemberService memberService) {
         super(memberService);
     }
 

@@ -50,8 +50,6 @@ public abstract class AbstractApply<T> {
     @Resource
     private ApplyService applyService;
 
-    private Apply applyEntity = null;
-
     /**
      * 通知管理员
      *

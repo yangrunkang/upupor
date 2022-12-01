@@ -38,7 +38,6 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.base.MessageService;
 import com.upupor.service.business.comment.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
@@ -59,9 +58,6 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
 
     @Resource
     private ContentService contentService;
-
-    @Resource
-    private MessageService messageService;
 
     @Resource
     private MemberIntegralService memberIntegralService;

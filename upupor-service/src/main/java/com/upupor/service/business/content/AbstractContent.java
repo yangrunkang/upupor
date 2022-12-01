@@ -34,7 +34,6 @@ import com.upupor.data.dto.page.common.ListContentDto;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.base.ContentService;
-import com.upupor.service.base.TagService;
 import com.upupor.service.outer.req.ListContentReq;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -60,8 +59,6 @@ import static com.upupor.framework.thread.completable.CompletableFuturePool.ASYN
 public abstract class AbstractContent {
     @Resource
     private ContentService contentService;
-    @Resource
-    private TagService tagService;
     @Getter
     private ContentIndexDto contentIndexDto;
     @Getter
