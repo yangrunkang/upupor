@@ -27,12 +27,12 @@
 
 package com.upupor.web.aspects;
 
+import com.upupor.data.types.PointType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
-import com.upupor.data.types.PointType;
 import com.upupor.web.aspects.service.checker.page.PageAspectChecker;
 import com.upupor.web.aspects.service.checker.page.dto.PageCheckDto;
 import com.upupor.web.aspects.service.view.PrepareData;
@@ -75,7 +75,7 @@ public class PageAspectAspect {
     /**
      * 以 controller 包下定义的所有请求为切入点
      */
-    @Pointcut("execution(public * com.upupor.web.page..*.*(..))")
+    @Pointcut("execution(public * com.upupor.web.page.controller..*.*(..))")
     public void controllerLog() {
     }
 

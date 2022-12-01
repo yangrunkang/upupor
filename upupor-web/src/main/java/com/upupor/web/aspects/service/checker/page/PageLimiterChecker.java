@@ -33,7 +33,7 @@ import com.upupor.security.limiter.AbstractLimiter;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.Limiter;
 import com.upupor.web.aspects.service.checker.page.dto.PageCheckDto;
-import com.upupor.web.view.business.SearchView;
+import com.upupor.web.page.view_data.business.SearchView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
