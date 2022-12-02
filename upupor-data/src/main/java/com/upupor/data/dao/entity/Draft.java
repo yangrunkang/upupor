@@ -29,7 +29,6 @@
 
 package com.upupor.data.dao.entity;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.dao.entity.converter.Converter;
@@ -38,6 +37,7 @@ import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.DraftSource;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.JsonUtils;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
@@ -77,12 +77,12 @@ public class Draft extends BaseEntity {
             return new ContentEnhance();
         }
 
-        Content content = JSON.parseObject(draftContent, Content.class);
+        Content content = JsonUtils.parse2Clazz(draftContent, Content.class);
         content.setContentId(contentId);
         content.setUserId(userId);
         content.setStatus(ContentStatus.DRAFT); // 兼容
         content.setCreateTime(draft.getCreateTime());
-        JSONObject jsonObject = JSON.parseObject(draftContent);
+        JSONObject jsonObject = JsonUtils.parse2JsonObject(draftContent);
         return ContentEnhance.builder()
                 .content(content)
                 .contentExtendEnhance(Converter.contentExtendEnhance(ContentExtend.create(contentId, jsonObject.getString("content"), jsonObject.getString("mdContent"))))

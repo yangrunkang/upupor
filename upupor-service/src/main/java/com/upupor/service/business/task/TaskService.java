@@ -27,7 +27,6 @@
 
 package com.upupor.service.business.task;
 
-import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dao.entity.BusinessConfig;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.cache.CacheMemberDto;
@@ -35,6 +34,7 @@ import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.seo.GoogleSeoDto;
 import com.upupor.data.types.BusinessConfigType;
 import com.upupor.framework.CcRedisKey;
+import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.sensitive.SensitiveWord;
 import com.upupor.service.base.BusinessConfigService;
@@ -100,7 +100,7 @@ public class TaskService {
         }
         CacheMemberDto cacheMemberDto = new CacheMemberDto();
         cacheMemberDto.setMemberEnhanceList(memberEnhanceList);
-        RedisUtil.set(ACTIVE_USER_LIST, JSON.toJSONString(cacheMemberDto));
+        RedisUtil.set(ACTIVE_USER_LIST, JsonUtils.toJsonStr(cacheMemberDto));
     }
 
     public void refreshSensitiveWord() {
@@ -115,7 +115,7 @@ public class TaskService {
 
         SensitiveWord sensitiveWord = new SensitiveWord();
         sensitiveWord.setWordList(wordList);
-        RedisUtil.set(CACHE_SENSITIVE_WORD, JSON.toJSONString(sensitiveWord));
+        RedisUtil.set(CACHE_SENSITIVE_WORD, JsonUtils.toJsonStr(sensitiveWord));
         log.info("刷新敏感词完成");
     }
 
@@ -127,6 +127,6 @@ public class TaskService {
             return;
         }
 
-        RedisUtil.set(CcRedisKey.TAG_COUNT, JSON.toJSONString(countTagDtos));
+        RedisUtil.set(CcRedisKey.TAG_COUNT, JsonUtils.toJsonStr(countTagDtos));
     }
 }

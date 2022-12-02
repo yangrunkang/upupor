@@ -29,6 +29,7 @@
 
 package com.upupor.data.types;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.Getter;
 
 /**
@@ -45,6 +46,8 @@ public enum BusinessConfigType {
     SENSITIVE_WORD(2, "敏感词"),
     ILLEGAL_USER_NAME(3, "用户名不能包含的字符"),
     ;
+
+    @EnumValue
     private final Integer status;
     private final String name;
 

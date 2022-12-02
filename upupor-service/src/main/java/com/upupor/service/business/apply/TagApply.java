@@ -27,7 +27,6 @@
 
 package com.upupor.service.business.apply;
 
-import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dao.entity.Apply;
 import com.upupor.data.dao.entity.enhance.ApplyEnhance;
 import com.upupor.data.dto.page.apply.ApplyContentDto;
@@ -37,6 +36,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.outer.req.AddTagReq;
 import org.springframework.stereotype.Component;
@@ -60,7 +60,7 @@ public class TagApply extends AbstractApply<AddTagReq> {
                 "申请子标签:%s";
 
         String applyIntro = applyEnhance.getApplyContentDto().getApplyIntro();
-        AddTagReq addTagReq = JSON.parseObject(applyIntro, AddTagReq.class);
+        AddTagReq addTagReq = JsonUtils.parse2Clazz(applyIntro, AddTagReq.class);
         emailContent = String.format(emailContent, applyEnhance.getApply().getApplyId(),
                 applyEnhance.getApply().getUserId(),
                 addTagReq.getPageName(),
@@ -75,13 +75,13 @@ public class TagApply extends AbstractApply<AddTagReq> {
     protected Apply apply(AddTagReq addTagReq) {
 
         ApplyContentDto applyContentDto = new ApplyContentDto();
-        applyContentDto.setApplyIntro(JSON.toJSONString(addTagReq));
+        applyContentDto.setApplyIntro(JsonUtils.toJsonStr(addTagReq));
 
         Apply apply = new Apply();
         apply.setApplyId(CcUtils.getUuId());
         apply.setUserId(ServletUtils.getUserId());
         apply.setApplySource(ApplySource.TAG);
-        apply.setApplyContent(JSON.toJSONString(applyContentDto));
+        apply.setApplyContent(JsonUtils.toJsonStr(applyContentDto));
         apply.setApplyStatus(ApplyStatus.WAIT_APPLY);
         apply.setCreateTime(CcDateUtil.getCurrentTime());
         apply.setSysUpdateTime(new Date());

@@ -27,11 +27,11 @@
 
 package com.upupor.service.business.manage.business;
 
-import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dto.page.apply.ApplyContentDto;
 import com.upupor.data.dto.page.common.ListApplyDto;
 import com.upupor.data.types.ApplySource;
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.utils.JsonUtils;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.service.ApplyManageService;
@@ -78,11 +78,11 @@ public class ApplyManage extends AbstractManage {
 
         listApplyDto.getApplyEnhanceList().forEach(applyEnhance -> {
             if (applyEnhance.getApply().getApplySource().equals(ApplySource.AD)) {
-                ApplyContentDto applyContentDto = JSON.parseObject(applyEnhance.getApply().getApplyContent(), ApplyContentDto.class);
+                ApplyContentDto applyContentDto = JsonUtils.parse2Clazz(applyEnhance.getApply().getApplyContent(), ApplyContentDto.class);
                 applyEnhance.getApply().setApplyContent(applyContentDto.getApplyIntro());
             }
             if (applyEnhance.getApply().getApplySource().equals(ApplySource.TAG)) {
-                AddTagReq addTagReq = JSON.parseObject(applyEnhance.getApplyContentDto().getApplyIntro(), AddTagReq.class);
+                AddTagReq addTagReq = JsonUtils.parse2Clazz(applyEnhance.getApplyContentDto().getApplyIntro(), AddTagReq.class);
                 StringBuilder str = new StringBuilder();
                 str.append("<strong>页面</strong>: ").append(addTagReq.getPageName()).append(CcConstant.HTML_BREAK_LINE);
                 if (!StringUtils.isEmpty(addTagReq.getTagName())) {
@@ -94,7 +94,7 @@ public class ApplyManage extends AbstractManage {
                 applyEnhance.getApply().setApplyContent(str.toString());
             }
             if (applyEnhance.getApply().getApplySource().equals(ApplySource.CONSULTING_SERVICE)) {
-                ApplyContentDto applyContentDto = JSON.parseObject(applyEnhance.getApply().getApplyContent(), ApplyContentDto.class);
+                ApplyContentDto applyContentDto = JsonUtils.parse2Clazz(applyEnhance.getApply().getApplyContent(), ApplyContentDto.class);
                 StringBuilder str = new StringBuilder();
                 str.append("<strong>主题</strong>: ").append(applyContentDto.getApplyProject()).append(CcConstant.HTML_BREAK_LINE);
                 if (!StringUtils.isEmpty(applyContentDto.getApplyIntro())) {

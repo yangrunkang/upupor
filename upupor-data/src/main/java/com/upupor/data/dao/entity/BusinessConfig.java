@@ -41,10 +41,24 @@ import lombok.Data;
  */
 @Data
 public class BusinessConfig extends BaseEntity {
-    private String businessId;
+    /**
+     * 配置名
+     */
     private String name;
+    /**
+     * 配置值
+     */
     private String value;
+    /**
+     * 用户的自有配置,如果为空,则为系统的配置项
+     */
     private String userId;
+    /**
+     * 配置状态
+     */
     private BusinessConfigStatus status;
+    /**
+     * 属于哪一类的配置
+     */
     private BusinessConfigType type;
 }

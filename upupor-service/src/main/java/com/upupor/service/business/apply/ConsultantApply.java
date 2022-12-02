@@ -27,7 +27,6 @@
 
 package com.upupor.service.business.apply;
 
-import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dao.entity.Apply;
 import com.upupor.data.dao.entity.enhance.ApplyEnhance;
 import com.upupor.data.dto.page.apply.ApplyContentDto;
@@ -36,6 +35,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.outer.req.AddConsultantReq;
 import org.springframework.stereotype.Component;
@@ -82,7 +82,7 @@ public class ConsultantApply extends AbstractApply<AddConsultantReq> {
         applyContentDto.setApplyIntro(addConsultantReq.getDesc());
 
         apply.setApplySource(addConsultantReq.getType());
-        apply.setApplyContent(JSON.toJSONString(applyContentDto));
+        apply.setApplyContent(JsonUtils.toJsonStr(applyContentDto));
         apply.setApplyStatus(ApplyStatus.WAIT_APPLY);
         apply.setCreateTime(CcDateUtil.getCurrentTime());
         apply.setSysUpdateTime(new Date());

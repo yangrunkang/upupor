@@ -29,15 +29,15 @@
 
 package com.upupor.web.controller;
 
+import com.upupor.data.dao.entity.Draft;
 import com.upupor.framework.CcResponse;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.data.dao.entity.Draft;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.outer.req.content.CleanDraftReq;
 import com.upupor.service.outer.req.content.ExistsDraftReq;
-import com.upupor.framework.utils.ServletUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +59,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/editor")
 @RequiredArgsConstructor
-public class EditorController {
+public class EditorDraftController {
 
     @Resource
     private DraftService draftService;

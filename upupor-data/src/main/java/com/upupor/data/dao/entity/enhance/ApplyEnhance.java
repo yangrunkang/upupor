@@ -29,10 +29,10 @@
 
 package com.upupor.data.dao.entity.enhance;
 
-import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dao.entity.Apply;
 import com.upupor.data.dto.page.apply.ApplyContentDto;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.JsonUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -66,6 +66,6 @@ public class ApplyEnhance {
     }
 
     public ApplyContentDto getApplyContentDto() {
-        return JSON.parseObject(apply.getApplyContent(), ApplyContentDto.class);
+        return JsonUtils.parse2Clazz(apply.getApplyContent(), ApplyContentDto.class);
     }
 }

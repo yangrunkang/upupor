@@ -27,12 +27,12 @@
 
 package com.upupor.service.business.task.sitemap;
 
-import com.alibaba.fastjson2.JSON;
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.framework.utils.RedisUtil;
-import com.upupor.service.business.task.sitemap.enums.SiteMapType;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.seo.GoogleSeoDto;
+import com.upupor.framework.config.UpuporConfig;
+import com.upupor.framework.utils.JsonUtils;
+import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.business.task.sitemap.enums.SiteMapType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -66,7 +66,7 @@ public class TagSiteMap extends AbstractSiteMap<CountTagDto> {
     @Override
     protected List<CountTagDto> getSiteMapData() {
         String s = RedisUtil.get(TAG_COUNT);
-        return JSON.parseArray(s, CountTagDto.class);
+        return JsonUtils.parseArray(s, CountTagDto.class);
     }
 
     @Override

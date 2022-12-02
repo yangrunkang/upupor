@@ -29,10 +29,10 @@
 
 package com.upupor.web.aspects;
 
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.google.common.collect.Lists;
+import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
 import com.upupor.security.sensitive.SensitiveWord;
@@ -86,7 +86,7 @@ public class SensitiveWordAspect {
         Object proceed = proceedingJoinPoint.proceed();
 
 
-        sensitiveWord = JSON.parseObject(RedisUtil.get(CACHE_SENSITIVE_WORD), SensitiveWord.class);
+        sensitiveWord = JsonUtils.parse2Clazz(RedisUtil.get(CACHE_SENSITIVE_WORD), SensitiveWord.class);
         if (Objects.nonNull(sensitiveWord)) {
             Class clazz = proceedingJoinPoint.getSignature().getDeclaringType();
             Annotation annotation = clazz.getAnnotation(UpuporSensitive.class);

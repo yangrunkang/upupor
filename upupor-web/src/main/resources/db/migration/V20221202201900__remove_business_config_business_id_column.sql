@@ -27,43 +27,4 @@
  *   -->
  */
 
-package com.upupor.web.aspects.service.view;
-
-import com.upupor.framework.utils.JsonUtils;
-import com.upupor.framework.utils.RedisUtil;
-import com.upupor.service.business.task.TaskService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.CV_TAG_LIST;
-import static com.upupor.framework.CcRedisKey.TAG_COUNT;
-
-/**
- * @author cruise
- * @createTime 2022-01-19 18:01
- */
-@Service
-@Order(8)
-@RequiredArgsConstructor
-public class TagCountFromRedis implements PrepareData {
-    private final TaskService taskService;
-
-    @Override
-    public void prepare(ViewData viewData) {
-        ModelAndView modelAndView = viewData.getModelAndView();
-        String s = RedisUtil.get(TAG_COUNT);
-        Object result = JsonUtils.parse2Clazz(s, Object.class);
-        if (Objects.isNull(result)) {
-            modelAndView.addObject(CV_TAG_LIST, new ArrayList<>());
-            // 刷新下
-            taskService.refreshTag();
-        }
-
-        modelAndView.addObject(CV_TAG_LIST, result);
-    }
-}
+alter table business_config drop column `business_id`;

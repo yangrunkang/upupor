@@ -27,7 +27,6 @@
 
 package com.upupor.service.aggregation;
 
-import com.alibaba.fastjson2.JSON;
 import com.upupor.data.dao.entity.Tag;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dao.entity.enhance.TagEnhance;
@@ -42,6 +41,7 @@ import com.upupor.data.types.ContentType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.base.BannerService;
 import com.upupor.service.base.ContentService;
@@ -145,7 +145,7 @@ public class CommonAggregateService {
             CacheMemberDto cacheMemberDto = new CacheMemberDto();
             String activeUserListJson = RedisUtil.get(ACTIVE_USER_LIST);
             if (!StringUtils.isEmpty(activeUserListJson)) {
-                cacheMemberDto = JSON.parseObject(activeUserListJson, CacheMemberDto.class);
+                cacheMemberDto = JsonUtils.parse2Clazz(activeUserListJson, CacheMemberDto.class);
             }
             return cacheMemberDto;
         });
