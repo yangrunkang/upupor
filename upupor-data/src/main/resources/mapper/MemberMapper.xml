@@ -38,7 +38,6 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="is_admin" jdbcType="INTEGER" property="isAdmin"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
-        <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="via" jdbcType="VARCHAR" property="via"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
@@ -46,7 +45,7 @@
         <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, user_id, user_name, status,is_admin, statement_id, email, phone, password, via, create_time, sys_update_time,last_login_time
+    id, user_id, user_name, status,is_admin, statement_id, email,  password, via, create_time, sys_update_time,last_login_time
   </sql>
 
     <select id="total" resultType="java.lang.Integer">

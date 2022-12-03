@@ -69,7 +69,10 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.upupor.framework.ErrorCode.DATA_EXCEPTION;
@@ -98,11 +101,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member register(AddMemberReq addMemberReq) {
-        // 邮箱和手机号重要参数检测
-        if (CcUtils.isAllEmpty(addMemberReq.getEmail().trim(), addMemberReq.getPhone())) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR);
-        }
-
         // 注册
         Member member = new Member();
         BeanUtils.copyProperties(addMemberReq, member);
@@ -143,38 +141,27 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public void checkUserExists(AddMemberReq addMemberReq) {
-        List<Member> memberList = new ArrayList<>();
-
+        Member member = null;
         if (!StringUtils.isEmpty(addMemberReq.getEmail())) {
-            memberList = selectByEmail(addMemberReq.getEmail());
+            member = selectByEmail(addMemberReq.getEmail());
         }
-        toCheck(memberList);
-
-        if (!StringUtils.isEmpty(addMemberReq.getPhone())) {
-            LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>().eq(Member::getPhone, addMemberReq.getPhone()).eq(Member::getStatus, MemberStatus.NORMAL);
-            memberList = memberMapper.selectList(query);
-        }
-        toCheck(memberList);
-    }
-
-    private void toCheck(List<Member> memberList) {
-        if (!CollectionUtils.isEmpty(memberList) && memberList.size() >= 1) {
+        if (Objects.nonNull(member)) {
             throw new BusinessException(ErrorCode.MEMBER_ALREADY_EXISTS);
         }
     }
+
 
     @Override
     public Boolean login(MemberLoginReq memberLoginReq) {
         if (StringUtils.isEmpty(memberLoginReq.getPassword())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR.getCode(), "密码为空");
         }
-        List<Member> members = selectByEmail(memberLoginReq.getEmail());
-        if (CollectionUtils.isEmpty(members)) {
+        Member member = selectByEmail(memberLoginReq.getEmail());
+        if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.WITHOUT_USER_PLEASE_TO_REGISTER);
         }
-        Member preMember = members.get(0);
         // 密码加密
-        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), preMember);
+        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), member);
         Boolean login = memberComponent.loginModel(LoginModel.builder()
                 .email(memberLoginReq.getEmail())
                 .secretPassword(encryptPassword)
@@ -184,11 +171,11 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 设置登录成功Session
-        setLoginUserSession(preMember.getUserId());
+        setLoginUserSession(member.getUserId());
 
         // 发送登录成功事件
         MemberLoginEvent memberLoginEvent = new MemberLoginEvent();
-        memberLoginEvent.setUserId(preMember.getUserId());
+        memberLoginEvent.setUserId(member.getUserId());
         eventPublisher.publishEvent(memberLoginEvent);
 
         return Boolean.TRUE;
@@ -219,9 +206,12 @@ public class MemberServiceImpl implements MemberService {
         return Boolean.FALSE;
     }
 
-    private List<Member> selectByEmail(String email) {
-        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>().eq(Member::getEmail, email).eq(Member::getStatus, MemberStatus.NORMAL);
-        return memberMapper.selectList(query);
+    @Override
+    public Member selectByEmail(String email) {
+        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
+                .eq(Member::getEmail, email)
+                .eq(Member::getStatus, MemberStatus.NORMAL);
+        return memberMapper.selectOne(query);
     }
 
 

@@ -38,15 +38,9 @@ public class MemberExtend extends BaseEntity {
 
     private String userId;
 
-    private String birthday;
-
-    private Integer age;
-
     private String introduce;
-
     /**
      * 实际意义是背景css,中间修改过~
      */
     private String bgImg;
-
 }

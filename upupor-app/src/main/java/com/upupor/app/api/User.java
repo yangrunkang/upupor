@@ -31,9 +31,13 @@ package com.upupor.app.api;
 
 import com.upupor.api.UserApi;
 import com.upupor.api.common.ApiResp;
+import com.upupor.api.request.user.LoginReq;
 import com.upupor.api.request.user.RegisterReq;
+import com.upupor.api.response.user.LoginResp;
 import com.upupor.api.response.user.RegisterResp;
-import com.upupor.data.dao.mapper.MemberMapper;
+import com.upupor.data.component.MemberComponent;
+import com.upupor.data.component.model.LoginModel;
+import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +49,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class User implements UserApi {
-
-    private final MemberMapper memberMapper;
+    private final MemberComponent memberComponent;
+    private final MemberService memberService;
 
 
     @Override
@@ -57,7 +61,12 @@ public class User implements UserApi {
     }
 
     @Override
-    public ApiResp<RegisterResp> login(RegisterReq registerReq) {
+    public ApiResp<LoginResp> login(LoginReq loginReq) {
+
+        memberComponent.loginModel(LoginModel.builder()
+                .email(loginReq.getEmail())
+                .secretPassword(loginReq.getPassword())
+                .build());
         return null;
     }
 }

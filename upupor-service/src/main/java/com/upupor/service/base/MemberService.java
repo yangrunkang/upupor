@@ -259,4 +259,12 @@ public interface MemberService {
      */
     Boolean updateMemberConfig(MemberConfig memberConfig);
 
+    /**
+     * 根据邮件获取用户
+     *
+     * @param email
+     * @return
+     */
+    Member selectByEmail(String email);
+
 }

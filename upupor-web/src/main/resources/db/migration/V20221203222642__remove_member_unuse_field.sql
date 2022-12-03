@@ -27,33 +27,7 @@
  *   -->
  */
 
-package com.upupor.service.outer.req.member;
-
-import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
-
-/**
- * 注册请求
- *
- * @author: YangRunkang(cruise)
- * @created: 2019/12/20 02:58
- */
-@Data
-public class AddMemberReq extends BaseMemberReq {
-
-    private String userName;
-
-    @NotEmpty(message = "密码不能为空")
-    private String password;
-
-    @NotEmpty(message = "邮箱不能为空")
-    private String email;
-
-    private String verifyCode;
-
-    private String introduce;
-
-    private String via;
-
-}
+alter table member drop column `phone`;
+alter table member_extend drop column `birthday`;
+alter table member_extend drop column `age`;
+ALTER TABLE `member` ADD UNIQUE INDEX `unique_email`(`email`) USING BTREE COMMENT '邮箱唯一索引';

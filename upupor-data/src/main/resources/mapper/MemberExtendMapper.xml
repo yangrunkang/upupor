@@ -31,16 +31,14 @@
   <resultMap id="BaseResultMap" type="com.upupor.data.dao.entity.MemberExtend">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
     <result column="bg_img" jdbcType="VARCHAR" property="bgImg" />
-    <result column="age" jdbcType="INTEGER" property="age" />
     <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.upupor.data.dao.entity.MemberExtend">
     <result column="introduce" jdbcType="LONGVARCHAR" property="introduce" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, birthday, age,  sys_update_time,bg_img
+    id, user_id, sys_update_time,bg_img
   </sql>
   <sql id="Blob_Column_List">
     introduce

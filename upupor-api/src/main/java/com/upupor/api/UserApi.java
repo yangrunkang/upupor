@@ -29,7 +29,9 @@ package com.upupor.api;
 
 
 import com.upupor.api.common.ApiResp;
+import com.upupor.api.request.user.LoginReq;
 import com.upupor.api.request.user.RegisterReq;
+import com.upupor.api.response.user.LoginResp;
 import com.upupor.api.response.user.RegisterResp;
 
 /**
@@ -52,10 +54,10 @@ public interface UserApi {
     /**
      * 登录
      *
-     * @param registerReq
+     * @param loginReq
      * @return
      */
-    ApiResp<RegisterResp> login(RegisterReq registerReq);
+    ApiResp<LoginResp> login(LoginReq loginReq);
 
 
 }
