@@ -33,15 +33,15 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.base.MessageService;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.framework.common.UserCheckFieldType;
-import com.upupor.service.base.MessageService;
 import com.upupor.service.outer.req.member.SendVerifyCodeReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -87,13 +87,19 @@ public class SendVerifyCode extends AbstractMember<SendVerifyCodeReq> {
         String emailContent = "验证码: " + verifyCode;
         if (addVerifyCodeReq.getSource().equals(REGISTER)) {
             emailTitle = "Upupor新用户注册";
-
+            // 新用户注册,检查邮箱是否已经存在
+            if (memberService.checkUserExists(addVerifyCodeReq.getEmail(), UserCheckFieldType.EMAIL)) {
+                throw new BusinessException(ErrorCode.EMAIL_ALREADY_REDISTER);
+            }
+            // 新用户注册,检查用户名是否已经被其他人使用
+            if (memberService.checkUserExists(addVerifyCodeReq.getUserName(), UserCheckFieldType.USER_NAME)) {
+                throw new BusinessException(ErrorCode.USER_NAME_ALREADY_USED_BY_OTHERS);
+            }
         } else if (addVerifyCodeReq.getSource().equals(FORGET_PASSWORD)) {
             // 忘记密码,需要检验邮箱是否已经注册
             if (!memberService.checkUserExists(addVerifyCodeReq.getEmail(), UserCheckFieldType.EMAIL)) {
                 throw new BusinessException(ErrorCode.YOU_EMAIL_HAS_NOT_REGISTERED);
             }
-
             emailTitle = "Upupor重置密码";
         } else {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "发送验证码来源信息错误");

@@ -29,7 +29,7 @@ $(function () {
 
 });
 
-$(window).on('load', function() {
+$(window).on('load', function () {
     // 注册
     register();
 });
@@ -104,7 +104,8 @@ function sendVerifyCode() {
 
     let req = {
         email: email,
-        source: 'register'
+        source: 'register',
+        userName: userName
     };
 
     $.cvPost("/member/sendVerifyCode", req, function (data) {

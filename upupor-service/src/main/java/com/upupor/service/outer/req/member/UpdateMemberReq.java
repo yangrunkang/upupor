@@ -29,7 +29,6 @@
 
 package com.upupor.service.outer.req.member;
 
-import com.upupor.service.outer.req.member.BaseMemberReq;
 import com.upupor.data.types.OpenEmail;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,15 +45,6 @@ public class UpdateMemberReq extends BaseMemberReq {
     private String userName;
 
     private String email;
-
-    private String phone;
-
-    /**
-     * member extend
-     */
-    private String birthday;
-
-//    private Integer age;
 
     private String introduce;
 

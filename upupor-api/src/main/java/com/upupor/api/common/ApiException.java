@@ -27,26 +27,52 @@
  *   -->
  */
 
-package com.upupor.service.outer.req.member;
-
-import lombok.Data;
+package com.upupor.api.common;
 
 /**
- * 登录请求
+ * API异常
  *
- * @author: YangRunkang(cruise)
- * @created: 2019/12/21 02:56
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-12-03 23:01
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class MemberLoginReq extends BaseMemberReq {
-    /**
-     * 邮件
-     */
-    private String email;
+public class ApiException extends RuntimeException {
+
+    private final Integer code;
+    private String message;
+
+
+    public ApiException(Integer code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    public ApiException(ApiErrorCode apiErrorCode) {
+        this.code = apiErrorCode.getCode();
+        this.message = apiErrorCode.getError();
+    }
 
     /**
-     * 密码
+     * @param apiErrorCode
+     * @param appendMessage 是追加的异常信息
      */
-    private String password;
+    public ApiException(ApiErrorCode apiErrorCode, String appendMessage) {
+        this.code = apiErrorCode.getCode();
+        this.message = apiErrorCode.getError() + "," + appendMessage;
+    }
 
+
+    public Integer getCode() {
+        return this.code;
+    }
+
+    @Override
+    public String getMessage() {
+        return this.message;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("【%d】 %s", this.code, this.message);
+    }
 }

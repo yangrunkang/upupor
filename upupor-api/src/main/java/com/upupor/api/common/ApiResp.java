@@ -42,4 +42,9 @@ import java.io.Serializable;
 public class ApiResp<T extends Serializable> {
     private Integer code;
     private T data;
+
+    public ApiResp(T data) {
+        this.data = data;
+        this.code = 0;
+    }
 }

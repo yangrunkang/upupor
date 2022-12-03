@@ -30,6 +30,7 @@
 package com.upupor.data.component;
 
 import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.dao.entity.Member;
 
 /**
  * 用户组件
@@ -40,10 +41,10 @@ import com.upupor.data.component.model.LoginModel;
  */
 public interface MemberComponent {
     /**
-     * 登录模型
+     * 登录
      *
      * @param loginModel
      * @return
      */
-    Boolean loginModel(LoginModel loginModel);
+    Member loginModel(LoginModel loginModel);
 }

@@ -29,7 +29,6 @@
 
 package com.upupor.service.outer.req.member;
 
-import com.upupor.service.outer.req.member.BaseMemberReq;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -48,5 +47,7 @@ public class SendVerifyCodeReq extends BaseMemberReq {
 
     @NotEmpty(message = "邮箱不能为空")
     private String email;
+
+    private String userName;
 
 }

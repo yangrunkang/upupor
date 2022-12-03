@@ -38,40 +38,32 @@ import com.auth0.jwt.interfaces.DecodedJWT;
  * @date 2022年11月23日
  * @email: yangrunkang53@gmail.com
  */
-public class UpuporJwt {
+public class UpuporMemberJwt {
 
-    public static String createToken(JwtModel jwtModel) {
+    public static String createToken(JwtMemberModel jwtModel) {
         return JWT.create()
-                .withClaim("email", jwtModel.getEmail())
                 .withClaim("userId", jwtModel.getUserId())
-                .withClaim("password", jwtModel.getPassword())
                 .sign(Algorithm.none())
                 ;
     }
 
-    public static JwtModel parse(String token) {
+    public static JwtMemberModel parse(String token) {
         DecodedJWT decode = JWT.decode(token);
-        String email = decode.getClaim("email").asString();
         String userId = decode.getClaim("userId").asString();
-        String password = decode.getClaim("password").asString();
 
-        JwtModel jwtModel = new JwtModel();
+        JwtMemberModel jwtModel = new JwtMemberModel();
         jwtModel.setUserId(userId);
-        jwtModel.setEmail(email);
-        jwtModel.setPassword(password);
         return jwtModel;
     }
 
     public static void main(String[] args) {
-        JwtModel jwtModel = new JwtModel();
+        JwtMemberModel jwtModel = new JwtMemberModel();
         jwtModel.setUserId("a");
-        jwtModel.setEmail("a@gmail.com");
-        jwtModel.setPassword("root1234");
 
         String token = createToken(jwtModel);
         System.out.println(token);
 
-        JwtModel parse = parse(token);
+        JwtMemberModel parse = parse(token);
         System.out.println();
     }
 

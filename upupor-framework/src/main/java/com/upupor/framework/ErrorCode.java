@@ -160,6 +160,7 @@ public enum ErrorCode {
     APPLY_AD_FAILER(185, "申请广告失败"),
     APPLY_CONSULTANT_FAILER(186, "申请咨询服务失败"),
     APPLY_TAG_FAILER(187, "申请标签失败"),
+    EMAIL_ALREADY_REDISTER(188, "邮箱已经被注册"),
 
 
     //占位 兜底异常

@@ -29,14 +29,15 @@
 
 package com.upupor.service.business.member.business;
 
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dto.OperateMemberDto;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dto.OperateMemberDto;
 import com.upupor.service.listener.event.MemberRegisterEvent;
 import com.upupor.service.outer.req.member.AddMemberReq;
 import org.springframework.context.ApplicationEventPublisher;
@@ -72,7 +73,7 @@ public class Register extends AbstractMember<AddMemberReq> {
         checkUserName(addMemberReq.getUserName(), Boolean.FALSE);
 
         // 检测用户是否存在
-        memberService.checkUserExists(addMemberReq);
+        memberService.checkUserExists(addMemberReq.getEmail(), UserCheckFieldType.EMAIL);
 
         // 先校验验证码是否存在 用户注册 RedisKey组成: source + email + 验证码
         String key = memberVerifyCodeKey(REGISTER, addMemberReq.getEmail(), addMemberReq.getVerifyCode());

@@ -38,8 +38,6 @@ import com.upupor.data.types.MemberStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-12-03 16:15
@@ -51,12 +49,11 @@ public class MemberComponentService implements MemberComponent {
     private final MemberMapper memberMapper;
 
     @Override
-    public Boolean loginModel(LoginModel loginModel) {
+    public Member loginModel(LoginModel loginModel) {
         LambdaQueryWrapper<Member> loginQuery = new LambdaQueryWrapper<Member>()
                 .eq(Member::getEmail, loginModel.getEmail())
                 .eq(Member::getPassword, loginModel.getSecretPassword())
                 .eq(Member::getStatus, MemberStatus.NORMAL);
-        Member member = memberMapper.selectOne(loginQuery);
-        return Objects.nonNull(member);
+        return memberMapper.selectOne(loginQuery);
     }
 }

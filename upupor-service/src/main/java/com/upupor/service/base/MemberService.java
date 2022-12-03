@@ -129,13 +129,6 @@ public interface MemberService {
     List<MemberEnhance> listByUserIdList(List<String> userIdList);
 
     /**
-     * 校验用户是否存在
-     *
-     * @param addMemberReq
-     */
-    void checkUserExists(AddMemberReq addMemberReq);
-
-    /**
      * 重置密码校验用户
      *
      * @param field

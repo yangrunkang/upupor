@@ -27,10 +27,13 @@
 
 package com.upupor.security.jwt;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * Jwt模型
+ * 用户Jwt模型
  * 说明: 模型更加通用
  *
  * @author Yang Runkang (cruise)
@@ -38,8 +41,9 @@ import lombok.Data;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class JwtModel {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class JwtMemberModel {
     private String userId;
-    private String email;
-    private String password;
 }

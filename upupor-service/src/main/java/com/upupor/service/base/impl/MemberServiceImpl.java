@@ -134,48 +134,32 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
 
-    /**
-     * 邮箱和收集好两个维度进行检测
-     *
-     * @param addMemberReq
-     */
-    @Override
-    public void checkUserExists(AddMemberReq addMemberReq) {
-        Member member = null;
-        if (!StringUtils.isEmpty(addMemberReq.getEmail())) {
-            member = selectByEmail(addMemberReq.getEmail());
-        }
-        if (Objects.nonNull(member)) {
-            throw new BusinessException(ErrorCode.MEMBER_ALREADY_EXISTS);
-        }
-    }
-
-
     @Override
     public Boolean login(MemberLoginReq memberLoginReq) {
         if (StringUtils.isEmpty(memberLoginReq.getPassword())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR.getCode(), "密码为空");
         }
-        Member member = selectByEmail(memberLoginReq.getEmail());
-        if (Objects.isNull(member)) {
+
+        Member memberByEmail = selectByEmail(memberLoginReq.getEmail());
+        if (Objects.isNull(memberByEmail)) {
             throw new BusinessException(ErrorCode.WITHOUT_USER_PLEASE_TO_REGISTER);
         }
-        // 密码加密
-        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), member);
-        Boolean login = memberComponent.loginModel(LoginModel.builder()
+        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), memberByEmail);
+
+        Member loginMember = memberComponent.loginModel(LoginModel.builder()
                 .email(memberLoginReq.getEmail())
                 .secretPassword(encryptPassword)
                 .build());
-        if (!login) {
+        if (Objects.isNull(loginMember)) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR);
         }
 
         // 设置登录成功Session
-        setLoginUserSession(member.getUserId());
+        setLoginUserSession(loginMember.getUserId());
 
         // 发送登录成功事件
         MemberLoginEvent memberLoginEvent = new MemberLoginEvent();
-        memberLoginEvent.setUserId(member.getUserId());
+        memberLoginEvent.setUserId(loginMember.getUserId());
         eventPublisher.publishEvent(memberLoginEvent);
 
         return Boolean.TRUE;
@@ -394,7 +378,7 @@ public class MemberServiceImpl implements MemberService {
                 .eq(UserCheckFieldType.EMAIL.equals(userCheckFieldType), Member::getEmail, field)
                 .eq(UserCheckFieldType.USER_NAME.equals(userCheckFieldType), Member::getUserName, field);
         List<Member> memberList = memberMapper.selectList(query);
-        // 数据必须是唯一的
+        // 数据大于1条就算异常,必须是唯一的
         if (memberList.size() > 1) {
             throw new BusinessException(DATA_EXCEPTION);
         }

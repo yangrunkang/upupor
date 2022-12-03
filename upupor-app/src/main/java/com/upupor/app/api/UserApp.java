@@ -30,6 +30,8 @@
 package com.upupor.app.api;
 
 import com.upupor.api.UserApi;
+import com.upupor.api.common.ApiErrorCode;
+import com.upupor.api.common.ApiException;
 import com.upupor.api.common.ApiResp;
 import com.upupor.api.request.user.LoginReq;
 import com.upupor.api.request.user.RegisterReq;
@@ -37,9 +39,14 @@ import com.upupor.api.response.user.LoginResp;
 import com.upupor.api.response.user.RegisterResp;
 import com.upupor.data.component.MemberComponent;
 import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.security.jwt.JwtMemberModel;
+import com.upupor.security.jwt.UpuporMemberJwt;
 import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * @author Yang Runkang (cruise)
@@ -48,7 +55,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class User implements UserApi {
+public class UserApp implements UserApi {
     private final MemberComponent memberComponent;
     private final MemberService memberService;
 
@@ -62,11 +69,17 @@ public class User implements UserApi {
 
     @Override
     public ApiResp<LoginResp> login(LoginReq loginReq) {
-
-        memberComponent.loginModel(LoginModel.builder()
+        Member member = memberComponent.loginModel(LoginModel.builder()
                 .email(loginReq.getEmail())
                 .secretPassword(loginReq.getPassword())
                 .build());
-        return null;
+        if (Objects.nonNull(member)) {
+            LoginResp loginResp = new LoginResp();
+            loginResp.setToken(UpuporMemberJwt.createToken(JwtMemberModel.builder()
+                    .userId(member.getUserId())
+                    .build()));
+            return new ApiResp<>(loginResp);
+        }
+        throw new ApiException(ApiErrorCode.LOGIN_FAILED);
     }
 }
