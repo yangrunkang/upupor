@@ -50,7 +50,8 @@ import java.time.ZoneId;
         "com.upupor.service",
         "com.upupor.framework",
         "com.upupor.task",
-        "com.upupor.lucene"
+        "com.upupor.lucene",
+        "com.upupor.data",
 })
 @SpringBootApplication
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400)

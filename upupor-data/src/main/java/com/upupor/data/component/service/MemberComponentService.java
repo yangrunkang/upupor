@@ -27,39 +27,36 @@
  *   -->
  */
 
-package com.upupor.service.outer.req.member;
+package com.upupor.data.component.service;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.upupor.data.component.MemberComponent;
+import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.mapper.MemberMapper;
+import com.upupor.data.types.MemberStatus;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotEmpty;
+import java.util.Objects;
 
 /**
- * 注册请求
- *
- * @author: YangRunkang(cruise)
- * @created: 2019/12/20 02:58
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-12-03 16:15
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class AddMemberReq extends BaseMemberReq {
+@Component
+@RequiredArgsConstructor
+public class MemberComponentService implements MemberComponent {
+    private final MemberMapper memberMapper;
 
-    private String userName;
-
-    @NotEmpty
-    private String password;
-
-    private String email;
-
-    private String phone;
-
-    private String verifyCode;
-
-    // 额外信息(可以在登录页面提示用户展开)
-    private String birthday;
-
-    private Integer age;
-
-    private String introduce;
-
-    private String via;
-
+    @Override
+    public Boolean loginModel(LoginModel loginModel) {
+        LambdaQueryWrapper<Member> loginQuery = new LambdaQueryWrapper<Member>()
+                .eq(Member::getEmail, loginModel.getEmail())
+                .eq(Member::getPassword, loginModel.getSecretPassword())
+                .eq(Member::getStatus, MemberStatus.NORMAL);
+        Member member = memberMapper.selectOne(loginQuery);
+        return Objects.nonNull(member);
+    }
 }

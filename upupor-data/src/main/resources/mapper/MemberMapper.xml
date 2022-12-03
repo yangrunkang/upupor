@@ -74,22 +74,6 @@
         from member where status = 0 order by last_login_time desc
     </select>
 
-    <select id="select" parameterType="com.upupor.data.dao.entity.Member" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from member
-        where 1=1
-        <if test="email != null">
-            and email = #{email,jdbcType=VARCHAR}
-        </if>
-        <if test="password != null">
-            and password = #{password,jdbcType=VARCHAR}
-        </if>
-        <if test="phone != null">
-            and phone = #{phone,jdbcType=VARCHAR}
-        </if>
-    </select>
-
     <sql id="unActivityMemberCondition">
         last_login_time  <![CDATA[ < ]]> #{currentTime} - 604800
     </sql>

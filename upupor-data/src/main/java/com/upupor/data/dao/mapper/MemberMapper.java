@@ -39,8 +39,6 @@ import java.util.List;
 @UpuporSensitive
 public interface MemberMapper extends BaseMapper<Member> {
 
-    Member select(Member member);
-
     Integer total();
 
     /**

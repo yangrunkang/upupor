@@ -34,14 +34,13 @@
     <result column="birthday" jdbcType="VARCHAR" property="birthday" />
     <result column="bg_img" jdbcType="VARCHAR" property="bgImg" />
     <result column="age" jdbcType="INTEGER" property="age" />
-    <result column="emergency_code" jdbcType="VARCHAR" property="emergencyCode" />
     <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.upupor.data.dao.entity.MemberExtend">
     <result column="introduce" jdbcType="LONGVARCHAR" property="introduce" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, birthday, age, emergency_code, sys_update_time,bg_img
+    id, user_id, birthday, age,  sys_update_time,bg_img
   </sql>
   <sql id="Blob_Column_List">
     introduce
@@ -57,14 +56,6 @@
     <foreach close=")" collection="userIdList" index="index" item="item" open="(" separator=",">
       #{item}
     </foreach>
-  </select>
-
-
-  <select id="countByEmergencyCode" parameterType="java.lang.String" resultType="java.lang.Integer">
-    select
-    count(*)
-    from member_extend
-    where emergency_code = #{emergencyCode,jdbcType=VARCHAR}
   </select>
 
 </mapper>

@@ -29,7 +29,6 @@
 
 package com.upupor.service.outer.req.member;
 
-import com.upupor.service.outer.req.member.BaseMemberReq;
 import lombok.Data;
 
 /**
@@ -54,11 +53,6 @@ public class MemberLoginReq extends BaseMemberReq {
      * 号码
      */
     private String phone;
-
-    /**
-     * 紧急码_只能使用一次_成功使用一次后,必须强制更换,如果不填,默认生成一串密文
-     */
-    private String emergencyCode;
 
     /**
      * 用户名

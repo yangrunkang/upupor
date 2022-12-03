@@ -33,6 +33,8 @@ import com.upupor.api.UserApi;
 import com.upupor.api.common.ApiResp;
 import com.upupor.api.request.user.RegisterReq;
 import com.upupor.api.response.user.RegisterResp;
+import com.upupor.data.dao.mapper.MemberMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,9 +43,16 @@ import org.springframework.stereotype.Service;
  * @email: yangrunkang53@gmail.com
  */
 @Service
+@RequiredArgsConstructor
 public class User implements UserApi {
+
+    private final MemberMapper memberMapper;
+
+
     @Override
     public ApiResp<RegisterResp> register(RegisterReq registerReq) {
+
+
         return null;
     }
 

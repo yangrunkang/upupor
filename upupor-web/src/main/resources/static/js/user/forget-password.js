@@ -29,7 +29,7 @@ $(function () {
 
 });
 
-$(window).on('load', function() {
+$(window).on('load', function () {
     // 登录
     login();
 });
@@ -80,15 +80,8 @@ function login() {
 
 function sendVerifyCode() {
     let email = $('#email').val();
-    let password = $('#password').val();
-
     if (cvIsNull(email)) {
         $.cvWarn("请输入邮件地址");
-        return false;
-    }
-
-    if (cvIsNull(password)) {
-        $.cvWarn("请输入密码");
         return false;
     }
 
@@ -103,17 +96,17 @@ function sendVerifyCode() {
             // 添加按钮不可点击的样式
             $("#send-verify-code-btn").addClass('disabled');
             // 真实控制按钮不可点击的
-            $("#send-verify-code-btn").attr('disabled',true);
+            $("#send-verify-code-btn").attr('disabled', true);
 
             let timeout = 90;
             let interval = setInterval(function () {
                 $("#send-verify-code-btn").text('已发送,请查收邮件(' + timeout + '秒)');
                 timeout = timeout - 1;
-                if(timeout <= 0){
+                if (timeout <= 0) {
                     clearInterval(interval);
                     $("#send-verify-code-btn").removeClass('disabled');
                     $("#send-verify-code-btn").text('发送验证码');
-                    $("#send-verify-code-btn").attr('disabled',false);
+                    $("#send-verify-code-btn").attr('disabled', false);
                 }
             }, 1000)
         } else {

@@ -50,6 +50,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
         "com.upupor.app",
         "com.upupor.service",
         "com.upupor.framework",
+        "com.upupor.data",
         "com.upupor.lucene"
 })
 @SpringBootApplication

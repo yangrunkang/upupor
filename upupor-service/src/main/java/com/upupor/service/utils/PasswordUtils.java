@@ -53,11 +53,6 @@ public class PasswordUtils {
         return getMd5(inputPassword, member.getUserId(), member.getCreateTime());
     }
 
-    public static String encryptMemberEmergencyCode(String emergencyCode) {
-        return getMd5(emergencyCode);
-    }
-
-
     /**
      * 以用户Id 和 用户创建时间 维度 创建 MD5
      *
@@ -72,19 +67,5 @@ public class PasswordUtils {
         // 11+32位长度
         return PREFIX + DigestUtils.md5DigestAsHex(base.getBytes());
     }
-
-    /**
-     * 以 EmergencyCode 创建 MD5
-     *
-     * @param emergencyCode
-     * @return
-     */
-    private static String getMd5(String emergencyCode) {
-        String slat = "EmergencyCode-slat";
-        String base = emergencyCode + slat;
-        // 11+32位长度
-        return PREFIX + DigestUtils.md5DigestAsHex(base.getBytes());
-    }
-
 
 }

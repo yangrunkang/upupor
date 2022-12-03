@@ -27,39 +27,23 @@
  *   -->
  */
 
-package com.upupor.service.outer.req.member;
+package com.upupor.data.component;
 
-import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
+import com.upupor.data.component.model.LoginModel;
 
 /**
- * 注册请求
+ * 用户组件
  *
- * @author: YangRunkang(cruise)
- * @created: 2019/12/20 02:58
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-12-03 16:24
+ * @email: yangrunkang53@gmail.com
  */
-@Data
-public class AddMemberReq extends BaseMemberReq {
-
-    private String userName;
-
-    @NotEmpty
-    private String password;
-
-    private String email;
-
-    private String phone;
-
-    private String verifyCode;
-
-    // 额外信息(可以在登录页面提示用户展开)
-    private String birthday;
-
-    private Integer age;
-
-    private String introduce;
-
-    private String via;
-
+public interface MemberComponent {
+    /**
+     * 登录模型
+     *
+     * @param loginModel
+     * @return
+     */
+    Boolean loginModel(LoginModel loginModel);
 }

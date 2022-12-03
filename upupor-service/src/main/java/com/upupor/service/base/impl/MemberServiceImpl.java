@@ -33,6 +33,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.upupor.data.component.MemberComponent;
+import com.upupor.data.component.model.LoginModel;
 import com.upupor.data.dao.entity.*;
 import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
@@ -86,6 +88,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberExtendMapper memberExtendMapper;
     private final MemberIntegralMapper memberIntegralMapper;
     private final MemberIntegralService memberIntegralService;
+    private final MemberComponent memberComponent;
     @Resource
     private FanService fanService;
     private final StatementMapper statementMapper;
@@ -120,9 +123,6 @@ public class MemberServiceImpl implements MemberService {
         BeanUtils.copyProperties(addMemberReq, memberExtend);
         memberExtend.setUserId(member.getUserId());
         memberExtend.setSysUpdateTime(new Date());
-        // 加密用户的紧急Code
-        memberExtend.setEmergencyCode(PasswordUtils.encryptMemberEmergencyCode(addMemberReq.getEmergencyCode()));
-
 
         int addMember = memberMapper.insert(member);
         int addMemberExtend = memberExtendMapper.insert(memberExtend);
@@ -130,7 +130,7 @@ public class MemberServiceImpl implements MemberService {
         int total = addMemberExtend + addMember + addMemberConfig;
         if (total == 3) {
             // 注册成功后,自动登录设置session
-            setLoginUserSession(member, memberExtend);
+            setLoginUserSession(member.getUserId());
             return member;
         }
         return null;
@@ -165,17 +165,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Boolean login(MemberLoginReq memberLoginReq) {
-        // 优先使用 紧急代码
-        if (!StringUtils.isEmpty(memberLoginReq.getEmergencyCode())) {
-            String md5EmergencyCode = PasswordUtils.encryptMemberEmergencyCode(memberLoginReq.getEmergencyCode());
-            boolean b = memberExtendMapper.countByEmergencyCode(md5EmergencyCode) > 0;
-            if (b) {
-                // 登录成功 重新设置EmergencyCode
-            }
-            return b;
-        }
-
-        // 其次是常规登录
         if (StringUtils.isEmpty(memberLoginReq.getPassword())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR.getCode(), "密码为空");
         }
@@ -183,38 +172,33 @@ public class MemberServiceImpl implements MemberService {
         if (CollectionUtils.isEmpty(members)) {
             throw new BusinessException(ErrorCode.WITHOUT_USER_PLEASE_TO_REGISTER);
         }
-
+        Member preMember = members.get(0);
         // 密码加密
-        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), members.get(0));
-
-        Member query = new Member();
-        query.setEmail(memberLoginReq.getEmail());
-        // reset password use encrypts
-        query.setPassword(encryptPassword);
-        query.setPhone(memberLoginReq.getPhone());
-
-        Member member = memberMapper.select(query);
-        if (Objects.isNull(member)) {
+        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), preMember);
+        Boolean login = memberComponent.loginModel(LoginModel.builder()
+                .email(memberLoginReq.getEmail())
+                .secretPassword(encryptPassword)
+                .build());
+        if (!login) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR);
         }
 
-        MemberExtend memberExtend = getMemberExtend(member.getUserId());
-        if (Objects.isNull(memberExtend)) {
-            throw new BusinessException(ErrorCode.USER_INFO_LESS);
-        }
-
         // 设置登录成功Session
-        setLoginUserSession(member, memberExtend);
+        setLoginUserSession(preMember.getUserId());
 
         // 发送登录成功事件
         MemberLoginEvent memberLoginEvent = new MemberLoginEvent();
-        memberLoginEvent.setUserId(member.getUserId());
+        memberLoginEvent.setUserId(preMember.getUserId());
         eventPublisher.publishEvent(memberLoginEvent);
 
         return Boolean.TRUE;
     }
 
-    private void setLoginUserSession(Member member, MemberExtend memberExtend) {
+    private void setLoginUserSession(String userId) {
+        MemberEnhance memberEnhance = memberInfo(userId);
+        Member member = memberEnhance.getMember();
+        MemberExtend memberExtend = memberEnhance.getMemberExtendEnhance().getMemberExtend();
+
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_ID, member.getUserId());
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
         ServletUtils.getSession().setAttribute(CcConstant.Session.USER_NAME, member.getUserName());

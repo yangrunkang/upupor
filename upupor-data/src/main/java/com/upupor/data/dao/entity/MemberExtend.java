@@ -42,9 +42,6 @@ public class MemberExtend extends BaseEntity {
 
     private Integer age;
 
-    private String emergencyCode;
-
-
     private String introduce;
 
     /**
