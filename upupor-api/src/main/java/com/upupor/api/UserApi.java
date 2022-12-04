@@ -55,7 +55,7 @@ public interface UserApi {
      * 登录
      *
      * @param loginReq
-     * @return
+     * @return 返回token
      */
     ApiResp<LoginResp> login(LoginReq loginReq);
 

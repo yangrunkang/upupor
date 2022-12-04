@@ -35,6 +35,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.data.component.MemberComponent;
 import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.component.model.RegisterModel;
 import com.upupor.data.dao.entity.*;
 import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
@@ -101,37 +102,21 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member register(AddMemberReq addMemberReq) {
-        // 注册
-        Member member = new Member();
-        BeanUtils.copyProperties(addMemberReq, member);
-        member.setUserId(CcUtils.getUuId());
-        member.setStatus(MemberStatus.NORMAL);
+        String userId = CcUtils.getUuId();
+        long createTime = CcDateUtil.getCurrentTime();
+        RegisterModel registerModel = RegisterModel.builder()
+                .userId(userId)
+                .email(addMemberReq.getEmail())
+                .userName(addMemberReq.getUserName())
+                .via(AvatarHelper.generateAvatar(Math.abs(userId.hashCode())))
+                .secretPassword(PasswordUtils.encryptMemberPassword(addMemberReq.getPassword(), userId, createTime))
+                .createTime(createTime)
+                .build();
 
-        //  生成头像
-        String profileVia = AvatarHelper.generateAvatar(Math.abs(member.getUserId().hashCode()));
-        member.setVia(profileVia);
-        member.setCreateTime(CcDateUtil.getCurrentTime());
-        member.setSysUpdateTime(new Date());
-        member.setLastLoginTime(CcDateUtil.getCurrentTime());
-        // 加密用户输入的密码
-        member.setPassword(PasswordUtils.encryptMemberPassword(addMemberReq.getPassword(), member));
-
-        // 用户拓展表
-        MemberExtend memberExtend = new MemberExtend();
-        BeanUtils.copyProperties(addMemberReq, memberExtend);
-        memberExtend.setUserId(member.getUserId());
-        memberExtend.setSysUpdateTime(new Date());
-
-        int addMember = memberMapper.insert(member);
-        int addMemberExtend = memberExtendMapper.insert(memberExtend);
-        int addMemberConfig = initMemberConfig(member.getUserId());
-        int total = addMemberExtend + addMember + addMemberConfig;
-        if (total == 3) {
-            // 注册成功后,自动登录设置session
-            setLoginUserSession(member.getUserId());
-            return member;
-        }
-        return null;
+        Member member = memberComponent.registerModel(registerModel);
+        // 注册成功后,自动登录,设置session
+        setLoginUserSession(userId);
+        return member;
     }
 
     @Override
@@ -144,7 +129,7 @@ public class MemberServiceImpl implements MemberService {
         if (Objects.isNull(memberByEmail)) {
             throw new BusinessException(ErrorCode.WITHOUT_USER_PLEASE_TO_REGISTER);
         }
-        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), memberByEmail);
+        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), memberByEmail.getUserId(), memberByEmail.getCreateTime());
 
         Member loginMember = memberComponent.loginModel(LoginModel.builder()
                 .email(memberLoginReq.getEmail())
@@ -178,6 +163,11 @@ public class MemberServiceImpl implements MemberService {
         if (!StringUtils.isEmpty(memberExtend.getBgImg())) {
             ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
         }
+
+        // 更新最新登录时间
+        member.setLastLoginTime(CcDateUtil.getCurrentTime());
+        memberMapper.updateById(member);
+
     }
 
     private Boolean isReplaceSystemProfilePhoto(Member member) {
@@ -363,7 +353,7 @@ public class MemberServiceImpl implements MemberService {
                 .eq(Member::getEmail, email);
         Member member = memberMapper.selectOne(query);
         member.setEmail(email);
-        member.setPassword(PasswordUtils.encryptMemberPassword(updatePasswordReq.getPassword(), member));
+        member.setPassword(PasswordUtils.encryptMemberPassword(updatePasswordReq.getPassword(), member.getUserId(), member.getCreateTime()));
 
         return memberMapper.updateById(member) > 0;
     }
@@ -598,7 +588,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public int initMemberConfig(String userId) {
         MemberConfig memberConfig = new MemberConfig();
-        memberConfig.setConfigId(CcUtils.getUuId());
         memberConfig.setUserId(userId);
         memberConfig.setCreateTime(CcDateUtil.getCurrentTime());
         memberConfig.setOpenEmail(OpenEmail.SUBSCRIBE_EMAIL);

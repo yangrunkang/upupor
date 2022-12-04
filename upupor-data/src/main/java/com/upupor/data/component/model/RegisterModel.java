@@ -27,44 +27,43 @@
  *   -->
  */
 
-package com.upupor.service.utils;
+package com.upupor.data.component.model;
 
-import org.springframework.util.DigestUtils;
+import lombok.Builder;
+import lombok.Data;
 
 /**
- * 密码工具类
+ * 注册模型
  *
- * @author: YangRunkang(cruise)
- * @created: 2019/12/29 02:35
+ * @author Yang Runkang (cruise)
+ * @createTime 2022-12-04 22:29
+ * @email: yangrunkang53@gmail.com
  */
-public class PasswordUtils {
+@Data
+@Builder
+public class RegisterModel {
+    /**
+     * 模型里面添加userId参数,是为了把userId的生成规则交给外面,由使用者定义
+     */
+    private String userId;
 
-    private final static String PREFIX = "#UPUPOR#";
+    private String email;
+
+    private String userName;
 
     /**
-     * 加密用户输入的密码
-     *
-     * @param inputPassword
-     * @param member
-     * @return
+     * 头像
      */
-    public static String encryptMemberPassword(String inputPassword, String userId, Long createTime) {
-        return getMd5(inputPassword, userId, createTime);
-    }
+    private String via;
 
     /**
-     * 以用户Id 和 用户创建时间 维度 创建 MD5
-     *
-     * @param inputPassword
-     * @param userId
-     * @param userCreateTime
-     * @return
+     * 加密密码
      */
-    private static String getMd5(String inputPassword, String userId, Long userCreateTime) {
-        String slat = "codingvcr-slat" + userId + userCreateTime;
-        String base = inputPassword + slat;
-        // 11+32位长度
-        return PREFIX + DigestUtils.md5DigestAsHex(base.getBytes());
-    }
+    private String secretPassword;
+
+    /**
+     * 创建时间
+     */
+    private Long createTime;
 
 }

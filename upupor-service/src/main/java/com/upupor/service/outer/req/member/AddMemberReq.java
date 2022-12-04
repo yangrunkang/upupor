@@ -52,8 +52,6 @@ public class AddMemberReq extends BaseMemberReq {
 
     private String verifyCode;
 
-    private String introduce;
-
     private String via;
 
 }

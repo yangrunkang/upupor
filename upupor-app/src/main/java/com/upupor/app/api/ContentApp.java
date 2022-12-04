@@ -29,23 +29,34 @@
 
 package com.upupor.app.api;
 
-import com.upupor.api.CommonApi;
+import com.upupor.api.ContentApi;
 import com.upupor.api.common.ApiResp;
-import com.upupor.api.request.common.VerifyCodeReq;
-import com.upupor.api.response.common.VerifyCodeResp;
+import com.upupor.api.request.content.CreateReq;
+import com.upupor.api.request.content.DeleteReq;
+import com.upupor.api.request.content.DetailReq;
+import com.upupor.api.response.content.CreateResp;
+import com.upupor.api.response.content.DeleteResp;
 import org.springframework.stereotype.Service;
 
 /**
- * 公共服务
- *
  * @author Yang Runkang (cruise)
- * @createTime 2022-11-26 23:26
+ * @createTime 2022-11-26 23:18
  * @email: yangrunkang53@gmail.com
  */
 @Service
-public class Common implements CommonApi {
+public class ContentApp implements ContentApi {
     @Override
-    public ApiResp<VerifyCodeResp> sendVerifyCode(VerifyCodeReq verifyCodeReq) {
+    public ApiResp<CreateResp> create(CreateReq createReq) {
+        return null;
+    }
+
+    @Override
+    public ApiResp<DeleteResp> delete(DeleteReq deleteReq) {
+        return null;
+    }
+
+    @Override
+    public ApiResp<DetailReq> detail(DetailReq deleteReq) {
         return null;
     }
 }

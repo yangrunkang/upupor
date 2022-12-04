@@ -32,8 +32,15 @@ package com.upupor.data.dao.entity;
 import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.MemberIsAdmin;
 import com.upupor.data.types.MemberStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 public class Member extends BaseEntity {
 

@@ -28,11 +28,17 @@
 package com.upupor.data.dao.entity;
 
 import com.upupor.data.dao.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 用户拓展信息
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 public class MemberExtend extends BaseEntity {
 

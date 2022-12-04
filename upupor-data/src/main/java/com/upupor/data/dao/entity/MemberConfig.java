@@ -29,13 +29,19 @@ package com.upupor.data.dao.entity;
 
 import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.OpenEmail;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 用户配置
  *
  * @author runkangyang
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 public class MemberConfig extends BaseEntity {
 

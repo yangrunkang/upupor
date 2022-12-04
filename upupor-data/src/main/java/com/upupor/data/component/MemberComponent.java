@@ -30,6 +30,7 @@
 package com.upupor.data.component;
 
 import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.component.model.RegisterModel;
 import com.upupor.data.dao.entity.Member;
 
 /**
@@ -47,4 +48,14 @@ public interface MemberComponent {
      * @return
      */
     Member loginModel(LoginModel loginModel);
+
+
+    /**
+     * 注册
+     *
+     * @param registerModel
+     * @return
+     */
+    Member registerModel(RegisterModel registerModel);
+
 }
