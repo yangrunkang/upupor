@@ -78,7 +78,7 @@ public enum ContentType {
     /**
      * 短内容
      */
-    TOPIC(6, "短内容", "/topic", "发布短内容", "/icons/system/topic.png", "创建 > 短内容"),
+//    TOPIC(6, "短内容", "/topic", "发布短内容", "/icons/system/topic.png", "创建 > 短内容"),
 
     /**
      * 留言
@@ -178,7 +178,7 @@ public enum ContentType {
     public static List<ContentType> contentSource() {
         List<ContentType> contentTypeList = new ArrayList<>();
         contentTypeList.add(TECH);
-        contentTypeList.add(TOPIC);
+//        contentTypeList.add(TOPIC);
         contentTypeList.add(SHARE);
         contentTypeList.add(RECORD);
         contentTypeList.add(WORKPLACE);
