@@ -34,6 +34,7 @@ import com.upupor.service.base.FanService;
 import com.upupor.service.outer.req.DelFanReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,13 +52,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/fans")
 public class FansController {
-
-
     private final FanService fanService;
 
     @ApiOperation("删除粉丝")
     @PostMapping(value = "/del")
-    public CcResponse del(DelFanReq delFanReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse del(@RequestBody DelFanReq delFanReq) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(fanService.delFans(delFanReq) > 0);
         return ccResponse;

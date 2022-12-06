@@ -112,7 +112,7 @@ function addContent() {
         }
 
         content.preContentId = $(".hidden-pre-content-id").val();
-        $.cvPost('/content/add', content, function (data) {
+        $.cvPostJson('/content/add', content, function (data) {
             if (data.data.success) {
                 redirectContent(data.data);
             } else {
@@ -129,7 +129,7 @@ function saveOrUpdateContent() {
     }
 
     let contentId = getCommonReq().preContentId;
-    $.cvPost('/content/exists', {
+    $.cvPostJson('/content/exists', {
         contentId
     }, function (data) {
         if (respSuccess(data)) {
@@ -175,7 +175,7 @@ function updateContent(contentId) {
         }
         content.contentId = contentId;
 
-        $.cvPost('/content/edit', content, function (data) {
+        $.cvPostJson('/content/edit', content, function (data) {
             if (data.data.success) {
                 redirectContent(data.data);
             } else {
@@ -253,7 +253,7 @@ function getCommonReq() {
 function cleanDraftAndReload() {
     let contentId = getCommonReq().preContentId;
 
-    $.cvPost('/editor/clean-draft', {contentId}, function (data) {
+    $.cvPostJson('/editor/clean-draft', {contentId}, function (data) {
         if (respCodeOk(data)) {
             history.go(0);
         } else {

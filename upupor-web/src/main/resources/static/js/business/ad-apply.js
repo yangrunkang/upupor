@@ -113,7 +113,7 @@ function addAdApply() {
             type: 'AD',
         };
 
-        $.cvPost('/apply/addAd', adReq, function (data) {
+        $.cvPostJson('/apply/addAd', adReq, function (data) {
             if (respSuccess(data)) {
                 $.cvSuccess("标签申请成功");
                 setTimeout(function () {

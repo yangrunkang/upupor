@@ -46,7 +46,7 @@ function handleExceptionUser(userId) {
         closeOnEsc: false,
     }).then((willDelete) => {
         if (willDelete) {
-            $.cvPost('/admin/handle-user', {
+            $.cvPostJson('/admin/handle-user', {
                 userId
             }, function (res) {
                 if (respSuccess(res)) {

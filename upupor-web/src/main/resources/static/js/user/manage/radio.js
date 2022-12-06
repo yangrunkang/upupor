@@ -104,7 +104,7 @@ function deleteRadio(radioId) {
             let deleteRadio = {
                 radioId: radioId
             };
-            $.cvPost('/radio/delete', deleteRadio, function (data) {
+            $.cvPostJson('/radio/delete', deleteRadio, function (data) {
                 if (data.data.success) {
                     history.go();
                 } else {

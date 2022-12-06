@@ -91,7 +91,7 @@ function comment(contentId,commentSource,desc) {
         replyToUserId: userId
     };
 
-    $.cvPost('/comment/add', comment, function (data) {
+    $.cvPostJson('/comment/add', comment, function (data) {
         if (respSuccess(data)) {
             $.cvSuccess(desc+"成功");
             setTimeout(function () {

@@ -47,7 +47,7 @@ function selectVia(via) {
         closeOnEsc: false,
     }).then((confirmed) => {
         if (confirmed) {
-            $.cvPost('/member/updateVia',{via},function (data) {
+            $.cvPostJson('/member/updateVia',{via},function (data) {
                 if (respSuccess(data)) {
                     history.go();
                 } else {

@@ -65,6 +65,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -94,7 +95,8 @@ public class ContentController {
 
     @PostMapping("/exists")
     @ApiOperation("文章是否存在")
-    public CcResponse exists(ExistContentReq existContentReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse exists(@RequestBody ExistContentReq existContentReq) {
         CcResponse cc = new CcResponse();
         cc.setData(contentService.exists(existContentReq.getContentId()));
         return cc;
@@ -104,7 +106,8 @@ public class ContentController {
     @ApiOperation("创建内容")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
     @UpuporLimit(limitType = LimitType.CREATE_CONTENT, needSpendMoney = true)
-    public CcResponse add(CreateContentReq createContentReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse add(@RequestBody CreateContentReq createContentReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.addContent(createContentReq);
         cc.setData(operateContentDto);
@@ -114,7 +117,8 @@ public class ContentController {
     @PostMapping("/edit")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
     @ApiOperation("更新内容")
-    public CcResponse edit(UpdateContentReq updateContentReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse edit(@RequestBody UpdateContentReq updateContentReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.updateContent(updateContentReq);
         cc.setData(operateContentDto);
@@ -125,7 +129,8 @@ public class ContentController {
     @PostMapping("/status")
     @ApiOperation("更新内容状态")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
-    public CcResponse status(UpdateStatusReq updateStatusReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse status(@RequestBody UpdateStatusReq updateStatusReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.updateContentStatus(updateStatusReq);
         cc.setData(operateContentDto);
@@ -135,7 +140,8 @@ public class ContentController {
     @PostMapping("/like")
     @ApiOperation("喜欢")
     @UpuporLimit(limitType = LimitType.CLICK_LIKE, needSpendMoney = true)
-    public CcResponse like(UpdateLikeReq updateLikeReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse like(@RequestBody UpdateLikeReq updateLikeReq) {
         String clickUserId = ServletUtils.getUserId();
         CcResponse cc = new CcResponse();
         String contentId = updateLikeReq.getContentId();
@@ -185,7 +191,8 @@ public class ContentController {
 
     @PostMapping("/pinned")
     @ApiOperation("文章置顶")
-    public CcResponse pinned(PinnedReq pinnedReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse pinned(@RequestBody PinnedReq pinnedReq) {
 
         String userId = ServletUtils.getUserId();
 

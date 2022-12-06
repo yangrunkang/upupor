@@ -39,6 +39,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -62,31 +63,36 @@ public class ApplyController {
 
     @ApiOperation("添加广告申请")
     @PostMapping(value = "/addAd")
-    public CcResponse addAd(AddApplyReq adApplyReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse addAd(@RequestBody AddApplyReq adApplyReq) {
         return new CcResponse(adApply.doBusiness(adApplyReq));
     }
 
     @ApiOperation("添加咨询服务申请")
     @PostMapping(value = "/addConsultant")
-    public CcResponse addConsultant(AddConsultantReq addConsultantReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse addConsultant(@RequestBody AddConsultantReq addConsultantReq) {
         return new CcResponse(consultantApply.doBusiness(addConsultantReq));
     }
 
     @ApiOperation("添加标签申请")
     @PostMapping(value = "/addTag")
-    public CcResponse addTag(AddTagReq addTagReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse addTag(@RequestBody AddTagReq addTagReq) {
         return new CcResponse(tagApply.doBusiness(addTagReq));
     }
 
     @ApiOperation("删除申请")
     @PostMapping(value = "/del")
-    public CcResponse del(DelApplyReq delApplyReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse del(@RequestBody DelApplyReq delApplyReq) {
         return new CcResponse(applyService.delApply(delApplyReq));
     }
 
     @ApiOperation("编辑申请")
     @PostMapping(value = "/edit")
-    public CcResponse edit(UpdateApplyReq updateApplyReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse edit(@RequestBody UpdateApplyReq updateApplyReq) {
         return new CcResponse(applyService.editApply(updateApplyReq));
     }
 

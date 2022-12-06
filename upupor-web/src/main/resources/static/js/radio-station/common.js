@@ -91,16 +91,12 @@ function publicSuccess(radioId) {
 
 
 function addRadio(radioIntro, fileUrl) {
-    let formData = new FormData();
-    formData.append('radioIntro', radioIntro);
-    formData.append('fileUrl', fileUrl);
-
     let radio = {
         radioIntro:radioIntro,
         fileUrl:fileUrl
     }
 
-    $.cvPost('/radio/add', radio, function (data) {
+    $.cvPostJson('/radio/add', radio, function (data) {
         if (data.data.success) {
             publicSuccess(data.data.radioId);
         } else {

@@ -31,8 +31,6 @@ package com.upupor.web.api;
 
 import com.upupor.data.dao.entity.Comment;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dto.query.ListCommentQuery;
-import com.upupor.data.types.CommentStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
@@ -45,7 +43,6 @@ import com.upupor.service.base.MemberService;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.outer.req.AddCommentReq;
-import com.upupor.service.outer.req.ListCommentReq;
 import com.upupor.service.outer.req.UpdateCommentReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,6 +50,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -77,7 +75,8 @@ public class CommentController {
     @ApiOperation("添加评论")
     @PostMapping("/add")
     @UpuporLimit(limitType = LimitType.CREATE_COMMENT, needSpendMoney = true)
-    public CcResponse add(AddCommentReq addCommentReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse add(@RequestBody AddCommentReq addCommentReq) {
         CcResponse cc = new CcResponse();
         if (Objects.isNull(addCommentReq.getCommentSource())) {
             throw new BusinessException(ErrorCode.COMMENT_SOURCE_NULL);
@@ -138,7 +137,8 @@ public class CommentController {
 
     @ApiOperation("编辑评论")
     @PostMapping("/edit")
-    public CcResponse edit(UpdateCommentReq updateCommentReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse edit(@RequestBody UpdateCommentReq updateCommentReq) {
         CcResponse cc = new CcResponse();
 
         Comment comment = commentService.getCommentByCommentId(updateCommentReq.getCommentId());
@@ -154,27 +154,5 @@ public class CommentController {
         return cc;
     }
 
-
-    @ApiOperation("获取评论列表")
-    @PostMapping("/list")
-    public CcResponse list(ListCommentReq listCommentReq) {
-        CcResponse cc = new CcResponse();
-
-        ListCommentQuery listCommentQuery = new ListCommentQuery();
-        listCommentQuery.setTargetId(listCommentReq.getTargetId());
-        listCommentQuery.setUserId(listCommentReq.getUserId());
-        listCommentQuery.setCommentId(listCommentReq.getCommentId());
-        listCommentQuery.setCommentSource(listCommentReq.getCommentSource());
-        // 正常的
-        listCommentQuery.setStatus(CommentStatus.NORMAL);
-        Integer pageNum = Objects.isNull(listCommentReq.getPageNum()) ? CcConstant.Page.NUM : listCommentReq.getPageNum();
-        Integer pageSize = Objects.isNull(listCommentReq.getPageSize()) ? CcConstant.Page.SIZE : listCommentReq.getPageSize();
-        listCommentQuery.setPageNum(pageNum);
-        listCommentQuery.setPageSize(pageSize);
-
-
-        cc.setData(commentService.listComment(listCommentQuery));
-        return cc;
-    }
 
 }

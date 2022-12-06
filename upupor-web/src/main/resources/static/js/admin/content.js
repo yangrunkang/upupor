@@ -29,7 +29,7 @@
 
 function setKeywords(contentId) {
     let keywords = $("#keywords").val();
-    $.cvPost('/admin/content/keywords', {
+    $.cvPostJson('/admin/content/keywords', {
         contentId,
         keywords
     }, function (res) {
@@ -46,7 +46,7 @@ function setKeywords(contentId) {
 
 function setContentStatus(contentId) {
     let status = $("#admin_set_content_status").val();
-    $.cvPost('/admin/content/status', {
+    $.cvPostJson('/admin/content/status', {
         contentId,
         status
     }, function (res) {

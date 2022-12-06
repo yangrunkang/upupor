@@ -56,6 +56,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -89,7 +90,8 @@ public class CollectController {
     @PostMapping("/add")
     @ApiOperation("添加收藏")
     @UpuporLimit(limitType = LimitType.CLICK_COLLECT, needSpendMoney = true)
-    public CcResponse add(AddCollectReq addCollectReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse add(@RequestBody AddCollectReq addCollectReq) {
         CcResponse ccResponse = new CcResponse();
 
         String userId = ServletUtils.getUserId();
@@ -165,7 +167,8 @@ public class CollectController {
 
     @ApiOperation("编辑收藏")
     @PostMapping(value = "/edit")
-    public CcResponse edit(UpdateCollectReq updateCollectReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse edit(@RequestBody UpdateCollectReq updateCollectReq) {
         CcResponse ccResponse = new CcResponse();
 
         LambdaQueryWrapper<Collect> query = new LambdaQueryWrapper<Collect>()

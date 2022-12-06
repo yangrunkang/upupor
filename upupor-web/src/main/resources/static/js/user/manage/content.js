@@ -152,7 +152,7 @@ function pinned(contentId, ope) {
                 contentId: contentId,
                 pinnedStatus: _pinnedStatus,
             };
-            $.cvPost('/content/pinned', pinnedReq, function (data) {
+            $.cvPostJson('/content/pinned', pinnedReq, function (data) {
                 if (respCodeOk(data)) {
                     history.go();
                 } else {
@@ -205,7 +205,7 @@ function changeContentStatus(status, contentId) {
         if (willDelete) {
 
             if (status === 'DELETE_DRAFT') {
-                $.cvPost('/editor/clean-draft', {contentId}, function (data) {
+                $.cvPostJson('/editor/clean-draft', {contentId}, function (data) {
                     if (respCodeOk(data)) {
                         history.go(0);
                     } else {
@@ -218,7 +218,7 @@ function changeContentStatus(status, contentId) {
                     contentId: contentId,
                     status: status,
                 };
-                $.cvPost('/content/status', updateContent, function (data) {
+                $.cvPostJson('/content/status', updateContent, function (data) {
                     if (data.data.success) {
                         history.go();
                     } else {

@@ -31,7 +31,7 @@ $(window).on('load', function() {
 
 
 function markTodo(todoId){
-    $.cvPost('/todo/markTodo', {todoId}, function (res) {
+    $.cvPostJson('/todo/markTodo', {todoId}, function (res) {
         if (respSuccess(res)) {
             if($("#"+todoId)[0].className.indexOf('text-decoration-line-through') > 0){
                 $("#"+todoId).removeClass('text-decoration-line-through text-black-50');
@@ -61,7 +61,7 @@ function addTodo(){
             todoDetail
         };
 
-        $.cvPost('/todo/add', addTodo, function (res) {
+        $.cvPostJson('/todo/add', addTodo, function (res) {
             if (respSuccess(res)) {
                 $.cvSuccess("添加待办成功");
                 setTimeout(function () {
@@ -96,7 +96,7 @@ function deleteTodo(todoId) {
         closeOnEsc: false,
     }).then((willDelete) => {
         if (willDelete) {
-            $.cvPost('/todo/delete', {todoId}, function (res) {
+            $.cvPostJson('/todo/delete', {todoId}, function (res) {
                 if (respSuccess(res)) {
                     history.go();
                 } else {

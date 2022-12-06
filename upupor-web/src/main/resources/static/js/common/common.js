@@ -48,7 +48,7 @@ function attentionAuthor(contentUserId) {
         isAttention: isAttention
     };
 
-    $.cvPost('/attention/add', req, function (res) {
+    $.cvPostJson('/attention/add', req, function (res) {
             console.log(res);
             if (respCodeOk(res)) {
                 if (isAttention) {

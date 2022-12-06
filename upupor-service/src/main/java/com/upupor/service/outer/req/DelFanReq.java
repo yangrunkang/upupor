@@ -39,7 +39,6 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 public class DelFanReq {
-
     @NotEmpty(message = "fanId 不能为空")
     private String fanId;
 

@@ -60,7 +60,7 @@ function deleteAttention(attentionId) {
             let req = {
                 attentionId: attentionId,
             };
-            $.cvPost("/attention/del", req, function (res) {
+            $.cvPostJson("/attention/del", req, function (res) {
                 if (respSuccess(res)) {
                     history.go();
                 }

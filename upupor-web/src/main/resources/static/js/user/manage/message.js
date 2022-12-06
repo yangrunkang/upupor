@@ -78,7 +78,7 @@ function handlePostMessage(messageId,userId,status) {
         userId: userId
     };
 
-    $.cvPost("/message/edit", req, function (res) {
+    $.cvPostJson("/message/edit", req, function (res) {
         if (respDataTrue(res)) {
             history.go()
         } else {
@@ -114,7 +114,7 @@ function clearAll(userId,total){
                 status: 'DELETED'
             };
 
-            $.cvPost('/message/edit',req,function(data){
+            $.cvPostJson('/message/edit',req,function(data){
                 if(respDataTrue(data)){
                     history.go()
                 }else{
@@ -148,7 +148,7 @@ function readAll(userId){
                 status: 'READ'
             };
 
-            $.cvPost('/message/edit',req,function(data){
+            $.cvPostJson('/message/edit',req,function(data){
                 if(respDataTrue(data)){
                     history.go()
                 }else{

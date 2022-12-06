@@ -60,7 +60,7 @@ function applyOperate(operate, applyId,userId) {
                     status: 'APPLY_TERMINATE',
                     userId: userId,
                 };
-                $.cvPost('/apply/edit', delReq, function (res) {
+                $.cvPostJson('/apply/edit', delReq, function (res) {
                     if (respSuccess(res)) {
                         history.go();
                     } else {
@@ -91,7 +91,7 @@ function applyOperate(operate, applyId,userId) {
                     applyId: applyId,
                     userId: userId,
                 };
-                $.cvPost('/apply/del', delReq, function (res) {
+                $.cvPostJson('/apply/del', delReq, function (res) {
                     if (respSuccess(res)) {
                         history.go();
                     } else {

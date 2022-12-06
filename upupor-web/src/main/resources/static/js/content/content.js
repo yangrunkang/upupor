@@ -47,7 +47,7 @@ function submitLike(contentId) {
         contentId: contentId,
     };
 
-    $.cvPost('/content/like', updateReq, function (res) {
+    $.cvPostJson('/content/like', updateReq, function (res) {
         if (respSuccess(res)) {
             let likeNum = $("#like_badge").html();
             let newLike = 0;
@@ -93,7 +93,7 @@ function collect(contentId) {
         isCollect: isCollect,
     };
 
-    $.cvPost('/collect/add', req, function (res) {
+    $.cvPostJson('/collect/add', req, function (res) {
         if (respCodeOk(res)) {
             if (res.data === true) {
                 if (isCollect) {

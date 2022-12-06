@@ -68,7 +68,7 @@ function changeCollectStatus(status, collectId) {
                 collectId: collectId,
                 status: status,
             };
-            $.cvPost('/collect/edit', updateComment, function (data) {
+            $.cvPostJson('/collect/edit', updateComment, function (data) {
                 if (respSuccess(data)) {
                     history.go();
                 } else {

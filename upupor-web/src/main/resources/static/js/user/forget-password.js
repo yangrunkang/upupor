@@ -61,7 +61,7 @@ function login() {
             verifyCode: verifyCode,
         };
 
-        $.cvPost('/member/resetPassword', param, function (data) {
+        $.cvPostJson('/member/resetPassword', param, function (data) {
             if (respSuccess(data)) {
                 $.cvSuccess("重置密码成功,正在跳转至登录页");
                 setTimeout(function () {
@@ -90,7 +90,7 @@ function sendVerifyCode() {
         source: 'forgetPassword'
     };
 
-    $.cvPost("/member/sendVerifyCode", req, function (data) {
+    $.cvPostJson("/member/sendVerifyCode", req, function (data) {
         if (respSuccess(data)) {
             $.cvSuccess("发送成功,请查收邮件");
             // 添加按钮不可点击的样式

@@ -57,7 +57,7 @@ function addConsultantApply() {
             type: 'CONSULTING_SERVICE',
         };
 
-        $.cvPost('/apply/addConsultant', adReq, function (data) {
+        $.cvPostJson('/apply/addConsultant', adReq, function (data) {
             if (respSuccess(data)) {
                 $.cvSuccess("申请成功");
                 setTimeout(function () {

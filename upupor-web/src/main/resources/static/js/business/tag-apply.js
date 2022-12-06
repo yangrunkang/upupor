@@ -58,7 +58,7 @@ function addAdApply() {
             childTagName: childTagName,
         };
 
-        $.cvPost('/apply/addTag', adReq, function (data) {
+        $.cvPostJson('/apply/addTag', adReq, function (data) {
             if (respSuccess(data)) {
                 $.cvSuccess("申请成功");
                 setTimeout(function () {

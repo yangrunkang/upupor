@@ -40,6 +40,7 @@ import com.upupor.service.outer.req.content.CleanDraftReq;
 import com.upupor.service.outer.req.content.ExistsDraftReq;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,7 +68,8 @@ public class EditorDraftController {
     @PostMapping("/auto-save")
     @ApiOperation("自动保存内容")
     @UpuporLimit(limitType = LimitType.CONTENT_AUTO_SAVE)
-    public CcResponse autoSave(AutoSaveContentReq autoSaveContentReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse autoSave(@RequestBody AutoSaveContentReq autoSaveContentReq) {
         CcResponse cc = new CcResponse();
         Boolean autoSave = draftService.autoSaveContent(autoSaveContentReq);
         cc.setData(autoSave);
@@ -81,7 +83,8 @@ public class EditorDraftController {
      * @return
      */
     @PostMapping("/clean-draft")
-    public CcResponse cleanDraft(CleanDraftReq cleanDraftReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse cleanDraft(@RequestBody CleanDraftReq cleanDraftReq) {
         String contentId = cleanDraftReq.getContentId();
         String userId = ServletUtils.getUserId();
 
@@ -99,7 +102,8 @@ public class EditorDraftController {
      * @return
      */
     @PostMapping("/exists-draft")
-    public CcResponse existsDraft(ExistsDraftReq existsDraftReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse existsDraft(@RequestBody ExistsDraftReq existsDraftReq) {
         String contentId = existsDraftReq.getContentId();
         String userId = ServletUtils.getUserId();
         return new CcResponse(Objects.nonNull(draftService.getByDraftIdAndUserId(contentId, userId)));

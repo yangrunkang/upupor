@@ -40,6 +40,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,7 +62,8 @@ public class AttentionController {
     @ApiOperation("添加关注")
     @PostMapping(value = "/add")
     @UpuporLimit(limitType = LimitType.CLICK_ATTENTION, needSpendMoney = true)
-    public CcResponse add(AddAttentionReq addAttentionReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse add(@RequestBody AddAttentionReq addAttentionReq) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(attentionService.attention(addAttentionReq));
         return ccResponse;
@@ -70,7 +72,8 @@ public class AttentionController {
 
     @ApiOperation("删除关注")
     @PostMapping(value = "/del")
-    public CcResponse del(DelAttentionReq delAttentionReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse del(@RequestBody DelAttentionReq delAttentionReq) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(attentionService.delAttention(delAttentionReq));
         return ccResponse;

@@ -59,9 +59,9 @@ function deleteFans(fanId) {
     }).then((willDelete) => {
         if (willDelete) {
             let req = {
-                fanId: fanId,
+                fanId: fanId+'',
             };
-            $.cvPost("/fans/del", req, function (res) {
+            $.cvPostJson("/fans/del", req, function (res) {
                 if (respSuccess(res)) {
                     history.go();
                 }

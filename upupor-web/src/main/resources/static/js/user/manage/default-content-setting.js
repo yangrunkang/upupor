@@ -47,7 +47,7 @@ function getSelectedContentType() {
 function submitDefaultSelectContentType() {
     let selectedContentType = getSelectedContentType();
 
-    $.cvPost('/member/edit/default-content-type-settings', {selectedContentType}, function (data) {
+    $.cvPostJson('/member/edit/default-content-type-settings', {selectedContentType}, function (data) {
         if (respSuccess(data)) {
             $.cvSuccess("设置成功,即将跳转至首页");
             setTimeout(function () {

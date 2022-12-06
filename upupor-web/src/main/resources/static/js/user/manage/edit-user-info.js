@@ -48,7 +48,7 @@ function editUserInfo() {
             openEmail: isOpenEmail ? 'SUBSCRIBE_EMAIL' : 'UN_SUBSCRIBE_EMAIL',
         }
 
-        $.cvPost('/member/edit', editData, function (data) {
+        $.cvPostJson('/member/edit', editData, function (data) {
             if (data.data.success) {
                 $.cvSuccess("更新个人资料成功");
                 setTimeout(function () {

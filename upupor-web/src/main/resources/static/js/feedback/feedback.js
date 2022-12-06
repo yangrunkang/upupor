@@ -40,7 +40,7 @@ function goToFeedback() {
         content: feedBack + '  <br />反馈者联系方式:' + contact,
     };
 
-    $.cvPost('/feedback/add',req,function(res){
+    $.cvPostJson('/feedback/add',req,function(res){
        if(respSuccess(res)){
            $.cvSuccess("已经反馈,我们会及时处理");
            setTimeout(function(){

@@ -204,10 +204,7 @@ public class MemberEventListener {
     @Async
     public void registerInnerMessage(MemberRegisterEvent memberRegisterEvent) {
         // 添加站内信
-        String msg = "<div class='text-primary' style='font-size: 16px;'>愿景: 让每个人享受分享</div>" +
-                "<div>欢迎使用Upupor</div>" +
-                "<div>官方微信公众号: <a class='cv-link' data-toggle='modal' data-target='#wechat'>Upupor</a></div>" +
-                "<div>官方微博: <a class='cv-link' data-toggle='modal' data-target='#weibo'>UpuporCom</a></div>";
+        String msg = "很高兴遇见你,欢迎来到Upupor~";
         String msgId = CcUtils.getUuId();
 
         MessageSend.send(MessageModel.builder()

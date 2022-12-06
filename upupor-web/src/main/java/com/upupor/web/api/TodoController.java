@@ -45,6 +45,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,7 +70,8 @@ public class TodoController {
     @ApiOperation("添加待办事项")
     @PostMapping(value = "/add")
     @UpuporLimit(limitType = CREATE_TODO)
-    public CcResponse addTodo(AddTodoReq addTodoReq) {
+    @Upgrade2ApiSuccess
+    public CcResponse addTodo(@RequestBody AddTodoReq addTodoReq) {
         CcResponse ccResponse = new CcResponse();
 
         String userId = ServletUtils.getUserId();
@@ -98,7 +100,8 @@ public class TodoController {
 
     @ApiOperation("更新Todo状态是否完成")
     @PostMapping(value = "/markTodo")
-    public CcResponse markTodo(UpdateTodoDoneStatus updateTodoDoneStatus) {
+    @Upgrade2ApiSuccess
+    public CcResponse markTodo(@RequestBody UpdateTodoDoneStatus updateTodoDoneStatus) {
         CcResponse ccResponse = new CcResponse();
 
         String userId = ServletUtils.getUserId();
@@ -135,7 +138,8 @@ public class TodoController {
 
     @ApiOperation("更新Todo状态是否完成")
     @PostMapping(value = "/delete")
-    public CcResponse delete(UpdateTodoDoneStatus updateTodoDoneStatus) {
+    @Upgrade2ApiSuccess
+    public CcResponse delete(@RequestBody UpdateTodoDoneStatus updateTodoDoneStatus) {
         CcResponse ccResponse = new CcResponse();
         String userId = ServletUtils.getUserId();
 
