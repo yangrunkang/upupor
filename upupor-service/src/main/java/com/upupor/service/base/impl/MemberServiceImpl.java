@@ -126,6 +126,7 @@ public class MemberServiceImpl implements MemberService {
 
         Member loginMember = memberComponent.emailLoginModel(EmailLoginModel.builder()
                 .email(memberLoginReq.getEmail())
+                .password(memberLoginReq.getPassword())
                 .build());
         if (Objects.isNull(loginMember)) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR);

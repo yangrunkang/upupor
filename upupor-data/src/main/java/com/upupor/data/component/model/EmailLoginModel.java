@@ -47,5 +47,9 @@ public class EmailLoginModel {
      */
     private String email;
 
+    /**
+     * 密码
+     */
+    private String password;
 
 }

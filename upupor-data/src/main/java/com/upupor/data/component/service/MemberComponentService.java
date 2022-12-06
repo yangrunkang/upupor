@@ -69,7 +69,7 @@ public class MemberComponentService implements MemberComponent {
         if (Objects.isNull(memberByEmail)) {
             return null;
         }
-        String encryptPassword = PasswordUtils.encryptMemberPassword(email, memberByEmail.getUserId(), memberByEmail.getCreateTime());
+        String encryptPassword = PasswordUtils.encryptMemberPassword(loginModel.getPassword(), memberByEmail.getUserId(), memberByEmail.getCreateTime());
         return memberMapper.selectOne(MemberQuery.email(email).eq(Member::getPassword, encryptPassword));
     }
 
