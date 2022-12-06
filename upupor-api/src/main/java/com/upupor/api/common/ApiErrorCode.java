@@ -39,7 +39,8 @@ import lombok.Getter;
 public enum ApiErrorCode {
     LOGIN_FAILED(1001, "登录失败"),
     REGISTER_FAILED(1002, "注册失败"),
-    ;
+
+    API_ERROR(-1, "未知异常");
     @Getter
     private final Integer code;
 

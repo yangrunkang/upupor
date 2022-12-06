@@ -29,8 +29,6 @@ package com.upupor.api.response.user;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 详情响应
  *
@@ -39,7 +37,7 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class DetailResp implements Serializable {
+public class DetailResp {
     /**
      * 用户名
      */
@@ -49,5 +47,5 @@ public class DetailResp implements Serializable {
      * 用户头像
      */
     private String userVia;
-    
+
 }

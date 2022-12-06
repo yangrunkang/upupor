@@ -35,16 +35,23 @@ import com.upupor.api.common.ApiException;
 import com.upupor.api.common.ApiResp;
 import com.upupor.api.request.user.LoginReq;
 import com.upupor.api.request.user.RegisterReq;
+import com.upupor.api.response.user.DetailResp;
 import com.upupor.api.response.user.LoginResp;
 import com.upupor.api.response.user.RegisterResp;
 import com.upupor.data.component.MemberComponent;
-import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.component.model.EmailLoginModel;
+import com.upupor.data.component.model.RegisterModel;
 import com.upupor.data.dao.entity.Member;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.data.utils.PasswordUtils;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.security.jwt.JwtMemberModel;
 import com.upupor.security.jwt.UpuporMemberJwt;
 import com.upupor.service.base.MemberService;
+import com.upupor.service.utils.AvatarHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 
@@ -53,33 +60,58 @@ import java.util.Objects;
  * @createTime 2022-11-26 23:20
  * @email: yangrunkang53@gmail.com
  */
-@Service
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/user-app")
 public class UserApp implements UserApi {
     private final MemberComponent memberComponent;
     private final MemberService memberService;
 
-
+    @PostMapping("/register")
     @Override
-    public ApiResp<RegisterResp> register(RegisterReq registerReq) {
-
-
-        return null;
+    public ApiResp<RegisterResp> register(@RequestBody RegisterReq registerReq) {
+        String userId = CcUtils.getUuId();
+        long createTime = CcDateUtil.getCurrentTime();
+        Member member = memberComponent.registerModel(RegisterModel.builder()
+                .userId(userId)
+                .email(registerReq.getEmail())
+                .userName(registerReq.getUserName())
+                .via(AvatarHelper.generateAvatar(Math.abs(userId.hashCode())))
+                .secretPassword(PasswordUtils.encryptMemberPassword(registerReq.getEmail(), userId, createTime))
+                .createTime(createTime)
+                .build());
+        if (Objects.isNull(member)) {
+            throw new ApiException(ApiErrorCode.REGISTER_FAILED);
+        }
+        return new ApiResp<>(new RegisterResp());
     }
 
+    @PostMapping("/login")
     @Override
-    public ApiResp<LoginResp> login(LoginReq loginReq) {
-        Member member = memberComponent.loginModel(LoginModel.builder()
+    public ApiResp<LoginResp> login(@RequestBody LoginReq loginReq) {
+        Member member = memberComponent.emailLoginModel(EmailLoginModel.builder()
                 .email(loginReq.getEmail())
-                .secretPassword(loginReq.getPassword())
                 .build());
-        if (Objects.nonNull(member)) {
-            LoginResp loginResp = new LoginResp();
-            loginResp.setToken(UpuporMemberJwt.createToken(JwtMemberModel.builder()
-                    .userId(member.getUserId())
-                    .build()));
-            return new ApiResp<>(loginResp);
+        if (Objects.isNull(member)) {
+            throw new ApiException(ApiErrorCode.LOGIN_FAILED);
         }
-        throw new ApiException(ApiErrorCode.LOGIN_FAILED);
+        LoginResp loginResp = new LoginResp();
+        loginResp.setToken(UpuporMemberJwt.createToken(JwtMemberModel.builder()
+                .userId(member.getUserId())
+                .expireTime(CcDateUtil.getCurrentTime() + 7 * 24 * 3600)
+                .build()));
+        return new ApiResp<>(loginResp);
+    }
+
+    @GetMapping("/detail")
+    @Override
+    public ApiResp<DetailResp> info(String userId) {
+        MemberEnhance memberEnhance = memberService.memberInfo(userId);
+        Member member = memberEnhance.getMember();
+
+        DetailResp detailResp = new DetailResp();
+        detailResp.setUserName(member.getUserName());
+        detailResp.setUserVia(member.getVia());
+        return new ApiResp<>(detailResp);
     }
 }

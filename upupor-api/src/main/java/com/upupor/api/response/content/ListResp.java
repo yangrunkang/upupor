@@ -30,7 +30,6 @@ package com.upupor.api.response.content;
 import com.upupor.api.response.content.dto.ContentDto;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -39,6 +38,6 @@ import java.util.List;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ListResp implements Serializable {
+public class ListResp {
     private List<ContentDto> contentList;
 }

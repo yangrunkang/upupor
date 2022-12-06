@@ -25,18 +25,19 @@
  * SOFTWARE.
  */
 
-package com.upupor.api.request.content;
+package com.upupor.framework;
 
-import lombok.Data;
+import java.lang.annotation.*;
 
 /**
- * 内容详情
+ * API和WEB服务共用接口标识,修改时请注意兼容性
  *
  * @author Yang Runkang (cruise)
- * @date 2022年11月23日
+ * @date 2022年12月05日
  * @email: yangrunkang53@gmail.com
  */
-@Data
-public class DetailReq {
-    private String contentId;
+@Target({ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface ApiWebInterface {
 }

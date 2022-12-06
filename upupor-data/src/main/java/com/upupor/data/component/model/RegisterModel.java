@@ -52,7 +52,7 @@ public class RegisterModel {
     private String userName;
 
     /**
-     * 头像
+     * (头像URL,这里只接收URL,具体图片生成或者从外部资源获取等,都交由使用方实现)
      */
     private String via;
 

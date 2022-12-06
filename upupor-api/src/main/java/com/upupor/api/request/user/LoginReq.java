@@ -29,7 +29,7 @@ package com.upupor.api.request.user;
 
 import lombok.Data;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 登录请求
@@ -39,7 +39,11 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class LoginReq implements Serializable {
+public class LoginReq {
+
+    @NotEmpty(message = "邮箱不能为空")
     private String email;
+
+    @NotEmpty(message = "密码不能为空")
     private String password;
 }

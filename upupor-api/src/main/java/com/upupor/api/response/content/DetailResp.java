@@ -29,8 +29,6 @@ package com.upupor.api.response.content;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 内容详情
  *
@@ -39,7 +37,7 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class DetailResp implements Serializable {
+public class DetailResp {
     /**
      * 用户Id(根据用户Id获取用户信息)
      */

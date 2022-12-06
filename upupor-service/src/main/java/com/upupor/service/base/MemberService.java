@@ -35,6 +35,7 @@ import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.data.dto.page.common.ListMemberDto;
+import com.upupor.framework.ApiWebInterface;
 import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.service.outer.req.member.*;
 
@@ -77,7 +78,7 @@ public interface MemberService {
      * @param userId
      * @return
      */
-    MemberEnhance memberInfo(String userId);
+    @ApiWebInterface MemberEnhance memberInfo(String userId);
 
     /**
      * 包含粉丝数,关注数等数据
@@ -252,12 +253,5 @@ public interface MemberService {
      */
     Boolean updateMemberConfig(MemberConfig memberConfig);
 
-    /**
-     * 根据邮件获取用户
-     *
-     * @param email
-     * @return
-     */
-    Member selectByEmail(String email);
 
 }

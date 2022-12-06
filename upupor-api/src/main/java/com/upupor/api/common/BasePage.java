@@ -29,8 +29,6 @@ package com.upupor.api.common;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 页码参数
  *
@@ -39,7 +37,7 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class BasePage implements Serializable {
+public class BasePage {
     /**
      * 页码
      */

@@ -36,14 +36,18 @@ import com.upupor.api.request.content.DeleteReq;
 import com.upupor.api.request.content.DetailReq;
 import com.upupor.api.response.content.CreateResp;
 import com.upupor.api.response.content.DeleteResp;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-11-26 23:18
  * @email: yangrunkang53@gmail.com
  */
-@Service
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/content-app")
 public class ContentApp implements ContentApi {
     @Override
     public ApiResp<CreateResp> create(CreateReq createReq) {

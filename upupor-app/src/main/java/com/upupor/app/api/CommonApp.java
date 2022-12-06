@@ -33,7 +33,9 @@ import com.upupor.api.CommonApi;
 import com.upupor.api.common.ApiResp;
 import com.upupor.api.request.common.VerifyCodeReq;
 import com.upupor.api.response.common.VerifyCodeResp;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 公共服务
@@ -42,7 +44,9 @@ import org.springframework.stereotype.Service;
  * @createTime 2022-11-26 23:26
  * @email: yangrunkang53@gmail.com
  */
-@Service
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/common-app")
 public class CommonApp implements CommonApi {
     @Override
     public ApiResp<VerifyCodeResp> sendVerifyCode(VerifyCodeReq verifyCodeReq) {

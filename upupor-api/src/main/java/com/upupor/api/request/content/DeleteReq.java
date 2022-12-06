@@ -31,8 +31,6 @@ package com.upupor.api.request.content;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 删除请求
  *
@@ -41,6 +39,6 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class DeleteReq implements Serializable {
+public class DeleteReq {
     private String contentId;
 }

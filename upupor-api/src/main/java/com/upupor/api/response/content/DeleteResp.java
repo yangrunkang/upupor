@@ -29,12 +29,10 @@
 
 package com.upupor.api.response.content;
 
-import java.io.Serializable;
-
 /**
  * @author Yang Runkang (cruise)
  * @date 2022年11月23日
  * @email: yangrunkang53@gmail.com
  */
-public class DeleteResp implements Serializable {
+public class DeleteResp {
 }

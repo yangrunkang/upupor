@@ -31,15 +31,13 @@ package com.upupor.api.response.common;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-11-26 23:24
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class VerifyCodeResp implements Serializable {
+public class VerifyCodeResp {
 
     /**
      * 验证码

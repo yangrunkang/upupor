@@ -45,5 +45,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class JwtMemberModel {
+    /**
+     * 用户Id
+     */
     private String userId;
+
+    /**
+     * 过期时间
+     */
+    private Long expireTime;
 }

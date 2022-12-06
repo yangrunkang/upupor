@@ -31,8 +31,6 @@ package com.upupor.api.request.content;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 创建请求
  *
@@ -41,7 +39,7 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class CreateReq implements Serializable {
+public class CreateReq {
     private String title;
     private String content;
     private String tagId;

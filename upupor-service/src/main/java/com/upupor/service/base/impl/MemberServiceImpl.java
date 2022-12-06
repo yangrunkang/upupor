@@ -34,7 +34,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.upupor.data.component.MemberComponent;
-import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.component.model.EmailLoginModel;
 import com.upupor.data.component.model.RegisterModel;
 import com.upupor.data.dao.entity.*;
 import com.upupor.data.dao.entity.converter.Converter;
@@ -45,10 +45,8 @@ import com.upupor.data.dao.mapper.*;
 import com.upupor.data.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.data.dto.page.common.ListMemberDto;
 import com.upupor.data.types.*;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcConstant;
-import com.upupor.framework.CcRedisKey;
-import com.upupor.framework.ErrorCode;
+import com.upupor.data.utils.PasswordUtils;
+import com.upupor.framework.*;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.framework.utils.*;
@@ -58,7 +56,6 @@ import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.member.*;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.AvatarHelper;
-import com.upupor.service.utils.PasswordUtils;
 import com.upupor.service.utils.oss.enums.FileDic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -112,7 +109,6 @@ public class MemberServiceImpl implements MemberService {
                 .secretPassword(PasswordUtils.encryptMemberPassword(addMemberReq.getPassword(), userId, createTime))
                 .createTime(createTime)
                 .build();
-
         Member member = memberComponent.registerModel(registerModel);
         // 注册成功后,自动登录,设置session
         setLoginUserSession(userId);
@@ -125,15 +121,8 @@ public class MemberServiceImpl implements MemberService {
             throw new BusinessException(ErrorCode.PARAM_ERROR.getCode(), "密码为空");
         }
 
-        Member memberByEmail = selectByEmail(memberLoginReq.getEmail());
-        if (Objects.isNull(memberByEmail)) {
-            throw new BusinessException(ErrorCode.WITHOUT_USER_PLEASE_TO_REGISTER);
-        }
-        String encryptPassword = PasswordUtils.encryptMemberPassword(memberLoginReq.getPassword(), memberByEmail.getUserId(), memberByEmail.getCreateTime());
-
-        Member loginMember = memberComponent.loginModel(LoginModel.builder()
+        Member loginMember = memberComponent.emailLoginModel(EmailLoginModel.builder()
                 .email(memberLoginReq.getEmail())
-                .secretPassword(encryptPassword)
                 .build());
         if (Objects.isNull(loginMember)) {
             throw new BusinessException(ErrorCode.PASSWORD_ERROR);
@@ -181,15 +170,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member selectByEmail(String email) {
-        LambdaQueryWrapper<Member> query = new LambdaQueryWrapper<Member>()
-                .eq(Member::getEmail, email)
-                .eq(Member::getStatus, MemberStatus.NORMAL);
-        return memberMapper.selectOne(query);
-    }
-
-
-    @Override
     public Boolean exists(String userId) {
 
         Member member = getMember(userId);
@@ -200,7 +180,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberEnhance memberInfo(String userId) {
+    public @ApiWebInterface MemberEnhance memberInfo(String userId) {
         Member member = getMember(userId);
         MemberExtend memberExtend = getMemberExtend(userId);
         // 检查用户状态

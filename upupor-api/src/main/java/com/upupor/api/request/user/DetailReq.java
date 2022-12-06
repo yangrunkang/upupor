@@ -29,7 +29,7 @@ package com.upupor.api.request.user;
 
 import lombok.Data;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 详情请求
@@ -39,6 +39,7 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class DetailReq implements Serializable {
+public class DetailReq {
+    @NotEmpty(message = "用户Id不能为空")
     private String userId;
 }

@@ -31,8 +31,6 @@ package com.upupor.api.request.common;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 验证码请求
  *
@@ -41,7 +39,7 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class VerifyCodeReq implements Serializable {
+public class VerifyCodeReq {
     /**
      * 邮件
      */

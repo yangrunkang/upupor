@@ -31,6 +31,7 @@ package com.upupor.api;
 import com.upupor.api.common.ApiResp;
 import com.upupor.api.request.user.LoginReq;
 import com.upupor.api.request.user.RegisterReq;
+import com.upupor.api.response.user.DetailResp;
 import com.upupor.api.response.user.LoginResp;
 import com.upupor.api.response.user.RegisterResp;
 
@@ -59,5 +60,13 @@ public interface UserApi {
      */
     ApiResp<LoginResp> login(LoginReq loginReq);
 
+
+    /**
+     * 登录
+     *
+     * @param userId
+     * @return 返回token
+     */
+    ApiResp<DetailResp> info(String userId);
 
 }

@@ -43,6 +43,7 @@ public class UpuporMemberJwt {
     public static String createToken(JwtMemberModel jwtModel) {
         return JWT.create()
                 .withClaim("userId", jwtModel.getUserId())
+                .withClaim("expireTime", jwtModel.getExpireTime())
                 .sign(Algorithm.none())
                 ;
     }

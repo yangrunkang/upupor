@@ -29,9 +29,8 @@
 
 package com.upupor.data.component.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.upupor.data.component.MemberComponent;
-import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.component.model.EmailLoginModel;
 import com.upupor.data.component.model.RegisterModel;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.MemberConfig;
@@ -39,14 +38,17 @@ import com.upupor.data.dao.entity.MemberExtend;
 import com.upupor.data.dao.mapper.MemberConfigMapper;
 import com.upupor.data.dao.mapper.MemberExtendMapper;
 import com.upupor.data.dao.mapper.MemberMapper;
+import com.upupor.data.dao.query.MemberQuery;
 import com.upupor.data.types.MemberStatus;
 import com.upupor.data.types.OpenEmail;
+import com.upupor.data.utils.PasswordUtils;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * @author Yang Runkang (cruise)
@@ -61,12 +63,14 @@ public class MemberComponentService implements MemberComponent {
     private final MemberConfigMapper memberConfigMapper;
 
     @Override
-    public Member loginModel(LoginModel loginModel) {
-        LambdaQueryWrapper<Member> loginQuery = new LambdaQueryWrapper<Member>()
-                .eq(Member::getEmail, loginModel.getEmail())
-                .eq(Member::getPassword, loginModel.getSecretPassword())
-                .eq(Member::getStatus, MemberStatus.NORMAL);
-        return memberMapper.selectOne(loginQuery);
+    public Member emailLoginModel(EmailLoginModel loginModel) {
+        String email = loginModel.getEmail();
+        Member memberByEmail = memberMapper.selectOne(MemberQuery.email(email));
+        if (Objects.isNull(memberByEmail)) {
+            return null;
+        }
+        String encryptPassword = PasswordUtils.encryptMemberPassword(email, memberByEmail.getUserId(), memberByEmail.getCreateTime());
+        return memberMapper.selectOne(MemberQuery.email(email).eq(Member::getPassword, encryptPassword));
     }
 
     @Override
@@ -76,11 +80,11 @@ public class MemberComponentService implements MemberComponent {
          */
         Member member = Member.builder()
                 .userId(registerModel.getUserId())
+                .createTime(registerModel.getCreateTime())
+                .via(registerModel.getVia())
                 .userName(registerModel.getUserName())
                 .email(registerModel.getEmail())
-                .via(registerModel.getVia())
                 .password(registerModel.getSecretPassword())
-                .createTime(registerModel.getCreateTime())
                 .status(MemberStatus.NORMAL)
                 .build();
         member.setSysUpdateTime(new Date());

@@ -25,18 +25,21 @@
  * SOFTWARE.
  */
 
-package com.upupor.api.request.content;
+package com.upupor.data.dao.query;
 
-import lombok.Data;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.upupor.data.dao.entity.Member;
+import com.upupor.data.types.MemberStatus;
 
 /**
- * 内容详情
- *
  * @author Yang Runkang (cruise)
- * @date 2022年11月23日
+ * @date 2022年12月05日
  * @email: yangrunkang53@gmail.com
  */
-@Data
-public class DetailReq {
-    private String contentId;
+public class MemberQuery {
+    public static LambdaQueryWrapper<Member> email(String email) {
+        return new LambdaQueryWrapper<Member>()
+                .eq(Member::getEmail, email)
+                .eq(Member::getStatus, MemberStatus.NORMAL);
+    }
 }

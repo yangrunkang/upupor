@@ -29,8 +29,6 @@ package com.upupor.api.common;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * Api响应对象
  *
@@ -39,10 +37,14 @@ import java.io.Serializable;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ApiResp<T extends Serializable> {
+public class ApiResp<T> {
     private Integer code;
     private T data;
 
+    public ApiResp() {
+        this.code = 0;
+    }
+    
     public ApiResp(T data) {
         this.data = data;
         this.code = 0;

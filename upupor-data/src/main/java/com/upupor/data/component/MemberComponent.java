@@ -29,7 +29,7 @@
 
 package com.upupor.data.component;
 
-import com.upupor.data.component.model.LoginModel;
+import com.upupor.data.component.model.EmailLoginModel;
 import com.upupor.data.component.model.RegisterModel;
 import com.upupor.data.dao.entity.Member;
 
@@ -47,7 +47,7 @@ public interface MemberComponent {
      * @param loginModel
      * @return
      */
-    Member loginModel(LoginModel loginModel);
+    Member emailLoginModel(EmailLoginModel loginModel);
 
 
     /**
