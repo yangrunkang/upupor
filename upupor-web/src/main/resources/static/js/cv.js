@@ -33,6 +33,7 @@ $(function () {
     $.support.transition = true;
     // 封装AjaxPost请求
     jQuery.cvPost = packagingAjaxPost;
+    jQuery.cvPostJson = packagingAjaxPostJson;
     jQuery.cvPostUnder = packagingAjaxPostUnder;
     jQuery.cvGet = packagingAjaxGet;
 
@@ -133,6 +134,45 @@ function packagingAjaxPost(url, data, okFunc) {
         url: url,
         type: "POST",
         data: data,
+        success: function (data) {
+            $(".global-loading-nav-tips-slave").hide();
+            // console.log('///////');
+            // console.log(data);
+            // console.log('///////');
+            // 请求正常响应
+            if (data.code === 0) {
+                // 业务正常
+                okFunc(data.data);
+            } else {
+                // 处理特定状态码跳转
+                if (data.code === 115) { // 未登录直接调整到登录页
+                    window.location.href = '/login?back=' + window.location.pathname + window.location.search;
+                } else {
+                    $.cvError(data.data);
+                }
+            }
+        },
+        error: function (data) {
+            $(".global-loading-nav-tips-slave").hide();
+            console.log(data.data);
+        }
+    });
+}
+
+/**
+ * 封装AjaxPost请求-JSON改造
+ * @param url
+ * @param data
+ * @param okFunc
+ */
+function packagingAjaxPostJson(url, data, okFunc) {
+    $(".global-loading-nav-tips-slave").show();
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
         success: function (data) {
             $(".global-loading-nav-tips-slave").hide();
             // console.log('///////');

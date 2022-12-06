@@ -28,12 +28,12 @@
 package com.upupor.web.aspects;
 
 
+import com.upupor.data.types.PointType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.listener.event.BuriedPointDataEvent;
-import com.upupor.data.types.PointType;
 import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.web.aspects.service.checker.controller.ControllerAspectChecker;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +69,7 @@ public class ControllerAspectAspect {
     /**
      * 以 controller 包下定义的所有请求为切入点
      */
-    @Pointcut("execution(public * com.upupor.web.controller..*.*(..))")
+    @Pointcut("execution(public * com.upupor.web.api..*.*(..))")
     public void controller() {
     }
 

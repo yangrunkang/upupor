@@ -35,8 +35,8 @@
         <module>upupor-framework</module>
         <module>upupor-lucene</module>
         <module>upupor-security</module>
-        <module>upupor-api</module>
-        <module>upupor-app</module>
+<!--        <module>upupor-api</module>-->
+<!--        <module>upupor-app</module>-->
         <module>upupor-task</module>
         <module>upupor-data</module>
     </modules>

@@ -25,50 +25,36 @@
  * SOFTWARE.
  */
 
-$(function () {
-});
+package com.upupor.web.api;
 
-$(window).on('load', function() {
-    // 登录
-    login();
-});
+import com.upupor.framework.CcResponse;
+import com.upupor.service.business.task.TaskService;
+import io.swagger.annotations.Api;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-function login() {
-    $('form').submit(function (event) {
-        let email = $('#email').val();
-        let password = $('#password').val();
 
-        if (cvIsNull(email)) {
-            $.cvError('请输入正确邮箱');
-            return false;
-        }
-        if (cvIsNull(password)) {
-            $.cvError('请输入密码');
-            return false;
-        }
+/**
+ * SeoController
+ *
+ * @author YangRunkang(cruise)
+ * @date 2020/03/12 05:22
+ */
+@Api(tags = "SEO")
+@RestController
+@RequiredArgsConstructor
+public class SeoController {
 
-        let param = {
-            email: email,
-            password: password
-        };
+    private final TaskService taskService;
 
-        $.cvPostJson('/member/login', param, function (data) {
-            if (respSuccess(data)) {
-                let back = getQueryString('back');
-                if(!cvIsNull(back)){
-                    window.location.href = back;
-                }else if(window.location.pathname !== '/login'){
-                    // 回退到上一步
-                    window.location.href = window.location.pathname + window.location.search;
-                }else{
-                    window.location.href = '/';
-                }
-            } else {
-                $.cvError(data)
-            }
-        });
 
-        // 不刷新
-        return false;
-    });
+    @GetMapping("/refresh-google-sitemap")
+    public CcResponse googleSeo() {
+        CcResponse c = new CcResponse();
+        taskService.googleSitemap();
+        c.setData("Google站点地图已经刷新");
+        return c;
+    }
+
 }

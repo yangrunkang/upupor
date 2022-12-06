@@ -25,50 +25,43 @@
  * SOFTWARE.
  */
 
-$(function () {
-});
+package com.upupor.web.api;
 
-$(window).on('load', function() {
-    // 登录
-    login();
-});
+import com.upupor.framework.CcResponse;
+import com.upupor.security.limiter.UpuporLimit;
+import com.upupor.service.base.FeedbackService;
+import com.upupor.service.outer.req.AddFeedbackReq;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-function login() {
-    $('form').submit(function (event) {
-        let email = $('#email').val();
-        let password = $('#password').val();
+import static com.upupor.security.limiter.LimitType.FEED_BACK;
 
-        if (cvIsNull(email)) {
-            $.cvError('请输入正确邮箱');
-            return false;
-        }
-        if (cvIsNull(password)) {
-            $.cvError('请输入密码');
-            return false;
-        }
 
-        let param = {
-            email: email,
-            password: password
-        };
+/**
+ * 反馈
+ *
+ * @author: YangRunkang(cruise)
+ * @created: 2019/12/23 01:51
+ */
+@Api(tags = "反馈服务")
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/feedback")
+public class FeedbackController {
 
-        $.cvPostJson('/member/login', param, function (data) {
-            if (respSuccess(data)) {
-                let back = getQueryString('back');
-                if(!cvIsNull(back)){
-                    window.location.href = back;
-                }else if(window.location.pathname !== '/login'){
-                    // 回退到上一步
-                    window.location.href = window.location.pathname + window.location.search;
-                }else{
-                    window.location.href = '/';
-                }
-            } else {
-                $.cvError(data)
-            }
-        });
+    private final FeedbackService feedbackService;
 
-        // 不刷新
-        return false;
-    });
+    @ApiOperation("添加反馈")
+    @PostMapping("/add")
+    @UpuporLimit(limitType = FEED_BACK, needLogin = false, needSpendMoney = true)
+    public CcResponse add(AddFeedbackReq add) {
+        CcResponse ccResponse = new CcResponse();
+        ccResponse.setData(feedbackService.addFeedBack(add) > 0);
+        return ccResponse;
+    }
+
 }

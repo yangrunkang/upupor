@@ -46,7 +46,10 @@ import com.upupor.data.dto.page.common.ListDailyPointsMemberDto;
 import com.upupor.data.dto.page.common.ListMemberDto;
 import com.upupor.data.types.*;
 import com.upupor.data.utils.PasswordUtils;
-import com.upupor.framework.*;
+import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcConstant;
+import com.upupor.framework.CcRedisKey;
+import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.framework.utils.*;
@@ -180,7 +183,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public @ApiWebInterface MemberEnhance memberInfo(String userId) {
+    public MemberEnhance memberInfo(String userId) {
         Member member = getMember(userId);
         MemberExtend memberExtend = getMemberExtend(userId);
         // 检查用户状态
