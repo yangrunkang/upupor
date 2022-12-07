@@ -68,6 +68,7 @@ public enum ErrorCode {
     SYNC_FETCH_DATA_ERROR(38, "异步获取数据失败"),
     OSS_UN_IMP(39, "该OSS未实现"),
     BUCKET_NOT_EXISTS(40, "该存储桶未实现"),
+    ONLY_SUPPORT_GET_POST(41, "Upupor仅支持GET和POST请求"),
 
 
     // 业务异常 100-300

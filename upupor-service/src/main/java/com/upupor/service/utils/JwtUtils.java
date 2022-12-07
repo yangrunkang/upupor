@@ -64,11 +64,22 @@ public class JwtUtils {
             throw new BusinessException(ErrorCode.GET_SESSION_FAILED);
         }
         HttpServletRequest request = requestAttributes.getRequest();
-        String upuporToken = request.getHeader("UpuporToken");
-        if (StringUtils.isEmpty(upuporToken) || "null".equals(upuporToken)) {
-            throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
+        String method = request.getMethod().toUpperCase();
+        // 这里做一层兼容,因为之前的版本是服务端渲染,页面路由的GET请求无法携带header,所以就无法获取token,这里GET请求还是使用Session,
+        // POST则获取token后进行解析,等前端重写后,将这地移除Session
+        if ("GET".equals(method)) {
+            return JwtMemberModel.builder()
+                    .userId(getPageSession().getAttribute(CcConstant.Session.USER_ID).toString())
+                    .build();
+        } else if ("POST".equals(method)) {
+            String upuporToken = request.getHeader("UpuporToken");
+            if (StringUtils.isEmpty(upuporToken) || "null".equals(upuporToken)) {
+                throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
+            }
+            return UpuporMemberJwt.parse(upuporToken);
         }
-        return UpuporMemberJwt.parse(upuporToken);
+
+        throw new BusinessException(ErrorCode.ONLY_SUPPORT_GET_POST);
     }
 
     public static HttpSession getPageSession() {
