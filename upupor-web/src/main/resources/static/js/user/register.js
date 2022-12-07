@@ -69,6 +69,7 @@ function register() {
         };
         $.cvPostJson('/member/register', param, function (data) {
             if (data.data.success) {
+                sessionStorage.setItem("upupor_token", data.data.token)
                 $.cvSuccess("注册成功,已为您自动登录");
                 setTimeout(function () {
                     window.location.href = '/';
