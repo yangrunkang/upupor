@@ -37,7 +37,7 @@ import com.upupor.data.types.ViewTargetType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.aggregation.CommonAggregateService;
 import com.upupor.service.base.*;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
@@ -190,7 +190,7 @@ public class PublishedContent extends AbstractContent {
         boolean currUserIsClickLike = false;
         try {
             GetMemberIntegralReq getMemberIntegralReq = new GetMemberIntegralReq();
-            getMemberIntegralReq.setUserId(ServletUtils.getUserId());
+            getMemberIntegralReq.setUserId(JwtUtils.getUserId());
             getMemberIntegralReq.setRuleId(IntegralEnum.CLICK_LIKE.getRuleId());
             getMemberIntegralReq.setTargetId(content.getContentId());
             currUserIsClickLike = memberIntegralService.checkExists(getMemberIntegralReq);
@@ -202,7 +202,7 @@ public class PublishedContent extends AbstractContent {
     private void settingIsCollect(ContentIndexDto contentIndexDto, Content content) {
         boolean currUserIsCollect = false;
         try {
-            currUserIsCollect = collectService.existsCollectContent(content.getContentId(), ServletUtils.getUserId());
+            currUserIsCollect = collectService.existsCollectContent(content.getContentId(), JwtUtils.getUserId());
         } catch (Exception ignored) {
         }
         contentIndexDto.setCurrUserIsCollect(currUserIsCollect);

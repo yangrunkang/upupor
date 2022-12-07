@@ -35,7 +35,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.UpdateCssReq;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -55,7 +55,7 @@ public class BgSetting extends AbstractMember<UpdateCssReq> {
     @Override
     public CcResponse handle() {
         CcResponse cc = new CcResponse();
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
         if (StringUtils.isEmpty(userId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
         }

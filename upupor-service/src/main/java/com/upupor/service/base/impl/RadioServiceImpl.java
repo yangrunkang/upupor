@@ -48,7 +48,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.FileService;
 import com.upupor.service.base.MemberService;
@@ -239,7 +239,7 @@ public class RadioServiceImpl implements RadioService {
         }
 
         // 获取用户
-        Member member = memberService.memberInfo(ServletUtils.getUserId()).getMember();
+        Member member = memberService.memberInfo(JwtUtils.getUserId()).getMember();
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
@@ -284,7 +284,7 @@ public class RadioServiceImpl implements RadioService {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
 
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
 
         RadioEnhance radioEnhance = this.getByRadioId(delRadioReq.getRadioId());
         Radio radio = radioEnhance.getRadio();

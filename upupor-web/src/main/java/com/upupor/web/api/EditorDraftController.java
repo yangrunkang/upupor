@@ -31,7 +31,7 @@ package com.upupor.web.api;
 
 import com.upupor.data.dao.entity.Draft;
 import com.upupor.framework.CcResponse;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.DraftService;
@@ -86,7 +86,7 @@ public class EditorDraftController {
     @Upgrade2ApiSuccess
     public CcResponse cleanDraft(@RequestBody CleanDraftReq cleanDraftReq) {
         String contentId = cleanDraftReq.getContentId();
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
 
         Draft draft = draftService.getByDraftIdAndUserId(contentId, userId);
         if (Objects.nonNull(draft)) {
@@ -105,7 +105,7 @@ public class EditorDraftController {
     @Upgrade2ApiSuccess
     public CcResponse existsDraft(@RequestBody ExistsDraftReq existsDraftReq) {
         String contentId = existsDraftReq.getContentId();
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
         return new CcResponse(Objects.nonNull(draftService.getByDraftIdAndUserId(contentId, userId)));
     }
 

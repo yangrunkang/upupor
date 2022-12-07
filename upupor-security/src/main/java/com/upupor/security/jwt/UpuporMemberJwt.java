@@ -51,21 +51,12 @@ public class UpuporMemberJwt {
     public static JwtMemberModel parse(String token) {
         DecodedJWT decode = JWT.decode(token);
         String userId = decode.getClaim("userId").asString();
+        Long expireTime = decode.getClaim("expireTime").asLong();
 
         JwtMemberModel jwtModel = new JwtMemberModel();
         jwtModel.setUserId(userId);
+        jwtModel.setExpireTime(expireTime);
         return jwtModel;
-    }
-
-    public static void main(String[] args) {
-        JwtMemberModel jwtModel = new JwtMemberModel();
-        jwtModel.setUserId("a");
-
-        String token = createToken(jwtModel);
-        System.out.println(token);
-
-        JwtMemberModel parse = parse(token);
-        System.out.println();
     }
 
 }

@@ -41,7 +41,7 @@ import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.FileUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.ApplyService;
 import com.upupor.service.base.FileService;
 import com.upupor.service.base.MessageService;
@@ -96,7 +96,7 @@ public class ApplyServiceImpl implements ApplyService {
     @Override
     public Boolean editApply(UpdateApplyReq updateApplyReq) {
         String reqUserId = updateApplyReq.getUserId();
-        ServletUtils.checkOperatePermission(reqUserId);
+        JwtUtils.checkOperatePermission(reqUserId);
 
         String applyId = updateApplyReq.getApplyId();
         ApplyEnhance applyEnhance = getByApplyId(applyId);
@@ -156,7 +156,7 @@ public class ApplyServiceImpl implements ApplyService {
         String reqUserId = delApplyReq.getUserId();
         String applyId = delApplyReq.getApplyId();
 
-        ServletUtils.checkOperatePermission(reqUserId);
+        JwtUtils.checkOperatePermission(reqUserId);
 
         ApplyEnhance applyEnhance = getByApplyId(applyId);
         Apply apply = applyEnhance.getApply();

@@ -51,7 +51,7 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.*;
 import com.upupor.service.business.editor.AbstractEditor;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
@@ -452,7 +452,7 @@ public class ContentServiceImpl implements ContentService {
     public Boolean currentUserIsAttentionAuthor(String contentUserId) {
         boolean currentUserIsAttention = false;
         try {
-            Attention attention = attentionService.getAttention(contentUserId, ServletUtils.getUserId());
+            Attention attention = attentionService.getAttention(contentUserId, JwtUtils.getUserId());
             currentUserIsAttention = Objects.nonNull(attention);
         } catch (Exception e) {
         }

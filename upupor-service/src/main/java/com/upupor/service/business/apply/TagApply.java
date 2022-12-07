@@ -37,7 +37,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.JsonUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.outer.req.AddTagReq;
 import org.springframework.stereotype.Component;
 
@@ -79,7 +79,7 @@ public class TagApply extends AbstractApply<AddTagReq> {
 
         Apply apply = new Apply();
         apply.setApplyId(CcUtils.getUuId());
-        apply.setUserId(ServletUtils.getUserId());
+        apply.setUserId(JwtUtils.getUserId());
         apply.setApplySource(ApplySource.TAG);
         apply.setApplyContent(JsonUtils.toJsonStr(applyContentDto));
         apply.setApplyStatus(ApplyStatus.WAIT_APPLY);

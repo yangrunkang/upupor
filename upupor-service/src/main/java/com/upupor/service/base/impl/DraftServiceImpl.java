@@ -35,7 +35,7 @@ import com.upupor.data.dao.mapper.DraftMapper;
 import com.upupor.data.dto.dao.ListDraftDto;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.utils.Asserts;
@@ -79,7 +79,7 @@ public class DraftServiceImpl implements DraftService {
     @Override
     public Boolean autoSaveContent(AutoSaveContentReq autoSaveContentReq) {
         String draftId = autoSaveContentReq.getDraftId(); // 草稿Id
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
         Draft draft = this.getByDraftIdAndUserId(draftId, userId);
 
         Boolean autoSave;

@@ -31,7 +31,7 @@ package com.upupor.web.aspects.service.checker.controller;
 
 import com.upupor.security.limiter.AbstractLimiter;
 import com.upupor.security.limiter.UpuporLimit;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-import static com.upupor.framework.utils.ServletUtils.checkIsLogin;
+import static com.upupor.service.utils.JwtUtils.checkIsLogin;
 
 /**
  * @author Yang Runkang (cruise)
@@ -63,7 +63,7 @@ public class LimiterChecker extends AbstractLimiter implements ControllerAspectC
         String businessId;
         if (annotation.needLogin()) {
             checkIsLogin();
-            businessId = ServletUtils.getUserId();
+            businessId = JwtUtils.getUserId();
         } else {
             businessId = controllerCheckerDto.getRequest().getSession().getId();
         }

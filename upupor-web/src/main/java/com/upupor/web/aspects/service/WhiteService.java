@@ -33,7 +33,7 @@ import com.upupor.framework.config.UpuporConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.upupor.framework.utils.ServletUtils.checkIsLogin;
+import static com.upupor.service.utils.JwtUtils.checkIsLogin;
 
 /**
  * 白名单服务
@@ -51,7 +51,6 @@ public class WhiteService {
             checkIsLogin();
         }
     }
-
 
     public void pageCheck(String servletPath) {
         upuporConfig.getPageCheckUrlList().forEach(page -> {

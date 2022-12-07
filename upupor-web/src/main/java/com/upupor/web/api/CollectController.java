@@ -41,7 +41,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.CollectService;
@@ -94,7 +94,7 @@ public class CollectController {
     public CcResponse add(@RequestBody AddCollectReq addCollectReq) {
         CcResponse ccResponse = new CcResponse();
 
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
 
         if (StringUtils.isEmpty(addCollectReq.getCollectValue())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);

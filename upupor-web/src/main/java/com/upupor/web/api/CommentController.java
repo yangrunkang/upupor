@@ -35,7 +35,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.CommentService;
@@ -93,7 +93,7 @@ public class CommentController {
             Comment comment = commentService.toComment(addCommentReq);
 
             // 评论的人(当前用户)
-            Member currentUser = memberService.memberInfo(ServletUtils.getUserId()).getMember();
+            Member currentUser = memberService.memberInfo(JwtUtils.getUserId()).getMember();
             if (StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {
                 // 常规的评论
                 normalCommentEvent(addCommentReq.getTargetId(), comment);
@@ -143,7 +143,7 @@ public class CommentController {
 
         Comment comment = commentService.getCommentByCommentId(updateCommentReq.getCommentId());
         // 校验内容所属的用户id是否是当前用户
-        ServletUtils.checkOperatePermission(comment.getUserId());
+        JwtUtils.checkOperatePermission(comment.getUserId());
 
         comment.setStatus(updateCommentReq.getStatus());
         boolean update = commentService.update(comment);

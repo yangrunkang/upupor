@@ -37,7 +37,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.aggregation.EditorAggregateService;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
@@ -160,7 +160,7 @@ public class EditorPageJumpController {
             throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
         }
         // 校验文章是否是作者本人的
-        if (!contentEnhance.getContent().getUserId().equals(ServletUtils.getUserId())) {
+        if (!contentEnhance.getContent().getUserId().equals(JwtUtils.getUserId())) {
             throw new BusinessException(ErrorCode.BAN_EDIT_OTHERS_CONTENT);
         }
         editorIndexDto.setContentEnhance(contentEnhance);

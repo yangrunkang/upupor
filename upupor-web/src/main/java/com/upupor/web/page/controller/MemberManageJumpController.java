@@ -34,7 +34,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.service.business.manage.AbstractManage;
 import com.upupor.service.business.manage.ManageDto;
 import com.upupor.service.business.manage.business.ApplyCommitManage;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -88,7 +88,7 @@ public class MemberManageJumpController {
             ManageDto build = ManageDto.builder()
                     .pageSize(pageSize)
                     .pageNum(pageNum)
-                    .userId(ServletUtils.getUserId())
+                    .userId(JwtUtils.getUserId())
                     .searchTitle(searchTitle)
                     .searchContentId(searchContentId)
                     .messageStatus(messageStatus)
@@ -120,7 +120,7 @@ public class MemberManageJumpController {
     public ModelAndView userManageApplyCommit(@PathVariable String applyId) {
         ManageDto build = ManageDto.builder()
                 .applyId(applyId)
-                .userId(ServletUtils.getUserId())
+                .userId(JwtUtils.getUserId())
                 .build();
 
         ModelAndView modelAndView = new ModelAndView();

@@ -32,7 +32,7 @@ import com.upupor.data.types.PointType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.web.aspects.service.checker.controller.ControllerAspectChecker;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
@@ -84,7 +84,7 @@ public class ControllerAspectAspect {
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         CcResponse ccResponse = new CcResponse();
-        HttpServletRequest request = ServletUtils.getRequest();
+        HttpServletRequest request = JwtUtils.getRequest();
         long startTime = System.currentTimeMillis();
 
         // 页面请求埋点

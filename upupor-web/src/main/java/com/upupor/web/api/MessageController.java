@@ -30,7 +30,7 @@
 package com.upupor.web.api;
 
 import com.upupor.framework.CcResponse;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.MessageService;
 import com.upupor.service.outer.req.UpdateMessageReq;
 import io.swagger.annotations.Api;
@@ -61,7 +61,7 @@ public class MessageController {
     @Upgrade2ApiSuccess
     private CcResponse edit(@RequestBody UpdateMessageReq updateMessageReq) {
         CcResponse cc = new CcResponse();
-        ServletUtils.checkOperatePermission(updateMessageReq.getUserId());
+        JwtUtils.checkOperatePermission(updateMessageReq.getUserId());
 
         Integer update = messageService.updateMessage(updateMessageReq);
         cc.setData(update > 0);

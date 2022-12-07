@@ -52,13 +52,17 @@ import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.common.UserCheckFieldType;
-import com.upupor.framework.utils.*;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.RedisUtil;
+import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.base.*;
 import com.upupor.service.listener.event.MemberLoginEvent;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.member.*;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.AvatarHelper;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.utils.oss.enums.FileDic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -149,13 +153,13 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberEnhance.getMember();
         MemberExtend memberExtend = memberEnhance.getMemberExtendEnhance().getMemberExtend();
 
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_ID, member.getUserId());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.USER_NAME, member.getUserName());
-        ServletUtils.getSession().setAttribute(CcConstant.Session.IS_ADMIN, MemberIsAdmin.ADMIN.equals(member.getIsAdmin()));
-        ServletUtils.getSession().setAttribute(CcConstant.Session.LONG_TIME_UN_UPDATE_PROFILE_PHOTO, isReplaceSystemProfilePhoto(member));
+        JwtUtils.getPageSession().setAttribute(CcConstant.Session.USER_ID, member.getUserId());
+        JwtUtils.getPageSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
+        JwtUtils.getPageSession().setAttribute(CcConstant.Session.USER_NAME, member.getUserName());
+        JwtUtils.getPageSession().setAttribute(CcConstant.Session.IS_ADMIN, MemberIsAdmin.ADMIN.equals(member.getIsAdmin()));
+        JwtUtils.getPageSession().setAttribute(CcConstant.Session.LONG_TIME_UN_UPDATE_PROFILE_PHOTO, isReplaceSystemProfilePhoto(member));
         if (!StringUtils.isEmpty(memberExtend.getBgImg())) {
-            ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
+            JwtUtils.getPageSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
         }
 
         // 更新最新登录时间
@@ -301,7 +305,7 @@ public class MemberServiceImpl implements MemberService {
         boolean result = total > 0;
         if (result) {
             if (!StringUtils.isEmpty(memberExtend.getBgImg())) {
-                ServletUtils.getSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
+                JwtUtils.getPageSession().setAttribute(CcConstant.Session.USER_BG_IMG, memberExtend.getBgImg());
             }
         }
 
@@ -424,7 +428,7 @@ public class MemberServiceImpl implements MemberService {
             endTime = startTime + 24 * 3600;
             String userId = null;
             try {
-                userId = ServletUtils.getUserId();
+                userId = JwtUtils.getUserId();
             } catch (Exception e) {
                 // 首页不捕获异常,否则会调整到登录页面
             }
@@ -579,7 +583,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void checkIsAdmin() {
 
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
         if (!StringUtils.isEmpty(userId)) {
             MemberEnhance memberEnhance = memberInfo(userId);
             if (!memberEnhance.getMember().getIsAdmin().equals(MemberIsAdmin.ADMIN)) {

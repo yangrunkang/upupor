@@ -36,7 +36,7 @@ import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.TodoService;
 import com.upupor.service.outer.req.AddTodoReq;
@@ -74,7 +74,7 @@ public class TodoController {
     public CcResponse addTodo(@RequestBody AddTodoReq addTodoReq) {
         CcResponse ccResponse = new CcResponse();
 
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
 
         Todo todo = new Todo();
         todo.setUserId(userId);
@@ -104,7 +104,7 @@ public class TodoController {
     public CcResponse markTodo(@RequestBody UpdateTodoDoneStatus updateTodoDoneStatus) {
         CcResponse ccResponse = new CcResponse();
 
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
 
         String todoId = updateTodoDoneStatus.getTodoId();
 
@@ -141,7 +141,7 @@ public class TodoController {
     @Upgrade2ApiSuccess
     public CcResponse delete(@RequestBody UpdateTodoDoneStatus updateTodoDoneStatus) {
         CcResponse ccResponse = new CcResponse();
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
 
         String todoId = updateTodoDoneStatus.getTodoId();
 

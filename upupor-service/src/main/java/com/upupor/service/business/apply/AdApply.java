@@ -36,7 +36,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.JsonUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.outer.req.AddApplyReq;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -76,7 +76,7 @@ public class AdApply extends AbstractApply<AddApplyReq> {
         Apply apply = new Apply();
         BeanUtils.copyProperties(adApplyReq, apply);
         apply.setApplyId(CcUtils.getUuId());
-        apply.setUserId(ServletUtils.getUserId());
+        apply.setUserId(JwtUtils.getUserId());
 
         ApplyContentDto applyContentDto = new ApplyContentDto();
         applyContentDto.setApplyIntro(adApplyReq.getAdIntro());

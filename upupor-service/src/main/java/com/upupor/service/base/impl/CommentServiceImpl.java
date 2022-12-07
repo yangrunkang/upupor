@@ -51,7 +51,7 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.CommentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.outer.req.AddCommentReq;
@@ -83,7 +83,7 @@ public class CommentServiceImpl implements CommentService {
 
         Comment comment = new Comment();
         BeanUtils.copyProperties(addCommentReq, comment);
-        comment.setUserId(ServletUtils.getUserId());
+        comment.setUserId(JwtUtils.getUserId());
         comment.setCommentId(CcUtils.getUuId());
         comment.setStatus(CommentStatus.NORMAL);
         comment.setAgree(CommentAgree.NONE);

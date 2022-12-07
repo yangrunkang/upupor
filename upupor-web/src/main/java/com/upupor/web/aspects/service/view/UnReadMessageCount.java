@@ -32,7 +32,7 @@ package com.upupor.web.aspects.service.view;
 import com.upupor.data.dao.entity.Message;
 import com.upupor.data.types.MessageStatus;
 import com.upupor.framework.CcConstant;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
@@ -59,7 +59,7 @@ public class UnReadMessageCount implements PrepareData {
         ModelAndView modelAndView = viewData.getModelAndView();
         try {
             Message query = new Message();
-            query.setUserId(ServletUtils.getUserId());
+            query.setUserId(JwtUtils.getUserId());
             query.setStatus(MessageStatus.UN_READ);
             Integer unReadCount = messageService.unReadMessageTotal(query);
             modelAndView.addObject(CcConstant.UNREAD_MSG_COUNT, unReadCount);

@@ -32,10 +32,10 @@ package com.upupor.service.business.member.business;
 import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.utils.RedisUtil;
-import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.BaseMemberReq;
+import com.upupor.service.utils.JwtUtils;
 import org.springframework.stereotype.Component;
 
 
@@ -54,13 +54,12 @@ public class Logout extends AbstractMember<BaseMemberReq> {
     @Override
     public CcResponse handle() {
         // 过期Session
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
         String loginExpiredTimeKey = CcRedisKey.memberLoginExpiredTimeKey(userId);
         RedisUtil.remove(loginExpiredTimeKey);
 
-        
         // 清除session
-        ServletUtils.getSession().invalidate(); // todo yrk when jwt done,remove this code
+        JwtUtils.getPageSession().invalidate(); // todo yrk when jwt done,remove this code
         return new CcResponse();
     }
 }

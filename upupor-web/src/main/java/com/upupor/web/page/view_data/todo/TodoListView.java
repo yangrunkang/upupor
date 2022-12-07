@@ -30,7 +30,7 @@ package com.upupor.web.page.view_data.todo;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.aggregation.TodoAggregateService;
 import com.upupor.web.page.view_data.AbstractView;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -67,7 +67,7 @@ public class TodoListView extends AbstractView {
 
     @Override
     protected void fetchData() {
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
         modelAndView.addObject(todoAggregateService.index(userId, query.getPageNum(), query.getPageSize()));
     }
 }

@@ -34,7 +34,7 @@ import com.upupor.data.types.ContentType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.aggregation.CommonAggregateService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.TagService;
@@ -91,7 +91,7 @@ public class ContentJumpController {
         // 只有跳转到首页才需要走这个逻辑
         if (servletPath.equals(WEB_INDEX)) {
             try {
-                String userId = ServletUtils.getUserId();
+                String userId = JwtUtils.getUserId();
 
                 MemberEnhance memberEnhance = memberService.memberInfo(userId);
                 MemberConfig memberConfig = memberEnhance.getMemberConfigEnhance().getMemberConfig();

@@ -46,7 +46,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.AttentionService;
 import com.upupor.service.base.FanService;
 import com.upupor.service.base.MemberIntegralService;
@@ -173,7 +173,7 @@ public class AttentionServiceImpl implements AttentionService {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "关注者的用户id为空");
         }
 
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
         if (addAttentionReq.getAttentionUserId().equals(userId)) {
             throw new BusinessException(ErrorCode.FORBIDDEN_ATTENTION_SELF);
         }

@@ -43,7 +43,7 @@ import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.lucene.UpuporLucene;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
@@ -142,7 +142,7 @@ public class ContentController {
     @UpuporLimit(limitType = LimitType.CLICK_LIKE, needSpendMoney = true)
     @Upgrade2ApiSuccess
     public CcResponse like(@RequestBody UpdateLikeReq updateLikeReq) {
-        String clickUserId = ServletUtils.getUserId();
+        String clickUserId = JwtUtils.getUserId();
         CcResponse cc = new CcResponse();
         String contentId = updateLikeReq.getContentId();
         // 获取文章
@@ -194,7 +194,7 @@ public class ContentController {
     @Upgrade2ApiSuccess
     public CcResponse pinned(@RequestBody PinnedReq pinnedReq) {
 
-        String userId = ServletUtils.getUserId();
+        String userId = JwtUtils.getUserId();
 
         String contentId = pinnedReq.getContentId();
         ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);

@@ -29,17 +29,17 @@ package com.upupor.service.base.impl;
 
 import com.upupor.data.dao.entity.Feedback;
 import com.upupor.data.dao.mapper.FeedbackMapper;
-import com.upupor.service.base.FeedbackService;
-import com.upupor.service.base.MessageService;
+import com.upupor.data.types.FeedBackStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.base.FeedbackService;
+import com.upupor.service.base.MessageService;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.outer.req.AddFeedbackReq;
-import com.upupor.data.types.FeedBackStatus;
+import com.upupor.service.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -73,9 +73,9 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedback.setStatus(FeedBackStatus.NORMAL);
         feedback.setCreateTime(CcDateUtil.getCurrentTime());
         try {
-            feedback.setUserId(ServletUtils.getUserId());
+            feedback.setUserId(JwtUtils.getUserId());
         } catch (Exception e) {
-            feedback.setUserId(ServletUtils.getSession().getId());
+            feedback.setUserId(JwtUtils.getPageSession().getId());
         }
         feedback.setSysUpdateTime(new Date());
 

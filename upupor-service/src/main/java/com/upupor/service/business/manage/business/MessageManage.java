@@ -36,7 +36,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.data.dto.page.common.ListMessageDto;
 import com.upupor.service.outer.req.ListMessageReq;
 import com.upupor.data.types.MessageStatus;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -76,7 +76,7 @@ public class MessageManage extends AbstractManage {
         } else {
             throw new BusinessException(ErrorCode.PATH_ERROR);
         }
-        listMessageReq.setUserId(ServletUtils.getUserId());
+        listMessageReq.setUserId(JwtUtils.getUserId());
         listMessageReq.setPageNum(pageNum);
         listMessageReq.setPageSize(pageSize);
 

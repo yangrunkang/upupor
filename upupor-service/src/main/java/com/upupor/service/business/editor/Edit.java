@@ -42,7 +42,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.framework.utils.ServletUtils;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -81,7 +81,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
         Content editContent = editContentEnhance.getContent();
 
         // 校验内容所属的用户id是否是当前用户
-        ServletUtils.checkOperatePermission(editContent.getUserId());
+        JwtUtils.checkOperatePermission(editContent.getUserId());
 
         // 检查置顶文章的状态
         pinnedContentCheck(editContent);
