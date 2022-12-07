@@ -88,7 +88,7 @@ public class CcRedisKey {
      * @param userId
      * @return
      */
-    public static String dayilyPoint(String format, String userId) {
+    public static String dailyPoint(String format, String userId) {
         return "DAILY_POINTS_" + format + "_" + userId;
     }
 
@@ -102,7 +102,20 @@ public class CcRedisKey {
         return SITE_MAP + CcConstant.BLANK + siteMapName;
     }
 
+    /**
+     * 用户验证码Code
+     *
+     * @param source
+     * @param email
+     * @param verifyCode
+     * @return
+     */
     public static String memberVerifyCodeKey(String source, String email, String verifyCode) {
         return source + email.trim() + verifyCode;
+    }
+
+
+    public static String memberLoginExpiredTimeKey(String userId) {
+        return "JWT_EXPIRED_TIME" + "_" + userId;
     }
 }

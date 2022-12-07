@@ -28,8 +28,9 @@
  */
 
 function navLogout() {
-    $.cvGet('/member/logout', function (res) {
+    $.cvPostJson('/member/logout',{}, function (res) {
         if (respCodeOk(res)) {
+            sessionStorage.removeItem("upupor_token");
             // swal("退出账户成功", {
             //     icon: "success",
             // });

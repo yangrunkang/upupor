@@ -29,11 +29,13 @@
 
 package com.upupor.service.business.member.business;
 
+import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.CcResponse;
+import com.upupor.framework.utils.RedisUtil;
+import com.upupor.framework.utils.ServletUtils;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.BaseMemberReq;
-import com.upupor.framework.utils.ServletUtils;
 import org.springframework.stereotype.Component;
 
 
@@ -43,7 +45,7 @@ import org.springframework.stereotype.Component;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class LoginOut extends AbstractMember<BaseMemberReq> {
+public class Logout extends AbstractMember<BaseMemberReq> {
     @Override
     public MemberBusiness memberBusiness() {
         return MemberBusiness.LOGIN_OUT;
@@ -51,8 +53,14 @@ public class LoginOut extends AbstractMember<BaseMemberReq> {
 
     @Override
     public CcResponse handle() {
+        // 过期Session
+        String userId = ServletUtils.getUserId();
+        String loginExpiredTimeKey = CcRedisKey.memberLoginExpiredTimeKey(userId);
+        RedisUtil.remove(loginExpiredTimeKey);
+
+        
         // 清除session
-        ServletUtils.getSession().invalidate();
+        ServletUtils.getSession().invalidate(); // todo yrk when jwt done,remove this code
         return new CcResponse();
     }
 }

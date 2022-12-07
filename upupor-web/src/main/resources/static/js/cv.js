@@ -34,7 +34,6 @@ $(function () {
     // 封装AjaxPost请求
     jQuery.cvPostJson = packagingAjaxPostJson;
     jQuery.cvPostUnder = packagingAjaxPostUnder;
-    jQuery.cvGet = packagingAjaxGet;
 
     // 封装提示插件
     jQuery.cvSuccess = packagingToastSuccess;
@@ -130,6 +129,9 @@ function packagingToastSuccess(message) {
 function packagingAjaxPostJson(url, data, okFunc) {
     $(".global-loading-nav-tips-slave").show();
     $.ajax({
+        headers: {
+            UpuporToken: sessionStorage.getItem("upupor_token"),
+        },
         url: url,
         type: "POST",
         data: JSON.stringify(data),
@@ -168,6 +170,9 @@ function packagingAjaxPostJson(url, data, okFunc) {
  */
 function packagingAjaxPostUnder(url, data, okFunc) {
     $.ajax({
+        headers: {
+            UpuporToken: sessionStorage.getItem("upupor_token"),
+        },
         url: url,
         type: "POST",
         data: JSON.stringify(data),
@@ -193,30 +198,6 @@ function packagingAjaxPostUnder(url, data, okFunc) {
     });
 }
 
-/**
- * 封装AjaxGet请求
- * @param url
- * @param data
- * @param okFunc
- */
-function packagingAjaxGet(url, okFunc) {
-    $.ajax({
-        url: url,
-        type: "GET",
-        success: function (data) {
-            // 请求正常响应
-            if (data.code === 0) {
-                // 业务正常
-                okFunc(data.data);
-            } else {
-                $.cvError(data.data);
-            }
-        },
-        error: function (data) {
-            console.log(data.data);
-        }
-    });
-}
 
 /*************************加载编写文章的富文本编辑器Start***********************************************/
 /**

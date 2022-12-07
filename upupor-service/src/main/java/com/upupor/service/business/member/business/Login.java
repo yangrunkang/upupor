@@ -29,13 +29,22 @@
 
 package com.upupor.service.business.member.business;
 
+import com.upupor.data.dao.entity.Member;
 import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.RedisUtil;
+import com.upupor.security.jwt.JwtMemberModel;
+import com.upupor.security.jwt.UpuporMemberJwt;
 import com.upupor.service.business.member.abstracts.AbstractMember;
+import com.upupor.service.business.member.business.data.LoginSuccessData;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.MemberLoginReq;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 /**
  * @author Yang Runkang (cruise)
@@ -54,11 +63,29 @@ public class Login extends AbstractMember<MemberLoginReq> {
     public CcResponse handle() {
         CcResponse cc = new CcResponse();
         MemberLoginReq memberLoginReq = transferReq();
-        Boolean login = memberService.login(memberLoginReq);
-        if (!login) {
+        Member member = memberService.login(memberLoginReq);
+        boolean loginFailed = Objects.isNull(member);
+        if (loginFailed) {
             throw new BusinessException(ErrorCode.LOGIN_FAILED);
         }
-        cc.setData(true);
+
+        String userId = member.getUserId();
+
+        String loginExpiredTimeKey = CcRedisKey.memberLoginExpiredTimeKey(userId);
+        // 24h
+        long extendTime = 24 * 3600;
+        long expiredTime = CcDateUtil.getCurrentTime() + extendTime;
+        RedisUtil.set(loginExpiredTimeKey, String.valueOf(expiredTime), extendTime);
+        LoginSuccessData build = LoginSuccessData.builder()
+                .token(UpuporMemberJwt.createToken(JwtMemberModel.builder()
+                        .userId(userId)
+                        .expireTime(expiredTime)
+                        .build()))
+                .success(true)
+                .build();
+        cc.setData(build);
         return cc;
     }
+
+
 }

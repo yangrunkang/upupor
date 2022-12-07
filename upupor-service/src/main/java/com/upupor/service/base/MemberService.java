@@ -61,7 +61,7 @@ public interface MemberService {
      * @param memberLoginReq
      * @return
      */
-    Boolean login(MemberLoginReq memberLoginReq);
+    Member login(MemberLoginReq memberLoginReq);
 
     /**
      * 检查用户是否存在

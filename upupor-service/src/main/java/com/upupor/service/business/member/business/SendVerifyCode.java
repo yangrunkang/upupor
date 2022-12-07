@@ -37,7 +37,6 @@ import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
-import com.upupor.service.base.MessageService;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.business.message.MessageSend;
@@ -58,12 +57,8 @@ import static com.upupor.framework.CcRedisKey.memberVerifyCodeKey;
 @Component
 @Slf4j
 public class SendVerifyCode extends AbstractMember<SendVerifyCodeReq> {
-
     @Resource
     private UpuporConfig upuporConfig;
-
-    @Resource
-    private MessageService messageService;
 
     @Override
     public MemberBusiness memberBusiness() {

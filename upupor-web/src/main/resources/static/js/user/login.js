@@ -53,7 +53,8 @@ function login() {
         };
 
         $.cvPostJson('/member/login', param, function (data) {
-            if (respSuccess(data)) {
+            if (respCodeOk(data) && data.data.success) {
+                sessionStorage.setItem("upupor_token",data.data.token);
                 let back = getQueryString('back');
                 if(!cvIsNull(back)){
                     window.location.href = back;

@@ -120,7 +120,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean login(MemberLoginReq memberLoginReq) {
+    public Member login(MemberLoginReq memberLoginReq) {
         if (StringUtils.isEmpty(memberLoginReq.getPassword())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR.getCode(), "密码为空");
         }
@@ -141,7 +141,7 @@ public class MemberServiceImpl implements MemberService {
         memberLoginEvent.setUserId(loginMember.getUserId());
         eventPublisher.publishEvent(memberLoginEvent);
 
-        return Boolean.TRUE;
+        return loginMember;
     }
 
     private void setLoginUserSession(String userId) {
@@ -434,7 +434,7 @@ public class MemberServiceImpl implements MemberService {
                 return Boolean.FALSE;
             } else {
 
-                String dailyPointsKey = CcRedisKey.dayilyPoint(format, userId);
+                String dailyPointsKey = CcRedisKey.dailyPoint(format, userId);
                 if (!Objects.isNull(RedisUtil.get(dailyPointsKey))) {
                     return Boolean.TRUE;
                 }
