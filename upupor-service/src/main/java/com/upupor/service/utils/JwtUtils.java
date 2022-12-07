@@ -67,9 +67,11 @@ public class JwtUtils {
         String method = request.getMethod().toUpperCase();
         // 这里做一层兼容,因为之前的版本是服务端渲染,页面路由的GET请求无法携带header,所以就无法获取token,这里GET请求还是使用Session,
         // POST则获取token后进行解析,等前端重写后,将这地移除Session
+        // --- 不行采用cookie, 不优雅
         if ("GET".equals(method)) {
+            Object userIdObj = getPageSession().getAttribute(CcConstant.Session.USER_ID);
             return JwtMemberModel.builder()
-                    .userId(getPageSession().getAttribute(CcConstant.Session.USER_ID).toString())
+                    .userId(String.valueOf(userIdObj))
                     .build();
         } else if ("POST".equals(method)) {
             String upuporToken = request.getHeader("UpuporToken");
@@ -118,7 +120,7 @@ public class JwtUtils {
 
     public static void checkIsLogin() {
         JwtMemberModel jwtMemberModel = getJwtMemberModel();
-        if (Objects.isNull(jwtMemberModel) || CcConstant.Session.UNKNOWN_USER_ID.equals(jwtMemberModel.getUserId())) {
+        if (Objects.isNull(jwtMemberModel) || CcConstant.Session.NULL_STR.equals(jwtMemberModel.getUserId())) {
             throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
         }
     }

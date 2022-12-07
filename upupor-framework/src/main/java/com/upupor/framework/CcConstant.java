@@ -313,7 +313,7 @@ public final class CcConstant {
         /**
          * 位置用户Id
          */
-        public static final String UNKNOWN_USER_ID = "unknown_user_id";
+        public static final String NULL_STR = "null";
 
         /**
          * 是否是管理员
