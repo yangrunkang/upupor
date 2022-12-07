@@ -248,9 +248,15 @@ public interface MemberService {
      * 更新用户信息
      *
      * @param memberConfig
-     * @return
      */
-    Boolean updateMemberConfig(MemberConfig memberConfig);
+    void updateMemberConfig(MemberConfig memberConfig);
+
+    /**
+     * 绑定
+     *
+     * @param memberEnhanceList
+     */
+    void bindMemberExtendEnhance(List<MemberEnhance> memberEnhanceList);
 
 
 }

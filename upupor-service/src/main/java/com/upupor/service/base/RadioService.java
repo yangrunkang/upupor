@@ -77,4 +77,11 @@ public interface RadioService {
 
     OperateRadioDto deleteRadio(DelRadioReq delRadioReq);
 
+    /**
+     * 绑定电台数据
+     *
+     * @param radioList
+     */
+    void bindRadioContentData(List<RadioEnhance> radioList);
+
 }

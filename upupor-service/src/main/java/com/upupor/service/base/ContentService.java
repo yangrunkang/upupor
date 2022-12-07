@@ -32,8 +32,8 @@ package com.upupor.service.base;
 import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.ContentData;
 import com.upupor.data.dao.entity.ContentEditReason;
+import com.upupor.data.dao.entity.enhance.ContentDataEnhance;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
-import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.OperateContentDto;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.page.common.ListContentDto;
@@ -163,14 +163,6 @@ public interface ContentService {
      * @param contentList
      */
     void bindContentData(List<ContentEnhance> contentList);
-
-    /**
-     * 绑定电台数据
-     *
-     * @param radioList
-     */
-    void bindRadioContentData(List<RadioEnhance> radioList);
-
 
     /**
      * 绑定文章扩展信息
@@ -325,4 +317,13 @@ public interface ContentService {
     Boolean exists(String contentId);
 
     void handleExistsDraft(ListContentDto listContentDto);
+
+    /**
+     * 获取内容数据
+     *
+     * @param targetIdList
+     * @return
+     */
+    List<ContentDataEnhance> getContentData(List<String> targetIdList);
+
 }

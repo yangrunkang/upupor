@@ -37,7 +37,6 @@ import com.upupor.data.dao.entity.*;
 import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.ContentDataEnhance;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
-import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dao.mapper.*;
 import com.upupor.data.dto.OperateContentDto;
 import com.upupor.data.dto.dao.CommentNumDto;
@@ -298,7 +297,7 @@ public class ContentServiceImpl implements ContentService {
     public Boolean updateContent(ContentEnhance contentEnhance) {
         Content content = contentEnhance.getContent();
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
-        Boolean updateContent, updateContentExtend = Boolean.FALSE;
+        boolean updateContent, updateContentExtend = Boolean.FALSE;
         updateContent = contentMapper.updateById(content) > 0;
         if (Objects.nonNull(contentEnhance.getContentExtendEnhance())) {
             ContentExtend contentExtend = contentEnhance.getContentExtendEnhance().getContentExtend();
@@ -365,48 +364,11 @@ public class ContentServiceImpl implements ContentService {
         });
     }
 
-    private List<ContentDataEnhance> getContentData(List<String> targetIdList) {
+    @Override
+    public List<ContentDataEnhance> getContentData(List<String> targetIdList) {
         LambdaQueryWrapper<ContentData> query = new LambdaQueryWrapper<ContentData>().in(ContentData::getContentId, targetIdList);
         List<ContentData> contentDataList = contentDataMapper.selectList(query);
         return Converter.contentDataEnhance(contentDataList);
-    }
-
-    @Override
-    public void bindRadioContentData(List<RadioEnhance> radioEnhanceList) {
-
-        if (CollectionUtils.isEmpty(radioEnhanceList)) {
-            return;
-        }
-
-        List<String> radioIdList = radioEnhanceList.stream()
-                .map(RadioEnhance::getRadio)
-                .map(Radio::getRadioId).
-                distinct().collect(Collectors.toList());
-        List<ContentDataEnhance> contentDataEnhanceList = getContentData(radioIdList);
-        if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
-            return;
-        }
-        // 浏览数不用处理
-        // 点赞数也不用处理
-        // 需要处理评论数
-        List<CommentNumDto> commentNumDtoList = commentMapper.selectByCommentIdList(radioIdList);
-        if (!CollectionUtils.isEmpty(commentNumDtoList)) {
-            contentDataEnhanceList.forEach(radioData -> commentNumDtoList.forEach(commentNumDto -> {
-                if (radioData.getContentData().getContentId().equals(commentNumDto.getContentId())) {
-                    radioData.getContentData().setCommentNum(commentNumDto.getTotal());
-                }
-            }));
-        }
-
-        // 绑定文章数据
-        contentDataEnhanceList.forEach(contentDataEnhance -> {
-            radioEnhanceList.forEach(radio -> {
-                if (contentDataEnhance.getContentData().getContentId().equals(radio.getRadio().getRadioId())) {
-                    radio.setContentDataEnhance(contentDataEnhance);
-                }
-            });
-        });
-
     }
 
 

@@ -149,9 +149,7 @@ public class Converter {
         if (CollectionUtils.isEmpty(contentList)) {
             return new ArrayList<>();
         }
-        return contentList.stream().map(content -> {
-            return contentEnhance(content);
-        }).collect(Collectors.toList());
+        return contentList.stream().map(Converter::contentEnhance).collect(Collectors.toList());
     }
 
 

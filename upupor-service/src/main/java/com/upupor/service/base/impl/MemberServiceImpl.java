@@ -93,6 +93,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberIntegralMapper memberIntegralMapper;
     private final MemberIntegralService memberIntegralService;
     private final MemberComponent memberComponent;
+    private final MemberExtendService memberExtendService;
     @Resource
     private FanService fanService;
     private final StatementMapper statementMapper;
@@ -361,16 +362,12 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public ListMemberDto list(Integer pageNum, Integer pageSize) {
-
         PageHelper.startPage(pageNum, pageSize);
         List<Member> memberList = memberMapper.list();
         PageInfo<Member> pageInfo = new PageInfo<>(memberList);
 
         ListMemberDto listMemberDto = new ListMemberDto(pageInfo);
-        listMemberDto.setMemberEnhanceList(pageInfo.getList().stream().map(s -> {
-            return Converter.memberEnhance(s);
-        }).collect(Collectors.toList()));
-
+        listMemberDto.setMemberEnhanceList(pageInfo.getList().stream().map(Converter::memberEnhance).collect(Collectors.toList()));
         return listMemberDto;
     }
 
@@ -598,8 +595,27 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean updateMemberConfig(MemberConfig memberConfig) {
+    public void updateMemberConfig(MemberConfig memberConfig) {
         Asserts.notNull(memberConfig.getId(), ErrorCode.MEMBER_CONFIG_LESS);
-        return memberConfigMapper.updateById(memberConfig) > 0;
+        memberConfigMapper.updateById(memberConfig);
+    }
+
+    @Override
+    public void bindMemberExtendEnhance(List<MemberEnhance> memberEnhanceList) {
+        if (CollectionUtils.isEmpty(memberEnhanceList)) {
+            return;
+        }
+        List<String> userIdList = memberEnhanceList.stream()
+                .map(MemberEnhance::getMember)
+                .map(Member::getUserId)
+                .distinct().collect(Collectors.toList());
+        List<MemberExtend> memberExtends = memberExtendService.extendInfoByUserIdList(userIdList);
+        memberEnhanceList.forEach(memberEnhance -> {
+            for (MemberExtend memberExtend : memberExtends) {
+                if (memberEnhance.getMember().getUserId().equals(memberExtend.getUserId())) {
+                    memberEnhance.setMemberExtendEnhance(Converter.memberExtendEnhance(memberExtend));
+                }
+            }
+        });
     }
 }

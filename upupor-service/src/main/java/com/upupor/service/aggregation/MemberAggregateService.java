@@ -29,10 +29,6 @@
 
 package com.upupor.service.aggregation;
 
-import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.MemberExtend;
-import com.upupor.data.dao.entity.converter.Converter;
-import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.MemberListDto;
 import com.upupor.data.dto.page.ad.AbstractAd;
 import com.upupor.data.dto.page.common.ListIntegralDto;
@@ -48,9 +44,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 用户聚合服务
@@ -70,26 +64,14 @@ public class MemberAggregateService {
 
         // 获取用户列表
         ListMemberDto listMemberDto = memberService.list(pageNum, pageSize);
-
-        // 完整用户拓展信息
-        List<String> userIdList = listMemberDto.getMemberEnhanceList().stream()
-                .map(MemberEnhance::getMember)
-                .map(Member::getUserId)
-                .distinct().collect(Collectors.toList());
-        List<MemberExtend> memberExtends = memberExtendService.extendInfoByUserIdList(userIdList);
-        if (CollectionUtils.isEmpty(memberExtends)) {
+        if (CollectionUtils.isEmpty(listMemberDto.getMemberEnhanceList())) {
             return new MemberListDto();
         }
 
-        AbstractAd.ad(listMemberDto.getMemberEnhanceList());
+        // 完整用户拓展信息
+        memberService.bindMemberExtendEnhance(listMemberDto.getMemberEnhanceList());
 
-        listMemberDto.getMemberEnhanceList().forEach(memberEnhance -> {
-            for (MemberExtend memberExtend : memberExtends) {
-                if (memberEnhance.getMember().getUserId().equals(memberExtend.getUserId())) {
-                    memberEnhance.setMemberExtendEnhance(Converter.memberExtendEnhance(memberExtend));
-                }
-            }
-        });
+        AbstractAd.ad(listMemberDto.getMemberEnhanceList());
 
         // 封装返回对象
         MemberListDto memberListDto = new MemberListDto();

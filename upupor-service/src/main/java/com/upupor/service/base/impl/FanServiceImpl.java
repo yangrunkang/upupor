@@ -92,7 +92,9 @@ public class FanServiceImpl implements FanService {
         List<FansEnhance> fansList = listFansDto.getFansEnhanceList();
         if (!CollectionUtils.isEmpty(fansList)) {
             bindFansMemberInfo(fansList);
-            listFansDto.setMemberEnhanceList(fansList.stream().map(FansEnhance::getMemberEnhance).sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
+            List<MemberEnhance> memberEnhanceList = fansList.stream().map(FansEnhance::getMemberEnhance).collect(Collectors.toList());
+            memberService.bindMemberExtendEnhance(memberEnhanceList);
+            listFansDto.setMemberEnhanceList(memberEnhanceList.stream().sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }
 
         return listFansDto;

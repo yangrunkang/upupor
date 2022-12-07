@@ -35,10 +35,13 @@ import com.upupor.data.dao.entity.File;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;
 import com.upupor.data.dao.entity.converter.Converter;
+import com.upupor.data.dao.entity.enhance.ContentDataEnhance;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
+import com.upupor.data.dao.mapper.CommentMapper;
 import com.upupor.data.dao.mapper.RadioMapper;
 import com.upupor.data.dto.OperateRadioDto;
+import com.upupor.data.dto.dao.CommentNumDto;
 import com.upupor.data.dto.page.common.ListRadioDto;
 import com.upupor.data.types.RadioStatus;
 import com.upupor.framework.BusinessException;
@@ -73,11 +76,9 @@ import java.util.stream.Collectors;
 public class RadioServiceImpl implements RadioService {
 
     private final RadioMapper radioMapper;
-
+    private final CommentMapper commentMapper;
     private final MemberService memberService;
-
     private final ContentService contentService;
-
     private final FileService fileService;
 
     @Override
@@ -114,7 +115,7 @@ public class RadioServiceImpl implements RadioService {
         // 绑定电台用户
         bindRadioMember(radioEnhanceList);
         // 绑定数据
-        contentService.bindRadioContentData(radioEnhanceList);
+        bindRadioContentData(radioEnhanceList);
 
         return listRadioDto;
     }
@@ -165,7 +166,7 @@ public class RadioServiceImpl implements RadioService {
         bindRadioMember(radioEnhanceList);
 
         // 绑定数据
-        contentService.bindRadioContentData(radioEnhanceList);
+        bindRadioContentData(radioEnhanceList);
 
         return listRadioDto;
     }
@@ -306,4 +307,43 @@ public class RadioServiceImpl implements RadioService {
         operateRadioDto.setStatus(radio.getStatus());
         return operateRadioDto;
     }
+
+    @Override
+    public void bindRadioContentData(List<RadioEnhance> radioEnhanceList) {
+
+        if (CollectionUtils.isEmpty(radioEnhanceList)) {
+            return;
+        }
+
+        List<String> radioIdList = radioEnhanceList.stream()
+                .map(RadioEnhance::getRadio)
+                .map(Radio::getRadioId).
+                distinct().collect(Collectors.toList());
+        List<ContentDataEnhance> contentDataEnhanceList = contentService.getContentData(radioIdList);
+        if (CollectionUtils.isEmpty(contentDataEnhanceList)) {
+            return;
+        }
+        // 浏览数不用处理
+        // 点赞数也不用处理
+        // 需要处理评论数
+        List<CommentNumDto> commentNumDtoList = commentMapper.selectByCommentIdList(radioIdList);
+        if (!CollectionUtils.isEmpty(commentNumDtoList)) {
+            contentDataEnhanceList.forEach(radioData -> commentNumDtoList.forEach(commentNumDto -> {
+                if (radioData.getContentData().getContentId().equals(commentNumDto.getContentId())) {
+                    radioData.getContentData().setCommentNum(commentNumDto.getTotal());
+                }
+            }));
+        }
+
+        // 绑定文章数据
+        contentDataEnhanceList.forEach(contentDataEnhance -> {
+            radioEnhanceList.forEach(radio -> {
+                if (contentDataEnhance.getContentData().getContentId().equals(radio.getRadio().getRadioId())) {
+                    radio.setContentDataEnhance(contentDataEnhance);
+                }
+            });
+        });
+
+    }
+
 }

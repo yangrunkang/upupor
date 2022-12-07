@@ -104,9 +104,9 @@ public class AttentionServiceImpl implements AttentionService {
 
         if (!CollectionUtils.isEmpty(attentionList)) {
             bindAttentionMemberInfo(attentionList);
-            listAttentionDto.setMemberEnhanceList(attentionList.stream()
-                    .map(AttentionEnhance::getMemberEnhance)
-                    .sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
+            List<MemberEnhance> memberEnhanceList = attentionList.stream().map(AttentionEnhance::getMemberEnhance).collect(Collectors.toList());
+            memberService.bindMemberExtendEnhance(memberEnhanceList);
+            listAttentionDto.setMemberEnhanceList(memberEnhanceList.stream().sorted(new MemberLastLoginTimeComparator()).collect(Collectors.toList()));
         }
         return listAttentionDto;
     }
