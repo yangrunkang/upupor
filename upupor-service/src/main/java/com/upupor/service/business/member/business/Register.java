@@ -47,7 +47,8 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.Objects;
 
-import static com.upupor.framework.CcRedisKey.memberVerifyCodeKey;
+import static com.upupor.framework.CcRedis.Key.memberVerifyCodeKey;
+
 
 /**
  * @author Yang Runkang (cruise)

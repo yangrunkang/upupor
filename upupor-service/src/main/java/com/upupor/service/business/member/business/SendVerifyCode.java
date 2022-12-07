@@ -47,7 +47,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-import static com.upupor.framework.CcRedisKey.memberVerifyCodeKey;
+import static com.upupor.framework.CcRedis.Key.memberVerifyCodeKey;
+
 
 /**
  * @author Yang Runkang (cruise)

@@ -48,7 +48,6 @@ import com.upupor.data.types.*;
 import com.upupor.data.utils.PasswordUtils;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
-import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.common.UserCheckFieldType;
@@ -80,6 +79,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.upupor.framework.CcRedis.Key.dailyPoint;
 import static com.upupor.framework.ErrorCode.DATA_EXCEPTION;
 
 /**
@@ -438,7 +438,7 @@ public class MemberServiceImpl implements MemberService {
                 return Boolean.FALSE;
             } else {
 
-                String dailyPointsKey = CcRedisKey.dailyPoint(format, userId);
+                String dailyPointsKey = dailyPoint(format, userId);
                 if (!Objects.isNull(RedisUtil.get(dailyPointsKey))) {
                     return Boolean.TRUE;
                 }

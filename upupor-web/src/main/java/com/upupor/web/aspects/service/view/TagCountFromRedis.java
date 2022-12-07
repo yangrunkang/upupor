@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.CV_TAG_LIST;
-import static com.upupor.framework.CcRedisKey.TAG_COUNT;
+import static com.upupor.framework.CcRedis.Key.TAG_COUNT;
 
 /**
  * @author cruise

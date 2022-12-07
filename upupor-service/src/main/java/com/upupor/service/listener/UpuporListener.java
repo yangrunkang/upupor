@@ -28,10 +28,11 @@
 package com.upupor.service.listener;
 
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.utils.RedisUtil;
+import com.upupor.service.base.MemberService;
 import com.upupor.service.business.lucene.LuceneService;
 import com.upupor.service.business.task.TaskService;
-import com.upupor.service.base.MemberService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import com.upupor.service.listener.event.InitSensitiveWordEvent;
@@ -46,7 +47,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
-import static com.upupor.framework.CcRedisKey.refreshMemberActiveKey;
+import static com.upupor.framework.CcRedis.Key.refreshMemberActiveKey;
 
 /**
  * Upupor 监听器
@@ -83,6 +84,8 @@ public class UpuporListener {
         if (org.apache.commons.lang3.StringUtils.isNumeric(userId)) {
             // 更新用户时间
             memberService.updateActiveTime(userId);
+            // 更新token过期时间
+            CcRedis.Operate.updateTokenExpireTime(userId);
             // 刷新最近登录的用户
             refreshActiveMember(userId);
         }

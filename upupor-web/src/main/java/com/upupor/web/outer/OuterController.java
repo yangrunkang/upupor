@@ -28,7 +28,6 @@
 package com.upupor.web.outer;
 
 import com.alibaba.druid.util.StringUtils;
-import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.task.TaskService;
 import com.upupor.service.business.task.sitemap.enums.SiteMapType;
@@ -38,6 +37,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.upupor.framework.CcRedis.Key.siteMapKey;
 
 
 /**
@@ -57,7 +58,7 @@ public class OuterController {
     public String siteMap(@PathVariable(value = "siteMapType", required = true) SiteMapType siteMapType) {
 
 
-        String siteMapKey = CcRedisKey.siteMapKey(siteMapType.name());
+        String siteMapKey = siteMapKey(siteMapType.name());
 
         String s = RedisUtil.get(siteMapKey);
         if (StringUtils.isEmpty(s)) {

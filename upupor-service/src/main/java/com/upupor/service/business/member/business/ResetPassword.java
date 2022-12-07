@@ -32,15 +32,16 @@ package com.upupor.service.business.member.business;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
-import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.service.outer.req.member.UpdatePasswordReq;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import static com.upupor.framework.CcRedisKey.memberVerifyCodeKey;
+import static com.upupor.framework.CcRedis.Key.memberVerifyCodeKey;
+
 
 /**
  * @author Yang Runkang (cruise)

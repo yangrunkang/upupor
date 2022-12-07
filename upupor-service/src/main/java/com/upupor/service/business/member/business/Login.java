@@ -31,11 +31,9 @@ package com.upupor.service.business.member.business;
 
 import com.upupor.data.dao.entity.Member;
 import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcRedisKey;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.jwt.JwtMemberModel;
 import com.upupor.security.jwt.UpuporMemberJwt;
 import com.upupor.service.business.member.abstracts.AbstractMember;
@@ -70,16 +68,11 @@ public class Login extends AbstractMember<MemberLoginReq> {
         }
 
         String userId = member.getUserId();
-
-        String loginExpiredTimeKey = CcRedisKey.memberLoginExpiredTimeKey(userId);
-        // 24h
-        long extendTime = 24 * 3600;
-        long expiredTime = CcDateUtil.getCurrentTime() + extendTime;
-        RedisUtil.set(loginExpiredTimeKey, String.valueOf(expiredTime), extendTime);
+        long tokenExpireTime = CcRedis.Operate.updateTokenExpireTime(userId);
         LoginSuccessData build = LoginSuccessData.builder()
                 .token(UpuporMemberJwt.createToken(JwtMemberModel.builder()
                         .userId(userId)
-                        .expireTime(expiredTime)
+                        .expireTime(tokenExpireTime)
                         .build()))
                 .success(true)
                 .build();

@@ -28,7 +28,6 @@
 package com.upupor.web.listener;
 
 import com.upupor.data.dto.seo.GoogleSeoDto;
-import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.common.CcTemplateConstant;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.task.TaskService;
@@ -50,6 +49,8 @@ import org.springframework.util.StringUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.upupor.framework.CcRedis.Key.siteMapKey;
 
 /**
  * @author Yang Runkang (cruise)
@@ -88,7 +89,7 @@ public class UpuporBusinessListener {
         if (StringUtils.isEmpty(s)) {
             return;
         }
-        String siteMapKey = CcRedisKey.siteMapKey(siteMapType.name());
+        String siteMapKey = siteMapKey(siteMapType.name());
         RedisUtil.set(siteMapKey, s);
     }
 

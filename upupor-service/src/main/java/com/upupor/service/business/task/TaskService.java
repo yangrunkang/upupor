@@ -33,7 +33,6 @@ import com.upupor.data.dto.cache.CacheMemberDto;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.seo.GoogleSeoDto;
 import com.upupor.data.types.BusinessConfigType;
-import com.upupor.framework.CcRedisKey;
 import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.sensitive.SensitiveWord;
@@ -54,8 +53,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.upupor.framework.CcRedisKey.ACTIVE_USER_LIST;
-import static com.upupor.framework.CcRedisKey.CACHE_SENSITIVE_WORD;
+import static com.upupor.framework.CcRedis.Key.*;
+
 
 /**
  * @author Yang Runkang (cruise)
@@ -127,6 +126,6 @@ public class TaskService {
             return;
         }
 
-        RedisUtil.set(CcRedisKey.TAG_COUNT, JsonUtils.toJsonStr(countTagDtos));
+        RedisUtil.set(TAG_COUNT, JsonUtils.toJsonStr(countTagDtos));
     }
 }
