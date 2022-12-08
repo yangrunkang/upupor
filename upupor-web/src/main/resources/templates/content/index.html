@@ -53,10 +53,10 @@
         </div>
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
-                <div th:if="${contentIndexDto.contentEnhance?.content?.originType.name()} == 'NONE_ORIGIN'"
-                     class="p-1 mb-2 text-danger rounded border border-light rounded-start rounded-3 bg-white">注意: 本文为转载内容,请支持原作者.
-                    <span th:if="!${#strings.isEmpty(contentIndexDto.contentEnhance.content?.noneOriginLink)}"
-                          th:text="${'原文链接:' + contentIndexDto.contentEnhance.content?.noneOriginLink}"></span>
+                <div th:if="${contentIndexDto.contentEnhance?.content?.originType.name()} == 'NONE_ORIGIN' and !${#strings.isEmpty(contentIndexDto.contentEnhance.content?.noneOriginLink)}"
+                     class="p-1 mb-2 text-danger rounded border border-light rounded-start rounded-3 bg-white text-break">
+                    <div>注意: 本文为转载内容,请支持原作者. 原文链接:</div>
+                    <div>[[${contentIndexDto.contentEnhance.content?.noneOriginLink}]]</div>
                 </div>
                 <div class="card border-0 rounded-3 p-2 mb-2">
                     <div>
