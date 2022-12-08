@@ -52,8 +52,8 @@
                          th:text="${#strings.isEmpty(memberEnhance?.memberExtendEnhance?.memberExtend?.introduce)?'&nbsp;':memberEnhance?.memberExtendEnhance?.memberExtend?.introduce}">
                     </div>
                 </div>
-                <span class="text-black-50 small" th:if="!${#strings.isEmpty(memberEnhance?.lastLoginDate)}"
-                      th:text="${memberEnhance?.lastLoginDate}+' 活跃'">最近活跃时间</span>&nbsp;&nbsp;&nbsp;
+<!--                <span class="text-black-50 small" th:if="!${#strings.isEmpty(memberEnhance?.lastLoginDate)}"-->
+<!--                      th:text="${memberEnhance?.lastLoginDate}+' 登录'">最近登录时间</span>&nbsp;&nbsp;&nbsp;-->
                 <a class="btn rounded-3 bg-gradient btn-warning btn-sm"
                    th:href="'/profile/' + ${memberEnhance.member.userId}+'/message'" th:inline="text">
                     <img th:data-src="${ossStatic} + @{/icons/system/goutong.png}" class="lazyload cv-icon-item"
