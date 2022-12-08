@@ -29,10 +29,8 @@ package com.upupor.service.listener;
 
 import com.upupor.data.dao.entity.Attention;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.types.MessageType;
 import com.upupor.framework.common.IntegralEnum;
-import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
@@ -54,7 +52,6 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_EMAIL;
 import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_INNER_MSG;
