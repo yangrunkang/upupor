@@ -224,7 +224,7 @@ public interface MemberService {
      *
      * @param userId
      */
-    void updateActiveTime(String userId);
+    void updateMemberLoginTime(String userId);
 
     /**
      * 初始化用户配置

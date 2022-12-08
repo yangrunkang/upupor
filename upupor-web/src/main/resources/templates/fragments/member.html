@@ -48,7 +48,7 @@
                         <span>[[${memberEnhance.member.userName}]]</span>
                         <span th:include="fragments/member::memberTag(${memberEnhance})"></span>
                     </a>
-                    <div class="text-black-50"
+                    <div class="text-black-50 text-break"
                          th:text="${#strings.isEmpty(memberEnhance?.memberExtendEnhance?.memberExtend?.introduce)?'&nbsp;':memberEnhance?.memberExtendEnhance?.memberExtend?.introduce}">
                     </div>
                 </div>

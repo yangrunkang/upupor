@@ -30,7 +30,9 @@
 package com.upupor.data.dao.entity.enhance;
 
 import com.upupor.data.dao.entity.Member;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.utils.CcDateUtil;
+import com.upupor.framework.utils.RedisUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,8 +41,6 @@ import org.apache.logging.log4j.util.Strings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
 
 /**
  * @author Yang Runkang (cruise)
@@ -145,11 +145,6 @@ public class MemberEnhance {
     }
 
     public Boolean getActive() {
-        Long lastLoginTime = member.getLastLoginTime();
-        if (Objects.isNull(lastLoginTime)) {
-            return active;
-        }
-        // 1小时以内都算活跃用户
-        return CcDateUtil.getCurrentTime() - lastLoginTime <= MEMBER_ACTIVE_TIME;
+        return RedisUtil.exists(CcRedis.Key.memberActiveKey(getMember().getUserId()));
     }
 }

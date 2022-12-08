@@ -554,7 +554,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void updateActiveTime(String userId) {
+    public void updateMemberLoginTime(String userId) {
         Member member = getMember(userId);
         if (Objects.isNull(member)) {
             return;

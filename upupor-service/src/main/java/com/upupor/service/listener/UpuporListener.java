@@ -82,17 +82,17 @@ public class UpuporListener {
         String userId = String.valueOf(userIdAttribute);
         //检测是否是userId
         if (org.apache.commons.lang3.StringUtils.isNumeric(userId)) {
-            // 更新用户时间
-            memberService.updateActiveTime(userId);
             // 更新token过期时间
             CcRedis.Operate.updateTokenExpireTime(userId);
+            // 延长活跃Key
+            CcRedis.Operate.memberActive(userId);
             // 刷新最近登录的用户
-            refreshActiveMember(userId);
+            refreshActiveMemberList(userId);
         }
     }
 
-    private void refreshActiveMember(String userId) {
-        String refreshKey = CcRedis.Key.refreshMemberActiveKey(userId);
+    private void refreshActiveMemberList(String userId) {
+        String refreshKey = CcRedis.Key.refreshActiveMemberListKey(userId);
         if (RedisUtil.exists(refreshKey)) {
             return;
         }

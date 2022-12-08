@@ -101,13 +101,7 @@ public class MemberEventListener {
         if (StringUtils.isEmpty(userId)) {
             return;
         }
-        MemberEnhance memberEnhance = memberService.memberInfo(userId);
-        Member member = memberEnhance.getMember();
-        if (Objects.isNull(member)) {
-            return;
-        }
-        member.setLastLoginTime(CcDateUtil.getCurrentTime());
-        memberService.update(memberEnhance);
+        memberService.updateMemberLoginTime(userId);
     }
 
     /**

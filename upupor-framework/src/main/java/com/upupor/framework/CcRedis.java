@@ -29,7 +29,6 @@
 
 package com.upupor.framework;
 
-import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.RedisUtil;
 
 
@@ -78,12 +77,12 @@ public class CcRedis {
         }
 
         /**
-         * 刷新活跃用户Key
+         * 刷新活跃用户列表Key
          *
          * @param userId
          * @return
          */
-        public static String refreshMemberActiveKey(String userId) {
+        public static String refreshActiveMemberListKey(String userId) {
             return REFRESH_KEY + userId;
         }
 
@@ -123,6 +122,16 @@ public class CcRedis {
         public static String memberLoginExpiredTimeKey(String userId) {
             return "JWT_EXPIRED_TIME" + "_" + userId;
         }
+
+        /**
+         * 用户活跃Key
+         *
+         * @param userId
+         * @return
+         */
+        public static String memberActiveKey(String userId) {
+            return "ACTIVE_MEMBER" + "_" + userId;
+        }
     }
 
 
@@ -131,11 +140,24 @@ public class CcRedis {
         public static long updateTokenExpireTime(String userId) {
             String loginExpiredTimeKey = CcRedis.Key.memberLoginExpiredTimeKey(userId);
             // 24h
-            long extendTime = 24 * 3600;
-            long expiredTime = CcDateUtil.getCurrentTime() + extendTime;
-            RedisUtil.set(loginExpiredTimeKey, String.valueOf(expiredTime), extendTime);
+            long expiredTime = 24 * 3600;
+            RedisUtil.set(loginExpiredTimeKey, String.valueOf(expiredTime), expiredTime);
             return expiredTime;
         }
+
+        /**
+         * 用户活跃标识规则,在2分钟内活跃过,都算活跃
+         *
+         * @param userId
+         * @return
+         */
+        public static void memberActive(String userId) {
+            String memberActiveKey = CcRedis.Key.memberActiveKey(userId);
+            int minute = 2;
+            long activeExpiredTime = minute * 60; //  minute 分钟内内都算活跃
+            RedisUtil.set(memberActiveKey, "memberActiveKey:" + userId, activeExpiredTime);
+        }
+
 
     }
 }
