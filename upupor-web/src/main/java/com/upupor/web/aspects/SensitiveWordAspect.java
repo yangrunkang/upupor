@@ -32,6 +32,7 @@ package com.upupor.web.aspects;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.google.common.collect.Lists;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
@@ -52,8 +53,6 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static com.upupor.framework.CcRedis.Key.CACHE_SENSITIVE_WORD;
 
 
 /**
@@ -87,7 +86,7 @@ public class SensitiveWordAspect {
         Object proceed = proceedingJoinPoint.proceed();
 
 
-        sensitiveWord = JsonUtils.parse2Clazz(RedisUtil.get(CACHE_SENSITIVE_WORD), SensitiveWord.class);
+        sensitiveWord = JsonUtils.parse2Clazz(RedisUtil.get(CcRedis.Key.CACHE_SENSITIVE_WORD), SensitiveWord.class);
         if (Objects.nonNull(sensitiveWord)) {
             Class clazz = proceedingJoinPoint.getSignature().getDeclaringType();
             Annotation annotation = clazz.getAnnotation(UpuporSensitive.class);

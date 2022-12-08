@@ -30,6 +30,7 @@
 package com.upupor.service.business.member.business;
 
 import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.UserCheckFieldType;
@@ -39,8 +40,6 @@ import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.UpdatePasswordReq;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import static com.upupor.framework.CcRedis.Key.memberVerifyCodeKey;
 
 
 /**
@@ -72,7 +71,7 @@ public class ResetPassword extends AbstractMember<UpdatePasswordReq> {
         }
 
         // 先校验验证码是否存在 用户注册 RedisKey组成: source + email + 验证码
-        String key = memberVerifyCodeKey(FORGET_PASSWORD, updatePasswordReq.getEmail(), updatePasswordReq.getVerifyCode());
+        String key = CcRedis.Key.memberVerifyCodeKey(FORGET_PASSWORD, updatePasswordReq.getEmail(), updatePasswordReq.getVerifyCode());
         String value = RedisUtil.get(key);
         if (StringUtils.isEmpty(value)) {
             throw new BusinessException(ErrorCode.VERIFY_CODE_ERROR);

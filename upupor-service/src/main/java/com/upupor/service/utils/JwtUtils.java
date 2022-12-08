@@ -67,7 +67,7 @@ public class JwtUtils {
         String method = request.getMethod().toUpperCase();
         // 这里做一层兼容,因为之前的版本是服务端渲染,页面路由的GET请求无法携带header,所以就无法获取token,这里GET请求还是使用Session,
         // POST则获取token后进行解析,等前端重写后,将这地移除Session
-        // --- 不行采用cookie, 不优雅
+        // --- 不想采用cookie, 不优雅
         if ("GET".equals(method)) {
             Object userIdObj = getPageSession().getAttribute(CcConstant.Session.USER_ID);
             return JwtMemberModel.builder()

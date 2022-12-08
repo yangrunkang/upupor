@@ -29,6 +29,7 @@
 
 package com.upupor.web.aspects.service.view;
 
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.task.TaskService;
@@ -41,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.CV_TAG_LIST;
-import static com.upupor.framework.CcRedis.Key.TAG_COUNT;
 
 /**
  * @author cruise
@@ -56,7 +56,7 @@ public class TagCountFromRedis implements PrepareData {
     @Override
     public void prepare(ViewData viewData) {
         ModelAndView modelAndView = viewData.getModelAndView();
-        String s = RedisUtil.get(TAG_COUNT);
+        String s = RedisUtil.get(CcRedis.Key.TAG_COUNT);
         Object result = JsonUtils.parse2Clazz(s, Object.class);
         if (Objects.isNull(result)) {
             modelAndView.addObject(CV_TAG_LIST, new ArrayList<>());

@@ -33,6 +33,7 @@ import com.upupor.data.dto.cache.CacheMemberDto;
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.seo.GoogleSeoDto;
 import com.upupor.data.types.BusinessConfigType;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.sensitive.SensitiveWord;
@@ -52,8 +53,6 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.upupor.framework.CcRedis.Key.*;
 
 
 /**
@@ -99,7 +98,7 @@ public class TaskService {
         }
         CacheMemberDto cacheMemberDto = new CacheMemberDto();
         cacheMemberDto.setMemberEnhanceList(memberEnhanceList);
-        RedisUtil.set(ACTIVE_USER_LIST, JsonUtils.toJsonStr(cacheMemberDto));
+        RedisUtil.set(CcRedis.Key.ACTIVE_USER_LIST, JsonUtils.toJsonStr(cacheMemberDto));
     }
 
     public void refreshSensitiveWord() {
@@ -114,7 +113,7 @@ public class TaskService {
 
         SensitiveWord sensitiveWord = new SensitiveWord();
         sensitiveWord.setWordList(wordList);
-        RedisUtil.set(CACHE_SENSITIVE_WORD, JsonUtils.toJsonStr(sensitiveWord));
+        RedisUtil.set(CcRedis.Key.CACHE_SENSITIVE_WORD, JsonUtils.toJsonStr(sensitiveWord));
         log.info("刷新敏感词完成");
     }
 
@@ -126,6 +125,6 @@ public class TaskService {
             return;
         }
 
-        RedisUtil.set(TAG_COUNT, JsonUtils.toJsonStr(countTagDtos));
+        RedisUtil.set(CcRedis.Key.TAG_COUNT, JsonUtils.toJsonStr(countTagDtos));
     }
 }

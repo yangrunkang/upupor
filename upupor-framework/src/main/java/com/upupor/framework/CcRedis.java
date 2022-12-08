@@ -32,7 +32,6 @@ package com.upupor.framework;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.RedisUtil;
 
-import static com.upupor.framework.CcRedis.Key.memberLoginExpiredTimeKey;
 
 /**
  * @author Yang Runkang (cruise)
@@ -130,7 +129,7 @@ public class CcRedis {
     public static class Operate {
 
         public static long updateTokenExpireTime(String userId) {
-            String loginExpiredTimeKey = memberLoginExpiredTimeKey(userId);
+            String loginExpiredTimeKey = CcRedis.Key.memberLoginExpiredTimeKey(userId);
             // 24h
             long extendTime = 24 * 3600;
             long expiredTime = CcDateUtil.getCurrentTime() + extendTime;

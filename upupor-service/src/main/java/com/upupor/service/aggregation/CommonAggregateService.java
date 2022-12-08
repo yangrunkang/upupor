@@ -40,6 +40,7 @@ import com.upupor.data.types.BannerStatus;
 import com.upupor.data.types.ContentType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
@@ -59,8 +60,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
-import static com.upupor.framework.CcRedis.Key.ACTIVE_USER_LIST;
 
 
 /**
@@ -144,7 +143,7 @@ public class CommonAggregateService {
         // 活跃用户
         CompletableFuture<CacheMemberDto> cacheMemberDtoFuture = CompletableFuture.supplyAsync(() -> {
             CacheMemberDto cacheMemberDto = new CacheMemberDto();
-            String activeUserListJson = RedisUtil.get(ACTIVE_USER_LIST);
+            String activeUserListJson = RedisUtil.get(CcRedis.Key.ACTIVE_USER_LIST);
             if (!StringUtils.isEmpty(activeUserListJson)) {
                 cacheMemberDto = JsonUtils.parse2Clazz(activeUserListJson, CacheMemberDto.class);
             }

@@ -38,6 +38,7 @@ import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dao.mapper.MemberConfigMapper;
 import com.upupor.data.dto.OperateContentDto;
 import com.upupor.framework.BusinessException;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.RedisUtil;
@@ -54,7 +55,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-import static com.upupor.framework.CcRedis.Key.createContentIntervalKey;
 import static com.upupor.framework.ErrorCode.CONTENT_NOT_EXISTS;
 import static com.upupor.framework.ErrorCode.MEMBER_CONFIG_LESS;
 
@@ -107,7 +107,7 @@ public class Create extends AbstractEditor<CreateContentReq> {
 
             // 缓存创建文章的动作(标识),用于限制某一用户恶意刷文
             if (Objects.nonNull(limitedInterval)) {
-                RedisUtil.set(createContentIntervalKey(getMember().getMember().getUserId()), content.getContentId(), limitedInterval);
+                RedisUtil.set(CcRedis.Key.createContentIntervalKey(getMember().getMember().getUserId()), content.getContentId(), limitedInterval);
             }
         }
 
@@ -135,7 +135,7 @@ public class Create extends AbstractEditor<CreateContentReq> {
         MemberConfig memberConfig = memberService.memberInfoData(userId).getMemberConfigEnhance().getMemberConfig();
         timeCreateContentInterval = memberConfig.getIntervalTimeCreateContent();
 
-        String limited = RedisUtil.get(createContentIntervalKey(userId));
+        String limited = RedisUtil.get(CcRedis.Key.createContentIntervalKey(userId));
         if (Objects.isNull(limited)) {
             return timeCreateContentInterval;
         }

@@ -47,7 +47,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
-import static com.upupor.framework.CcRedis.Key.refreshMemberActiveKey;
+
 
 /**
  * Upupor 监听器
@@ -92,7 +92,7 @@ public class UpuporListener {
     }
 
     private void refreshActiveMember(String userId) {
-        String refreshKey = refreshMemberActiveKey(userId);
+        String refreshKey = CcRedis.Key.refreshMemberActiveKey(userId);
         if (RedisUtil.exists(refreshKey)) {
             return;
         }

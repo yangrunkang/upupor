@@ -29,10 +29,7 @@
 
 package com.upupor.service.business.member.business;
 
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcConstant;
-import com.upupor.framework.CcResponse;
-import com.upupor.framework.ErrorCode;
+import com.upupor.framework.*;
 import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.CcUtils;
@@ -46,8 +43,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-
-import static com.upupor.framework.CcRedis.Key.memberVerifyCodeKey;
 
 
 /**
@@ -119,7 +114,7 @@ public class SendVerifyCode extends AbstractMember<SendVerifyCodeReq> {
 
 
         // Redis缓存90s 用户注册 RedisKey组成: source + email + 验证码
-        String key = memberVerifyCodeKey(addVerifyCodeReq.getSource(), addVerifyCodeReq.getEmail(), verifyCode);
+        String key = CcRedis.Key.memberVerifyCodeKey(addVerifyCodeReq.getSource(), addVerifyCodeReq.getEmail(), verifyCode);
         RedisUtil.set(key, verifyCode, 90L);
         ccResponse.setData(true);
         return ccResponse;

@@ -29,6 +29,7 @@ package com.upupor.service.business.task.sitemap;
 
 import com.upupor.data.dto.page.common.CountTagDto;
 import com.upupor.data.dto.seo.GoogleSeoDto;
+import com.upupor.framework.CcRedis;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.JsonUtils;
 import com.upupor.framework.utils.RedisUtil;
@@ -39,8 +40,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
-
-import static com.upupor.framework.CcRedis.Key.TAG_COUNT;
 
 
 /**
@@ -56,7 +55,7 @@ public class TagSiteMap extends AbstractSiteMap<CountTagDto> {
 
     @Override
     protected Boolean dataCheck() {
-        return !StringUtils.isEmpty(RedisUtil.get(TAG_COUNT));
+        return !StringUtils.isEmpty(RedisUtil.get(CcRedis.Key.TAG_COUNT));
     }
 
     @Override
@@ -66,7 +65,7 @@ public class TagSiteMap extends AbstractSiteMap<CountTagDto> {
 
     @Override
     protected List<CountTagDto> getSiteMapData() {
-        String s = RedisUtil.get(TAG_COUNT);
+        String s = RedisUtil.get(CcRedis.Key.TAG_COUNT);
         return JsonUtils.parseArray(s, CountTagDto.class);
     }
 
