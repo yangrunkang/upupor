@@ -29,7 +29,7 @@ $(function () {
     userLeftContentBtnActive();
     applyDocumentCommit();
 
-    $('input[type="file"]').change(function(e){
+    $('input[type="file"]').change(function (e) {
         let fileName = e.target.files[0].name;
         $('.custom-file-label').html(fileName);
     });
@@ -67,6 +67,9 @@ function applyDocumentCommit() {
 
         //  这里涉及到上传文件,所以单独写一个ajax请求
         $.ajax({
+            headers: {
+                UpuporToken: sessionStorage.getItem("upupor_token"),
+            },
             url: '/apply/commit',
             type: 'post',
             async: false,

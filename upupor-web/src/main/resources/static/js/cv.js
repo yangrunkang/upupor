@@ -317,6 +317,9 @@ let cherryConfig = {
         let formData = new FormData();
         formData.append('file', file);
         $.ajax('/file/upload/CONTENT', {
+            headers: {
+                UpuporToken: sessionStorage.getItem("upupor_token"),
+            },
             method: 'POST',
             data: formData,
             processData: false,

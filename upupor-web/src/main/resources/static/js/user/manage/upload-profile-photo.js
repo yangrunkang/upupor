@@ -47,7 +47,7 @@ function selectVia(via) {
         closeOnEsc: false,
     }).then((confirmed) => {
         if (confirmed) {
-            $.cvPostJson('/member/updateVia',{via},function (data) {
+            $.cvPostJson('/member/updateVia', {via}, function (data) {
                 if (respSuccess(data)) {
                     history.go();
                 } else {
@@ -58,7 +58,7 @@ function selectVia(via) {
     });
 }
 
-function userLeftContentBtnActive(){
+function userLeftContentBtnActive() {
     let path_name = window.location.pathname;
     $("." + path_name.split("/").slice(1).join("_")).addClass('active');
 }
@@ -102,7 +102,7 @@ window.addEventListener('DOMContentLoaded', function () {
             viewMode: 3,
         });
     }).on('hidden.bs.modal', function () {
-        if(cropper != null){
+        if (cropper != null) {
             cropper.destroy();
         }
     });
@@ -123,6 +123,9 @@ window.addEventListener('DOMContentLoaded', function () {
 
                 formData.append('image', blob, 'avatar.jpg');
                 $.ajax('/file/uploadFile', {
+                    headers: {
+                        UpuporToken: sessionStorage.getItem("upupor_token"),
+                    },
                     method: 'POST',
                     data: formData,
                     processData: false,
@@ -148,7 +151,7 @@ window.addEventListener('DOMContentLoaded', function () {
                             setTimeout(function () {
                                 history.go();
                             }, 1600);
-                        }else{
+                        } else {
                             $.cvError("上传失败")
                         }
 

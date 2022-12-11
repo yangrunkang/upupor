@@ -27,9 +27,12 @@
  *   -->
  */
 
-function uploadRadio(formData,radioIntro){
+function uploadRadio(formData, radioIntro) {
     // 单数上传文件,可以读取进度
     $.ajax({
+        headers: {
+            UpuporToken: sessionStorage.getItem("upupor_token"),
+        },
         url: '/file/upload/RADIO',
         type: 'post',
         data: formData,
@@ -50,7 +53,7 @@ function uploadRadio(formData,radioIntro){
                     let per = ((loaded / tot) * 100).toFixed(2);
                     $(".progress-bar").attr('style', 'width:' + per + '%');
                     $(".public-radio").text('发布中,请稍等...' + per + '%');
-                    $(".progress-text").text(per+'%');
+                    $(".progress-text").text(per + '%');
 
                 }, false); // for handling the progress of the upload
             }
@@ -58,7 +61,7 @@ function uploadRadio(formData,radioIntro){
         },
         success: function (res) {
             if (res.code === 0) {
-                addRadio(radioIntro,res.data.data);
+                addRadio(radioIntro, res.data.data);
             } else {
                 publicFailed();
             }
@@ -84,16 +87,15 @@ function publicSuccess(radioId) {
     $(".progress-div-tips").text('上传成功');
     $.cvSuccess("发布成功");
     setTimeout(function () {
-        window.location.href = '/r/'+radioId;
+        window.location.href = '/r/' + radioId;
     }, 1600);
 }
 
 
-
 function addRadio(radioIntro, fileUrl) {
     let radio = {
-        radioIntro:radioIntro,
-        fileUrl:fileUrl
+        radioIntro: radioIntro,
+        fileUrl: fileUrl
     }
 
     $.cvPostJson('/radio/add', radio, function (data) {

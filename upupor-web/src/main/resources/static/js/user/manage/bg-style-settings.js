@@ -34,12 +34,11 @@ $(function () {
 
     $("#self-define-css").focus(function () {
         let cssPatternValue = $('input:radio[class="css_pattern_radio"]:checked').val();
-        if(!cvIsNull(cssPatternValue) && cssPatternValue !== 'self-define'){
+        if (!cvIsNull(cssPatternValue) && cssPatternValue !== 'self-define') {
             $.cvError("编写自定义css样式之前请优先选中自定义按钮");
         }
     })
 });
-
 
 
 function editUserInfo() {
@@ -47,17 +46,20 @@ function editUserInfo() {
         let cssPatternValue = $('input:radio[class="css_pattern_radio"]:checked').val();
         let formData = new FormData();
 
-        if(cssPatternValue === 'self-define'){
+        if (cssPatternValue === 'self-define') {
             let selfDefineCss = $("#self-define-css").val();
-            if(cvIsNull(selfDefineCss)){
+            if (cvIsNull(selfDefineCss)) {
                 $.cvError("自定义css不能为空");
                 return false;
             }
             formData.append('selfDefineCss', selfDefineCss);
-        }else {
+        } else {
             formData.append('cssPatternValue', cssPatternValue);
         }
         $.ajax({
+            headers: {
+                UpuporToken: sessionStorage.getItem("upupor_token"),
+            },
             url: '/member/edit/bg-style-settings',
             type: 'post',
             async: false,
@@ -91,7 +93,7 @@ function editUserInfo() {
     });
 }
 
-function userLeftContentBtnActive(){
+function userLeftContentBtnActive() {
     let path_name = window.location.pathname;
     $("." + path_name.split("/").slice(1).join("_")).addClass('active');
 }
