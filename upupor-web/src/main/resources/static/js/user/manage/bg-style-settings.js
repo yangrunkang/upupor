@@ -58,7 +58,7 @@ function editUserInfo() {
         }
         $.ajax({
             headers: {
-                UpuporToken: sessionStorage.getItem("upupor_token"),
+                UpuporToken: localStorage.getItem("upupor_token"),
             },
             url: '/member/edit/bg-style-settings',
             type: 'post',

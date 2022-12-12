@@ -130,7 +130,7 @@ function packagingAjaxPostJson(url, data, okFunc) {
     $(".global-loading-nav-tips-slave").show();
     $.ajax({
         headers: {
-            UpuporToken: sessionStorage.getItem("upupor_token"),
+            UpuporToken: localStorage.getItem("upupor_token"),
         },
         url: url,
         type: "POST",
@@ -171,7 +171,7 @@ function packagingAjaxPostJson(url, data, okFunc) {
 function packagingAjaxPostUnder(url, data, okFunc) {
     $.ajax({
         headers: {
-            UpuporToken: sessionStorage.getItem("upupor_token"),
+            UpuporToken: localStorage.getItem("upupor_token"),
         },
         url: url,
         type: "POST",
@@ -318,7 +318,7 @@ let cherryConfig = {
         formData.append('file', file);
         $.ajax('/file/upload/CONTENT', {
             headers: {
-                UpuporToken: sessionStorage.getItem("upupor_token"),
+                UpuporToken: localStorage.getItem("upupor_token"),
             },
             method: 'POST',
             data: formData,

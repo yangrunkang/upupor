@@ -68,7 +68,7 @@ function applyDocumentCommit() {
         //  这里涉及到上传文件,所以单独写一个ajax请求
         $.ajax({
             headers: {
-                UpuporToken: sessionStorage.getItem("upupor_token"),
+                UpuporToken: localStorage.getItem("upupor_token"),
             },
             url: '/apply/commit',
             type: 'post',

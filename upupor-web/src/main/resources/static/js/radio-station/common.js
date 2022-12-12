@@ -31,7 +31,7 @@ function uploadRadio(formData, radioIntro) {
     // 单数上传文件,可以读取进度
     $.ajax({
         headers: {
-            UpuporToken: sessionStorage.getItem("upupor_token"),
+            UpuporToken: localStorage.getItem("upupor_token"),
         },
         url: '/file/upload/RADIO',
         type: 'post',
