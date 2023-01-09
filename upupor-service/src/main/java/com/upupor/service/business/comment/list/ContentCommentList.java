@@ -32,7 +32,6 @@ import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dto.page.comment.CommentDto;
-import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.ContentType;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.business.comment.list.abstracts.AbstractCommentList;
@@ -42,6 +41,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -75,7 +75,6 @@ public class ContentCommentList extends AbstractCommentList<Content> {
         List<ContentEnhance> contentEnhances = contentService.listByContentIdList(filteredIdList);
         contentEnhances.stream()
                 .map(ContentEnhance::getContent)
-                .filter(content -> ContentStatus.NORMAL.equals(content.getStatus()))
                 .forEach(s -> contentMap.putIfAbsent(s.getContentId(), s))
         ;
         return contentMap;
@@ -87,6 +86,9 @@ public class ContentCommentList extends AbstractCommentList<Content> {
         String targetId = comment.getTargetId();
 
         Content content = contentMap.get(targetId);
+        if (Objects.isNull(content)) {
+            return;
+        }
         commentDtoList.add(CommentDto.create(comment.getCommentContent(),
                 "/u/" + content.getContentId(), content.getTitle(), commentEnhance
         ));
