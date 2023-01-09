@@ -36,8 +36,8 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.JsonUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.outer.req.AddApplyReq;
+import com.upupor.service.utils.JwtUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -90,6 +90,6 @@ public class AdApply extends AbstractApply<AddApplyReq> {
         if (insertApply(apply)) {
             return apply;
         }
-        throw new BusinessException(ErrorCode.APPLY_AD_FAILER);
+        throw new BusinessException(ErrorCode.APPLY_AD_FAILED);
     }
 }

@@ -456,7 +456,14 @@ from: 来源
         </div>
         <div th:include="fragments/index::global_search_clean"></div>
         <div class="mt-1 small text-black-50">
-            · 支持: 文章、用户、电台检索
+            · 支持文章、用户、电台检索
+        </div>
+        <div class="border-1 border-bottom my-1"></div>
+        <div class="mt-1 small text-black-50">
+            · <a href="/comment" class="text-black-50">全站评论 <i class="bi bi-chat-right-quote"></i></a>
+        </div>
+        <div class="mt-1 small text-black-50">
+            · <a class="text-secondary" href="/view/history">浏览记录 <span th:include="fragments/icon::view_record" class="cv-icon-small"></span></a>
         </div>
     </div>
 </div>

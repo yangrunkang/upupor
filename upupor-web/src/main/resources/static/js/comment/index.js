@@ -26,56 +26,6 @@
  *   ~ SOFTWARE.
  *   -->
  */
-
-package com.upupor.data.dao.entity.enhance;
-
-import com.upupor.data.dao.entity.Comment;
-import com.upupor.framework.utils.CcDateUtil;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
-
-import java.util.Objects;
-
-/**
- * @author Yang Runkang (cruise)
- * @createTime 2022-11-27 03:44
- * @email: yangrunkang53@gmail.com
- */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class CommentEnhance {
-    private Comment comment;
-
-    /**
-     * 评论者自己
-     */
-    private MemberEnhance memberEnhance;
-
-    /**
-     * 创建时间
-     */
-    private String createDate;
-
-    private String createDateDiff;
-
-    private String floorNum;
-
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(comment.getCreateTime());
-    }
-
-    public String getCreateDateDiff() {
-        if (Objects.isNull(comment.getCreateTime())) {
-            return Strings.EMPTY;
-        }
-        return CcDateUtil.timeStamp2DateOnly(comment.getCreateTime());
-    }
-
-
-}
+$(function () {
+    $.cvLoadShowImg();
+});

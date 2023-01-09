@@ -80,7 +80,7 @@ public class SendVerifyCode extends AbstractMember<SendVerifyCodeReq> {
             emailTitle = "Upupor新用户注册";
             // 新用户注册,检查邮箱是否已经存在
             if (memberService.checkUserExists(addVerifyCodeReq.getEmail(), UserCheckFieldType.EMAIL)) {
-                throw new BusinessException(ErrorCode.EMAIL_ALREADY_REDISTER);
+                throw new BusinessException(ErrorCode.EMAIL_ALREADY_REGISTER);
             }
             // 新用户注册,检查用户名是否已经被其他人使用
             if (memberService.checkUserExists(addVerifyCodeReq.getUserName(), UserCheckFieldType.USER_NAME)) {

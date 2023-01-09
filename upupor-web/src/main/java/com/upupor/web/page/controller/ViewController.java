@@ -33,6 +33,7 @@ import com.upupor.service.base.MessageService;
 import com.upupor.web.page.view_data.AbstractView;
 import com.upupor.web.page.view_data.Query;
 import com.upupor.web.page.view_data.business.*;
+import com.upupor.web.page.view_data.comment.CommentList;
 import com.upupor.web.page.view_data.content.*;
 import com.upupor.web.page.view_data.footer.*;
 import com.upupor.web.page.view_data.history.HistoryView;
@@ -110,6 +111,7 @@ public class ViewController {
             RecentlyEditedContentView.URL, // 内容有更新-文章
             NewContentView.URL, // 新内容-文章
             Earth.URL, // 我们的家·地球
+            CommentList.URL, // 评论列表
     })
     public ModelAndView one(HttpServletRequest request,
                             Integer pageNum,

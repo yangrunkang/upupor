@@ -36,8 +36,8 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.JsonUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.outer.req.AddConsultantReq;
+import com.upupor.service.utils.JwtUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -89,6 +89,6 @@ public class ConsultantApply extends AbstractApply<AddConsultantReq> {
         if (insertApply(apply)) {
             return apply;
         }
-        throw new BusinessException(ErrorCode.APPLY_CONSULTANT_FAILER);
+        throw new BusinessException(ErrorCode.APPLY_CONSULTANT_FAILED);
     }
 }

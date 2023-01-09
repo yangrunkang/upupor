@@ -91,7 +91,12 @@
         <if test="commentSource != null">
             and comment_source = #{commentSource,jdbcType=INTEGER}
         </if>
-        order by create_time asc
+        <if test="orderByCreateTimeBool != null and orderByCreateTimeBool == true">
+            order by create_time desc
+        </if>
+        <if test="orderByCreateTimeBool != null and orderByCreateTimeBool == false">
+            order by create_time asc
+        </if>
     </select>
 
     <select id="listManage" parameterType="com.upupor.service.outer.req.ListCommentReq" resultMap="BaseResultMap">

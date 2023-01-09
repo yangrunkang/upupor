@@ -25,53 +25,53 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.search;
+package com.upupor.web.page.view_data.comment;
 
-import com.upupor.data.dao.entity.enhance.RadioEnhance;
-import com.upupor.data.dto.page.search.SearchDataDto;
-import com.upupor.lucene.enums.LuceneDataType;
-import com.upupor.service.base.RadioService;
+import com.upupor.data.dto.page.CommentIndexDto;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.aggregation.CommentAggregateService;
+import com.upupor.web.page.view_data.AbstractView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import static com.upupor.framework.CcConstant.COMMENT_INDEX;
 
 /**
+ * 评论列表
+ *
  * @author Yang Runkang (cruise)
- * @date 2022年04月04日 20:29
+ * @date 2023年01月09日 10:59
  * @email: yangrunkang53@gmail.com
  */
-@RequiredArgsConstructor
 @Component
-public class RadioSearchResultRender extends AbstractSearchResultRender<RadioEnhance> {
-    private final RadioService radioService;
+@RequiredArgsConstructor
+public class CommentList extends AbstractView {
+    public static final String URL = "/comment";
+    private final CommentAggregateService commentAggregateService;
 
     @Override
-    public LuceneDataType dataType() {
-        return LuceneDataType.RADIO;
+    public String viewName() {
+        return COMMENT_INDEX;
     }
 
     @Override
-    protected void bindMemberList(List<RadioEnhance> radioEnhanceList) {
-        radioService.bindRadioMember(radioEnhanceList);
+    protected String pageUrl() {
+        return URL;
     }
 
     @Override
-    protected List<RadioEnhance> getDataList() {
-        return radioService.listByRadioId(getTargetIdList()).stream().map(s -> RadioEnhance.builder().radio(s).build()).collect(Collectors.toList());
+    protected void seoInfo() {
+        modelAndView.addObject(CcConstant.SeoKey.TITLE, "所有评论");
+        modelAndView.addObject(CcConstant.SeoKey.DESCRIPTION, "所有评论");
+        modelAndView.addObject(CcConstant.SeoKey.BUSINESS_TITLE, "所有评论");
     }
 
     @Override
-    protected void transferToSearchDataDtoList(List<RadioEnhance> radios) {
-        for (RadioEnhance radioEnhance : radios) {
-            SearchDataDto searchDataDto = new SearchDataDto();
-            searchDataDto.setDataType(dataType());
-            searchDataDto.setResultTitle(radioEnhance.getRadio().getRadioIntro());
-            searchDataDto.setResultId(radioEnhance.getRadio().getRadioId());
-            searchDataDto.setMemberEnhance(radioEnhance.getMemberEnhance());
-            getSearchDataDtoList().add(searchDataDto);
-        }
-
+    protected void fetchData() {
+        Integer pageNum = query.getPageNum();
+        Integer pageSize = query.getPageSize();
+        CommentIndexDto commentIndexDto = commentAggregateService.index(pageNum, pageSize);
+        modelAndView.addObject(commentIndexDto);
     }
+
 }

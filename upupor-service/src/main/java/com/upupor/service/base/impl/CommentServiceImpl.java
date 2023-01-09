@@ -51,11 +51,11 @@ import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.CommentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.outer.req.AddCommentReq;
 import com.upupor.service.utils.Asserts;
+import com.upupor.service.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -114,7 +114,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public ListCommentDto listComment(ListCommentQuery query) {
         Boolean allEmpty = CcUtils.isAllEmpty(query.getUserId(), query.getTargetId());
-        if (allEmpty) {
+        if (allEmpty && !query.getQueryAll()) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
         PageHelper.startPage(query.getPageNum(), query.getPageSize());
@@ -164,13 +164,11 @@ public class CommentServiceImpl implements CommentService {
         if (CollectionUtils.isEmpty(memberEnhanceList)) {
             return;
         }
-        memberEnhanceList.forEach(memberEnhance -> {
-            commentList.forEach(comment -> {
-                if (comment.getComment().getUserId().equals(memberEnhance.getMember().getUserId())) {
-                    comment.setMemberEnhance(memberEnhance);
-                }
-            });
-        });
+        memberEnhanceList.forEach(memberEnhance -> commentList.forEach(comment -> {
+            if (comment.getComment().getUserId().equals(memberEnhance.getMember().getUserId())) {
+                comment.setMemberEnhance(memberEnhance);
+            }
+        }));
     }
 
 

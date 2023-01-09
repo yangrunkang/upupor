@@ -117,9 +117,6 @@
                     </div>
                     <div th:if="${#lists.isEmpty(commonPageIndexDto.memberEnhanceList)}" th:include="fragments/index::empty_content"></div>
                 </div>
-                <div class="card border-0 rounded-3 p-2 my-2">
-                    <a class="text-secondary" href="/view/history"><span th:include="fragments/icon::view_record"></span>浏览记录</a>
-                </div>
                 <div th:include="fragments/index::google_right_ad"></div>
         </div>
         </div>

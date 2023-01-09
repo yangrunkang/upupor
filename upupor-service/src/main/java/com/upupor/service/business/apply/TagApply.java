@@ -37,8 +37,8 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.JsonUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.outer.req.AddTagReq;
+import com.upupor.service.utils.JwtUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -89,6 +89,6 @@ public class TagApply extends AbstractApply<AddTagReq> {
         if (insertApply(apply)) {
             return apply;
         }
-        throw new BusinessException(ErrorCode.APPLY_TAG_FAILER);
+        throw new BusinessException(ErrorCode.APPLY_TAG_FAILED);
     }
 }

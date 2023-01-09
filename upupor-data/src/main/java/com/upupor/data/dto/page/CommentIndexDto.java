@@ -25,34 +25,28 @@
  * SOFTWARE.
  */
 
-package com.upupor.data.dto.query;
+package com.upupor.data.dto.page;
 
-import com.upupor.data.types.CommentStatus;
-import com.upupor.data.types.ContentType;
+import com.upupor.data.dto.page.comment.CommentDto;
+import com.upupor.data.dto.page.common.BaseListDto;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * 评论首页
+ *
  * @author Yang Runkang (cruise)
- * @date 2022年11月25日
+ * @date 2023年01月09日 09:49
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ListCommentQuery {
-    private String targetId;
-    private String userId;
-    private String commentId;
-    private CommentStatus status;
-    /**
-     * 评论来源和文章类型是一致的
-     */
-    private ContentType commentSource;
-    private Integer pageNum;
-    private Integer pageSize;
+public class CommentIndexDto extends BaseListDto {
+    private List<CommentDto> commentDtoList;
 
-    /**
-     * 查询所有
-     */
-    private Boolean queryAll = false;
+    public CommentIndexDto() {
+        this.commentDtoList = new ArrayList<>();
+    }
 
-    private Boolean orderByCreateTimeBool = false;
 }

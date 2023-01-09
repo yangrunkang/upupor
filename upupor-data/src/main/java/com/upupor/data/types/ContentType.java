@@ -186,6 +186,35 @@ public enum ContentType {
         return contentTypeList;
     }
 
+
+    /**
+     * 是否是文章
+     *
+     * @return
+     */
+    public static Boolean isContent(ContentType contentType) {
+        return contentSource().contains(contentType);
+    }
+
+    /**
+     * 是否是留言板消息
+     *
+     * @return
+     */
+    public static Boolean isMessagetBoard(ContentType contentType) {
+        return ContentType.MESSAGE.equals(contentType);
+    }
+
+    /**
+     * 是否是电台
+     *
+     * @return
+     */
+    public static Boolean isRadio(ContentType contentType) {
+        return ContentType.RADIO.equals(contentType);
+    }
+
+
     /**
      * 获取内容描述
      *

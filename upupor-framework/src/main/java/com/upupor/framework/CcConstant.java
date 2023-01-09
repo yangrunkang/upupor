@@ -173,6 +173,7 @@ public final class CcConstant {
     public static final String OPEN = "foot/opensource";
     public static final String MARKDOWN = "components/markdown";
     public static final String OUR_HOME = "components/our-home";
+    public static final String COMMENT_INDEX = "comment/index";
 
     public static final class ContentView {
         // 文章列表

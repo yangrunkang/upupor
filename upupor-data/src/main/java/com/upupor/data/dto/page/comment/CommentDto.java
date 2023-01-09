@@ -25,34 +25,44 @@
  * SOFTWARE.
  */
 
-package com.upupor.data.dto.query;
+package com.upupor.data.dto.page.comment;
 
-import com.upupor.data.types.CommentStatus;
-import com.upupor.data.types.ContentType;
+import com.upupor.data.dao.entity.enhance.CommentEnhance;
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * @author Yang Runkang (cruise)
- * @date 2022年11月25日
+ * @date 2023年01月09日 09:50
  * @email: yangrunkang53@gmail.com
  */
 @Data
-public class ListCommentQuery {
-    private String targetId;
-    private String userId;
-    private String commentId;
-    private CommentStatus status;
+@Builder
+public class CommentDto {
     /**
-     * 评论来源和文章类型是一致的
+     * 评论内容
      */
-    private ContentType commentSource;
-    private Integer pageNum;
-    private Integer pageSize;
+    private String commentContent;
 
     /**
-     * 查询所有
+     * 目标Url
      */
-    private Boolean queryAll = false;
+    private String targetUrl;
 
-    private Boolean orderByCreateTimeBool = false;
+    /**
+     * 目标标题
+     */
+    private String targetTitle;
+
+
+    private CommentEnhance commentEnhance;
+
+    public static CommentDto create(String commentContent, String targetUrl, String targetTitle, CommentEnhance commentEnhance) {
+        return CommentDto.builder()
+                .commentContent(commentContent)
+                .targetUrl(targetUrl)
+                .targetTitle(targetTitle)
+                .commentEnhance(commentEnhance)
+                .build();
+    }
 }

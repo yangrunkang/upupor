@@ -48,7 +48,6 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.FileService;
 import com.upupor.service.base.MemberService;
@@ -56,6 +55,7 @@ import com.upupor.service.base.RadioService;
 import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
 import com.upupor.service.utils.Asserts;
+import com.upupor.service.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -133,7 +133,8 @@ public class RadioServiceImpl implements RadioService {
     @Override
     public List<Radio> listByRadioId(List<String> radioIdList) {
         LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
-                .in(Radio::getRadioId, radioIdList);
+                .in(Radio::getRadioId, radioIdList)
+                .eq(Radio::getStatus, RadioStatus.NORMAL);
         return radioMapper.selectList(query);
     }
 
