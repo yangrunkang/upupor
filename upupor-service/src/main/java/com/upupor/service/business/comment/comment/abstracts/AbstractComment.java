@@ -25,7 +25,7 @@
  * SOFTWARE.
  */
 
-package com.upupor.service.business.comment;
+package com.upupor.service.business.comment.comment.abstracts;
 
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.types.ContentType;

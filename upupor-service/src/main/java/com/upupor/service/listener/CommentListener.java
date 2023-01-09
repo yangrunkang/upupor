@@ -27,7 +27,7 @@
 
 package com.upupor.service.listener;
 
-import com.upupor.service.business.comment.AbstractComment;
+import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.replay.AbstractReplyComment;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;

@@ -38,7 +38,7 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.business.comment.AbstractComment;
+import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import org.springframework.stereotype.Component;
