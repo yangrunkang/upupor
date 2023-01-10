@@ -56,7 +56,7 @@ public interface RadioService {
      * @param radioIdList
      * @return
      */
-    List<Radio> listByRadioId(List<String> radioIdList);
+    List<Radio> listByRadioIdList(List<String> radioIdList);
 
     void bindRadioMember(List<RadioEnhance> radioList);
 

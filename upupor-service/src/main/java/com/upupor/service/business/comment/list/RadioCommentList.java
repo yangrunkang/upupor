@@ -40,6 +40,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -69,7 +70,7 @@ public class RadioCommentList extends AbstractCommentList<Radio> {
     @Override
     protected Map<String, Radio> filteredIdConvertToTMap(List<String> filteredIdList) {
         Map<String, Radio> radioMap = new HashMap<>();
-        List<Radio> radios = radioService.listByRadioId(filteredIdList);
+        List<Radio> radios = radioService.listByRadioIdList(filteredIdList);
         radios.forEach(s -> radioMap.putIfAbsent(s.getRadioId(), s));
         return radioMap;
     }
@@ -80,6 +81,9 @@ public class RadioCommentList extends AbstractCommentList<Radio> {
         String targetId = comment.getTargetId();
 
         Radio radio = radioMap.get(targetId);
+        if (Objects.isNull(radio)) {
+            return;
+        }
         commentDtoList.add(CommentDto.create(comment.getCommentContent(),
                 "/r/" + radio.getRadioId(),
                 radio.getRadioIntro(), commentEnhance

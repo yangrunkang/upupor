@@ -131,7 +131,7 @@ public class RadioServiceImpl implements RadioService {
     }
 
     @Override
-    public List<Radio> listByRadioId(List<String> radioIdList) {
+    public List<Radio> listByRadioIdList(List<String> radioIdList) {
         LambdaQueryWrapper<Radio> query = new LambdaQueryWrapper<Radio>()
                 .in(Radio::getRadioId, radioIdList)
                 .eq(Radio::getStatus, RadioStatus.NORMAL);

@@ -40,25 +40,9 @@ import java.util.List;
 public interface ContentMapper extends BaseMapper<Content> {
 
     /**
-     * 根据文章id获取内容
-     *
-     * @param contentIdList
-     * @return
-     */
-    List<Content> listByContentIdList(@Param("contentIdList") List<String> contentIdList);
-
-    /**
      * 文章总数
      */
     Integer total();
-
-    /**
-     * 个人profile页面
-     *
-     * @param userIdList
-     * @return
-     */
-    List<Content> listAllByUserId(@Param("userIdList") List<String> userIdList);
 
     List<Content> list();
 

@@ -64,28 +64,6 @@
         ct.sys_update_time,ct.picture
     </sql>
 
-    <select id="listByContentIdList" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from content
-        where content_id in
-        <foreach collection="contentIdList" close=")" open="(" separator="," item="contentId">
-            ${contentId}
-        </foreach>
-        order by create_time desc
-    </select>
-
-    <select id="listAllByUserId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from content
-        where user_id in
-        <foreach collection="userIdList" close=")" open="(" separator="," item="userId">
-            #{userId,jdbcType=VARCHAR}
-        </foreach>
-        and status = 0
-        order by create_time desc
-    </select>
 
     <select id="list" resultMap="BaseResultMap">
         select

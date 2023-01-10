@@ -41,6 +41,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -68,17 +69,6 @@ public class MemberBoardCommentList extends AbstractCommentList<Member> {
     }
 
     @Override
-    protected void createCommentDto(Map<String, Member> memberMap, CommentEnhance commentEnhance) {
-        Comment comment = commentEnhance.getComment();
-        String targetId = comment.getTargetId();
-
-        Member member = memberMap.get(targetId);
-        commentDtoList.add(CommentDto.create(comment.getCommentContent(),
-                "/profile/" + member.getUserId() + "/message", member.getUserName(), commentEnhance
-        ));
-    }
-
-    @Override
     protected Map<String, Member> filteredIdConvertToTMap(List<String> filteredIdList) {
         Map<String, Member> memberMap = new HashMap<>();
         List<MemberEnhance> memberEnhances = memberService.listByUserIdList(filteredIdList);
@@ -87,5 +77,19 @@ public class MemberBoardCommentList extends AbstractCommentList<Member> {
                 .forEach(s -> memberMap.putIfAbsent(s.getUserId(), s))
         ;
         return memberMap;
+    }
+
+    @Override
+    protected void createCommentDto(Map<String, Member> memberMap, CommentEnhance commentEnhance) {
+        Comment comment = commentEnhance.getComment();
+        String targetId = comment.getTargetId();
+
+        Member member = memberMap.get(targetId);
+        if (Objects.isNull(member)) {
+            return;
+        }
+        commentDtoList.add(CommentDto.create(comment.getCommentContent(),
+                "/profile/" + member.getUserId() + "/message", member.getUserName(), commentEnhance
+        ));
     }
 }

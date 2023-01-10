@@ -92,7 +92,6 @@ public class ContentServiceImpl implements ContentService {
     private final AttentionService attentionService;
     private final TagService tagService;
     private final StatementMapper statementMapper;
-    private final MemberService memberService;
     private final MemberIntegralService memberIntegralService;
     private final List<AbstractEditor> abstractEditorList;
     private final DraftService draftService;
@@ -314,7 +313,11 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<ContentEnhance> listByContentIdList(List<String> contentIdList) {
-        List<Content> contents = contentMapper.listByContentIdList(contentIdList);
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
+                .in(Content::getContentId, contentIdList)
+                .eq(Content::getStatus, ContentStatus.NORMAL)
+                .orderByDesc(Content::getCreateTime);
+        List<Content> contents = contentMapper.selectList(query);
         if (CollectionUtils.isEmpty(contents)) {
             return new ArrayList<>();
         }
@@ -377,7 +380,12 @@ public class ContentServiceImpl implements ContentService {
         if (StringUtils.isEmpty(userIdList)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
         }
-        return Converter.contentEnhance(contentMapper.listAllByUserId(userIdList));
+        LambdaQueryWrapper<Content> query = new LambdaQueryWrapper<Content>()
+                .in(Content::getUserId, userIdList)
+                .eq(Content::getStatus, ContentStatus.NORMAL)
+                .orderByDesc(Content::getCreateTime);
+
+        return Converter.contentEnhance(contentMapper.selectList(query));
     }
 
     @Override

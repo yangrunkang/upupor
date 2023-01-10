@@ -59,7 +59,7 @@ public class RadioSearchResultRender extends AbstractSearchResultRender<RadioEnh
 
     @Override
     protected List<RadioEnhance> getDataList() {
-        return radioService.listByRadioId(getTargetIdList()).stream().map(s -> RadioEnhance.builder().radio(s).build()).collect(Collectors.toList());
+        return radioService.listByRadioIdList(getTargetIdList()).stream().map(s -> RadioEnhance.builder().radio(s).build()).collect(Collectors.toList());
     }
 
     @Override

@@ -82,8 +82,8 @@ public class CollectManage extends AbstractManage {
         }
 
         List<String> contentIdList = listCollectDto.getCollectEnhanceList().stream()
-                .filter(collect -> collect.getCollect().getCollectType().equals(CollectType.CONTENT))
                 .map(CollectEnhance::getCollect)
+                .filter(collect -> collect.getCollectType().equals(CollectType.CONTENT))
                 .map(Collect::getCollectValue)
                 .distinct().collect(Collectors.toList());
         if (CollectionUtils.isEmpty(contentIdList)) {
