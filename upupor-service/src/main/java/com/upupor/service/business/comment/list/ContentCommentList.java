@@ -90,7 +90,10 @@ public class ContentCommentList extends AbstractCommentList<Content> {
             return;
         }
         commentDtoList.add(CommentDto.create(comment.getCommentContent(),
-                "/u/" + content.getContentId(), content.getTitle(), commentEnhance
+                "/u/" + content.getContentId(),
+                content.getTitle(),
+                commentEnhance,
+                "文章"
         ));
     }
 }

@@ -89,7 +89,10 @@ public class MemberBoardCommentList extends AbstractCommentList<Member> {
             return;
         }
         commentDtoList.add(CommentDto.create(comment.getCommentContent(),
-                "/profile/" + member.getUserId() + "/message", member.getUserName(), commentEnhance
+                "/profile/" + member.getUserId() + "/message",
+                member.getUserName(),
+                commentEnhance,
+                "留言板"
         ));
     }
 }

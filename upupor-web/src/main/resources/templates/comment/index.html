@@ -51,17 +51,18 @@
                                     <a class="text-black-50 small"
                                        th:href="${commentDto.targetUrl}"
                                        th:title="${commentDto.targetTitle}">
-                                        <i class="bi bi-link-45deg"> 来自于&nbsp;</i> <strong>[[${commentDto.targetTitle}]]</strong>
+                                        <i class="bi bi-chat-right-quote"> 评论者&nbsp;&nbsp;<img  class="lazyload img rounded cv-icon-small"
+                                                                                                th:data-src="${commentDto.commentEnhance.memberEnhance.member.via}"
+                                                                                                th:alt="${commentDto.commentEnhance.memberEnhance.member.userName}" /> </i>
+                                        <strong>[[${commentDto.commentEnhance.memberEnhance.member.userName}]]</strong>
                                     </a>
                                 </div>
                                 <div>
                                     <a class="text-black-50 small"
                                        th:href="${commentDto.targetUrl}"
                                        th:title="${commentDto.targetTitle}">
-                                        <i class="bi bi-chat-right-quote"> 评论者&nbsp;&nbsp;<img  class="lazyload img rounded cv-icon-small"
-                                                                                                th:data-src="${commentDto.commentEnhance.memberEnhance.member.via}"
-                                                                                                th:alt="${commentDto.commentEnhance.memberEnhance.member.userName}" /> </i>
-                                        <strong>[[${commentDto.commentEnhance.memberEnhance.member.userName}]]</strong>
+                                        <i class="bi bi-link-45deg"> 来自于&nbsp;</i>
+                                        <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;">[[${commentDto.sourceTag}]]</span> <strong>[[${commentDto.targetTitle}]]</strong>
                                     </a>
                                 </div>
                             </li>

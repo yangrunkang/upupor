@@ -54,15 +54,24 @@ public class CommentDto {
      */
     private String targetTitle;
 
-
     private CommentEnhance commentEnhance;
 
-    public static CommentDto create(String commentContent, String targetUrl, String targetTitle, CommentEnhance commentEnhance) {
+    /**
+     * 来源标签
+     */
+    private String sourceTag;
+
+    public static CommentDto create(String commentContent,
+                                    String targetUrl,
+                                    String targetTitle,
+                                    CommentEnhance commentEnhance,
+                                    String sourceTag) {
         return CommentDto.builder()
                 .commentContent(commentContent)
                 .targetUrl(targetUrl)
                 .targetTitle(targetTitle)
                 .commentEnhance(commentEnhance)
+                .sourceTag(sourceTag)
                 .build();
     }
 }
