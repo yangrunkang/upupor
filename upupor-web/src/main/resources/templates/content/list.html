@@ -62,12 +62,6 @@
                                 <div class="border-top border-1 mt-2" th:include="fragments/index::apply_tag"></div>
                             </ul>
                         </div>
-                        <div class="card border-0 rounded-3 p-2 mb-2">
-                            <a class="cv-link text-black-50" href="/our-home"><span th:include="fragments/icon::earth"></span>暗淡蓝点</a>
-                        </div>
-                        <div class="card border-0 rounded-3 p-2 mb-2">
-                            <div th:replace="fragments/business::open_github"></div>
-                        </div>
                     </div>
                     <div class="col">
                         <div class="card border-0 rounded-3 p-2 my-2" th:include="fragments/index::list_content_dto(${commonPageIndexDto.listContentDto},'content-list')"></div>

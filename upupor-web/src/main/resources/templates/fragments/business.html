@@ -34,9 +34,9 @@
     <a class="cv-link text-black-50" href="/business-cooperation" title="商务合作">商务合作</a>
 </div>
 
-<div th:fragment="open_github">
-    <a class="cv-link text-black-50" href="/open"><span th:include="fragments/icon::github"></span>开源</a>
-</div>
+<span th:fragment="open_github">
+    <a class="cv-link text-black-50" href="/open">开源 <span th:include="fragments/icon::github"></span></a>
+</span>
 
 <div th:fragment="upupor_business">
     <div class="card border-0 rounded-3 p-2">
