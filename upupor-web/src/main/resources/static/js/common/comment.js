@@ -106,9 +106,9 @@ function comment(contentId,commentSource,desc) {
 /**
  * 渲染回复用户的名字
  */
-function renderReplayUserName(userName,userId) {
+function renderReplayUserName(userName,userId,floorNum) {
     try {
-        let replayUser = '[**!!#7D8B99 @'+userName+'!!**](/profile/'+userId+'/content) ';
+        let replayUser = '[**!!#7D8B99 @'+userName+'!!**](/profile/'+userId+'/content) `'+floorNum+'#`: ';
         $.cvSetEditorContent(replayUser);
         $("#reply_to_user").val(userId);
         //滚动到锚点位置
