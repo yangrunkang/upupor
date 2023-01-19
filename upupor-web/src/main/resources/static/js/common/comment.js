@@ -83,12 +83,14 @@ function comment(contentId,commentSource,desc) {
         return;
     }
     let userId = $("#reply_to_user").val();
+    let beFloorNum = $("#reply_to_floor").val();
     let comment = {
         targetId: contentId,
         commentSource: commentSource,
         commentContent: commentContent,
         mdCommentContent: mdCommentContent,
-        replyToUserId: userId
+        replyToUserId: userId,
+        beFloorNum: beFloorNum
     };
 
     $.cvPostJson('/comment/add', comment, function (data) {
@@ -108,9 +110,10 @@ function comment(contentId,commentSource,desc) {
  */
 function renderReplayUserName(userName,userId,floorNum) {
     try {
-        let replayUser = '[**!!#7D8B99 @'+userName+'!!**](/profile/'+userId+'/content) `'+floorNum+'#`: ';
+        let replayUser = '[**!!#7D8B99 @'+userName+'!!**](/profile/'+userId+'/content): ';
         $.cvSetEditorContent(replayUser);
         $("#reply_to_user").val(userId);
+        $("#reply_to_floor").val(floorNum);
         //滚动到锚点位置
         $('html,body').animate({scrollTop: $(".btn-cv-comment").offset().top - 440}, 200);
     } catch (e) {

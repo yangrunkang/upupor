@@ -38,12 +38,13 @@
         <result column="status" jdbcType="INTEGER" property="status"/>
         <result column="agree" jdbcType="INTEGER" property="agree"/>
         <result column="like_num" jdbcType="INTEGER" property="likeNum"/>
+        <result column="be_floor_num" jdbcType="INTEGER" property="beFloorNum"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="sys_update_time" jdbcType="TIMESTAMP" property="sysUpdateTime"/>
     </resultMap>
     <sql id="Base_Column_List">
         id, user_id, comment_id, target_id, comment_source, status, agree, like_num, create_time,
-        sys_update_time,comment_content
+        sys_update_time,comment_content,be_floor_num
     </sql>
 
     <sql id="Base_Column_Alias_List">

@@ -51,6 +51,7 @@
         <div th:replace="fragments/editor::upupor-editor-progress"></div>
         <div id="vcr_editor" style="height: 300px; overflow:hidden"></div>
         <input type="hidden" id="reply_to_user" />
+        <input type="hidden" id="reply_to_floor" />
         <div id="comment_btn_group" style="display: none">
             <button class="ui primary button btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]],[[${text}]])">[[${text}]]</button>
             <button class="ui button btn-sm my-2" th:onclick="cancel()">清空</button>
@@ -78,6 +79,7 @@
                                 [[${commentEnhance.memberEnhance.member.userName}]] <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;" th:if="${commentEnhance.memberEnhance.member.userId == targetUserId}">楼主</span>
                                 <span th:include="fragments/member::memberTag(${commentEnhance.memberEnhance})"></span>
                             </a>
+                            <span class="badge bg-gradient bg-success" th:if="${commentEnhance.comment.beFloorNum != null}" th:text="'回复' + ${commentEnhance.comment.beFloorNum} + '#的评论'"></span>
                             <div class="float-end text-black-50 small">
                                 <span class="d-none d-sm-block float-start text-black-50 ">[[${commentEnhance.createDateDiff}]]&nbsp;·&nbsp;</span>
                                 <span style="cursor: pointer" th:if="${session?.cv_user_id}" th:onclick="renderReplayUserName([[${commentEnhance.memberEnhance.member.userName}]],[[${commentEnhance.memberEnhance.member.userId}]],[[${commentEnhance.floorNum}]])">回复<i class="bi bi-reply-fill"></i></span>

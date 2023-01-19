@@ -24,43 +24,4 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package com.upupor.service.outer.req;
-
-import com.upupor.data.types.ContentType;
-import lombok.Data;
-
-/**
- * @author: YangRunkang(cruise)
- * @created: 2019/12/22 16:38
- */
-@Data
-public class AddCommentReq {
-    /**
-     * 目标id
-     */
-    private String targetId;
-    /**
-     * 评论来源
-     */
-    private ContentType commentSource;
-    /**
-     * 评论内容
-     */
-    private String commentContent;
-
-    /**
-     * markdown评论内容
-     */
-    private String mdCommentContent;
-
-    /**
-     * 回复给用户
-     */
-    private String replyToUserId;
-
-    /**
-     * 被回复的楼层
-     */
-    private Integer beFloorNum;
-}
+alter table `comment` add column `be_floor_num` int(11) DEFAULT null COMMENT '被评论的楼层';

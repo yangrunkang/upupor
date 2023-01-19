@@ -56,6 +56,11 @@ public class Comment extends BaseEntity {
 
     private String mdCommentContent;
 
+    /**
+     * 被评论的楼层
+     */
+    private Integer beFloorNum;
+
     public static Comment empty() {
         return new Comment();
     }

@@ -87,6 +87,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setCommentId(CcUtils.getUuId());
         comment.setStatus(CommentStatus.NORMAL);
         comment.setAgree(CommentAgree.NONE);
+        comment.setBeFloorNum(addCommentReq.getBeFloorNum());
         comment.setLikeNum(BigDecimal.ZERO.intValue());
         comment.setCreateTime(CcDateUtil.getCurrentTime());
         comment.setSysUpdateTime(new Date());
