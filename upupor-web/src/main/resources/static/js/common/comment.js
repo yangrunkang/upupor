@@ -56,6 +56,8 @@ function cancel() {
     }).then((confirmed) => {
         if (confirmed) {
             $.cvSetEditorEmpty();
+            $("#reply_to_user").removeAttr('value');
+            $("#reply_to_floor").removeAttr('value');
         }
     });
 }
