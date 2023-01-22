@@ -55,7 +55,7 @@
         <input type="hidden" id="reply_to_floor" />
         <div id="comment_btn_group" style="display: none">
             <button class="ui primary button btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]],[[${text}]])">[[${text}]]</button>
-            <button class="ui button btn-sm my-2" th:onclick="cancel()">清空</button>
+            <button class="ui button btn-sm my-2" th:onclick="cancel()">重置</button>
             <div class="btn rounded-3 bg-gradient btn-link cv-link btn-sm my-2" th:include="fragments/common::markdown"></div>
         </div>
     </div>

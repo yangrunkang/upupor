@@ -35,7 +35,7 @@ function cancel() {
     let mdCommentContent = $.cvGetEditorDataMd();
 
     swal({
-        title: '确定清空重置评论操作?',
+        title: '确定重置评论操作?',
         text: "当前评论的所有操作将会被重置",
         icon: "warning",
         buttons: [{
