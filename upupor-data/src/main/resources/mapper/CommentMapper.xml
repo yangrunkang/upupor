@@ -61,6 +61,13 @@
         where status = 0 and target_id = #{targetId,jdbcType=BIGINT}
     </select>
 
+    <select id="maxFloorNumByTargetId" resultType="java.lang.Long">
+        select
+        max(floor_num)
+        from comment
+        where target_id = #{targetId,jdbcType=BIGINT}
+    </select>
+
     <select id="selectByCommentIdList" resultType="com.upupor.data.dto.dao.CommentNumDto">
         select
         target_id contentId,

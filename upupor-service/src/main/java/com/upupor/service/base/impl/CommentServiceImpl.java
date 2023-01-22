@@ -87,7 +87,8 @@ public class CommentServiceImpl implements CommentService {
         comment.setCommentContent(addCommentReq.getCommentContent());
         comment.setMdCommentContent(addCommentReq.getMdCommentContent());
         comment.setReplyToUserId(addCommentReq.getReplyToUserId());
-        comment.setFloorNum(getFloorNum(addCommentReq.getTargetId()) + 1);
+        Long maxFloorNum = maxFloorNum(addCommentReq.getTargetId());
+        comment.setFloorNum(Objects.isNull(maxFloorNum) ? 1 : (maxFloorNum + 1));
         comment.setBeFloorNum(addCommentReq.getBeFloorNum());
 
         comment.setUserId(JwtUtils.getUserId());
@@ -104,11 +105,8 @@ public class CommentServiceImpl implements CommentService {
         throw new BusinessException(ErrorCode.COMMENT_FAILED);
     }
 
-    private Long getFloorNum(String targetId) {
-        LambdaQueryWrapper<Comment> countCommentQuery = new LambdaQueryWrapper<Comment>()
-                .eq(Comment::getTargetId, targetId)
-                .eq(Comment::getStatus, CommentStatus.NORMAL);
-        return commentMapper.selectCount(countCommentQuery);
+    private Long maxFloorNum(String targetId) {
+        return commentMapper.maxFloorNumByTargetId(targetId);
     }
 
     @Override

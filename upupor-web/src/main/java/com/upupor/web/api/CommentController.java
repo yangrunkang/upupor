@@ -95,6 +95,7 @@ public class CommentController {
                 replayCommentEvent(addCommentReq, comment, currentUser);
             }
         } catch (Exception ignored) {
+            throw new BusinessException(ErrorCode.COMMENT_FAILED);
         }
 
         cc.setData(true);

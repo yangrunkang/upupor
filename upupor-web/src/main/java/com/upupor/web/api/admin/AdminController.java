@@ -27,13 +27,10 @@
 
 package com.upupor.web.api.admin;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.upupor.data.dao.entity.Comment;
 import com.upupor.data.dao.entity.MemberConfig;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.mapper.CommentMapper;
-import com.upupor.data.types.CommentStatus;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.framework.CcResponse;
 import com.upupor.service.base.ContentService;
@@ -47,7 +44,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,8 +51,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static com.upupor.framework.thread.completable.CompletableFuturePool.ASYNC;
 
@@ -169,37 +163,38 @@ public class AdminController {
      *
      * @return
      */
-    @GetMapping("/RefreshCommentBeFloorNumValue")
-    public CcResponse refreshCommentBeFloorNumValue() {
-        CcResponse ccResponse = new CcResponse();
-        ccResponse.setData(false);
-
-        LambdaQueryWrapper<Comment> query = new LambdaQueryWrapper<Comment>()
-                .eq(Comment::getStatus, CommentStatus.NORMAL)
-                .orderByAsc(Comment::getCreateTime);
-
-
-        List<Comment> commentList = commentMapper.selectList(query);
-        if (CollectionUtils.isEmpty(commentList)) {
-            return ccResponse;
-        }
-
-        Map<String, List<Comment>> commentIdMap =
-                commentList.stream().collect(Collectors.groupingBy(Comment::getTargetId));
-
-
-        for (String targetId : commentIdMap.keySet()) {
-            List<Comment> targetList = commentIdMap.get(targetId);
-            Long floorNum = 1L;
-            for (Comment comment : targetList) {
-                comment.setFloorNum(floorNum);
-                commentMapper.updateById(comment);
-                floorNum++;
-            }
-        }
-
-
-        ccResponse.setData(true);
-        return ccResponse;
-    }
+//    @GetMapping("/RefreshCommentBeFloorNumValue")
+//    public CcResponse refreshCommentBeFloorNumValue() {
+//
+//        CcResponse ccResponse = new CcResponse();
+//        ccResponse.setData(false);
+//
+//        LambdaQueryWrapper<Comment> query = new LambdaQueryWrapper<Comment>()
+//                .eq(Comment::getStatus, CommentStatus.NORMAL)
+//                .orderByAsc(Comment::getCreateTime);
+//
+//
+//        List<Comment> commentList = commentMapper.selectList(query);
+//        if (CollectionUtils.isEmpty(commentList)) {
+//            return ccResponse;
+//        }
+//
+//        Map<String, List<Comment>> commentIdMap =
+//                commentList.stream().collect(Collectors.groupingBy(Comment::getTargetId));
+//
+//
+//        for (String targetId : commentIdMap.keySet()) {
+//            List<Comment> targetList = commentIdMap.get(targetId);
+//            Long floorNum = 1L;
+//            for (Comment comment : targetList) {
+//                comment.setFloorNum(floorNum);
+//                commentMapper.updateById(comment);
+//                floorNum++;
+//            }
+//        }
+//
+//
+//        ccResponse.setData(true);
+//        return ccResponse;
+//    }
 }

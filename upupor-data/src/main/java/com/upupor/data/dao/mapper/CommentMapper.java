@@ -45,4 +45,10 @@ public interface CommentMapper extends BaseMapper<Comment> {
     List<CommentNumDto> selectByCommentIdList(@Param("list") List<String> commentIdList);
 
     Integer countByTargetId(@Param("targetId") String targetId);
+
+    /**
+     * @param targetId
+     * @return
+     */
+    Long maxFloorNumByTargetId(@Param("targetId") String targetId);
 }
