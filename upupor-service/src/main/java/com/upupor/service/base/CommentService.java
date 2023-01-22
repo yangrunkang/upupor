@@ -33,6 +33,7 @@ import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.common.ListCommentDto;
 import com.upupor.data.dto.query.ListCommentQuery;
+import com.upupor.service.base.impl.CommentServiceImpl;
 import com.upupor.service.outer.req.AddCommentReq;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public interface CommentService {
      * @param addCommentReq
      * @return
      */
-    Comment toComment(AddCommentReq addCommentReq);
+    Comment create(AddCommentReq addCommentReq);
 
     /**
      * 更新评论
@@ -81,7 +82,7 @@ public interface CommentService {
      *
      * @param commentList
      */
-    void bindCommentUser(List<CommentEnhance> commentList);
+    void bindCommentUser(List<CommentEnhance> commentList, CommentServiceImpl.CommentOrReply commentOrReply);
 
     void bindContentComment(ContentEnhance content, Integer pageNum, Integer pageSize);
 

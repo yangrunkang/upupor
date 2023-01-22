@@ -33,14 +33,10 @@ $(function () {
 function cancel() {
     let commentContent = $.cvGetEditorData();
     let mdCommentContent = $.cvGetEditorDataMd();
-    if (cvIsNull(commentContent) || cvIsNull(mdCommentContent)) {
-        $.cvWarn("内容为空,无需清空");
-        return;
-    }
 
     swal({
-        title: '确定清空内容?',
-        text: "当前输入内容将会被清除",
+        title: '确定清空重置评论操作?',
+        text: "当前评论的所有操作将会被重置",
         icon: "warning",
         buttons: [{
             text: "确认",
@@ -56,6 +52,7 @@ function cancel() {
     }).then((confirmed) => {
         if (confirmed) {
             $.cvSetEditorEmpty();
+            $("#reply_to_user_name").text(null).hide();
             $("#reply_to_user").removeAttr('value');
             $("#reply_to_floor").removeAttr('value');
         }
@@ -68,20 +65,20 @@ function cancel() {
  * @param contentId 目标Id
  * @param commentSource 评论来源
  */
-function comment(contentId,commentSource,desc) {
+function comment(contentId, commentSource, desc) {
     if (cvIsNull(contentId)) {
-        $.cvWarn(desc+"目标为空,禁止"+desc);
+        $.cvWarn(desc + "目标为空,禁止" + desc);
         return;
     }
     if (cvIsNull(commentSource)) {
-        $.cvWarn("来源异常,禁止"+desc);
+        $.cvWarn("来源异常,禁止" + desc);
         return;
     }
 
     let commentContent = $.cvGetEditorData();
     let mdCommentContent = $.cvGetEditorDataMd();
     if (cvIsNull(commentContent) || cvIsNull(mdCommentContent)) {
-        $.cvWarn(desc+"内容为空");
+        $.cvWarn(desc + "内容为空");
         return;
     }
     let userId = $("#reply_to_user").val();
@@ -97,12 +94,12 @@ function comment(contentId,commentSource,desc) {
 
     $.cvPostJson('/comment/add', comment, function (data) {
         if (respSuccess(data)) {
-            $.cvSuccess(desc+"成功");
+            $.cvSuccess(desc + "成功");
             setTimeout(function () {
                 history.go()
             }, 1500);
         } else {
-            $.cvError(desc+"失败")
+            $.cvError(desc + "失败")
         }
     });
 }
@@ -110,12 +107,11 @@ function comment(contentId,commentSource,desc) {
 /**
  * 渲染回复用户的名字
  */
-function renderReplayUserName(userName,userId,floorNum) {
+function renderReplayUserName(userName, userId, floorNum) {
     try {
-        let replayUser = '[**!!#7D8B99 @'+userName+'!!**](/profile/'+userId+'/content): ';
-        $.cvSetEditorContent(replayUser);
         $("#reply_to_user").val(userId);
         $("#reply_to_floor").val(floorNum);
+        $("#reply_to_user_name").text('回复 ' + floorNum + '# · ' + userName + ' 的评论').show();
         //滚动到锚点位置
         $('html,body').animate({scrollTop: $(".btn-cv-comment").offset().top - 440}, 200);
     } catch (e) {

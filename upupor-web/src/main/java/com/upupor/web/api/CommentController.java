@@ -32,10 +32,8 @@ package com.upupor.web.api;
 import com.upupor.data.dao.entity.Comment;
 import com.upupor.data.dao.entity.Member;
 import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.CommentService;
@@ -44,6 +42,7 @@ import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.outer.req.AddCommentReq;
 import com.upupor.service.outer.req.UpdateCommentReq;
+import com.upupor.service.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -82,16 +81,10 @@ public class CommentController {
             throw new BusinessException(ErrorCode.COMMENT_SOURCE_NULL);
         }
 
-        // 检查内容有没有 @ 符号,如果没有说明没有回复任何人(前端有做控制,后端再控制下)
-        if (!StringUtils.isEmpty(addCommentReq.getCommentContent()) && !addCommentReq.getCommentContent().contains(CcConstant.AT)) {
-            addCommentReq.setReplyToUserId(null);
-        }
-
         // 回复事件
         try {
             // 添加评论
-            Comment comment = commentService.toComment(addCommentReq);
-
+            Comment comment = commentService.create(addCommentReq);
             // 评论的人(当前用户)
             Member currentUser = memberService.memberInfo(JwtUtils.getUserId()).getMember();
             if (StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {

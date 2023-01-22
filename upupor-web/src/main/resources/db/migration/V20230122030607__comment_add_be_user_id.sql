@@ -2,7 +2,7 @@
  * <!--
  *   ~ MIT License
  *   ~
- *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~ Copyright (c) 2021-2023 yangrunkang
  *   ~
  *   ~ Author: yangrunkang
  *   ~ Email: yangrunkang53@gmail.com
@@ -27,60 +27,4 @@
  *   -->
  */
 
-package com.upupor.data.dao.entity.enhance;
-
-import com.upupor.data.dao.entity.Comment;
-import com.upupor.framework.utils.CcDateUtil;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
-
-import java.util.Objects;
-
-/**
- * @author Yang Runkang (cruise)
- * @createTime 2022-11-27 03:44
- * @email: yangrunkang53@gmail.com
- */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class CommentEnhance {
-    private Comment comment;
-
-    /**
-     * 评论者自己
-     */
-    private MemberEnhance memberEnhance;
-
-    /**
-     * 记录回复某一个评论的用户Id
-     */
-    private MemberEnhance replyMemberEnhance;
-
-    /**
-     * 创建时间
-     */
-    private String createDate;
-
-    private String createDateDiff;
-
-    private String floorNum;
-
-
-    public String getCreateDate() {
-        return CcDateUtil.timeStamp2Date(comment.getCreateTime());
-    }
-
-    public String getCreateDateDiff() {
-        if (Objects.isNull(comment.getCreateTime())) {
-            return Strings.EMPTY;
-        }
-        return CcDateUtil.timeStamp2DateOnly(comment.getCreateTime());
-    }
-
-
-}
+alter table `comment` add column `reply_to_user_id` varchar(32) DEFAULT NULL COMMENT '记录回复某一个评论的用户Id';

@@ -63,6 +63,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -79,15 +80,16 @@ public class CommentServiceImpl implements CommentService {
     private final MemberService memberService;
 
     @Override
-    public Comment toComment(AddCommentReq addCommentReq) {
+    public Comment create(AddCommentReq addCommentReq) {
 
         Comment comment = new Comment();
         BeanUtils.copyProperties(addCommentReq, comment);
         comment.setUserId(JwtUtils.getUserId());
         comment.setCommentId(CcUtils.getUuId());
         comment.setStatus(CommentStatus.NORMAL);
-        comment.setAgree(CommentAgree.NONE);
         comment.setBeFloorNum(addCommentReq.getBeFloorNum());
+        comment.setReplyToUserId(addCommentReq.getReplyToUserId());
+        comment.setAgree(CommentAgree.NONE);
         comment.setLikeNum(BigDecimal.ZERO.intValue());
         comment.setCreateTime(CcDateUtil.getCurrentTime());
         comment.setSysUpdateTime(new Date());
@@ -95,7 +97,7 @@ public class CommentServiceImpl implements CommentService {
         if (commentMapper.insert(comment) > 0) {
             return comment;
         }
-        return null;
+        throw new BusinessException(ErrorCode.COMMENT_FAILED);
     }
 
     @Override
@@ -123,7 +125,8 @@ public class CommentServiceImpl implements CommentService {
         PageInfo<Comment> pageInfo = new PageInfo<>(commentList);
 
         List<CommentEnhance> commentEnhanceList = Converter.commentEnhance(commentList);
-        bindCommentUser(commentEnhanceList);
+        bindCommentUser(commentEnhanceList, CommentOrReply.COMMENT);
+        bindCommentUser(commentEnhanceList, CommentOrReply.REPLY);
         setCommentFloorNumber(commentEnhanceList, query.getPageNum(), query.getPageSize());
 
         ListCommentDto listCommentDto = new ListCommentDto(pageInfo);
@@ -148,16 +151,37 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    public enum CommentOrReply {
+        /**
+         * 纯评论
+         */
+        COMMENT,
+
+        /**
+         * 回复
+         */
+        REPLY
+    }
 
     @Override
-    public void bindCommentUser(List<CommentEnhance> commentList) {
-        if (CollectionUtils.isEmpty(commentList)) {
+    public void bindCommentUser(List<CommentEnhance> commentEnhanceList, CommentOrReply commentOrReply) {
+        if (CollectionUtils.isEmpty(commentEnhanceList)) {
             return;
         }
-        List<String> userIdList = commentList.stream()
-                .map(CommentEnhance::getComment)
-                .map(Comment::getUserId)
-                .distinct().collect(Collectors.toList());
+        List<String> userIdList = new ArrayList<>();
+        if (CommentOrReply.COMMENT.equals(commentOrReply)) {
+            userIdList = commentEnhanceList.stream()
+                    .map(CommentEnhance::getComment)
+                    .map(Comment::getUserId)
+                    .distinct().collect(Collectors.toList());
+        } else if (CommentOrReply.REPLY.equals(commentOrReply)) {
+            userIdList = commentEnhanceList.stream()
+                    .map(CommentEnhance::getComment)
+                    .map(Comment::getReplyToUserId)
+                    .filter(s -> !StringUtils.isEmpty(s))
+                    .distinct().collect(Collectors.toList());
+        }
+
         if (CollectionUtils.isEmpty(userIdList)) {
             return;
         }
@@ -165,9 +189,11 @@ public class CommentServiceImpl implements CommentService {
         if (CollectionUtils.isEmpty(memberEnhanceList)) {
             return;
         }
-        memberEnhanceList.forEach(memberEnhance -> commentList.forEach(comment -> {
-            if (comment.getComment().getUserId().equals(memberEnhance.getMember().getUserId())) {
-                comment.setMemberEnhance(memberEnhance);
+        memberEnhanceList.forEach(memberEnhance -> commentEnhanceList.forEach(commentEnhance -> {
+            if (CommentOrReply.COMMENT.equals(commentOrReply) && memberEnhance.getMember().getUserId().equals(commentEnhance.getComment().getUserId())) {
+                commentEnhance.setMemberEnhance(memberEnhance);
+            } else if (CommentOrReply.REPLY.equals(commentOrReply) && memberEnhance.getMember().getUserId().equals(commentEnhance.getComment().getReplyToUserId())) {
+                commentEnhance.setReplyMemberEnhance(memberEnhance);
             }
         }));
     }

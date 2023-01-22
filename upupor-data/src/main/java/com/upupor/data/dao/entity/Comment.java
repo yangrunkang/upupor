@@ -61,6 +61,12 @@ public class Comment extends BaseEntity {
      */
     private Integer beFloorNum;
 
+    /**
+     * 记录回复某一个评论的用户Id
+     */
+    private String replyToUserId;
+
+
     public static Comment empty() {
         return new Comment();
     }

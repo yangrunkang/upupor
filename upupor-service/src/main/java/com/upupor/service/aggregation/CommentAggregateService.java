@@ -41,7 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -58,8 +57,7 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class CommentAggregateService {
     private final CommentService commentService;
-    @Resource
-    private List<AbstractCommentList<?>> abstractCommentListList;
+    private final List<AbstractCommentList<?>> abstractCommentListList;
 
     public CommentIndexDto index(Integer pageNum, Integer pageSize) {
         CommentIndexDto commentIndexDto = new CommentIndexDto();

@@ -55,7 +55,7 @@ public class AddCommentReq {
     private String mdCommentContent;
 
     /**
-     * 回复给用户
+     * 记录回复某一个评论的用户Id(回复给用户)
      */
     private String replyToUserId;
 
