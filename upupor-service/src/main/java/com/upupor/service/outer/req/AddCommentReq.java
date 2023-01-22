@@ -62,5 +62,5 @@ public class AddCommentReq {
     /**
      * 被回复的楼层
      */
-    private Integer beFloorNum;
+    private Long beFloorNum;
 }

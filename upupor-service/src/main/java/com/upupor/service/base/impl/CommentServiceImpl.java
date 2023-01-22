@@ -57,7 +57,6 @@ import com.upupor.service.outer.req.AddCommentReq;
 import com.upupor.service.utils.Asserts;
 import com.upupor.service.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -83,12 +82,17 @@ public class CommentServiceImpl implements CommentService {
     public Comment create(AddCommentReq addCommentReq) {
 
         Comment comment = new Comment();
-        BeanUtils.copyProperties(addCommentReq, comment);
+        comment.setTargetId(addCommentReq.getTargetId());
+        comment.setCommentSource(addCommentReq.getCommentSource());
+        comment.setCommentContent(addCommentReq.getCommentContent());
+        comment.setMdCommentContent(addCommentReq.getMdCommentContent());
+        comment.setReplyToUserId(addCommentReq.getReplyToUserId());
+        comment.setFloorNum(getFloorNum(addCommentReq.getTargetId()) + 1);
+        comment.setBeFloorNum(addCommentReq.getBeFloorNum());
+
         comment.setUserId(JwtUtils.getUserId());
         comment.setCommentId(CcUtils.getUuId());
         comment.setStatus(CommentStatus.NORMAL);
-        comment.setBeFloorNum(addCommentReq.getBeFloorNum());
-        comment.setReplyToUserId(addCommentReq.getReplyToUserId());
         comment.setAgree(CommentAgree.NONE);
         comment.setLikeNum(BigDecimal.ZERO.intValue());
         comment.setCreateTime(CcDateUtil.getCurrentTime());
@@ -98,6 +102,13 @@ public class CommentServiceImpl implements CommentService {
             return comment;
         }
         throw new BusinessException(ErrorCode.COMMENT_FAILED);
+    }
+
+    private Long getFloorNum(String targetId) {
+        LambdaQueryWrapper<Comment> countCommentQuery = new LambdaQueryWrapper<Comment>()
+                .eq(Comment::getTargetId, targetId)
+                .eq(Comment::getStatus, CommentStatus.NORMAL);
+        return commentMapper.selectCount(countCommentQuery);
     }
 
     @Override
@@ -127,28 +138,12 @@ public class CommentServiceImpl implements CommentService {
         List<CommentEnhance> commentEnhanceList = Converter.commentEnhance(commentList);
         bindCommentUser(commentEnhanceList, CommentOrReply.COMMENT);
         bindCommentUser(commentEnhanceList, CommentOrReply.REPLY);
-        setCommentFloorNumber(commentEnhanceList, query.getPageNum(), query.getPageSize());
 
         ListCommentDto listCommentDto = new ListCommentDto(pageInfo);
         listCommentDto.setCommentEnhanceList(commentEnhanceList);
         // 评论特殊翻页,默认翻到最新一页,用户可以看到最新的评论
         listCommentDto.setPageDtoList(PageUtils.buildPageDtoListForComment(pageInfo.getTotal(), pageInfo.getPageNum(), query.getPageSize()));
         return listCommentDto;
-    }
-
-    private void setCommentFloorNumber(List<CommentEnhance> list, Integer pageNum, Integer pageSize) {
-        if (CollectionUtils.isEmpty(list)) {
-            return;
-        }
-
-        for (int i = 0; i < list.size(); i++) {
-            CommentEnhance commentEnhance = list.get(i);
-            int toAdd = 0;
-            if (pageNum > 1) {
-                toAdd = (pageNum - 1) * pageSize;
-            }
-            commentEnhance.setFloorNum(String.valueOf((i + 1) + toAdd));
-        }
     }
 
     public enum CommentOrReply {

@@ -57,9 +57,14 @@ public class Comment extends BaseEntity {
     private String mdCommentContent;
 
     /**
+     * 评论所属楼层
+     */
+    private Long floorNum;
+
+    /**
      * 被评论的楼层
      */
-    private Integer beFloorNum;
+    private Long beFloorNum;
 
     /**
      * 记录回复某一个评论的用户Id
