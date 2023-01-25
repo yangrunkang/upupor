@@ -119,8 +119,6 @@ public class CommentController {
         // 添加消息
         ToCommentSuccessEvent event = ToCommentSuccessEvent.builder()
                 .commenterUserId(comment.getUserId())
-                .createTime(comment.getCreateTime())
-                .commentId(comment.getCommentId())
                 .commentSource(comment.getCommentSource())
                 .targetId(targetId)
                 .build();

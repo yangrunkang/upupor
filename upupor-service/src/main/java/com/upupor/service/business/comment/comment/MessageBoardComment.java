@@ -62,7 +62,7 @@ public class MessageBoardComment extends AbstractComment<MemberEnhance> {
     }
 
     @Override
-    public void comment(String targetId, String commenterUserId, String commentId) {
+    public void comment(String targetId, String commenterUserId) {
         String msgId = getMsgId();
 
         // 获取被评论的用户
@@ -104,7 +104,7 @@ public class MessageBoardComment extends AbstractComment<MemberEnhance> {
         IntegralEnum integralEnum = IntegralEnum.MESSAGE;
         String text = "您给 " + String.format(MESSAGE_INTEGRAL, targetUserId, msgId, targetMember.getUserName()) + " 留言了,赠送 " +
                 integralEnum.getIntegral() + " 积分;";
-        memberIntegralService.addIntegral(integralEnum, text, commenterUserId, commentId);
+        memberIntegralService.addIntegral(integralEnum, text, commenterUserId, targetId);
     }
 
     @Override

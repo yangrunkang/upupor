@@ -2,7 +2,7 @@
  * <!--
  *   ~ MIT License
  *   ~
- *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~ Copyright (c) 2021-2023 yangrunkang
  *   ~
  *   ~ Author: yangrunkang
  *   ~ Email: yangrunkang53@gmail.com
@@ -27,15 +27,11 @@
  *   -->
  */
 
-package com.upupor.service.business.replay;
+package com.upupor.service.business.comment.replay;
 
-import com.upupor.data.dao.entity.Content;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.types.ContentType;
 import com.upupor.data.types.MessageType;
-import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
 import com.upupor.service.business.message.MessageSend;
@@ -43,7 +39,6 @@ import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -55,66 +50,66 @@ import static com.upupor.framework.CcConstant.MsgTemplate.*;
  * @email: yangrunkang53@gmail.com
  */
 @Component
-public class ContentReply extends AbstractReplyComment<ContentEnhance> {
-    @Resource
-    private ContentService contentService;
+public class MessageBoardReply extends AbstractReplyComment<Member> {
 
-    public ContentReply(MemberService memberService, MessageService messageService) {
+    public MessageBoardReply(MemberService memberService, MessageService messageService) {
         super(memberService, messageService);
     }
 
-
     @Override
     public Boolean isHandled(String targetId, ContentType contentType) {
-        return Objects.nonNull(getTarget(targetId)) && ContentType.contentSource().contains(contentType);
+        return Objects.nonNull(getTarget(targetId)) && ContentType.MESSAGE.equals(contentType);
     }
 
     @Override
     public void reply(ReplayCommentEvent replayCommentEvent) {
+        Member beReplayedUser = getMember(replayCommentEvent.getBeRepliedUserId());
         String msgId = msgId();
-        String beRepliedUserId = replayCommentEvent.getBeRepliedUserId();
-        Member beRepliedMember = getMember(beRepliedUserId);
-        String createReplayUserId = replayCommentEvent.getCreateReplayUserId();
-        String createReplayUserName = replayCommentEvent.getCreateReplayUserName();
 
-        Content content = getTarget(replayCommentEvent.getTargetId()).getContent();
-
-        // 评论回复站内信
-        String innerMsg = buildByTemplate(msgId, createReplayUserId, createReplayUserName, content, CONTENT_INNER_MSG);
-        String emailMsg = buildByTemplate(msgId, createReplayUserId, createReplayUserName, content, CONTENT_EMAIL);
+        String innerMsg = buildMsgByTemplate(replayCommentEvent, msgId, MESSAGE_INTEGRAL);
+        String emailMsg = buildMsgByTemplate(replayCommentEvent, msgId, MESSAGE_EMAIL);
 
         MessageSend.send(MessageModel.builder()
-                .toUserId(beRepliedUserId)
+                .toUserId(beReplayedUser.getUserId())
+                .messageType(MessageType.USER_REPLAY)
                 .emailModel(MessageModel.EmailModel.builder()
                         .title(title())
                         .content(emailMsg)
                         .build())
                 .innerModel(MessageModel.InnerModel.builder()
                         .message(innerMsg).build())
-                .messageType(MessageType.USER_REPLAY)
                 .messageId(msgId)
                 .build());
     }
 
     @NotNull
-    private String buildByTemplate(String msgId, String createReplayUserId, String createReplayUserName, Content content, String template) {
-        return "您关于《" + String.format(template, content.getContentId(), msgId, content.getTitle())
-                + "》的文章评论,收到了来自"
-                + String.format(PROFILE_INNER_MSG, createReplayUserId, msgId, createReplayUserName)
-                + "的回复,请" + String.format(template, content.getContentId(), msgId, "点击查看");
+    private String buildMsgByTemplate(ReplayCommentEvent replayCommentEvent, String msgId, String template) {
+        String msg;
+        String targetId = replayCommentEvent.getTargetId();
+        String creatorReplayUserId = replayCommentEvent.getCreateReplayUserId();
+        String creatorReplayUserName = replayCommentEvent.getCreateReplayUserName();
+        // 留言板所有者(对应的就是事件的targetId)
+        if (!targetId.equals(creatorReplayUserId)) {
+            msg = String.format(template, targetId, msgId, "<strong>留言板</strong>")
+                    + "收到了来自"
+                    + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
+                    + "的回复,请" + String.format(template, targetId, msgId, "点击查看");
+        } else {
+            msg = String.format(template, creatorReplayUserId, msgId, "<strong>留言板</strong>")
+                    + "收到了来自"
+                    + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
+                    + "的回复,请" + String.format(template, creatorReplayUserId, msgId, "点击查看");
+        }
+        return msg;
     }
 
     @Override
-    protected ContentEnhance getTarget(String targetId) {
-        return contentService.getNormalContent(targetId);
+    protected Member getTarget(String targetId) {
+        return getMemberService().memberInfo(targetId).getMember();
     }
 
     @Override
     public void updateTargetCommentCreatorInfo(String targetId, String commenterUserId) {
-        ContentEnhance contentEnhance = getTarget(targetId);
-        Content content = contentEnhance.getContent();
-        content.setLatestCommentTime(CcDateUtil.getCurrentTime());
-        content.setLatestCommentUserId(commenterUserId);
-        contentService.updateContent(contentEnhance);
+
     }
 }

@@ -67,7 +67,7 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
     }
 
     @Override
-    public void comment(String targetId, String commenterUserId, String commentId) {
+    public void comment(String targetId, String commenterUserId) {
         String msgId = getMsgId();
         // 文章信息
         ContentEnhance contentEnhance = getTarget(targetId);
@@ -112,7 +112,7 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
                 .build());
 
         // 送积分
-        memberIntegralService.addIntegral(IntegralEnum.CREATE_COMMENT, integralText, commenterUserId, commentId);
+        memberIntegralService.addIntegral(IntegralEnum.CREATE_COMMENT, integralText, commenterUserId, targetId);
     }
 
     @Override

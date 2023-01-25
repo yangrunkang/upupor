@@ -60,7 +60,7 @@ public class RadioComment extends AbstractComment<RadioEnhance> {
     }
 
     @Override
-    public void comment(String targetId, String commenterUserId, String commentId) {
+    public void comment(String targetId, String commenterUserId) {
         String msgId = getMsgId();
 
         Radio radio = radioService.getByRadioId(targetId).getRadio();

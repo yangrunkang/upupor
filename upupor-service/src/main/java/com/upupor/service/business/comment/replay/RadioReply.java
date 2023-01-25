@@ -2,7 +2,7 @@
  * <!--
  *   ~ MIT License
  *   ~
- *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~ Copyright (c) 2021-2023 yangrunkang
  *   ~
  *   ~ Author: yangrunkang
  *   ~ Email: yangrunkang53@gmail.com
@@ -27,7 +27,7 @@
  *   -->
  */
 
-package com.upupor.service.business.replay;
+package com.upupor.service.business.comment.replay;
 
 import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.Radio;

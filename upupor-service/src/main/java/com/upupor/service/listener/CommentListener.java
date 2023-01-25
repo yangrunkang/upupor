@@ -28,7 +28,7 @@
 package com.upupor.service.listener;
 
 import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
-import com.upupor.service.business.replay.AbstractReplyComment;
+import com.upupor.service.business.comment.replay.AbstractReplyComment;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +67,7 @@ public class CommentListener {
             try {
                 if (abstractComment.confirmSource(event.getCommentSource(), event.getTargetId())) {
                     // 评论时间
-                    abstractComment.comment(event.getTargetId(), event.getCommenterUserId(), event.getCommentId());
+                    abstractComment.comment(event.getTargetId(), event.getCommenterUserId());
                     // 记录评论人和评论时间
                     abstractComment.updateTargetCommentCreatorInfo(event.getTargetId(), event.getCommenterUserId());
                 }
@@ -100,6 +100,7 @@ public class CommentListener {
                     abstractReplyComment.updateTargetCommentCreatorInfo(replayCommentEvent.getTargetId(), createReplayUserId);
                 }
             } catch (Exception e) {
+                log.error("回复评论异常,{}", e);
             }
         }
     }

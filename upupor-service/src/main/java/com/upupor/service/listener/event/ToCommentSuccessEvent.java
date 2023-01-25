@@ -42,10 +42,6 @@ import lombok.Data;
 @Data
 public class ToCommentSuccessEvent {
     /**
-     * 评论创建时间
-     */
-    private Long createTime;
-    /**
      * 评论者Id
      */
     private String commenterUserId;
@@ -59,11 +55,5 @@ public class ToCommentSuccessEvent {
      * 评论来源
      */
     private ContentType commentSource;
-
-    /**
-     * 评论Id
-     */
-    private String commentId;
-
 
 }
