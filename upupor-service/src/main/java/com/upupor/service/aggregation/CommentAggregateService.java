@@ -27,6 +27,7 @@
 
 package com.upupor.service.aggregation;
 
+import com.upupor.data.dao.entity.comparator.CommentCreateTimeComparator;
 import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import com.upupor.data.dto.page.CommentIndexDto;
 import com.upupor.data.dto.page.comment.CommentDto;
@@ -44,6 +45,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 
 /**
@@ -83,7 +85,7 @@ public class CommentAggregateService {
             CompletableFuture.allOf(voidCompletableFutureList.toArray(new CompletableFuture[0])).join();
         }
 
-        commentIndexDto.setCommentDtoList(commentDtoList);
+        commentIndexDto.setCommentDtoList(commentDtoList.stream().sorted(new CommentCreateTimeComparator()).collect(Collectors.toList()));
         commentIndexDto.setTotal(listCommentDto.getTotal());
         commentIndexDto.setPageDtoList(listCommentDto.getPageDtoList());
 
