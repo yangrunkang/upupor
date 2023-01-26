@@ -44,7 +44,6 @@ import com.upupor.service.listener.event.ReplayCommentEvent;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.*;
@@ -80,8 +79,15 @@ public class ContentReply extends AbstractReplyComment<ContentEnhance> {
         Content content = getTarget(replayCommentEvent.getTargetId()).getContent();
 
         // 评论回复站内信
-        String innerMsg = buildByTemplate(msgId, createReplayUserId, createReplayUserName, content, CONTENT_INNER_MSG);
-        String emailMsg = buildByTemplate(msgId, createReplayUserId, createReplayUserName, content, CONTENT_EMAIL);
+        String innerMsg = "您关于《" + buildCotentMsg(content.getContentId(), msgId, content.getTitle())
+                + "》的文章评论,收到了来自"
+                + buildProfileMsg(createReplayUserId, msgId, createReplayUserName)
+                + "的回复,请" + buildCotentMsg(content.getContentId(), msgId, "点击查看");
+        ;
+        String emailMsg = "您关于《" + buildContentMsgEmail(content.getContentId(), msgId, content.getTitle())
+                + "》的文章评论,收到了来自"
+                + buildProfileMsg(createReplayUserId, msgId, createReplayUserName)
+                + "的回复,请" + buildContentMsgEmail(content.getContentId(), msgId, "点击查看");
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beRepliedUserId)
@@ -96,13 +102,6 @@ public class ContentReply extends AbstractReplyComment<ContentEnhance> {
                 .build());
     }
 
-    @NotNull
-    private String buildByTemplate(String msgId, String createReplayUserId, String createReplayUserName, Content content, String template) {
-        return "您关于《" + String.format(template, content.getContentId(), msgId, content.getTitle())
-                + "》的文章评论,收到了来自"
-                + String.format(PROFILE_INNER_MSG, createReplayUserId, msgId, createReplayUserName)
-                + "的回复,请" + String.format(template, content.getContentId(), msgId, "点击查看");
-    }
 
     @Override
     protected ContentEnhance getTarget(String targetId) {

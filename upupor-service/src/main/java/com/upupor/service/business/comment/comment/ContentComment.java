@@ -86,16 +86,16 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
         }
 
         // 站内信通知作者
-        String innerMsgText = "您的文章《" + String.format(CONTENT_INNER_MSG, contentId, msgId, contentTitle) + "》有新的评论,来自"
-                + String.format(PROFILE_INNER_MSG, commenterUserId, msgId, commenterUserName)
-                + ",快去" + String.format(CONTENT_INNER_MSG, contentId, msgId, "查看") + "吧";
+        String innerMsgText = "您的文章《" + buildCotentMsg(contentId, msgId, contentTitle) + "》有新的评论,来自"
+                + buildProfileMsg(commenterUserId, msgId, commenterUserName)
+                + ",快去" + buildCotentMsg(contentId, msgId, "查看") + "吧";
         // 邮件内容
         String emailTitle = "您的文章有了新评论,快去看看吧";
-        String emailContent = "点击《" + String.format(CONTENT_EMAIL, contentId, msgId, contentTitle) + "》查看评论,评论来自 "
-                + String.format(PROFILE_EMAIL, commenterUserId, msgId, commenterUserName);
+        String emailContent = "点击《" + buildContentMsgEmail(contentId, msgId, contentTitle) + "》查看评论,评论来自 "
+                + buildProfileMsgEmail(commenterUserId, msgId, commenterUserName);
 
         // 赠送积分描述
-        String integralText = "您评论了 《" + String.format(CONTENT_INTEGRAL, contentId, msgId, contentTitle) + "》文章,赠送 " +
+        String integralText = "您评论了 《" + buildCotentMsg(contentId, msgId, contentTitle) + "》文章,赠送 " +
                 IntegralEnum.CREATE_COMMENT.getIntegral() + " 积分;快去写文章吧,您收到的评论越多,就会获得更多的积分~";
 
 

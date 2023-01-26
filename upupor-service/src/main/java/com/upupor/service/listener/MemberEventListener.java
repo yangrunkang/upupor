@@ -53,8 +53,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_EMAIL;
-import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_INNER_MSG;
+import static com.upupor.framework.CcConstant.MsgTemplate.buildProfileMsg;
+import static com.upupor.framework.CcConstant.MsgTemplate.buildProfileMsgEmail;
 
 
 /**
@@ -163,13 +163,13 @@ public class MemberEventListener {
         Attention attention = attentionUserEvent.getAttention();
         Member attentionUser = memberService.memberInfo(attention.getUserId()).getMember();
         String msgId = CcUtils.getUuId();
-        String msg = "您有新的关注者 " + String.format(PROFILE_INNER_MSG, attentionUser.getUserId(), msgId, attentionUser.getUserName())
+        String msg = "您有新的关注者 " + buildProfileMsg(attentionUser.getUserId(), msgId, attentionUser.getUserName())
                 + " 去Ta的主页看看吧";
 
         // 发送邮件 被关注的人要通知ta
         Member member = memberService.memberInfo(addAttentionReq.getAttentionUserId()).getMember();
         String emailTitle = "您有新的关注者";
-        String emailContent = "点击" + String.format(PROFILE_EMAIL, attentionUser.getUserId(), msgId, attentionUser.getUserName()) + " 去Ta的主页看看吧";
+        String emailContent = "点击" + buildProfileMsgEmail(attentionUser.getUserId(), msgId, attentionUser.getUserName()) + " 去Ta的主页看看吧";
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(member.getUserId())

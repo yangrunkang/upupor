@@ -79,14 +79,13 @@ public class RadioComment extends AbstractComment<RadioEnhance> {
         }
 
         // 站内信通知对方收到新的留言
-        String msg = "您收到了新的电台评论,点击<strong>《" + String.format(RADIO_INTEGRAL, radio.getRadioId(), msgId, radioName) + "》</strong>查看,评论来自"
-                + String.format(PROFILE_INNER_MSG, commenterUserId, msgId, commenterUserName);
-
+        String msg = "您收到了新的电台评论,点击<strong>《" + buildRadioMsg(radio.getRadioId(), msgId, radioName) + "》</strong>查看,评论来自"
+                + buildProfileMsg(commenterUserId, msgId, commenterUserName);
 
         // 发送邮件通知对方收到新的留言
         String emailTitle = "您有新的电台评论,快去看看吧";
-        String emailContent = "点击" + String.format(RADIO_EMAIL, radio.getRadioId(), msgId, radioName) + ",评论来自 "
-                + String.format(PROFILE_EMAIL, commenterUserId, msgId, commenterUserName);
+        String emailContent = "点击" + buildRadioMsgEmail(radio.getRadioId(), msgId, radioName) + ",评论来自 "
+                + buildProfileMsgEmail(commenterUserId, msgId, commenterUserName);
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(radioAuthorUserId)

@@ -46,7 +46,6 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.AttentionService;
 import com.upupor.service.base.FanService;
 import com.upupor.service.base.MemberIntegralService;
@@ -54,6 +53,7 @@ import com.upupor.service.base.MemberService;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.DelAttentionReq;
+import com.upupor.service.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -64,7 +64,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.upupor.framework.CcConstant.MsgTemplate.PROFILE_INTEGRAL;
+import static com.upupor.framework.CcConstant.MsgTemplate.buildProfileMsg;
 
 /**
  * 关注服务
@@ -213,7 +213,7 @@ public class AttentionServiceImpl implements AttentionService {
             String attentionUserId = addAttentionReq.getAttentionUserId();
             MemberEnhance memberEnhance = memberService.memberInfo(attentionUserId);
             Member member = memberEnhance.getMember();
-            String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
+            String userName = buildProfileMsg(member.getUserId(), CcUtils.getUuId(), member.getUserName());
             String text = "关注 " + userName + " ,增加积分";
             memberIntegralService.addIntegral(IntegralEnum.ATTENTION_AUTHOR, text, userId, fans.getFanId());
         }
@@ -247,7 +247,7 @@ public class AttentionServiceImpl implements AttentionService {
             String attentionUserId = attention.getUserId();
             MemberEnhance memberEnhance = memberService.memberInfo(attentionUserId);
             Member member = memberEnhance.getMember();
-            String userName = String.format(PROFILE_INTEGRAL, member.getUserId(), CcUtils.getUuId(), member.getUserName());
+            String userName = buildProfileMsg(member.getUserId(), CcUtils.getUuId(), member.getUserName());
             String text = "取消关注 " + userName + " ,扣减积分";
             memberIntegralService.reduceIntegral(IntegralEnum.ATTENTION_AUTHOR, text, member.getUserId(), attention.getAttentionUserId());
         }

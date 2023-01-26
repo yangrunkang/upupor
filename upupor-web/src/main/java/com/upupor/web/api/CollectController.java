@@ -41,7 +41,6 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.CollectService;
@@ -50,6 +49,7 @@ import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.outer.req.AddCollectReq;
 import com.upupor.service.outer.req.UpdateCollectReq;
 import com.upupor.service.utils.Asserts;
+import com.upupor.service.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.MsgTemplate.CONTENT_INTEGRAL;
+import static com.upupor.framework.CcConstant.MsgTemplate.buildCotentMsg;
 
 
 /**
@@ -119,7 +119,7 @@ public class CollectController {
                 }
 
                 if (Objects.nonNull(content)) {
-                    String desc = String.format(CONTENT_INTEGRAL, content.getContentId(), CcUtils.getUuId(), content.getTitle());
+                    String desc = buildCotentMsg(content.getContentId(), CcUtils.getUuId(), content.getTitle());
                     text = "您取消收藏《" + desc + "》文章,扣减积分";
                 }
                 memberIntegralService.reduceIntegral(IntegralEnum.COLLECT, text, userId, addCollectReq.getCollectValue());
@@ -153,7 +153,7 @@ public class CollectController {
             if (handleSuccess) {
                 String text = null;
                 if (Objects.nonNull(content)) {
-                    String desc = String.format(CONTENT_INTEGRAL, content.getContentId(), CcUtils.getUuId(), content.getTitle());
+                    String desc = buildCotentMsg(content.getContentId(), CcUtils.getUuId(), content.getTitle());
                     text = "您收藏了《" + desc + "》文章,增加积分";
                 }
                 memberIntegralService.addIntegral(IntegralEnum.COLLECT, text, userId, collect.getCollectId());

@@ -43,7 +43,6 @@ import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.lucene.UpuporLucene;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.LuceneOperationType;
@@ -59,6 +58,7 @@ import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.ExistContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.outer.req.content.UpdateStatusReq;
+import com.upupor.service.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +72,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.MsgTemplate.CONTENT_INTEGRAL;
+import static com.upupor.framework.CcConstant.MsgTemplate.buildCotentMsg;
 import static com.upupor.framework.ErrorCode.FORBIDDEN_LIKE_SELF_CONTENT;
 
 
@@ -173,7 +173,7 @@ public class ContentController {
             }
 
             // 添加积分数据
-            String text = String.format("您点赞了《%s》,赠送积分", String.format(CONTENT_INTEGRAL, content.getContentId(), CcUtils.getUuId(), content.getTitle()));
+            String text = String.format("您点赞了《%s》,赠送积分", buildCotentMsg(content.getContentId(), CcUtils.getUuId(), content.getTitle()));
             memberIntegralService.addIntegral(IntegralEnum.CLICK_LIKE, text, clickUserId, contentId);
             // 增加点赞数
             contentData.incrementLikeNum();

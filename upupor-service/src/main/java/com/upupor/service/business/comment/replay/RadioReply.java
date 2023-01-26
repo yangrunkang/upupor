@@ -44,7 +44,6 @@ import com.upupor.service.listener.event.ReplayCommentEvent;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.MsgTemplate.*;
@@ -77,8 +76,15 @@ public class RadioReply extends AbstractReplyComment<RadioEnhance> {
         Member beReplayedUser = getMember(beRepliedUserId);
 
         Radio radio = getTarget(replayCommentEvent.getTargetId()).getRadio();
-        String innerMsg = buildByTemplate(creatorReplayUserId, creatorReplayUserName, msgId, radio, RADIO_INNER_MSG);
-        String emailMsg = buildByTemplate(creatorReplayUserId, creatorReplayUserName, msgId, radio, RADIO_EMAIL);
+        String innerMsg = "电台《" + buildRadioMsg(radio.getRadioId(), msgId, radio.getRadioIntro())
+                + "》,收到了来自"
+                + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
+                + "的回复,请" + buildRadioMsg(radio.getRadioId(), msgId, "点击查看");
+
+        String emailMsg = "电台《" + buildRadioMsgEmail(radio.getRadioId(), msgId, radio.getRadioIntro())
+                + "》,收到了来自"
+                + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
+                + "的回复,请" + buildRadioMsgEmail(radio.getRadioId(), msgId, "点击查看");
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beReplayedUser.getUserId())
@@ -93,13 +99,6 @@ public class RadioReply extends AbstractReplyComment<RadioEnhance> {
                 .build());
     }
 
-    @NotNull
-    private String buildByTemplate(String creatorReplayUserId, String creatorReplayUserName, String msgId, Radio radio, String template) {
-        return "电台《" + String.format(template, radio.getRadioId(), msgId, radio.getRadioIntro())
-                + "》,收到了来自"
-                + String.format(PROFILE_INNER_MSG, creatorReplayUserId, msgId, creatorReplayUserName)
-                + "的回复,请" + String.format(template, radio.getRadioId(), msgId, "点击查看");
-    }
 
     @Override
     protected RadioEnhance getTarget(String targetId) {

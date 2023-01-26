@@ -79,13 +79,13 @@ public class MessageBoardComment extends AbstractComment<MemberEnhance> {
         }
 
         // 站内信通知对方收到新的留言
-        String msg = "您收到了新的留言信息,点击" + String.format(MESSAGE_INTEGRAL, targetUserId, msgId, "<strong>留言板</strong>") + "查看. 留言来自"
-                + String.format(PROFILE_INNER_MSG, commenterUserId, msgId, commenterUserName);
+        String msg = "您收到了新的留言信息,点击" + buildMessageBoardMsg(targetUserId, msgId, "<strong>留言板</strong>") + "查看. 留言来自"
+                + buildProfileMsg(commenterUserId, msgId, commenterUserName);
 
         // 发送邮件通知对方收到新的留言
         String emailTitle = "您有新的留言,快去看看吧";
-        String emailContent = "点击" + String.format(MESSAGE_EMAIL, targetUserId, msgId, "<strong>留言板</strong>") + ",留言来自 "
-                + String.format(PROFILE_EMAIL, commenterUserId, msgId, commenterUserName);
+        String emailContent = "点击" + buildMessageBoardMsgEmail(targetUserId, msgId, "<strong>留言板</strong>") + ",留言来自 "
+                + buildProfileMsgEmail(commenterUserId, msgId, commenterUserName);
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(targetUserId)
@@ -102,7 +102,7 @@ public class MessageBoardComment extends AbstractComment<MemberEnhance> {
 
         // 留言赠送积分
         IntegralEnum integralEnum = IntegralEnum.MESSAGE;
-        String text = "您给 " + String.format(MESSAGE_INTEGRAL, targetUserId, msgId, targetMember.getUserName()) + " 留言了,赠送 " +
+        String text = "您给 " + buildMessageBoardMsg(targetUserId, msgId, targetMember.getUserName()) + " 留言了,赠送 " +
                 integralEnum.getIntegral() + " 积分;";
         memberIntegralService.addIntegral(integralEnum, text, commenterUserId, targetId);
     }

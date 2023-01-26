@@ -333,36 +333,63 @@ public final class CcConstant {
      */
     public static final class MsgTemplate {
         private static final String EMAIL_NEED_WEBSITE = SpringContextUtils.getBean(UpuporConfig.class).getWebsite(); // 邮件需要网址
+
         /**
          * 个人主页
          * userId,userName
          */
-        public static final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?source=inner-message&msgId=%s'> %s </a>";
-        public static final String PROFILE_INTEGRAL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?source=integral&msgId=%s'> %s </a>";
-        public static final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/content?source=email&msgId=%s'> %s </a>";
+        public static String buildProfileMsg(String memberUserId, String msgId, String memberUserName) {
+            final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?msgId=%s'> %s </a>";
+            return String.format(PROFILE_INNER_MSG, memberUserId, msgId, memberUserName);
+        }
+
+        public static String buildProfileMsgEmail(String memberUserId, String msgId, String memberUserName) {
+            final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/content?msgId=%s'> %s </a>";
+            return String.format(PROFILE_EMAIL, memberUserId, msgId, memberUserName);
+        }
+
 
         /**
          * 文章
          * contentId,contentTitle
          */
-        public static final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?source=inner-message&msgId=%s'>%s</a>";
-        public static final String CONTENT_INTEGRAL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?source=integral&msgId=%s'>%s</a>";
-        public static final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?source=email&msgId=%s'>%s</a>";
+        public static String buildCotentMsg(String contentId, String msgId, String contentTitle) {
+            final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?msgId=%s'>%s</a>";
+            return String.format(CONTENT_INNER_MSG, contentId, msgId, contentTitle);
+        }
+
+        public static String buildContentMsgEmail(String contentId, String msgId, String contentTitle) {
+            final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?msgId=%s'>%s</a>";
+            return String.format(CONTENT_EMAIL, contentId, msgId, contentTitle);
+        }
 
         /**
          * 文章
          * contentId,contentTitle
          */
-        public static final String RADIO_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/r/%s?source=inner-message&msgId=%s'>%s</a>";
-        public static final String RADIO_INTEGRAL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/r/%s?source=integral&msgId=%s'>%s</a>";
-        public static final String RADIO_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/r/%s?source=email&msgId=%s'>%s</a>";
+
+        public static String buildRadioMsg(String radioId, String msgId, String radioIntro) {
+            final String RADIO_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/r/%s?msgId=%s'>%s</a>";
+            return String.format(RADIO_MSG, radioId, msgId, radioIntro);
+        }
+
+        public static String buildRadioMsgEmail(String radioId, String msgId, String radioIntro) {
+            final String RADIO_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/r/%s?msgId=%s'>%s</a>";
+            return String.format(RADIO_EMAIL, radioId, msgId, radioIntro);
+        }
 
         /**
-         * 留言
+         * 留言板
          */
-        public static final String MESSAGE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/message?source=email&msgId=%s'>%s</a>";
-        public static final String MESSAGE_INTEGRAL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/message?source=integral&msgId=%s'>%s</a>";
+        public static String buildMessageBoardMsg(String targetUserId, String msgId, String title) {
+            final String MESSAGE_BOARD_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/message?msgId=%s'>%s</a>";
+            return String.format(MESSAGE_BOARD_MSG, targetUserId, msgId, title);
+        }
 
+        public static String buildMessageBoardMsgEmail(String targetUserId, String msgId, String title) {
+            final String MESSAGE_BOARD_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/message?msgId=%s'>%s</a>";
+            return String.format(MESSAGE_BOARD_EMAIL, targetUserId, msgId, title);
+        }
 
     }
 

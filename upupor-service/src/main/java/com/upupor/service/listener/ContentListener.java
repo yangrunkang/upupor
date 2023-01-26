@@ -131,7 +131,7 @@ public class ContentListener {
             return;
         }
 
-        String text = String.format("新增文章《%s》赠送积分", String.format(CONTENT_INTEGRAL, content.getContentId(), CcUtils.getUuId(), content.getTitle()));
+        String text = String.format("新增文章《%s》赠送积分", buildCotentMsg(content.getContentId(), CcUtils.getUuId(), content.getTitle()));
         IntegralEnum integralEnum = IntegralEnum.CREATE_CONTENT;
 
         // 创建内容赠送
@@ -163,19 +163,19 @@ public class ContentListener {
             List<FansEnhance> fansEnhanceList = fans.getFansEnhanceList();
             for (FansEnhance fansEnhance : fansEnhanceList) {
                 String msgId = CcUtils.getUuId();
-                String emailUser = String.format(PROFILE_EMAIL, contentMember.getUserId(), msgId, contentMember.getUserName());
-                String innerMessageUser = String.format(PROFILE_INNER_MSG, contentMember.getUserId(), msgId, contentMember.getUserName());
+                String emailUser = buildProfileMsgEmail(contentMember.getUserId(), msgId, contentMember.getUserName());
+                String innerMessageUser = buildProfileMsg(contentMember.getUserId(), msgId, contentMember.getUserName());
 
-                String emailContentTitle = String.format(CONTENT_EMAIL, content.getContentId(), msgId, content.getTitle());
-                String innerMessageContentTitle = String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle());
+                String emailContentTitle = buildContentMsgEmail(content.getContentId(), msgId, content.getTitle());
+                String innerMessageContentTitle = buildCotentMsg(content.getContentId(), msgId, content.getTitle());
 
 
                 String fanUserId = fansEnhance.getFans().getFanUserId();
                 Member member = memberService.memberInfo(fanUserId).getMember();
                 String email = "您关注的" + emailUser + "发表了新内容《" + emailContentTitle + "》,请"
-                        + String.format(CONTENT_EMAIL, content.getContentId(), msgId, "点击查看");
+                        + buildContentMsgEmail(content.getContentId(), msgId, "点击查看");
                 String innerMessage = "您关注的" + innerMessageUser + "发表了新内容《" + innerMessageContentTitle + "》,请"
-                        + String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, "点击查看");
+                        + buildCotentMsg(content.getContentId(), msgId, "点击查看");
 
                 MessageSend.send(MessageModel.builder()
                         .toUserId(member.getUserId())
@@ -209,8 +209,8 @@ public class ContentListener {
         Member member = memberService.memberInfo(contentLikeEvent.getClickUserId()).getMember();
 
         String message = "您的文章《" +
-                String.format(CONTENT_INNER_MSG, content.getContentId(), msgId, content.getTitle()) + "》被 " +
-                String.format(PROFILE_INNER_MSG, member.getUserId(), msgId, member.getUserName()) +
+                buildCotentMsg(content.getContentId(), msgId, content.getTitle()) + "》被 " +
+                buildProfileMsg(member.getUserId(), msgId, member.getUserName()) +
                 " 在" + CcDateUtil.timeStamp2DateOnly(CcDateUtil.getCurrentTime()) + "点赞了";
 
         MessageSend.send(MessageModel.builder()
