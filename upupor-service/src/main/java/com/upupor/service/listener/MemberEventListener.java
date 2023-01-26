@@ -35,6 +35,10 @@ import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
+import com.upupor.service.business.build_msg.MessageBuilderInstance;
+import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
+import com.upupor.service.business.build_msg.abstracts.MsgType;
+import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.AttentionUserEvent;
@@ -52,10 +56,6 @@ import org.springframework.stereotype.Component;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static com.upupor.framework.CcConstant.MsgTemplate.buildProfileMsg;
-import static com.upupor.framework.CcConstant.MsgTemplate.buildProfileMsgEmail;
-
 
 /**
  * 用户事件监听器
@@ -163,19 +163,27 @@ public class MemberEventListener {
         Attention attention = attentionUserEvent.getAttention();
         Member attentionUser = memberService.memberInfo(attention.getUserId()).getMember();
         String msgId = CcUtils.getUuId();
-        String msg = "您有新的关注者 " + buildProfileMsg(attentionUser.getUserId(), msgId, attentionUser.getUserName())
-                + " 去Ta的主页看看吧";
+
+
+        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+                .memberUserId(attentionUser.getUserId())
+                .msgId(msgId)
+                .memberUserName(attentionUser.getUserName())
+                .build();
+        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+
+        String msg = "您有新的关注者 " + buildProfileMsg + " 去Ta的主页看看吧";
 
         // 发送邮件 被关注的人要通知ta
         Member member = memberService.memberInfo(addAttentionReq.getAttentionUserId()).getMember();
-        String emailTitle = "您有新的关注者";
-        String emailContent = "点击" + buildProfileMsgEmail(attentionUser.getUserId(), msgId, attentionUser.getUserName()) + " 去Ta的主页看看吧";
+        String emailContent = "点击" + buildProfileMsgEmail + " 去Ta的主页看看吧";
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(member.getUserId())
                 .messageType(MessageType.SYSTEM)
                 .emailModel(MessageModel.EmailModel.builder()
-                        .title(emailTitle)
+                        .title("您有新的关注者")
                         .content(emailContent)
                         .build())
                 .innerModel(MessageModel.InnerModel.builder()

@@ -46,6 +46,10 @@ import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.CollectService;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
+import com.upupor.service.business.build_msg.MessageBuilderInstance;
+import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
+import com.upupor.service.business.build_msg.abstracts.MsgType;
+import com.upupor.service.business.build_msg.abstracts.dto.ContentMsgParamDto;
 import com.upupor.service.outer.req.AddCollectReq;
 import com.upupor.service.outer.req.UpdateCollectReq;
 import com.upupor.service.utils.Asserts;
@@ -62,8 +66,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.MsgTemplate.buildCotentMsg;
 
 
 /**
@@ -119,8 +121,13 @@ public class CollectController {
                 }
 
                 if (Objects.nonNull(content)) {
-                    String desc = buildCotentMsg(content.getContentId(), CcUtils.getUuId(), content.getTitle());
-                    text = "您取消收藏《" + desc + "》文章,扣减积分";
+                    ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+                            .contentId(content.getContentId())
+                            .msgId(CcUtils.getUuId())
+                            .contentTitle(content.getTitle())
+                            .build();
+                    String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
+                    text = "您取消收藏《" + buildContentMsg + "》文章,扣减积分";
                 }
                 memberIntegralService.reduceIntegral(IntegralEnum.COLLECT, text, userId, addCollectReq.getCollectValue());
             }
@@ -153,8 +160,13 @@ public class CollectController {
             if (handleSuccess) {
                 String text = null;
                 if (Objects.nonNull(content)) {
-                    String desc = buildCotentMsg(content.getContentId(), CcUtils.getUuId(), content.getTitle());
-                    text = "您收藏了《" + desc + "》文章,增加积分";
+                    ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+                            .contentId(content.getContentId())
+                            .msgId(CcUtils.getUuId())
+                            .contentTitle(content.getTitle())
+                            .build();
+                    String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
+                    text = "您收藏了《" + buildContentMsg + "》文章,增加积分";
                 }
                 memberIntegralService.addIntegral(IntegralEnum.COLLECT, text, userId, collect.getCollectId());
 

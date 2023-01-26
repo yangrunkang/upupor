@@ -35,6 +35,11 @@ import com.upupor.data.types.MessageType;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.RadioService;
+import com.upupor.service.business.build_msg.MessageBuilderInstance;
+import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
+import com.upupor.service.business.build_msg.abstracts.MsgType;
+import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+import com.upupor.service.business.build_msg.abstracts.dto.RadioMsgParamDto;
 import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
@@ -42,8 +47,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.MsgTemplate.*;
 
 /**
  * @author Yang Runkang (cruise)
@@ -78,20 +81,32 @@ public class RadioComment extends AbstractComment<RadioEnhance> {
             return;
         }
 
-        // 站内信通知对方收到新的留言
-        String msg = "您收到了新的电台评论,点击<strong>《" + buildRadioMsg(radio.getRadioId(), msgId, radioName) + "》</strong>查看,评论来自"
-                + buildProfileMsg(commenterUserId, msgId, commenterUserName);
+        RadioMsgParamDto radioMsgParamDto = RadioMsgParamDto.builder()
+                .radioId(radio.getRadioId())
+                .msgId(msgId)
+                .radioIntro(radioName)
+                .build();
+        String buildRadioMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.RADIO, radioMsgParamDto, MsgType.INNER_MSG);
+        String buildRadioMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.RADIO, radioMsgParamDto, MsgType.EMAIL);
 
+        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+                .memberUserId(commenterUserId)
+                .msgId(msgId)
+                .memberUserName(commenterUserName)
+                .build();
+        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+
+        // 站内信通知对方收到新的留言
+        String msg = "您收到了新的电台评论,点击<strong>《" + buildRadioMsg + "》</strong>查看,评论来自" + buildProfileMsg;
         // 发送邮件通知对方收到新的留言
-        String emailTitle = "您有新的电台评论,快去看看吧";
-        String emailContent = "点击" + buildRadioMsgEmail(radio.getRadioId(), msgId, radioName) + ",评论来自 "
-                + buildProfileMsgEmail(commenterUserId, msgId, commenterUserName);
+        String emailContent = "点击" + buildRadioMsgEmail + ",评论来自 " + buildProfileMsgEmail;
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(radioAuthorUserId)
                 .messageType(MessageType.USER_REPLAY)
                 .emailModel(MessageModel.EmailModel.builder()
-                        .title(emailTitle)
+                        .title("您有新的电台评论,快去看看吧")
                         .content(emailContent)
                         .build())
                 .innerModel(MessageModel.InnerModel.builder()

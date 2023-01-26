@@ -34,6 +34,11 @@ import com.upupor.data.types.MessageType;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
+import com.upupor.service.business.build_msg.MessageBuilderInstance;
+import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
+import com.upupor.service.business.build_msg.abstracts.MsgType;
+import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+import com.upupor.service.business.build_msg.abstracts.dto.MessageBoardMsgParamDto;
 import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
@@ -42,7 +47,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.MsgTemplate.*;
 
 /**
  * 留言板评论
@@ -78,32 +82,41 @@ public class MessageBoardComment extends AbstractComment<MemberEnhance> {
             return;
         }
 
+        MessageBoardMsgParamDto messageBoardMsgParamDto = MessageBoardMsgParamDto.builder()
+                .targetUserId(targetUserId)
+                .msgId(msgId)
+                .title("<strong>留言板</strong>")
+                .build();
+        String buildMessageBoardMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.INNER_MSG);
+        String buildMessageBoardMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.EMAIL);
+
+        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+                .memberUserId(commenterUserId)
+                .msgId(msgId)
+                .memberUserName(commenterUserName)
+                .build();
+        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+
         // 站内信通知对方收到新的留言
-        String msg = "您收到了新的留言信息,点击" + buildMessageBoardMsg(targetUserId, msgId, "<strong>留言板</strong>") + "查看. 留言来自"
-                + buildProfileMsg(commenterUserId, msgId, commenterUserName);
-
+        String innerMsg = "您收到了新的留言信息,点击" + buildMessageBoardMsg + "查看. 留言来自" + buildProfileMsg;
         // 发送邮件通知对方收到新的留言
-        String emailTitle = "您有新的留言,快去看看吧";
-        String emailContent = "点击" + buildMessageBoardMsgEmail(targetUserId, msgId, "<strong>留言板</strong>") + ",留言来自 "
-                + buildProfileMsgEmail(commenterUserId, msgId, commenterUserName);
-
+        String emailContent = "点击" + buildMessageBoardMsgEmail + ",留言来自 " + buildProfileMsgEmail;
         MessageSend.send(MessageModel.builder()
                 .toUserId(targetUserId)
                 .emailModel(MessageModel.EmailModel.builder()
-                        .title(emailTitle)
+                        .title("您有新的留言,快去看看吧")
                         .content(emailContent)
                         .build())
                 .innerModel(MessageModel.InnerModel.builder()
-                        .message(msg).build())
+                        .message(innerMsg).build())
                 .messageType(MessageType.USER_REPLAY)
                 .messageId(msgId)
                 .build());
 
-
         // 留言赠送积分
         IntegralEnum integralEnum = IntegralEnum.MESSAGE;
-        String text = "您给 " + buildMessageBoardMsg(targetUserId, msgId, targetMember.getUserName()) + " 留言了,赠送 " +
-                integralEnum.getIntegral() + " 积分;";
+        String text = "您给 " + buildMessageBoardMsg + " 留言了,赠送 " + integralEnum.getIntegral() + " 积分;";
         memberIntegralService.addIntegral(integralEnum, text, commenterUserId, targetId);
     }
 

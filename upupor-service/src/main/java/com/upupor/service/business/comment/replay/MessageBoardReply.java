@@ -34,15 +34,17 @@ import com.upupor.data.types.ContentType;
 import com.upupor.data.types.MessageType;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
+import com.upupor.service.business.build_msg.MessageBuilderInstance;
+import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
+import com.upupor.service.business.build_msg.abstracts.MsgType;
+import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+import com.upupor.service.business.build_msg.abstracts.dto.MessageBoardMsgParamDto;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ReplayCommentEvent;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.MsgTemplate.*;
 
 /**
  * @author Yang Runkang (cruise)
@@ -69,26 +71,40 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
         String creatorReplayUserId = replayCommentEvent.getCreateReplayUserId();
         String creatorReplayUserName = replayCommentEvent.getCreateReplayUserName();
 
+        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+                .memberUserId(creatorReplayUserId)
+                .msgId(msgId)
+                .memberUserName(creatorReplayUserName)
+                .build();
+        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+
         String emailMsg, innerMsg;
         // 留言板所有者(对应的就是事件的targetId)
         if (!targetId.equals(creatorReplayUserId)) {
-            emailMsg = buildMessageBoardMsgEmail(targetId, msgId, "<strong>留言板</strong>")
-                    + "收到了来自"
-                    + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + buildMessageBoardMsgEmail(targetId, msgId, "点击查看");
-            innerMsg = buildMessageBoardMsg(targetId, msgId, "<strong>留言板</strong>")
-                    + "收到了来自"
-                    + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + buildMessageBoardMsg(targetId, msgId, "点击查看");
+            MessageBoardMsgParamDto messageBoardMsgParamDto = MessageBoardMsgParamDto.builder()
+                    .targetUserId(targetId)
+                    .msgId(msgId)
+                    .title("<strong>留言板</strong>")
+                    .build();
+            String buildMessageBoardMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.INNER_MSG);
+            String buildMessageBoardMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.EMAIL);
+
+
+            emailMsg = buildMessageBoardMsgEmail + "收到了来自" + buildProfileMsgEmail + "的回复";
+            innerMsg = buildMessageBoardMsg + "收到了来自" + buildProfileMsg + "的回复";
         } else {
-            emailMsg = buildMessageBoardMsgEmail(creatorReplayUserId, msgId, "<strong>留言板</strong>")
-                    + "收到了来自"
-                    + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + buildMessageBoardMsgEmail(creatorReplayUserId, msgId, "点击查看");
-            innerMsg = buildMessageBoardMsg(creatorReplayUserId, msgId, "<strong>留言板</strong>")
-                    + "收到了来自"
-                    + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + buildMessageBoardMsg(creatorReplayUserId, msgId, "点击查看");
+            MessageBoardMsgParamDto messageBoardMsgParamDto = MessageBoardMsgParamDto.builder()
+                    .targetUserId(creatorReplayUserId)
+                    .msgId(msgId)
+                    .title("<strong>留言板</strong>")
+                    .build();
+            String buildMessageBoardMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.INNER_MSG);
+            String buildMessageBoardMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.EMAIL);
+
+
+            emailMsg = buildMessageBoardMsgEmail + "收到了来自" + buildProfileMsgEmail + "的回复";
+            innerMsg = buildMessageBoardMsg + "收到了来自" + buildProfileMsg + "的回复";
         }
 
         MessageSend.send(MessageModel.builder()
@@ -102,27 +118,6 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
                         .message(innerMsg).build())
                 .messageId(msgId)
                 .build());
-    }
-
-    @NotNull
-    private String buildMsgByTemplate(ReplayCommentEvent replayCommentEvent, String msgId, String template) {
-        String msg;
-        String targetId = replayCommentEvent.getTargetId();
-        String creatorReplayUserId = replayCommentEvent.getCreateReplayUserId();
-        String creatorReplayUserName = replayCommentEvent.getCreateReplayUserName();
-        // 留言板所有者(对应的就是事件的targetId)
-        if (!targetId.equals(creatorReplayUserId)) {
-            msg = String.format(template, targetId, msgId, "<strong>留言板</strong>")
-                    + "收到了来自"
-                    + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + String.format(template, targetId, msgId, "点击查看");
-        } else {
-            msg = String.format(template, creatorReplayUserId, msgId, "<strong>留言板</strong>")
-                    + "收到了来自"
-                    + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + String.format(template, creatorReplayUserId, msgId, "点击查看");
-        }
-        return msg;
     }
 
     @Override

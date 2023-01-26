@@ -38,6 +38,11 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
 import com.upupor.service.base.RadioService;
+import com.upupor.service.business.build_msg.MessageBuilderInstance;
+import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
+import com.upupor.service.business.build_msg.abstracts.MsgType;
+import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+import com.upupor.service.business.build_msg.abstracts.dto.RadioMsgParamDto;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ReplayCommentEvent;
@@ -45,8 +50,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.MsgTemplate.*;
 
 /**
  * @author Yang Runkang (cruise)
@@ -76,15 +79,27 @@ public class RadioReply extends AbstractReplyComment<RadioEnhance> {
         Member beReplayedUser = getMember(beRepliedUserId);
 
         Radio radio = getTarget(replayCommentEvent.getTargetId()).getRadio();
-        String innerMsg = "电台《" + buildRadioMsg(radio.getRadioId(), msgId, radio.getRadioIntro())
-                + "》,收到了来自"
-                + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                + "的回复,请" + buildRadioMsg(radio.getRadioId(), msgId, "点击查看");
 
-        String emailMsg = "电台《" + buildRadioMsgEmail(radio.getRadioId(), msgId, radio.getRadioIntro())
-                + "》,收到了来自"
-                + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                + "的回复,请" + buildRadioMsgEmail(radio.getRadioId(), msgId, "点击查看");
+
+        RadioMsgParamDto radioMsgParamDto = RadioMsgParamDto.builder()
+                .radioId(radio.getRadioId())
+                .msgId(msgId)
+                .radioIntro(radio.getRadioIntro())
+                .build();
+        String buildRadioMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.RADIO, radioMsgParamDto, MsgType.INNER_MSG);
+        String buildRadioMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.RADIO, radioMsgParamDto, MsgType.EMAIL);
+
+        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+                .memberUserId(creatorReplayUserId)
+                .msgId(msgId)
+                .memberUserName(creatorReplayUserName)
+                .build();
+        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+
+
+        String innerMsg = "电台《" + buildRadioMsg + "》,收到了来自" + buildProfileMsg + "的回复";
+        String emailMsg = "电台《" + buildRadioMsgEmail + "》,收到了来自" + buildProfileMsg + "的回复";
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beReplayedUser.getUserId())

@@ -29,9 +29,6 @@
 
 package com.upupor.framework;
 
-import com.upupor.framework.config.UpuporConfig;
-import com.upupor.framework.utils.SpringContextUtils;
-
 /**
  * Cv常量
  *
@@ -328,70 +325,6 @@ public final class CcConstant {
 
     }
 
-    /**
-     * 消息模板
-     */
-    public static final class MsgTemplate {
-        private static final String EMAIL_NEED_WEBSITE = SpringContextUtils.getBean(UpuporConfig.class).getWebsite(); // 邮件需要网址
-
-        /**
-         * 个人主页
-         * userId,userName
-         */
-        public static String buildProfileMsg(String memberUserId, String msgId, String memberUserName) {
-            final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?msgId=%s'> %s </a>";
-            return String.format(PROFILE_INNER_MSG, memberUserId, msgId, memberUserName);
-        }
-
-        public static String buildProfileMsgEmail(String memberUserId, String msgId, String memberUserName) {
-            final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/content?msgId=%s'> %s </a>";
-            return String.format(PROFILE_EMAIL, memberUserId, msgId, memberUserName);
-        }
-
-
-        /**
-         * 文章
-         * contentId,contentTitle
-         */
-        public static String buildCotentMsg(String contentId, String msgId, String contentTitle) {
-            final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?msgId=%s'>%s</a>";
-            return String.format(CONTENT_INNER_MSG, contentId, msgId, contentTitle);
-        }
-
-        public static String buildContentMsgEmail(String contentId, String msgId, String contentTitle) {
-            final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?msgId=%s'>%s</a>";
-            return String.format(CONTENT_EMAIL, contentId, msgId, contentTitle);
-        }
-
-        /**
-         * 文章
-         * contentId,contentTitle
-         */
-
-        public static String buildRadioMsg(String radioId, String msgId, String radioIntro) {
-            final String RADIO_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/r/%s?msgId=%s'>%s</a>";
-            return String.format(RADIO_MSG, radioId, msgId, radioIntro);
-        }
-
-        public static String buildRadioMsgEmail(String radioId, String msgId, String radioIntro) {
-            final String RADIO_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/r/%s?msgId=%s'>%s</a>";
-            return String.format(RADIO_EMAIL, radioId, msgId, radioIntro);
-        }
-
-        /**
-         * 留言板
-         */
-        public static String buildMessageBoardMsg(String targetUserId, String msgId, String title) {
-            final String MESSAGE_BOARD_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/message?msgId=%s'>%s</a>";
-            return String.format(MESSAGE_BOARD_MSG, targetUserId, msgId, title);
-        }
-
-        public static String buildMessageBoardMsgEmail(String targetUserId, String msgId, String title) {
-            final String MESSAGE_BOARD_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/message?msgId=%s'>%s</a>";
-            return String.format(MESSAGE_BOARD_EMAIL, targetUserId, msgId, title);
-        }
-
-    }
 
     public static final class Time {
         // 用户只要活跃一次,维持活跃状态的时间

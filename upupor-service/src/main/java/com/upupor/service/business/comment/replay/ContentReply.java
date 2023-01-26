@@ -38,6 +38,11 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
+import com.upupor.service.business.build_msg.MessageBuilderInstance;
+import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
+import com.upupor.service.business.build_msg.abstracts.MsgType;
+import com.upupor.service.business.build_msg.abstracts.dto.ContentMsgParamDto;
+import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ReplayCommentEvent;
@@ -45,8 +50,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.MsgTemplate.*;
 
 /**
  * @author Yang Runkang (cruise)
@@ -78,16 +81,26 @@ public class ContentReply extends AbstractReplyComment<ContentEnhance> {
 
         Content content = getTarget(replayCommentEvent.getTargetId()).getContent();
 
+        ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+                .contentId(content.getContentId())
+                .msgId(msgId)
+                .contentTitle(content.getTitle())
+                .build();
+        String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
+        String buildContentMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.EMAIL);
+
+        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+                .memberUserId(createReplayUserId)
+                .msgId(msgId)
+                .memberUserName(createReplayUserName)
+                .build();
+        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+
         // 评论回复站内信
-        String innerMsg = "您关于《" + buildCotentMsg(content.getContentId(), msgId, content.getTitle())
-                + "》的文章评论,收到了来自"
-                + buildProfileMsg(createReplayUserId, msgId, createReplayUserName)
-                + "的回复,请" + buildCotentMsg(content.getContentId(), msgId, "点击查看");
+        String innerMsg = "您关于《" + buildContentMsg + "》的文章评论,收到了来自" + buildProfileMsg + "的回复";
         ;
-        String emailMsg = "您关于《" + buildContentMsgEmail(content.getContentId(), msgId, content.getTitle())
-                + "》的文章评论,收到了来自"
-                + buildProfileMsg(createReplayUserId, msgId, createReplayUserName)
-                + "的回复,请" + buildContentMsgEmail(content.getContentId(), msgId, "点击查看");
+        String emailMsg = "您关于《" + buildContentMsgEmail + "》的文章评论,收到了来自" + buildProfileMsg + "的回复";
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beRepliedUserId)

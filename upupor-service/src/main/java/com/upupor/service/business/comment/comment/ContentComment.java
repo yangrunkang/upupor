@@ -38,6 +38,11 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
+import com.upupor.service.business.build_msg.MessageBuilderInstance;
+import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
+import com.upupor.service.business.build_msg.abstracts.MsgType;
+import com.upupor.service.business.build_msg.abstracts.dto.ContentMsgParamDto;
+import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
 import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
@@ -45,8 +50,6 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Objects;
-
-import static com.upupor.framework.CcConstant.MsgTemplate.*;
 
 /**
  * @author Yang Runkang (cruise)
@@ -85,24 +88,32 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
             return;
         }
 
+        ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+                .contentId(contentId)
+                .msgId(msgId)
+                .contentTitle(contentTitle)
+                .build();
+        String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
+        String buildContentMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.EMAIL);
+
+
+        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+                .memberUserId(commenterUserId)
+                .msgId(msgId)
+                .memberUserName(commenterUserName)
+                .build();
+        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+
         // 站内信通知作者
-        String innerMsgText = "您的文章《" + buildCotentMsg(contentId, msgId, contentTitle) + "》有新的评论,来自"
-                + buildProfileMsg(commenterUserId, msgId, commenterUserName)
-                + ",快去" + buildCotentMsg(contentId, msgId, "查看") + "吧";
+        String innerMsgText = "您的文章《" + buildContentMsg + "》有新的评论,来自" + buildProfileMsg;
         // 邮件内容
-        String emailTitle = "您的文章有了新评论,快去看看吧";
-        String emailContent = "点击《" + buildContentMsgEmail(contentId, msgId, contentTitle) + "》查看评论,评论来自 "
-                + buildProfileMsgEmail(commenterUserId, msgId, commenterUserName);
-
-        // 赠送积分描述
-        String integralText = "您评论了 《" + buildCotentMsg(contentId, msgId, contentTitle) + "》文章,赠送 " +
-                IntegralEnum.CREATE_COMMENT.getIntegral() + " 积分;快去写文章吧,您收到的评论越多,就会获得更多的积分~";
-
+        String emailContent = "点击《" + buildContentMsgEmail + "》查看评论,评论来自 " + buildProfileMsgEmail;
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(contentAuthor.getUserId())
                 .emailModel(MessageModel.EmailModel.builder()
-                        .title(emailTitle)
+                        .title("您的文章有了新评论,快去看看吧")
                         .content(emailContent)
                         .build())
                 .innerModel(MessageModel.InnerModel.builder()
@@ -112,6 +123,9 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
                 .build());
 
         // 送积分
+        // 赠送积分描述
+        String integralText = "您评论了 《" + buildContentMsg + "》文章,赠送 " +
+                IntegralEnum.CREATE_COMMENT.getIntegral() + " 积分;快去写文章吧,您收到的评论越多,就会获得更多的积分~";
         memberIntegralService.addIntegral(IntegralEnum.CREATE_COMMENT, integralText, commenterUserId, targetId);
     }
 
