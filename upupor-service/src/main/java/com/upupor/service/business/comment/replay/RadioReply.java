@@ -99,7 +99,7 @@ public class RadioReply extends AbstractReplyComment<RadioEnhance> {
 
 
         String innerMsg = "电台《" + buildRadioMsg + "》,收到了来自" + buildProfileMsg + "的回复";
-        String emailMsg = "电台《" + buildRadioMsgEmail + "》,收到了来自" + buildProfileMsg + "的回复";
+        String emailMsg = "电台《" + buildRadioMsgEmail + "》,收到了来自" + buildProfileMsgEmail + "的回复";
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beReplayedUser.getUserId())

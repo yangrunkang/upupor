@@ -100,7 +100,7 @@ public class ContentReply extends AbstractReplyComment<ContentEnhance> {
         // 评论回复站内信
         String innerMsg = "您关于《" + buildContentMsg + "》的文章评论,收到了来自" + buildProfileMsg + "的回复";
         ;
-        String emailMsg = "您关于《" + buildContentMsgEmail + "》的文章评论,收到了来自" + buildProfileMsg + "的回复";
+        String emailMsg = "您关于《" + buildContentMsgEmail + "》的文章评论,收到了来自" + buildProfileMsgEmail + "的回复";
 
         MessageSend.send(MessageModel.builder()
                 .toUserId(beRepliedUserId)

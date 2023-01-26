@@ -69,7 +69,7 @@ public abstract class AbstractBuildMsgContent<T extends MsgParamDto> {
     public String buildMsgContent(MsgParamDto tMsgParamDto, MsgType msgType) {
         init(tMsgParamDto);
         if (MsgType.INNER_MSG.equals(msgType)) {
-            return buildEmailMsg();
+            return buildInnerMsg();
         } else if (MsgType.EMAIL.equals(msgType)) {
             return buildEmailMsg();
         }
