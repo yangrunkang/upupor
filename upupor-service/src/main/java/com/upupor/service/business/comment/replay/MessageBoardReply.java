@@ -69,28 +69,22 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
         String creatorReplayUserId = replayCommentEvent.getCreateReplayUserId();
         String creatorReplayUserName = replayCommentEvent.getCreateReplayUserName();
 
-        String emailMsg;
+        String emailMsg, innerMsg;
         // 留言板所有者(对应的就是事件的targetId)
         if (!targetId.equals(creatorReplayUserId)) {
             emailMsg = buildMessageBoardMsgEmail(targetId, msgId, "<strong>留言板</strong>")
                     + "收到了来自"
                     + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
                     + "的回复,请" + buildMessageBoardMsgEmail(targetId, msgId, "点击查看");
-        } else {
-            emailMsg = buildMessageBoardMsgEmail(creatorReplayUserId, msgId, "<strong>留言板</strong>")
-                    + "收到了来自"
-                    + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
-                    + "的回复,请" + buildMessageBoardMsgEmail(creatorReplayUserId, msgId, "点击查看");
-        }
-
-
-        String innerMsg;
-        if (!targetId.equals(creatorReplayUserId)) {
             innerMsg = buildMessageBoardMsg(targetId, msgId, "<strong>留言板</strong>")
                     + "收到了来自"
                     + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
                     + "的回复,请" + buildMessageBoardMsg(targetId, msgId, "点击查看");
         } else {
+            emailMsg = buildMessageBoardMsgEmail(creatorReplayUserId, msgId, "<strong>留言板</strong>")
+                    + "收到了来自"
+                    + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
+                    + "的回复,请" + buildMessageBoardMsgEmail(creatorReplayUserId, msgId, "点击查看");
             innerMsg = buildMessageBoardMsg(creatorReplayUserId, msgId, "<strong>留言板</strong>")
                     + "收到了来自"
                     + buildProfileMsg(creatorReplayUserId, msgId, creatorReplayUserName)
