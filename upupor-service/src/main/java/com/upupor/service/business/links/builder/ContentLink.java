@@ -27,33 +27,35 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.abstracts;
+package com.upupor.service.business.links.builder;
+
+import com.upupor.service.business.links.abstracts.AbstractBuildLink;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
 
 /**
- * 业务消息类型
+ * 内容消息
  *
  * @author Yang Runkang (cruise)
- * @createTime 2023-01-27 02:38
+ * @createTime 2023-01-27 02:10
  * @email: yangrunkang53@gmail.com
  */
-public enum BusinessMsgType {
-    /**
-     * 文章
-     */
-    CONTENT,
-    /**
-     * 用户主页
-     */
-    MEMBER_PROFILE,
+public class ContentLink extends AbstractBuildLink<ContentLinkParamDto> {
 
-    /**
-     * 留言板
-     */
-    MESSAGE_BOARD,
+    @Override
+    protected String buildInnerLink() {
+        final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?msgId=%s'>%s</a>";
+        return String.format(CONTENT_INNER_MSG, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getContentTitle());
+    }
 
-    /**
-     * 电台
-     */
-    RADIO,
-    ;
+    @Override
+    protected String buildEmailLink() {
+        final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?msgId=%s'>%s</a>";
+        return String.format(CONTENT_EMAIL, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getContentTitle());
+    }
+
+    @Override
+    public BusinessLinkType businessLinkType() {
+        return BusinessLinkType.CONTENT;
+    }
 }

@@ -27,14 +27,21 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.abstracts.dto.parent;
+package com.upupor.service.business.links.abstracts.dto;
+
+import com.upupor.service.business.links.abstracts.dto.parent.LinkParamDto;
+import lombok.Builder;
+import lombok.Data;
 
 /**
- * 消息体参数 标识
- *
  * @author Yang Runkang (cruise)
- * @createTime 2023-01-27 02:44
+ * @createTime 2023-01-27 02:25
  * @email: yangrunkang53@gmail.com
  */
-public class MsgParamDto {
+@Data
+@Builder
+public class MemberProfileLinkParamDto extends LinkParamDto {
+    private String memberUserId;
+    private String msgId;
+    private String memberUserName;
 }

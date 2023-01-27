@@ -27,9 +27,9 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.abstracts.dto;
+package com.upupor.service.business.links.abstracts.dto;
 
-import com.upupor.service.business.build_msg.abstracts.dto.parent.MsgParamDto;
+import com.upupor.service.business.links.abstracts.dto.parent.LinkParamDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -40,8 +40,8 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class ContentMsgParamDto extends MsgParamDto {
-    private String contentId;
+public class MessageBoardLinkParamDto extends LinkParamDto {
+    private String targetUserId;
     private String msgId;
-    private String contentTitle;
+    private String title;
 }

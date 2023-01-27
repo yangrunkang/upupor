@@ -27,32 +27,33 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.builder;
-
-import com.upupor.service.business.build_msg.abstracts.AbstractBuildMsgContent;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+package com.upupor.service.business.links.abstracts;
 
 /**
+ * 业务链接类型
+ *
  * @author Yang Runkang (cruise)
- * @createTime 2023-01-27 02:35
+ * @createTime 2023-01-27 02:38
  * @email: yangrunkang53@gmail.com
  */
-public class MemberProfileMsg extends AbstractBuildMsgContent<MemberProfileMsgParamDto> {
-    @Override
-    protected String buildInnerMsg() {
-        final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?msgId=%s'> %s </a>";
-        return String.format(PROFILE_INNER_MSG, tMsgParamDto.getMemberUserId(), tMsgParamDto.getMsgId(), tMsgParamDto.getMemberUserName());
-    }
+public enum BusinessLinkType {
+    /**
+     * 文章
+     */
+    CONTENT,
+    /**
+     * 用户主页
+     */
+    MEMBER_PROFILE,
 
-    @Override
-    protected String buildEmailMsg() {
-        final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/content?msgId=%s'> %s </a>";
-        return String.format(PROFILE_EMAIL, tMsgParamDto.getMemberUserId(), tMsgParamDto.getMsgId(), tMsgParamDto.getMemberUserName());
-    }
+    /**
+     * 留言板
+     */
+    MESSAGE_BOARD,
 
-    @Override
-    public BusinessMsgType businessMsgType() {
-        return BusinessMsgType.MEMBER_PROFILE;
-    }
+    /**
+     * 电台
+     */
+    RADIO,
+    ;
 }

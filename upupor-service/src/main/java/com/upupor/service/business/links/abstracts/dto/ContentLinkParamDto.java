@@ -27,24 +27,21 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.abstracts;
+package com.upupor.service.business.links.abstracts.dto;
+
+import com.upupor.service.business.links.abstracts.dto.parent.LinkParamDto;
+import lombok.Builder;
+import lombok.Data;
 
 /**
- * 消息类型
- *
  * @author Yang Runkang (cruise)
- * @createTime 2023-01-27 02:09
+ * @createTime 2023-01-27 02:25
  * @email: yangrunkang53@gmail.com
  */
-public enum MsgType {
-    /**
-     * 站内信
-     */
-    INNER_MSG,
-
-    /**
-     * 邮件
-     */
-    EMAIL,
-    ;
+@Data
+@Builder
+public class ContentLinkParamDto extends LinkParamDto {
+    private String contentId;
+    private String msgId;
+    private String contentTitle;
 }

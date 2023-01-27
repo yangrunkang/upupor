@@ -27,13 +27,13 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.abstracts;
+package com.upupor.service.business.links.abstracts;
 
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.SpringContextUtils;
-import com.upupor.service.business.build_msg.abstracts.dto.parent.MsgParamDto;
+import com.upupor.service.business.links.abstracts.dto.parent.LinkParamDto;
 
 /**
  * 抽象构造消息内容逻辑
@@ -42,12 +42,12 @@ import com.upupor.service.business.build_msg.abstracts.dto.parent.MsgParamDto;
  * @createTime 2023-01-27 01:39
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractBuildMsgContent<T extends MsgParamDto> {
+public abstract class AbstractBuildLink<T extends LinkParamDto> {
 
     /**
      * 消息参数Dto
      */
-    protected T tMsgParamDto;
+    protected T linkParamDto;
 
     /**
      * 邮件需要网址
@@ -59,25 +59,25 @@ public abstract class AbstractBuildMsgContent<T extends MsgParamDto> {
      *
      * @return
      */
-    public abstract BusinessMsgType businessMsgType();
+    public abstract BusinessLinkType businessLinkType();
 
     /**
      * 构造消息内容
      *
      * @return
      */
-    public String buildMsgContent(MsgParamDto tMsgParamDto, MsgType msgType) {
-        init(tMsgParamDto);
+    public String buildLink(LinkParamDto linkParamDto, MsgType msgType) {
+        init(linkParamDto);
         if (MsgType.INNER_MSG.equals(msgType)) {
-            return buildInnerMsg();
+            return buildInnerLink();
         } else if (MsgType.EMAIL.equals(msgType)) {
-            return buildEmailMsg();
+            return buildEmailLink();
         }
-        throw new BusinessException(ErrorCode.UNSUPPORT_UNKNOWN_MSG_CONTENT_BUILD);
+        throw new BusinessException(ErrorCode.UNSUPPORT_UNKNOWN_LINK_CONTENT_BUILD);
     }
 
-    private void init(MsgParamDto tMsgParamDto) {
-        this.tMsgParamDto = ((T) tMsgParamDto);
+    private void init(LinkParamDto linkParamDto) {
+        this.linkParamDto = ((T) linkParamDto);
     }
 
 
@@ -86,7 +86,7 @@ public abstract class AbstractBuildMsgContent<T extends MsgParamDto> {
      *
      * @return
      */
-    protected abstract String buildInnerMsg();
+    protected abstract String buildInnerLink();
 
 
     /**
@@ -94,7 +94,7 @@ public abstract class AbstractBuildMsgContent<T extends MsgParamDto> {
      *
      * @return
      */
-    protected abstract String buildEmailMsg();
+    protected abstract String buildEmailLink();
 
 
 }

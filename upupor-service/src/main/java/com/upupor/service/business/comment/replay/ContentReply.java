@@ -38,11 +38,11 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.MessageService;
-import com.upupor.service.business.build_msg.MessageBuilderInstance;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.MsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.ContentMsgParamDto;
-import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+import com.upupor.service.business.links.LinkBuilderInstance;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.MsgType;
+import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
+import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ReplayCommentEvent;
@@ -81,21 +81,21 @@ public class ContentReply extends AbstractReplyComment<ContentEnhance> {
 
         Content content = getTarget(replayCommentEvent.getTargetId()).getContent();
 
-        ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+        ContentLinkParamDto contentLinkParamDto = ContentLinkParamDto.builder()
                 .contentId(content.getContentId())
                 .msgId(msgId)
                 .contentTitle(content.getTitle())
                 .build();
-        String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
-        String buildContentMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.EMAIL);
+        String buildContentMsg = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.INNER_MSG);
+        String buildContentMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.EMAIL);
 
-        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+        MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(createReplayUserId)
                 .msgId(msgId)
                 .memberUserName(createReplayUserName)
                 .build();
-        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
-        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+        String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.EMAIL);
 
         // 评论回复站内信
         String innerMsg = "您关于《" + buildContentMsg + "》的文章评论,收到了来自" + buildProfileMsg + "的回复";

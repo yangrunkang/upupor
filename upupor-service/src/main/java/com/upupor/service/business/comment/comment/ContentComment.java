@@ -38,11 +38,11 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.business.build_msg.MessageBuilderInstance;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.MsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.ContentMsgParamDto;
-import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+import com.upupor.service.business.links.LinkBuilderInstance;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.MsgType;
+import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
+import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
 import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
@@ -88,22 +88,22 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
             return;
         }
 
-        ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+        ContentLinkParamDto contentLinkParamDto = ContentLinkParamDto.builder()
                 .contentId(contentId)
                 .msgId(msgId)
                 .contentTitle(contentTitle)
                 .build();
-        String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
-        String buildContentMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.EMAIL);
+        String buildContentMsg = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.INNER_MSG);
+        String buildContentMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.EMAIL);
 
 
-        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+        MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(commenterUserId)
                 .msgId(msgId)
                 .memberUserName(commenterUserName)
                 .build();
-        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
-        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+        String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.EMAIL);
 
         // 站内信通知作者
         String innerMsgText = "您的文章《" + buildContentMsg + "》有新的评论,来自" + buildProfileMsg;

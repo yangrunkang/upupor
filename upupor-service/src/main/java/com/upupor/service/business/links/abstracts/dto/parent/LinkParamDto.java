@@ -27,21 +27,14 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.abstracts.dto;
-
-import com.upupor.service.business.build_msg.abstracts.dto.parent.MsgParamDto;
-import lombok.Builder;
-import lombok.Data;
+package com.upupor.service.business.links.abstracts.dto.parent;
 
 /**
+ * 链接所需参数 标识
+ *
  * @author Yang Runkang (cruise)
- * @createTime 2023-01-27 02:25
+ * @createTime 2023-01-27 02:44
  * @email: yangrunkang53@gmail.com
  */
-@Data
-@Builder
-public class RadioMsgParamDto extends MsgParamDto {
-    private String radioId;
-    private String msgId;
-    private String radioIntro;
+public class LinkParamDto {
 }

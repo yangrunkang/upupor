@@ -27,34 +27,32 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.builder;
+package com.upupor.service.business.links.builder;
 
-import com.upupor.service.business.build_msg.abstracts.AbstractBuildMsgContent;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.MessageBoardMsgParamDto;
+import com.upupor.service.business.links.abstracts.AbstractBuildLink;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
 
 /**
- * 留言板消息
- *
  * @author Yang Runkang (cruise)
- * @createTime 2023-01-27 02:10
+ * @createTime 2023-01-27 02:35
  * @email: yangrunkang53@gmail.com
  */
-public class MessageBoardMsg extends AbstractBuildMsgContent<MessageBoardMsgParamDto> {
+public class MemberProfileLink extends AbstractBuildLink<MemberProfileLinkParamDto> {
     @Override
-    protected String buildInnerMsg() {
-        final String MESSAGE_BOARD_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/message?msgId=%s'>%s</a>";
-        return String.format(MESSAGE_BOARD_MSG, tMsgParamDto.getTargetUserId(), tMsgParamDto.getMsgId(), tMsgParamDto.getTitle());
+    protected String buildInnerLink() {
+        final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?msgId=%s'> %s </a>";
+        return String.format(PROFILE_INNER_MSG, linkParamDto.getMemberUserId(), linkParamDto.getMsgId(), linkParamDto.getMemberUserName());
     }
 
     @Override
-    protected String buildEmailMsg() {
-        final String MESSAGE_BOARD_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/message?msgId=%s'>%s</a>";
-        return String.format(MESSAGE_BOARD_EMAIL, tMsgParamDto.getTargetUserId(), tMsgParamDto.getMsgId(), tMsgParamDto.getTitle());
+    protected String buildEmailLink() {
+        final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/content?msgId=%s'> %s </a>";
+        return String.format(PROFILE_EMAIL, linkParamDto.getMemberUserId(), linkParamDto.getMsgId(), linkParamDto.getMemberUserName());
     }
 
     @Override
-    public BusinessMsgType businessMsgType() {
-        return BusinessMsgType.MESSAGE_BOARD;
+    public BusinessLinkType businessLinkType() {
+        return BusinessLinkType.MEMBER_PROFILE;
     }
 }

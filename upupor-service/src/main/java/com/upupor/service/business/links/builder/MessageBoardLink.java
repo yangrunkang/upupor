@@ -27,36 +27,34 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.builder;
+package com.upupor.service.business.links.builder;
 
-import com.upupor.service.business.build_msg.abstracts.AbstractBuildMsgContent;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.ContentMsgParamDto;
+import com.upupor.service.business.links.abstracts.AbstractBuildLink;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.dto.MessageBoardLinkParamDto;
 
 /**
- * 内容消息
+ * 留言板消息
  *
  * @author Yang Runkang (cruise)
  * @createTime 2023-01-27 02:10
  * @email: yangrunkang53@gmail.com
  */
-public class ContentMsg extends AbstractBuildMsgContent<ContentMsgParamDto> {
-
+public class MessageBoardLink extends AbstractBuildLink<MessageBoardLinkParamDto> {
     @Override
-    protected String buildInnerMsg() {
-
-        final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?msgId=%s'>%s</a>";
-        return String.format(CONTENT_INNER_MSG, tMsgParamDto.getContentId(), tMsgParamDto.getMsgId(), tMsgParamDto.getContentTitle());
+    protected String buildInnerLink() {
+        final String MESSAGE_BOARD_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/message?msgId=%s'>%s</a>";
+        return String.format(MESSAGE_BOARD_MSG, linkParamDto.getTargetUserId(), linkParamDto.getMsgId(), linkParamDto.getTitle());
     }
 
     @Override
-    protected String buildEmailMsg() {
-        final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?msgId=%s'>%s</a>";
-        return String.format(CONTENT_EMAIL, tMsgParamDto.getContentId(), tMsgParamDto.getMsgId(), tMsgParamDto.getContentTitle());
+    protected String buildEmailLink() {
+        final String MESSAGE_BOARD_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/message?msgId=%s'>%s</a>";
+        return String.format(MESSAGE_BOARD_EMAIL, linkParamDto.getTargetUserId(), linkParamDto.getMsgId(), linkParamDto.getTitle());
     }
 
     @Override
-    public BusinessMsgType businessMsgType() {
-        return BusinessMsgType.CONTENT;
+    public BusinessLinkType businessLinkType() {
+        return BusinessLinkType.MESSAGE_BOARD;
     }
 }

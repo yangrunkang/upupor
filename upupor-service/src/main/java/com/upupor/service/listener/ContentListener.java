@@ -46,11 +46,11 @@ import com.upupor.framework.common.IntegralEnum;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.base.*;
-import com.upupor.service.business.build_msg.MessageBuilderInstance;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.MsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.ContentMsgParamDto;
-import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+import com.upupor.service.business.links.LinkBuilderInstance;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.MsgType;
+import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
+import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.listener.event.ContentLikeEvent;
@@ -135,12 +135,12 @@ public class ContentListener {
             return;
         }
 
-        ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+        ContentLinkParamDto contentLinkParamDto = ContentLinkParamDto.builder()
                 .contentId(content.getContentId())
                 .msgId(CcUtils.getUuId())
                 .contentTitle(content.getTitle())
                 .build();
-        String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
+        String buildContentMsg = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.INNER_MSG);
 
         String text = String.format("新增文章《%s》赠送积分", buildContentMsg);
         IntegralEnum integralEnum = IntegralEnum.CREATE_CONTENT;
@@ -174,21 +174,21 @@ public class ContentListener {
             List<FansEnhance> fansEnhanceList = fans.getFansEnhanceList();
             for (FansEnhance fansEnhance : fansEnhanceList) {
                 String msgId = CcUtils.getUuId();
-                ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+                ContentLinkParamDto contentLinkParamDto = ContentLinkParamDto.builder()
                         .contentId(content.getContentId())
                         .msgId(msgId)
                         .contentTitle(content.getTitle())
                         .build();
-                String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
-                String buildContentMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.EMAIL);
+                String buildContentMsg = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.INNER_MSG);
+                String buildContentMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.EMAIL);
 
-                MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+                MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                         .memberUserId(contentMember.getUserId())
                         .msgId(msgId)
                         .memberUserName(contentMember.getUserName())
                         .build();
-                String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
-                String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+                String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
+                String buildProfileMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.EMAIL);
 
 
                 String fanUserId = fansEnhance.getFans().getFanUserId();
@@ -226,21 +226,21 @@ public class ContentListener {
         String msgId = CcUtils.getUuId();
         Content content = contentLikeEvent.getContent();
         Member member = memberService.memberInfo(contentLikeEvent.getClickUserId()).getMember();
-        ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+        ContentLinkParamDto contentLinkParamDto = ContentLinkParamDto.builder()
                 .contentId(content.getContentId())
                 .msgId(msgId)
                 .contentTitle(content.getTitle())
                 .build();
-        String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
-        String buildContentMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.EMAIL);
+        String buildContentMsg = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.INNER_MSG);
+        String buildContentMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.EMAIL);
 
-        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+        MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(member.getUserId())
                 .msgId(msgId)
                 .memberUserName(member.getUserName())
                 .build();
-        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
-        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+        String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.EMAIL);
 
         String message = "您的文章《" + buildContentMsg + "》被 " + buildProfileMsg + " 在" + CcDateUtil.timeStamp2DateOnly(CcDateUtil.getCurrentTime()) + "点赞了";
 

@@ -35,11 +35,11 @@ import com.upupor.data.types.MessageType;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.RadioService;
-import com.upupor.service.business.build_msg.MessageBuilderInstance;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.MsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
-import com.upupor.service.business.build_msg.abstracts.dto.RadioMsgParamDto;
+import com.upupor.service.business.links.LinkBuilderInstance;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.MsgType;
+import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
+import com.upupor.service.business.links.abstracts.dto.RadioLinkParamDto;
 import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
@@ -81,21 +81,21 @@ public class RadioComment extends AbstractComment<RadioEnhance> {
             return;
         }
 
-        RadioMsgParamDto radioMsgParamDto = RadioMsgParamDto.builder()
+        RadioLinkParamDto radioLinkParamDto = RadioLinkParamDto.builder()
                 .radioId(radio.getRadioId())
                 .msgId(msgId)
                 .radioIntro(radioName)
                 .build();
-        String buildRadioMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.RADIO, radioMsgParamDto, MsgType.INNER_MSG);
-        String buildRadioMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.RADIO, radioMsgParamDto, MsgType.EMAIL);
+        String buildRadioMsg = LinkBuilderInstance.buildLink(BusinessLinkType.RADIO, radioLinkParamDto, MsgType.INNER_MSG);
+        String buildRadioMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.RADIO, radioLinkParamDto, MsgType.EMAIL);
 
-        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+        MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(commenterUserId)
                 .msgId(msgId)
                 .memberUserName(commenterUserName)
                 .build();
-        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
-        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+        String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.EMAIL);
 
         // 站内信通知对方收到新的留言
         String msg = "您收到了新的电台评论,点击<strong>《" + buildRadioMsg + "》</strong>查看,评论来自" + buildProfileMsg;

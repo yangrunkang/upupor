@@ -163,8 +163,8 @@ public enum ErrorCode {
     APPLY_TAG_FAILED(187, "申请标签失败"),
     EMAIL_ALREADY_REGISTER(188, "邮箱已经被注册"),
     UNKNOWN_TYPE_COMMENT(189, "未知类型的评论"),
-    UNSUPPORT_UNKNOWN_MSG_CONTENT_BUILD(190, "暂不支持未知类型消息体构造"),
-    UNSUPPORT_UNKNOWN_BUSINESS_MSG_CONTENT_BUILD(191, "暂不支持未知业务类型的消息构造"),
+    UNSUPPORT_UNKNOWN_LINK_CONTENT_BUILD(190, "暂不支持未知类型链接构造"),
+    UNSUPPORT_UNKNOWN_BUSINESS_LINK_CONTENT_BUILD(191, "暂不支持未知业务类型的链接构造"),
 
 
     //占位 兜底异常

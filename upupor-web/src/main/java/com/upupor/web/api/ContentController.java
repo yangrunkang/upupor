@@ -50,10 +50,10 @@ import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
-import com.upupor.service.business.build_msg.MessageBuilderInstance;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.MsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.ContentMsgParamDto;
+import com.upupor.service.business.links.LinkBuilderInstance;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.MsgType;
+import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
 import com.upupor.service.listener.event.ContentLikeEvent;
 import com.upupor.service.outer.req.GetMemberIntegralReq;
 import com.upupor.service.outer.req.PinnedReq;
@@ -176,12 +176,12 @@ public class ContentController {
             }
 
             // 添加积分数据
-            ContentMsgParamDto contentMsgParamDto = ContentMsgParamDto.builder()
+            ContentLinkParamDto contentLinkParamDto = ContentLinkParamDto.builder()
                     .contentId(content.getContentId())
                     .msgId(CcUtils.getUuId())
                     .contentTitle(content.getTitle())
                     .build();
-            String buildContentMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.CONTENT, contentMsgParamDto, MsgType.INNER_MSG);
+            String buildContentMsg = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.INNER_MSG);
             String text = String.format("您点赞了《%s》,赠送积分", buildContentMsg);
             memberIntegralService.addIntegral(IntegralEnum.CLICK_LIKE, text, clickUserId, contentId);
             // 增加点赞数

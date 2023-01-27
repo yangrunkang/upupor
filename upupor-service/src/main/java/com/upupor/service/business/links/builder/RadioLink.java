@@ -27,11 +27,11 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg.builder;
+package com.upupor.service.business.links.builder;
 
-import com.upupor.service.business.build_msg.abstracts.AbstractBuildMsgContent;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.RadioMsgParamDto;
+import com.upupor.service.business.links.abstracts.AbstractBuildLink;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.dto.RadioLinkParamDto;
 
 /**
  * 电台消息
@@ -40,22 +40,22 @@ import com.upupor.service.business.build_msg.abstracts.dto.RadioMsgParamDto;
  * @createTime 2023-01-27 02:10
  * @email: yangrunkang53@gmail.com
  */
-public class RadioMsg extends AbstractBuildMsgContent<RadioMsgParamDto> {
+public class RadioLink extends AbstractBuildLink<RadioLinkParamDto> {
     @Override
-    protected String buildInnerMsg() {
+    protected String buildInnerLink() {
         final String RADIO_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/r/%s?msgId=%s'>%s</a>";
-        return String.format(RADIO_MSG, tMsgParamDto.getRadioId(), tMsgParamDto.getMsgId(), tMsgParamDto.getRadioIntro());
+        return String.format(RADIO_MSG, linkParamDto.getRadioId(), linkParamDto.getMsgId(), linkParamDto.getRadioIntro());
     }
 
     @Override
-    protected String buildEmailMsg() {
+    protected String buildEmailLink() {
         final String RADIO_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/r/%s?msgId=%s'>%s</a>";
-        return String.format(RADIO_EMAIL, tMsgParamDto.getRadioId(), tMsgParamDto.getMsgId(), tMsgParamDto.getRadioIntro());
+        return String.format(RADIO_EMAIL, linkParamDto.getRadioId(), linkParamDto.getMsgId(), linkParamDto.getRadioIntro());
     }
 
     @Override
-    public BusinessMsgType businessMsgType() {
-        return BusinessMsgType.RADIO;
+    public BusinessLinkType businessLinkType() {
+        return BusinessLinkType.RADIO;
     }
 
 

@@ -50,10 +50,10 @@ import com.upupor.service.base.AttentionService;
 import com.upupor.service.base.FanService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.business.build_msg.MessageBuilderInstance;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.MsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
+import com.upupor.service.business.links.LinkBuilderInstance;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.MsgType;
+import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.DelAttentionReq;
@@ -217,12 +217,12 @@ public class AttentionServiceImpl implements AttentionService {
             MemberEnhance memberEnhance = memberService.memberInfo(attentionUserId);
             Member member = memberEnhance.getMember();
 
-            MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+            MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                     .memberUserId(member.getUserId())
                     .msgId(CcUtils.getUuId())
                     .memberUserName(member.getUserName())
                     .build();
-            String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+            String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
             String text = "关注 " + buildProfileMsg + " ,增加积分";
             memberIntegralService.addIntegral(IntegralEnum.ATTENTION_AUTHOR, text, userId, fans.getFanId());
         }
@@ -256,12 +256,12 @@ public class AttentionServiceImpl implements AttentionService {
             String attentionUserId = attention.getUserId();
             MemberEnhance memberEnhance = memberService.memberInfo(attentionUserId);
             Member member = memberEnhance.getMember();
-            MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+            MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                     .memberUserId(member.getUserId())
                     .msgId(CcUtils.getUuId())
                     .memberUserName(member.getUserName())
                     .build();
-            String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
+            String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
             String text = "取消关注 " + buildProfileMsg + " ,扣减积分";
             memberIntegralService.reduceIntegral(IntegralEnum.ATTENTION_AUTHOR, text, member.getUserId(), attention.getAttentionUserId());
         }

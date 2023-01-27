@@ -34,11 +34,11 @@ import com.upupor.data.types.MessageType;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.business.build_msg.MessageBuilderInstance;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.MsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.MemberProfileMsgParamDto;
-import com.upupor.service.business.build_msg.abstracts.dto.MessageBoardMsgParamDto;
+import com.upupor.service.business.links.LinkBuilderInstance;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.MsgType;
+import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
+import com.upupor.service.business.links.abstracts.dto.MessageBoardLinkParamDto;
 import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
@@ -82,21 +82,21 @@ public class MessageBoardComment extends AbstractComment<MemberEnhance> {
             return;
         }
 
-        MessageBoardMsgParamDto messageBoardMsgParamDto = MessageBoardMsgParamDto.builder()
+        MessageBoardLinkParamDto messageBoardLinkParamDto = MessageBoardLinkParamDto.builder()
                 .targetUserId(targetUserId)
                 .msgId(msgId)
                 .title("<strong>留言板</strong>")
                 .build();
-        String buildMessageBoardMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.INNER_MSG);
-        String buildMessageBoardMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.EMAIL);
+        String buildMessageBoardMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MESSAGE_BOARD, messageBoardLinkParamDto, MsgType.INNER_MSG);
+        String buildMessageBoardMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.MESSAGE_BOARD, messageBoardLinkParamDto, MsgType.EMAIL);
 
-        MemberProfileMsgParamDto memberProfileMsgParamDto = MemberProfileMsgParamDto.builder()
+        MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(commenterUserId)
                 .msgId(msgId)
                 .memberUserName(commenterUserName)
                 .build();
-        String buildProfileMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.INNER_MSG);
-        String buildProfileMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MEMBER_PROFILE, memberProfileMsgParamDto, MsgType.EMAIL);
+        String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
+        String buildProfileMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.EMAIL);
 
         // 站内信通知对方收到新的留言
         String innerMsg = "您收到了新的留言信息,点击" + buildMessageBoardMsg + "查看. 留言来自" + buildProfileMsg;

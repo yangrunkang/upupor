@@ -27,18 +27,18 @@
  *   -->
  */
 
-package com.upupor.service.business.build_msg;
+package com.upupor.service.business.links;
 
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.business.build_msg.abstracts.AbstractBuildMsgContent;
-import com.upupor.service.business.build_msg.abstracts.BusinessMsgType;
-import com.upupor.service.business.build_msg.abstracts.MsgType;
-import com.upupor.service.business.build_msg.abstracts.dto.parent.MsgParamDto;
-import com.upupor.service.business.build_msg.builder.ContentMsg;
-import com.upupor.service.business.build_msg.builder.MemberProfileMsg;
-import com.upupor.service.business.build_msg.builder.MessageBoardMsg;
-import com.upupor.service.business.build_msg.builder.RadioMsg;
+import com.upupor.service.business.links.abstracts.AbstractBuildLink;
+import com.upupor.service.business.links.abstracts.BusinessLinkType;
+import com.upupor.service.business.links.abstracts.MsgType;
+import com.upupor.service.business.links.abstracts.dto.parent.LinkParamDto;
+import com.upupor.service.business.links.builder.ContentLink;
+import com.upupor.service.business.links.builder.MemberProfileLink;
+import com.upupor.service.business.links.builder.MessageBoardLink;
+import com.upupor.service.business.links.builder.RadioLink;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,24 +48,24 @@ import java.util.List;
  * @createTime 2023-01-27 02:41
  * @email: yangrunkang53@gmail.com
  */
-public class MessageBuilderInstance {
-    final static List<AbstractBuildMsgContent<? extends MsgParamDto>> abstractBuildMsgContentList = new ArrayList<>();
+public class LinkBuilderInstance {
+    final static List<AbstractBuildLink<? extends LinkParamDto>> abstractBuildLinkList = new ArrayList<>();
 
     static {
-        abstractBuildMsgContentList.add(new ContentMsg());
-        abstractBuildMsgContentList.add(new MessageBoardMsg());
-        abstractBuildMsgContentList.add(new MemberProfileMsg());
-        abstractBuildMsgContentList.add(new RadioMsg());
+        abstractBuildLinkList.add(new ContentLink());
+        abstractBuildLinkList.add(new MessageBoardLink());
+        abstractBuildLinkList.add(new MemberProfileLink());
+        abstractBuildLinkList.add(new RadioLink());
     }
 
 
-    public static String buildMsg(BusinessMsgType businessMsgType, MsgParamDto msgParamDto, MsgType msgType) {
-        for (AbstractBuildMsgContent<? extends MsgParamDto> abstractBuildMsgContent : abstractBuildMsgContentList) {
-            if (businessMsgType.equals(abstractBuildMsgContent.businessMsgType())) {
-                return abstractBuildMsgContent.buildMsgContent(msgParamDto, msgType);
+    public static String buildLink(BusinessLinkType businessMsgType, LinkParamDto msgParamDto, MsgType msgType) {
+        for (AbstractBuildLink<? extends LinkParamDto> abstractBuildLink : abstractBuildLinkList) {
+            if (businessMsgType.equals(abstractBuildLink.businessLinkType())) {
+                return abstractBuildLink.buildLink(msgParamDto, msgType);
             }
         }
-        throw new BusinessException(ErrorCode.UNSUPPORT_UNKNOWN_BUSINESS_MSG_CONTENT_BUILD);
+        throw new BusinessException(ErrorCode.UNSUPPORT_UNKNOWN_BUSINESS_LINK_CONTENT_BUILD);
     }
 
 
