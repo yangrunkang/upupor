@@ -6,6 +6,10 @@
 ## 网站
 https://www.upupor.com
 
+## 分支说明
+* **thymeleaf-version**   upupor服务端渲染分支
+* **new-api**             upupor-api服务分支
+
 ## 统计
 ![Alt](https://repobeats.axiom.co/api/embed/18e821e0b79bcf13c83f8d21d669f7264abace1a.svg "Repobeats analytics image")
 
