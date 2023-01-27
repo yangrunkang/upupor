@@ -3,12 +3,12 @@
 
 <a href="https://www.producthunt.com/posts/upupor?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-upupor" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=327650&theme=dark" alt="Upupor - UGC Website,Open source | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
-## 网站
-https://www.upupor.com
-
-## 分支说明
+## 受保护分支的说明
 * **thymeleaf-version**   upupor服务端渲染分支
 * **new-api**             upupor-api服务分支
+
+## 网站
+https://www.upupor.com
 
 ## 统计
 ![Alt](https://repobeats.axiom.co/api/embed/18e821e0b79bcf13c83f8d21d669f7264abace1a.svg "Repobeats analytics image")
