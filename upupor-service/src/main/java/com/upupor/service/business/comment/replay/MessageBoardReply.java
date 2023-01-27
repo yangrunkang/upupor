@@ -99,7 +99,7 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
             MessageBoardMsgParamDto messageBoardMsgParamDto = MessageBoardMsgParamDto.builder()
                     .targetUserId(creatorReplayUserId)
                     .msgId(msgId)
-                    .title("<strong>我在" + targetMember.getUserName() + "留言板上的留言内容</strong>")
+                    .title("我在<strong>" + targetMember.getUserName() + "</strong>留言板上的留言内容")
                     .build();
             String buildMessageBoardMsg = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.INNER_MSG);
             String buildMessageBoardMsgEmail = MessageBuilderInstance.buildMsg(BusinessMsgType.MESSAGE_BOARD, messageBoardMsgParamDto, MsgType.EMAIL);
