@@ -35,6 +35,8 @@ import com.upupor.framework.config.UpuporConfig;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.business.links.abstracts.dto.parent.LinkParamDto;
 
+import java.util.Objects;
+
 /**
  * 抽象构造消息内容逻辑
  *
@@ -69,11 +71,20 @@ public abstract class AbstractBuildLink<T extends LinkParamDto> {
     public String buildLink(LinkParamDto linkParamDto, MsgType msgType) {
         init(linkParamDto);
         if (MsgType.INNER_MSG.equals(msgType)) {
-            return buildInnerLink();
+            return isCommentOperation() ? buildInnerLink() : buildNotCommentInnerLink();
         } else if (MsgType.EMAIL.equals(msgType)) {
-            return buildEmailLink();
+            return isCommentOperation() ? buildEmailLink() : buildNotCommentEmailLink();
         }
         throw new BusinessException(ErrorCode.UNSUPPORT_UNKNOWN_LINK_CONTENT_BUILD);
+    }
+
+    /**
+     * 是否是评论操作,有些是点赞的操作,只需要发送站内信通知,不是评论,因此没有楼层这个概念
+     *
+     * @return
+     */
+    public Boolean isCommentOperation() {
+        return Objects.nonNull(linkParamDto.getFloorNum());
     }
 
     private void init(LinkParamDto linkParamDto) {
@@ -88,6 +99,15 @@ public abstract class AbstractBuildLink<T extends LinkParamDto> {
      */
     protected abstract String buildInnerLink();
 
+    /**
+     * 构造非评论站内信消息
+     *
+     * @return
+     */
+    protected String buildNotCommentInnerLink() {
+        return buildInnerLink();
+    }
+
 
     /**
      * 构造邮件消息
@@ -95,6 +115,15 @@ public abstract class AbstractBuildLink<T extends LinkParamDto> {
      * @return
      */
     protected abstract String buildEmailLink();
+
+    /**
+     * 构造非评论邮件消息
+     *
+     * @return
+     */
+    protected String buildNotCommentEmailLink() {
+        return buildEmailLink();
+    }
 
 
 }
