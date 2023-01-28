@@ -27,6 +27,8 @@
 
 package com.upupor.lucene.enums;
 
+import lombok.Getter;
+
 /**
  * 索引数据类型
  *
@@ -38,19 +40,27 @@ public enum LuceneDataType {
     /**
      * 内容
      */
-    CONTENT,
+    CONTENT("文章"),
     /**
      * 电台
      */
-    RADIO,
+    RADIO("电台"),
     /**
      * 用户
      */
-    MEMBER;
+    MEMBER("用户");
 
-    public static LuceneDataType getByEnumStr(String enumStr){
+    @Getter
+    private final String name;
+
+    LuceneDataType(String name) {
+        this.name = name;
+    }
+
+
+    public static LuceneDataType getByEnumStr(String enumStr) {
         for (LuceneDataType value : values()) {
-            if(value.toString().equals(enumStr)){
+            if (value.toString().equals(enumStr)) {
                 return value;
             }
         }

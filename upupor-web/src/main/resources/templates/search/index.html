@@ -39,9 +39,9 @@
         <div class="row g-2">
             <div class="col-lg-9 mb-2">
                 <div id="content_more_alert" class="alert alert-danger alert-dismissible fade show mb-2" role="alert" style="display: none">
-                    搜索结果已经超过最大限制条数300条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
+                    搜索结果已经超过最大限制条数3000条,多余的搜索结果将不显示。请进一步完善您的搜索条件以便更加精确的搜索
                     <br />
-                    根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${searchIndexDto.total}"></span>条数据,只显示了最新的300条
+                    根据搜索条件一共搜到了<span style="font-size: 20px;font-weight: bolder" th:text="${searchIndexDto.total}"></span>条数据,只显示了最新的3000条
                     <button type="button" class="btn btn-close rounded-3 bg-gradient-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <div style="width: 100%;" class="card border-0 rounded-3 border-0 text-center">
@@ -54,44 +54,19 @@
                     <input type="hidden" id="content_more_alert_value" th:value="${searchIndexDto.total}"/>
                 </div>
 
-
                 <div class="card border-0 rounded-3 p-2 my-2">
                     <div th:if="${#lists.isEmpty(searchIndexDto.searchDataDtoList)}" th:include="fragments/index::empty_content"></div>
                     <ul class="list-group list-group-flush" th:if="!${#lists.isEmpty(searchIndexDto.searchDataDtoList)}">
                         <li class="list-group-item p-1" th:each="searchData,ite : ${searchIndexDto.searchDataDtoList}">
-
-                            <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'CONTENT'">
+                            <div class="d-flex align-items-center">
                                 <div class="flex-grow-1">
                                     <div class="mt-0">
-                                        <a th:href="@{'/u/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}" th:utext="${searchData.resultTitle}"></a>
-                                        <span class="badge bg-gradient bg-warning text-dark fw-light rounded-3 small">文章</span>
+                                        <a th:href="${searchData.hrefUrl}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}" th:utext="${searchData.resultTitle}"></a>
+                                        <div class="text-black-50 small"><span class="badge bg-gradient bg-success fw-light">[[${searchData.dataType.name}]]</span></div>
+                                        <div class="text-black-50 small"> <i class="bi bi-clock"></i> [[${searchData.createDate}]]</div>
                                     </div>
                                 </div>
-                                <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${searchData.memberEnhance.member.userId}+'/content'"  th:title="${searchData.memberEnhance.member.userName}">
-                                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${searchData.memberEnhance.member.via}" th:alt="${searchData.memberEnhance.member.userName}">
-                                </a>
-                            </div>
-
-                            <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'RADIO'">
-                                <div class="flex-grow-1">
-                                    <div class="mt-0">
-                                        <a th:href="@{'/r/'+${searchData.resultId}}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}" th:utext="${searchData.resultTitle}"></a>
-                                        <span class="badge bg-gradient bg-primary fw-light rounded-3 small">电台</span>
-                                    </div>
-                                </div>
-                                <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${searchData.memberEnhance.member.userId}+'/content'"  th:title="${searchData.memberEnhance.member.userName}">
-                                    <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${searchData.memberEnhance.member.via}" th:alt="${searchData.memberEnhance.member.userName}">
-                                </a>
-                            </div>
-
-                            <div class="d-flex align-items-center" th:if="${searchData.dataType.name()} == 'MEMBER'">
-                                <div class="flex-grow-1">
-                                    <div class="mt-0">
-                                        <a th:href="'/profile/' + ${searchData.memberEnhance.member.userId}+'/content'" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}" th:utext="${searchData.resultTitle}"></a>
-                                        <span  class="badge bg-gradient bg-success fw-light rounded-3 small">用户</span>
-                                    </div>
-                                </div>
-                                <a class="flex-shrink-0 text-black-50 cv-link" th:href="'/profile/' + ${searchData.memberEnhance.member.userId}+'/content'"  th:title="${searchData.memberEnhance.member.userName}">
+                                <a class="flex-shrink-0 text-black-50 cv-link" th:if="${searchData.dataType.name()} == 'MEMBER'" th:href="'/profile/' + ${searchData.memberEnhance.member.userId}+'/content'"  th:title="${searchData.memberEnhance.member.userName}">
                                     <img class="lazyload img rounded rounded-right cv-icon-50" th:data-src="${searchData.memberEnhance.member.via}" th:alt="${searchData.memberEnhance.member.userName}">
                                 </a>
                             </div>

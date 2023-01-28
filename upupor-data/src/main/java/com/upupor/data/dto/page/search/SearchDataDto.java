@@ -28,8 +28,11 @@
 package com.upupor.data.dto.page.search;
 
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.lucene.enums.LuceneDataType;
 import lombok.Data;
+
+import java.util.Objects;
 
 /**
  * 搜索数据Dto
@@ -61,4 +64,21 @@ public class SearchDataDto {
      */
     private MemberEnhance memberEnhance;
 
+    /**
+     * 资源地址
+     */
+    private String hrefUrl;
+
+    /**
+     * 创建时间
+     */
+    private Long createTime;
+    private String createDate;
+
+    public String getCreateDate() {
+        if (Objects.isNull(createTime)) {
+            return createDate;
+        }
+        return CcDateUtil.timeStamp2Date(createTime);
+    }
 }

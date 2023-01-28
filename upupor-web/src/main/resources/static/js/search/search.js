@@ -46,7 +46,7 @@ function showKeyword() {
 function intiSearchInput() {
     let searchTotal = $("#content_more_alert_value").val();
     let searchTotalNum = parseInt(searchTotal);
-    if (searchTotalNum > 300) {
+    if (searchTotalNum > 3000) {
         $("#content_more_alert").show();
     } else {
         $("#content_more_alert").hide();

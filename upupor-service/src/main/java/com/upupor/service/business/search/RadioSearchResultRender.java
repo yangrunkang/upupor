@@ -27,6 +27,7 @@
 
 package com.upupor.service.business.search;
 
+import com.upupor.data.dao.entity.Radio;
 import com.upupor.data.dao.entity.enhance.RadioEnhance;
 import com.upupor.data.dto.page.search.SearchDataDto;
 import com.upupor.lucene.enums.LuceneDataType;
@@ -63,12 +64,16 @@ public class RadioSearchResultRender extends AbstractSearchResultRender<RadioEnh
     }
 
     @Override
-    protected void transferToSearchDataDtoList(List<RadioEnhance> radios) {
-        for (RadioEnhance radioEnhance : radios) {
+    protected void transferToSearchDataDtoList(List<RadioEnhance> radioEnhanceList) {
+        for (RadioEnhance radioEnhance : radioEnhanceList) {
+            Radio radio = radioEnhance.getRadio();
+
             SearchDataDto searchDataDto = new SearchDataDto();
             searchDataDto.setDataType(dataType());
-            searchDataDto.setResultTitle(radioEnhance.getRadio().getRadioIntro());
-            searchDataDto.setResultId(radioEnhance.getRadio().getRadioId());
+            searchDataDto.setResultTitle(radio.getRadioIntro());
+            searchDataDto.setResultId(radio.getRadioId());
+            searchDataDto.setCreateTime(radio.getCreateTime());
+            searchDataDto.setHrefUrl("/r/" + radio.getRadioId());
             searchDataDto.setMemberEnhance(radioEnhance.getMemberEnhance());
             getSearchDataDtoList().add(searchDataDto);
         }

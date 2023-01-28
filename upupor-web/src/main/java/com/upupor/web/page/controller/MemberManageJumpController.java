@@ -77,7 +77,7 @@ public class MemberManageJumpController {
         if (Objects.isNull(pageSize)) {
             pageSize = Page.SIZE;
             if ("content".equals(path) || "draft".equals(path)) {
-                // 如果标题不为空,默认搜索出300条数据
+                // 如果标题不为空,默认搜索出MAX_SIZE条数据
                 if (!StringUtils.isEmpty(searchTitle)) {
                     pageSize = Page.MAX_SIZE;
                 }

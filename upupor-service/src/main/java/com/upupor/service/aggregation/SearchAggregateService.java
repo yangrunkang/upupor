@@ -29,14 +29,15 @@
 
 package com.upupor.service.aggregation;
 
+import com.upupor.data.dto.page.SearchIndexDto;
+import com.upupor.data.dto.page.search.SearchDataDto;
 import com.upupor.lucene.UpuporLuceneService;
 import com.upupor.lucene.dto.ContentFieldAndSearchDto;
 import com.upupor.lucene.dto.LuceneQueryResultDto;
 import com.upupor.lucene.enums.LuceneDataType;
 import com.upupor.lucene.enums.SearchType;
 import com.upupor.service.business.search.AbstractSearchResultRender;
-import com.upupor.data.dto.page.SearchIndexDto;
-import com.upupor.data.dto.page.search.SearchDataDto;
+import com.upupor.service.business.search.comparator.SearchDataDtoCreateTimeComparator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -101,9 +102,8 @@ public class SearchAggregateService {
             searchDataDto.setResultTitle(replace);
         }
 
-//        searchIndexDto.setTotal(lucenuQueryResultDto.getTotal());
         searchIndexDto.setTotal((long) searchDataDtoList.size()); // DB处理内容会影响该数字,所以使用实际元素大小
-        searchIndexDto.setSearchDataDtoList(searchDataDtoList);
+        searchIndexDto.setSearchDataDtoList(searchDataDtoList.stream().sorted(new SearchDataDtoCreateTimeComparator()).collect(Collectors.toList()));
         return searchIndexDto;
     }
 

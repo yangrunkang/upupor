@@ -87,7 +87,7 @@ public class UpuporLuceneService {
                 throw new RuntimeException("请输入检索类型");
             }
 
-            int hitsPerPage = 300; // 默认300
+            int hitsPerPage = 3000; // 默认3000
             reader = DirectoryReader.open(indexWriter);
             IndexSearcher searcher = new IndexSearcher(reader);
             TopDocs docs = searcher.search(query, hitsPerPage);

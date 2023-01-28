@@ -282,7 +282,7 @@ public final class CcConstant {
         /**
          * 最大条数
          */
-        public static final Integer MAX_SIZE = 300;
+        public static final Integer MAX_SIZE = 3000;
     }
 
     /**
