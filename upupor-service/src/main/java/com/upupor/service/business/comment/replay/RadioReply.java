@@ -77,6 +77,7 @@ public class RadioReply extends AbstractReplyComment<RadioEnhance> {
         String msgId = msgId();
         String beRepliedUserId = replayCommentEvent.getBeRepliedUserId();
         Member beReplayedUser = getMember(beRepliedUserId);
+        Long floorNum = replayCommentEvent.getFloorNum();
 
         Radio radio = getTarget(replayCommentEvent.getTargetId()).getRadio();
 
@@ -84,6 +85,7 @@ public class RadioReply extends AbstractReplyComment<RadioEnhance> {
         RadioLinkParamDto radioLinkParamDto = RadioLinkParamDto.builder()
                 .radioId(radio.getRadioId())
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .radioIntro(radio.getRadioIntro())
                 .build();
         String buildRadioMsg = LinkBuilderInstance.buildLink(BusinessLinkType.RADIO, radioLinkParamDto, MsgType.INNER_MSG);
@@ -92,6 +94,7 @@ public class RadioReply extends AbstractReplyComment<RadioEnhance> {
         MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(creatorReplayUserId)
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .memberUserName(creatorReplayUserName)
                 .build();
         String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);

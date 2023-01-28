@@ -44,14 +44,14 @@ public class ContentLink extends AbstractBuildLink<ContentLinkParamDto> {
 
     @Override
     protected String buildInnerLink() {
-        final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?msgId=%s'>%s</a>";
-        return String.format(CONTENT_INNER_MSG, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getContentTitle());
+        final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?msgId=%s#comment_%s'>%s</a>";
+        return String.format(CONTENT_INNER_MSG, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getFloorNum(), linkParamDto.getContentTitle());
     }
 
     @Override
     protected String buildEmailLink() {
-        final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?msgId=%s'>%s</a>";
-        return String.format(CONTENT_EMAIL, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getContentTitle());
+        final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?msgId=%s#comment_%s'>%s</a>";
+        return String.format(CONTENT_EMAIL, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getFloorNum(), linkParamDto.getContentTitle());
     }
 
     @Override

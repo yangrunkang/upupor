@@ -107,6 +107,7 @@ public class CommentController {
             ReplayCommentEvent replayCommentEvent = ReplayCommentEvent.builder()
                     .commentSource(comment.getCommentSource())
                     .targetId(comment.getTargetId())
+                    .floorNum(comment.getFloorNum())
                     .createReplayUserId(currentUser.getUserId())
                     .createReplayUserName(currentUser.getUserName())
                     .beRepliedUserId(addCommentReq.getReplyToUserId())
@@ -121,6 +122,7 @@ public class CommentController {
                 .commenterUserId(comment.getUserId())
                 .commentSource(comment.getCommentSource())
                 .targetId(targetId)
+                .floorNum(comment.getFloorNum())
                 .build();
 
         eventPublisher.publishEvent(event);

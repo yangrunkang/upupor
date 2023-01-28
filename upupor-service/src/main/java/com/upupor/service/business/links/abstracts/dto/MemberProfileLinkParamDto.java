@@ -30,8 +30,8 @@
 package com.upupor.service.business.links.abstracts.dto;
 
 import com.upupor.service.business.links.abstracts.dto.parent.LinkParamDto;
-import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author Yang Runkang (cruise)
@@ -39,9 +39,8 @@ import lombok.Data;
  * @email: yangrunkang53@gmail.com
  */
 @Data
-@Builder
+@SuperBuilder
 public class MemberProfileLinkParamDto extends LinkParamDto {
     private String memberUserId;
-    private String msgId;
     private String memberUserName;
 }

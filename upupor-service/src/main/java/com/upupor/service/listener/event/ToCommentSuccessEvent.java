@@ -56,4 +56,9 @@ public class ToCommentSuccessEvent {
      */
     private ContentType commentSource;
 
+    /**
+     * 评论所在楼层
+     */
+    private Long floorNum;
+
 }

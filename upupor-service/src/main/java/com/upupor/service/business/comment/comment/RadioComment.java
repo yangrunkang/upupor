@@ -35,12 +35,12 @@ import com.upupor.data.types.MessageType;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.RadioService;
+import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.links.LinkBuilderInstance;
 import com.upupor.service.business.links.abstracts.BusinessLinkType;
 import com.upupor.service.business.links.abstracts.MsgType;
 import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
 import com.upupor.service.business.links.abstracts.dto.RadioLinkParamDto;
-import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import org.springframework.stereotype.Component;
@@ -63,7 +63,7 @@ public class RadioComment extends AbstractComment<RadioEnhance> {
     }
 
     @Override
-    public void comment(String targetId, String commenterUserId) {
+    public void comment(String targetId, String commenterUserId, Long floorNum) {
         String msgId = getMsgId();
 
         Radio radio = radioService.getByRadioId(targetId).getRadio();
@@ -84,6 +84,7 @@ public class RadioComment extends AbstractComment<RadioEnhance> {
         RadioLinkParamDto radioLinkParamDto = RadioLinkParamDto.builder()
                 .radioId(radio.getRadioId())
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .radioIntro(radioName)
                 .build();
         String buildRadioMsg = LinkBuilderInstance.buildLink(BusinessLinkType.RADIO, radioLinkParamDto, MsgType.INNER_MSG);
@@ -92,6 +93,7 @@ public class RadioComment extends AbstractComment<RadioEnhance> {
         MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(commenterUserId)
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .memberUserName(commenterUserName)
                 .build();
         String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);

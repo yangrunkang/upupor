@@ -70,12 +70,14 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
         String targetId = replayCommentEvent.getTargetId();
         String creatorReplayUserId = replayCommentEvent.getCreateReplayUserId();
         String creatorReplayUserName = replayCommentEvent.getCreateReplayUserName();
+        Long floorNum = replayCommentEvent.getFloorNum();
 
         Member targetMember = getMember(targetId);
 
         MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(creatorReplayUserId)
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .memberUserName(creatorReplayUserName)
                 .build();
         String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
@@ -87,6 +89,7 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
             MessageBoardLinkParamDto messageBoardLinkParamDto = MessageBoardLinkParamDto.builder()
                     .targetUserId(targetId)
                     .msgId(msgId)
+                    .floorNum(floorNum)
                     .title("<strong>我的留言板</strong>")
                     .build();
             String buildMessageBoardMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MESSAGE_BOARD, messageBoardLinkParamDto, MsgType.INNER_MSG);
@@ -99,6 +102,7 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
             MessageBoardLinkParamDto messageBoardLinkParamDto = MessageBoardLinkParamDto.builder()
                     .targetUserId(creatorReplayUserId)
                     .msgId(msgId)
+                    .floorNum(floorNum)
                     .title("我在<strong>" + targetMember.getUserName() + "</strong>留言板上的留言内容")
                     .build();
             String buildMessageBoardMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MESSAGE_BOARD, messageBoardLinkParamDto, MsgType.INNER_MSG);

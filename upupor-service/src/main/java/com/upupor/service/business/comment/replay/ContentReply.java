@@ -78,12 +78,14 @@ public class ContentReply extends AbstractReplyComment<ContentEnhance> {
         Member beRepliedMember = getMember(beRepliedUserId);
         String createReplayUserId = replayCommentEvent.getCreateReplayUserId();
         String createReplayUserName = replayCommentEvent.getCreateReplayUserName();
+        Long floorNum = replayCommentEvent.getFloorNum();
 
         Content content = getTarget(replayCommentEvent.getTargetId()).getContent();
 
         ContentLinkParamDto contentLinkParamDto = ContentLinkParamDto.builder()
                 .contentId(content.getContentId())
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .contentTitle(content.getTitle())
                 .build();
         String buildContentMsg = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.INNER_MSG);
@@ -92,6 +94,7 @@ public class ContentReply extends AbstractReplyComment<ContentEnhance> {
         MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(createReplayUserId)
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .memberUserName(createReplayUserName)
                 .build();
         String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);

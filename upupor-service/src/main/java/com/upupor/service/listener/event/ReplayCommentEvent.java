@@ -64,4 +64,9 @@ public class ReplayCommentEvent {
      * 评论来源
      */
     private ContentType commentSource;
+
+    /**
+     * 评论所在楼层
+     */
+    private Long floorNum;
 }

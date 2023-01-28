@@ -50,8 +50,9 @@ public abstract class AbstractComment<T> {
      *
      * @param targetId        评论目标
      * @param commenterUserId 评论者id
+     * @param floorNum        评论所在的楼层
      */
-    public abstract void comment(String targetId, String commenterUserId);
+    public abstract void comment(String targetId, String commenterUserId, Long floorNum);
 
     /**
      * 获取目标

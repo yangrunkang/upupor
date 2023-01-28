@@ -41,14 +41,14 @@ import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto
 public class MemberProfileLink extends AbstractBuildLink<MemberProfileLinkParamDto> {
     @Override
     protected String buildInnerLink() {
-        final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?msgId=%s'> %s </a>";
-        return String.format(PROFILE_INNER_MSG, linkParamDto.getMemberUserId(), linkParamDto.getMsgId(), linkParamDto.getMemberUserName());
+        final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?msgId=%s#comment_%s'> %s </a>";
+        return String.format(PROFILE_INNER_MSG, linkParamDto.getMemberUserId(), linkParamDto.getMsgId(), linkParamDto.getFloorNum(), linkParamDto.getMemberUserName());
     }
 
     @Override
     protected String buildEmailLink() {
-        final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/content?msgId=%s'> %s </a>";
-        return String.format(PROFILE_EMAIL, linkParamDto.getMemberUserId(), linkParamDto.getMsgId(), linkParamDto.getMemberUserName());
+        final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/content?msgId=%s#comment_%s'> %s </a>";
+        return String.format(PROFILE_EMAIL, linkParamDto.getMemberUserId(), linkParamDto.getMsgId(), linkParamDto.getFloorNum(), linkParamDto.getMemberUserName());
     }
 
     @Override

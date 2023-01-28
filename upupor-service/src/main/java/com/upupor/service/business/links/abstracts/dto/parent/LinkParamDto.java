@@ -29,6 +29,9 @@
 
 package com.upupor.service.business.links.abstracts.dto.parent;
 
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+
 /**
  * 链接所需参数 标识
  *
@@ -36,5 +39,17 @@ package com.upupor.service.business.links.abstracts.dto.parent;
  * @createTime 2023-01-27 02:44
  * @email: yangrunkang53@gmail.com
  */
+@Data
+@SuperBuilder
 public class LinkParamDto {
+    /**
+     * 评论所在楼层
+     */
+    private Long floorNum;
+
+    /**
+     * 消息Id
+     */
+    private String msgId;
+
 }

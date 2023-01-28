@@ -61,13 +61,11 @@ public class CommentListener {
     @EventListener
     @Async
     public void toCommentSuccessEvent(ToCommentSuccessEvent event) {
-
-
         for (AbstractComment<?> abstractComment : abstractCommentList) {
             try {
                 if (abstractComment.confirmSource(event.getCommentSource(), event.getTargetId())) {
                     // 评论时间
-                    abstractComment.comment(event.getTargetId(), event.getCommenterUserId());
+                    abstractComment.comment(event.getTargetId(), event.getCommenterUserId(), event.getFloorNum());
                     // 记录评论人和评论时间
                     abstractComment.updateTargetCommentCreatorInfo(event.getTargetId(), event.getCommenterUserId());
                 }

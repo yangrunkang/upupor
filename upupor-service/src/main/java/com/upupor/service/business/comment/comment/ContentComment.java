@@ -38,12 +38,12 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
+import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.links.LinkBuilderInstance;
 import com.upupor.service.business.links.abstracts.BusinessLinkType;
 import com.upupor.service.business.links.abstracts.MsgType;
 import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
 import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto;
-import com.upupor.service.business.comment.comment.abstracts.AbstractComment;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import org.springframework.stereotype.Component;
@@ -70,7 +70,7 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
     }
 
     @Override
-    public void comment(String targetId, String commenterUserId) {
+    public void comment(String targetId, String commenterUserId, Long floorNum) {
         String msgId = getMsgId();
         // 文章信息
         ContentEnhance contentEnhance = getTarget(targetId);
@@ -91,6 +91,7 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
         ContentLinkParamDto contentLinkParamDto = ContentLinkParamDto.builder()
                 .contentId(contentId)
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .contentTitle(contentTitle)
                 .build();
         String buildContentMsg = LinkBuilderInstance.buildLink(BusinessLinkType.CONTENT, contentLinkParamDto, MsgType.INNER_MSG);
@@ -100,6 +101,7 @@ public class ContentComment extends AbstractComment<ContentEnhance> {
         MemberProfileLinkParamDto memberProfileLinkParamDto = MemberProfileLinkParamDto.builder()
                 .memberUserId(commenterUserId)
                 .msgId(msgId)
+                .floorNum(floorNum)
                 .memberUserName(commenterUserName)
                 .build();
         String buildProfileMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MEMBER_PROFILE, memberProfileLinkParamDto, MsgType.INNER_MSG);
