@@ -35,19 +35,20 @@ import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto
 
 /**
  * 用户主页
+ *
  * @author Yang Runkang (cruise)
  * @createTime 2023-01-27 02:35
  * @email: yangrunkang53@gmail.com
  */
 public class MemberProfileLink extends AbstractBuildLink<MemberProfileLinkParamDto> {
     @Override
-    protected String buildInnerLink() {
+    protected String buildInnerAnchorLink() {
         final String PROFILE_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/profile/%s/content?msgId=%s'> %s </a>";
         return String.format(PROFILE_INNER_MSG, linkParamDto.getMemberUserId(), linkParamDto.getMsgId(), linkParamDto.getMemberUserName());
     }
 
     @Override
-    protected String buildEmailLink() {
+    protected String buildEmailAnchorLink() {
         final String PROFILE_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/profile/%s/content?msgId=%s'> %s </a>";
         return String.format(PROFILE_EMAIL, linkParamDto.getMemberUserId(), linkParamDto.getMsgId(), linkParamDto.getMemberUserName());
     }

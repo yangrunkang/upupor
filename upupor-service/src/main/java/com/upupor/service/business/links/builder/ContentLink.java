@@ -43,25 +43,25 @@ import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
 public class ContentLink extends AbstractBuildLink<ContentLinkParamDto> {
 
     @Override
-    protected String buildInnerLink() {
+    protected String buildInnerAnchorLink() {
         final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?msgId=%s#comment_%s'>%s</a>";
         return String.format(CONTENT_INNER_MSG, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getFloorNum(), linkParamDto.getContentTitle());
     }
 
     @Override
-    protected String buildEmailLink() {
+    protected String buildEmailAnchorLink() {
         final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?msgId=%s#comment_%s'>%s</a>";
         return String.format(CONTENT_EMAIL, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getFloorNum(), linkParamDto.getContentTitle());
     }
 
     @Override
-    protected String buildNotCommentInnerLink() {
+    protected String buildInnerLink() {
         final String CONTENT_INNER_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/u/%s?msgId=%s'>%s</a>";
         return String.format(CONTENT_INNER_MSG, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getContentTitle());
     }
 
     @Override
-    protected String buildNotCommentEmailLink() {
+    protected String buildEmailLink() {
         final String CONTENT_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/u/%s?msgId=%s'>%s</a>";
         return String.format(CONTENT_EMAIL, linkParamDto.getContentId(), linkParamDto.getMsgId(), linkParamDto.getContentTitle());
     }

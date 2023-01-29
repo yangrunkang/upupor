@@ -38,7 +38,7 @@ import com.upupor.service.business.links.abstracts.dto.parent.LinkParamDto;
 import java.util.Objects;
 
 /**
- * 抽象构造消息内容逻辑
+ * 抽象构造链接内容逻辑
  *
  * @author Yang Runkang (cruise)
  * @createTime 2023-01-27 01:39
@@ -47,7 +47,7 @@ import java.util.Objects;
 public abstract class AbstractBuildLink<T extends LinkParamDto> {
 
     /**
-     * 消息参数Dto
+     * 链接参数Dto
      */
     protected T linkParamDto;
 
@@ -57,23 +57,23 @@ public abstract class AbstractBuildLink<T extends LinkParamDto> {
     protected static final String EMAIL_NEED_WEBSITE = SpringContextUtils.getBean(UpuporConfig.class).getWebsite();
 
     /**
-     * 标识业务消息类型
+     * 标识业务链接类型
      *
      * @return
      */
     public abstract BusinessLinkType businessLinkType();
 
     /**
-     * 构造消息内容
+     * 构造链接内容
      *
      * @return
      */
     public String buildLink(LinkParamDto linkParamDto, MsgType msgType) {
         init(linkParamDto);
         if (MsgType.INNER_MSG.equals(msgType)) {
-            return isCommentOperation() ? buildInnerLink() : buildNotCommentInnerLink();
+            return isCommentOperation() ? buildInnerAnchorLink() : buildInnerLink();
         } else if (MsgType.EMAIL.equals(msgType)) {
-            return isCommentOperation() ? buildEmailLink() : buildNotCommentEmailLink();
+            return isCommentOperation() ? buildEmailAnchorLink() : buildEmailLink();
         }
         throw new BusinessException(ErrorCode.UNSUPPORT_UNKNOWN_LINK_CONTENT_BUILD);
     }
@@ -93,36 +93,35 @@ public abstract class AbstractBuildLink<T extends LinkParamDto> {
 
 
     /**
-     * 构造站内信消息
+     * 构造站内信锚点链接-评论锚点
      *
      * @return
      */
-    protected abstract String buildInnerLink();
+    protected abstract String buildInnerAnchorLink();
 
     /**
-     * 构造非评论站内信消息
+     * 构造邮件锚点链接-评论锚点
      *
      * @return
      */
-    protected String buildNotCommentInnerLink() {
-        return buildInnerLink();
+    protected abstract String buildEmailAnchorLink();
+
+    /**
+     * 构造站内信链接
+     *
+     * @return
+     */
+    protected String buildInnerLink() {
+        return buildInnerAnchorLink();
     }
 
-
     /**
-     * 构造邮件消息
+     * 构造邮件链接
      *
      * @return
      */
-    protected abstract String buildEmailLink();
-
-    /**
-     * 构造非评论邮件消息
-     *
-     * @return
-     */
-    protected String buildNotCommentEmailLink() {
-        return buildEmailLink();
+    protected String buildEmailLink() {
+        return buildEmailAnchorLink();
     }
 
 
