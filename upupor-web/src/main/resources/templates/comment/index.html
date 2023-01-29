@@ -51,12 +51,12 @@
                                     <a class="text-black-50 small"
                                        th:href="${commentDto.targetUrl}"
                                        th:title="${commentDto.targetTitle}">
-                                        <i class="bi bi-chat-right-quote"> 评论者&nbsp;&nbsp;<img  class="lazyload img rounded cv-icon-small"
+                                        <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/> 评论者&nbsp;&nbsp;<img  class="lazyload img rounded cv-icon-small"
                                                                                                 th:data-src="${commentDto.commentEnhance.memberEnhance.member.via}"
                                                                                                 th:alt="${commentDto.commentEnhance.memberEnhance.member.userName}" /> </i>
                                         <strong>[[${commentDto.commentEnhance.memberEnhance.member.userName}]]</strong>
                                     </a>
-                                    <span class="text-black-50 small float-end"><i class="bi bi-clock"> <strong>[[${commentDto.commentEnhance.createDateDiff}]]</strong></i></span>
+                                    <span class="text-black-50 small float-end"><img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <strong>[[${commentDto.commentEnhance.createDateDiff}]]</strong></i></span>
                                 </div>
                                 <div>
                                     <a class="text-black-50 small"
