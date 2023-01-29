@@ -103,14 +103,14 @@ public class MessageBoardReply extends AbstractReplyComment<Member> {
                     .targetUserId(creatorReplayUserId)
                     .msgId(msgId)
                     .floorNum(floorNum)
-                    .title("我在<strong>" + targetMember.getUserName() + "</strong>留言板上的留言内容")
+                    .title("您在<strong>" + targetMember.getUserName() + "</strong>的留言板上的留言内容")
                     .build();
             String buildMessageBoardMsg = LinkBuilderInstance.buildLink(BusinessLinkType.MESSAGE_BOARD, messageBoardLinkParamDto, MsgType.INNER_MSG);
             String buildMessageBoardMsgEmail = LinkBuilderInstance.buildLink(BusinessLinkType.MESSAGE_BOARD, messageBoardLinkParamDto, MsgType.EMAIL);
 
 
-            emailMsg = buildMessageBoardMsgEmail + "收到了来自" + buildProfileMsgEmail + "的回复";
-            innerMsg = buildMessageBoardMsg + "收到了来自" + buildProfileMsg + "的回复";
+            emailMsg = buildMessageBoardMsgEmail + "收到了回复";
+            innerMsg = buildMessageBoardMsg + "收到了回复";
         }
 
         MessageSend.send(MessageModel.builder()

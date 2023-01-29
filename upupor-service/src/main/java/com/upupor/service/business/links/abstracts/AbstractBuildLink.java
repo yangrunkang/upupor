@@ -45,6 +45,7 @@ import java.util.Objects;
  * @email: yangrunkang53@gmail.com
  */
 public abstract class AbstractBuildLink<T extends LinkParamDto> {
+    protected static final String A_LINK_STYLE = " style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' ";
 
     /**
      * 链接参数Dto

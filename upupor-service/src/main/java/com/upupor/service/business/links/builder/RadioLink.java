@@ -43,13 +43,13 @@ import com.upupor.service.business.links.abstracts.dto.RadioLinkParamDto;
 public class RadioLink extends AbstractBuildLink<RadioLinkParamDto> {
     @Override
     protected String buildInnerAnchorLink() {
-        final String RADIO_MSG = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '/r/%s?msgId=%s#comment_%s'>%s</a>";
+        final String RADIO_MSG = "<a" + A_LINK_STYLE + "href = '/r/%s?msgId=%s#comment_%s'>%s</a>";
         return String.format(RADIO_MSG, linkParamDto.getRadioId(), linkParamDto.getMsgId(), linkParamDto.getFloorNum(), linkParamDto.getRadioIntro());
     }
 
     @Override
     protected String buildEmailAnchorLink() {
-        final String RADIO_EMAIL = "<a style='cursor: pointer;position: relative;text-decoration: none;font-weight: bold;color: #000000;' href = '" + EMAIL_NEED_WEBSITE + "/r/%s?msgId=%s#comment_%s'>%s</a>";
+        final String RADIO_EMAIL = "<a" + A_LINK_STYLE + "href = '" + EMAIL_NEED_WEBSITE + "/r/%s?msgId=%s#comment_%s'>%s</a>";
         return String.format(RADIO_EMAIL, linkParamDto.getRadioId(), linkParamDto.getMsgId(), linkParamDto.getFloorNum(), linkParamDto.getRadioIntro());
     }
 

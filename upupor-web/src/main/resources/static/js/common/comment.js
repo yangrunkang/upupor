@@ -31,9 +31,6 @@ $(function () {
 });
 
 function cancel() {
-    let commentContent = $.cvGetEditorData();
-    let mdCommentContent = $.cvGetEditorDataMd();
-
     swal({
         title: '确定重置评论操作?',
         text: "当前评论的所有操作将会被重置",
