@@ -34,7 +34,7 @@ import com.upupor.service.business.links.abstracts.BusinessLinkType;
 import com.upupor.service.business.links.abstracts.dto.MessageBoardLinkParamDto;
 
 /**
- * 留言板消息
+ * 留言板链接
  *
  * @author Yang Runkang (cruise)
  * @createTime 2023-01-27 02:10

@@ -34,7 +34,7 @@ import com.upupor.service.business.links.abstracts.BusinessLinkType;
 import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
 
 /**
- * 内容消息
+ * 内容链接
  *
  * @author Yang Runkang (cruise)
  * @createTime 2023-01-27 02:10
