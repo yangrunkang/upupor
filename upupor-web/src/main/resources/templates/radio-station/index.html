@@ -80,7 +80,6 @@
             </div>
             <div class="col-lg-3">
                 <div th:include="fragments/index::create_radio"></div>
-                <div th:include="fragments/index::global_search"></div>
                 <div class="card border-0 rounded-3 p-2 mb-2">
                     <p style="text-align: center" class="m-0 p-1" th:if="!${#strings.isEmpty(radioIndexDto.radioEnhance.memberEnhance.member.via)}">
                         <a th:href="'/profile/'+${radioIndexDto.radioEnhance.memberEnhance.member.userId}+'/content'">
@@ -105,6 +104,7 @@
                 <div th:include="fragments/index::viewList(${radioIndexDto.radioEnhance.viewHistoryEnhanceList})"></div>
                 <!--社交模板-->
                 <div th:include="fragments/social::social_box('r/','电台',${radioIndexDto.radioEnhance.radio.radioId},${radioIndexDto.radioEnhance.radio.radioIntro})" th:if="${radioIndexDto.radioEnhance.radio.status.name() == 'NORMAL'}"></div>
+                <div th:include="fragments/index::global_search"></div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <div  th:include="fragments/index::google_right_ad"></div>
             </div>
