@@ -55,14 +55,14 @@
         <input type="hidden" id="reply_to_floor" />
         <div id="comment_btn_group" style="display: none">
             <button class="ui primary button btn-sm btn-cv-comment my-2" th:onclick="comment([[${targetId}]],[[${source}]],[[${text}]])">[[${text}]]</button>
-            <button class="ui button btn-sm my-2" th:onclick="cancel()">重置</button>
+            <button class="ui button btn-sm my-2" th:onclick="cancel([[${text}]])">重置</button>
             <div class="btn rounded-3 bg-gradient btn-link cv-link btn-sm my-2" th:include="fragments/common::markdown"></div>
         </div>
     </div>
 </div>
 
 
-<div th:fragment="commentList(commentEnhance,pageDtoList,total,fromPage,targetUserId)">
+<div th:fragment="commentList(commentEnhance,pageDtoList,total,fromPage,targetUserId,businessDesc)">
     <div th:class="${fromPage == 'profile-message'}?'':'card border-0 rounded-3 p-2 my-2'">
         <div th:if="${#lists.isEmpty(commentEnhance)}" th:include="fragments/index::empty_content"></div>
         <div th:if="!${#lists.isEmpty(commentEnhance)}">
@@ -80,10 +80,10 @@
                                 [[${commentEnhance.memberEnhance.member.userName}]] <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;" th:if="${commentEnhance.memberEnhance.member.userId == targetUserId}">楼主</span>
                                 <span th:include="fragments/member::memberTag(${commentEnhance.memberEnhance})"></span>
                             </a>
-                            <span class="badge bg-gradient bg-success" th:if="${commentEnhance.comment.beFloorNum != null}" th:text="'回复 ' + ${commentEnhance.comment.beFloorNum} + '#'+(${commentEnhance.replyMemberEnhance?.member?.userName} == null?'':' · '+${commentEnhance.replyMemberEnhance?.member?.userName})+' 的评论'"></span>
+                            <span class="badge bg-gradient bg-success" th:if="${commentEnhance.comment.beFloorNum != null}" th:text="'回复 ' + ${commentEnhance.comment.beFloorNum} + '#'+(${commentEnhance.replyMemberEnhance?.member?.userName} == null?'':' · '+${commentEnhance.replyMemberEnhance?.member?.userName})+' 的'+${businessDesc}"></span>
                             <div class="float-end text-black-50 small">
                                 <span class="d-none d-sm-block float-start text-black-50 ">[[${commentEnhance.createDateDiff}]]&nbsp;·&nbsp;</span>
-                                <span style="cursor: pointer" th:if="${session?.cv_user_id}" th:onclick="renderReplayUserName([[${commentEnhance.memberEnhance.member.userName}]],[[${commentEnhance.memberEnhance.member.userId}]],[[${commentEnhance.comment.floorNum}]])">回复<i class="bi bi-reply-fill"></i></span>
+                                <span style="cursor: pointer" th:if="${session?.cv_user_id}" th:onclick="renderReplayUserName([[${commentEnhance.memberEnhance.member.userName}]],[[${commentEnhance.memberEnhance.member.userId}]],[[${commentEnhance.comment.floorNum}]],[[${businessDesc}]])">回复<i class="bi bi-reply-fill"></i></span>
                                 <span style="cursor: pointer" th:if="!${session?.cv_user_id}" th:onclick="window.location.href='/login?back=' + window.location.pathname">回复<i class="bi bi-reply-fill"></i></span>
                                 ·&nbsp;<span class="badge bg-gradient bg-light text-black-50" th:text="${commentEnhance.comment.floorNum} + '#'"></span>
                             </div>

@@ -62,8 +62,12 @@
                                 <div class="flex-grow-1">
                                     <div class="mt-0">
                                         <a th:href="${searchData.hrefUrl}" class="cv-link up-text-overflow fs-6 fst-normal" th:title="${searchData.resultTitle}" th:utext="${searchData.resultTitle}"></a>
-                                        <div class="text-black-50 small"><span class="badge bg-gradient bg-success fw-light">[[${searchData.dataType.name}]]</span></div>
-                                        <div class="text-black-50 small"> <i class="bi bi-clock"></i> [[${searchData.createDate}]]</div>
+                                        <div class="text-black-50 small">
+                                            <span class="badge bg-gradient bg-success fw-light" th:if="${searchData.dataType.name()} == 'CONTENT'">[[${searchData.dataType.name}]]</span>
+                                            <span class="badge bg-gradient bg-info fw-light" th:if="${searchData.dataType.name()} == 'RADIO'">[[${searchData.dataType.name}]]</span>
+                                            <span class="badge bg-gradient bg-primary fw-light" th:if="${searchData.dataType.name()} == 'MEMBER'">[[${searchData.dataType.name}]]</span>
+                                        </div>
+                                        <div class="text-black-50 small"><img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> [[${searchData.createDate}]]</div>
                                     </div>
                                 </div>
                                 <a class="flex-shrink-0 text-black-50 cv-link" th:if="${searchData.dataType.name()} == 'MEMBER'" th:href="'/profile/' + ${searchData.memberEnhance.member.userId}+'/content'"  th:title="${searchData.memberEnhance.member.userName}">

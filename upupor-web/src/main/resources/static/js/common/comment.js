@@ -30,10 +30,10 @@ $(function () {
     $.cvLoadShowImg();
 });
 
-function cancel() {
+function cancel(text) {
     swal({
-        title: '确定重置评论操作?',
-        text: "当前评论的所有操作将会被重置",
+        title: '确定重置'+text+'操作?',
+        text: "当前"+text+"的所有操作将会被重置",
         icon: "warning",
         buttons: [{
             text: "确认",
@@ -104,11 +104,11 @@ function comment(contentId, commentSource, desc) {
 /**
  * 渲染回复用户的名字
  */
-function renderReplayUserName(userName, userId, floorNum) {
+function renderReplayUserName(userName, userId, floorNum, businessDesc) {
     try {
         $("#reply_to_user").val(userId);
         $("#reply_to_floor").val(floorNum);
-        $("#reply_to_user_name").text('回复 ' + floorNum + '# · ' + userName + ' 的评论').show();
+        $("#reply_to_user_name").text('回复 ' + floorNum + '# · ' + userName + ' 的' + businessDesc).show();
         //滚动到锚点位置
         $('html,body').animate({scrollTop: $(".btn-cv-comment").offset().top - 440}, 200);
     } catch (e) {
