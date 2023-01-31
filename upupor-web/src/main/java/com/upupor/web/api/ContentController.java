@@ -98,7 +98,6 @@ public class ContentController {
 
     @PostMapping("/exists")
     @ApiOperation("文章是否存在")
-    @Upgrade2ApiSuccess
     public CcResponse exists(@RequestBody ExistContentReq existContentReq) {
         CcResponse cc = new CcResponse();
         cc.setData(contentService.exists(existContentReq.getContentId()));
@@ -109,7 +108,6 @@ public class ContentController {
     @ApiOperation("创建内容")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.ADD)
     @UpuporLimit(limitType = LimitType.CREATE_CONTENT, needSpendMoney = true)
-    @Upgrade2ApiSuccess
     public CcResponse add(@RequestBody CreateContentReq createContentReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.addContent(createContentReq);
@@ -120,7 +118,6 @@ public class ContentController {
     @PostMapping("/edit")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
     @ApiOperation("更新内容")
-    @Upgrade2ApiSuccess
     public CcResponse edit(@RequestBody UpdateContentReq updateContentReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.updateContent(updateContentReq);
@@ -132,7 +129,6 @@ public class ContentController {
     @PostMapping("/status")
     @ApiOperation("更新内容状态")
     @UpuporLucene(dataType = LuceneDataType.CONTENT, operationType = LuceneOperationType.UPDATE)
-    @Upgrade2ApiSuccess
     public CcResponse status(@RequestBody UpdateStatusReq updateStatusReq) {
         CcResponse cc = new CcResponse();
         OperateContentDto operateContentDto = contentService.updateContentStatus(updateStatusReq);
@@ -143,7 +139,6 @@ public class ContentController {
     @PostMapping("/like")
     @ApiOperation("喜欢")
     @UpuporLimit(limitType = LimitType.CLICK_LIKE, needSpendMoney = true)
-    @Upgrade2ApiSuccess
     public CcResponse like(@RequestBody UpdateLikeReq updateLikeReq) {
         String clickUserId = JwtUtils.getUserId();
         CcResponse cc = new CcResponse();
@@ -200,7 +195,6 @@ public class ContentController {
 
     @PostMapping("/pinned")
     @ApiOperation("文章置顶")
-    @Upgrade2ApiSuccess
     public CcResponse pinned(@RequestBody PinnedReq pinnedReq) {
 
         String userId = JwtUtils.getUserId();

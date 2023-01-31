@@ -62,7 +62,6 @@ public class AttentionController {
     @ApiOperation("添加关注")
     @PostMapping(value = "/add")
     @UpuporLimit(limitType = LimitType.CLICK_ATTENTION, needSpendMoney = true)
-    @Upgrade2ApiSuccess
     public CcResponse add(@RequestBody AddAttentionReq addAttentionReq) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(attentionService.attention(addAttentionReq));
@@ -72,7 +71,6 @@ public class AttentionController {
 
     @ApiOperation("删除关注")
     @PostMapping(value = "/del")
-    @Upgrade2ApiSuccess
     public CcResponse del(@RequestBody DelAttentionReq delAttentionReq) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(attentionService.delAttention(delAttentionReq));

@@ -74,7 +74,6 @@ public class CommentController {
     @ApiOperation("添加评论")
     @PostMapping("/add")
     @UpuporLimit(limitType = LimitType.CREATE_COMMENT, needSpendMoney = true)
-    @Upgrade2ApiSuccess
     public CcResponse add(@RequestBody AddCommentReq addCommentReq) {
         CcResponse cc = new CcResponse();
         if (Objects.isNull(addCommentReq.getCommentSource())) {
@@ -131,7 +130,6 @@ public class CommentController {
 
     @ApiOperation("编辑评论")
     @PostMapping("/edit")
-    @Upgrade2ApiSuccess
     public CcResponse edit(@RequestBody UpdateCommentReq updateCommentReq) {
         CcResponse cc = new CcResponse();
 

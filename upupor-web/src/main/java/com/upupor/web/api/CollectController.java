@@ -92,7 +92,6 @@ public class CollectController {
     @PostMapping("/add")
     @ApiOperation("添加收藏")
     @UpuporLimit(limitType = LimitType.CLICK_COLLECT, needSpendMoney = true)
-    @Upgrade2ApiSuccess
     public CcResponse add(@RequestBody AddCollectReq addCollectReq) {
         CcResponse ccResponse = new CcResponse();
 
@@ -179,7 +178,6 @@ public class CollectController {
 
     @ApiOperation("编辑收藏")
     @PostMapping(value = "/edit")
-    @Upgrade2ApiSuccess
     public CcResponse edit(@RequestBody UpdateCollectReq updateCollectReq) {
         CcResponse ccResponse = new CcResponse();
 

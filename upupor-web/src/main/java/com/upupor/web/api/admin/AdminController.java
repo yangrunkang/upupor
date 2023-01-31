@@ -45,6 +45,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -72,7 +73,7 @@ public class AdminController {
 
     @ApiOperation("设置关键字")
     @PostMapping(value = "/content/keywords")
-    public CcResponse setKeywords(SetKeywordsReq setKeywordsReq) {
+    public CcResponse setKeywords(@RequestBody SetKeywordsReq setKeywordsReq) {
         String contentId = setKeywordsReq.getContentId();
         String keywords = setKeywordsReq.getKeywords();
         ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);
@@ -84,7 +85,7 @@ public class AdminController {
 
     @ApiOperation("设置状态")
     @PostMapping(value = "/content/status")
-    public CcResponse setContentStatus(SetContentStatusReq setContentStatusReq) {
+    public CcResponse setContentStatus(@RequestBody SetContentStatusReq setContentStatusReq) {
 
         String contentId = setContentStatusReq.getContentId();
         ContentStatus status = setContentStatusReq.getStatus();
@@ -119,7 +120,7 @@ public class AdminController {
      */
     @ApiOperation("handle-user")
     @PostMapping(value = "/handle-user")
-    public CcResponse handleUser(BatchHandleExceptionUserReq batchHandleExceptionUserReq) {
+    public CcResponse handleUser(@RequestBody BatchHandleExceptionUserReq batchHandleExceptionUserReq) {
         List<String> userIdList = Arrays.asList(batchHandleExceptionUserReq.getUserId());
         List<MemberEnhance> memberEnhanceList = memberService.listByUserIdList(userIdList);
         if (CollectionUtils.isEmpty(memberEnhanceList)) {

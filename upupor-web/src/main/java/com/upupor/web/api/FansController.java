@@ -56,7 +56,6 @@ public class FansController {
 
     @ApiOperation("删除粉丝")
     @PostMapping(value = "/del")
-    @Upgrade2ApiSuccess
     public CcResponse del(@RequestBody DelFanReq delFanReq) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(fanService.delFans(delFanReq) > 0);

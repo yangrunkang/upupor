@@ -59,7 +59,6 @@ public class FeedbackController {
     @ApiOperation("添加反馈")
     @PostMapping("/add")
     @UpuporLimit(limitType = FEED_BACK, needLogin = false, needSpendMoney = true)
-    @Upgrade2ApiSuccess
     public CcResponse add(@RequestBody AddFeedbackReq add) {
         CcResponse ccResponse = new CcResponse();
         ccResponse.setData(feedbackService.addFeedBack(add) > 0);

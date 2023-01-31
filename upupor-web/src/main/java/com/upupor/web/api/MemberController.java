@@ -66,7 +66,6 @@ public class MemberController {
     @ApiOperation("用户登录")
     @PostMapping("login")
     @UpuporLimit(limitType = LimitType.LOGIN, needLogin = false)
-    @Upgrade2ApiSuccess
     public CcResponse get(@RequestBody MemberLoginReq memberLoginReq) {
         return memberBusinessService.run(MemberBusiness.LOGIN, memberLoginReq);
     }
@@ -74,14 +73,12 @@ public class MemberController {
     @ApiOperation("用户注册")
     @PostMapping("register")
     @UpuporLucene(dataType = LuceneDataType.MEMBER, operationType = LuceneOperationType.ADD)
-    @Upgrade2ApiSuccess
     public CcResponse add(@RequestBody AddMemberReq addMemberReq) throws Exception {
         return memberBusinessService.run(MemberBusiness.REGISTER, addMemberReq);
     }
 
     @ApiOperation("登出")
     @PostMapping("/logout")
-    @Upgrade2ApiSuccess
     public CcResponse logout() {
         return memberBusinessService.run(MemberBusiness.LOGIN_OUT);
     }
@@ -89,28 +86,24 @@ public class MemberController {
     @ApiOperation("编辑用户")
     @PostMapping("edit")
     @UpuporLucene(dataType = LuceneDataType.MEMBER, operationType = LuceneOperationType.UPDATE)
-    @Upgrade2ApiSuccess
     public CcResponse edit(@RequestBody UpdateMemberReq updateMemberReq) throws Exception {
         return memberBusinessService.run(MemberBusiness.EDIT_MEMBER_INFO, updateMemberReq);
     }
 
     @ApiOperation("设置背景样式")
     @PostMapping("edit/bg-style-settings")
-    @Upgrade2ApiSuccess
     public CcResponse bgStyleSettings(@RequestBody UpdateCssReq updateCssReq) throws Exception {
         return memberBusinessService.run(MemberBusiness.BG_SETTINGS, updateCssReq);
     }
 
     @ApiOperation("设置用户喜爱的文章类型")
     @PostMapping("edit/default-content-type-settings")
-    @Upgrade2ApiSuccess
     public CcResponse defaultContentTypeSetting(@RequestBody UpdateDefaultContentTypeReq updateDefaultContentTypeReq) throws Exception {
         return memberBusinessService.run(MemberBusiness.DEFAULT_CONTENT_TYPE, updateDefaultContentTypeReq);
     }
 
     @ApiOperation("重置密码")
     @PostMapping("resetPassword")
-    @Upgrade2ApiSuccess
     public CcResponse resetPassword(@RequestBody UpdatePasswordReq updatePasswordReq) {
         return memberBusinessService.run(MemberBusiness.RESET_PASSWORD, updatePasswordReq);
     }
@@ -118,21 +111,18 @@ public class MemberController {
     @ApiOperation("发送验证码")
     @PostMapping("/sendVerifyCode")
     @UpuporLimit(limitType = LimitType.SEND_EMAIL_VERIFY_CODE, needLogin = false, needSpendMoney = true)
-    @Upgrade2ApiSuccess
     public CcResponse sendVerifyCode(@RequestBody SendVerifyCodeReq addVerifyCodeReq) {
         return memberBusinessService.run(MemberBusiness.SEND_VERIFY_CODE, addVerifyCodeReq);
     }
 
     @ApiOperation("领取今日积分")
     @PostMapping("dailyPoints")
-    @Upgrade2ApiSuccess
     public CcResponse dailyPoints() {
         return memberBusinessService.run(MemberBusiness.DAILY_POINTS);
     }
 
     @ApiOperation("变更头像")
     @PostMapping("updateVia")
-    @Upgrade2ApiSuccess
     public CcResponse updateVia(@RequestBody UpdateViaReq updateViaReq) {
         return memberBusinessService.run(MemberBusiness.VIA, updateViaReq);
     }

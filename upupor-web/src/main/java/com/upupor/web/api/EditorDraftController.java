@@ -31,13 +31,13 @@ package com.upupor.web.api;
 
 import com.upupor.data.dao.entity.Draft;
 import com.upupor.framework.CcResponse;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.outer.req.content.CleanDraftReq;
 import com.upupor.service.outer.req.content.ExistsDraftReq;
+import com.upupor.service.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +68,6 @@ public class EditorDraftController {
     @PostMapping("/auto-save")
     @ApiOperation("自动保存内容")
     @UpuporLimit(limitType = LimitType.CONTENT_AUTO_SAVE)
-    @Upgrade2ApiSuccess
     public CcResponse autoSave(@RequestBody AutoSaveContentReq autoSaveContentReq) {
         CcResponse cc = new CcResponse();
         Boolean autoSave = draftService.autoSaveContent(autoSaveContentReq);
@@ -83,7 +82,6 @@ public class EditorDraftController {
      * @return
      */
     @PostMapping("/clean-draft")
-    @Upgrade2ApiSuccess
     public CcResponse cleanDraft(@RequestBody CleanDraftReq cleanDraftReq) {
         String contentId = cleanDraftReq.getContentId();
         String userId = JwtUtils.getUserId();
@@ -102,7 +100,6 @@ public class EditorDraftController {
      * @return
      */
     @PostMapping("/exists-draft")
-    @Upgrade2ApiSuccess
     public CcResponse existsDraft(@RequestBody ExistsDraftReq existsDraftReq) {
         String contentId = existsDraftReq.getContentId();
         String userId = JwtUtils.getUserId();

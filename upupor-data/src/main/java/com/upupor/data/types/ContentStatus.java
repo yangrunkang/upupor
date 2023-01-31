@@ -104,8 +104,8 @@ public enum ContentStatus {
     /**
      * 管理员可操作的状态
      */
-    public static List<Integer> adminCanOperateStatusList = Lists.newArrayList(
-            ContentStatus.ONLY_SELF_CAN_SEE.getStatus(), ContentStatus.NORMAL.getStatus(), ContentStatus.DELETED.getStatus()
+    public static List<ContentStatus> adminCanOperateStatusList = Lists.newArrayList(
+            ContentStatus.ONLY_SELF_CAN_SEE, ContentStatus.NORMAL, ContentStatus.DELETED
     );
 
 }

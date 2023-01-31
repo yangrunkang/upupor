@@ -36,11 +36,11 @@ import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.TodoService;
 import com.upupor.service.outer.req.AddTodoReq;
 import com.upupor.service.outer.req.UpdateTodoDoneStatus;
+import com.upupor.service.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -70,7 +70,6 @@ public class TodoController {
     @ApiOperation("添加待办事项")
     @PostMapping(value = "/add")
     @UpuporLimit(limitType = CREATE_TODO)
-    @Upgrade2ApiSuccess
     public CcResponse addTodo(@RequestBody AddTodoReq addTodoReq) {
         CcResponse ccResponse = new CcResponse();
 
@@ -100,7 +99,6 @@ public class TodoController {
 
     @ApiOperation("更新Todo状态是否完成")
     @PostMapping(value = "/markTodo")
-    @Upgrade2ApiSuccess
     public CcResponse markTodo(@RequestBody UpdateTodoDoneStatus updateTodoDoneStatus) {
         CcResponse ccResponse = new CcResponse();
 
@@ -138,7 +136,6 @@ public class TodoController {
 
     @ApiOperation("更新Todo状态是否完成")
     @PostMapping(value = "/delete")
-    @Upgrade2ApiSuccess
     public CcResponse delete(@RequestBody UpdateTodoDoneStatus updateTodoDoneStatus) {
         CcResponse ccResponse = new CcResponse();
         String userId = JwtUtils.getUserId();

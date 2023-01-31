@@ -63,35 +63,30 @@ public class ApplyController {
 
     @ApiOperation("添加广告申请")
     @PostMapping(value = "/addAd")
-    @Upgrade2ApiSuccess
     public CcResponse addAd(@RequestBody AddApplyReq adApplyReq) {
         return new CcResponse(adApply.doBusiness(adApplyReq));
     }
 
     @ApiOperation("添加咨询服务申请")
     @PostMapping(value = "/addConsultant")
-    @Upgrade2ApiSuccess
     public CcResponse addConsultant(@RequestBody AddConsultantReq addConsultantReq) {
         return new CcResponse(consultantApply.doBusiness(addConsultantReq));
     }
 
     @ApiOperation("添加标签申请")
     @PostMapping(value = "/addTag")
-    @Upgrade2ApiSuccess
     public CcResponse addTag(@RequestBody AddTagReq addTagReq) {
         return new CcResponse(tagApply.doBusiness(addTagReq));
     }
 
     @ApiOperation("删除申请")
     @PostMapping(value = "/del")
-    @Upgrade2ApiSuccess
     public CcResponse del(@RequestBody DelApplyReq delApplyReq) {
         return new CcResponse(applyService.delApply(delApplyReq));
     }
 
     @ApiOperation("编辑申请")
     @PostMapping(value = "/edit")
-    @Upgrade2ApiSuccess
     public CcResponse edit(@RequestBody UpdateApplyReq updateApplyReq) {
         return new CcResponse(applyService.editApply(updateApplyReq));
     }
