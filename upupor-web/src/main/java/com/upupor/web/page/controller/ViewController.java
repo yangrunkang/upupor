@@ -110,6 +110,7 @@ public class ViewController {
             AllContentView.URL, // 所有文章-文章
             RecentlyEditedContentView.URL, // 内容有更新-文章
             NewContentView.URL, // 新内容-文章
+            ReprintContentView.URL, // 转载-文章
             Earth.URL, // 我们的家·地球
             CommentList.URL, // 评论列表
     })

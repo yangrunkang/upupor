@@ -252,6 +252,10 @@ public class ContentServiceImpl implements ContentService {
             query.ge(Content::getCreateTime, CcDateUtil.getCurrentTime() - NEW_CONTENT_TIME);
         }
 
+        if (SearchContentType.REPRINT.equals(searchType)) {
+            query.eq(Content::getOriginType, OriginType.NONE_ORIGIN);
+        }
+
         return commonListContentDtoQuery(pageNum, pageSize, query);
     }
 

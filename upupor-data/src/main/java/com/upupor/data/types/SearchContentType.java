@@ -44,8 +44,10 @@ public enum SearchContentType {
     ALL(ALL_CONTENT_VIEW_URL),
     // 最近编辑过的
     RECENTLY_EDITED(RECENTLY_EDITED_CONTENT_VIEW_URL),
-    // 所有新文章
-    NEW(NEW_CONTENT_VIEW_URL);
+    // 新文章
+    NEW(NEW_CONTENT_VIEW_URL),
+    // 转载
+    REPRINT(REPRINT_CONTENT_VIEW_URL);
 
     private final String url;
 
@@ -63,10 +65,10 @@ public enum SearchContentType {
     }
 
     public static class SEARCH_CONTENT_URL {
-
         public static final String ALL_CONTENT_VIEW_URL = "/content/all";
         public static final String RECENTLY_EDITED_CONTENT_VIEW_URL = "/content/recently-edited";
         public static final String NEW_CONTENT_VIEW_URL = "/content/new";
+        public static final String REPRINT_CONTENT_VIEW_URL = "/content/reproduce";
     }
 
 

@@ -312,9 +312,11 @@ from: 来源
     <a th:if="${contentEnhance.hasLatestEdit}"
        class="badge bg-gradient bg-secondary fw-light rounded-3 small d-inline-flex text-white"
        href="/content/recently-edited">内容有更新 · [[${contentEnhance.editDate}]]</a>
-    <span th:if="${contentEnhance?.content?.originType.name()} == 'NONE_ORIGIN'" class="badge bg-gradient rounded-3 fw-normal bg-primary">
-       转载
-    </span>
+    <a th:if="${contentEnhance?.content?.originType.name()} == 'NONE_ORIGIN'"
+       class="badge bg-gradient bg-primary fw-light rounded-3 small d-inline-flex text-white"
+       href="/content/reproduce">
+        转载
+    </a>
 </div>
 
 <div th:fragment="content_profile_via(contentEnhance)">

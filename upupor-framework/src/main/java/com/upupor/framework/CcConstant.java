@@ -175,7 +175,7 @@ public final class CcConstant {
     public static final class ContentView {
         // 文章列表
         public static final String CONTENT_LIST = "content/list";
-        // 全部文章 、 最近编辑过的
+        // 全部文章 、 最近更新、转载、新文章
         public static final String CONTENT_TYPE = "content/type";
         // 文章详情
         public static final String CONTENT_INDEX = "content/index";
