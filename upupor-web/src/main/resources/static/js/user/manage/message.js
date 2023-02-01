@@ -79,7 +79,7 @@ function handlePostMessage(messageId,userId,status) {
     };
 
     $.cvPostJson("/message/edit", req, function (res) {
-        if (respDataTrue(res)) {
+        if (respSuccess(res)) {
             history.go()
         } else {
             $.cvError("操作失败");
@@ -115,7 +115,7 @@ function clearAll(userId,total){
             };
 
             $.cvPostJson('/message/edit',req,function(data){
-                if(respDataTrue(data)){
+                if(respSuccess(data)){
                     history.go()
                 }else{
                     $.cvError("清除失败");
@@ -149,7 +149,7 @@ function readAll(userId){
             };
 
             $.cvPostJson('/message/edit',req,function(data){
-                if(respDataTrue(data)){
+                if(respSuccess(data)){
                     history.go()
                 }else{
                     $.cvError("操作失败");

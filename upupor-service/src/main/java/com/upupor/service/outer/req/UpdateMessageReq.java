@@ -30,7 +30,7 @@ package com.upupor.service.outer.req;
 import com.upupor.data.types.MessageStatus;
 import lombok.Data;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 
 /**
  * 更新消息请求
@@ -43,7 +43,7 @@ public class UpdateMessageReq {
 
     private String userId;
 
-    @Max(value = 2, message = "status超过最大值")
+    @NotNull(message = "参数异常,status 不能为空")
     private MessageStatus status;
 
     private String messageId;
