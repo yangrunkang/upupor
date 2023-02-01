@@ -11,6 +11,7 @@ export default class CodeBlock extends ParagraphBase {
     lineNumber: any;
     copyCode: any;
     indentedCodeBlock: any;
+    INLINE_CODE_REGEX: RegExp;
     customHighlighter: any;
     $codeCache(sign: any, str: any): any;
     parseCustomLanguage(lang: any, codeSrc: any, props: any): string | false;
@@ -68,6 +69,7 @@ export default class CodeBlock extends ParagraphBase {
      * 恢复预处理的内容
      */
     $recoverCodeInIndent(str: any): any;
+    makeInlineCode(str: any): any;
     $replaceSpecialChar(str: any): any;
 }
 import ParagraphBase from "@/core/ParagraphBase";

@@ -21,6 +21,7 @@ export default class Cherry extends CherryStatic {
      * @type {Partial<CherryOptions>}
      */
     options: Partial<CherryOptions>;
+    locale: any;
     status: {
         toolbar: string;
         previewer: string;
@@ -44,12 +45,6 @@ export default class Cherry extends CherryStatic {
     cherryDom: HTMLElement;
     toolbar: any;
     sidebar: any;
-    /**
-     *  监听 cherry 高度变化，高度改变触发 codemirror 内容刷新
-     * @private
-     */
-    private cherryDomResize;
-    cherryDomReiszeObserver: ResizeObserver;
     /**
      * 切换编辑模式
      * @param {'edit&preview'|'editOnly'|'previewOnly'} model 模式类型
@@ -125,6 +120,10 @@ export default class Cherry extends CherryStatic {
      * @returns
      */
     insertValue(content: string, isSelect?: boolean, anchor?: [number, number] | false, focus?: boolean): void;
+    /**
+     * 强制重新渲染预览区域
+     */
+    refreshPreviewer(): void;
     /**
      * 覆盖编辑区的内容
      * @param {string} content markdown内容

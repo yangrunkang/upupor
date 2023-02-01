@@ -91,6 +91,10 @@ export default class Previewer {
     _hasNewSign(list: any, sign: any, signIndex: any): boolean;
     $dealWithMyersDiffResult(result: any, oldContent: any, newContent: any, domContainer: any): void;
     $dealUpdate(domContainer: any, oldHtmlList: any, newHtmlList: any): void;
+    /**
+     * 强制重新渲染预览区域
+     */
+    refresh(html: any): void;
     update(html: any): void;
     $dealEditAndPreviewOnly(isEditOnly?: boolean): void;
     previewOnly(): void;

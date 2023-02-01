@@ -10,5 +10,6 @@ export default class InlineMath extends ParagraphBase {
     engine: 'katex' | 'MathJax' | 'node';
     katex: any;
     MathJax: any;
+    makeInlineMath(str: any): any;
 }
 import ParagraphBase from "@/core/ParagraphBase";

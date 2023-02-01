@@ -20,6 +20,7 @@ export default class MenuBase {
     subMenu: any;
     name: string;
     editor: any;
+    locale: any;
     dom: HTMLSpanElement;
     updateMarkdown: boolean;
     subMenuConfig: any[];

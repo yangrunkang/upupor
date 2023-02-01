@@ -21,6 +21,12 @@ export default class Table extends ParagraphBase {
         html: string;
         sign: any;
     };
+    /**
+     * 如果table.head是空的，就不渲染<thead>了
+     * @param {String} str
+     * @returns {Boolean}
+     */
+    $testHeadEmpty(str: string): boolean;
     $renderTable(COLUMN_ALIGN_MAP: any, tableHeader: any, tableRows: any, dataLines: any): {
         html: string;
         sign: any;

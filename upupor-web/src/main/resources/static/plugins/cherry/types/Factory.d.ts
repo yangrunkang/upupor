@@ -21,6 +21,7 @@ export function createMenuHook(name: any, options: any): {
         subMenu: any;
         name: string;
         editor: any;
+        locale: any;
         dom: HTMLSpanElement;
         updateMarkdown: boolean;
         cacheOnce: boolean;

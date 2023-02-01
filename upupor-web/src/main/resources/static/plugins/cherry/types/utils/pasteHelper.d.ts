@@ -9,7 +9,7 @@ declare namespace pasteHelper {
      * @param {string} md html对应的markdown源码
      * @returns
      */
-    function showSwitchBtnAfterPasteHtml(currentCursor: any, editor: any, html: string, md: string): void;
+    function showSwitchBtnAfterPasteHtml($cherry: any, currentCursor: any, editor: any, html: string, md: string): void;
     /**
      * 核心方法，粘贴后展示切换按钮
      * 只有粘贴html时才会出现切换按钮
@@ -19,9 +19,9 @@ declare namespace pasteHelper {
      * @param {string} md html对应的markdown源码
      * @returns
      */
-    function showSwitchBtnAfterPasteHtml(currentCursor: any, editor: any, html: string, md: string): void;
-    function init(currentCursor: any, editor: any, html: any, md: any): void;
-    function init(currentCursor: any, editor: any, html: any, md: any): void;
+    function showSwitchBtnAfterPasteHtml($cherry: any, currentCursor: any, editor: any, html: string, md: string): void;
+    function init($cherry: any, currentCursor: any, editor: any, html: any, md: any): void;
+    function init($cherry: any, currentCursor: any, editor: any, html: any, md: any): void;
     /**
      * 获取缓存中的复制粘贴类型
      */

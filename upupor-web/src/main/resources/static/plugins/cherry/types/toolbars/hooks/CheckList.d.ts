@@ -1,8 +1,7 @@
 /**
- * 插入检查项的按钮
- */
-export default class CheckList extends MenuBase {
+ * 下标的按钮
+ **/
+export default class Checklist extends MenuBase {
     constructor($cherry: any);
-    $dealSelection(selection: any): any;
 }
 import MenuBase from "@/toolbars/MenuBase";

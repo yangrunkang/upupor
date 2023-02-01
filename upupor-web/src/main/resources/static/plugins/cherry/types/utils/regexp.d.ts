@@ -32,11 +32,19 @@ export function getCodeBlockRule(): {
      * (?:^|\n)是区块的通用开头
      * (\n*)捕获区块前的所有换行
      * (?:[^\S\n]*)捕获```前置的空格字符
+     * 只要有连续3个及以上`并且前后`的数量相等，则认为是代码快语法
      */
     begin: RegExp;
     content: RegExp;
     end: RegExp;
 };
+/**
+ * 从selection里获取列表语法
+ * @param {*} selection
+ * @param {('ol'|'ul'|'checklist')} type  列表类型
+ * @returns {String}
+ */
+export function getListFromStr(selection: any, type: ('ol' | 'ul' | 'checklist')): string;
 export const HORIZONTAL_WHITESPACE: "[ \\t\\u00a0]";
 export const ALLOW_WHITESPACE_MULTILINE: "(?:.*?)(?:(?:\\n.*?)*?)";
 export const DO_NOT_STARTS_AND_END_WITH_SPACES: "(?:\\S|(?:\\S.*?\\S))";
