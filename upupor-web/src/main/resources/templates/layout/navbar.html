@@ -73,27 +73,7 @@
 <!--                    </a>-->
 <!--                </div>-->
                 <ul class="navbar-nav ms-auto my-1">
-                    <li class="nav-item dropdown d-none d-xl-block">
-                        <a class="nav-link cv-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img style="width:21px;height: 21px" class="lazyload"
-                                 th:data-src="${ossStatic} + @{/icons/write/write-content.png}"/> 创作
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg"
-                             aria-labelledby="navbarDropdown">
-                            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="cv-link dropdown-item"
-                               href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
-                                <img class="lazyload cv-icon me-1" th:data-src="${ossStatic} + @{/icons/system/draft.svg}"/>
-                                草稿箱 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
-                                          th:text="${draftCount}">23</span>
-                            </a>
-                            <div class="dropdown-divider" th:if="${draftCount} != null and ${draftCount} >= 1"></div>
-                            <a class="cv-link dropdown-item" th:href="'/editor?type=' + ${type.typeName}"
-                               th:each="type : ${contentTypeList}"
-                               th:title="${type.name}"><img class="lazyload cv-icon me-1" th:data-src="@{${type.icon}}"
-                                                            th:alt="${type.name}"/> [[${type.name}]]</a>
-                        </div>
-                    </li>
+                    <li th:include="fragments/navbar::create_content"></li>
                     <li class="nav-item login" th:if="!${session?.cv_user_id}">
                         <a class="nav-link cv-link" href="/login" title="登录"><img class="lazyload cv-icon-item"
                                                                                   th:src="${ossStatic} + @{/icons/system/login.svg}"/>

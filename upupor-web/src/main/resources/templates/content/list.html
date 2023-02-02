@@ -44,14 +44,10 @@
                     <div th:include="fragments/index::page_menu"></div>
                 </div>
                 <div class="row g-2">
-                    <div class="col-lg-3 d-md-none d-none d-xl-block">
+                    <div class="col-lg-3 d-md-none d-none d-xl-block" th:if="!${#lists.isEmpty(commonPageIndexDto.tagEnhanceList)}">
                         <div class="card border-0 rounded-3 p-2 my-2">
                             <div class="fw-normal border-bottom mb-2 text-black-50">分类 <a class="cv-link text-black-50 float-end" th:href="${commonPageIndexDto.currentRootUrl}"><i class="bi bi-balloon"></i>全部</a></div>
-                            <div th:if="${#lists.isEmpty(commonPageIndexDto.tagEnhanceList)}">
-                                <div th:include="fragments/index::empty_content"></div>
-                                <div th:include="fragments/index::apply_tag"></div>
-                            </div>
-                            <ul class="nav nav-pills flex-column" th:if="!${#lists.isEmpty(commonPageIndexDto.tagEnhanceList)}">
+                            <ul class="nav nav-pills flex-column">
                                 <!--如果以后涵盖子类，可以使用展开按钮-->
                                 <li th:each="menu : ${commonPageIndexDto.tagEnhanceList}" class="nav-item">
                                     <a th:class="'nav-link cv-link small p-2 ' + ${menu.tag.tagId}" th:href="@{ ${commonPageIndexDto.currentRootUrl} + '/' + ${menu.tag.tagId}}" th:title="${menu.tag.tagName}" th:inline="text">
@@ -59,7 +55,7 @@
                                         [[${menu.tag.tagName}]] <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark d-inline-flex float-end">[[${menu.count}]]</span>
                                     </a>
                                 </li>
-                                <div class="border-top border-1 mt-2" th:include="fragments/index::apply_tag"></div>
+<!--                                <div class="border-top border-1 mt-2" th:include="fragments/index::apply_tag"></div>-->
                             </ul>
                         </div>
                     </div>
@@ -76,11 +72,11 @@
                 <div th:include="fragments/index::global_member_info"></div>
                 <div th:replace="fragments/index::user_manage_fragment(true)"></div>
                 <!--最近一周新增文章-->
-                <div class="card border-0 rounded-3 p-2 my-2">
+                <div class="card border-0 rounded-3 p-2 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.latestContentList)}">
                     <div class="fw-normal border-bottom mb-2 text-black-50">最新文章<a class="cv-link text-black-50 float-end" href="/content/new"><i class="bi bi-balloon"></i>全部</a></div>
                     <table class="table table-sm table-borderless mb-0">
                         <tbody>
-                        <tr th:if="!${#lists.isEmpty(commonPageIndexDto.latestContentList)}"
+                        <tr
                             th:each="contentEnhance,ite : ${commonPageIndexDto.latestContentList}"
                         >
                             <td class="p-1">
@@ -95,12 +91,11 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div th:if="${#lists.isEmpty(commonPageIndexDto.latestContentList)}" th:include="fragments/index::empty_content"></div>
                 </div>
                 <!--活跃用户-->
-                <div class="card border-0 rounded-3 p-2 my-2">
+                <div class="card border-0 rounded-3 p-2 my-2" th:if="!${#lists.isEmpty(commonPageIndexDto.memberEnhanceList)}">
                     <div class="fw-normal border-bottom mb-2 text-black-50">最近登录的用户<a class="cv-link text-black-50 float-end" href="/list-user"><i class="bi bi-balloon"></i>全部</a></div>
-                    <div class="nav flex-column nav-pills" aria-orientation="vertical" th:if="!${#lists.isEmpty(commonPageIndexDto.memberEnhanceList)}">
+                    <div class="nav flex-column nav-pills" aria-orientation="vertical">
                         <a class="d-flex align-items-center my-1 mb-2 cv-link" th:each="memberEnhance,ite : ${commonPageIndexDto.memberEnhanceList}" th:href="@{'/profile/'+${memberEnhance.member.userId}+'/content'}" th:title="${memberEnhance.member.userName}">
                             <img class="align-self-center me-1 img rounded" style="width: 20px;height: 20px" th:src="${memberEnhance.member.via}" th:alt="${memberEnhance.member.userName}">
                             <div class="flex-grow-1 ms-1">
@@ -109,7 +104,6 @@
                             </div>
                         </a>
                     </div>
-                    <div th:if="${#lists.isEmpty(commonPageIndexDto.memberEnhanceList)}" th:include="fragments/index::empty_content"></div>
                 </div>
                 <div th:include="fragments/index::google_right_ad"></div>
         </div>

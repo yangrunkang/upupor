@@ -29,15 +29,14 @@
 
 package com.upupor.web.aspects.service.view;
 
-import com.upupor.data.dao.entity.Member;
 import com.upupor.data.dao.entity.MemberConfig;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.ContentTypeData;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.MemberService;
+import com.upupor.service.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -74,7 +73,6 @@ public class SetUserDefaultContentType implements PrepareData {
         try {
             String userId = JwtUtils.getUserId();
             MemberEnhance memberEnhance = memberService.memberInfo(userId);
-            Member member = memberEnhance.getMember();
             MemberConfig memberConfig = memberEnhance.getMemberConfigEnhance().getMemberConfig();
             if (Objects.isNull(memberConfig)) {
                 throw new BusinessException(ErrorCode.MEMBER_CONFIG_LESS);

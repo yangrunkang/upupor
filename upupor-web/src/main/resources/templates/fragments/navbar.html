@@ -1,0 +1,69 @@
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021-2022 yangrunkang
+  ~
+  ~ Author: yangrunkang
+  ~ Email: yangrunkang53@gmail.com
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="create_content">
+    <li class="nav-item dropdown d-none d-xl-block">
+        <a class="nav-link cv-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img style="width:21px;height: 21px" class="lazyload"
+                 th:data-src="${ossStatic} + @{/icons/write/write-content.png}"/> 创作
+        </a>
+        <div class="dropdown-menu dropdown-menu-right border-0 shadow-lg"
+             aria-labelledby="navbarDropdown">
+            <a th:if="${draftCount} != null and ${draftCount} >= 1" class="cv-link dropdown-item"
+               href="/user/manage/draft" th:title="'您有 ' + ${draftCount} + ' 篇草稿未完成'">
+                <img class="lazyload cv-icon me-1" th:data-src="${ossStatic} + @{/icons/system/draft.svg}"/>
+                草稿箱 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
+                          th:text="${draftCount}">23</span>
+            </a>
+            <div class="dropdown-divider" th:if="${draftCount} != null and ${draftCount} >= 1"></div>
+            <a class="cv-link dropdown-item" th:href="'/editor?type=' + ${type.typeName}"
+               th:each="type : ${contentTypeList}"
+               th:title="${type.name}"><img class="lazyload cv-icon me-1" th:data-src="@{${type.icon}}"
+                                            th:alt="${type.name}"/> [[${type.name}]]</a>
+            <div class="dropdown-divider"></div>
+            <a class="cv-link dropdown-item" href="/radio-station/create"
+               title="上传电台"><img class="lazyload cv-icon me-1" th:src="${ossStatic} + @{/icons/system/upload-radio.svg}"
+                                 alt="上传电台"/> 上传电台</a>
+            <a class="cv-link dropdown-item" href="/radio-station/record"
+               title="在线录制电台"><img class="lazyload cv-icon me-1" th:data-src="${ossStatic} + @{/icons/record.svg}"
+                                   alt="在线录制电台"/> 在线录制电台</a>
+            <div class="dropdown-divider"></div>
+            <a class="cv-link dropdown-item" href="/todo-list"
+               title="添加待办"><img class="lazyload cv-icon me-1" th:data-src="${ossStatic} + @{/icons/todo.svg}"
+                                 alt="添加待办"/> 添加待办</a>
+        </div>
+    </li>
+</div>
+
+</body>
+</html>
