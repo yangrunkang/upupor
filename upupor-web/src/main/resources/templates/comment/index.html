@@ -60,7 +60,7 @@
                                 </div>
                                 <div>
                                     <a class="text-black-50 small"
-                                       th:href="${commentDto.targetUrl}"
+                                       th:href="${commentDto.targetUrl} + '#comment_' + ${commentDto.commentEnhance.comment.floorNum}"
                                        th:title="${commentDto.targetTitle}">
                                         <i class="bi bi-link-45deg"> 来自于&nbsp;</i>
                                         <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;">[[${commentDto.sourceTag}]]</span> <strong>[[${commentDto.targetTitle}]]</strong>
