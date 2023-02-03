@@ -29,7 +29,7 @@
 <head th:include="layout/head.html :: head"></head>
 <body th:style="${#strings.isEmpty(cv_user_bg_img)} ?  'background: rgb(239,239,243)':${cv_user_bg_img}">
     <!--导航栏-->
-    <div th:include="layout/navbar::navbar" class="sticky-top"></div>
+    <div th:include="layout/navbar::navbar"></div>
     <!--内容-->
     <div th:include="::content" style="min-height: 750px;height: auto;" class="mt-2">页面正文内容</div>
     <!--页脚-->

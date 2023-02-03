@@ -49,8 +49,8 @@
                                 <article class="cherry-markdown" th:utext="${commentDto.commentContent}"></article>
                                 <div>
                                     <a class="text-black-50 small"
-                                       th:href="${commentDto.targetUrl}"
-                                       th:title="${commentDto.targetTitle}">
+                                       th:href="'/profile/' + ${commentDto.commentEnhance.memberEnhance.member.userId} + '/content'"
+                                       th:title="${commentDto.commentEnhance.memberEnhance.member.userName}">
                                         <img th:data-src="${ossStatic} + @{/icons/system/comment-yellow.png}" class="lazyload cv-icon-small"/> 评论者&nbsp;&nbsp;<img  class="lazyload img rounded cv-icon-small"
                                                                                                 th:data-src="${commentDto.commentEnhance.memberEnhance.member.via}"
                                                                                                 th:alt="${commentDto.commentEnhance.memberEnhance.member.userName}" /> </i>

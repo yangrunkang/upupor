@@ -85,7 +85,7 @@ public class RadioCommentList extends AbstractCommentList<Radio> {
             return;
         }
         commentDtoList.add(CommentDto.create(comment.getCommentContent(),
-                "/r/" + radio.getRadioId(),
+                "/r/" + radio.getRadioId() + "#comment_" + comment.getFloorNum(),
                 radio.getRadioIntro(), commentEnhance,
                 "电台"
         ));
