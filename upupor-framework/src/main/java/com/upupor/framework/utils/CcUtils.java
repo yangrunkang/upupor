@@ -37,6 +37,7 @@ import com.upupor.framework.config.UpuporConfig;
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.util.Strings;
+import org.hashids.Hashids;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
@@ -58,6 +59,7 @@ public class CcUtils {
 
 
     private static final SimpleDateFormat SDF;
+    public static final String DATE_FORMAT = "yyMMddHHmm";
 
     /**
      * bug fixed 只能初始化一次
@@ -65,9 +67,12 @@ public class CcUtils {
     private static SnowFlake idWorker;
 
     static {
-        SDF = new SimpleDateFormat("yyMMddHHmm");
+        SDF = new SimpleDateFormat(DATE_FORMAT);
         idWorker = new SnowFlake(0, 0);
     }
+
+    private static final String shortUrlSalt = "upupor#2023";
+    private static final Hashids hashids = new Hashids(shortUrlSalt);
 
     /**
      * 获取UUID
@@ -75,6 +80,21 @@ public class CcUtils {
      * @return
      */
     public static String getUuId() {
+        try {
+            // 使用短链
+            String snowIdHalf = CcUtils.upuporSnowId().substring(DATE_FORMAT.length());// 移除日期部分
+            return hashids.encode(Long.parseLong(snowIdHalf));
+        } catch (Exception e) {
+            return upuporSnowId(); // 如果发生异常使用之前的Id生成算法
+        }
+    }
+
+    /**
+     * 获取UUID
+     *
+     * @return
+     */
+    private static String upuporSnowId() {
         // 加锁 解决SDF线程安全问题
         synchronized (CcUtils.class) {
             if (Objects.isNull(idWorker)) {
