@@ -33,6 +33,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.JsonUtils;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.service.utils.JwtUtils;
 import com.upupor.web.aspects.service.checker.controller.ControllerAspectChecker;
@@ -89,6 +90,7 @@ public class ControllerAspectAspect {
 
         CcResponse ccResponse = new CcResponse();
         HttpServletRequest request = JwtUtils.getRequest();
+        String requestUrl = request.getRequestURL().toString();
 
 
         // 页面请求埋点
@@ -101,6 +103,7 @@ public class ControllerAspectAspect {
             }
             ccResponse.setData(proceedingJoinPoint.proceed());
         } catch (Throwable throwable) {
+            log.error(requestUrl + " 异常,打印发生移除的参数: {}", JsonUtils.toJsonStr(proceedingJoinPoint.getArgs()));
             throwable.printStackTrace();
             if (throwable instanceof BusinessException) {
                 BusinessException businessException = (BusinessException) throwable;
@@ -112,7 +115,7 @@ public class ControllerAspectAspect {
             }
         }
         // 执行业务后
-        String format = String.format("URL:%s\nconsume time:%s ms", request.getRequestURL().toString(), CcUtils.stop(stopWatch));
+        String format = String.format("URL:%s\nconsume time:%s ms", requestUrl, CcUtils.stop(stopWatch));
         // 日志打印
         log.info(format);
 
