@@ -64,13 +64,8 @@ function editUserInfo() {
             type: 'post',
             async: false,
             data: formData,
-            processData: false,// 告诉jQuery不要去处理发送的数据
-            contentType: false,// 告诉jQuery不要去设置Content-Type请求头
-            beforeSend: function () {//过程...
-                console.log('正在进行，请稍候')
-            },
+            contentType: "application/json; charset=utf-8",
             success: function (res) {
-                console.log(res);
                 if (res.code === 0) {
                     if (respSuccess(res.data)) {
                         $.cvSuccess("背景样式设置成功");
