@@ -32,8 +32,9 @@ import com.upupor.data.types.PointType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.framework.utils.CcUtils;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
+import com.upupor.service.utils.JwtUtils;
 import com.upupor.web.aspects.service.checker.controller.ControllerAspectChecker;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -82,10 +84,12 @@ public class ControllerAspectAspect {
      */
     @Around("controller()")
     public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        StopWatch stopWatch = new StopWatch();
+        CcUtils.start(stopWatch);
 
         CcResponse ccResponse = new CcResponse();
         HttpServletRequest request = JwtUtils.getRequest();
-        long startTime = System.currentTimeMillis();
+
 
         // 页面请求埋点
         BuriedPointDataEvent pointEvent = BuriedPointDataEvent.builder().request(request).pointType(PointType.DATA_REQUEST).build();
@@ -108,7 +112,7 @@ public class ControllerAspectAspect {
             }
         }
         // 执行业务后
-        String format = String.format("URL:%s\nconsume time:%s ms", request.getRequestURL().toString(), System.currentTimeMillis() - startTime);
+        String format = String.format("URL:%s\nconsume time:%s ms", request.getRequestURL().toString(), CcUtils.stop(stopWatch));
         // 日志打印
         log.info(format);
 

@@ -44,43 +44,26 @@ $(function () {
 function editUserInfo() {
     $("form").submit(function () {
         let cssPatternValue = $('input:radio[class="css_pattern_radio"]:checked').val();
-        let formData = new FormData();
-
+        let param = {}
         if (cssPatternValue === 'self-define') {
             let selfDefineCss = $("#self-define-css").val();
             if (cvIsNull(selfDefineCss)) {
                 $.cvError("自定义css不能为空");
                 return false;
             }
-            formData.append('selfDefineCss', selfDefineCss);
+            param.selfDefineCss = selfDefineCss;
         } else {
-            formData.append('cssPatternValue', cssPatternValue);
+            param.cssPatternValue = cssPatternValue;
         }
-        $.ajax({
-            headers: {
-                UpuporToken: localStorage.getItem("upupor_token"),
-            },
-            url: '/member/edit/bg-style-settings',
-            type: 'post',
-            async: false,
-            data: formData,
-            contentType: "application/json; charset=utf-8",
-            success: function (res) {
-                if (res.code === 0) {
-                    if (respSuccess(res.data)) {
-                        $.cvSuccess("背景样式设置成功");
-                        setTimeout(function () {
-                            window.location.href = '/user/manage/bg-style-settings';
-                        }, 1600)
-                    } else {
-                        $.cvError("背景样式设置失败");
-                    }
-                } else {
-                    $.cvError("背景样式设置失败");
-                }
-            },
-            error: function () {
-                console.log('背景样式设置失败')
+
+        $.cvPostJson('/member/edit/bg-style-settings', param, function (data) {
+            if (data.data) {
+                $.cvSuccess("背景样式设置成功");
+                setTimeout(function () {
+                    window.location.href = '/user/manage/bg-style-settings';
+                }, 1600)
+            } else {
+                $.cvError("背景样式设置失败");
             }
         });
 
