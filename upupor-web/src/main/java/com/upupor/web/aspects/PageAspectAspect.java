@@ -40,6 +40,7 @@ import com.upupor.web.aspects.service.view.PrepareData;
 import com.upupor.web.aspects.service.view.ViewData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -52,8 +53,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.upupor.framework.CcConstant.IS_DEFAULT_CONTENT_TYPE;
 import static com.upupor.framework.CcConstant.UserView.USER_LOGIN;
@@ -97,6 +102,7 @@ public class PageAspectAspect {
         assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
         String requestUrl = request.getRequestURL().toString();
+        Object[] pointArgs = proceedingJoinPoint.getArgs();
         // 页面请求埋点
         BuriedPointDataEvent pointEvent = BuriedPointDataEvent.builder().request(request).pointType(PointType.PAGE_REQUEST).build();
         publisher.publishEvent(pointEvent);
@@ -125,8 +131,14 @@ public class PageAspectAspect {
             }
 
         } catch (Exception exception) {
+            Stream<?> stream = ArrayUtils.isEmpty(pointArgs) ? Stream.empty() : Arrays.stream(pointArgs);
+            List<Object> logArgs = stream
+                    .filter(arg -> (!(arg instanceof HttpServletRequest)))
+                    .filter(arg -> (!(arg instanceof HttpServletResponse)))
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            log.error("[Route] " + requestUrl + " 异常,打印发生移除的参数: {}", JsonUtils.toJsonStr(logArgs));
             exception.printStackTrace();
-            log.error("[Route] " + requestUrl + " 异常,打印发生移除的参数: {}", JsonUtils.toJsonStr(proceedingJoinPoint.getArgs()));
             return exceptionView(CcUtils.stop(stopWatch), servletPath, exception);
         }
 
