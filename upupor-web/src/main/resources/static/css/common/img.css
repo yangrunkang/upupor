@@ -26,36 +26,28 @@
  */
 
 article img{
-    /*width: auto;*/
-    /*height: auto;*/
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 50%;
+    max-height: 50%;
     margin: 0 auto;
 }
 
 article figure img{
-    /*width: auto;*/
-    /*height: auto;*/
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 50%;
+    max-height: 50%;
     margin: 0 auto;
 }
 
 /*兼容历史评论图片样式*/
 .cherry-markdown figure img{
-    /*width: auto;*/
-    /*height: auto;*/
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 50%;
+    max-height: 50%;
     margin: 0 auto;
 }
 
 
 .cherry .cherry-previewer img {
-    /*width: auto;*/
-    /*height: auto;*/
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 50%;
+    max-height: 50%;
 }
 
 .cherry-markdown p a {
