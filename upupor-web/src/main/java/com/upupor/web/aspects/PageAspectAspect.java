@@ -32,6 +32,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.framework.utils.JsonUtils;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
 import com.upupor.web.aspects.service.checker.page.PageAspectChecker;
 import com.upupor.web.aspects.service.checker.page.dto.PageCheckDto;
@@ -95,7 +96,7 @@ public class PageAspectAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         assert attributes != null;
         HttpServletRequest request = attributes.getRequest();
-
+        String requestUrl = request.getRequestURL().toString();
         // 页面请求埋点
         BuriedPointDataEvent pointEvent = BuriedPointDataEvent.builder().request(request).pointType(PointType.PAGE_REQUEST).build();
         publisher.publishEvent(pointEvent);
@@ -125,11 +126,12 @@ public class PageAspectAspect {
 
         } catch (Exception exception) {
             exception.printStackTrace();
+            log.error("[Route] " + requestUrl + " 异常,打印发生移除的参数: {}", JsonUtils.toJsonStr(proceedingJoinPoint.getArgs()));
             return exceptionView(CcUtils.stop(stopWatch), servletPath, exception);
         }
 
         // 执行业务后
-        String format = String.format("URL:%s \nconsume time:%s ms", request.getRequestURL().toString(), CcUtils.stop(stopWatch));
+        String format = String.format("URL:%s \nconsume time:%s ms", requestUrl, CcUtils.stop(stopWatch));
         // 日志打印
         log.info(format);
 

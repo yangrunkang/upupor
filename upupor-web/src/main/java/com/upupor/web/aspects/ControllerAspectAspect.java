@@ -103,7 +103,7 @@ public class ControllerAspectAspect {
             }
             ccResponse.setData(proceedingJoinPoint.proceed());
         } catch (Throwable throwable) {
-            log.error(requestUrl + " 异常,打印发生移除的参数: {}", JsonUtils.toJsonStr(proceedingJoinPoint.getArgs()));
+            log.error("[API] " + requestUrl + " 异常,打印发生移除的参数: {}", JsonUtils.toJsonStr(proceedingJoinPoint.getArgs()));
             throwable.printStackTrace();
             if (throwable instanceof BusinessException) {
                 BusinessException businessException = (BusinessException) throwable;
