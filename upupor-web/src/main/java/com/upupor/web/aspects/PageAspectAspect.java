@@ -137,7 +137,7 @@ public class PageAspectAspect {
                     .filter(arg -> (!(arg instanceof HttpServletResponse)))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
-            log.error("[Route] " + requestUrl + " 异常,打印发生移除的参数: {}", JsonUtils.toJsonStr(logArgs));
+            log.error("[Route] " + requestUrl + " 异常,打印发生异常时的参数: {}", JsonUtils.toJsonStr(logArgs));
             exception.printStackTrace();
             return exceptionView(CcUtils.stop(stopWatch), servletPath, exception);
         }
