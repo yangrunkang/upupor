@@ -28,9 +28,9 @@
 update `content` set content_type = 3 where content_type = 5;
 update `comment` set comment_source = 3 where comment_source = 5;
 update `tag` set tag_type = 3 where tag_type = 5;
-update `member_config` set default_content_type = 3 where default_content_type = 5;
+update `member_config` set default_content_type = '/share' where default_content_type = '/workplace';
 
 update `content` set content_type = 3 where content_type = 4;
 update `comment` set comment_source = 3 where comment_source = 4;
 update `tag` set tag_type = 3 where tag_type = 4;
-update `member_config` set default_content_type = 3 where default_content_type = 4;
+update `member_config` set default_content_type = '/share' where default_content_type = '/record';
