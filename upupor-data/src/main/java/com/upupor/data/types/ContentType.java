@@ -68,12 +68,12 @@ public enum ContentType {
     /**
      * 职场
      */
-    WORKPLACE(4, "职场", "/workplace", "分享职场新鲜事", "/icons/write/write-work.png", "创建 > 职场"),
+//    WORKPLACE(4, "职场", "/workplace", "分享职场新鲜事", "/icons/write/write-work.png", "创建 > 职场"),
 
     /**
      * 记录
      */
-    RECORD(5, "记录", "/record", "记录美好生活", "/icons/write/write-record.png", "创建 > 记录"),
+//    RECORD(5, "记录", "/record", "记录美好生活", "/icons/write/write-record.png", "创建 > 记录"),
 
     /**
      * 短内容
@@ -178,11 +178,11 @@ public enum ContentType {
     public static List<ContentType> contentSource() {
         List<ContentType> contentTypeList = new ArrayList<>();
         contentTypeList.add(TECH);
-//        contentTypeList.add(TOPIC);
-        contentTypeList.add(SHARE);
-        contentTypeList.add(RECORD);
-        contentTypeList.add(WORKPLACE);
         contentTypeList.add(QA);
+        contentTypeList.add(SHARE);
+//        contentTypeList.add(RECORD);
+//        contentTypeList.add(WORKPLACE);
+//        contentTypeList.add(TOPIC);
         return contentTypeList;
     }
 
