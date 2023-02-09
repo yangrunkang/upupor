@@ -40,10 +40,10 @@
                 <div class="card border-0 rounded-3 p-2">
                     <nav class="mb-1">
                         <div class="nav nav-tabs">
-                            <a th:class="${businessTitle == '新内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/new" title="新内容">新内容</a>
-                            <a th:class="${businessTitle == '内容有更新'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/recently-edited" title="内容有更新">内容有更新</a>
-                            <a th:class="${businessTitle == '所有内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/all" title="所有内容">所有内容</a>
-                            <a th:class="${businessTitle == '转载内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/reproduce" title="转载内容">转载内容</a>
+                            <a th:class="${businessTitle == '所有内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/all" title="所有内容"><img class="lazyload cv-icon-item" th:data-src="${ossStatic} + @{/icons/contents/all.svg}"/> 所有内容</a>
+                            <a th:class="${businessTitle == '内容有更新'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/recently-edited" title="内容有更新"><img class="lazyload cv-icon-item" th:data-src="${ossStatic} + @{/icons/contents/update.svg}"/> 内容有更新</a>
+                            <a th:class="${businessTitle == '新内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/new" title="新内容"><img class="lazyload cv-icon-item" th:data-src="${ossStatic} + @{/icons/contents/new.svg}"/> 新内容</a>
+                            <a th:class="${businessTitle == '转载内容'?'nav-item nav-link cv-link active':'nav-item nav-link cv-link'}" href="/content/reproduce" title="转载内容"><img class="lazyload cv-icon-item" th:data-src="${ossStatic} + @{/icons/contents/reproduce.svg}"/> 转载内容</a>
                         </div>
                     </nav>
                     <div th:include="fragments/index::list_content_dto(${listContentDto},'content-type')"></div>
