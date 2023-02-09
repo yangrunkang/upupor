@@ -93,7 +93,7 @@
                                                                                      th:data-src="${ossStatic} + @{/icons/system/register.svg}"/>
                             <span>注册</span></a>
                     </li>
-                    <li class="nav-item user_manage" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
+                    <li class="nav-item user_manage message" th:if="!${#strings.isEmpty(session?.cv_user_via)}">
                         <a class="nav-link user cv-link" href="/user/manage/content" title="我的">
                             <img class="lazyload img rounded" th:data-src="${session?.cv_user_via}"
                                  style="width:21px;height: 21px"/>
