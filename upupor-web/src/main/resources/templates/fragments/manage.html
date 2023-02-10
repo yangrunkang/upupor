@@ -33,9 +33,9 @@
 <div th:fragment="nav_content(total,source)">
     <nav class="mb-2">
         <div class="nav nav-tabs">
-            <a class="nav-item nav-link cv-link user_manage_content" href="/user/manage/content">文章管理<span th:if="${source == 'content'}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1" th:text="${total}"></span></a>
-            <a class="nav-item nav-link cv-link user_manage_radio" href="/user/manage/radio">电台管理<span th:if="${source == 'radio'}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1" th:text="${total}"></span></a>
-            <a class="nav-item nav-link cv-link user_manage_draft text-danger" href="/user/manage/draft">草稿箱<span th:if="${source == 'draft'}" class="badge bg-gradient rounded-3 fw-normal bg-danger ms-1" th:text="${total}"></span></a>
+            <a class="nav-item nav-link cv-link user_manage_content" href="/user/manage/content"><img class="lazyload cv-icon-item" th:data-src="${ossStatic} + @{/icons/system/zhishi.svg}"/> 文章管理<span th:if="${source == 'content'}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1" th:text="${total}"></span></a>
+            <a class="nav-item nav-link cv-link user_manage_radio" href="/user/manage/radio"><img class="lazyload cv-icon-item" th:data-src="${ossStatic} + @{/icons/system/radio.svg}"/> 电台管理<span th:if="${source == 'radio'}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1" th:text="${total}"></span></a>
+            <a class="nav-item nav-link cv-link user_manage_draft text-danger" href="/user/manage/draft"><img class="cv-icon" th:src="${ossStatic} + @{/icons/system/draft.svg}"/> 草稿箱<span th:if="${source == 'draft'}" class="badge bg-gradient rounded-3 fw-normal bg-danger ms-1" th:text="${total}"></span></a>
 <!--            <a class="nav-item nav-link cv-link user_manage_content-settings" href="/user/manage/content-settings">设置<span th:if="${source == 'content-settings'}" class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark ms-1" th:text="${total}"></span></a>-->
         </div>
     </nav>
