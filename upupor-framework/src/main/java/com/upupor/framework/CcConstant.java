@@ -276,7 +276,7 @@ public final class CcConstant {
          * 每页条数
          */
         public static final Integer SIZE_HALF = 7;
-        public static final Integer SIZE = 30;
+        public static final Integer SIZE = 20;
         public static final Integer SIZE_TEN = 10;
         /**
          * 最大条数

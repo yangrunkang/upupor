@@ -124,7 +124,7 @@ public abstract class AbstractContent {
     private void bindAuthorOtherContent() {
         ListContentReq listContentReq = new ListContentReq();
         listContentReq.setPageNum(CcConstant.Page.NUM);
-        listContentReq.setPageSize(CcConstant.Page.SIZE);
+        listContentReq.setPageSize(CcConstant.Page.SIZE_TEN);
         listContentReq.setUserId(contentIndexDto.getContentEnhance().getContent().getUserId());
         listContentReq.setStatus(ContentStatus.NORMAL);
         ListContentDto listContentDto = contentService.listContent(listContentReq);
