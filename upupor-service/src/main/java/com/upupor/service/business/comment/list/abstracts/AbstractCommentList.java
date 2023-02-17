@@ -70,6 +70,16 @@ public abstract class AbstractCommentList<T> {
      */
     protected abstract Map<String, T> filteredIdConvertToTMap(List<String> filteredIdList);
 
+    /**
+     * 计算带页码的评论锚点
+     *
+     * @param floorNum
+     * @param perPageSize
+     * @return
+     */
+    protected String calcPageAnchor(Long floorNum, Integer perPageSize) {
+        return "?pageNum=" + ((floorNum / perPageSize) + 1) + "#comment_" + floorNum;
+    }
 
     public List<CommentDto> handle(List<CommentEnhance> commentEnhanceList) {
         init(commentEnhanceList);

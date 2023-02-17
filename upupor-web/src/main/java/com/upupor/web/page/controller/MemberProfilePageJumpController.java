@@ -50,7 +50,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.Page.SIZE_COMMENT;
+import static com.upupor.framework.CcConstant.Page.SIZE;
 import static com.upupor.framework.CcConstant.ProfileView.BASE_PATH;
 import static com.upupor.framework.CcConstant.ProfileView.PROFILE_MESSAGE;
 import static com.upupor.framework.CcConstant.SeoKey;
@@ -101,8 +101,8 @@ public class MemberProfilePageJumpController {
                 modelAndView.setViewName(abstractProfile.viewName());
                 // 如果是留言板,直接跳转到最新的一页
                 if (PROFILE_MESSAGE.replace(BASE_PATH, Strings.EMPTY).equals(path)) {
-                    pageNum = isPageNumNull ? PageUtils.calcMaxPage(commentService.countByTargetId(userId), SIZE_COMMENT) : pageNum;
-                    pageSize = CcConstant.Page.SIZE_COMMENT;
+                    pageNum = isPageNumNull ? PageUtils.calcMaxPage(commentService.countByTargetId(userId), SIZE) : pageNum;
+                    pageSize = CcConstant.Page.SIZE;
                 }
 
                 Query build = Query.builder()

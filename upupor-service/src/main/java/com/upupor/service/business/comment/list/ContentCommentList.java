@@ -33,6 +33,7 @@ import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.dto.page.comment.CommentDto;
 import com.upupor.data.types.ContentType;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.business.comment.list.abstracts.AbstractCommentList;
 import org.springframework.stereotype.Component;
@@ -90,7 +91,7 @@ public class ContentCommentList extends AbstractCommentList<Content> {
             return;
         }
         commentDtoList.add(CommentDto.create(comment.getCommentContent(),
-                "/u/" + content.getContentId(),
+                "/u/" + content.getContentId() + calcPageAnchor(comment.getFloorNum(), CcConstant.Page.SIZE),
                 content.getTitle(),
                 commentEnhance,
                 "文章"

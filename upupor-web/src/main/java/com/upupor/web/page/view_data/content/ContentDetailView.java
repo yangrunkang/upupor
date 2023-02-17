@@ -42,7 +42,7 @@ import org.springframework.util.StringUtils;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.ContentView.CONTENT_INDEX;
-import static com.upupor.framework.CcConstant.Page.SIZE_COMMENT;
+import static com.upupor.framework.CcConstant.Page.SIZE;
 
 /**
  * @author Yang Runkang (cruise)
@@ -116,11 +116,11 @@ public class ContentDetailView extends AbstractView {
         if (Objects.isNull(pageNum)) {
             // 获取最新的评论
             Integer count = commentService.countByTargetId(contentId);
-            pageNum = PageUtils.calcMaxPage(count, SIZE_COMMENT);
+            pageNum = PageUtils.calcMaxPage(count, SIZE);
             query.setPageNum(pageNum);
         }
         if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE_COMMENT;
+            pageSize = CcConstant.Page.SIZE;
             query.setPageSize(pageSize);
         }
     }

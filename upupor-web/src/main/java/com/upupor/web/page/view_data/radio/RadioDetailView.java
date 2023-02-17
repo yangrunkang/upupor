@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.Page.SIZE_COMMENT;
+import static com.upupor.framework.CcConstant.Page.SIZE;
 import static com.upupor.framework.CcConstant.RADIO_STATION_INDEX;
 
 /**
@@ -111,12 +111,12 @@ public class RadioDetailView extends AbstractView {
         if (Objects.isNull(pageNum)) {
             // 获取最新的评论
             Integer count = commentService.countByTargetId(radioId);
-            pageNum = PageUtils.calcMaxPage(count, SIZE_COMMENT);
+            pageNum = PageUtils.calcMaxPage(count, SIZE);
             query.setPageNum(pageNum);
         }
 
         if (Objects.isNull(pageSize)) {
-            pageSize = CcConstant.Page.SIZE_COMMENT;
+            pageSize = CcConstant.Page.SIZE;
             query.setPageSize(pageSize);
         }
     }

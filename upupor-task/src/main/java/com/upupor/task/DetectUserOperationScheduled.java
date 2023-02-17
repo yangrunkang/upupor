@@ -27,12 +27,12 @@
 
 package com.upupor.task;
 
+import com.upupor.data.dao.entity.Member;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.utils.CcUtils;
+import com.upupor.service.base.MemberService;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
-import com.upupor.data.dao.entity.Member;
-import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

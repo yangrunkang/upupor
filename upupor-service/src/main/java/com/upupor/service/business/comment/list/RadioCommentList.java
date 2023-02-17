@@ -32,6 +32,7 @@ import com.upupor.data.dao.entity.Radio;
 import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import com.upupor.data.dto.page.comment.CommentDto;
 import com.upupor.data.types.ContentType;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.base.RadioService;
 import com.upupor.service.business.comment.list.abstracts.AbstractCommentList;
 import org.springframework.stereotype.Component;
@@ -85,7 +86,7 @@ public class RadioCommentList extends AbstractCommentList<Radio> {
             return;
         }
         commentDtoList.add(CommentDto.create(comment.getCommentContent(),
-                "/r/" + radio.getRadioId(),
+                "/r/" + radio.getRadioId() + calcPageAnchor(comment.getFloorNum(), CcConstant.Page.SIZE),
                 radio.getRadioIntro(), commentEnhance,
                 "电台"
         ));

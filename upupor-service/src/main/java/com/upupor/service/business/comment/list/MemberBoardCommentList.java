@@ -33,6 +33,7 @@ import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.comment.CommentDto;
 import com.upupor.data.types.ContentType;
+import com.upupor.framework.CcConstant;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.business.comment.list.abstracts.AbstractCommentList;
 import org.springframework.stereotype.Component;
@@ -89,7 +90,7 @@ public class MemberBoardCommentList extends AbstractCommentList<Member> {
             return;
         }
         commentDtoList.add(CommentDto.create(comment.getCommentContent(),
-                "/profile/" + member.getUserId() + "/message",
+                "/profile/" + member.getUserId() + "/message" + calcPageAnchor(comment.getFloorNum(), CcConstant.Page.SIZE),
                 member.getUserName(),
                 commentEnhance,
                 "留言板"
