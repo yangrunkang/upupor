@@ -30,6 +30,8 @@ package com.upupor.service.business.comment.list.abstracts;
 import com.upupor.data.dao.entity.enhance.CommentEnhance;
 import com.upupor.data.dto.page.comment.CommentDto;
 import com.upupor.data.types.ContentType;
+import com.upupor.framework.CcConstant;
+import com.upupor.service.business.comment.list.ContentCommentList;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -74,12 +76,19 @@ public abstract class AbstractCommentList<T> {
      * 计算带页码的评论锚点
      *
      * @param floorNum
-     * @param perPageSize
      * @return
      */
-    protected String calcPageAnchor(Long floorNum, Integer perPageSize) {
-        return "?pageNum=" + ((floorNum / perPageSize) + 1) + "#comment_" + floorNum;
+    protected String calcPageAnchor(Long floorNum) {
+        boolean b = floorNum % CcConstant.Page.SIZE == 0;
+        long l = floorNum / CcConstant.Page.SIZE;
+        return "?pageNum=" + (b ? 1 : (l + 1)) + "#comment_" + floorNum;
     }
+
+//    public static void main(String[] args) {
+//        System.out.println(new ContentCommentList().calcPageAnchor(30L)); //1
+//        System.out.println(new ContentCommentList().calcPageAnchor(29L)); //1
+//        System.out.println(new ContentCommentList().calcPageAnchor(31L)); //2
+//    }
 
     public List<CommentDto> handle(List<CommentEnhance> commentEnhanceList) {
         init(commentEnhanceList);
