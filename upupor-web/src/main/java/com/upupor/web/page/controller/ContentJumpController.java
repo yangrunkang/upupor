@@ -34,11 +34,11 @@ import com.upupor.data.types.ContentType;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.aggregation.CommonAggregateService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.TagService;
 import com.upupor.service.outer.req.GetCommonReq;
+import com.upupor.service.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -76,12 +76,9 @@ public class ContentJumpController {
 
     @GetMapping(value = {
             WEB_INDEX,
-            "/qa", "/qa/{tagId}",
-            "/topic", "/topic/{tagId}",
-            "/record", "/record/{tagId}",
-            "/share", "/share/{tagId}",
             "/tech", "/tech/{tagId}",
-            "/workplace", "/workplace/{tagId}"
+            "/qa", "/qa/{tagId}",
+            "/share", "/share/{tagId}",
     })
     public ModelAndView contentList(Integer pageNum, Integer pageSize,
                                     @PathVariable(value = "tagId", required = false) String tagId,

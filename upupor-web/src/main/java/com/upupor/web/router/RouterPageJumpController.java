@@ -36,6 +36,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
+import static com.upupor.web.page.controller.ContentJumpController.WEB_INDEX;
+
 /**
  * 路由器
  * (单独提出来,使用redirect不会带切面里面的参数)
@@ -107,5 +111,20 @@ public class RouterPageJumpController {
         modelAndView.setViewName(REDIRECT + AboutAdView.URL);
         return modelAndView;
     }
+
+    @GetMapping(value = {
+            "/topic", "/topic/{tagId}",
+            "/record", "/record/{tagId}",
+            "/workplace", "/workplace/{tagId}"
+    })
+    public ModelAndView contentList(Integer pageNum, Integer pageSize,
+                                    @PathVariable(value = "tagId", required = false) String tagId,
+                                    HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(REDIRECT + WEB_INDEX);
+        return modelAndView;
+
+    }
+
 
 }
