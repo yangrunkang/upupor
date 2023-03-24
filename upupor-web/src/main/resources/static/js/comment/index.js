@@ -27,5 +27,4 @@
  *   -->
  */
 $(function () {
-    $.cvLoadShowImg();
 });

@@ -47,7 +47,6 @@ $(function () {
     jQuery.cvGetEditorDataMd = getEditorDataMd;
     jQuery.cvSetEditorEmpty = setEditorEmpty;
     jQuery.cvSetEditorContent = setEditorContent;
-    jQuery.cvLoadShowImg = loadShowImg;
 
     // 开启GoUp组件
     $.goup({
@@ -80,17 +79,6 @@ function packagingToastInfo(message) {
         timer: 1500,
         closeOnClickOutside: false,
         closeOnEsc: false,
-    });
-}
-
-function loadShowImg() {
-    // 点击图片放大(ckeditor)
-    $(".image").children().click(function () {
-        showImg(this);
-    });
-    // 点击图片放大(cherry-markdown)
-    $(".cherry-markdown p img").click(function () {
-        showImg(this);
     });
 }
 
@@ -437,30 +425,4 @@ function getCookie(cname) {
         if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
     }
     return "";
-}
-
-function showImg(img) {
-    const viewer = new Viewer(img, {
-        inline: false,
-        viewed() {
-            viewer.zoomTo(1);
-        },
-        toolbar: {
-            zoomIn: 1,
-            zoomOut: 1,
-            oneToOne: 1,
-            reset: 0,
-            prev: 0,
-            play: {
-                show: 0,
-                size: 'large',
-            },
-            next: 0,
-            rotateLeft: 1,
-            rotateRight: 1,
-            flipHorizontal: 1,
-            flipVertical: 1,
-        },
-    });
-    viewer.show();
 }

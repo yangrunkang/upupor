@@ -50,5 +50,25 @@
     <!--导航栏js-->
     <script async="async" th:src="${ossStatic} + @{/js/navbar.js}" type="text/javascript"></script>
     <script async="async" th:src="${ossStatic} + @{/plugins/viewerjs/viewer.min.js}"></script>
+    <script>
+        function initViewer() {
+            //找到所有在<article>标签内的 <img> 标签
+            var images = document.querySelectorAll("article img");
+
+            //为每个 <img> 标签添加点击事件
+            for (var i = 0; i < images.length; i++) {
+                images[i].addEventListener("click", function () {
+                    //使用 Viewer.js 库打开图像
+                    new Viewer(this);
+                });
+            }
+        }
+
+        //在页面加载完毕后调用该函数
+        window.onload = function () {
+            initViewer();
+        };
+    </script>
+
 </body>
 </html>

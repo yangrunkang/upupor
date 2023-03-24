@@ -27,7 +27,6 @@
 $(function () {
     // 优先加载回复框
     $.cvLoadBootstrapRichText(true);
-    $.cvLoadShowImg();
 });
 
 function cancel(text) {

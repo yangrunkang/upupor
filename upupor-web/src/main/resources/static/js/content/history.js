@@ -28,6 +28,4 @@
 $(function () {
     // 开启提示
     $('[data-toggle="tooltip"]').tooltip();
-
-    $.cvLoadShowImg();
 });
