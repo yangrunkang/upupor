@@ -89,7 +89,10 @@ public enum ContentType {
      * 电台
      */
     RADIO(8, "电台"),
-    ;
+    /**
+     * GPT
+     */
+    GPT(9, "GPT", "/gpt", "GPT", "/icons/write/ChatGPT.svg", "创建 > GPT");
     @EnumValue
     private final Integer type;
     private final String name;
@@ -180,6 +183,7 @@ public enum ContentType {
         contentTypeList.add(TECH);
         contentTypeList.add(QA);
         contentTypeList.add(SHARE);
+        contentTypeList.add(GPT);
 //        contentTypeList.add(RECORD);
 //        contentTypeList.add(WORKPLACE);
 //        contentTypeList.add(TOPIC);

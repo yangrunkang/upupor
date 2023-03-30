@@ -79,6 +79,7 @@ public class ContentJumpController {
             "/tech", "/tech/{tagId}",
             "/qa", "/qa/{tagId}",
             "/share", "/share/{tagId}",
+            "/gpt", "/gpt/{tagId}",
     })
     public ModelAndView contentList(Integer pageNum, Integer pageSize,
                                     @PathVariable(value = "tagId", required = false) String tagId,
