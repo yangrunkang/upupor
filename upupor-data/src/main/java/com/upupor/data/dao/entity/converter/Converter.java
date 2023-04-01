@@ -74,9 +74,12 @@ public class Converter {
             return new ArrayList<>();
         }
 
-        return commentList.stream().map(c -> CommentEnhance.builder()
-                .comment(c)
-                .build()).collect(Collectors.toList());
+        return commentList.stream().map(c -> {
+            c.unZip();
+            return CommentEnhance.builder()
+                    .comment(c)
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     public static CommentEnhance commentEnhance(Comment comment, MemberEnhance memberEnhance) {

@@ -31,6 +31,7 @@ import com.upupor.data.dao.BaseEntity;
 import com.upupor.data.types.CommentAgree;
 import com.upupor.data.types.CommentStatus;
 import com.upupor.data.types.ContentType;
+import com.upupor.framework.utils.DeflaterUtils;
 import lombok.Data;
 
 @Data
@@ -75,4 +76,16 @@ public class Comment extends BaseEntity {
     public static Comment empty() {
         return new Comment();
     }
+
+    public void zip() {
+        this.commentContent = DeflaterUtils.zipString(commentContent);
+        this.mdCommentContent = DeflaterUtils.zipString(mdCommentContent);
+    }
+
+
+    public void unZip() {
+        this.commentContent = DeflaterUtils.unzipString(commentContent);
+        this.mdCommentContent = DeflaterUtils.unzipString(mdCommentContent);
+    }
+
 }

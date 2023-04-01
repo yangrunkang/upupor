@@ -148,7 +148,6 @@ public class ContentServiceImpl implements ContentService {
         Content content = contentMapper.selectOne(query);
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
         ContentEnhance contentEnhance = Converter.contentEnhance(content);
-        bindContentExtend(contentEnhance);
         return contentEnhance;
     }
 
@@ -270,6 +269,7 @@ public class ContentServiceImpl implements ContentService {
         LambdaQueryWrapper<ContentExtend> query = new LambdaQueryWrapper<ContentExtend>().eq(ContentExtend::getContentId, content.getContentId());
         ContentExtend contentExtend = contentExtendMapper.selectOne(query);
         Asserts.notNull(contentExtend, DATA_MISSING);
+        contentExtend.unZip();
         contentEnhance.setContentExtendEnhance(Converter.contentExtendEnhance(contentExtend));
     }
 
@@ -277,7 +277,9 @@ public class ContentServiceImpl implements ContentService {
     public Boolean insertContent(ContentEnhance contentEnhance) {
         Content content = contentEnhance.getContent();
         int count = contentMapper.insert(content);
-        return contentExtendMapper.insert(contentEnhance.getContentExtendEnhance().getContentExtend()) + count > 1;
+        ContentExtend contentExtend = contentEnhance.getContentExtendEnhance().getContentExtend();
+        contentExtend.zip();
+        return contentExtendMapper.insert(contentExtend) + count > 1;
     }
 
     @Override
@@ -300,18 +302,7 @@ public class ContentServiceImpl implements ContentService {
     public Boolean updateContent(ContentEnhance contentEnhance) {
         Content content = contentEnhance.getContent();
         Asserts.notNull(content, CONTENT_NOT_EXISTS);
-        boolean updateContent, updateContentExtend = Boolean.FALSE;
-        updateContent = contentMapper.updateById(content) > 0;
-        if (Objects.nonNull(contentEnhance.getContentExtendEnhance())) {
-            ContentExtend contentExtend = contentEnhance.getContentExtendEnhance().getContentExtend();
-            updateContentExtend = contentExtendMapper.updateById(contentExtend) > 0;
-        }
-
-        if (updateContent || updateContentExtend) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
-        }
+        return contentMapper.updateById(content) > 0;
     }
 
 

@@ -98,7 +98,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setLikeNum(BigDecimal.ZERO.intValue());
         comment.setCreateTime(CcDateUtil.getCurrentTime());
         comment.setSysUpdateTime(new Date());
-
+        comment.zip();
         if (commentMapper.insert(comment) > 0) {
             return comment;
         }

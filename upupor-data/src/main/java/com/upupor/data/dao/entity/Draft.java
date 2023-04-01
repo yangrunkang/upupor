@@ -37,6 +37,7 @@ import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.DraftSource;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
+import com.upupor.framework.utils.DeflaterUtils;
 import com.upupor.framework.utils.JsonUtils;
 import lombok.Data;
 import org.springframework.util.StringUtils;
@@ -65,6 +66,7 @@ public class Draft extends BaseEntity {
      * @return
      */
     public static ContentEnhance parseContent(Draft draft) {
+        draft.unZip();
         String draftContent = draft.getDraftContent();
         String contentId = draft.getDraftId();
         String userId = draft.getUserId();
@@ -90,4 +92,11 @@ public class Draft extends BaseEntity {
                 .build();
     }
 
+    public void zip() {
+        this.draftContent = DeflaterUtils.zipString(draftContent);
+    }
+
+    public void unZip() {
+        this.draftContent = DeflaterUtils.unzipString(draftContent);
+    }
 }

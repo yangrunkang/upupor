@@ -35,10 +35,10 @@ import com.upupor.data.dao.mapper.DraftMapper;
 import com.upupor.data.dto.dao.ListDraftDto;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.utils.Asserts;
+import com.upupor.service.utils.JwtUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -61,12 +61,14 @@ public class DraftServiceImpl implements DraftService {
 
     @Override
     public Boolean create(Draft draft) {
+        draft.zip();
         return draftMapper.insert(draft) > 0;
     }
 
     @Override
     public Boolean update(Draft draft) {
         Asserts.notNull(draft.getId(), ErrorCode.WITHOUT_OPERATION_ID);
+        draft.zip();
         return draftMapper.updateById(draft) > 0;
     }
 
@@ -85,7 +87,7 @@ public class DraftServiceImpl implements DraftService {
         Boolean autoSave;
         if (Objects.isNull(draft)) {
             // 新文章,入库
-            Draft newDraft = create(autoSaveContentReq, userId);
+            Draft newDraft = createDraft(autoSaveContentReq, userId);
             autoSave = this.create(newDraft);
         } else {
             if (autoSaveContentReq.getDraftContent().equals(draft.getDraftContent())) { // 内容json包含title和content,只需要比较这个值
@@ -119,7 +121,9 @@ public class DraftServiceImpl implements DraftService {
         if (CollectionUtils.isEmpty(draftList)) {
             return null;
         }
-        return draftList.get(0);
+        Draft draft = draftList.get(0);
+        draft.unZip();
+        return draft;
     }
 
     @Override
@@ -128,7 +132,9 @@ public class DraftServiceImpl implements DraftService {
         if (CollectionUtils.isEmpty(draftList)) {
             return null;
         }
-        return draftList.get(0);
+        Draft draft = draftList.get(0);
+        draft.unZip();
+        return draft;
     }
 
 
@@ -149,7 +155,7 @@ public class DraftServiceImpl implements DraftService {
      * @param userId
      * @return
      */
-    public static Draft create(AutoSaveContentReq autoSaveContentReq, String userId) {
+    public static Draft createDraft(AutoSaveContentReq autoSaveContentReq, String userId) {
         Draft draft = new Draft();
         draft.setUserId(userId);
         draft.setDraftId(autoSaveContentReq.getDraftId());

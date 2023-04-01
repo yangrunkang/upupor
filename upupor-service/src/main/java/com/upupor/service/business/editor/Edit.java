@@ -42,8 +42,8 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.outer.req.content.UpdateContentReq;
+import com.upupor.service.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -118,6 +118,7 @@ public class Edit extends AbstractEditor<UpdateContentReq> {
             contentExtend.setDetailContent(updateContentReq.getContent());
             contentExtend.setMarkdownContent(updateContentReq.getMdContent());
             contentExtend.setSysUpdateTime(new Date());
+            contentExtend.zip();
             totalUpdateCount = totalUpdateCount + contentExtendMapper.updateById(contentExtend);
         }
         boolean updateSuccess = totalUpdateCount > 0;

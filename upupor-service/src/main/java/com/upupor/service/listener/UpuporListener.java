@@ -27,6 +27,15 @@
 
 package com.upupor.service.listener;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.upupor.data.dao.entity.Comment;
+import com.upupor.data.dao.entity.ContentExtend;
+import com.upupor.data.dao.entity.Draft;
+import com.upupor.data.dao.mapper.CommentMapper;
+import com.upupor.data.dao.mapper.ContentExtendMapper;
+import com.upupor.data.dao.mapper.DraftMapper;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcRedis;
 import com.upupor.framework.utils.RedisUtil;
@@ -34,6 +43,7 @@ import com.upupor.service.base.MemberService;
 import com.upupor.service.business.lucene.LuceneService;
 import com.upupor.service.business.task.TaskService;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
+import com.upupor.service.listener.event.CompressContentEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import com.upupor.service.listener.event.InitSensitiveWordEvent;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +54,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Objects;
 
 import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
@@ -62,6 +73,12 @@ public class UpuporListener {
     private final MemberService memberService;
     private final TaskService taskService;
     private final LuceneService luceneService;
+    private final ContentExtendMapper contentExtendMapper;
+    private final DraftMapper draftMapper;
+    private final CommentMapper commentMapper;
+    
+    private static final String ZIPPED = "zipped";
+    private static final String ZIP_KEY = "zip";
 
     /**
      * 埋点
@@ -113,6 +130,74 @@ public class UpuporListener {
     public void initSensitiveWordEvent(InitSensitiveWordEvent event) {
         log.info("开始初始化敏感词....");
         taskService.refreshSensitiveWord();
+    }
+
+    @EventListener
+    @Async
+    public void compressContent(CompressContentEvent event) {
+        zip();
+    }
+
+    private void zip() {
+        if (ZIPPED.equals(RedisUtil.get(ZIP_KEY))) {
+            return;
+        }
+        zipContent();
+        zipDraft();
+        zipComment();
+
+        RedisUtil.set(ZIP_KEY, ZIPPED);
+    }
+
+    private void zipComment() {
+        LambdaQueryWrapper<Comment> listQuery = new LambdaQueryWrapper<Comment>();
+        int pageNum = 1, pageSize = 100;
+        PageInfo<Comment> pageInfo = null;
+        do {
+            PageHelper.startPage(pageNum, pageSize);
+            List<Comment> contents = commentMapper.selectList(listQuery);
+            pageInfo = new PageInfo<>(contents);
+
+            for (Comment comment : pageInfo.getList()) {
+                comment.zip();
+                commentMapper.updateById(comment);
+            }
+            pageNum = pageInfo.getNextPage();
+        } while (!pageInfo.isIsLastPage());
+    }
+
+    private void zipDraft() {
+        LambdaQueryWrapper<Draft> listQuery = new LambdaQueryWrapper<Draft>();
+        int pageNum = 1, pageSize = 100;
+        PageInfo<Draft> pageInfo = null;
+        do {
+            PageHelper.startPage(pageNum, pageSize);
+            List<Draft> contents = draftMapper.selectList(listQuery);
+            pageInfo = new PageInfo<>(contents);
+
+            for (Draft draft : pageInfo.getList()) {
+                draft.zip();
+                draftMapper.updateById(draft);
+            }
+            pageNum = pageInfo.getNextPage();
+        } while (!pageInfo.isIsLastPage());
+    }
+
+    private void zipContent() {
+        LambdaQueryWrapper<ContentExtend> listQuery = new LambdaQueryWrapper<ContentExtend>();
+        int pageNum = 1, pageSize = 100;
+        PageInfo<ContentExtend> pageInfo = null;
+        do {
+            PageHelper.startPage(pageNum, pageSize);
+            List<ContentExtend> contents = contentExtendMapper.selectList(listQuery);
+            pageInfo = new PageInfo<>(contents);
+
+            for (ContentExtend contentExtend : pageInfo.getList()) {
+                contentExtend.zip();
+                contentExtendMapper.updateById(contentExtend);
+            }
+            pageNum = pageInfo.getNextPage();
+        } while (!pageInfo.isIsLastPage());
     }
 
 }

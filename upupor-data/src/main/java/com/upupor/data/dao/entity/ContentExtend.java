@@ -30,6 +30,7 @@
 package com.upupor.data.dao.entity;
 
 import com.upupor.data.dao.BaseEntity;
+import com.upupor.framework.utils.DeflaterUtils;
 import lombok.Data;
 
 /**
@@ -55,5 +56,30 @@ public class ContentExtend extends BaseEntity {
         contentExtend.setMarkdownContent(markDownContent);
         return contentExtend;
     }
+
+
+    /**
+     * 压缩
+     *
+     * @param detailContent
+     * @param markDownContent
+     */
+    public void zip() {
+        this.detailContent = DeflaterUtils.zipString(detailContent);
+        this.markdownContent = DeflaterUtils.zipString(markdownContent);
+    }
+
+
+    /**
+     * 解压
+     *
+     * @param detailContent
+     * @param markDownContent
+     */
+    public void unZip() {
+        this.detailContent = DeflaterUtils.unzipString(detailContent);
+        this.markdownContent = DeflaterUtils.unzipString(markdownContent);
+    }
+
 
 }
