@@ -29,6 +29,7 @@ package com.upupor.service.aggregation;
 
 import com.upupor.data.dao.entity.Tag;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
+import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dao.entity.enhance.TagEnhance;
 import com.upupor.data.dto.cache.CacheMemberDto;
 import com.upupor.data.dto.page.CommonPageIndexDto;
@@ -146,6 +147,10 @@ public class CommonAggregateService {
             String activeUserListJson = RedisUtil.get(CcRedis.Key.ACTIVE_USER_LIST);
             if (!StringUtils.isEmpty(activeUserListJson)) {
                 cacheMemberDto = JsonUtils.parse2Clazz(activeUserListJson, CacheMemberDto.class);
+                // 因为活跃用户列表是缓存的,会存在延后,所有这里重新根据Redis里面的最新数据覆盖
+                for (MemberEnhance memberEnhance : cacheMemberDto.getMemberEnhanceList()) {
+                    memberEnhance.setLastActiveTime(CcRedis.Key.userActiveKey(memberEnhance.getMember().getUserId()));
+                }
             }
             return cacheMemberDto;
         });

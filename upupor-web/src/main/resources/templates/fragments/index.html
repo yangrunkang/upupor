@@ -610,8 +610,8 @@ from: 来源
                 <div class="mt-2">于 <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark"
                                           th:text="${memberIndexDto.memberEnhance.createDateShort}">42</span> 加入Upupor大家庭
                 </div>
-                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.memberEnhance.lastLoginDate)}" th:inline="text">
-                    最近活跃: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.memberEnhance.lastLoginDate}]]</span>
+                <div class="mt-2" th:if="!${#strings.isEmpty(memberIndexDto.memberEnhance.lastActiveTime)}" th:inline="text">
+                    最近活跃: <span class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.memberEnhance.lastActiveTime}]]</span>
                 </div>
                 <div class="mt-2 mb-1" th:inline="text">积分: <span
                         class="badge bg-gradient rounded-3 fw-normal bg-warning text-dark">[[${memberIndexDto.memberEnhance.totalIntegral}]]</span>

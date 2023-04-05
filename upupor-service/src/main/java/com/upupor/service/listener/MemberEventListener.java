@@ -85,7 +85,7 @@ public class MemberEventListener {
         // 登录送积分
         loginIntegral(memberLoginEvent);
         // 记录最新登录时间
-        recordLastLoginTime(memberLoginEvent);
+        recordTheLatestLoginTime(memberLoginEvent);
     }
 
     /**
@@ -93,7 +93,7 @@ public class MemberEventListener {
      *
      * @param memberLoginEvent
      */
-    private void recordLastLoginTime(MemberLoginEvent memberLoginEvent) {
+    private void recordTheLatestLoginTime(MemberLoginEvent memberLoginEvent) {
         String userId = memberLoginEvent.getUserId();
         if (StringUtils.isEmpty(userId)) {
             return;

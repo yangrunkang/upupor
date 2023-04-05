@@ -58,7 +58,7 @@ public class CcRedis {
          * 文章发布间隔
          */
         public static final String CREATE_CONTENT_TIME_OUT = "create_content_time_out";
-        public static final String REFRESH_KEY = "refresh_key";
+        public static final String ACTIVE_KEY = "member_active_key";
 
         /**
          * SiteMap
@@ -82,8 +82,8 @@ public class CcRedis {
          * @param userId
          * @return
          */
-        public static String refreshActiveMemberListKey(String userId) {
-            return REFRESH_KEY + userId;
+        public static String userActiveKey(String userId) {
+            return ACTIVE_KEY + userId;
         }
 
         /**

@@ -38,6 +38,7 @@ import com.upupor.data.dao.mapper.ContentExtendMapper;
 import com.upupor.data.dao.mapper.DraftMapper;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.CcRedis;
+import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.business.lucene.LuceneService;
@@ -57,8 +58,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
 
-import static com.upupor.framework.CcConstant.Time.MEMBER_ACTIVE_TIME;
-
 
 /**
  * Upupor 监听器
@@ -76,7 +75,7 @@ public class UpuporListener {
     private final ContentExtendMapper contentExtendMapper;
     private final DraftMapper draftMapper;
     private final CommentMapper commentMapper;
-    
+
     private static final String ZIPPED = "zipped";
     private static final String ZIP_KEY = "zip";
 
@@ -103,18 +102,14 @@ public class UpuporListener {
             CcRedis.Operate.updateTokenExpireTime(userId);
             // 延长活跃Key
             CcRedis.Operate.memberActive(userId);
-            // 刷新最近登录的用户
-            refreshActiveMemberList(userId);
+            // 刷新用户活跃时间
+            refreshUserActiveTime(userId);
         }
     }
 
-    private void refreshActiveMemberList(String userId) {
-        String refreshKey = CcRedis.Key.refreshActiveMemberListKey(userId);
-        if (RedisUtil.exists(refreshKey)) {
-            return;
-        }
-        RedisUtil.set(refreshKey, refreshKey, MEMBER_ACTIVE_TIME);
-        taskService.refreshActiveMember();
+    private void refreshUserActiveTime(String userId) {
+        String userActiveKey = CcRedis.Key.userActiveKey(userId);
+        RedisUtil.set(userActiveKey, String.valueOf(CcDateUtil.getCurrentTime()));
     }
 
     @EventListener

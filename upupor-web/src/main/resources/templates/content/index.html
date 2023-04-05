@@ -145,7 +145,7 @@
                             </a>
                         </p>
                         <div>
-                            <p style="text-align: center" class="text-black-50 small m-0 p-1" th:if="!${#strings.isEmpty(contentIndexDto.contentEnhance.memberEnhance.lastLoginDate)}" th:inline="text">最近活跃: [[${contentIndexDto.contentEnhance.memberEnhance.lastLoginDate}]]</p>
+                            <p style="text-align: center" class="text-black-50 small m-0 p-1" th:if="!${#strings.isEmpty(contentIndexDto.contentEnhance.memberEnhance.lastActiveTime)}" th:inline="text">最近活跃: [[${contentIndexDto.contentEnhance.memberEnhance.lastActiveTime}]]</p>
                         </div>
                         <!--关注按钮-->
                         <button th:if="${session?.cv_user_id != contentIndexDto.contentEnhance.content.userId} and !${contentIndexDto.currUserIsAttention}" class="btn rounded-3 bg-gradient btn-warning btn-sm w-100" th:onclick="attentionAuthor([[${contentIndexDto.contentEnhance.content.userId}]])" id="attention_btn">

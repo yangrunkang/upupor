@@ -326,8 +326,6 @@ public final class CcConstant {
 
 
     public static final class Time {
-        // 用户只要活跃一次,维持活跃状态的时间
-        public static final long MEMBER_ACTIVE_TIME = 60 * 60L;
         // 文章只要编辑过,维持更新标识的时间
         public static final long CONTENT_UPDATE_TIME = 24 * 60 * 60L;
         // 最新的新文章 7天内都算

@@ -37,6 +37,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,7 @@ public class MemberEnhance {
 
     private String createDate;
     private String createDateDiff;
-    private String lastLoginDate;
+    private String lastActiveTime;
     /**
      * 创建时间短 年-月-日
      */
@@ -128,12 +129,18 @@ public class MemberEnhance {
         return createDate;
     }
 
-    public String getLastLoginDate() {
-        Long lastLoginTime = member.getLastLoginTime();
-        if (Objects.nonNull(lastLoginTime) && lastLoginTime > 0) {
-            return CcDateUtil.timeStamp2Date(lastLoginTime);
+    public String getLastActiveTime() {
+        String latestActiveTimeValue = RedisUtil.get(CcRedis.Key.userActiveKey(member.getUserId()));
+        if (StringUtils.isEmpty(latestActiveTimeValue)) {
+            // 默认返回最后一次登录时间
+            return CcDateUtil.timeStamp2Date(member.getLastLoginTime());
         }
-        return lastLoginDate;
+        Long latestActiveTime = Long.valueOf(latestActiveTimeValue);
+        if (Objects.nonNull(latestActiveTime) && latestActiveTime > 0) {
+            return CcDateUtil.timeStamp2Date(latestActiveTime);
+        }
+        // 默认返回最后一次登录时间
+        return CcDateUtil.timeStamp2Date(member.getLastLoginTime());
     }
 
     public String getCreateDateShort() {
