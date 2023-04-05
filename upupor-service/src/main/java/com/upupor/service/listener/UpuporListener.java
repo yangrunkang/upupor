@@ -95,15 +95,19 @@ public class UpuporListener {
             return;
         }
 
-        String userId = String.valueOf(userIdAttribute);
-        //检测是否是userId
-        if (org.apache.commons.lang3.StringUtils.isNumeric(userId)) {
-            // 更新token过期时间
-            CcRedis.Operate.updateTokenExpireTime(userId);
-            // 延长活跃Key
-            CcRedis.Operate.memberActive(userId);
-            // 刷新用户活跃时间
-            refreshUserActiveTime(userId);
+        try {
+            String userId = String.valueOf(userIdAttribute);
+            //检测是否是userId
+            if (memberService.exists(userId)) {
+                // 更新token过期时间
+                CcRedis.Operate.updateTokenExpireTime(userId);
+                // 延长活跃Key
+                CcRedis.Operate.memberActive(userId);
+                // 刷新用户活跃时间
+                refreshUserActiveTime(userId);
+            }
+        } catch (Exception ignore) {
+            
         }
     }
 
