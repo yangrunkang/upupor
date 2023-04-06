@@ -667,6 +667,7 @@ from: 来源
     <div class="card border-0 rounded-3 mb-2"
          th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0' and ${adSwitchRight} == '0'">
         <div class="card border-0-body border-0 p-0 float-ads-vertical">
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- 文章详情-右侧-纵向广告 -->
             <ins class="adsbygoogle"
                  style="display:block"
@@ -674,6 +675,9 @@ from: 来源
                  th:data-ad-slot="${googleRightSlot}"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
         <div class="card-footer bg-white p-1">
             <a href="/about-ad" class="text-black-50 small">关于广告</a>
@@ -689,12 +693,16 @@ from: 来源
          th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '1'">
     </div>
     <div class="float-ads-feed" th:if="!${#strings.isEmpty(adSwitch)} and ${adSwitch} == '0'">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-format="fluid"
              data-ad-layout-key="-hz+6+19-53+54"
              th:data-ad-client="${googleClient}"
              th:data-ad-slot="${googleFeedSlot}"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
 </div>
 
