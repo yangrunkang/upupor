@@ -69,13 +69,22 @@
         <!--自定义css-->
         <link th:replace="::css" />
         <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'" async th:src="'https://www.googletagmanager.com/gtag/js?id='+${googleGA4}"></script>
+<!--        <script th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'" async th:src="'https://www.googletagmanager.com/gtag/js?id='+${googleGA4}"></script>-->
         <script th:if="!${#strings.isEmpty(analyzeSwitch)} and ${analyzeSwitch} == '0'">
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-
             gtag('config', '[[${googleGA4}]]');
+            window.addEventListener('load', function(){
+                var gtag = document.createElement('script');
+                gtag.src = "https://www.googletagmanager.com/gtag/js?id=[[${googleGA4}]]";
+                document.body.appendChild(gtag);
+
+                var adsbygoogle = document.createElement('script');
+                adsbygoogle.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
+                document.body.appendChild(adsbygoogle);
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            });
         </script>
     </head>
 </body>
