@@ -56,7 +56,7 @@
                                                                                                 th:alt="${commentDto.commentEnhance.memberEnhance.member.userName}" /> </i>
                                         <strong>[[${commentDto.commentEnhance.memberEnhance.member.userName}]]</strong>
                                     </a>
-                                    <span class="text-black-50 small float-end"><img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <strong>[[${commentDto.commentEnhance.createDateDiff}]]</strong></i></span>
+                                    <span class="text-black-50 small float-end"><img th:data-src="${ossStatic} + @{/icons/system/content-time.png}" class="lazyload cv-icon-small"/> <strong>[[${commentDto.commentEnhance.createDateDiff}]] <span th:include="fragments/comment::commentLatestAdd(${commentDto.commentEnhance.latestAdded},'近7天新增')"></span></strong></i></span>
                                 </div>
                                 <div>
                                     <a class="text-black-50 small"

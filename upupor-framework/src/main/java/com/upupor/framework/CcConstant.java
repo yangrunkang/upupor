@@ -93,6 +93,11 @@ public final class CcConstant {
     public static final String HAS_NEW_COMMENT = "hasNewComment";
 
     /**
+     * 最新评论标识缓存时长,7天
+     */
+    public static final Long CACHE_COMMENT_TAG_TIME = 1 * 60 * 60 * 24 * 7L;
+
+    /**
      * 根据标签获取对应的数目
      */
     public static final String CV_TAG_LIST = "cvTagList";
@@ -145,6 +150,7 @@ public final class CcConstant {
      */
     public static final String CV_OFF = "0";
     public static final String CV_ON = "1";
+
 
     public static final class UserView {
         public static final String BASE_PATH = "user";

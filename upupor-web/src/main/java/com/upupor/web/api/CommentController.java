@@ -31,10 +31,7 @@ package com.upupor.web.api;
 
 import com.upupor.data.dao.entity.Comment;
 import com.upupor.data.dao.entity.Member;
-import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcRedis;
-import com.upupor.framework.CcResponse;
-import com.upupor.framework.ErrorCode;
+import com.upupor.framework.*;
 import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.limiter.LimitType;
 import com.upupor.security.limiter.UpuporLimit;
@@ -87,7 +84,7 @@ public class CommentController {
             // 添加评论
             Comment comment = commentService.create(addCommentReq);
             // 缓存有最新评论的标识
-            RedisUtil.setKeyJust(CcRedis.LATEST_HAS_NEW_COMMENT, 1 * 60 * 60 * 24 * 7L); // 缓存7D
+            RedisUtil.setKeyJust(CcRedis.LATEST_HAS_NEW_COMMENT, CcConstant.CACHE_COMMENT_TAG_TIME); // 缓存7D
             if (StringUtils.isEmpty(addCommentReq.getReplyToUserId())) {
                 // 常规的评论
                 normalCommentEvent(addCommentReq.getTargetId(), comment);

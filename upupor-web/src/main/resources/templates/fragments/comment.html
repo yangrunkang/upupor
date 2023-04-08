@@ -62,6 +62,9 @@
 </div>
 
 
+<span th:fragment="commentLatestAdd(latestAdded,text)">
+    <span th:if="${latestAdded}" class="badge bg-gradient bg-danger fw-light rounded-3 small d-inline-flex text-white">[[${text}]]</span>
+</span>
 <div th:fragment="commentList(commentEnhance,pageDtoList,total,fromPage,targetUserId,businessDesc)">
     <div th:class="${fromPage == 'profile-message'}?'':'card border-0 rounded-3 p-2 my-2'">
         <div th:if="${#lists.isEmpty(commentEnhance)}" th:include="fragments/index::empty_content"></div>
@@ -79,6 +82,7 @@
                             <a class="text-black-50 cv-link fw-bold" th:href="'/profile/'+${commentEnhance.memberEnhance.member.userId}+'/content'">
                                 [[${commentEnhance.memberEnhance.member.userName}]] <span class="badge rounded-3 fw-normal" style="border: 1px solid #DAEDE4;color: #3f7b5a;background-color: #EFF7ED;" th:if="${commentEnhance.memberEnhance.member.userId == targetUserId}">楼主</span>
                                 <span th:include="fragments/member::memberTag(${commentEnhance.memberEnhance})"></span>
+                                <span th:include="fragments/comment::commentLatestAdd(${commentEnhance.latestAdded},'近7天新增')"></span>
                             </a>
                             <span class="badge bg-gradient bg-success" th:if="${commentEnhance.comment.beFloorNum != null}" th:text="'回复 ' + ${commentEnhance.comment.beFloorNum} + '#'+(${commentEnhance.replyMemberEnhance?.member?.userName} == null?'':' · '+${commentEnhance.replyMemberEnhance?.member?.userName})+' 的'+${businessDesc}"></span>
                             <div class="float-end text-black-50 small">

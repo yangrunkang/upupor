@@ -39,6 +39,8 @@ import org.apache.logging.log4j.util.Strings;
 
 import java.util.Objects;
 
+import static com.upupor.framework.CcConstant.CACHE_COMMENT_TAG_TIME;
+
 /**
  * @author Yang Runkang (cruise)
  * @createTime 2022-11-27 03:44
@@ -68,6 +70,11 @@ public class CommentEnhance {
 
     private String createDateDiff;
 
+    /**
+     * 是否是最近新增的
+     */
+    private Boolean latestAdded;
+
     public String getCreateDate() {
         return CcDateUtil.timeStamp2Date(comment.getCreateTime());
     }
@@ -79,5 +86,7 @@ public class CommentEnhance {
         return CcDateUtil.timeStamp2DateOnly(comment.getCreateTime());
     }
 
-
+    public Boolean getLatestAdded() {
+        return CcDateUtil.getCurrentTime() - comment.getCreateTime() <= CACHE_COMMENT_TAG_TIME;
+    }
 }

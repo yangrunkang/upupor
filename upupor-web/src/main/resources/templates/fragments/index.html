@@ -462,7 +462,7 @@ from: 来源
         </div>
         <div class="border-1 border-bottom my-1"></div>
         <div class="mt-1 small">
-            · <a href="/comment" class="text-black-50">全站评论 <i class="bi bi-chat-right-quote"></i>  <div th:if="${hasNewComment}" class="badge bg-gradient bg-danger fw-light rounded-3 small d-inline-flex text-white">最近有新的评论</div></a>
+            · <a href="/comment" class="text-black-50">全站评论 <i class="bi bi-chat-right-quote"></i>  <span th:include="fragments/comment::commentLatestAdd(${hasNewComment},'近7天有新的评论')"></span></a>
         </div>
         <div class="mt-1 small">
             · <a class="text-black-50" href="/view/history">浏览记录 <span th:include="fragments/icon::view_record" class="cv-icon-small"></span></a>
