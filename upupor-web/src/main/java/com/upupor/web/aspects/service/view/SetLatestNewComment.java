@@ -2,7 +2,7 @@
  * <!--
  *   ~ MIT License
  *   ~
- *   ~ Copyright (c) 2021-2022 yangrunkang
+ *   ~ Copyright (c) 2021-2023 yangrunkang
  *   ~
  *   ~ Author: yangrunkang
  *   ~ Email: yangrunkang53@gmail.com
@@ -29,31 +29,29 @@
 
 package com.upupor.web.aspects.service.view;
 
+import com.upupor.framework.CcRedis;
+import com.upupor.framework.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.upupor.framework.CcConstant.RESPONSE_TIME;
+import static com.upupor.framework.CcConstant.HAS_NEW_COMMENT;
 
 /**
- * 设定响应时间
- *
- * @author cruise
- * @createTime 2022-01-19 18:01
+ * @author Yang Runkang (cruise)
+ * @createTime 2023-04-08 23:42
+ * @email: yangrunkang53@gmail.com
  */
 @RequiredArgsConstructor
 @Service
-@Order(7)
-public class SetResponseTime implements PrepareData {
+@Order(11)
+public class SetLatestNewComment implements PrepareData {
 
     @Override
     public void prepare(ViewData viewData) {
         ModelAndView modelAndView = viewData.getModelAndView();
-        long startTime = viewData.getResponseTime();
-
-        // 设定响应时间
-        modelAndView.addObject(RESPONSE_TIME, viewData.getResponseTime());
+        modelAndView.addObject(HAS_NEW_COMMENT, RedisUtil.exists(CcRedis.LATEST_HAS_NEW_COMMENT));
     }
 
 }

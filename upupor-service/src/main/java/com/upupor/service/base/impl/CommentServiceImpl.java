@@ -80,7 +80,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment create(AddCommentReq addCommentReq) {
-
         Comment comment = new Comment();
         comment.setTargetId(addCommentReq.getTargetId());
         comment.setCommentSource(addCommentReq.getCommentSource());

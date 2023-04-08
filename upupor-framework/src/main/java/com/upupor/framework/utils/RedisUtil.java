@@ -57,6 +57,18 @@ public class RedisUtil {
         ops.set(key, value, timeout, TimeUnit.SECONDS);
     }
 
+    /**
+     * 值设定Key及过期时间,不在乎具体的值
+     *
+     * @param key
+     * @param value
+     * @param timeout 秒
+     */
+    public static void setKeyJust(String key, Long timeout) {
+        ValueOperations<String, String> ops = RedisSingleton.getRedisSingleton().getRedisTemplate().opsForValue();
+        ops.set(key, "do not care about the cache value", timeout, TimeUnit.SECONDS);
+    }
+
 
     /**
      * 增加

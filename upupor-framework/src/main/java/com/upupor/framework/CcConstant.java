@@ -88,6 +88,11 @@ public final class CcConstant {
     public static final String RESPONSE_TIME = "responseTime";
 
     /**
+     * 是否有最新的评论
+     */
+    public static final String HAS_NEW_COMMENT = "hasNewComment";
+
+    /**
      * 根据标签获取对应的数目
      */
     public static final String CV_TAG_LIST = "cvTagList";

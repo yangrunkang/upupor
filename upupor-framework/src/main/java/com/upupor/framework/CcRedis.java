@@ -157,7 +157,10 @@ public class CcRedis {
             long activeExpiredTime = minute * 60; //  minute 分钟内内都算活跃
             RedisUtil.set(memberActiveKey, "memberActiveKey:" + userId, activeExpiredTime);
         }
-
-
     }
+
+    /**
+     * 最近是否有新的评论
+     */
+    public static final String LATEST_HAS_NEW_COMMENT = "latestHasNewComment";
 }
