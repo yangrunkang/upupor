@@ -29,6 +29,8 @@ package com.upupor.data.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.upupor.data.dao.entity.ContentExtend;
+import com.upupor.security.sensitive.UpuporSensitive;
 
+@UpuporSensitive
 public interface ContentExtendMapper extends BaseMapper<ContentExtend> {
 }

@@ -38,9 +38,7 @@ import com.upupor.framework.utils.RedisUtil;
 import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
 import com.upupor.security.sensitive.SensitiveWord;
 import com.upupor.security.sensitive.UpuporSensitive;
-import com.upupor.web.aspects.service.sensitive.ContentHandleSensitiveWord;
-import com.upupor.web.aspects.service.sensitive.MemberHandleSensitiveWord;
-import com.upupor.web.aspects.service.sensitive.RadioHandleSensitiveWord;
+import com.upupor.web.aspects.service.sensitive.*;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -73,6 +71,8 @@ public class SensitiveWordAspect {
         ABSTRACT_HANDLE_SENSITIVE_WORD_LIST.add(new ContentHandleSensitiveWord());
         ABSTRACT_HANDLE_SENSITIVE_WORD_LIST.add(new RadioHandleSensitiveWord());
         ABSTRACT_HANDLE_SENSITIVE_WORD_LIST.add(new MemberHandleSensitiveWord());
+        ABSTRACT_HANDLE_SENSITIVE_WORD_LIST.add(new ContentExtendHandleSensitiveWord());
+        ABSTRACT_HANDLE_SENSITIVE_WORD_LIST.add(new CommentHandleSensitiveWord());
     }
 
     private SensitiveWord sensitiveWord;

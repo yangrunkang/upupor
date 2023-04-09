@@ -27,52 +27,28 @@
  *   -->
  */
 
-package com.upupor.security.sensitive;
+package com.upupor.web.aspects.service.sensitive;
 
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.List;
-import java.util.Objects;
+import com.upupor.data.dao.entity.Comment;
+import com.upupor.security.sensitive.AbstractHandleSensitiveWord;
 
 /**
- * 处理敏感词抽象类
- *
  * @author Yang Runkang (cruise)
  * @createTime 2022-04-29 20:23
  * @email: yangrunkang53@gmail.com
  */
-public abstract class AbstractHandleSensitiveWord<T> {
+public class CommentHandleSensitiveWord extends AbstractHandleSensitiveWord<Comment> {
 
-    public abstract Boolean isHandle(Class<?> clazz);
-
-    protected abstract void handle(T t);
-
-    private SensitiveWord sensitiveWord;
-    private List<?> proceedList;
-
-
-    protected String replaceSensitiveWord(String target) {
-        if (Objects.isNull(sensitiveWord) || CollectionUtils.isEmpty(sensitiveWord.getWordList()) || StringUtils.isEmpty(target)) {
-            return target;
-        }
-
-        for (String sensitiveWord : sensitiveWord.getWordList()) {
-            if (target.contains(sensitiveWord)) {
-                return target.replace(sensitiveWord, "{触发敏感词}");
-            }
-        }
-        return target;
+    @Override
+    public Boolean isHandle(Class<?> clazz) {
+        return Comment.class.getName().equals(clazz.getName());
     }
 
-
-    public void initData(List<?> proceedList, SensitiveWord sensitiveWord) {
-        this.proceedList = proceedList;
-        this.sensitiveWord = sensitiveWord;
+    @Override
+    protected void handle(Comment comment) {
+        comment.unZip();
+        comment.setCommentContent(replaceSensitiveWord(comment.getCommentContent()));
+        comment.setMdCommentContent(replaceSensitiveWord(comment.getMdCommentContent()));
+        comment.zip();
     }
-
-    public void sensitive() {
-        proceedList.parallelStream().forEach(s -> handle((T) s));
-    }
-
 }
