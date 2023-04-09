@@ -72,11 +72,11 @@
 </div>
 
 <div th:fragment="memberActive(active)">
-    <span th:if="${active}" class="badge bg-gradient rounded-3 bg-info fw-light small">online</span>
+    <span th:if="${active}" class="badge bg-gradient rounded-3 bg-info fw-light small">在线</span>
 </div>
 
 <div th:fragment="memberAdmin(isAdmin)">
-    <span th:if="${isAdmin.name()== 'ADMIN'}" class="badge bg-gradient rounded-3 bg-dark text-white fw-light small">admin</span>
+    <span th:if="${isAdmin.name()== 'ADMIN'}" class="badge bg-gradient rounded-3 bg-dark text-white fw-light small">管理员</span>
 </div>
 
 
