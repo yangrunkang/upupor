@@ -28,7 +28,6 @@
 package com.upupor.web.listener;
 
 import com.upupor.framework.utils.SystemUtil;
-import com.upupor.service.listener.event.CompressContentEvent;
 import com.upupor.service.listener.event.GenerateGoogleSiteMapEvent;
 import com.upupor.service.listener.event.InitLuceneIndexEvent;
 import com.upupor.service.listener.event.InitSensitiveWordEvent;
@@ -62,7 +61,7 @@ public class UpuporStartupRunner implements CommandLineRunner {
         // 初始化敏感词
         eventPublisher.publishEvent(new InitSensitiveWordEvent());
         // 初始化压缩内容
-        eventPublisher.publishEvent(new CompressContentEvent());
+//        eventPublisher.publishEvent(new CompressContentEvent());
     }
 
     /**
