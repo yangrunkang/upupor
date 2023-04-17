@@ -147,3 +147,7 @@ a {
 .fixed-table-body {
     overflow: visible !important;
 }
+
+article img:hover {
+    cursor: zoom-in;
+}
