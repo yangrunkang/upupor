@@ -58,10 +58,16 @@ declare var _default: {
     export: string;
     underline: string;
     pinyin: string;
+    file: string;
     pastePlain: string;
     pasteMarkdown: string;
     hide: string;
     exportToPdf: string;
     exportScreenshot: string;
+    exportMarkdownFile: string;
+    exportHTMLFile: string;
+    theme: string;
+    panel: string;
+    detail: string;
 };
 export default _default;

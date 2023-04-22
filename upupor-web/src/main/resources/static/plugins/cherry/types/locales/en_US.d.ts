@@ -63,5 +63,7 @@ declare var _default: {
     hide: string;
     exportToPdf: string;
     exportScreenshot: string;
+    exportMarkdownFile: string;
+    exportHTMLFile: string;
 };
 export default _default;

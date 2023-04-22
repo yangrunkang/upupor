@@ -25,7 +25,7 @@ export function createMenuHook(name: any, options: any): {
         dom: HTMLSpanElement;
         updateMarkdown: boolean;
         cacheOnce: boolean;
-        positionModel: "fixed" | "absolute";
+        positionModel: "fixed" | "absolute" | "sidebar";
         fire(event?: MouseEvent | KeyboardEvent, shortKey?: string): void;
         getSubMenuConfig(): any[];
         setName(name: string, iconName?: string): void;

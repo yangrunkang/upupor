@@ -45,6 +45,25 @@ export function getCodeBlockRule(): {
  * @returns {String}
  */
 export function getListFromStr(selection: any, type: ('ol' | 'ul' | 'checklist')): string;
+/**
+ * 信息面板的识别正则
+ * @returns {object}
+ */
+export function getPanelRule(): object;
+/**
+ * 手风琴/detail语法的识别正则
+ * 例：
+ * +++(-) 点击查看详情
+ * body
+ * body
+ * ++ 标题（默认收起内容）
+ * 内容
+ * ++- 标题（默认展开内容）
+ * 内容2
+ * +++
+ * @returns {object}
+ */
+export function getDetailRule(): object;
 export const HORIZONTAL_WHITESPACE: "[ \\t\\u00a0]";
 export const ALLOW_WHITESPACE_MULTILINE: "(?:.*?)(?:(?:\\n.*?)*?)";
 export const DO_NOT_STARTS_AND_END_WITH_SPACES: "(?:\\S|(?:\\S.*?\\S))";
@@ -62,3 +81,10 @@ export const URL_INLINE_NO_SLASH: RegExp;
 export const URL_INLINE: RegExp;
 export const URL_NO_SLASH: RegExp;
 export const URL: RegExp;
+export const imgBase64Reg: RegExp;
+export const imgDrawioXmlReg: RegExp;
+/**
+ * 匹配draw.io的图片语法
+ * 图片的语法为 ![alt](${base64}){data-type=drawio data-xml=${xml}}
+ */
+export const imgDrawioReg: RegExp;

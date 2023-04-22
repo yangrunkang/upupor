@@ -4,6 +4,9 @@ export default class AutoLink extends SyntaxBase {
         globalConfig: any;
     });
     urlProcessor: any;
+    openNewPage: boolean;
+    enableShortLink: boolean;
+    shortLinkLength: any;
     isLinkInHtmlAttribute(str: any, index: any, linkLength: any): boolean;
     /**
      * 判断链接是否被包裹在a标签内部，如果被包裹，则不识别为自动链接

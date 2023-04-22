@@ -103,6 +103,7 @@ export default class Previewer {
     doHtmlCache(html: any): void;
     cleanHtmlCache(): void;
     afterUpdate(): void;
+    highlightLineNum: number;
     registerAfterUpdate(fn: any): void;
     /**
      * 根据行号计算出top值
@@ -111,6 +112,11 @@ export default class Previewer {
      * @return {Number} top
      */
     $getTopByLineNum(lineNum: number, linePercent?: number): number;
+    /**
+     * 高亮预览区域对应的行
+     * @param {Number} lineNum
+     */
+    highlightLine(lineNum: number): void;
     /**
      * 滚动到对应行号位置并加上偏移量
      * @param {Number} lineNum

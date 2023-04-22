@@ -29,9 +29,9 @@ export default class MenuBase {
     /**
      * 子菜单的定位方式
      * @property
-     * @type {'absolute' | 'fixed'}
+     * @type {'absolute' | 'fixed' | 'sidebar'}
      */
-    positionModel: 'absolute' | 'fixed';
+    positionModel: 'absolute' | 'fixed' | 'sidebar';
     /**
      * 处理菜单项点击事件
      * @param {MouseEvent | KeyboardEvent | undefined} [event] 点击事件

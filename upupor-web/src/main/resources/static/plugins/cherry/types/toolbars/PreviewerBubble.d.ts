@@ -84,6 +84,10 @@ export default class PreviewerBubble {
         mouseResize: {};
         getImgPosition(): {
             bottom: number;
+            /**
+             *
+             * @param {import('../Previewer').default} previewer
+             */
             top: number;
             height: any;
             width: any;
@@ -150,6 +154,10 @@ export default class PreviewerBubble {
             scrollTop: any;
             position: {
                 bottom: number;
+                /**
+                 *
+                 * @param {import('../Previewer').default} previewer
+                 */
                 top: number;
                 height: any;
                 width: any;
@@ -222,8 +230,20 @@ export default class PreviewerBubble {
     };
     totalImgs: number;
     imgIndex: number;
+    getValueWithoutCode(): string;
+    /**
+     * TODO: beginChangeDrawioImg 和 beginChangeImgValue 代码高度重合，后面有时间重构下，抽成一个可以复用的，可以避开代码块、行内代码影响的通用方法
+     * 修改draw.io图片时选中编辑区域的对应文本
+     * @param {*} htmlElement 图片node
+     */
+    beginChangeDrawioImg(htmlElement: any): boolean;
+    /**
+     * 选中图片对应的MD语法
+     * @param {*} htmlElement 图片node
+     * @returns {boolean}
+     */
     beginChangeImgValue(htmlElement: any): boolean;
-    imgAppend: any;
+    imgAppend: string | boolean;
     /**
      * 修改图片尺寸时的回调
      * @param {HTMLElement} htmlElement 被拖拽的图片标签

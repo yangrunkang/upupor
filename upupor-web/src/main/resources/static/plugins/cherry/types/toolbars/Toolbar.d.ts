@@ -30,12 +30,18 @@ export default class Toolbar {
      */
     drawMenus(): void;
     drawSubMenus(name: any): void;
+    /**
+     * 处理点击事件
+     */
     onClick(event: any, name: any, focusEvent?: boolean): void;
+    /**
+     * 展开/收起二级菜单
+     */
     toggleSubMenu(name: any): void;
     /**
      * 隐藏所有的二级菜单
      */
-    hidAlleSubMenu(): void;
+    hideAllSubMenu(): void;
     /**
      * 收集快捷键
      */

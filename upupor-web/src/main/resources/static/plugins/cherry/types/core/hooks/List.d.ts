@@ -11,5 +11,6 @@ export default class List extends ParagraphBase {
     buildTree(html: any, sentenceMakeFunc: any): void;
     renderSubTree(node: any, children: any, type: any): string;
     renderTree(current: any): string;
+    $getLineNum(str: any): any;
 }
 import ParagraphBase from "@/core/ParagraphBase";

@@ -199,6 +199,11 @@ export default class Cherry extends CherryStatic {
      * @param {String} type 'pdf'：导出成pdf文件; 'img'：导出成图片
      */
     public export(type?: string): void;
+    /**
+     * 修改主题
+     * @param {string} theme option.theme里的className
+     */
+    setTheme(theme?: string): void;
 }
 export type CherryOptions = import('~types/cherry').CherryOptions;
 import { CherryStatic } from "./CherryStatic";

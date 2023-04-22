@@ -150,16 +150,18 @@ declare namespace htmlParser {
          * 解析code标签
          * @param {HTMLElement} obj
          * @param {string} str 需要回填的字符串
+         * @param {boolean} isBlock 是否强制为代码块
          * @returns {string} str
          */
-        function codeParser(obj: HTMLElement, str: string): string;
+        function codeParser(obj: HTMLElement, str: string, isBlock?: boolean): string;
         /**
          * 解析code标签
          * @param {HTMLElement} obj
          * @param {string} str 需要回填的字符串
+         * @param {boolean} isBlock 是否强制为代码块
          * @returns {string} str
          */
-        function codeParser(obj: HTMLElement, str: string): string;
+        function codeParser(obj: HTMLElement, str: string, isBlock?: boolean): string;
         /**
          * 解析br标签
          * @param {HTMLElement} obj
@@ -584,16 +586,16 @@ declare namespace htmlParser {
         function convertBgColor(str: any, attr: any): any;
         function convertBr(str: any, attr: any): any;
         function convertBr(str: any, attr: any): any;
-        function convertCode(str: any): string;
-        function convertCode(str: any): string;
+        function convertCode(str: any, isBlock?: boolean): string;
+        function convertCode(str: any, isBlock?: boolean): string;
         function convertB(str: any): string;
         function convertB(str: any): string;
         function convertI(str: any): string;
         function convertI(str: any): string;
         function convertU(str: any): string;
         function convertU(str: any): string;
-        function convertImg(str: any, attr: any): string;
-        function convertImg(str: any, attr: any): string;
+        function convertImg(alt: any, src: any): string;
+        function convertImg(alt: any, src: any): string;
         function convertGraph(str: any, attr: any, data: any, obj: any): string;
         function convertGraph(str: any, attr: any, data: any, obj: any): string;
         function convertVideo(str: any, src: any, poster: any, title: any): string;

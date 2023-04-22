@@ -9,6 +9,23 @@ export default class ParagraphBase extends SyntaxBase {
     sign: string;
     cache: {};
     cacheKey: string;
+    initBrReg(classicBr?: boolean): void;
+    classicBr: boolean;
+    removeBrAfterBlock: RegExp;
+    removeBrBeforeBlock: RegExp;
+    removeNewlinesBetweenTags: RegExp;
+    /**
+     * 处理经典换行问题
+     * @param {string} str markdown源码
+     * @returns markdown源码
+     */
+    $cleanParagraph(str: string): string;
+    /**
+     * remove all newlines in html text
+     *
+     * @param {string} textContainsHtml
+     */
+    joinRawHtml(textContainsHtml: string): string;
     toHtml(str: any, sentenceMakeFunc: any): any;
     isContainsCache(str: any, fullMatch: any): boolean;
     /**

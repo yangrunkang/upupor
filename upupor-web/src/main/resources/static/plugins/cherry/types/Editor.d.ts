@@ -24,6 +24,23 @@ export default class Editor {
     $cherry: import("./Cherry").default;
     instanceId: string;
     /**
+     * 处理draw.io的xml数据和图片的base64数据，对这种超大的数据增加省略号
+     */
+    dealBigData: () => void;
+    noChange: boolean;
+    /**
+     * 把大字符串变成省略号
+     * @param {*} reg 正则
+     * @param {*} className 利用codemirror的MarkText生成的新元素的class
+     */
+    formatBigData2Mark: (reg: any, className: any) => void;
+    /**
+     *
+     * @param {KeyboardEvent} e
+     * @param {CodeMirror.Editor} codemirror
+     */
+    onKeyup: (e: KeyboardEvent, codemirror: CodeMirror.Editor) => void;
+    /**
      *
      * @param {ClipboardEvent} e
      * @param {CodeMirror.Editor} codemirror
