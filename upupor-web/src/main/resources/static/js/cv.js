@@ -296,8 +296,8 @@ let cherryConfig = {
                 // 'word',
             ],
         }, 'switchModel'],
-        bubble: ['bold', 'italic', 'strikethrough', 'sub', 'sup', 'size', 'color'], // array or false
-        float: ['h1', 'h2', 'h3', 'checklist', 'quote', 'quickTable', 'code', 'graph'], // array or false
+        bubble: ['bold', 'italic', 'strikethrough', 'sub', 'sup', 'size', 'color','panel'], // array or false
+        float: ['h1', 'h2', 'h3', 'checklist', 'quote', 'quickTable', 'code', 'graph','panel'], // array or false
         customMenu: {},
     },
     fileUpload(file, callback) {
