@@ -107,7 +107,7 @@
                         <div class="card border-0-title" th:text="${cvException}"></div>
                     </div>
                     <div>
-                        <button th:if="${editorIndexDto?.contentEnhance?.content?.status.name() == 'NORMAL' or editorIndexDto?.contentEnhance?.content?.status.name() == 'DRAFT'}" type="button" class="ui primary button" onclick="saveOrUpdateContent()">发布</button>
+                        <button th:if="${editorIndexDto?.contentEnhance?.content?.status.name() == 'NORMAL' or editorIndexDto?.contentEnhance?.content?.status.name() == 'DRAFT'}" type="button" class="ui primary button" onclick="saveOrUpdateContent()">[[${edit_btn_text}]]</button>
                         <button th:if="${editorIndexDto?.contentEnhance?.content?.status.name() == 'ONLY_SELF_CAN_SEE'}" type="button" class="ui primary button" onclick="saveOrUpdateContent()">编辑完成</button>
                         <button type="button" class="ui button"
                                 onclick="draftSave()">暂存

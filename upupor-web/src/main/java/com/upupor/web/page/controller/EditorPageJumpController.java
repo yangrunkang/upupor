@@ -37,11 +37,11 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
-import com.upupor.service.utils.JwtUtils;
 import com.upupor.service.aggregation.EditorAggregateService;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.outer.req.GetEditorReq;
+import com.upupor.service.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -76,7 +76,8 @@ public class EditorPageJumpController {
 
     private final static String CONTENT_TYPE = "type";
     private final static String PRE_CONTENT_ID = "pre_content_id";
-    private final static String HAS_DRAFT = "hasContentCanToRestore";
+    private final static String EDIT_BTN_TEXT = "edit_btn_text";
+    private final static String ALREADY_HAS_DRAFT = "hasContentCanToRestore";
 
 
     /**
@@ -103,41 +104,24 @@ public class EditorPageJumpController {
             GetEditorReq getEditorReq = new GetEditorReq();
             getEditorReq.setContentType(contentType);
             getEditorReq.setTag(tag);
+
             EditorIndexDto editorIndexDto = editorAggregateService.index(getEditorReq);
+            modelAndView.addObject(EDIT_BTN_TEXT, "发布");
+            modelAndView.addObject(CONTENT_TYPE, contentType);
 
             // 处理文章信息
             if (Objects.nonNull(contentId)) {
                 Draft draft = draftService.getByDraftId(contentId);
-                if (Objects.nonNull(draft)) {
-                    ContentEnhance contentEnhanceDraft = Draft.parseContent(draft);
-
-                    // 查看是否有非草稿的文章
-                    {
-                        ContentEnhance dbContentEnhance = null;
-                        try {
-                            dbContentEnhance = contentService.getManageContentDetail(contentId);
-                        } catch (Exception e) {
-                            if (!(e instanceof BusinessException && (((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())))) {
-                                throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
-                            }
-                        }
-                        boolean hasContentEmpty = Objects.nonNull(dbContentEnhance);
-                        if (hasContentEmpty) {
-                            contentEnhanceDraft.getContent().setStatus(dbContentEnhance.getContent().getStatus()); // 覆盖非草稿文章的状态
-                        }
-                        modelAndView.addObject(HAS_DRAFT, hasContentEmpty);
-                    }
-
-
-                    editorIndexDto.setContentEnhance(contentEnhanceDraft);
+                if (Objects.isNull(draft)) {
+                    contentEdit(contentId, editorIndexDto);
+                    modelAndView.addObject(EDIT_BTN_TEXT, "编辑完成");
                 } else {
-                    setDbContent(contentId, editorIndexDto);
+                    draftEdit(contentId, modelAndView, editorIndexDto, draft);
+                    modelAndView.addObject(EDIT_BTN_TEXT, "发布");
                 }
             }
-
             modelAndView.addObject(editorIndexDto);
-            // 参数传递
-            modelAndView.addObject(CONTENT_TYPE, contentType);
+
             // 创建新的内容会使用预生成ID,防止页面表单重复提交
             if (StringUtils.isEmpty(contentId)) {
                 // 预生成 内容ID,防止重复提交,默认使用预生成的id作为文章id
@@ -153,8 +137,31 @@ public class EditorPageJumpController {
         return modelAndView;
     }
 
+    private void draftEdit(String contentId, ModelAndView modelAndView, EditorIndexDto editorIndexDto, Draft draft) {
+        ContentEnhance contentEnhanceDraft = Draft.parseContent(draft);
 
-    private void setDbContent(String contentId, EditorIndexDto editorIndexDto) {
+        // 查看是否有非草稿的文章
+        {
+            ContentEnhance dbContentEnhance = null;
+            try {
+                dbContentEnhance = contentService.getManageContentDetail(contentId);
+            } catch (Exception e) {
+                if (!(e instanceof BusinessException && (((BusinessException) e).getCode().equals(CONTENT_NOT_EXISTS.getCode())))) {
+                    throw new BusinessException(ErrorCode.UNKNOWN_EXCEPTION);
+                }
+            }
+            boolean hasContent = Objects.nonNull(dbContentEnhance);
+            if (hasContent) {
+                contentEnhanceDraft.getContent().setStatus(dbContentEnhance.getContent().getStatus()); // 覆盖非草稿文章的状态
+            }
+            modelAndView.addObject(ALREADY_HAS_DRAFT, hasContent);
+        }
+
+        editorIndexDto.setContentEnhance(contentEnhanceDraft);
+    }
+
+
+    private void contentEdit(String contentId, EditorIndexDto editorIndexDto) {
         ContentEnhance contentEnhance = contentService.getManageContentDetail(contentId);
         if (Objects.isNull(contentEnhance)) {
             throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
