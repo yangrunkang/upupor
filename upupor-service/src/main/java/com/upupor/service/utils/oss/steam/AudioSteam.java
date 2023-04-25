@@ -57,14 +57,14 @@ public class AudioSteam extends AbstractInputSteam {
     protected InputStream getUploadInputStream() throws IOException {
         // 检查文件类型
         String fileType = FileUtils.getFileType(file.getInputStream());
-        List<String> detectTypes = Lists.newArrayList("audio/mpeg", "application/octet-stream");
+        List<String> detectTypes = Lists.newArrayList("audio/mpeg", "application/octet-stream", "audio/vnd.wave");
         if (!detectTypes.contains(fileType.toLowerCase())) {
-            throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传非mp3或aac文件");
+            throw new BusinessException(ErrorCode.PARAM_ERROR, "禁止上传非mp3、aac、wav文件");
         }
 
         // 校验文件后缀
         String suffix = getFileSuffix(file);
-        List<String> supportFileType = Lists.newArrayList("mp3", "aac");
+        List<String> supportFileType = Lists.newArrayList("mp3", "aac", "wav");
         if (!supportFileType.contains(suffix.toLowerCase())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "文件类型必须是mp3或aac格式");
         }
