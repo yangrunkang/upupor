@@ -31,7 +31,6 @@ package com.upupor.service.business.member.business;
 
 import com.upupor.data.dao.entity.Member;
 import com.upupor.framework.BusinessException;
-import com.upupor.framework.CcRedis;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.service.business.member.abstracts.AbstractMember;
@@ -65,8 +64,6 @@ public class Login extends AbstractMember<MemberLoginReq> {
             throw new BusinessException(ErrorCode.LOGIN_FAILED);
         }
 
-        String userId = member.getUserId();
-        long tokenExpireTime = CcRedis.Operate.updateTokenExpireTime(userId);
         LoginSuccessData build = LoginSuccessData.builder()
                 .success(true)
                 .build();

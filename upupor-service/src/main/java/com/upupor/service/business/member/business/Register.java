@@ -37,8 +37,6 @@ import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.UserCheckFieldType;
 import com.upupor.framework.utils.RedisUtil;
-import com.upupor.security.jwt.JwtMemberModel;
-import com.upupor.security.jwt.UpuporMemberJwt;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.listener.event.MemberRegisterEvent;
@@ -104,15 +102,7 @@ public class Register extends AbstractMember<AddMemberReq> {
         operateMemberDto.setMemberId(member.getUserId());
         operateMemberDto.setSuccess(Boolean.TRUE);
         operateMemberDto.setStatus(member.getStatus());
-
         // 自动登录后,处理token
-        String userId = member.getUserId();
-        long tokenExpireTime = CcRedis.Operate.updateTokenExpireTime(userId);
-        operateMemberDto.setToken(UpuporMemberJwt.createToken(JwtMemberModel.builder()
-                .userId(userId)
-                .expireTime(tokenExpireTime)
-                .build()));
-
         cc.setData(operateMemberDto);
         return cc;
     }

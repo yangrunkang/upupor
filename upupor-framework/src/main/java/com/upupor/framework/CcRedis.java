@@ -119,10 +119,6 @@ public class CcRedis {
         }
 
 
-        public static String memberLoginExpiredTimeKey(String userId) {
-            return "JWT_EXPIRED_TIME" + "_" + userId;
-        }
-
         /**
          * 用户活跃Key
          *
@@ -136,15 +132,6 @@ public class CcRedis {
 
 
     public static class Operate {
-
-        public static long updateTokenExpireTime(String userId) {
-            String loginExpiredTimeKey = CcRedis.Key.memberLoginExpiredTimeKey(userId);
-            // 24h
-            long expiredTime = 24 * 3600;
-            RedisUtil.set(loginExpiredTimeKey, String.valueOf(expiredTime), expiredTime);
-            return expiredTime;
-        }
-
         /**
          * 用户活跃标识规则,在2分钟内活跃过,都算活跃
          *

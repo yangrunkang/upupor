@@ -42,5 +42,4 @@ public class OperateMemberDto {
     private String memberId;
     private Boolean success;
     private MemberStatus status;
-    private String token;
 }

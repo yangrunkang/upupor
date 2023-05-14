@@ -29,9 +29,7 @@
 
 package com.upupor.service.business.member.business;
 
-import com.upupor.framework.CcRedis;
 import com.upupor.framework.CcResponse;
-import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.BaseMemberReq;
@@ -53,11 +51,6 @@ public class Logout extends AbstractMember<BaseMemberReq> {
 
     @Override
     public CcResponse handle() {
-        // 过期Session
-        String userId = SessionUtils.getUserId();
-        String loginExpiredTimeKey = CcRedis.Key.memberLoginExpiredTimeKey(userId);
-        RedisUtil.remove(loginExpiredTimeKey);
-
         // 清除session
         SessionUtils.getPageSession().invalidate();
         return new CcResponse();
