@@ -57,7 +57,7 @@ import com.upupor.service.business.links.abstracts.dto.MemberProfileLinkParamDto
 import com.upupor.service.listener.event.AttentionUserEvent;
 import com.upupor.service.outer.req.AddAttentionReq;
 import com.upupor.service.outer.req.DelAttentionReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -176,7 +176,7 @@ public class AttentionServiceImpl implements AttentionService {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "关注者的用户id为空");
         }
 
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         if (addAttentionReq.getAttentionUserId().equals(userId)) {
             throw new BusinessException(ErrorCode.FORBIDDEN_ATTENTION_SELF);
         }

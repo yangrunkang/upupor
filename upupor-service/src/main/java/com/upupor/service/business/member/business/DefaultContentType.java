@@ -35,7 +35,7 @@ import com.upupor.data.dao.mapper.MemberConfigMapper;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.UpdateDefaultContentTypeReq;
@@ -65,7 +65,7 @@ public class DefaultContentType extends AbstractMember<UpdateDefaultContentTypeR
     @Override
     public CcResponse handle() {
         CcResponse cc = new CcResponse();
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         if (StringUtils.isEmpty(userId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
         }

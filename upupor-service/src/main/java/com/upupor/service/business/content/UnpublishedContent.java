@@ -35,7 +35,7 @@ import com.upupor.data.dao.entity.converter.Converter;
 import com.upupor.data.dao.entity.enhance.ContentEnhance;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.framework.BusinessException;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
 import org.springframework.stereotype.Component;
@@ -75,7 +75,7 @@ public class UnpublishedContent extends AbstractContent {
         }
 
         // 校验文章所属人
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         if (!contentEnhance.getContent().getUserId().equals(userId)) {
             throw new BusinessException(ARTICLE_NOT_BELONG_TO_YOU);
         }

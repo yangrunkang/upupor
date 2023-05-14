@@ -40,7 +40,7 @@ import com.upupor.service.base.FileService;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.UpdateViaReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -74,14 +74,14 @@ public class Via extends AbstractMember<UpdateViaReq> {
         if (Objects.isNull(fileByFileUrl)) {
             throw new BusinessException(ErrorCode.SELECTED_VIA_NOT_EXISTS);
         }
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         MemberEnhance memberEnhance = memberService.memberInfo(userId);
         Member member = memberEnhance.getMember();
         member.setVia(via);
         member.setSysUpdateTime(new Date());
         Boolean result = memberService.update(memberEnhance);
         if (result) {
-            JwtUtils.getPageSession().setAttribute(CcConstant.Session.USER_VIA, via);
+            SessionUtils.getPageSession().setAttribute(CcConstant.Session.USER_VIA, via);
         }
 
         ccResponse.setData(result);

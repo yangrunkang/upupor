@@ -43,7 +43,7 @@ import com.upupor.data.types.ViewTargetType;
 import com.upupor.data.types.ViewType;
 import com.upupor.data.types.ViewerDeleteStatus;
 import com.upupor.framework.common.CcTemplateConstant;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.ViewerService;
 import com.upupor.service.business.viewhistory.AbstractViewHistory;
@@ -73,7 +73,7 @@ public class ViewerServiceImpl implements ViewerService {
     public void addViewer(String targetId, ViewTargetType targetType) {
         String userId = null;
         try {
-            userId = JwtUtils.getUserId();
+            userId = SessionUtils.getUserId();
         } catch (Exception ignore) {
         }
 

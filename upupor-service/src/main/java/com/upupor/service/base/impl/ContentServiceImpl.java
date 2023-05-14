@@ -59,7 +59,7 @@ import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.outer.req.content.UpdateStatusReq;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -455,7 +455,7 @@ public class ContentServiceImpl implements ContentService {
     public Boolean currentUserIsAttentionAuthor(String contentUserId) {
         boolean currentUserIsAttention = false;
         try {
-            Attention attention = attentionService.getAttention(contentUserId, JwtUtils.getUserId());
+            Attention attention = attentionService.getAttention(contentUserId, SessionUtils.getUserId());
             currentUserIsAttention = Objects.nonNull(attention);
         } catch (Exception e) {
         }

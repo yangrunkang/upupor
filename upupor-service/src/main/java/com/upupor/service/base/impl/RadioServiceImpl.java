@@ -55,7 +55,7 @@ import com.upupor.service.base.RadioService;
 import com.upupor.service.outer.req.AddRadioReq;
 import com.upupor.service.outer.req.DelRadioReq;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -240,7 +240,7 @@ public class RadioServiceImpl implements RadioService {
         }
 
         // 获取用户
-        Member member = memberService.memberInfo(JwtUtils.getUserId()).getMember();
+        Member member = memberService.memberInfo(SessionUtils.getUserId()).getMember();
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
@@ -285,7 +285,7 @@ public class RadioServiceImpl implements RadioService {
             throw new BusinessException(ErrorCode.PARAM_ERROR);
         }
 
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
 
         RadioEnhance radioEnhance = this.getByRadioId(delRadioReq.getRadioId());
         Radio radio = radioEnhance.getRadio();

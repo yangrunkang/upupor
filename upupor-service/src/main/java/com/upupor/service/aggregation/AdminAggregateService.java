@@ -40,7 +40,7 @@ import com.upupor.service.base.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.upupor.service.utils.JwtUtils.getUserId;
+import static com.upupor.service.utils.SessionUtils.getUserId;
 
 /**
  * 用户聚合服务

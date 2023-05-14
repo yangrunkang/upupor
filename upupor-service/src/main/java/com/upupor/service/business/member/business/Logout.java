@@ -35,7 +35,7 @@ import com.upupor.framework.utils.RedisUtil;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.BaseMemberReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import org.springframework.stereotype.Component;
 
 
@@ -54,12 +54,12 @@ public class Logout extends AbstractMember<BaseMemberReq> {
     @Override
     public CcResponse handle() {
         // 过期Session
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         String loginExpiredTimeKey = CcRedis.Key.memberLoginExpiredTimeKey(userId);
         RedisUtil.remove(loginExpiredTimeKey);
 
         // 清除session
-        JwtUtils.getPageSession().invalidate(); // todo yrk when jwt done,remove this code
+        SessionUtils.getPageSession().invalidate();
         return new CcResponse();
     }
 }

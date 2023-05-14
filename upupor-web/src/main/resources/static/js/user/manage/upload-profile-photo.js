@@ -123,9 +123,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
                 formData.append('image', blob, 'avatar.jpg');
                 $.ajax('/file/uploadFile', {
-                    headers: {
-                        UpuporToken: localStorage.getItem("upupor_token"),
-                    },
                     method: 'POST',
                     data: formData,
                     processData: false,

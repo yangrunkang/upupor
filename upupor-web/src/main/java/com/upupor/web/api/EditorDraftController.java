@@ -37,7 +37,7 @@ import com.upupor.service.base.DraftService;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.outer.req.content.CleanDraftReq;
 import com.upupor.service.outer.req.content.ExistsDraftReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -84,7 +84,7 @@ public class EditorDraftController {
     @PostMapping("/clean-draft")
     public CcResponse cleanDraft(@RequestBody CleanDraftReq cleanDraftReq) {
         String contentId = cleanDraftReq.getContentId();
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
 
         Draft draft = draftService.getByDraftIdAndUserId(contentId, userId);
         if (Objects.nonNull(draft)) {
@@ -102,7 +102,7 @@ public class EditorDraftController {
     @PostMapping("/exists-draft")
     public CcResponse existsDraft(@RequestBody ExistsDraftReq existsDraftReq) {
         String contentId = existsDraftReq.getContentId();
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         return new CcResponse(Objects.nonNull(draftService.getByDraftIdAndUserId(contentId, userId)));
     }
 

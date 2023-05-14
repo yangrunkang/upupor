@@ -38,7 +38,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.service.outer.req.member.UpdateMemberReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -62,7 +62,7 @@ public class EditProfile extends AbstractMember<UpdateMemberReq> {
         UpdateMemberReq updateMemberReq = transferReq();
         checkUserName(updateMemberReq.getUserName(), Boolean.TRUE);
 
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         if (StringUtils.isEmpty(userId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
         }
@@ -73,7 +73,7 @@ public class EditProfile extends AbstractMember<UpdateMemberReq> {
             throw new BusinessException(ErrorCode.EDIT_MEMBER_FAILED);
         }
         // 变更用户名
-        JwtUtils.getPageSession().setAttribute(CcConstant.Session.USER_NAME, updateMemberReq.getUserName());
+        SessionUtils.getPageSession().setAttribute(CcConstant.Session.USER_NAME, updateMemberReq.getUserName());
 
         Member reGet = memberService.memberInfo(userId).getMember();
 

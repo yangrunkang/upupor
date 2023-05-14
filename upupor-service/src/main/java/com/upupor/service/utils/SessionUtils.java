@@ -30,8 +30,6 @@ package com.upupor.service.utils;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcConstant;
 import com.upupor.framework.ErrorCode;
-import com.upupor.security.jwt.JwtMemberModel;
-import com.upupor.security.jwt.UpuporMemberJwt;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -46,42 +44,11 @@ import java.util.Objects;
  * @author: YangRunkang(cruise)
  * @created: 2019/12/29 12:02
  */
-public class JwtUtils {
-
+public class SessionUtils {
 
     public static String getUserId() {
-        return getJwtMemberModel().getUserId();
-    }
-
-    /**
-     * 获取Session
-     *
-     * @return
-     */
-    private static JwtMemberModel getJwtMemberModel() {
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (Objects.isNull(requestAttributes)) {
-            throw new BusinessException(ErrorCode.GET_SESSION_FAILED);
-        }
-        HttpServletRequest request = requestAttributes.getRequest();
-        String method = request.getMethod().toUpperCase();
-        // 这里做一层兼容,因为之前的版本是服务端渲染,页面路由的GET请求无法携带header,所以就无法获取token,这里GET请求还是使用Session,
-        // POST则获取token后进行解析,等前端重写后,将这地移除Session
-        // --- 不想采用cookie, 不优雅
-        if ("GET".equals(method)) {
-            Object userIdObj = getPageSession().getAttribute(CcConstant.Session.USER_ID);
-            return JwtMemberModel.builder()
-                    .userId(String.valueOf(userIdObj))
-                    .build();
-        } else if ("POST".equals(method)) {
-            String upuporToken = request.getHeader("UpuporToken");
-            if (StringUtils.isEmpty(upuporToken) || "null".equals(upuporToken)) {
-                throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
-            }
-            return UpuporMemberJwt.parse(upuporToken);
-        }
-
-        throw new BusinessException(ErrorCode.ONLY_SUPPORT_GET_POST);
+        Object userIdObj = getPageSession().getAttribute(CcConstant.Session.USER_ID);
+        return String.valueOf(userIdObj);
     }
 
     public static HttpSession getPageSession() {
@@ -113,14 +80,14 @@ public class JwtUtils {
         if (StringUtils.isEmpty(reqUserId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
         }
-        if (!reqUserId.equals(JwtUtils.getUserId())) {
+        if (!reqUserId.equals(SessionUtils.getUserId())) {
             throw new BusinessException(ErrorCode.YOU_HAVE_NO_PERMISSION);
         }
     }
 
     public static void checkIsLogin() {
-        JwtMemberModel jwtMemberModel = getJwtMemberModel();
-        if (Objects.isNull(jwtMemberModel) || CcConstant.Session.NULL_STR.equals(jwtMemberModel.getUserId())) {
+        String userId = getUserId();
+        if (StringUtils.isEmpty(userId) || CcConstant.Session.NULL_STR.equals(userId)) {
             throw new BusinessException(ErrorCode.USER_NOT_LOGIN);
         }
     }

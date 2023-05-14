@@ -33,7 +33,7 @@ import com.upupor.framework.config.UpuporConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.upupor.service.utils.JwtUtils.checkIsLogin;
+import static com.upupor.service.utils.SessionUtils.checkIsLogin;
 
 /**
  * 白名单服务

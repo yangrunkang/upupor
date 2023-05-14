@@ -62,7 +62,7 @@ import com.upupor.service.outer.req.content.CreateContentReq;
 import com.upupor.service.outer.req.content.ExistContentReq;
 import com.upupor.service.outer.req.content.UpdateContentReq;
 import com.upupor.service.outer.req.content.UpdateStatusReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -140,7 +140,7 @@ public class ContentController {
     @ApiOperation("喜欢")
     @UpuporLimit(limitType = LimitType.CLICK_LIKE, needSpendMoney = true)
     public CcResponse like(@RequestBody UpdateLikeReq updateLikeReq) {
-        String clickUserId = JwtUtils.getUserId();
+        String clickUserId = SessionUtils.getUserId();
         CcResponse cc = new CcResponse();
         String contentId = updateLikeReq.getContentId();
         // 获取文章
@@ -197,7 +197,7 @@ public class ContentController {
     @ApiOperation("文章置顶")
     public CcResponse pinned(@RequestBody PinnedReq pinnedReq) {
 
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
 
         String contentId = pinnedReq.getContentId();
         ContentEnhance contentEnhance = contentService.getContentByContentIdNoStatus(contentId);

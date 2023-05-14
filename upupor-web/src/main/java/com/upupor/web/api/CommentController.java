@@ -41,7 +41,7 @@ import com.upupor.service.listener.event.ReplayCommentEvent;
 import com.upupor.service.listener.event.ToCommentSuccessEvent;
 import com.upupor.service.outer.req.AddCommentReq;
 import com.upupor.service.outer.req.UpdateCommentReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -90,7 +90,7 @@ public class CommentController {
                 normalCommentEvent(addCommentReq.getTargetId(), comment);
             } else {
                 // 处理回复某一条评论的逻辑
-                Member currentUser = memberService.memberInfo(JwtUtils.getUserId()).getMember(); // 评论的人(当前用户)
+                Member currentUser = memberService.memberInfo(SessionUtils.getUserId()).getMember(); // 评论的人(当前用户)
                 replayCommentEvent(addCommentReq, comment, currentUser);
             }
         } catch (Exception ignored) {
@@ -135,7 +135,7 @@ public class CommentController {
 
         Comment comment = commentService.getCommentByCommentId(updateCommentReq.getCommentId());
         // 校验内容所属的用户id是否是当前用户
-        JwtUtils.checkOperatePermission(comment.getUserId());
+        SessionUtils.checkOperatePermission(comment.getUserId());
 
         comment.setStatus(updateCommentReq.getStatus());
         boolean update = commentService.update(comment);

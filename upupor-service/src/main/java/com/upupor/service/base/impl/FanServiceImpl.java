@@ -40,7 +40,7 @@ import com.upupor.data.dao.mapper.AttentionMapper;
 import com.upupor.data.dao.mapper.FansMapper;
 import com.upupor.data.dto.page.common.ListFansDto;
 import com.upupor.data.types.FansStatus;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.base.FanService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.outer.req.DelFanReq;
@@ -127,7 +127,7 @@ public class FanServiceImpl implements FanService {
     @Override
     public Integer delFans(DelFanReq delFanReq) {
         String fanId = delFanReq.getFanId();
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         // 移除自己的粉丝
         LambdaQueryWrapper<Fans> query = new LambdaQueryWrapper<Fans>()
                 .eq(Fans::getFanId, fanId)

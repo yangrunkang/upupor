@@ -35,7 +35,7 @@ import com.upupor.data.dto.page.common.ListIntegralDto;
 import com.upupor.data.dto.page.common.ListMemberDto;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.base.MemberExtendService;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.base.MemberService;
@@ -92,7 +92,7 @@ public class MemberAggregateService {
     }
 
     private String getUserId() {
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         if (StringUtils.isEmpty(userId)) {
             throw new BusinessException(ErrorCode.PARAM_ERROR_USER_ID);
         }

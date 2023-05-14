@@ -38,7 +38,7 @@ import com.upupor.framework.utils.CcDateUtil;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.outer.req.content.AutoSaveContentReq;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -81,7 +81,7 @@ public class DraftServiceImpl implements DraftService {
     @Override
     public Boolean autoSaveContent(AutoSaveContentReq autoSaveContentReq) {
         String draftId = autoSaveContentReq.getDraftId(); // 草稿Id
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         Draft draft = this.getByDraftIdAndUserId(draftId, userId);
 
         Boolean autoSave;

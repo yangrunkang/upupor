@@ -35,7 +35,7 @@ import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.utils.oss.FileUpload;
 import com.upupor.service.utils.oss.enums.FileDic;
 import io.swagger.annotations.Api;
@@ -75,15 +75,15 @@ public class UploadController {
         }
 
         // 获取用户
-        MemberEnhance memberEnhance = memberService.memberInfo(JwtUtils.getUserId());
+        MemberEnhance memberEnhance = memberService.memberInfo(SessionUtils.getUserId());
         Member member = memberEnhance.getMember();
         if (Objects.isNull(member)) {
             throw new BusinessException(ErrorCode.MEMBER_NOT_EXISTS);
         }
         member.setVia(FileUpload.upload(file, FileDic.PROFILE));
         // 重新设置头像
-        JwtUtils.getPageSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
-        JwtUtils.getPageSession().setAttribute(CcConstant.Session.LONG_TIME_UN_UPDATE_PROFILE_PHOTO, Boolean.FALSE);
+        SessionUtils.getPageSession().setAttribute(CcConstant.Session.USER_VIA, member.getVia());
+        SessionUtils.getPageSession().setAttribute(CcConstant.Session.LONG_TIME_UN_UPDATE_PROFILE_PHOTO, Boolean.FALSE);
         Boolean update = memberService.update(memberEnhance);
         if (!update) {
             throw new BusinessException(ErrorCode.UPLOAD_MEMBER_INFO_ERROR);

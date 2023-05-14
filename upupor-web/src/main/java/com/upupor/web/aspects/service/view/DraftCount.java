@@ -31,7 +31,7 @@ package com.upupor.web.aspects.service.view;
 
 import com.upupor.framework.CcConstant;
 import com.upupor.service.base.DraftService;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -55,7 +55,7 @@ public class DraftCount implements PrepareData {
     public void prepare(ViewData viewData) {
         ModelAndView modelAndView = viewData.getModelAndView();
         try {
-            String userId = JwtUtils.getUserId();
+            String userId = SessionUtils.getUserId();
             Long draftCount = draftService.countDraft(userId);
             modelAndView.addObject(CcConstant.DRAFT_COUNT, draftCount);
         } catch (Exception e) {

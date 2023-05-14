@@ -117,9 +117,6 @@ function packagingToastSuccess(message) {
 function packagingAjaxPostJson(url, data, okFunc) {
     $(".global-loading-nav-tips-slave").show();
     $.ajax({
-        headers: {
-            UpuporToken: localStorage.getItem("upupor_token"),
-        },
         url: url,
         type: "POST",
         data: JSON.stringify(data),
@@ -158,9 +155,6 @@ function packagingAjaxPostJson(url, data, okFunc) {
  */
 function packagingAjaxPostUnder(url, data, okFunc) {
     $.ajax({
-        headers: {
-            UpuporToken: localStorage.getItem("upupor_token"),
-        },
         url: url,
         type: "POST",
         data: JSON.stringify(data),
@@ -296,8 +290,8 @@ let cherryConfig = {
                 // 'word',
             ],
         }, 'switchModel'],
-        bubble: ['bold', 'italic', 'strikethrough', 'sub', 'sup', 'size', 'color','panel'], // array or false
-        float: ['h1', 'h2', 'h3', 'checklist', 'quote', 'quickTable', 'code', 'graph','panel'], // array or false
+        bubble: ['bold', 'italic', 'strikethrough', 'sub', 'sup', 'size', 'color', 'panel'], // array or false
+        float: ['h1', 'h2', 'h3', 'checklist', 'quote', 'quickTable', 'code', 'graph', 'panel'], // array or false
         customMenu: {},
     },
     fileUpload(file, callback) {
@@ -305,9 +299,6 @@ let cherryConfig = {
         let formData = new FormData();
         formData.append('file', file);
         $.ajax('/file/upload/CONTENT', {
-            headers: {
-                UpuporToken: localStorage.getItem("upupor_token"),
-            },
             method: 'POST',
             data: formData,
             processData: false,

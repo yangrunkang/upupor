@@ -38,7 +38,7 @@ import com.upupor.service.aggregation.CommonAggregateService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.base.TagService;
 import com.upupor.service.outer.req.GetCommonReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -89,7 +89,7 @@ public class ContentJumpController {
         // 只有跳转到首页才需要走这个逻辑
         if (servletPath.equals(WEB_INDEX)) {
             try {
-                String userId = JwtUtils.getUserId();
+                String userId = SessionUtils.getUserId();
 
                 MemberEnhance memberEnhance = memberService.memberInfo(userId);
                 MemberConfig memberConfig = memberEnhance.getMemberConfigEnhance().getMemberConfig();

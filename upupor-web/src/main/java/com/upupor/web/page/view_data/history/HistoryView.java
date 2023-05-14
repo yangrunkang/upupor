@@ -30,7 +30,7 @@ package com.upupor.web.page.view_data.history;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.base.ViewerService;
 import com.upupor.web.page.view_data.AbstractView;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -68,6 +68,6 @@ public class HistoryView extends AbstractView {
 
     @Override
     protected void fetchData() {
-        modelAndView.addObject(viewerService.listViewHistoryByUserId(JwtUtils.getUserId(), query.getPageNum(), query.getPageSize()));
+        modelAndView.addObject(viewerService.listViewHistoryByUserId(SessionUtils.getUserId(), query.getPageNum(), query.getPageSize()));
     }
 }

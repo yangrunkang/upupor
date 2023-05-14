@@ -53,7 +53,7 @@ import com.upupor.service.business.links.abstracts.dto.ContentLinkParamDto;
 import com.upupor.service.outer.req.AddCollectReq;
 import com.upupor.service.outer.req.UpdateCollectReq;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -95,7 +95,7 @@ public class CollectController {
     public CcResponse add(@RequestBody AddCollectReq addCollectReq) {
         CcResponse ccResponse = new CcResponse();
 
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
 
         if (StringUtils.isEmpty(addCollectReq.getCollectValue())) {
             throw new BusinessException(ErrorCode.PARAM_ERROR);

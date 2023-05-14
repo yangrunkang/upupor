@@ -39,7 +39,7 @@ import com.upupor.service.base.MessageService;
 import com.upupor.service.business.message.MessageSend;
 import com.upupor.service.business.message.model.MessageModel;
 import com.upupor.service.outer.req.AddFeedbackReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -73,9 +73,9 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedback.setStatus(FeedBackStatus.NORMAL);
         feedback.setCreateTime(CcDateUtil.getCurrentTime());
         try {
-            feedback.setUserId(JwtUtils.getUserId());
+            feedback.setUserId(SessionUtils.getUserId());
         } catch (Exception e) {
-            feedback.setUserId(JwtUtils.getPageSession().getId());
+            feedback.setUserId(SessionUtils.getPageSession().getId());
         }
         feedback.setSysUpdateTime(new Date());
 

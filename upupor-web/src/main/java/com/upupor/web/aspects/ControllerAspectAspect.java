@@ -35,7 +35,7 @@ import com.upupor.framework.ErrorCode;
 import com.upupor.framework.utils.CcUtils;
 import com.upupor.framework.utils.JsonUtils;
 import com.upupor.service.listener.event.BuriedPointDataEvent;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.web.aspects.service.checker.controller.ControllerAspectChecker;
 import com.upupor.web.aspects.service.checker.controller.dto.ControllerCheckerDto;
 import lombok.RequiredArgsConstructor;
@@ -89,7 +89,7 @@ public class ControllerAspectAspect {
         CcUtils.start(stopWatch);
 
         CcResponse ccResponse = new CcResponse();
-        HttpServletRequest request = JwtUtils.getRequest();
+        HttpServletRequest request = SessionUtils.getRequest();
         String requestUrl = request.getRequestURL().toString();
 
 

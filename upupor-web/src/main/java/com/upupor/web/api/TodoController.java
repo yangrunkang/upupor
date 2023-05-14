@@ -40,7 +40,7 @@ import com.upupor.security.limiter.UpuporLimit;
 import com.upupor.service.base.TodoService;
 import com.upupor.service.outer.req.AddTodoReq;
 import com.upupor.service.outer.req.UpdateTodoDoneStatus;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +73,7 @@ public class TodoController {
     public CcResponse addTodo(@RequestBody AddTodoReq addTodoReq) {
         CcResponse ccResponse = new CcResponse();
 
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
 
         Todo todo = new Todo();
         todo.setUserId(userId);
@@ -102,7 +102,7 @@ public class TodoController {
     public CcResponse markTodo(@RequestBody UpdateTodoDoneStatus updateTodoDoneStatus) {
         CcResponse ccResponse = new CcResponse();
 
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
 
         String todoId = updateTodoDoneStatus.getTodoId();
 
@@ -138,7 +138,7 @@ public class TodoController {
     @PostMapping(value = "/delete")
     public CcResponse delete(@RequestBody UpdateTodoDoneStatus updateTodoDoneStatus) {
         CcResponse ccResponse = new CcResponse();
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
 
         String todoId = updateTodoDoneStatus.getTodoId();
 

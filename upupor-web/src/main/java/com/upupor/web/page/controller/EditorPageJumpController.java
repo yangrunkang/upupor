@@ -41,7 +41,7 @@ import com.upupor.service.aggregation.EditorAggregateService;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
 import com.upupor.service.outer.req.GetEditorReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -167,7 +167,7 @@ public class EditorPageJumpController {
             throw new BusinessException(ErrorCode.CONTENT_NOT_EXISTS);
         }
         // 校验文章是否是作者本人的
-        if (!contentEnhance.getContent().getUserId().equals(JwtUtils.getUserId())) {
+        if (!contentEnhance.getContent().getUserId().equals(SessionUtils.getUserId())) {
             throw new BusinessException(ErrorCode.BAN_EDIT_OTHERS_CONTENT);
         }
         editorIndexDto.setContentEnhance(contentEnhance);

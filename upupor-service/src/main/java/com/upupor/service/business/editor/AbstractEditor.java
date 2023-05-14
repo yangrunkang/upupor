@@ -38,7 +38,7 @@ import com.upupor.data.dto.OperateContentDto;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.service.base.ContentService;
 import com.upupor.service.base.DraftService;
@@ -114,7 +114,7 @@ public abstract class AbstractEditor<T extends BaseContentReq> {
     }
 
     public MemberEnhance getMember() {
-        return memberService.memberInfo(JwtUtils.getUserId());
+        return memberService.memberInfo(SessionUtils.getUserId());
     }
 
     /**

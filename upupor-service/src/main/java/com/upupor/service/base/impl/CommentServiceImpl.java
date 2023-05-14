@@ -55,7 +55,7 @@ import com.upupor.service.base.CommentService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.outer.req.AddCommentReq;
 import com.upupor.service.utils.Asserts;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -90,7 +90,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setFloorNum(Objects.isNull(maxFloorNum) ? 1 : (maxFloorNum + 1));
         comment.setBeFloorNum(addCommentReq.getBeFloorNum());
 
-        comment.setUserId(JwtUtils.getUserId());
+        comment.setUserId(SessionUtils.getUserId());
         comment.setCommentId(CcUtils.getUuId());
         comment.setStatus(CommentStatus.NORMAL);
         comment.setAgree(CommentAgree.NONE);

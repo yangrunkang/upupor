@@ -30,7 +30,7 @@
 package com.upupor.web.aspects.service.view;
 
 
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -59,7 +59,7 @@ public class SettingBgStyle implements PrepareData {
 
 
     private String getBgImg() {
-        Object bgImg = JwtUtils.getPageSession().getAttribute(USER_BG_IMG);
+        Object bgImg = SessionUtils.getPageSession().getAttribute(USER_BG_IMG);
         if (Objects.isNull(bgImg)) {
             return null;
         }

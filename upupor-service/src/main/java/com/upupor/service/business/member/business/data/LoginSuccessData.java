@@ -38,6 +38,5 @@ import lombok.Data;
 @Builder
 @Data
 public class LoginSuccessData {
-    private String token;
     private Boolean success;
 }

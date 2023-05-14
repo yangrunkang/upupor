@@ -37,7 +37,7 @@ import com.upupor.service.business.member.common.MemberBusiness;
 import com.upupor.framework.common.IntegralEnum;
 import com.upupor.service.base.MemberIntegralService;
 import com.upupor.service.outer.req.member.BaseMemberReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -67,7 +67,7 @@ public class DoDailyPoints extends AbstractMember<BaseMemberReq> {
             throw new BusinessException(ErrorCode.ALREADY_GET_DAILY_POINTS);
         }
 
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
 
         memberIntegralService.addIntegral(IntegralEnum.DAILY_POINTS, userId, userId);
         return ccResponse;

@@ -32,7 +32,7 @@ package com.upupor.web.api;
 import com.upupor.framework.CcResponse;
 import com.upupor.service.base.MessageService;
 import com.upupor.service.outer.req.UpdateMessageReq;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +60,7 @@ public class MessageController {
     @PostMapping("/edit")
     public CcResponse edit(@RequestBody UpdateMessageReq updateMessageReq) {
         CcResponse cc = new CcResponse();
-        JwtUtils.checkOperatePermission(updateMessageReq.getUserId());
+        SessionUtils.checkOperatePermission(updateMessageReq.getUserId());
 
         Integer update = messageService.updateMessage(updateMessageReq);
         cc.setData(update > 0);

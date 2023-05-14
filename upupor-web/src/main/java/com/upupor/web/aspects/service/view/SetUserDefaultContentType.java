@@ -36,7 +36,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.service.base.MemberService;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
@@ -71,7 +71,7 @@ public class SetUserDefaultContentType implements PrepareData {
         List<ContentTypeData> contentTypeDataList = new ContentTypeData().contentTypeDataList(upuporConfig.getOssStaticPrefix());
 
         try {
-            String userId = JwtUtils.getUserId();
+            String userId = SessionUtils.getUserId();
             MemberEnhance memberEnhance = memberService.memberInfo(userId);
             MemberConfig memberConfig = memberEnhance.getMemberConfigEnhance().getMemberConfig();
             if (Objects.isNull(memberConfig)) {

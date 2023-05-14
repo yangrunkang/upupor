@@ -30,7 +30,7 @@ package com.upupor.service.business.manage;
 import com.upupor.data.dao.entity.enhance.MemberEnhance;
 import com.upupor.data.dto.page.MemberIndexDto;
 import com.upupor.framework.CcConstant;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.base.MemberService;
 
 import javax.annotation.Resource;
@@ -56,7 +56,7 @@ public abstract class AbstractManage {
      */
     public MemberIndexDto initMemberInfo() {
         memberIndexDto = new MemberIndexDto();
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         MemberEnhance memberEnhance = memberService.memberInfoData(userId);
         memberEnhance.setMemberConfigEnhance(memberEnhance.getMemberConfigEnhance());
         memberIndexDto.setMemberEnhance(memberEnhance);

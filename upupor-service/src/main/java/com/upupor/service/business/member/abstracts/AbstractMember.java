@@ -36,7 +36,7 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
 import com.upupor.framework.common.UserCheckFieldType;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.base.BusinessConfigService;
 import com.upupor.service.base.MemberService;
 import com.upupor.service.business.member.common.MemberBusiness;
@@ -84,7 +84,7 @@ public abstract class AbstractMember<T extends BaseMemberReq> {
         }
 
         if (logined) {
-            String userId = JwtUtils.getUserId();
+            String userId = SessionUtils.getUserId();
             Member member = memberService.memberInfo(userId).getMember();
             if (!member.getUserName().equals(userName)) {
                 checkUserNameInDB(userName);

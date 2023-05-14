@@ -34,8 +34,6 @@ import com.upupor.framework.BusinessException;
 import com.upupor.framework.CcRedis;
 import com.upupor.framework.CcResponse;
 import com.upupor.framework.ErrorCode;
-import com.upupor.security.jwt.JwtMemberModel;
-import com.upupor.security.jwt.UpuporMemberJwt;
 import com.upupor.service.business.member.abstracts.AbstractMember;
 import com.upupor.service.business.member.business.data.LoginSuccessData;
 import com.upupor.service.business.member.common.MemberBusiness;
@@ -70,10 +68,6 @@ public class Login extends AbstractMember<MemberLoginReq> {
         String userId = member.getUserId();
         long tokenExpireTime = CcRedis.Operate.updateTokenExpireTime(userId);
         LoginSuccessData build = LoginSuccessData.builder()
-                .token(UpuporMemberJwt.createToken(JwtMemberModel.builder()
-                        .userId(userId)
-                        .expireTime(tokenExpireTime)
-                        .build()))
                 .success(true)
                 .build();
         cc.setData(build);

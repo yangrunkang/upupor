@@ -30,7 +30,7 @@ package com.upupor.web.page.view_data.member;
 import com.upupor.framework.CcConstant;
 import com.upupor.service.base.MemberService;
 import com.upupor.web.page.view_data.AbstractView;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -74,7 +74,7 @@ public class UnSubscribeEmailView extends AbstractView {
 
     @Override
     protected void fetchData() {
-        String userId = JwtUtils.getUserId();
+        String userId = SessionUtils.getUserId();
         String result = "result";
         Boolean success = memberService.unSubscribeMail(userId);
         modelAndView.addObject(result, success);

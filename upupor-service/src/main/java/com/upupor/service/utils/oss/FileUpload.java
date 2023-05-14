@@ -39,7 +39,7 @@ import com.upupor.framework.utils.SpringContextUtils;
 import com.upupor.data.dao.entity.File;
 import com.upupor.service.base.FileService;
 import com.upupor.data.types.UploadStatus;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.utils.UpuporFileUtils;
 import com.upupor.service.utils.oss.enums.FileDic;
 import com.upupor.service.utils.oss.enums.IsAsync;
@@ -119,8 +119,8 @@ public class FileUpload {
             throw new BusinessException(ErrorCode.PARAM_ERROR, "文件为空");
         }
         // 校验
-        String userId = JwtUtils.getUserId();
-        JwtUtils.checkOperatePermission(userId);
+        String userId = SessionUtils.getUserId();
+        SessionUtils.checkOperatePermission(userId);
 
         FileUpload fileUpload = new FileUpload();
         FileService fileService = SpringContextUtils.getBean(FileService.class);

@@ -35,7 +35,7 @@ import com.upupor.data.dto.OperateContentDto;
 import com.upupor.data.types.ContentStatus;
 import com.upupor.data.types.PinnedStatus;
 import com.upupor.framework.BusinessException;
-import com.upupor.service.utils.JwtUtils;
+import com.upupor.service.utils.SessionUtils;
 import com.upupor.service.outer.req.content.UpdateStatusReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -68,7 +68,7 @@ public class UpdateStatus extends AbstractEditor<UpdateStatusReq> {
         editContentEnhance = contentService.getManageContentDetail(contentId);
         Content editContent = editContentEnhance.getContent();
         // 校验内容所属的用户id是否是当前用户
-        JwtUtils.checkOperatePermission(editContent.getUserId());
+        SessionUtils.checkOperatePermission(editContent.getUserId());
 
         if (Objects.nonNull(editContent.getPinnedStatus()) && PinnedStatus.PINNED.equals(editContent.getPinnedStatus()) && !ContentStatus.NORMAL.equals(updateStatusReq.getStatus())) {
             throw new BusinessException(FIRST_CANCEL_PINNED);
