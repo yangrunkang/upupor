@@ -24,63 +24,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+$("form").submit(function () {
+    let userName = $("#userName").val();
+    let email = $("#email").val();
+    let password = $("#password").val();
+    let verifyCode = $("#verifyCode").val();
 
-$(function () {
-
-});
-
-$(window).on('load', function () {
-    // 注册
-    register();
-});
-
-function register() {
-    $("form").submit(function () {
-        let userName = $("#userName").val();
-        let email = $("#email").val();
-        let password = $("#password").val();
-        let verifyCode = $("#verifyCode").val();
-
-        if (cvIsNull(userName)) {
-            $.cvWarn("请输入用户名");
-            return false;
-        }
-
-        if (cvIsNull(email)) {
-            $.cvWarn("请输入邮件地址");
-            return false;
-        }
-
-        if (cvIsNull(password)) {
-            $.cvWarn("请输入密码");
-            return false;
-        }
-
-        if (cvIsNull(verifyCode)) {
-            $.cvWarn("验证码为空");
-            return false;
-        }
-
-        let param = {
-            userName: userName,
-            email: email,
-            password: password,
-            verifyCode: verifyCode,
-        };
-        $.cvPostJson('/member/register', param, function (data) {
-            if (data.data.success) {
-                $.cvSuccess("注册成功,已为您自动登录");
-                setTimeout(function () {
-                    window.location.href = '/';
-                }, 1600);
-            } else {
-                $.cvError(data)
-            }
-        });
-
+    if (cvIsNull(userName)) {
+        $.cvWarn("请输入用户名");
         return false;
+    }
+
+    if (cvIsNull(email)) {
+        $.cvWarn("请输入邮件地址");
+        return false;
+    }
+
+    if (cvIsNull(password)) {
+        $.cvWarn("请输入密码");
+        return false;
+    }
+
+    if (cvIsNull(verifyCode)) {
+        $.cvWarn("验证码为空");
+        return false;
+    }
+
+    let param = {
+        userName: userName,
+        email: email,
+        password: password,
+        verifyCode: verifyCode,
+    };
+    $.cvPostJson('/member/register', param, function (data) {
+        if (data.data.success) {
+            $.cvSuccess("注册成功,已为您自动登录");
+            setTimeout(function () {
+                window.location.href = '/';
+            }, 1600);
+        } else {
+            $.cvError(data)
+        }
     });
-}
+
+    return false;
+});
 
 function sendVerifyCode() {
     let userName = $("#userName").val();
@@ -131,5 +119,7 @@ function sendVerifyCode() {
             $.cvError("邮件发送失败");
         }
     });
+    // 不刷新
+    return false;
 }
 

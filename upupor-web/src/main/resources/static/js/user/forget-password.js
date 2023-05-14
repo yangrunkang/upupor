@@ -29,54 +29,47 @@ $(function () {
 
 });
 
-$(window).on('load', function () {
-    // 登录
-    login();
-});
 
-function login() {
-    $('form').submit(function (event) {
-        let email = $('#email').val();
-        let password = $('#password').val();
-        let verifyCode = $("#verifyCode").val();
+$('form').submit(function (event) {
+    let email = $('#email').val();
+    let password = $('#password').val();
+    let verifyCode = $("#verifyCode").val();
 
-        if (cvIsNull(email)) {
-            $.cvWarn("请输入邮件地址");
-            return false;
-        }
-
-        if (cvIsNull(password)) {
-            $.cvWarn("请输入密码");
-            return false;
-        }
-
-        if (cvIsNull(verifyCode)) {
-            $.cvWarn("验证码为空");
-            return false;
-        }
-
-        let param = {
-            email: email,
-            password: password,
-            verifyCode: verifyCode,
-        };
-
-        $.cvPostJson('/member/resetPassword', param, function (data) {
-            if (respSuccess(data)) {
-                $.cvSuccess("重置密码成功,正在跳转至登录页");
-                setTimeout(function () {
-                    window.location.href = '/login';
-                }, 1500);
-            } else {
-                $.cvError(data)
-            }
-        });
-
-        // 不刷新
+    if (cvIsNull(email)) {
+        $.cvWarn("请输入邮件地址");
         return false;
-    });
-}
+    }
 
+    if (cvIsNull(password)) {
+        $.cvWarn("请输入密码");
+        return false;
+    }
+
+    if (cvIsNull(verifyCode)) {
+        $.cvWarn("验证码为空");
+        return false;
+    }
+
+    let param = {
+        email: email,
+        password: password,
+        verifyCode: verifyCode,
+    };
+
+    $.cvPostJson('/member/resetPassword', param, function (data) {
+        if (respSuccess(data)) {
+            $.cvSuccess("重置密码成功,正在跳转至登录页");
+            setTimeout(function () {
+                window.location.href = '/login';
+            }, 1500);
+        } else {
+            $.cvError(data)
+        }
+    });
+
+    // 不刷新
+    return false;
+});
 
 function sendVerifyCode() {
     let email = $('#email').val();
@@ -113,4 +106,6 @@ function sendVerifyCode() {
             $.cvError("邮件发送失败");
         }
     });
+    // 不刷新
+    return false;
 }
