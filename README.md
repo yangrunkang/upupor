@@ -1,17 +1,24 @@
-# Upupor ![项目访问次数](https://visitor-badge.glitch.me/badge?page_id=github_yangrunkang_upupor)
+# Upupor 
 让每个人享受分享
-
+<!--
+![项目访问次数](https://visitor-badge.glitch.me/badge?page_id=github_yangrunkang_upupor)
 <a href="https://www.producthunt.com/posts/upupor?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-upupor" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=327650&theme=dark" alt="Upupor - UGC Website,Open source | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+-->
 
-## 受保护分支的说明
-* **thymeleaf-version**   upupor服务端渲染分支
+## 分支
+* **thymeleaf-version**   upupor服务端渲染分支(**upupor.com主分支**)
 * **new-api**             upupor-api服务分支
 
 ## 网站
 https://www.upupor.com
 
+## Star数
+[![Stargazers over time](https://starchart.cc/yangrunkang/upupor.svg)](https://starchart.cc/yangrunkang/upupor)
+
+<!--
 ## 统计
 ![Alt](https://repobeats.axiom.co/api/embed/18e821e0b79bcf13c83f8d21d669f7264abace1a.svg "Repobeats analytics image")
+-->
 
 ## Upupor编码
 出于自己对技术的纯粹和要求,在upupor项目的开发过程中,会遵循以下准则:
@@ -36,6 +43,12 @@ https://www.upupor.com
 
 地址:
 https://github.com/upupor/cherry-markdown
+
+## 联系方式
+- Email: yangrunkang53@gmail.com
+- wechat: Bla277225635
+
+<img src="docs/wechat.jpg" width="250px" height="250px" alt="微信">
 
 ## QA
 ### 0. 数据库建表语句在哪里?
@@ -68,14 +81,9 @@ upupor用 thymeleaf 的原因是为了做SEO,目前所有页面均采用服务�
 <img width="923" alt="image" src="https://user-images.githubusercontent.com/46257933/169191026-e454c17d-00ac-404d-a12d-d5a150a7182a.png">
 
 
-## 联系方式
-- Email: yangrunkang53@gmail.com
-- wechat: Bla277225635
 
-<img src="docs/wechat.jpg" width="250px" height="250px" alt="微信">
 
-## Stargazers over time
-[![Stargazers over time](https://starchart.cc/yangrunkang/upupor.svg)](https://starchart.cc/yangrunkang/upupor)
-
+<!--
 ## Upupor开发进度
 [开发进度面板](https://github.com/users/yangrunkang/projects/1)
+-->
