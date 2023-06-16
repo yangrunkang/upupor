@@ -12,6 +12,9 @@
 ## 网站
 https://www.upupor.com
 
+## 感谢JetBrains对 upupor 开源项目的支持
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
+
 ## Star数
 [![Stargazers over time](https://starchart.cc/yangrunkang/upupor.svg)](https://starchart.cc/yangrunkang/upupor)
 
@@ -49,9 +52,6 @@ https://github.com/upupor/cherry-markdown
 - wechat: Bla277225635
 
 <img src="docs/wechat.jpg" width="250px" height="250px" alt="微信">
-
-## 感谢JetBrains对 upupor 开源项目的支持
-![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
 
 ## QA
 ### 0. 数据库建表语句在哪里?
