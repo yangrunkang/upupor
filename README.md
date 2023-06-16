@@ -50,6 +50,9 @@ https://github.com/upupor/cherry-markdown
 
 <img src="docs/wechat.jpg" width="250px" height="250px" alt="微信">
 
+## 感谢JetBrains对 upupor 开源项目的支持
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
+
 ## QA
 ### 0. 数据库建表语句在哪里?
 upupor使用了flyway,因此数据库SQL文件维护在upupor-web/src/main/resources/db/migration目录,只需要配置好DB然后启动程序,就会创建相应的表以及执行相应的SQL.
