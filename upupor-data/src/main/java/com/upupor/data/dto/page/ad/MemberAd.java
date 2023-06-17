@@ -47,13 +47,13 @@ public class MemberAd extends AbstractAd<MemberEnhance> {
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getMember().getUserId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getMember().getUserId().equals(CcConstant.GoogleAdConstant.FEED_AD));
     }
 
     @Override
     protected void insertAd(int adIndex) {
         Member member = new Member();
-        member.setUserId(CcConstant.GoogleAd.FEED_AD);
+        member.setUserId(CcConstant.GoogleAdConstant.FEED_AD);
         getVoList().add(adIndex, Converter.memberEnhance(member));
     }
 }

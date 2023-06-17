@@ -47,13 +47,13 @@ public class CommentAd extends AbstractAd<CommentEnhance> {
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getComment().getCommentId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getComment().getCommentId().equals(CcConstant.GoogleAdConstant.FEED_AD));
     }
 
     @Override
     protected void insertAd(int adIndex) {
         Comment empty = Comment.empty();
-        empty.setCommentId(CcConstant.GoogleAd.FEED_AD);
+        empty.setCommentId(CcConstant.GoogleAdConstant.FEED_AD);
         getVoList().add(adIndex, Converter.commentEnhance(empty, new MemberEnhance()));
     }
 }

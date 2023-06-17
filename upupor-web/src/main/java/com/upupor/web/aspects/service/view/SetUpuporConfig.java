@@ -29,6 +29,7 @@
 
 package com.upupor.web.aspects.service.view;
 
+import com.upupor.framework.config.GoogleAd;
 import com.upupor.framework.config.UpuporConfig;
 import com.upupor.web.UpuporWebApplication;
 import lombok.RequiredArgsConstructor;
@@ -60,9 +61,10 @@ public class SetUpuporConfig implements PrepareData {
         modelAndView.addObject(GOOGLE_TAG_ID, upuporConfig.getGoogleTagId());
         modelAndView.addObject(GOOGLE_GA_4, upuporConfig.getGoogleGa4());
         // 谷歌广告信息
-        modelAndView.addObject(GoogleAd.CLIENT_ID, upuporConfig.getGoogleAd().getDataAdClientId());
-        modelAndView.addObject(GoogleAd.RIGHT_SLOT, upuporConfig.getGoogleAd().getRightSlot());
-        modelAndView.addObject(GoogleAd.FEED_SLOT, upuporConfig.getGoogleAd().getFeedSlot());
+        GoogleAd googleAdConfig = upuporConfig.getGoogleAd();
+        modelAndView.addObject(GoogleAdConstant.CLIENT_ID, googleAdConfig.getDataAdClientId());
+        modelAndView.addObject(GoogleAdConstant.RIGHT_SLOT, googleAdConfig.getRightSlot());
+        modelAndView.addObject(GoogleAdConstant.FEED_SLOT, googleAdConfig.getFeedSlot());
         // 分析开关
         modelAndView.addObject(ANALYZE_SWITCH, upuporConfig.getAnalyzeSwitch());
     }

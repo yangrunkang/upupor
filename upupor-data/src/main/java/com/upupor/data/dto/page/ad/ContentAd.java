@@ -48,14 +48,13 @@ public class ContentAd extends AbstractAd<ContentEnhance> {
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getContent().getContentId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getContent().getContentId().equals(CcConstant.GoogleAdConstant.FEED_AD));
     }
 
     @Override
     protected void insertAd(int adIndex) {
         Content ad = Content.init();
-        ;
-        ad.setContentId(CcConstant.GoogleAd.FEED_AD);
+        ad.setContentId(CcConstant.GoogleAdConstant.FEED_AD);
         getVoList().add(adIndex, Converter.contentEnhance(ad));
     }
 }

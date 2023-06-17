@@ -48,14 +48,14 @@ public class RadioAd extends AbstractAd<RadioEnhance> {
 
     @Override
     protected Boolean exists() {
-        return getVoList().parallelStream().anyMatch(t -> t.getRadio().getRadioId().equals(CcConstant.GoogleAd.FEED_AD));
+        return getVoList().parallelStream().anyMatch(t -> t.getRadio().getRadioId().equals(CcConstant.GoogleAdConstant.FEED_AD));
     }
 
     @Override
     protected void insertAd(int adIndex) {
         Radio radio = new Radio();
-        radio.setRadioId(CcConstant.GoogleAd.FEED_AD);
-        radio.setUserId(CcConstant.GoogleAd.FEED_AD);
+        radio.setRadioId(CcConstant.GoogleAdConstant.FEED_AD);
+        radio.setUserId(CcConstant.GoogleAdConstant.FEED_AD);
         radio.setCreateTime(CcDateUtil.getCurrentTime());
         getVoList().add(adIndex, Converter.radioEnhance(radio));
     }

@@ -347,7 +347,7 @@ public final class CcConstant {
     /**
      * 缓存常量
      */
-    public static final class GoogleAd {
+    public static final class GoogleAdConstant {
         public static final String FEED_AD = "google-ad-feed";
         public static final String CLIENT_ID = "googleClient";
         public static final String RIGHT_SLOT = "googleRightSlot";
