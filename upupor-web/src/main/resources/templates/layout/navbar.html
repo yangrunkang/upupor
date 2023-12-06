@@ -145,6 +145,11 @@
             </div>
         </nav>
     </div>
+    <div th:if="!${session?.cv_user_id}" style="display: flex;align-items: center;justify-content: center;margin: 0;" class="bg-warning bg-gradient">
+        <span class="badge bg-danger rounded-3 text-white fw-light small m-2">New</span>
+        <a href="https://moatkon.com?utm_source=upupor.com" title="构建你的护城河" class="text-danger">构建你的护城河 <i class="bi bi-link-45deg"></i></a>
+        <small class="text-secondary">&nbsp;&nbsp;登录后该广告会消失</small>
+    </div>
 </div>
 </body>
 </html>
