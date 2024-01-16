@@ -145,6 +145,8 @@ upupor:
     - /member/register
     - /member/sendVerifyCode
     - /feedback/add
+    - /r/1
+    - /r/2
   # 需要登录的页面
   pageCheckUrlList:
     - /editor
